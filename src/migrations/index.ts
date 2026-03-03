@@ -12,6 +12,7 @@ import * as migration_20260224_211435_email_marketing_indexes from './old/202602
 import * as migration_20260224_232306_navigation_components_footer_breadcrumbs_account_subcategory from './old/20260224_232306_navigation_components_footer_breadcrumbs_account_subcategory';
 import * as migration_20260224_233259_email_api_keys_collection from './old/20260224_233259_email_api_keys_collection';
 import * as migration_20260302_170000_add_module_tables from './20260302_170000_add_module_tables';
+import * as migration_20260303_120000_brands_hierarchy from './20260303_120000_brands_hierarchy';
 
 export const migrations = [
   {
@@ -83,5 +84,10 @@ export const migrations = [
     up: migration_20260302_170000_add_module_tables.up,
     down: migration_20260302_170000_add_module_tables.down,
     name: '20260302_170000_add_module_tables',
+  },
+  {
+    up: migration_20260303_120000_brands_hierarchy.up,
+    down: migration_20260303_120000_brands_hierarchy.down,
+    name: '20260303_120000_brands_hierarchy',
   },
 ];

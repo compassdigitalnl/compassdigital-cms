@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { autoGenerateSlugFromName } from '@/utilities/slugify'
 
 export const Brands: CollectionConfig = {
   slug: 'brands',
@@ -11,9 +12,25 @@ export const Brands: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     group: 'Producten',
-    defaultColumns: ['name', 'featured', 'updatedAt'],
+    defaultColumns: ['name', 'parent', 'level', 'featured', 'updatedAt'],
     description: 'Product merken zoals Hartmann, BSN Medical, 3M, etc.',
     hidden: shouldHideCollection('brands'),
+  },
+  hooks: {
+    beforeChange: [
+      async ({ data, req }) => {
+        if (data.parent) {
+          const parent = await req.payload.findByID({
+            collection: 'brands',
+            id: data.parent,
+          })
+          data.level = (parent?.level || 0) + 1
+        } else {
+          data.level = 0
+        }
+        return data
+      },
+    ],
   },
   access: {
     read: () => true, // Brands are publicly accessible (webshop catalog)
@@ -42,17 +59,29 @@ export const Brands: CollectionConfig = {
         description: 'Automatisch gegenereerd uit de naam',
       },
       hooks: {
-        beforeValidate: [
-          ({ value, data }) => {
-            if (data?.name && !value) {
-              return data.name
-                .toLowerCase()
-                .replace(/ /g, '-')
-                .replace(/[^\w-]+/g, '')
-            }
-            return value
-          },
-        ],
+        beforeValidate: [autoGenerateSlugFromName],
+      },
+    },
+    {
+      name: 'parent',
+      type: 'relationship',
+      relationTo: 'brands',
+      label: 'Bovenliggend Merk',
+      admin: {
+        description: 'Selecteer de fabrikant als dit een productlijn/submerk is',
+      },
+    },
+    {
+      name: 'level',
+      type: 'number',
+      required: true,
+      defaultValue: 0,
+      min: 0,
+      label: 'Niveau',
+      admin: {
+        position: 'sidebar',
+        description: '0 = fabrikant, 1 = productlijn',
+        readOnly: true,
       },
     },
     {
@@ -99,6 +128,16 @@ export const Brands: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Sorteer volgorde (lager = eerder getoond)',
+      },
+    },
+    {
+      name: 'visible',
+      type: 'checkbox',
+      defaultValue: true,
+      label: 'Zichtbaar',
+      admin: {
+        position: 'sidebar',
+        description: 'Tonen in merkenoverzicht',
       },
     },
     // SEO Fields
