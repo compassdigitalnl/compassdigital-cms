@@ -2,14 +2,16 @@
  * Postcode API Client - Address Lookup by Postal Code
  *
  * Provider-agnostic abstraction for postcode lookup services.
- * Default: Postcode.eu (marktleider NL, 13 landen, €50/jaar + €0.005/call)
+ * Default: PDOK Locatieserver (gratis, BAG data, alle NL adressen)
  *
- * API Documentation: https://api.postcode.eu/documentation
+ * Providers:
+ * - pdok (default): PDOK Locatieserver — gratis, geen API key nodig
+ * - postcode-eu: Postcode.eu — betaald, 13 landen
  *
  * Env vars:
- * - POSTCODE_API_KEY: Postcode.eu API key
- * - POSTCODE_API_SECRET: Postcode.eu API secret
- * - POSTCODE_PROVIDER: 'postcode-eu' | 'mock' (default: 'mock')
+ * - POSTCODE_PROVIDER: 'pdok' | 'postcode-eu' (default: 'pdok')
+ * - POSTCODE_API_KEY: Postcode.eu API key (alleen voor postcode-eu)
+ * - POSTCODE_API_SECRET: Postcode.eu API secret (alleen voor postcode-eu)
  */
 
 export interface PostcodeLookupResult {
@@ -23,6 +25,50 @@ export interface PostcodeLookupResult {
 
 export interface PostcodeProvider {
   lookup(postalCode: string, houseNumber?: string): Promise<PostcodeLookupResult | null>
+}
+
+// ─── PDOK Locatieserver Provider (default) ───────────────────────────────────
+
+const PDOK_API = 'https://api.pdok.nl/bzk/locatieserver/search/v3_1/free'
+
+class PdokProvider implements PostcodeProvider {
+  async lookup(postalCode: string, houseNumber?: string): Promise<PostcodeLookupResult | null> {
+    const clean = postalCode.replace(/\s/g, '').toUpperCase()
+
+    let q = `postcode:${clean}`
+    if (houseNumber && houseNumber.trim()) {
+      q += ` AND huisnummer:${houseNumber.trim()}`
+    }
+
+    const url = `${PDOK_API}?q=${encodeURIComponent(q)}&fq=type:adres&rows=1`
+
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+      })
+
+      if (!response.ok) {
+        console.error(`PDOK API error: ${response.status} ${response.statusText}`)
+        return null
+      }
+
+      const data = await response.json()
+      const doc = data?.response?.docs?.[0]
+
+      if (!doc || !doc.straatnaam) return null
+
+      return {
+        street: doc.straatnaam,
+        city: doc.woonplaatsnaam || '',
+        province: doc.provincienaam || undefined,
+        municipality: doc.gemeentenaam || undefined,
+      }
+    } catch (error) {
+      console.error('PDOK lookup failed:', error)
+      return null
+    }
+  }
 }
 
 // ─── Postcode.eu Provider ────────────────────────────────────────────────────
@@ -79,34 +125,9 @@ class PostcodeEuProvider implements PostcodeProvider {
   }
 }
 
-// ─── Mock Provider ───────────────────────────────────────────────────────────
-
-const MOCK_POSTCODES: Record<string, PostcodeLookupResult> = {
-  '1012AB': { street: 'Dam', city: 'Amsterdam', province: 'Noord-Holland' },
-  '1017CT': { street: 'Museumstraat', city: 'Amsterdam', province: 'Noord-Holland' },
-  '1071DJ': { street: 'Vondelstraat', city: 'Amsterdam', province: 'Noord-Holland' },
-  '2511AA': { street: 'Buitenhof', city: 'Den Haag', province: 'Zuid-Holland' },
-  '2514JA': { street: 'Plein', city: 'Den Haag', province: 'Zuid-Holland' },
-  '3011HA': { street: 'Coolsingel', city: 'Rotterdam', province: 'Zuid-Holland' },
-  '3511CE': { street: 'Domplein', city: 'Utrecht', province: 'Utrecht' },
-  '3512JE': { street: 'Oudegracht', city: 'Utrecht', province: 'Utrecht' },
-  '5611EL': { street: 'Markt', city: 'Eindhoven', province: 'Noord-Brabant' },
-  '6211CL': { street: 'Vrijthof', city: 'Maastricht', province: 'Limburg' },
-  '9711JB': { street: 'Grote Markt', city: 'Groningen', province: 'Groningen' },
-  '7511JA': { street: 'Oude Markt', city: 'Enschede', province: 'Overijssel' },
-}
-
-class MockProvider implements PostcodeProvider {
-  async lookup(postalCode: string): Promise<PostcodeLookupResult | null> {
-    const clean = postalCode.replace(/\s/g, '').toUpperCase()
-    console.log('📮 Using mock postcode data for:', clean)
-    return MOCK_POSTCODES[clean] || null
-  }
-}
-
 // ─── Factory ─────────────────────────────────────────────────────────────────
 
-const POSTCODE_PROVIDER = process.env.POSTCODE_PROVIDER || 'mock'
+const POSTCODE_PROVIDER = process.env.POSTCODE_PROVIDER || 'pdok'
 const POSTCODE_API_KEY = process.env.POSTCODE_API_KEY || ''
 const POSTCODE_API_SECRET = process.env.POSTCODE_API_SECRET || ''
 
@@ -114,7 +135,7 @@ function createProvider(): PostcodeProvider {
   if (POSTCODE_PROVIDER === 'postcode-eu' && POSTCODE_API_KEY && POSTCODE_API_SECRET) {
     return new PostcodeEuProvider(POSTCODE_API_KEY, POSTCODE_API_SECRET)
   }
-  return new MockProvider()
+  return new PdokProvider()
 }
 
 const provider = createProvider()
@@ -140,15 +161,15 @@ export async function lookupPostcode(
  * Check if postcode lookup is available
  */
 export function isPostcodeLookupAvailable(): boolean {
-  return true // Always available (mock fallback)
+  return true
 }
 
 /**
  * Get current postcode provider mode
  */
-export function getPostcodeMode(): 'postcode-eu' | 'mock' {
+export function getPostcodeMode(): 'pdok' | 'postcode-eu' {
   if (POSTCODE_PROVIDER === 'postcode-eu' && POSTCODE_API_KEY && POSTCODE_API_SECRET) {
     return 'postcode-eu'
   }
-  return 'mock'
+  return 'pdok'
 }
