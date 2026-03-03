@@ -40,7 +40,6 @@ import type { GuestCheckoutFormData } from '@/branches/ecommerce/components/auth
 import { OrderSummary } from '@/branches/ecommerce/components/ui/OrderSummary'
 import { CouponInput } from '@/branches/ecommerce/components/ui/CouponInput'
 import { TrustSignals } from '@/branches/shared/components/ui/TrustSignals'
-import { Button } from '@/branches/shared/components/ui/button'
 
 interface Address {
   firstName: string
@@ -274,12 +273,23 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                       </div>
                     </div>
 
-                    <Button
+                    <button
+                      type="button"
                       onClick={() => setCurrentStep(2)}
-                      className="w-full"
+                      className="w-full py-3.5 px-4 rounded-lg text-white text-base font-bold transition-all duration-300 hover:-translate-y-0.5"
+                      style={{
+                        background: 'var(--color-primary, #0A1628)',
+                        boxShadow: '0 4px 16px rgba(10,22,40,0.25)',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'var(--color-primary-dark, #121F33)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'var(--color-primary, #0A1628)'
+                      }}
                     >
                       Ga door naar adres
-                    </Button>
+                    </button>
 
                     <TrustBadges />
                   </div>
@@ -345,20 +355,46 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                 />
 
                 <div className="flex gap-4">
-                  <Button
-                    variant="outline"
+                  <button
+                    type="button"
                     onClick={() => setCurrentStep(2)}
-                    className="flex-1"
+                    className="flex-1 py-3.5 px-4 rounded-lg text-sm font-semibold transition-all duration-200"
+                    style={{
+                      background: 'transparent',
+                      border: '1.5px solid var(--color-primary, #0A1628)',
+                      color: 'var(--color-primary, #0A1628)',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(10,22,40,0.05)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                    }}
                   >
                     Vorige stap
-                  </Button>
-                  <Button
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => canProceedToPayment && setCurrentStep(4)}
                     disabled={!canProceedToPayment}
-                    className="flex-1"
+                    className="flex-1 py-3.5 px-4 rounded-lg text-white text-base font-bold transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    style={{
+                      background: 'var(--color-primary, #0A1628)',
+                      boxShadow: '0 4px 16px rgba(10,22,40,0.25)',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!e.currentTarget.disabled) {
+                        e.currentTarget.style.background = 'var(--color-primary-dark, #121F33)'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!e.currentTarget.disabled) {
+                        e.currentTarget.style.background = 'var(--color-primary, #0A1628)'
+                      }
+                    }}
                   >
                     Ga door naar betaling
-                  </Button>
+                  </button>
                 </div>
               </div>
             )}
@@ -412,20 +448,48 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                 )}
 
                 <div className="flex gap-4">
-                  <Button
-                    variant="outline"
+                  <button
+                    type="button"
                     onClick={() => setCurrentStep(3)}
-                    className="flex-1"
+                    className="flex-1 py-3.5 px-4 rounded-lg text-sm font-semibold transition-all duration-200"
+                    style={{
+                      background: 'transparent',
+                      border: '1.5px solid var(--color-primary, #0A1628)',
+                      color: 'var(--color-primary, #0A1628)',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(10,22,40,0.05)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                    }}
                   >
                     Vorige stap
-                  </Button>
-                  <Button
+                  </button>
+                  <button
+                    type="button"
                     onClick={handlePlaceOrder}
                     disabled={!canPlaceOrder || isProcessing}
-                    className="flex-1"
+                    className="flex-1 py-3.5 px-4 rounded-lg text-white text-base font-bold transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    style={{
+                      background: isProcessing
+                        ? 'var(--color-text-secondary, #94A3B8)'
+                        : 'var(--color-primary, #0A1628)',
+                      boxShadow: isProcessing ? 'none' : '0 4px 16px rgba(10,22,40,0.25)',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isProcessing) {
+                        e.currentTarget.style.background = 'var(--color-primary-dark, #121F33)'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isProcessing) {
+                        e.currentTarget.style.background = 'var(--color-primary, #0A1628)'
+                      }
+                    }}
                   >
                     {isProcessing ? 'Bezig...' : `Bestelling plaatsen - €${grandTotal.toFixed(2)}`}
-                  </Button>
+                  </button>
                 </div>
 
                 <TrustSignals variant="compact" />
