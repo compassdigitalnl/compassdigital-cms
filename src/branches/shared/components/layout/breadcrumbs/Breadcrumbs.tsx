@@ -57,74 +57,24 @@ export function Breadcrumbs({
   return (
     <nav
       aria-label="Breadcrumb"
-      className={`breadcrumbs ${className}`}
-      style={{
-        padding: '12px 0',
-        fontSize: '14px',
-      }}
+      className={`py-3 text-sm ${className}`}
     >
-      <ol
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          gap: '8px',
-          listStyle: 'none',
-          margin: 0,
-          padding: 0,
-        }}
-      >
+      <ol className="flex flex-wrap items-center gap-2 list-none m-0 p-0">
         {breadcrumbs.map((item, index) => (
-          <li
-            key={item.href}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-            }}
-          >
+          <li key={item.href} className="flex items-center gap-2">
             <Link
               href={item.href}
-              style={{
-                color: '#6b7280',
-                textDecoration: 'none',
-                transition: 'color 0.2s',
-                cursor: 'pointer',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#111827'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = '#6b7280'
-              }}
+              className="text-[var(--color-text-muted,#6b7280)] no-underline transition-colors duration-200 hover:text-[var(--color-text-primary,#111827)]"
             >
               {item.label}
             </Link>
-
-            {/* Separator */}
-            <span
-              style={{
-                color: '#d1d5db',
-                userSelect: 'none',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-              aria-hidden="true"
-            >
+            <span className="text-gray-300 select-none flex items-center" aria-hidden="true">
               <ChevronRight size={14} />
             </span>
           </li>
         ))}
-
-        {/* Current Page */}
         {currentPage && (
-          <li
-            style={{
-              color: '#111827',
-              fontWeight: '500',
-            }}
-            aria-current="page"
-          >
+          <li className="text-[var(--color-text-primary,#111827)] font-medium" aria-current="page">
             {currentPage}
           </li>
         )}
