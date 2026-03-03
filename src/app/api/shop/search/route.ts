@@ -120,10 +120,10 @@ function buildMeilisearchFilter(params: ShopSearchParams): string[] {
     filters.push(`productType = "${params.productType}"`)
   }
 
-  // Specification filters
+  // Specification filters (flat fields: spec_kleur, spec_maat, etc.)
   for (const [key, values] of Object.entries(params.specs)) {
     if (values.length > 0) {
-      const specFilters = values.map(v => `specs.${key} = "${v}"`)
+      const specFilters = values.map(v => `spec_${key} = "${v.replace(/"/g, '\\"')}"`)
       filters.push(`(${specFilters.join(' OR ')})`)
     }
   }
@@ -177,19 +177,7 @@ export async function GET(request: NextRequest) {
       sort,
       limit: params.limit,
       offset: (params.page - 1) * params.limit,
-      facets: [
-        'brand',
-        'brandId',
-        'brandLevel',
-        'categoryIds',
-        'categories',
-        'stockStatus',
-        'badge',
-        'productType',
-        'effectivePrice',
-        // Spec facets — Meilisearch supports nested facets with dot notation
-        'specs.*',
-      ],
+      facets: ['*'], // All filterable attributes (includes dynamic spec_ fields)
       attributesToHighlight: ['title', 'brand'],
       highlightPreTag: '<mark>',
       highlightPostTag: '</mark>',
@@ -205,11 +193,11 @@ export async function GET(request: NextRequest) {
       stockStatus: result.facetDistribution?.stockStatus || {},
       badge: result.facetDistribution?.badge || {},
       productType: result.facetDistribution?.productType || {},
-      // Collect spec facets
+      // Collect spec facets (flat fields: spec_kleur → kleur)
       specs: Object.entries(result.facetDistribution || {})
-        .filter(([key]) => key.startsWith('specs.'))
+        .filter(([key]) => key.startsWith('spec_'))
         .reduce((acc, [key, dist]) => {
-          const specName = key.replace('specs.', '')
+          const specName = key.replace('spec_', '')
           acc[specName] = dist as Record<string, number>
           return acc
         }, {} as Record<string, Record<string, number>>),

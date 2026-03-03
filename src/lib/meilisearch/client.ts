@@ -105,34 +105,8 @@ export async function configureProductsIndex(payload: Payload) {
     // Sortable attributes (from CMS)
     sortableAttributes,
 
-    // Display attributes (always show these)
-    displayedAttributes: [
-      'id',
-      'title',
-      'slug',
-      'brand',
-      'brandId',
-      'brandLevel',
-      'sku',
-      'ean',
-      'price',
-      'salePrice',
-      'effectivePrice',
-      'compareAtPrice',
-      'image',
-      'stock',
-      'stockStatus',
-      'backordersAllowed',
-      'categories',
-      'categoryIds',
-      'productType',
-      'badge',
-      'description',
-      'shortDescription',
-      'specs',
-      'status',
-      'magazineTitle', // For Aboland
-    ],
+    // Display all attributes (includes dynamic spec_ fields)
+    displayedAttributes: ['*'],
 
     // Ranking rules (from CMS)
     rankingRules: settings.rankingRules as any[],

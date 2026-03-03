@@ -65,6 +65,12 @@ export function transformProductForSearch(product: Product) {
   // Effective price for sorting/filtering (sale price takes priority)
   const effectivePrice = product.salePrice || product.price || null
 
+  // Build flat spec fields for Meilisearch faceting (spec_kleur, spec_maat, etc.)
+  const flatSpecs: Record<string, string[]> = {}
+  for (const [key, values] of Object.entries(specs)) {
+    flatSpecs[`spec_${key}`] = values
+  }
+
   return {
     id: product.id,
     title: product.title,
@@ -94,6 +100,7 @@ export function transformProductForSearch(product: Product) {
     featured: product.featured || false,
     specs,
     specsFlatSearch,
+    ...flatSpecs, // Flat spec fields for Meilisearch faceting
     createdAt: product.createdAt,
     updatedAt: product.updatedAt,
   }
@@ -168,11 +175,11 @@ export async function reindexAllProducts(payload: any) {
 
     console.log(`📦 Found ${products.length} products to index`)
 
-    // Transform and collect all spec keys
+    // Transform and collect all spec keys (prefixed with spec_ for flat faceting)
     const allSpecKeys = new Set<string>()
     const allDocuments = products.map((p: Product) => {
       const doc = transformProductForSearch(p)
-      Object.keys(doc.specs).forEach(key => allSpecKeys.add(key))
+      Object.keys(doc.specs).forEach(key => allSpecKeys.add(`spec_${key}`))
       return doc
     })
 
@@ -185,10 +192,10 @@ export async function reindexAllProducts(payload: any) {
       console.log(`✅ Indexed batch ${i / batchSize + 1}/${Math.ceil(allDocuments.length / batchSize)}`)
     }
 
-    // Update filterableAttributes to include dynamic spec keys
+    // Update filterableAttributes to include dynamic spec keys (flat: spec_kleur, spec_maat, etc.)
     if (allSpecKeys.size > 0) {
-      const specPaths = Array.from(allSpecKeys).map(key => `specs.${key}`)
-      console.log(`🔧 Adding ${specPaths.length} spec keys to filterableAttributes: ${specPaths.join(', ')}`)
+      const specPaths = Array.from(allSpecKeys)
+      console.log(`🔧 Adding ${specPaths.length} spec keys to filterableAttributes: ${specPaths.slice(0, 5).join(', ')}...`)
 
       const currentSettings = await index.getSettings()
       const currentFilterable = currentSettings.filterableAttributes || []
