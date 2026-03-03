@@ -22,16 +22,8 @@ export default async function ShopPage({
   const params = await searchParams
   const payload = await getPayload({ config })
 
-  // Product search is handled client-side via Meilisearch — no need to fetch products here.
-  // We only need: category info + subcategories + total count.
-
-  // Get total product count (lightweight, no data fetched)
-  const { totalDocs } = await payload.find({
-    collection: 'products',
-    where: { status: { equals: 'published' } },
-    depth: 0,
-    limit: 0,
-  })
+  // Product search is handled client-side via Meilisearch.
+  // Server only provides: category info + subcategory names + settings.
 
   // Fetch category if filtered
   let category = null
@@ -47,7 +39,8 @@ export default async function ShopPage({
     }
   }
 
-  // Fetch subcategories (children of current category, or top-level if no category)
+  // Fetch subcategories (names only — no product count queries!)
+  // Counts will come from Meilisearch categoryIds facet on client side
   let subcategories: Array<{ name: string; slug: string; count: number }> = []
   try {
     const subcatWhere: any = params.category
@@ -62,30 +55,18 @@ export default async function ShopPage({
       sort: 'name',
     })
 
-    if (subcats.length > 0) {
-      // Count products per subcategory in parallel
-      const countPromises = subcats.map(async (sub: any) => {
-        const { totalDocs: count } = await payload.find({
-          collection: 'products',
-          where: {
-            status: { equals: 'published' },
-            categories: { contains: sub.id },
-          },
-          depth: 0,
-          limit: 0,
-        })
-        return { name: sub.name, slug: sub.slug, count }
-      })
-
-      subcategories = (await Promise.all(countPromises)).filter(s => s.count > 0)
-    }
+    // No per-category count queries — just pass names with count=0
+    // The template/Meilisearch will handle counts
+    subcategories = subcats.map((sub: any) => ({
+      name: sub.name,
+      slug: sub.slug,
+      count: 0,
+    }))
   } catch (error) {
     console.warn('Error fetching subcategories:', error)
   }
 
-  // Build breadcrumbs
-  // If no category: breadcrumbs=[] and currentPage='Shop' (rendered by template)
-  // If category: breadcrumbs=[Shop] and currentPage=category.name
+  // Breadcrumbs
   const breadcrumbs = category ? [{ label: 'Shop', href: '/shop' }] : []
 
   // Fetch settings for filter ordering
@@ -109,7 +90,7 @@ export default async function ShopPage({
           icon: category.icon || undefined,
         } : undefined}
         subcategories={subcategories}
-        totalProducts={totalDocs}
+        totalProducts={0}
         breadcrumbs={breadcrumbs}
         shopFilterOrder={shopFilterOrder}
       />

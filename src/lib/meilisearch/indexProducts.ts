@@ -97,7 +97,27 @@ export function transformProductForSearch(product: Product, brandMap?: BrandMap)
   }
 
   // Effective price for sorting/filtering (sale price takes priority)
-  const effectivePrice = product.salePrice || product.price || null
+  // For grouped products: calculate min price from child products
+  let effectivePrice = product.salePrice || product.price || null
+
+  if (product.productType === 'grouped' && effectivePrice == null) {
+    const children = (product as any).childProducts
+    if (Array.isArray(children)) {
+      let minPrice: number | null = null
+      for (const child of children) {
+        const childProduct = typeof child === 'object' && child !== null
+          ? (child.product && typeof child.product === 'object' ? child.product : child)
+          : null
+        if (childProduct) {
+          const cp = childProduct.salePrice || childProduct.price
+          if (cp != null && (minPrice == null || cp < minPrice)) {
+            minPrice = cp
+          }
+        }
+      }
+      effectivePrice = minPrice
+    }
+  }
 
   // Build flat spec fields for Meilisearch faceting (spec_kleur, spec_maat, etc.)
   const flatSpecs: Record<string, string[]> = {}

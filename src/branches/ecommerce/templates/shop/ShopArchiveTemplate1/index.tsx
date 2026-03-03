@@ -208,17 +208,17 @@ export default function ShopArchiveTemplate1({
         label: `Alle ${category?.name || 'producten'}`,
         href: category?.slug ? `/${category.slug}` : '/shop',
         active: currentSlug === category?.slug || currentSlug === 'shop',
-        count: serverTotalProducts,
+        count: displayTotal,
       },
       // Subcategory chips — each links to /{sub.slug} (caught by [slug] route)
       ...subcategories.map(sub => ({
         label: sub.name,
         href: `/${sub.slug}`,
         active: currentSlug === sub.slug,
-        count: sub.count,
+        count: sub.count || undefined,
       })),
     ]
-  }, [subcategories, category, serverTotalProducts, currentSlug])
+  }, [subcategories, category, displayTotal, currentSlug])
 
   // ========================================
   // STATS FOR HERO

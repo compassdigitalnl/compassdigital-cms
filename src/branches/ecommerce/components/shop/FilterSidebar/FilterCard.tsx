@@ -6,6 +6,8 @@ import * as LucideIcons from 'lucide-react'
 import { PriceRangeSlider } from './PriceRangeSlider'
 import type { FilterCardProps } from './types'
 
+const MAX_VISIBLE_OPTIONS = 6
+
 export const FilterCard: React.FC<FilterCardProps> = ({
   filter,
   isOpen,
@@ -25,6 +27,7 @@ export const FilterCard: React.FC<FilterCardProps> = ({
   }, [filter.icon])
 
   const [localPriceRange, setLocalPriceRange] = React.useState<[number, number] | null>(null)
+  const [showAll, setShowAll] = React.useState(false)
 
   const handleCheckboxChange = (value: string) => {
     const newValues = selectedValues.includes(value)
@@ -34,12 +37,10 @@ export const FilterCard: React.FC<FilterCardProps> = ({
   }
 
   const handlePriceChange = (value: [number, number]) => {
-    // Update local state only (don't trigger filter until "Apply" is clicked)
     setLocalPriceRange(value)
   }
 
   const handlePriceApply = () => {
-    // Apply the price range filter
     if (localPriceRange) {
       onFilterChange(filter.id, [String(localPriceRange[0]), String(localPriceRange[1])])
     }
@@ -59,6 +60,12 @@ export const FilterCard: React.FC<FilterCardProps> = ({
       </div>
     )
   }
+
+  // Determine visible options (show all if expanded or if few options)
+  const allOptions = filter.options || []
+  const hasMore = allOptions.length > MAX_VISIBLE_OPTIONS
+  const visibleOptions = showAll || !hasMore ? allOptions : allOptions.slice(0, MAX_VISIBLE_OPTIONS)
+  const hiddenCount = allOptions.length - MAX_VISIBLE_OPTIONS
 
   return (
     <div
@@ -95,13 +102,13 @@ export const FilterCard: React.FC<FilterCardProps> = ({
         <div className="px-4 pb-4">
           {/* Checkbox Filters */}
           {filter.type === 'checkbox' && filter.options && (
-            <div className="space-y-2.5">
-              {filter.options.map((option) => {
+            <div className="space-y-0.5">
+              {visibleOptions.map((option) => {
                 const isChecked = selectedValues.includes(option.value)
                 return (
                   <label
                     key={option.value}
-                    className="flex items-center gap-2.5 py-2.5 cursor-pointer group hover:text-[var(--color-primary)] transition-colors duration-200"
+                    className="flex items-center gap-2.5 py-1.5 cursor-pointer group hover:text-[var(--color-primary)] transition-colors duration-200"
                   >
                     <input
                       type="checkbox"
@@ -135,6 +142,17 @@ export const FilterCard: React.FC<FilterCardProps> = ({
                   </label>
                 )
               })}
+
+              {/* "Show all" / "Show less" toggle */}
+              {hasMore && (
+                <button
+                  type="button"
+                  onClick={() => setShowAll(!showAll)}
+                  className="mt-1.5 text-[12px] font-semibold text-[var(--color-primary)] hover:underline transition-colors"
+                >
+                  {showAll ? 'Toon minder' : `Bekijk alle ${filter.label} (${hiddenCount}+)`}
+                </button>
+              )}
             </div>
           )}
 
@@ -157,7 +175,7 @@ export const FilterCard: React.FC<FilterCardProps> = ({
 
           {/* Rating Filter */}
           {filter.type === 'rating' && filter.options && (
-            <div className="space-y-2.5">
+            <div className="space-y-0.5">
               {filter.options.map((option) => {
                 const isChecked = selectedValues.includes(option.value)
                 const starCount = parseInt(option.value.replace('+', ''))
@@ -166,7 +184,7 @@ export const FilterCard: React.FC<FilterCardProps> = ({
                 return (
                   <label
                     key={option.value}
-                    className="flex items-center gap-2 py-2.5 cursor-pointer group"
+                    className="flex items-center gap-2 py-1.5 cursor-pointer group"
                   >
                     <input
                       type="checkbox"

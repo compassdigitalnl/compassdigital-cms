@@ -107,8 +107,8 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       <aside
         className={`${
           sticky ? 'sticky' : ''
-        } md:block overflow-y-auto overflow-x-hidden scrollbar-thin`}
-        style={sticky ? { top: `${stickyTop}px`, maxHeight: `calc(100vh - ${stickyTop + 20}px)` } : undefined}
+        } md:block`}
+        style={sticky ? { top: `${stickyTop}px` } : undefined}
         role="complementary"
         aria-label="Product filters"
       >
