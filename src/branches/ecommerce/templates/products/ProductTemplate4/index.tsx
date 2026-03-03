@@ -143,6 +143,17 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Strip parent product name prefix from child title
+  // "PCU probe covers - 15 x 244 mm" → "15 x 244 mm"
+  const childDisplayName = (childTitle: string) => {
+    const parentName = product.title
+    if (childTitle.startsWith(parentName)) {
+      const rest = childTitle.slice(parentName.length).replace(/^\s*[-–—:]\s*/, '')
+      return rest || childTitle
+    }
+    return childTitle
+  }
+
   const stepQty = (productId: string, delta: number) => {
     setSizeQuantities((prev) => {
       const current = prev[productId] || 0
@@ -710,7 +721,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                       >
                         {/* Header */}
                         <div className="p-2.5 text-center bg-[var(--color-background,var(--color-surface))] border-b-[1.5px] border-b-[var(--color-border)] text-[13px] font-bold text-[var(--color-text-primary)]">
-                          {child.title}
+                          {childDisplayName(child.title)}
                         </div>
 
                         {/* Body */}
@@ -1018,7 +1029,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                       <div className="flex items-center justify-between mb-2">
                         <div>
                           <div className="text-[13px] font-bold text-[var(--color-text-primary)]">
-                            {child.title}
+                            {childDisplayName(child.title)}
                           </div>
                           {child.stock && child.stock > 0 ? (
                             <div className="text-[11px] text-[var(--color-success)] font-medium mt-0.5">
