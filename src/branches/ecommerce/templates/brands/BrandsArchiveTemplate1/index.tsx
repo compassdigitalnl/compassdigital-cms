@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useCallback, useRef } from 'react'
 import type { Brand, Media } from '@/payload-types'
+import { Award } from 'lucide-react'
 
 // Layout
 import { Breadcrumbs } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumbs'
@@ -24,6 +25,7 @@ interface BrandWithCount extends Brand {
 interface BrandsArchiveTemplate1Props {
   brands: BrandWithCount[]
   featuredBrands: BrandWithCount[]
+  totalProductCount?: number
 }
 
 // ============================================
@@ -53,6 +55,7 @@ function groupBrandsByLetter(brands: BrandWithCount[]): Record<string, BrandWith
 export default function BrandsArchiveTemplate1({
   brands,
   featuredBrands,
+  totalProductCount,
 }: BrandsArchiveTemplate1Props) {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeLetter, setActiveLetter] = useState<string | null>(null)
@@ -115,19 +118,50 @@ export default function BrandsArchiveTemplate1({
       </div>
 
       <div className="mx-auto px-6 pb-12" style={{ maxWidth: 'var(--container-width, 1792px)' }}>
-        {/* Page Hero */}
-        <div className="mb-7">
-          <h1
-            className="mb-2 font-heading text-[28px] font-extrabold text-theme-navy md:text-[32px]"
-            style={{ letterSpacing: '-0.02em' }}
-          >
-            Merken
-          </h1>
-          <p className="max-w-[600px] text-[15px] leading-relaxed text-theme-grey-dark">
-            Ontdek alle merken in ons assortiment. Van toonaangevende fabrikanten tot
-            gespecialiseerde productlijnen.
-          </p>
-        </div>
+        {/* Hero */}
+        <section
+          className="relative mb-8 overflow-hidden rounded-[20px] bg-gradient-to-br from-theme-navy to-theme-navy-light p-10 md:p-[40px]"
+          role="banner"
+        >
+          <div
+            className="pointer-events-none absolute -right-[10%] -top-1/2 h-[400px] w-[400px] rounded-full"
+            style={{ background: 'radial-gradient(circle, rgba(0, 137, 123, 0.08) 0%, transparent 70%)' }}
+          />
+          <div className="relative z-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center md:gap-10">
+            <div className="flex-1">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-theme-teal/30 bg-theme-teal/15 px-3.5 py-1.5 text-[12px] font-semibold uppercase tracking-wide text-theme-teal-light">
+                <Award className="h-[14px] w-[14px]" />
+                MERKEN
+              </div>
+              <h1
+                className="mb-2.5 font-heading text-[28px] font-extrabold leading-tight text-white md:text-[36px]"
+                style={{ letterSpacing: '-0.02em' }}
+              >
+                Alle merken in ons assortiment
+              </h1>
+              <p className="max-w-[520px] text-[16px] leading-relaxed text-white/50">
+                Ontdek alle merken in ons assortiment. Van toonaangevende fabrikanten tot
+                gespecialiseerde productlijnen.
+              </p>
+            </div>
+            <div className="flex gap-6 md:gap-8">
+              <div className="text-center">
+                <div className="font-heading text-[24px] font-extrabold text-white md:text-[28px]">
+                  <span className="text-theme-teal-light">{brands.length}</span>
+                </div>
+                <div className="mt-0.5 text-[12px] text-white/40">Merken</div>
+              </div>
+              {totalProductCount !== undefined && (
+                <div className="text-center">
+                  <div className="font-heading text-[24px] font-extrabold text-white md:text-[28px]">
+                    <span className="text-theme-teal-light">{totalProductCount}</span>
+                  </div>
+                  <div className="mt-0.5 text-[12px] text-white/40">Producten</div>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
 
         {/* Featured Brands */}
         {featuredCardProps.length > 0 && (

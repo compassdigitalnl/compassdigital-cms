@@ -62,10 +62,10 @@ function extractPlainText(richText: any): string | null {
 
 /** Determine stock status for a product, including grouped product logic */
 function resolveStockStatus(product: any): 'in-stock' | 'low' | 'out' | 'on-backorder' {
-  // For grouped products: check children
-  if (product.productType === 'grouped' && product.children?.length > 0) {
-    const children = product.children
-      .map((c: any) => (typeof c === 'object' ? c : null))
+  // For grouped products: check childProducts[].product
+  if (product.productType === 'grouped' && product.childProducts?.length > 0) {
+    const children = product.childProducts
+      .map((c: any) => (typeof c?.product === 'object' ? c.product : null))
       .filter(Boolean)
 
     if (children.length === 0) return 'out'
@@ -90,9 +90,9 @@ function resolveStockStatus(product: any): 'in-stock' | 'low' | 'out' | 'on-back
 
 /** Get the effective (lowest) price for a product, including grouped children */
 function resolvePrice(product: any): { price: number | null; priceLabel?: string; compareAtPrice?: number } {
-  if (product.productType === 'grouped' && product.children?.length > 0) {
-    const children = product.children
-      .map((c: any) => (typeof c === 'object' ? c : null))
+  if (product.productType === 'grouped' && product.childProducts?.length > 0) {
+    const children = product.childProducts
+      .map((c: any) => (typeof c?.product === 'object' ? c.product : null))
       .filter(Boolean)
 
     const prices = children

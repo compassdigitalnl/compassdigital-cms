@@ -51,11 +51,13 @@ export default async function MerkenPage() {
   )
 
   const featuredWithCounts = brandsWithCounts.filter((b) => b.featured)
+  const totalProductCount = brandsWithCounts.reduce((sum, b) => sum + (b.productCount || 0), 0)
 
   return (
     <BrandsArchiveTemplate1
       brands={brandsWithCounts}
       featuredBrands={featuredWithCounts}
+      totalProductCount={totalProductCount}
     />
   )
 }

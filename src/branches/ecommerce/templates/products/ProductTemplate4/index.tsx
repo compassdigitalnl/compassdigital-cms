@@ -677,14 +677,12 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                   Op voorraad
                 </div>
               )}
-              {/* Backorder notice — temporarily disabled
               {isBackorder && (!isGrouped || !groupedHasStock) && (
                 <div className="flex items-center gap-2 text-sm text-amber-600 font-medium mb-2">
                   <span className="w-2 h-2 bg-amber-500 rounded-full shrink-0" />
                   Op bestelling — levertijd op aanvraag
                 </div>
               )}
-              */}
 
               {/* Price Meta */}
               {(product as any).packaging && (
@@ -850,8 +848,10 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                               {child.stock} op voorraad
                             </div>
                           ) : child.backordersAllowed ? (
-                            /* Op bestelling — temporarily disabled */
-                            null
+                            <div className="text-[11px] text-amber-600 font-medium flex items-center gap-[3px]">
+                              <Info className="w-[11px] h-[11px]" />
+                              Op bestelling
+                            </div>
                           ) : (
                             <div className="text-[11px] text-red-500 font-medium flex items-center gap-[3px]">
                               <Info className="w-[11px] h-[11px]" />
@@ -1025,14 +1025,12 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                 Op voorraad
               </div>
             )}
-            {/* Backorder notice - mobile — temporarily disabled
             {isBackorder && (!isGrouped || !groupedHasStock) && (
               <div className="flex items-center gap-2 text-xs text-amber-600 font-medium mb-2">
                 <span className="w-1.5 h-1.5 bg-amber-500 rounded-full shrink-0" />
                 Op bestelling — levertijd op aanvraag
               </div>
             )}
-            */}
 
             {(product as any).packaging && (
               <div className="text-[11px] text-[var(--color-text-muted)] mb-3">
@@ -1152,8 +1150,9 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                               {child.stock} op voorraad
                             </div>
                           ) : child.backordersAllowed ? (
-                            /* Op bestelling — temporarily disabled */
-                            null
+                            <div className="text-[11px] text-amber-600 font-medium mt-0.5">
+                              Op bestelling
+                            </div>
                           ) : (
                             <div className="text-[11px] text-red-500 font-medium mt-0.5">
                               Uitverkocht
