@@ -283,7 +283,7 @@ Als je het antwoord niet weet, zeg het eerlijk.`,
                   label: 'Collections to Search',
                   hasMany: true,
                   defaultValue: ['blog-posts', 'pages'],
-                  // dbName removed — was causing Drizzle schema conflict (enum vs table)
+                  dbName: 'chatbot_search_cols',
                   options: [
                     { label: 'Blog Posts', value: 'blog-posts' },
                     { label: 'Pages', value: 'pages' },
