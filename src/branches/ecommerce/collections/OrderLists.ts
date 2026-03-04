@@ -10,7 +10,7 @@ export const OrderLists: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'Bestellingen',
+    group: 'E-commerce',
     defaultColumns: ['name', 'owner', 'itemCount', 'isDefault', 'updatedAt'],
     description: 'Opgeslagen bestellijsten voor snelle herbestellingen',
     hidden: shouldHideCollection('orderLists'),

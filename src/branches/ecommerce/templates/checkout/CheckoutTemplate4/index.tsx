@@ -89,26 +89,27 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
   const [showMobileCart, setShowMobileCart] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
 
-  // CMS data for shipping & payment
+  // CMS data for shipping & payment (from e-commerce-settings global)
   const [cmsShippingMethods, setCmsShippingMethods] = useState<any[]>([])
   const [cmsPaymentOptions, setCmsPaymentOptions] = useState<any[]>([])
 
-  // Fetch shipping methods from CMS
+  // Fetch shipping methods + payment options from e-commerce-settings global
   useEffect(() => {
-    fetch('/api/shipping-methods?where[isActive][equals]=true&sort=sortOrder&limit=20')
+    fetch('/api/globals/e-commerce-settings?depth=1')
       .then((res) => res.ok ? res.json() : null)
       .then((data) => {
-        if (data?.docs?.length) setCmsShippingMethods(data.docs)
-      })
-      .catch(() => {})
-  }, [])
-
-  // Fetch payment options from CMS
-  useEffect(() => {
-    fetch('/api/checkout-payment-options?where[isActive][equals]=true&sort=sortOrder&depth=1&limit=20')
-      .then((res) => res.ok ? res.json() : null)
-      .then((data) => {
-        if (data?.docs?.length) setCmsPaymentOptions(data.docs)
+        if (data?.shippingMethods?.length) {
+          const active = data.shippingMethods
+            .filter((m: any) => m.isActive)
+            .sort((a: any, b: any) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+          setCmsShippingMethods(active)
+        }
+        if (data?.paymentOptions?.length) {
+          const active = data.paymentOptions
+            .filter((p: any) => p.isActive)
+            .sort((a: any, b: any) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+          setCmsPaymentOptions(active)
+        }
       })
       .catch(() => {})
   }, [])

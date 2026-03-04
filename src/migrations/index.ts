@@ -19,6 +19,7 @@ import * as migration_20260303_160000_add_template4_enum from './20260303_160000
 import * as migration_20260303_190000_add_guest_checkout_fields from './20260303_190000_add_guest_checkout_fields';
 import * as migration_20260304_100000_add_shipping_methods from './20260304_100000_add_shipping_methods';
 import * as migration_20260304_110000_add_checkout_payment_options from './20260304_110000_add_checkout_payment_options';
+import * as migration_20260304_120000_add_ecommerce_settings from './20260304_120000_add_ecommerce_settings';
 
 export const migrations = [
   {
@@ -125,5 +126,10 @@ export const migrations = [
     up: migration_20260304_110000_add_checkout_payment_options.up,
     down: migration_20260304_110000_add_checkout_payment_options.down,
     name: '20260304_110000_add_checkout_payment_options',
+  },
+  {
+    up: migration_20260304_120000_add_ecommerce_settings.up,
+    down: migration_20260304_120000_add_ecommerce_settings.down,
+    name: '20260304_120000_add_ecommerce_settings',
   },
 ];

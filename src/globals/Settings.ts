@@ -1,7 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { isClientDeployment } from '@/lib/isClientDeployment'
-import { featureField, featureTab } from '@/lib/featureFields'
+import { featureField } from '@/lib/featureFields'
 
 export const Settings: GlobalConfig = {
   slug: 'settings',
@@ -344,253 +344,7 @@ export const Settings: GlobalConfig = {
           ],
         },
 
-        // ─── TAB 6: E-COMMERCE (Verzending & Retour) ───────────────
-        ...featureTab('shop', {
-          label: 'E-commerce',
-          description: 'Verzending, retour en levering',
-          fields: [
-            {
-              name: 'shopFilterOrder',
-              type: 'array',
-              label: 'Webshop Filter Volgorde',
-              admin: {
-                description: 'Configureer de volgorde en zichtbaarheid van filters op de shop pagina. Sleep items om de volgorde te wijzigen.',
-                initCollapsed: false,
-              },
-              fields: [
-                {
-                  name: 'filterId',
-                  type: 'select',
-                  label: 'Filter',
-                  required: true,
-                  options: [
-                    // ── Vaste filters ──
-                    { label: 'Merk (fabrikant)', value: 'manufacturers' },
-                    { label: 'Productlijn', value: 'productLines' },
-                    { label: 'Beschikbaarheid', value: 'stock' },
-                    { label: 'Prijs', value: 'price' },
-                    // ── Specificatie-filters ──
-                    { label: 'Afmeting', value: 'spec_afmeting' },
-                    { label: 'Afwerking borststuk', value: 'spec_afwerking_borststuk' },
-                    { label: 'Aantal laags', value: 'spec_aantal_laags' },
-                    { label: 'Aantal stuks', value: 'spec_aantal_stuks' },
-                    { label: 'Diameter', value: 'spec_diameter' },
-                    { label: 'Filter', value: 'spec_filter' },
-                    { label: 'Gauge', value: 'spec_gauge' },
-                    { label: 'Inhoud', value: 'spec_inhoud' },
-                    { label: 'Kenmerken', value: 'spec_kenmerken' },
-                    { label: 'Kleur', value: 'spec_kleur' },
-                    { label: 'Kleur band', value: 'spec_kleur_band' },
-                    { label: 'Kleur borststuk', value: 'spec_kleur_borststuk' },
-                    { label: 'Kleur handschoen', value: 'spec_kleur_handschoen' },
-                    { label: 'Kleur handvat', value: 'spec_kleur_handvat' },
-                    { label: 'Kleur kraan', value: 'spec_kleur_kraan' },
-                    { label: 'Kleur lijm', value: 'spec_kleur_lijm' },
-                    { label: 'Kleur muts', value: 'spec_kleur_muts' },
-                    { label: 'Kleur slang', value: 'spec_kleur_slang' },
-                    { label: 'Kleur tape', value: 'spec_kleur_tape' },
-                    { label: 'Kleur vaatteugel', value: 'spec_kleur_vaatteugel' },
-                    { label: 'Kleur verband', value: 'spec_kleur_verband' },
-                    { label: 'Kleur zitvlak', value: 'spec_kleur_zitvlak' },
-                    { label: 'Lengte', value: 'spec_lengte' },
-                    { label: 'Maat', value: 'spec_maat' },
-                    { label: 'Materiaal', value: 'spec_materiaal' },
-                    { label: 'Naaldlengte', value: 'spec_naaldlengte' },
-                    { label: 'Schaalverdeling', value: 'spec_schaalverdeling' },
-                    { label: 'Steriel', value: 'spec_steriel' },
-                    { label: 'Substantie', value: 'spec_substantie' },
-                    { label: 'Uitvoering', value: 'spec_uitvoering' },
-                    { label: 'Verpakkingseenheid', value: 'spec_verpakkingseenheid' },
-                    { label: 'Volume', value: 'spec_volume' },
-                  ],
-                },
-                {
-                  name: 'enabled',
-                  type: 'checkbox',
-                  label: 'Zichtbaar op shop pagina',
-                  defaultValue: true,
-                },
-                {
-                  name: 'displayName',
-                  type: 'text',
-                  label: 'Weergavenaam (optioneel)',
-                  admin: {
-                    description: 'Laat leeg om de standaard naam te gebruiken',
-                    placeholder: 'Bijv: "Productmerken" of "Op voorraad"',
-                  },
-                },
-              ],
-              defaultValue: [
-                { filterId: 'manufacturers', enabled: true },
-                { filterId: 'productLines', enabled: true },
-                { filterId: 'stock', enabled: true },
-                { filterId: 'price', enabled: true },
-              ],
-            },
-            {
-              name: 'freeShippingThreshold',
-              type: 'number',
-              required: true,
-              defaultValue: 150,
-              label: 'Gratis verzending vanaf (€)',
-              admin: {
-                step: 0.01,
-                description: 'Bestellingen boven dit bedrag krijgen gratis verzending',
-              },
-            },
-            {
-              name: 'shippingCost',
-              type: 'number',
-              required: true,
-              defaultValue: 6.95,
-              label: 'Verzendkosten (€)',
-              admin: {
-                step: 0.01,
-              },
-            },
-            {
-              name: 'deliveryTime',
-              type: 'text',
-              required: true,
-              defaultValue: 'Besteld voor 16:00, morgen in huis',
-              label: 'Levertijd Tekst',
-              admin: {
-                description: "Wordt getoond op productpagina's",
-              },
-            },
-            {
-              name: 'deliveryDays',
-              type: 'group',
-              label: 'Bezorgdagen',
-              fields: [
-                {
-                  name: 'monday',
-                  type: 'checkbox',
-                  label: 'Maandag',
-                  defaultValue: true,
-                },
-                {
-                  name: 'tuesday',
-                  type: 'checkbox',
-                  label: 'Dinsdag',
-                  defaultValue: true,
-                },
-                {
-                  name: 'wednesday',
-                  type: 'checkbox',
-                  label: 'Woensdag',
-                  defaultValue: true,
-                },
-                {
-                  name: 'thursday',
-                  type: 'checkbox',
-                  label: 'Donderdag',
-                  defaultValue: true,
-                },
-                {
-                  name: 'friday',
-                  type: 'checkbox',
-                  label: 'Vrijdag',
-                  defaultValue: true,
-                },
-                {
-                  name: 'saturday',
-                  type: 'checkbox',
-                  label: 'Zaterdag',
-                  defaultValue: false,
-                },
-                {
-                  name: 'sunday',
-                  type: 'checkbox',
-                  label: 'Zondag',
-                  defaultValue: false,
-                },
-              ],
-            },
-            {
-              name: 'returnDays',
-              type: 'number',
-              required: true,
-              defaultValue: 30,
-              label: 'Retour termijn (dagen)',
-              admin: {
-                description: 'Hoeveel dagen heeft klant om product te retourneren',
-              },
-            },
-            {
-              name: 'returnPolicy',
-              type: 'richText',
-              label: 'Retourbeleid',
-              admin: {
-                description: 'Volledige retourbeleid tekst',
-              },
-            },
-          ],
-        }),
-
-        // ─── TAB 7: B2B INSTELLINGEN ───────────────────────────────
-        ...featureTab('b2b', {
-          label: 'B2B Instellingen',
-          description: 'B2B specifieke instellingen',
-          fields: [
-            {
-              name: 'minimumOrderAmount',
-              type: 'number',
-              label: 'Minimaal bestelbedrag (€)',
-              admin: {
-                step: 0.01,
-                description: 'Optioneel - laat leeg voor geen minimum',
-              },
-            },
-            {
-              name: 'showPricesExclVAT',
-              type: 'checkbox',
-              label: 'Toon prijzen exclusief BTW',
-              defaultValue: true,
-              admin: {
-                description: 'Voor B2B: prijzen excl. BTW, voor B2C: incl. BTW',
-              },
-            },
-            {
-              name: 'vatPercentage',
-              type: 'number',
-              defaultValue: 21,
-              label: 'BTW Percentage (%)',
-              admin: {
-                description: 'Standaard BTW percentage (NL: 21%)',
-              },
-            },
-            {
-              name: 'requireAccountForPurchase',
-              type: 'checkbox',
-              label: 'Account vereist voor aankoop',
-              defaultValue: true,
-              admin: {
-                description: 'B2B mode: klanten moeten ingelogd zijn om te bestellen',
-              },
-            },
-            {
-              name: 'enableGuestCheckout',
-              type: 'checkbox',
-              label: 'Guest checkout toestaan',
-              defaultValue: false,
-              admin: {
-                description: 'Sta eenmalige bestellingen toe zonder account (vereist requireAccountForPurchase = false)',
-              },
-            },
-            {
-              name: 'requireB2BApproval',
-              type: 'checkbox',
-              label: 'Handmatige B2B account goedkeuring',
-              defaultValue: true,
-              admin: {
-                description: 'Nieuwe B2B accounts moeten eerst goedgekeurd worden door admin',
-              },
-            },
-          ],
-        }),
-
-        // ─── TAB 8: TRUST BADGES & CERTIFICATEN ────────────────────
+        // ─── TAB 6: TRUST BADGES & CERTIFICATEN ────────────────────
         {
           label: 'Trust Badges',
           description: 'Certificaten, keurmerken en vertrouwen',
@@ -658,70 +412,7 @@ export const Settings: GlobalConfig = {
           ],
         },
 
-        // ─── TAB 9: FUNCTIES (Feature Toggles) ─────────────────────
-        {
-          label: 'Functies',
-          description: 'Features aan/uit zetten',
-          fields: [
-            {
-              name: 'features',
-              type: 'group',
-              label: 'Feature Toggles',
-              fields: [
-                {
-                  name: 'enableQuickOrder',
-                  type: 'checkbox',
-                  label: 'Quick Order Functie',
-                  defaultValue: true,
-                  admin: {
-                    description: 'Bulkbestelling op basis van artikelnummers',
-                  },
-                },
-                {
-                  name: 'enableOrderLists',
-                  type: 'checkbox',
-                  label: 'Bestellijsten',
-                  defaultValue: true,
-                  admin: {
-                    description: 'Klanten kunnen favorieten lijsten maken',
-                  },
-                },
-                {
-                  name: 'enableReviews',
-                  type: 'checkbox',
-                  label: 'Product Reviews',
-                  defaultValue: false,
-                  admin: {
-                    description: 'Klanten kunnen producten reviewen',
-                  },
-                },
-                {
-                  name: 'enableWishlist',
-                  type: 'checkbox',
-                  label: 'Verlanglijstje',
-                  defaultValue: true,
-                },
-                {
-                  name: 'enableStockNotifications',
-                  type: 'checkbox',
-                  label: 'Voorraad Notificaties',
-                  defaultValue: false,
-                  admin: {
-                    description: 'Klanten krijgen bericht als product weer op voorraad is',
-                  },
-                },
-                {
-                  name: 'enableLiveChat',
-                  type: 'checkbox',
-                  label: 'Live Chat',
-                  defaultValue: false,
-                },
-              ],
-            },
-          ],
-        },
-
-        // ─── TAB 10: BRANDING ──────────────────────────────────────
+        // ─── TAB 7: BRANDING ──────────────────────────────────────
         {
           label: 'Branding',
           description: "Logo's en kleuren (alleen admin)",
@@ -777,7 +468,7 @@ export const Settings: GlobalConfig = {
           ],
         },
 
-        // ─── TAB 11: TRACKING ──────────────────────────────────────
+        // ─── TAB 8: TRACKING ──────────────────────────────────────
         {
           label: 'Tracking',
           description: 'Analytics en tracking codes (alleen admin)',
@@ -812,7 +503,7 @@ export const Settings: GlobalConfig = {
           ],
         },
 
-        // ─── TAB 12: SEO ───────────────────────────────────────────
+        // ─── TAB 9: SEO ───────────────────────────────────────────
         {
           label: 'SEO',
           description: 'Zoekmachine optimalisatie instellingen',

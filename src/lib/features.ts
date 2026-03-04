@@ -458,8 +458,6 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
 
     // === CHECKOUT ===
     orders: 'checkout',
-    'shipping-methods': 'checkout',
-    'checkout-payment-options': 'checkout',
     invoices: 'invoices',
 
     // === MY ACCOUNT ===

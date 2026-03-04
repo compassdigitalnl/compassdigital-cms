@@ -10,7 +10,7 @@ export const RecurringOrders: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'Bestellingen',
+    group: 'E-commerce',
     defaultColumns: ['name', 'customer', 'status', 'nextDeliveryDate', 'estimatedTotal'],
     description: 'Automatische herhaalbestellingen voor B2B klanten',
     hidden: shouldHideCollection('recurringOrders'),

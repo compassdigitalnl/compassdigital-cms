@@ -57,8 +57,6 @@ import { Products } from '@/branches/ecommerce/collections/Products'
 import { RecentlyViewed } from '@/branches/ecommerce/collections/RecentlyViewed'
 import { RecurringOrders } from '@/branches/ecommerce/collections/RecurringOrders'
 import { Returns } from '@/branches/ecommerce/collections/Returns'
-import { ShippingMethods } from '@/branches/ecommerce/collections/ShippingMethods'
-import { CheckoutPaymentOptions } from '@/branches/ecommerce/collections/CheckoutPaymentOptions'
 import { StockReservations } from '@/branches/ecommerce/collections/StockReservations'
 import { SubscriptionPlans } from '@/branches/ecommerce/collections/SubscriptionPlans'
 import { UserSubscriptions } from '@/branches/ecommerce/collections/UserSubscriptions'
@@ -138,6 +136,7 @@ import { Header } from '@/globals/Header'
 import { MeilisearchSettings } from '@/globals/MeilisearchSettings'
 import { ChatbotSettings } from '@/globals/ChatbotSettings'
 import { Settings } from '@/globals/Settings'
+import { EcommerceSettings } from '@/globals/EcommerceSettings'
 import { Theme } from '@/globals/Theme'
 
 // Plugins
@@ -298,8 +297,6 @@ export default buildConfig({
 
     // Cart & Checkout
     _col(Carts),
-    _col(ShippingMethods),
-    _col(CheckoutPaymentOptions),
 
     // Order Management
     _col(Orders),
@@ -401,11 +398,11 @@ export default buildConfig({
   ].filter(Boolean) as any[],
 
   // ─── Globals ──────────────────────────────
-  // Consolidated from 8 → 6 globals for better UX!
   globals: [
-    Settings, // NEW: Combines SiteSettings + ShopSettings
+    Settings,
+    EcommerceSettings, // E-commerce: shipping, payment, B2B, features
     Theme, // Design System (colors, typography, spacing)
-    Header, // NEW: Combines TopBarSettings + AlertBarSettings + Navigation + old Header
+    Header,
     Footer,
     MeilisearchSettings, // Search engine configuration
     ChatbotSettings, // AI Chatbot configuration

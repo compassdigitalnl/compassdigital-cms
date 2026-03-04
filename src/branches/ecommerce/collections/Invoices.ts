@@ -10,7 +10,7 @@ export const Invoices: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'invoiceNumber',
-    group: 'Bestellingen',
+    group: 'E-commerce',
     defaultColumns: ['invoiceNumber', 'customer', 'amount', 'status', 'dueDate'],
     description: 'Facturen en betalingsadministratie',
     hidden: shouldHideCollection('invoices'),

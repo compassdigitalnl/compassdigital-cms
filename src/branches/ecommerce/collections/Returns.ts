@@ -10,7 +10,7 @@ export const Returns: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'rmaNumber',
-    group: 'Bestellingen',
+    group: 'E-commerce',
     defaultColumns: ['rmaNumber', 'customer', 'status', 'returnValue', 'createdAt'],
     description: 'Retour en RMA management (Return Merchandise Authorization)',
     hidden: shouldHideCollection('returns'),

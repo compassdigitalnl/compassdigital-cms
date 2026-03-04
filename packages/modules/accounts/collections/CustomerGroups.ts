@@ -15,7 +15,7 @@ export const CustomerGroups: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'type', 'discount', 'priority', 'customerCount'],
-    group: 'Accounts',
+    group: 'E-commerce',
     description: 'Groepen voor pricing en permissions',
   },
   access: {
