@@ -174,10 +174,35 @@
 .gjs-pn-device-panel {
   display: flex !important;
   justify-content: center;
-  gap: 4px;
+  gap: 2px;
   padding: 6px 8px !important;
-  background-color: #ffffff !important;
+  background-color: #f9fafb !important;
   border-bottom: 1px solid #e5e7eb !important;
+}
+
+.gjs-pn-device-panel .gjs-pn-btn {
+  color: #6b7280 !important;
+  background-color: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 6px !important;
+  padding: 6px 10px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  font-size: 16px !important;
+  transition: all 0.15s !important;
+}
+
+.gjs-pn-device-panel .gjs-pn-btn:hover {
+  color: #3b82f6 !important;
+  background-color: #eff6ff !important;
+  border-color: #bfdbfe !important;
+}
+
+.gjs-pn-device-panel .gjs-pn-active {
+  color: #ffffff !important;
+  background-color: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════

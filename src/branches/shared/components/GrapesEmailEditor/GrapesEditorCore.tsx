@@ -275,35 +275,56 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
         })
 
         // ── Device Preview Buttons ──────────────────────────
-        // Add a dedicated panel for device switching
+        // Register device switch commands
+        const deviceIds = ['device-desktop', 'device-tablet', 'device-mobile-landscape', 'device-mobile']
+        const deviceMap: Record<string, string> = {
+          'device-desktop': 'Desktop',
+          'device-tablet': 'Tablet',
+          'device-mobile-landscape': 'Mobiel liggend',
+          'device-mobile': 'Mobiel staand',
+        }
+
+        deviceIds.forEach((id) => {
+          editor.Commands.add(id, {
+            run: (ed: any) => {
+              ed.setDevice(deviceMap[id])
+            },
+            stop: () => {},
+          })
+        })
+
         editor.Panels.addPanel({
           id: 'device-panel',
           visible: true,
           buttons: [
             {
               id: 'device-desktop',
-              command: { run: (ed: any) => ed.setDevice('Desktop') },
+              command: 'device-desktop',
               className: 'fa fa-desktop',
               attributes: { title: 'Desktop' },
               active: true,
+              togglable: false,
             },
             {
               id: 'device-tablet',
-              command: { run: (ed: any) => ed.setDevice('Tablet') },
+              command: 'device-tablet',
               className: 'fa fa-tablet',
               attributes: { title: 'Tablet (768px)' },
+              togglable: false,
             },
             {
               id: 'device-mobile-landscape',
-              command: { run: (ed: any) => ed.setDevice('Mobiel liggend') },
-              className: 'fa fa-mobile fa-flip-horizontal',
+              command: 'device-mobile-landscape',
+              className: 'fa fa-mobile',
               attributes: { title: 'Mobiel liggend (568px)' },
+              togglable: false,
             },
             {
               id: 'device-mobile',
-              command: { run: (ed: any) => ed.setDevice('Mobiel staand') },
+              command: 'device-mobile',
               className: 'fa fa-mobile',
               attributes: { title: 'Mobiel staand (320px)' },
+              togglable: false,
             },
           ],
         })
