@@ -65,9 +65,7 @@ export function TopBar({ topBar, theme, header }: Props) {
   const containerClass = getContainerMaxWidth('default' as any) // Use default container width
   const primaryColor = theme?.teal || '#26A69A'
 
-  // B2B/B2C and language config from header global
-  const enablePriceToggle = (header as any)?.enablePriceToggle === true
-  const priceToggleConfig = (header as any)?.priceToggle
+  // Language config from header global
   const enableLanguageSwitcher = (header as any)?.enableLanguageSwitcher === true
   const languages = (header as any)?.languages as Array<{ code: string; label: string; flag?: string; isDefault?: boolean }> | undefined
 
@@ -122,18 +120,8 @@ export function TopBar({ topBar, theme, header }: Props) {
           ))}
 
           {/* Separator before toggles */}
-          {(enablePriceToggle || enableLanguageSwitcher) && (topBar.rightLinks?.length ?? 0) > 0 && (
+          {enableLanguageSwitcher && (topBar.rightLinks?.length ?? 0) > 0 && (
             <div className="w-px h-3.5 mx-1.5" style={{ backgroundColor: textColor + '2A' }} />
-          )}
-
-          {/* B2B/B2C Toggle */}
-          {enablePriceToggle && (
-            <PriceToggle
-              defaultMode={priceToggleConfig?.defaultMode || 'b2c'}
-              b2cLabel={priceToggleConfig?.b2cLabel || 'Particulier'}
-              b2bLabel={priceToggleConfig?.b2bLabel || 'Zakelijk'}
-              textColor={textColor}
-            />
           )}
 
           {/* Language Switcher */}
@@ -147,49 +135,6 @@ export function TopBar({ topBar, theme, header }: Props) {
         </div>
       </div>
     </div>
-  )
-}
-
-function PriceToggle({
-  defaultMode,
-  b2cLabel,
-  b2bLabel,
-  textColor,
-}: {
-  defaultMode: 'b2c' | 'b2b'
-  b2cLabel: string
-  b2bLabel: string
-  textColor: string
-}) {
-  const [mode, setMode] = useState<'b2c' | 'b2b'>(defaultMode)
-
-  useEffect(() => {
-    const saved = localStorage.getItem('price-mode') as 'b2c' | 'b2b' | null
-    if (saved) setMode(saved)
-  }, [])
-
-  const toggle = () => {
-    const newMode = mode === 'b2c' ? 'b2b' : 'b2c'
-    setMode(newMode)
-    localStorage.setItem('price-mode', newMode)
-    window.dispatchEvent(new CustomEvent('priceToggle', { detail: { mode: newMode } }))
-  }
-
-  return (
-    <button
-      onClick={toggle}
-      className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium transition-all hover:bg-white/10 border border-white/20"
-      style={{ color: textColor + 'CC' }}
-      aria-label={`Schakel naar ${mode === 'b2c' ? 'zakelijk' : 'particulier'} prijzen`}
-    >
-      <span style={{ opacity: mode === 'b2c' ? 1 : 0.5, fontWeight: mode === 'b2c' ? 700 : 400 }}>
-        {b2cLabel}
-      </span>
-      <span style={{ opacity: 0.3 }}>|</span>
-      <span style={{ opacity: mode === 'b2b' ? 1 : 0.5, fontWeight: mode === 'b2b' ? 700 : 400 }}>
-        {b2bLabel}
-      </span>
-    </button>
   )
 }
 

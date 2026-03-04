@@ -306,56 +306,6 @@ export const Header: GlobalConfig = {
               ],
             },
 
-            // ── Prijs Toggle (B2B/B2C) ──
-            {
-              name: 'enablePriceToggle',
-              type: 'checkbox',
-              label: 'Toon Prijs Wisselaar (B2B/B2C)',
-              defaultValue: false,
-              admin: {
-                description:
-                  'Prijs wisselaar in topbar (rechts). Gebruikers kunnen schakelen tussen particuliere en zakelijke prijzen.',
-                condition: (data) => data.topbarEnabled === true,
-              },
-            },
-            {
-              name: 'priceToggle',
-              type: 'group',
-              label: 'Prijs Wisselaar Instellingen',
-              admin: {
-                condition: (data) => data.topbarEnabled === true && data.enablePriceToggle === true,
-              },
-              fields: [
-                {
-                  name: 'defaultMode',
-                  type: 'select',
-                  label: 'Standaard Modus',
-                  defaultValue: 'b2c',
-                  options: [
-                    { label: 'B2C (Particulier)', value: 'b2c' },
-                    { label: 'B2B (Zakelijk)', value: 'b2b' },
-                  ],
-                },
-                {
-                  name: 'b2cLabel',
-                  type: 'text',
-                  label: 'B2C Label',
-                  defaultValue: 'Particulier',
-                  admin: {
-                    placeholder: 'Particulier',
-                  },
-                },
-                {
-                  name: 'b2bLabel',
-                  type: 'text',
-                  label: 'B2B Label',
-                  defaultValue: 'Zakelijk',
-                  admin: {
-                    placeholder: 'Zakelijk',
-                  },
-                },
-              ],
-            },
           ],
         },
 
@@ -1109,6 +1059,57 @@ export const Header: GlobalConfig = {
                     { label: '⭐ Star', value: 'Star' },
                     { label: '🏷️ Tag', value: 'Tag' },
                   ],
+                },
+              ],
+            },
+
+            // ── Prijs Toggle (B2B/B2C) — embedded in zoekbalk ──
+            {
+              name: 'enablePriceToggle',
+              type: 'checkbox',
+              label: 'Toon Prijs Wisselaar (B2B/B2C)',
+              defaultValue: false,
+              admin: {
+                description:
+                  'Prijs wisselaar in de zoekbalk (rechts). Gebruikers kunnen schakelen tussen particuliere en zakelijke prijzen.',
+                condition: (data) => data.searchEnabled === true,
+              },
+            },
+            {
+              name: 'priceToggle',
+              type: 'group',
+              label: 'Prijs Wisselaar Instellingen',
+              admin: {
+                condition: (data) => data.enablePriceToggle === true,
+              },
+              fields: [
+                {
+                  name: 'defaultMode',
+                  type: 'select',
+                  label: 'Standaard Modus',
+                  defaultValue: 'b2c',
+                  options: [
+                    { label: 'B2C (Particulier)', value: 'b2c' },
+                    { label: 'B2B (Zakelijk)', value: 'b2b' },
+                  ],
+                },
+                {
+                  name: 'b2cLabel',
+                  type: 'text',
+                  label: 'B2C Label',
+                  defaultValue: 'Particulier',
+                  admin: {
+                    placeholder: 'Particulier',
+                  },
+                },
+                {
+                  name: 'b2bLabel',
+                  type: 'text',
+                  label: 'B2B Label',
+                  defaultValue: 'Zakelijk',
+                  admin: {
+                    placeholder: 'Zakelijk',
+                  },
                 },
               ],
             },

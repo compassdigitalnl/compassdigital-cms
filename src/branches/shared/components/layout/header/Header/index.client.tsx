@@ -141,6 +141,10 @@ function mapHeaderData(header: any) {
     enableSearch: (header.searchEnabled ?? true) && (header.showSearchBar !== false),
     searchPlaceholder: header.searchPlaceholder || 'Zoek producten...',
 
+    // Price toggle (embedded in search bar)
+    enablePriceToggle: header.enablePriceToggle ?? false,
+    priceToggle: header.priceToggle || { defaultMode: 'b2c', b2cLabel: 'Particulier', b2bLabel: 'Zakelijk' },
+
     // Action buttons — renamed fields
     showPhone: header.showPhoneButton ?? true,
     showCart: header.showCartButton ?? true,
@@ -178,6 +182,20 @@ export function HeaderClient({ header, theme, settings }: Props) {
     showWishlist, showAccount, showCart, customButtons,
     stickyHeader, showShadow,
   } = mapped
+
+  // Price toggle state (B2B/B2C)
+  const [priceMode, setPriceMode] = useState<'b2c' | 'b2b'>(mapped.priceToggle?.defaultMode || 'b2c')
+
+  useEffect(() => {
+    const saved = localStorage.getItem('price-mode') as 'b2c' | 'b2b' | null
+    if (saved) setPriceMode(saved)
+  }, [])
+
+  const togglePriceMode = (newMode: 'b2c' | 'b2b') => {
+    setPriceMode(newMode)
+    localStorage.setItem('price-mode', newMode)
+    window.dispatchEvent(new CustomEvent('priceToggle', { detail: { mode: newMode } }))
+  }
 
   // Build class names based on settings
   const headerClasses = cn(
@@ -244,7 +262,10 @@ export function HeaderClient({ header, theme, settings }: Props) {
               <button
                 onClick={openSearch}
                 type="button"
-                className="hidden lg:flex flex-1 max-w-[600px] justify-self-center relative w-full h-11 pl-12 pr-4 border-2 rounded-xl text-sm hover:bg-white focus:bg-white focus:ring-4 outline-none transition-all text-left cursor-text items-center"
+                className={cn(
+                  "hidden lg:flex flex-1 max-w-[600px] justify-self-center relative w-full h-11 pl-12 border-2 rounded-xl text-sm hover:bg-white focus:bg-white focus:ring-4 outline-none transition-all text-left cursor-text items-center",
+                  mapped.enablePriceToggle ? "pr-[170px]" : "pr-4",
+                )}
                 style={{
                   backgroundColor: 'var(--color-surface, #f9fafb)',
                   borderColor: 'var(--color-border, #e5e7eb)',
@@ -267,6 +288,40 @@ export function HeaderClient({ header, theme, settings }: Props) {
               >
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] pointer-events-none z-10" style={{ color: 'var(--color-text-muted, #94a3b8)' }} />
                 {searchPlaceholder}
+
+                {/* Price Toggle — embedded in search bar */}
+                {mapped.enablePriceToggle && (
+                  <div
+                    className="absolute right-[48px] top-1/2 -translate-y-1/2 hidden xl:flex items-center rounded-md border overflow-hidden"
+                    style={{ background: 'var(--color-surface, #F1F4F8)', borderColor: 'var(--color-border, #E8ECF1)' }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); togglePriceMode('b2b') }}
+                      className="px-2.5 py-[5px] text-[11px] font-bold tracking-wide transition-all"
+                      style={{
+                        background: priceMode === 'b2b' ? 'var(--color-primary, #00897B)' : 'transparent',
+                        color: priceMode === 'b2b' ? 'white' : 'var(--color-text-muted, #94A3B8)',
+                      }}
+                    >
+                      {mapped.priceToggle?.b2bLabel || 'B2B'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); togglePriceMode('b2c') }}
+                      className="px-2.5 py-[5px] text-[11px] font-bold tracking-wide transition-all"
+                      style={{
+                        background: priceMode === 'b2c' ? 'var(--color-primary, #00897B)' : 'transparent',
+                        color: priceMode === 'b2c' ? 'white' : 'var(--color-text-muted, #94A3B8)',
+                      }}
+                    >
+                      {mapped.priceToggle?.b2cLabel || 'B2C'}
+                    </button>
+                  </div>
+                )}
+
+                {/* ⌘K Badge */}
                 <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-semibold font-mono bg-white border rounded px-2 py-0.5 pointer-events-none hidden xl:block" style={{ color: 'var(--color-text-muted, #94a3b8)', borderColor: 'var(--color-border, #e5e7eb)' }}>
                   ⌘K
                 </div>
