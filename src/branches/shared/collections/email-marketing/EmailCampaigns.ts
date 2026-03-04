@@ -5,10 +5,8 @@
  * Supports scheduling, analytics, and campaign management
  */
 
-import React from 'react'
 import type { CollectionConfig } from 'payload'
 import { emailMarketingFeatures, isFeatureEnabled } from '@/lib/features'
-import { CampaignDashboard } from './components/CampaignDashboard'
 import { isAdmin, checkRole, isUser, isSuperAdmin, isAdminOrEditor, getUserClient } from '@/access/utilities'
 
 const isPlatformMode = isFeatureEnabled('platform')
@@ -65,7 +63,7 @@ export const EmailCampaigns: CollectionConfig = {
       type: 'ui',
       admin: {
         components: {
-          Field: CampaignDashboard as any,
+          Field: '@/branches/shared/collections/email-marketing/components/CampaignDashboard#CampaignDashboard',
         },
         condition: (data) => !!data?.id, // Only show on existing campaigns
       },

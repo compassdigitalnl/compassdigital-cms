@@ -377,19 +377,18 @@ export default buildConfig({
     // ═══════════════════════════════════════════════════════════════════════════
     // EMAIL MARKETING BRANCH - Email campaigns, lists, subscribers (Feature flagged)
     // ═══════════════════════════════════════════════════════════════════════════
-    ...(emailMarketingFeatures.isEnabled() ? [
-      _col(EmailSubscribers),
-      _col(EmailLists),
-      _col(EmailTemplates),
-      _col(EmailApiKeys),
-      ...(emailMarketingFeatures.campaigns() ? [
-        _col(EmailCampaigns),
-        _col(AutomationRules),
-        _col(AutomationFlows),
-        _col(FlowInstances),
-        _col(EmailEvents),
-      ] : []),
-    ].filter(Boolean) : []),
+    // Email marketing collections zijn ALTIJD geregistreerd zodat de importMap
+    // alle custom components bevat (o.a. GrapesJSField). Visibility en access
+    // worden geregeld via admin.hidden + access functies op de collections zelf.
+    _col(EmailSubscribers),
+    _col(EmailLists),
+    _col(EmailTemplates),
+    _col(EmailApiKeys),
+    _col(EmailCampaigns),
+    _col(AutomationRules),
+    _col(AutomationFlows),
+    _col(FlowInstances),
+    _col(EmailEvents),
 
     // ═══════════════════════════════════════════════════════════════════════════
     // PLATFORM BRANCH - Multi-tenant Management (alleen op platform-instantie)

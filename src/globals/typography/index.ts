@@ -148,7 +148,7 @@ export const Typography: Tab = {
           type: 'ui',
           admin: {
             components: {
-              Field: (() => null) as any,
+              Field: '@/fields/NullField#NullField',
             },
             description: '💡 TIP: Font families should include fallbacks. Type scale values are in pixels and will be converted to CSS variables (--text-hero, etc.).',
           },
