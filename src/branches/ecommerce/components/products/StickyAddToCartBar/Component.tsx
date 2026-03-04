@@ -23,6 +23,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { ShoppingCart } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { StickyAddToCartBarProps } from './types'
 
 export const StickyAddToCartBar: React.FC<StickyAddToCartBarProps> = ({
@@ -38,6 +39,7 @@ export const StickyAddToCartBar: React.FC<StickyAddToCartBarProps> = ({
 }) => {
   const [internalVisible, setInternalVisible] = useState(false)
   const [currentVariantId, setCurrentVariantId] = useState<string | undefined>(selectedVariantId)
+  const { formatPriceFull } = usePriceMode()
 
   // Use controlled visibility if provided, otherwise use internal state
   const isVisible = controlledVisible !== undefined ? controlledVisible : internalVisible
@@ -87,15 +89,6 @@ export const StickyAddToCartBar: React.FC<StickyAddToCartBarProps> = ({
     onAddToCart(product.id, currentVariantId)
   }
 
-  // Format price
-  const formatPrice = (price: number): string => {
-    return price.toLocaleString(locale, {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 2,
-    })
-  }
-
   return (
     <div
       className={`
@@ -140,7 +133,7 @@ export const StickyAddToCartBar: React.FC<StickyAddToCartBarProps> = ({
 
         {/* Price */}
         <div className="sb-price font-['Plus_Jakarta_Sans'] text-xl font-extrabold text-navy-600 flex-shrink-0">
-          {formatPrice(product.price)}
+          {formatPriceFull(product.price, (product as any).taxClass)}
         </div>
 
         {/* Variant Selector (hidden on mobile) */}

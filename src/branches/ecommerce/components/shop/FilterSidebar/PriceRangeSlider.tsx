@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useRef, useEffect, useCallback } from 'react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { PriceRangeSliderProps } from './types'
 
 export const PriceRangeSlider: React.FC<PriceRangeSliderProps> = ({
@@ -16,6 +17,7 @@ export const PriceRangeSlider: React.FC<PriceRangeSliderProps> = ({
   const trackRef = useRef<HTMLDivElement>(null)
   const draggingRef = useRef<'min' | 'max' | null>(null)
   const localValueRef = useRef<[number, number]>(localValue)
+  const { displayPrice } = usePriceMode()
 
   // Keep ref in sync with state
   useEffect(() => {
@@ -83,7 +85,8 @@ export const PriceRangeSlider: React.FC<PriceRangeSliderProps> = ({
   const maxPercent = valueToPercent(localValue[1])
 
   const formatPrice = (val: number): string => {
-    return `${currency} ${val.toFixed(2).replace('.', ',')}`
+    const adjusted = displayPrice(val) ?? val
+    return `${currency} ${adjusted.toFixed(2).replace('.', ',')}`
   }
 
   // Parse user input back to number

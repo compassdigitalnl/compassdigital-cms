@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from 'react'
 import { X, ShoppingCart, ArrowRight } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { QuickViewModalProps, ProductVariant } from './types'
 
 export const QuickViewModal: React.FC<QuickViewModalProps> = ({
@@ -19,6 +20,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
   const [quantity, setQuantity] = useState(1)
   const modalRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const { displayPrice: applyPriceMode, vatLabelForClass } = usePriceMode()
 
   // Initialize selected variant (find default or first available)
   useEffect(() => {
@@ -232,9 +234,10 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
           {/* Price */}
           <div className="mt-4 flex items-baseline gap-2.5">
             <span className="font-heading text-[26px] font-extrabold text-theme-navy">
-              €{product.price.toFixed(2)}
+              €{(applyPriceMode(product.price, product.taxClass) ?? product.price).toFixed(2)}
             </span>
-            {product.unit && <span className="text-[13px] text-theme-grey-mid">{product.unit}</span>}
+            {product.unit && <span className="text-[13px] text-theme-grey-mid">{vatLabelForClass(product.taxClass)} · {product.unit}</span>}
+            {!product.unit && <span className="text-[13px] text-theme-grey-mid">{vatLabelForClass(product.taxClass)}</span>}
           </div>
 
           {/* Staffel Pricing Hint */}

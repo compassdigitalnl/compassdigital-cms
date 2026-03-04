@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import type { Product } from '@/payload-types'
 import { Check, Gift, User, Zap } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 type VariantValue = NonNullable<NonNullable<Product['variantOptions']>[number]['values']>[number]
 
@@ -13,6 +14,7 @@ interface SubscriptionPricingTableProps {
 
 export function SubscriptionPricingTable({ product, onSelectionChange }: SubscriptionPricingTableProps) {
   const [selectedVariant, setSelectedVariant] = useState<VariantValue | null>(null)
+  const { displayPrice, formatPriceStr } = usePriceMode()
 
   // Get all subscription variants from variant options
   const subscriptionVariants: VariantValue[] = []
@@ -167,10 +169,10 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
                   <>
                     <div className="flex items-baseline gap-2">
                       <span className="text-2xl font-bold text-gray-900">
-                        €{discountedPrice.toFixed(2)}
+                        €{formatPriceStr(discountedPrice, product.taxClass as any)}
                       </span>
                       <span className="text-lg text-gray-400 line-through">
-                        €{fullPrice.toFixed(2)}
+                        €{formatPriceStr(fullPrice, product.taxClass as any)}
                       </span>
                     </div>
                     <p className="text-sm font-semibold text-green-600">
@@ -180,7 +182,7 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
                 )}
                 {!hasDiscount && (
                   <div className="text-2xl font-bold text-gray-900">
-                    €{fullPrice.toFixed(2)}
+                    €{formatPriceStr(fullPrice, product.taxClass as any)}
                   </div>
                 )}
               </div>
@@ -248,7 +250,7 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
             </div>
             <div className="text-right">
               <p className="text-xl font-bold text-gray-900">
-                €{calculateDiscountedPrice(selectedVariant).toFixed(2)}
+                €{formatPriceStr(calculateDiscountedPrice(selectedVariant), product.taxClass as any)}
               </p>
               {selectedVariant.discountPercentage && selectedVariant.discountPercentage > 0 && (
                 <p className="text-xs text-green-600">

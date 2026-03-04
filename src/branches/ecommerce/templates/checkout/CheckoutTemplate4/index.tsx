@@ -22,6 +22,7 @@
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import { useAuth } from '@/providers/Auth'
 import { useEcommerceSettings } from '@/branches/ecommerce/hooks/useEcommerceSettings'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -92,11 +93,15 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
 
   // E-commerce settings (shipping methods, payment options, VAT, etc.)
   const { settings: ecomSettings } = useEcommerceSettings()
+  const { displayPrice, showInclVAT, vatLabel } = usePriceMode()
   const cmsShippingMethods = ecomSettings.shippingMethods
   const cmsPaymentOptions = ecomSettings.paymentOptions
 
-  // Pricing
-  const subtotal = total
+  // Pricing — use priceMode-aware subtotal
+  const subtotal = items.reduce((sum, item) => {
+    const unitPrice = displayPrice(item.unitPrice ?? item.price, item.taxClass as any) ?? (item.unitPrice ?? item.price)
+    return sum + unitPrice * item.quantity
+  }, 0)
   const vatPercentage = ecomSettings.vatPercentage / 100
 
   // Compute shipping cost from selected CMS method
@@ -105,7 +110,8 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
     ? (selectedShipping.freeThreshold && subtotal >= selectedShipping.freeThreshold ? 0 : selectedShipping.price)
     : 0
   const discount = appliedCoupon?.discountAmount || 0
-  const tax = (subtotal + shippingCost - discount) * vatPercentage
+  // In B2C mode prices already include VAT, so don't add tax on top
+  const tax = showInclVAT ? 0 : (subtotal + shippingCost - discount) * vatPercentage
   const grandTotal = subtotal + shippingCost + tax - discount
 
   // Empty cart redirect
@@ -692,10 +698,10 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                       </div>
                       <div className="t4-order-item__info">
                         <p className="t4-order-item__name">{item.title}</p>
-                        <p className="t4-order-item__qty">{item.quantity}x €{item.price.toFixed(2)}</p>
+                        <p className="t4-order-item__qty">{item.quantity}x €{(displayPrice(item.unitPrice ?? item.price, item.taxClass as any) ?? (item.unitPrice ?? item.price)).toFixed(2)}</p>
                       </div>
                       <span className="t4-order-item__total">
-                        €{(item.price * item.quantity).toFixed(2)}
+                        €{((displayPrice(item.unitPrice ?? item.price, item.taxClass as any) ?? (item.unitPrice ?? item.price)) * item.quantity).toFixed(2)}
                       </span>
                     </div>
                   ))}

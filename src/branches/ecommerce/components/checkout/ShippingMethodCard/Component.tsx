@@ -3,6 +3,7 @@
 import React from 'react'
 import { getLucideIconComponent } from '@/branches/ecommerce/components/ui/LucideIcon'
 import { Truck } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { ShippingMethodCardProps } from './types'
 
 export function ShippingMethodCard({
@@ -15,9 +16,10 @@ export function ShippingMethodCard({
 }: ShippingMethodCardProps) {
   const Icon = getLucideIconComponent(method.icon) || Truck
   const isFree = method.price === 0 || method.isFree
+  const { formatPriceStr } = usePriceMode()
 
   const formatPrice = (price: number): string => {
-    return `${currencySymbol} ${price.toFixed(2).replace('.', ',')}`
+    return `${currencySymbol} ${formatPriceStr(price)}`
   }
 
   return (

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 /**
  * Subscription Price Table Component
@@ -37,6 +38,7 @@ export function SubscriptionPriceTable({
   className = '',
 }: SubscriptionPriceTableProps) {
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const { formatPriceStr } = usePriceMode()
 
   function handleSelect(index: number) {
     setSelectedIndex(index)
@@ -149,7 +151,7 @@ export function SubscriptionPriceTable({
                 style={{ color: 'var(--color-text-primary, #0A1628)' }}
               >
                 {currency}
-                {price.toFixed(2).replace('.', ',')}
+                {formatPriceStr(price)}
               </span>
             </button>
           )

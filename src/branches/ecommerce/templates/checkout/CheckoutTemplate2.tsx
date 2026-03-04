@@ -22,6 +22,7 @@ import { useState } from 'react'
 import { ShoppingBag, ArrowLeft, Mail, CheckCircle } from 'lucide-react'
 
 import { useEcommerceSettings } from '@/branches/ecommerce/hooks/useEcommerceSettings'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 // Phase 1 Components
 import { AddressForm } from '@/branches/ecommerce/components/checkout/AddressForm'
@@ -37,6 +38,7 @@ export default function CheckoutTemplate2() {
   const router = useRouter()
   const { items, total, itemCount } = useCart()
   const { settings: ecomSettings } = useEcommerceSettings()
+  const { displayPrice, showInclVAT, vatLabel } = usePriceMode()
 
   // Form state
   const [email, setEmail] = useState('')
@@ -51,11 +53,15 @@ export default function CheckoutTemplate2() {
   // Processing
   const [isProcessing, setIsProcessing] = useState(false)
 
-  // Pricing
-  const subtotal = total
+  // Pricing — use priceMode-aware subtotal
+  const subtotal = items.reduce((sum, item) => {
+    const unitPrice = displayPrice(item.unitPrice ?? item.price, item.taxClass as any) ?? (item.unitPrice ?? item.price)
+    return sum + unitPrice * item.quantity
+  }, 0)
   const freeShippingThreshold = ecomSettings.freeShippingThreshold
   const shippingCost = shippingMethod === 'express' ? 9.95 : subtotal >= freeShippingThreshold ? 0 : ecomSettings.shippingCost
-  const tax = (subtotal + shippingCost - discount) * (ecomSettings.vatPercentage / 100)
+  // In B2C mode prices already include VAT, so don't add tax on top
+  const tax = showInclVAT ? 0 : (subtotal + shippingCost - discount) * (ecomSettings.vatPercentage / 100)
   const grandTotal = subtotal + shippingCost + tax - discount
 
   // Empty cart redirect

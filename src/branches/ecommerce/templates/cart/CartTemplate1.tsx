@@ -19,6 +19,7 @@ import Link from 'next/link'
 import { ShoppingCart, ArrowLeft, ChevronRight } from 'lucide-react'
 
 import { useEcommerceSettings } from '@/branches/ecommerce/hooks/useEcommerceSettings'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import { CartLineItem } from '@/branches/ecommerce/components/ui/CartLineItem'
 import { OrderSummary } from '@/branches/ecommerce/components/ui/OrderSummary'
 import { CouponInput } from '@/branches/ecommerce/components/ui/CouponInput'
@@ -33,15 +34,21 @@ interface CartTemplate1Props {
 export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
   const { items, removeItem, updateQuantity, total, itemCount } = useCart()
   const { settings: ecomSettings } = useEcommerceSettings()
+  const { displayPrice, showInclVAT } = usePriceMode()
 
   const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discountAmount: number } | undefined>()
   const [couponError, setCouponError] = useState('')
 
-  const subtotal = total
+  // Use priceMode-aware subtotal
+  const subtotal = items.reduce((sum, item) => {
+    const unitPrice = displayPrice(item.unitPrice ?? item.price, item.taxClass as any) ?? (item.unitPrice ?? item.price)
+    return sum + unitPrice * item.quantity
+  }, 0)
   const freeShippingThreshold = ecomSettings.freeShippingThreshold
   const shipping = subtotal >= freeShippingThreshold ? 0 : ecomSettings.shippingCost
   const discount = appliedCoupon?.discountAmount || 0
-  const tax = (subtotal + shipping - discount) * (ecomSettings.vatPercentage / 100)
+  // In B2C mode prices already include VAT
+  const tax = showInclVAT ? 0 : (subtotal + shipping - discount) * (ecomSettings.vatPercentage / 100)
   const grandTotal = subtotal + shipping + tax - discount
 
   const handleCheckout = () => {

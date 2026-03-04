@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 const STORAGE_KEY = 'recently-viewed-products'
 const MAX_ITEMS = 10
@@ -30,6 +31,7 @@ export function addToRecentlyViewed(product: RecentlyViewedProduct) {
 
 export function RecentlyViewed({ className = '' }: { className?: string }) {
   const [items, setItems] = useState<RecentlyViewedProduct[]>([])
+  const { formatPriceStr } = usePriceMode()
 
   useEffect(() => {
     try {
@@ -103,7 +105,7 @@ export function RecentlyViewed({ className = '' }: { className?: string }) {
                 className="text-[13px] font-bold mt-1"
                 style={{ color: 'var(--navy, #0A1628)' }}
               >
-                € {(product.price ?? 0).toFixed(2).replace('.', ',')}
+                € {formatPriceStr(product.price ?? 0)}
               </div>
             </div>
           </Link>

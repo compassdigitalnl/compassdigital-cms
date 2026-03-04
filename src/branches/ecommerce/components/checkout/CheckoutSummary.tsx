@@ -1,6 +1,7 @@
 'use client'
 
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { useState } from 'react'
 
@@ -46,14 +47,20 @@ export function CheckoutSummary({
 }: CheckoutSummaryProps) {
   const { items, total, itemCount } = useCart()
   const [showItems, setShowItems] = useState(false)
+  const { displayPrice, showInclVAT, vatLabel } = usePriceMode()
+
+  // Calculate price-mode-aware subtotal from cart items
+  const subtotal = items.reduce((sum, item) => {
+    const unitPrice = displayPrice(item.unitPrice ?? item.price, item.taxClass as any) ?? (item.unitPrice ?? item.price)
+    return sum + unitPrice * item.quantity
+  }, 0)
 
   // Calculations
-  const isFreeShipping = total >= freeShippingThreshold
+  const isFreeShipping = subtotal >= freeShippingThreshold
   const finalShippingCost = isFreeShipping ? 0 : shippingCost
-  const discountAmount = (total * discount) / 100
-  const subtotalAfterDiscount = total - discountAmount
+  const discountAmount = (subtotal * discount) / 100
+  const subtotalAfterDiscount = subtotal - discountAmount
   const grandTotal = subtotalAfterDiscount + finalShippingCost
-  const vatAmount = grandTotal * 0.21 // 21% BTW
 
   return (
     <div className={`lg:sticky lg:top-24 ${className}`}>
@@ -108,11 +115,11 @@ export function CheckoutSummary({
                       {item.title}
                     </div>
                     <div className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
-                      {item.quantity}x €{item.price.toFixed(2)}
+                      {item.quantity}x €{(displayPrice(item.unitPrice ?? item.price, item.taxClass as any) ?? (item.unitPrice ?? item.price)).toFixed(2)}
                     </div>
                   </div>
                   <div className="text-sm font-bold" style={{ color: 'var(--color-text-primary)' }}>
-                    €{(item.price * item.quantity).toFixed(2)}
+                    €{((displayPrice(item.unitPrice ?? item.price, item.taxClass as any) ?? (item.unitPrice ?? item.price)) * item.quantity).toFixed(2)}
                   </div>
                 </div>
               ))}
@@ -121,7 +128,7 @@ export function CheckoutSummary({
 
           {/* Summary Rows */}
           <div className="space-y-2 py-4">
-            <SummaryRow label={`Subtotaal`} value={`€${total.toFixed(2)}`} />
+            <SummaryRow label={`Subtotaal`} value={`€${subtotal.toFixed(2)}`} />
 
             {discount > 0 && couponCode && (
               <SummaryRow
@@ -174,12 +181,12 @@ export function CheckoutSummary({
             </span>
           </div>
 
-          {/* VAT */}
+          {/* VAT label */}
           <p
             className="text-right text-xs mb-6"
             style={{ color: 'var(--color-text-muted, #94a3b8)' }}
           >
-            Inclusief €{vatAmount.toFixed(2)} BTW
+            Prijzen {vatLabel}
           </p>
 
           {/* Free Shipping Notice */}

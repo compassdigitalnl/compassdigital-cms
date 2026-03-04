@@ -23,6 +23,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { PromoCardProps } from './types'
 
 export const PromoCard: React.FC<PromoCardProps> = ({
@@ -34,14 +35,7 @@ export const PromoCard: React.FC<PromoCardProps> = ({
   currencySymbol = '€',
   locale = 'nl-NL',
 }) => {
-  // Format price
-  const formatPrice = (price: number): string => {
-    return price.toLocaleString(locale, {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 2,
-    })
-  }
+  const { formatPriceFull } = usePriceMode()
 
   const isCompact = variant === 'compact'
 
@@ -116,10 +110,10 @@ export const PromoCard: React.FC<PromoCardProps> = ({
           ${isCompact ? 'text-sm' : 'text-base'}
         `}
         >
-          {formatPrice(product.price)}
+          {formatPriceFull(product.price, (product as any).taxClass)}
           {product.oldPrice && (
             <span className="text-xs text-white/30 line-through font-normal ml-1">
-              {formatPrice(product.oldPrice)}
+              {formatPriceFull(product.oldPrice, (product as any).taxClass)}
             </span>
           )}
         </div>

@@ -24,6 +24,7 @@ export interface QuickViewProduct {
   badgeColor?: 'amber' | 'teal' | 'green' | 'coral' // Badge color variant
   stock: ProductStock
   price: number
+  taxClass?: 'standard' | 'reduced' | 'zero'
   unit?: string // e.g., "per doos", "per stuk"
   staffelHint?: string // Volume pricing hint (e.g., "Vanaf 5 dozen: €7,50")
   variants?: ProductVariant[] // Optional size/color variants

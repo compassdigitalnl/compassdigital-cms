@@ -1,6 +1,9 @@
+'use client'
+
 import Link from 'next/link'
 import type { Product } from '@/payload-types'
 import { ArrowUpRight, ShoppingBag, Wrench } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 interface RelatedProductsSectionProps {
   upSells?: (string | Product)[]
@@ -12,8 +15,10 @@ interface RelatedProductsSectionProps {
 function ProductCard({ product, badge }: { product: Product; badge?: string }) {
   const image = typeof product.images?.[0] === 'object' ? product.images[0] : null
   const imageUrl = image && 'url' in image ? image.url : null
+  const { displayPrice: applyPriceMode, formatPriceStr } = usePriceMode()
 
-  const displayPrice = product.salePrice || product.price || 0
+  const rawPrice = product.salePrice || product.price || 0
+  const priceDisplay = applyPriceMode(rawPrice, product.taxClass as any) ?? rawPrice
   const hasDiscount = product.salePrice && product.compareAtPrice && product.salePrice < product.compareAtPrice
 
   return (
@@ -53,11 +58,11 @@ function ProductCard({ product, badge }: { product: Product; badge?: string }) {
         )}
         <div className="flex items-baseline gap-2">
           <span className="text-lg font-bold text-gray-900">
-            €{displayPrice.toFixed(2)}
+            €{priceDisplay.toFixed(2)}
           </span>
           {hasDiscount && (
             <span className="text-sm text-gray-400 line-through">
-              €{product.compareAtPrice?.toFixed(2)}
+              €{(applyPriceMode(product.compareAtPrice, product.taxClass as any) ?? product.compareAtPrice ?? 0).toFixed(2)}
             </span>
           )}
         </div>

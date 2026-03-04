@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import type { Product } from '@/payload-types'
 import { Check } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 type VariantOption = NonNullable<Product['variantOptions']>[number]
 type VariantValue = NonNullable<VariantOption['values']>[number]
@@ -14,11 +15,12 @@ interface VariantSelectorProps {
 
 export function VariantSelector({ product, onSelectionChange }: VariantSelectorProps) {
   const [selections, setSelections] = useState<Record<string, VariantValue>>({})
+  const { displayPrice, formatPriceStr } = usePriceMode()
 
   const variantOptions = product.variantOptions || []
 
-  // Calculate total price with modifiers
-  const calculateTotalPrice = () => {
+  // Calculate total price with modifiers (excl. VAT base)
+  const calculateTotalPriceExcl = () => {
     let total = product.price || 0
     Object.values(selections).forEach((value) => {
       if (value.priceModifier) {
@@ -130,7 +132,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                     disabled={value.stockLevel === 0}
                   >
                     {value.label}
-                    {value.priceModifier && value.priceModifier > 0 ? ` (+€${value.priceModifier.toFixed(2)})` : ''}
+                    {value.priceModifier && value.priceModifier > 0 ? ` (+€${formatPriceStr(value.priceModifier, product.taxClass as any)})` : ''}
                     {value.stockLevel === 0 ? ' (Uitverkocht)' : ''}
                   </option>
                 ))}
@@ -215,7 +217,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                       {value.label}
                       {value.priceModifier && value.priceModifier > 0 && (
                         <span className="ml-2 text-sm text-gray-500">
-                          +€{value.priceModifier.toFixed(2)}
+                          +€{formatPriceStr(value.priceModifier, product.taxClass as any)}
                         </span>
                       )}
                     </span>
@@ -254,7 +256,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                 <span className="font-medium">{optionName}:</span> {value.label}
                 {value.priceModifier && value.priceModifier > 0 && (
                   <span className="text-gray-500 ml-1">
-                    (+€{value.priceModifier.toFixed(2)})
+                    (+€{formatPriceStr(value.priceModifier, product.taxClass as any)})
                   </span>
                 )}
               </li>
@@ -264,19 +266,19 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
             <div className="mt-3 pt-3 border-t border-gray-300">
               <div className="flex justify-between text-sm">
                 <span>Basisprijs:</span>
-                <span>€{(product.price || 0).toFixed(2)}</span>
+                <span>€{formatPriceStr(product.price || 0, product.taxClass as any)}</span>
               </div>
               {Object.values(selections).map((value) =>
                 value.priceModifier && value.priceModifier > 0 ? (
                   <div key={value.value} className="flex justify-between text-sm text-gray-600">
                     <span>{value.label}:</span>
-                    <span>+€{value.priceModifier.toFixed(2)}</span>
+                    <span>+€{formatPriceStr(value.priceModifier, product.taxClass as any)}</span>
                   </div>
                 ) : null
               )}
               <div className="flex justify-between text-base font-bold mt-2 pt-2 border-t border-gray-300">
                 <span>Totaal:</span>
-                <span>€{calculateTotalPrice().toFixed(2)}</span>
+                <span>€{formatPriceStr(calculateTotalPriceExcl(), product.taxClass as any)}</span>
               </div>
             </div>
           )}
