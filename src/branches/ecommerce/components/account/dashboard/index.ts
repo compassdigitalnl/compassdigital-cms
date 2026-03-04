@@ -1,0 +1,5 @@
+export { DashboardStats } from './DashboardStats'
+export { QuickActions } from './QuickActions'
+export { RecentOrders } from './RecentOrders'
+export { OrderListsWidget } from './OrderListsWidget'
+export { AddressesWidget } from './AddressesWidget'

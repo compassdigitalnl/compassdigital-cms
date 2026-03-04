@@ -1,451 +1,98 @@
 'use client'
 
-import React from 'react'
-import Link from 'next/link'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
-import {
-  ChevronLeft,
-  Download,
-  RotateCcw,
-  Printer,
-  Truck,
-  Package,
-  CheckCircle2,
-  Clock,
-  MapPin,
-  CreditCard,
-} from 'lucide-react'
+import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
+import OrderDetailTemplate from '@/branches/ecommerce/templates/account/OrderDetailTemplate'
+import { AccountLoadingSkeleton } from '@/branches/ecommerce/components/account/ui'
+import type { OrderDetail } from '@/branches/ecommerce/templates/account/OrderDetailTemplate/types'
 
 export default function OrderDetailPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
   const params = useParams()
-  const orderId = params?.id
+  const orderId = params?.id as string
+  const { user, isLoading: authLoading } = useAccountAuth()
+  const [order, setOrder] = useState<OrderDetail | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  // TODO: Replace with real data from API based on orderId
-  const order = {
-    id: orderId,
-    orderNumber: 'ORD-20260218-00142',
-    date: '2026-02-18T14:23:00',
-    status: 'shipped',
-    statusLabel: 'Onderweg',
-    paymentMethod: 'iDEAL',
-    paymentStatus: 'Betaald',
-    trackingNumber: '3SABCD1234567890',
-    trackingUrl: 'https://postnl.nl/track/3SABCD1234567890',
-    items: [
-      {
-        id: '1',
-        emoji: '🧤',
-        name: 'Latex handschoenen - Poedervrij - Maat L',
-        sku: 'HAND-001',
-        ean: '8719327001234',
-        quantity: 10,
-        price: 12.95,
-        subtotal: 129.5,
-      },
-      {
-        id: '2',
-        emoji: '🗑️',
-        name: 'Afvalbak met pedaal - RVS - 30L',
-        sku: 'BIN-023',
-        ean: '8719327002345',
-        quantity: 2,
-        price: 45.99,
-        subtotal: 91.98,
-      },
-      {
-        id: '3',
-        emoji: '🧴',
-        name: 'Handgel dispenser - Automatisch - Wit',
-        sku: 'DISP-112',
-        ean: '8719327003456',
-        quantity: 1,
-        price: 24.0,
-        subtotal: 24.0,
-      },
-    ],
-    shippingAddress: {
-      name: 'Plastimed B.V.',
-      contactPerson: 'Jan de Vries',
-      street: 'Parallelweg 124',
-      postalCode: '1948 NN',
-      city: 'Beverwijk',
-      country: 'Nederland',
-    },
-    billingAddress: {
-      name: 'Plastimed B.V.',
-      street: 'Parallelweg 124',
-      postalCode: '1948 NN',
-      city: 'Beverwijk',
-      country: 'Nederland',
-      kvk: '12345678',
-      vat: 'NL123456789B01',
-    },
-    timeline: [
-      {
-        status: 'ordered',
-        label: 'Bestelling geplaatst',
-        date: '2026-02-18T14:23:00',
-        completed: true,
-      },
-      {
-        status: 'paid',
-        label: 'Betaling ontvangen',
-        date: '2026-02-18T14:25:00',
-        completed: true,
-      },
-      {
-        status: 'processing',
-        label: 'In behandeling',
-        date: '2026-02-18T16:30:00',
-        completed: true,
-      },
-      {
-        status: 'shipped',
-        label: 'Verzonden',
-        date: '2026-02-19T09:15:00',
-        completed: true,
-      },
-      { status: 'delivered', label: 'Afgeleverd', date: null, completed: false },
-    ],
-    subtotal: 245.48,
-    shipping: 0,
-    tax: 51.55,
-    total: 297.03,
-  }
+  useEffect(() => {
+    if (!user || !orderId) return
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'shipped':
-        return { bg: '#E3F2FD', text: '#2196F3', border: '#90CAF9' }
-      case 'delivered':
-        return { bg: '#E8F5E9', text: '#00C853', border: '#A5D6A7' }
-      case 'processing':
-        return { bg: '#FFF8E1', text: '#F59E0B', border: '#FFE082' }
-      default:
-        return { bg: '#F5F7FA', text: '#94A3B8', border: '#E8ECF1' }
+    const fetchOrder = async () => {
+      setIsLoading(true)
+      try {
+        const res = await fetch(`/api/account/orders/${orderId}`, { credentials: 'include' })
+        if (res.ok) {
+          const data = await res.json()
+          const o = data.doc
+          setOrder({
+            id: o.id,
+            orderNumber: o.orderNumber,
+            createdAt: o.createdAt,
+            status: o.status,
+            paymentMethod: o.paymentMethod || 'ideal',
+            paymentStatus: o.paymentStatus || 'pending',
+            trackingCode: o.trackingCode,
+            trackingUrl: o.trackingUrl,
+            shippingProvider: o.shippingProvider,
+            items: (o.items || []).map((item: any) => ({
+              id: item.id,
+              product: item.product,
+              title: item.title || 'Product',
+              sku: item.sku,
+              ean: item.ean,
+              quantity: item.quantity || 1,
+              price: item.price || 0,
+              subtotal: item.subtotal || (item.price || 0) * (item.quantity || 1),
+            })),
+            shippingAddress: o.shippingAddress || {
+              firstName: '',
+              lastName: '',
+              street: '',
+              houseNumber: '',
+              postalCode: '',
+              city: '',
+            },
+            billingAddress: o.billingAddress || { sameAsShipping: true },
+            timeline: o.timeline,
+            subtotal: o.subtotal || 0,
+            shippingCost: o.shippingCost || 0,
+            tax: o.tax || 0,
+            discount: o.discount || 0,
+            total: o.total || 0,
+          })
+        } else if (res.status === 404) {
+          setError('Bestelling niet gevonden')
+        } else {
+          setError('Kon bestelling niet laden')
+        }
+      } catch (err) {
+        console.error('Error fetching order:', err)
+        setError('Er is iets misgegaan')
+      } finally {
+        setIsLoading(false)
+      }
     }
+
+    fetchOrder()
+  }, [user, orderId])
+
+  if (authLoading || isLoading) {
+    return <AccountLoadingSkeleton variant="detail" />
   }
 
-  const statusColors = getStatusColor(order.status)
-
-  return (
-    <div className="space-y-4 lg:space-y-6">
-      {/* Header - Mobile First */}
-      <div className="space-y-3 lg:space-y-0 lg:flex lg:items-center lg:justify-between lg:gap-4">
-        <div>
-          <Link
-            href="/account/orders/"
-            className="flex items-center gap-2 text-sm font-semibold mb-3 transition-colors text-teal-700"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Terug naar bestellingen
-          </Link>
-          <h1 className="text-2xl lg:text-3xl font-extrabold mb-2 text-gray-900">
-            Bestelling{' '}
-            <span className="font-mono text-xl lg:text-2xl text-teal-700 block lg:inline mt-1 lg:mt-0">
-              {order.orderNumber}
-            </span>
-          </h1>
-          <div className="flex items-center gap-2 lg:gap-3 flex-wrap">
-            <span className="text-xs lg:text-sm text-gray-500">
-              {new Date(order.date).toLocaleDateString('nl-NL', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
-            </span>
-            <span
-              className="px-2.5 py-1 rounded-full text-xs font-semibold"
-              style={{
-                background: statusColors.bg,
-                color: statusColors.text,
-                border: `1px solid ${statusColors.border}`,
-              }}
-            >
-              {order.statusLabel}
-            </span>
-          </div>
-        </div>
-
-        {/* Mobile: Full-width stacked buttons */}
-        <div className="grid grid-cols-1 gap-2 lg:hidden">
-          <button className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all active:opacity-80 bg-teal-700 text-white">
-            <RotateCcw className="w-4 h-4" />
-            Bestel opnieuw
-          </button>
-          <div className="grid grid-cols-2 gap-2">
-            <button className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 bg-gray-50 text-gray-900">
-              <Download className="w-4 h-4" />
-              Factuur
-            </button>
-            <button className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 bg-gray-50 text-gray-900">
-              <Printer className="w-4 h-4" />
-              Print
-            </button>
-          </div>
-        </div>
-
-        {/* Desktop: Horizontal buttons */}
-        <div className="hidden lg:flex lg:flex-wrap lg:gap-2">
-          <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:opacity-90 bg-teal-700 text-white">
-            <RotateCcw className="w-4 h-4" />
-            Bestel opnieuw
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-gray-100 bg-gray-50 text-gray-900">
-            <Download className="w-4 h-4" />
-            Factuur
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-gray-100 bg-gray-50 text-gray-900">
-            <Printer className="w-4 h-4" />
-            Print
-          </button>
-        </div>
+  if (error || !order) {
+    return (
+      <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
+        <h2 className="text-lg font-extrabold text-gray-900 mb-2">{error || 'Bestelling niet gevonden'}</h2>
+        <p className="text-sm text-gray-500">Controleer het bestelnummer en probeer het opnieuw.</p>
       </div>
+    )
+  }
 
-      {/* Track & Trace Banner - Mobile First */}
-      {order.trackingUrl && (
-        <a
-          href={order.trackingUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block bg-white rounded-xl lg:rounded-2xl p-4 lg:p-5 shadow-sm transition-all active:opacity-80 lg:hover:scale-[1.01]"
-        >
-          <div className="flex items-center gap-3 lg:gap-4">
-            <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl flex items-center justify-center flex-shrink-0 bg-blue-50">
-              <Truck className="w-5 h-5 lg:w-6 lg:h-6 text-blue-500" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-sm lg:text-base font-bold mb-0.5 lg:mb-1 text-gray-900">
-                Track & trace je bestelling
-              </div>
-              <div className="text-xs lg:text-sm text-gray-500">
-                <span className="hidden lg:inline">Trackingnummer: </span>
-                <span className="font-mono text-gray-900">
-                  {order.trackingNumber}
-                </span>
-              </div>
-            </div>
-            <ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 rotate-180 text-blue-500 flex-shrink-0" />
-          </div>
-        </a>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-4 lg:gap-6">
-        {/* Main Content */}
-        <div className="space-y-4 lg:space-y-6">
-          {/* Timeline - Mobile First */}
-          <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
-            <h2 className="text-base lg:text-lg font-extrabold mb-4 lg:mb-5 text-gray-900">
-              Status tijdlijn
-            </h2>
-
-            <div className="space-y-3 lg:space-y-4">
-              {order.timeline.map((step, idx) => {
-                const isLast = idx === order.timeline.length - 1
-                const Icon = step.completed ? CheckCircle2 : Clock
-                return (
-                  <div key={step.status} className="flex gap-3 lg:gap-4">
-                    <div className="flex flex-col items-center">
-                      <div
-                        className={`w-8 h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                          step.completed ? 'bg-gradient-to-br from-teal-700 to-teal-500' : 'bg-gray-50 border-2 border-gray-200'
-                        }`}
-                      >
-                        <Icon
-                          className={`w-4 h-4 lg:w-5 lg:h-5 ${step.completed ? 'text-white' : 'text-gray-400'}`}
-                        />
-                      </div>
-                      {!isLast && (
-                        <div
-                          className={`w-0.5 flex-1 my-1.5 lg:my-2 ${step.completed ? 'bg-teal-700' : 'bg-gray-200'}`}
-                          style={{ minHeight: '20px' }}
-                        />
-                      )}
-                    </div>
-                    <div className="flex-1 pb-4 lg:pb-6">
-                      <div className={`text-xs lg:text-sm font-bold mb-0.5 lg:mb-1 ${step.completed ? 'text-gray-900' : 'text-gray-400'}`}>
-                        {step.label}
-                      </div>
-                      {step.date && (
-                        <div className="text-xs text-gray-500">
-                          {new Date(step.date).toLocaleDateString('nl-NL', {
-                            day: 'numeric',
-                            month: 'short',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
-                        </div>
-                      )}
-                      {!step.date && !step.completed && (
-                        <div className="text-xs text-gray-500">Verwacht binnenkort</div>
-                      )}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Items - Mobile First */}
-          <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
-            <h2 className="text-base lg:text-lg font-extrabold mb-4 lg:mb-5 text-gray-900">
-              Bestelde producten
-            </h2>
-
-            <div className="space-y-2 lg:space-y-3">
-              {order.items.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex items-start gap-3 lg:gap-4 p-3 lg:p-4 rounded-lg lg:rounded-xl border border-gray-200"
-                >
-                  <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-lg flex items-center justify-center flex-shrink-0 bg-gray-50 text-2xl lg:text-3xl">
-                    {item.emoji}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-xs lg:text-sm font-bold mb-1 text-gray-900">
-                      {item.name}
-                    </div>
-                    <div className="flex items-center gap-2 lg:gap-3 flex-wrap">
-                      <span className="text-xs font-mono text-gray-500">
-                        SKU: {item.sku}
-                      </span>
-                      <span className="hidden lg:inline text-xs font-mono text-gray-500">
-                        EAN: {item.ean}
-                      </span>
-                    </div>
-                    <div className="mt-1.5 lg:mt-2 flex items-center gap-2 lg:gap-4 text-xs lg:text-sm text-gray-900">
-                      <span>
-                        Aantal: <span className="font-bold">{item.quantity}x</span>
-                      </span>
-                      <span>
-                        Prijs: <span className="font-bold">€{item.price.toFixed(2)}</span>
-                      </span>
-                    </div>
-                  </div>
-                  <div className="text-sm lg:text-base font-extrabold text-gray-900 flex-shrink-0">
-                    €{item.subtotal.toFixed(2)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Addresses - Mobile First */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
-            <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-5 shadow-sm">
-              <div className="flex items-center gap-2 mb-3 lg:mb-4">
-                <MapPin className="w-4 h-4 lg:w-5 lg:h-5 text-teal-700" />
-                <h3 className="text-sm lg:text-base font-extrabold text-gray-900">
-                  Bezorgadres
-                </h3>
-              </div>
-              <div className="text-xs lg:text-sm text-gray-900 leading-relaxed">
-                <div className="font-semibold">{order.shippingAddress.name}</div>
-                <div>{order.shippingAddress.contactPerson}</div>
-                <div>{order.shippingAddress.street}</div>
-                <div>
-                  {order.shippingAddress.postalCode} {order.shippingAddress.city}
-                </div>
-                <div>{order.shippingAddress.country}</div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-5 shadow-sm">
-              <div className="flex items-center gap-2 mb-3 lg:mb-4">
-                <CreditCard className="w-4 h-4 lg:w-5 lg:h-5 text-teal-700" />
-                <h3 className="text-sm lg:text-base font-extrabold text-gray-900">
-                  Factuuradres
-                </h3>
-              </div>
-              <div className="text-xs lg:text-sm text-gray-900 leading-relaxed">
-                <div className="font-semibold">{order.billingAddress.name}</div>
-                <div>{order.billingAddress.street}</div>
-                <div>
-                  {order.billingAddress.postalCode} {order.billingAddress.city}
-                </div>
-                <div>{order.billingAddress.country}</div>
-                <div className="mt-2 lg:mt-3 pt-2 lg:pt-3 border-t border-gray-200">
-                  <div className="text-gray-500">KVK: {order.billingAddress.kvk}</div>
-                  <div className="text-gray-500">BTW: {order.billingAddress.vat}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Sidebar - Mobile First */}
-        <div className="space-y-4 lg:space-y-6">
-          {/* Order Summary */}
-          <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm lg:sticky lg:top-8">
-            <h2 className="text-base lg:text-lg font-extrabold mb-4 lg:mb-5 text-gray-900">
-              Bestelling overzicht
-            </h2>
-
-            <div className="space-y-2 lg:space-y-3 mb-4">
-              <div className="flex items-center justify-between">
-                <span className="text-xs lg:text-sm text-gray-500">Subtotaal</span>
-                <span className="text-xs lg:text-sm font-semibold text-gray-900">
-                  €{order.subtotal.toFixed(2)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs lg:text-sm text-gray-500">Verzendkosten</span>
-                <span className="text-xs lg:text-sm font-semibold text-gray-900">
-                  {order.shipping === 0 ? (
-                    <span className="text-green-600">Gratis</span>
-                  ) : (
-                    `€${order.shipping.toFixed(2)}`
-                  )}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs lg:text-sm text-gray-500">BTW (21%)</span>
-                <span className="text-xs lg:text-sm font-semibold text-gray-900">
-                  €{order.tax.toFixed(2)}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between pt-3 lg:pt-4 mb-4 lg:mb-5 border-t-2 border-gray-200">
-              <span className="text-base lg:text-lg font-extrabold text-gray-900">
-                Totaal
-              </span>
-              <span className="text-xl lg:text-2xl font-extrabold text-teal-700">
-                €{order.total.toFixed(2)}
-              </span>
-            </div>
-
-            <div className="space-y-1.5 lg:space-y-2 mb-4 lg:mb-5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-500">Betaalmethode</span>
-                <span className="text-xs font-semibold text-gray-900">
-                  {order.paymentMethod}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-500">Betaalstatus</span>
-                <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-green-50 text-green-600">
-                  {order.paymentStatus}
-                </span>
-              </div>
-            </div>
-
-            <button className="w-full px-4 py-3 rounded-xl text-sm font-bold transition-all active:opacity-80 lg:hover:opacity-90 mb-2 bg-gradient-to-br from-teal-700 to-teal-500 text-white">
-              Bestel opnieuw
-            </button>
-
-            <button className="w-full px-4 py-3 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900">
-              Download factuur
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+  return <OrderDetailTemplate order={order} />
 }
