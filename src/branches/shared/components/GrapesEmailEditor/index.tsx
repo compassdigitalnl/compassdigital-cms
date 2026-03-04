@@ -8,7 +8,6 @@
 'use client'
 
 import { useEffect, useState, type ComponentType } from 'react'
-import { emailMarketingFeatures } from '@/lib/features'
 
 // Types for the editor component
 export interface GrapesEmailEditorProps {
@@ -125,13 +124,7 @@ export default function GrapesEmailEditor(props: GrapesEmailEditorProps) {
   const [loadError, setLoadError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Check if feature is enabled
-    if (!emailMarketingFeatures.grapesEditor()) {
-      setIsLoading(false)
-      return
-    }
-
-    // Dynamic import - only loads when feature is enabled!
+    // Dynamic import - only loads when component is rendered
     setIsLoading(true)
 
     import('./GrapesEditorCore')
@@ -145,11 +138,6 @@ export default function GrapesEmailEditor(props: GrapesEmailEditorProps) {
         setIsLoading(false)
       })
   }, [])
-
-  // Feature disabled
-  if (!emailMarketingFeatures.grapesEditor()) {
-    return <EditorDisabled />
-  }
 
   // Loading
   if (isLoading) {

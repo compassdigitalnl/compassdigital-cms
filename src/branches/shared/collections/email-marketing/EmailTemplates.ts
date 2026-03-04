@@ -137,19 +137,18 @@ export const EmailTemplates: CollectionConfig = {
     {
       name: 'useVisualEditor',
       type: 'checkbox',
-      defaultValue: emailMarketingFeatures.grapesEditor(),
+      defaultValue: true,
       label: 'Visuele editor gebruiken',
       admin: {
         description: 'Gebruik de visuele editor (GrapesJS) of platte HTML',
-        condition: () => emailMarketingFeatures.grapesEditor(),
       },
     },
     {
       name: 'grapesData',
       type: 'json',
       admin: {
-        description: 'Visual email template editor',
-        condition: (data) => data.useVisualEditor === true && emailMarketingFeatures.grapesEditor(),
+        description: 'Visuele e-mail template editor',
+        condition: (data) => data.useVisualEditor === true,
         components: {
           Field: '@/branches/shared/components/GrapesEmailEditor/PayloadField#GrapesJSField',
         },
