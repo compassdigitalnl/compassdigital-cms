@@ -25,15 +25,21 @@ export const EmailSubscribers: CollectionConfig = {
     read: ({ req: { user } }) => {
       if (!user) return false
       if (isSuperAdmin(user)) return true
-      const clientId = getUserClient(user)
-      if (clientId) {
-        return {
-          tenant: {
-            equals: clientId,
-          },
+
+      // Multi-tenant mode: filter by tenant
+      if (isPlatformMode) {
+        const clientId = getUserClient(user)
+        if (clientId) {
+          return {
+            tenant: {
+              equals: clientId,
+            },
+          }
         }
       }
-      return false
+
+      // Single-tenant mode: user can read all subscribers
+      return true
     },
     create: ({ req: { user } }) => {
       if (!user) return false
