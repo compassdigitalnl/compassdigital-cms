@@ -60,6 +60,57 @@ function extractPlainText(richText: any): string | null {
   return texts.join(' ') || null
 }
 
+/** Determine stock status for a product, including grouped product logic */
+function resolveStockStatus(product: any): 'in-stock' | 'low' | 'out' | 'on-backorder' {
+  // For grouped products: check children
+  if (product.productType === 'grouped' && product.children?.length > 0) {
+    const children = product.children
+      .map((c: any) => (typeof c === 'object' ? c : null))
+      .filter(Boolean)
+
+    if (children.length === 0) return 'out'
+
+    // If ANY child is in stock, the parent is in stock
+    const anyInStock = children.some((c: any) => (c.stock ?? 0) > 0)
+    if (anyInStock) return 'in-stock'
+
+    // If any child allows backorders
+    const anyBackorder = children.some((c: any) => c.backordersAllowed)
+    if (anyBackorder) return 'on-backorder'
+
+    return 'out'
+  }
+
+  // Simple products
+  if (product.stockStatus === 'on-backorder' || (product.backordersAllowed && (product.stock ?? 0) <= 0)) return 'on-backorder'
+  if ((product.stock ?? 0) <= 0) return 'out'
+  if ((product.stock ?? 0) <= 5) return 'low'
+  return 'in-stock'
+}
+
+/** Get the effective (lowest) price for a product, including grouped children */
+function resolvePrice(product: any): { price: number | null; priceLabel?: string; compareAtPrice?: number } {
+  if (product.productType === 'grouped' && product.children?.length > 0) {
+    const children = product.children
+      .map((c: any) => (typeof c === 'object' ? c : null))
+      .filter(Boolean)
+
+    const prices = children
+      .map((c: any) => c.price ?? null)
+      .filter((p: any): p is number => p !== null)
+
+    if (prices.length === 0) return { price: product.price ?? null }
+
+    const lowestPrice = Math.min(...prices)
+    return { price: lowestPrice, priceLabel: 'Vanaf' }
+  }
+
+  return {
+    price: product.price ?? null,
+    compareAtPrice: product.compareAtPrice || undefined,
+  }
+}
+
 // ============================================
 // PAGE
 // ============================================
@@ -78,34 +129,80 @@ export default async function MerkDetailPage({
   const { docs } = await payload.find({
     collection: 'brands',
     where: { slug: { equals: slug } },
-    depth: 1, // populate logo + certifications
+    depth: 1,
     limit: 1,
   })
 
   const brand = docs[0]
   if (!brand) notFound()
 
-  // Fetch product count for this brand
-  const { totalDocs: productCount } = await payload.count({
-    collection: 'products',
-    where: { brand: { equals: brand.id } },
+  // Fetch product lines (child brands, level 1)
+  const { docs: childBrands } = await payload.find({
+    collection: 'brands',
+    where: {
+      parent: { equals: brand.id },
+      visible: { equals: true },
+    },
+    depth: 0,
+    limit: 50,
+    sort: 'name',
   })
 
-  // Fetch products to determine categories and popular items
+  // Get product counts for product lines
+  const productLines = await Promise.all(
+    childBrands.map(async (child: any) => {
+      try {
+        const { totalDocs } = await payload.count({
+          collection: 'products',
+          where: { brand: { equals: child.id } },
+        })
+        return {
+          id: child.id,
+          name: child.name,
+          slug: child.slug,
+          logo: child.logo,
+          productCount: totalDocs,
+        }
+      } catch {
+        return {
+          id: child.id,
+          name: child.name,
+          slug: child.slug,
+          logo: child.logo,
+          productCount: 0,
+        }
+      }
+    }),
+  )
+
+  // Fetch product count for this brand (including child brand products)
+  const brandIds = [brand.id, ...childBrands.map((c: any) => c.id)]
+  const { totalDocs: productCount } = await payload.count({
+    collection: 'products',
+    where: {
+      brand: { in: brandIds },
+    },
+  })
+
+  // Fetch products for categories and popular items (depth 2 to get grouped children)
   const { docs: brandProducts } = await payload.find({
     collection: 'products',
-    where: { brand: { equals: brand.id } },
-    depth: 1,
+    where: {
+      brand: { in: brandIds },
+    },
+    depth: 2,
     limit: 100,
     sort: '-createdAt',
   })
 
-  // Extract unique categories from products
+  // Extract unique top-level categories from products (max 8)
   const categoryMap = new Map<string, { name: string; slug: string; icon?: string; productCount: number }>()
   for (const product of brandProducts) {
     const cats = (product as any).categories || []
     for (const cat of cats) {
       if (cat && typeof cat === 'object' && cat.name) {
+        // Only include top-level categories (no parent)
+        if (cat.parent) continue
         const existing = categoryMap.get(String(cat.id))
         if (existing) {
           existing.productCount++
@@ -120,20 +217,25 @@ export default async function MerkDetailPage({
       }
     }
   }
-  const categories = Array.from(categoryMap.values()).sort((a, b) => b.productCount - a.productCount)
+  const categories = Array.from(categoryMap.values())
+    .sort((a, b) => b.productCount - a.productCount)
+    .slice(0, 8)
 
   // Calculate in-stock percentage
-  const inStockCount = brandProducts.filter(
-    (p: any) => p.stock > 0 || p.stockStatus === 'in-stock',
-  ).length
+  const inStockCount = brandProducts.filter((p: any) => {
+    const status = resolveStockStatus(p)
+    return status === 'in-stock' || status === 'low'
+  }).length
   const inStockPercent = brandProducts.length > 0
     ? Math.round((inStockCount / brandProducts.length) * 100)
     : 0
 
-  // Popular products (first 4 with images)
+  // Popular products (first 4)
   const popularProducts = brandProducts.slice(0, 4).map((p: any) => {
     const image = p.featuredImage || p.images?.[0]?.image
     const imageObj = image && typeof image === 'object' ? { url: image.url || '', alt: image.alt || p.name } : undefined
+    const { price, priceLabel, compareAtPrice } = resolvePrice(p)
+    const stockStatus = resolveStockStatus(p)
 
     return {
       id: String(p.id),
@@ -142,10 +244,11 @@ export default async function MerkDetailPage({
       sku: p.sku || '',
       brand: { name: brand.name, slug: brand.slug },
       image: imageObj,
-      price: p.price ?? null,
-      compareAtPrice: p.compareAtPrice || undefined,
+      price,
+      priceLabel,
+      compareAtPrice,
       stock: p.stock ?? 0,
-      stockStatus: (p.stockStatus as any) || 'in-stock',
+      stockStatus,
       badges: p.badges || [],
     }
   })
@@ -160,6 +263,7 @@ export default async function MerkDetailPage({
       categoryCount={categories.length}
       inStockPercent={inStockPercent}
       categories={categories}
+      productLines={productLines}
       popularProducts={popularProducts}
       descriptionPlainText={descriptionPlainText}
     />

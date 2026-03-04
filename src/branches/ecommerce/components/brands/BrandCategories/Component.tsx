@@ -26,7 +26,7 @@ export const BrandCategories: React.FC<BrandCategoriesProps> = ({
         {categories.map((cat) => (
           <Link
             key={cat.slug}
-            href={`/shop/${cat.slug}?brand=${brandSlug}`}
+            href={`/${cat.slug}`}
             className="group flex flex-col items-center gap-1.5 rounded-[14px] border-[1.5px] border-[var(--grey,#E8ECF1)] bg-white p-[18px] text-center transition-all duration-[250ms] hover:-translate-y-0.5 hover:border-theme-teal hover:shadow-[0_6px_20px_rgba(0,0,0,0.04)]"
           >
             {cat.icon && (

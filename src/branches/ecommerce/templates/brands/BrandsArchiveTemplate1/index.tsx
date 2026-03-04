@@ -24,7 +24,6 @@ interface BrandWithCount extends Brand {
 interface BrandsArchiveTemplate1Props {
   brands: BrandWithCount[]
   featuredBrands: BrandWithCount[]
-  breadcrumbs?: BreadcrumbItem[]
 }
 
 // ============================================
@@ -34,7 +33,9 @@ interface BrandsArchiveTemplate1Props {
 function groupBrandsByLetter(brands: BrandWithCount[]): Record<string, BrandWithCount[]> {
   const groups: Record<string, BrandWithCount[]> = {}
   for (const brand of brands) {
-    const letter = brand.name.charAt(0).toUpperCase()
+    const firstChar = brand.name.charAt(0).toUpperCase()
+    // Numbers and special chars go under '#'
+    const letter = /^[A-Z]$/.test(firstChar) ? firstChar : '#'
     if (!groups[letter]) groups[letter] = []
     groups[letter].push(brand)
   }
@@ -52,10 +53,6 @@ function groupBrandsByLetter(brands: BrandWithCount[]): Record<string, BrandWith
 export default function BrandsArchiveTemplate1({
   brands,
   featuredBrands,
-  breadcrumbs = [
-    { label: 'Home', href: '/' },
-    { label: 'Merken', href: '/merken' },
-  ],
 }: BrandsArchiveTemplate1Props) {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeLetter, setActiveLetter] = useState<string | null>(null)
@@ -71,11 +68,20 @@ export default function BrandsArchiveTemplate1({
   // Group by letter
   const groupedBrands = useMemo(() => groupBrandsByLetter(filteredBrands), [filteredBrands])
   const sortedLetters = useMemo(
-    () => Object.keys(groupedBrands).sort(),
+    () => Object.keys(groupedBrands).sort((a, b) => {
+      // '#' always first
+      if (a === '#') return -1
+      if (b === '#') return 1
+      return a.localeCompare(b)
+    }),
     [groupedBrands],
   )
   const availableLetters = useMemo(
-    () => Object.keys(groupBrandsByLetter(brands)).sort(),
+    () => Object.keys(groupBrandsByLetter(brands)).sort((a, b) => {
+      if (a === '#') return -1
+      if (b === '#') return 1
+      return a.localeCompare(b)
+    }),
     [brands],
   )
 
@@ -104,11 +110,11 @@ export default function BrandsArchiveTemplate1({
   return (
     <div className="bg-theme-bg min-h-screen">
       {/* Breadcrumbs */}
-      <div className="mx-auto max-w-[1240px] px-6">
-        <Breadcrumbs items={breadcrumbs} />
+      <div className="mx-auto px-6" style={{ maxWidth: 'var(--container-width, 1792px)' }}>
+        <Breadcrumbs items={[]} currentPage="Merken" />
       </div>
 
-      <div className="mx-auto max-w-[1240px] px-6 pb-12">
+      <div className="mx-auto px-6 pb-12" style={{ maxWidth: 'var(--container-width, 1792px)' }}>
         {/* Page Hero */}
         <div className="mb-7">
           <h1
@@ -147,7 +153,7 @@ export default function BrandsArchiveTemplate1({
           className="mb-8"
         />
 
-        {/* Brand Sections A-Z */}
+        {/* Brand Sections */}
         {sortedLetters.length === 0 ? (
           <div className="py-16 text-center">
             <p className="text-lg font-semibold text-theme-navy">Geen merken gevonden</p>
@@ -161,7 +167,7 @@ export default function BrandsArchiveTemplate1({
               key={letter}
               ref={(el) => { sectionRefs.current[letter] = el }}
               className="mb-8 scroll-mt-[160px]"
-              aria-label={`Merken met letter ${letter}`}
+              aria-label={`Merken met ${letter === '#' ? 'cijfers' : `letter ${letter}`}`}
             >
               <h3 className="mb-3 inline-block border-b-2 border-theme-teal pb-1 font-heading text-2xl font-extrabold text-theme-teal">
                 {letter}

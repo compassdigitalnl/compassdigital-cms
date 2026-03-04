@@ -1,8 +1,9 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
 import type { Brand, Media, Product } from '@/payload-types'
-import { TrendingUp } from 'lucide-react'
+import { TrendingUp, Layers } from 'lucide-react'
 
 // Layout
 import { Breadcrumbs } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumbs'
@@ -26,6 +27,14 @@ import type { Certification } from '@/branches/ecommerce/components/brands/Brand
 // TYPES
 // ============================================
 
+interface ProductLine {
+  id: number
+  name: string
+  slug: string
+  logo?: any
+  productCount: number
+}
+
 interface PopularProduct {
   id: string
   name: string
@@ -34,6 +43,7 @@ interface PopularProduct {
   brand: { name: string; slug: string }
   image?: { url: string; alt: string }
   price: number | null
+  priceLabel?: string
   compareAtPrice?: number
   stock: number
   stockStatus: 'in-stock' | 'low' | 'out' | 'on-backorder'
@@ -49,9 +59,9 @@ interface BrandDetailTemplate1Props {
   categoryCount?: number
   inStockPercent?: number
   categories: BrandCategory[]
+  productLines: ProductLine[]
   popularProducts: PopularProduct[]
   descriptionPlainText?: string | null
-  breadcrumbs?: BreadcrumbItem[]
 }
 
 // ============================================
@@ -64,26 +74,23 @@ export default function BrandDetailTemplate1({
   categoryCount,
   inStockPercent,
   categories,
+  productLines,
   popularProducts,
   descriptionPlainText,
-  breadcrumbs,
 }: BrandDetailTemplate1Props) {
-  const defaultBreadcrumbs: BreadcrumbItem[] = [
-    { label: 'Home', href: '/' },
-    { label: 'Merken', href: '/merken' },
-    { label: brand.name, href: `/merken/${brand.slug}` },
-  ]
-
   const certifications = brand.certifications || []
 
   return (
     <div className="bg-theme-bg min-h-screen">
       {/* Breadcrumbs */}
-      <div className="mx-auto max-w-[1240px] px-6">
-        <Breadcrumbs items={breadcrumbs || defaultBreadcrumbs} />
+      <div className="mx-auto px-6" style={{ maxWidth: 'var(--container-width, 1792px)' }}>
+        <Breadcrumbs
+          items={[{ label: 'Merken', href: '/merken' }]}
+          currentPage={brand.name}
+        />
       </div>
 
-      <div className="mx-auto max-w-[1240px] px-6 pb-12">
+      <div className="mx-auto px-6 pb-12" style={{ maxWidth: 'var(--container-width, 1792px)' }}>
         {/* Brand Hero */}
         <BrandHero
           name={brand.name}
@@ -98,6 +105,36 @@ export default function BrandDetailTemplate1({
 
         {/* Brand Story */}
         <BrandStory description={brand.description} className="mb-10" />
+
+        {/* Product Lines (sub-brands) */}
+        {productLines.length > 0 && (
+          <section className="mb-10" aria-labelledby="brand-productlines-title">
+            <h2
+              id="brand-productlines-title"
+              className="mb-3.5 flex items-center gap-2 font-heading text-xl font-extrabold text-theme-navy"
+            >
+              <Layers className="h-5 w-5 text-theme-teal" />
+              Productlijnen
+            </h2>
+
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              {productLines.map((line) => (
+                <Link
+                  key={line.id}
+                  href={`/merken/${line.slug}`}
+                  className="group flex flex-col items-center gap-3 rounded-[14px] border-[1.5px] border-[var(--grey,#E8ECF1)] bg-white px-4 py-5 transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] hover:-translate-y-[3px] hover:border-theme-teal hover:shadow-[0_8px_28px_rgba(0,0,0,0.05)]"
+                >
+                  <span className="text-center text-[13px] font-bold text-theme-navy">
+                    {line.name}
+                  </span>
+                  <span className="text-[11px] text-theme-grey-mid">
+                    {line.productCount} producten
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Categories */}
         {categories.length > 0 && (
@@ -130,6 +167,7 @@ export default function BrandDetailTemplate1({
                   brand={product.brand}
                   image={product.image}
                   price={product.price}
+                  priceLabel={product.priceLabel}
                   compareAtPrice={product.compareAtPrice}
                   stock={product.stock}
                   stockStatus={product.stockStatus}

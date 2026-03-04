@@ -3,7 +3,7 @@
 import React from 'react'
 import type { AlphabetNavProps } from './types'
 
-const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+const SYMBOLS = ['#', ...('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''))]
 
 export const AlphabetNav: React.FC<AlphabetNavProps> = ({
   availableLetters,
@@ -17,7 +17,7 @@ export const AlphabetNav: React.FC<AlphabetNavProps> = ({
       aria-label="Alfabet navigatie"
     >
       <div className="flex flex-wrap justify-center gap-1">
-        {ALPHABET.map((letter) => {
+        {SYMBOLS.map((letter) => {
           const isAvailable = availableLetters.includes(letter)
           const isActive = activeLetter === letter
 
@@ -26,7 +26,7 @@ export const AlphabetNav: React.FC<AlphabetNavProps> = ({
               key={letter}
               onClick={() => isAvailable && onLetterClick(letter)}
               disabled={!isAvailable}
-              aria-label={`Ga naar merken met letter ${letter}`}
+              aria-label={letter === '#' ? 'Ga naar merken met cijfers' : `Ga naar merken met letter ${letter}`}
               aria-current={isActive ? 'true' : undefined}
               className={`
                 flex h-[34px] w-[34px] items-center justify-center rounded-lg text-[13px] font-semibold transition-all duration-200
