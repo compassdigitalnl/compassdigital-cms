@@ -314,6 +314,18 @@ export const Settings: GlobalConfig = {
                 description: 'Template voor shop/producten overzichtspagina',
               },
             }),
+            ...featureField('brands', {
+              name: 'defaultBrandsTemplate',
+              type: 'select',
+              label: 'Standaard Merken Template',
+              defaultValue: 'brandstemplate1',
+              options: [
+                { label: 'Merken Template 1 - Enterprise (A-Z, featured, zoeken)', value: 'brandstemplate1' },
+              ],
+              admin: {
+                description: 'Template voor merken overzicht- en detailpagina\'s',
+              },
+            }),
             ...featureField('checkout', {
               name: 'checkoutFlow',
               type: 'select',
