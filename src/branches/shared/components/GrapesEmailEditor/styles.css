@@ -194,6 +194,7 @@
 .gjs-pn-device-panel .gjs-pn-btn svg {
   width: 18px;
   height: 18px;
+  fill: none !important;
 }
 
 .gjs-pn-device-panel .gjs-pn-btn:hover {
@@ -255,8 +256,8 @@
 .grapes-email-editor .gjs-pn-btn svg {
   width: 16px;
   height: 16px;
-  stroke: currentColor;
   flex-shrink: 0;
+  fill: none !important;
 }
 
 .grapes-email-editor .gjs-pn-btn:hover {
@@ -270,7 +271,7 @@
 }
 
 .grapes-email-editor .gjs-pn-active svg {
-  stroke: #ffffff;
+  stroke: #ffffff !important;
 }
 
 /* ═══════════════════════════════════════════════════════════
