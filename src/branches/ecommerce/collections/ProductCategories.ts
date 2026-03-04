@@ -2,6 +2,18 @@ import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
 import { autoGenerateSlugFromName } from '@/utilities/slugify'
+import {
+  BoldFeature,
+  ItalicFeature,
+  UnderlineFeature,
+  LinkFeature,
+  UnorderedListFeature,
+  OrderedListFeature,
+  BlockquoteFeature,
+  InlineCodeFeature,
+  HeadingFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
 
 export const ProductCategories: CollectionConfig = {
   slug: 'product-categories',
@@ -41,6 +53,27 @@ export const ProductCategories: CollectionConfig = {
     {
       name: 'description',
       type: 'textarea',
+    },
+    {
+      name: 'content',
+      type: 'richText',
+      label: 'Pagina Content',
+      admin: {
+        description: 'Rich text content die onder de producten op de categoriepagina verschijnt',
+      },
+      editor: lexicalEditor({
+        features: () => [
+          HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+          BoldFeature(),
+          ItalicFeature(),
+          UnderlineFeature(),
+          LinkFeature(),
+          UnorderedListFeature(),
+          OrderedListFeature(),
+          BlockquoteFeature(),
+          InlineCodeFeature(),
+        ],
+      }),
     },
     {
       name: 'parent',
