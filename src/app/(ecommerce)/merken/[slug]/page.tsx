@@ -239,7 +239,7 @@ export default async function MerkDetailPage({
 
     return {
       id: String(p.id),
-      name: p.name,
+      name: p.title,
       slug: p.slug,
       sku: p.sku || '',
       brand: { name: brand.name, slug: brand.slug },
