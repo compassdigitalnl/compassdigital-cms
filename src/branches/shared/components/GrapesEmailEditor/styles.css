@@ -27,21 +27,21 @@
   position: relative;
 }
 
-/* Reset GrapesJS canvas positioning so it fills the left column */
+/* Reset GrapesJS canvas — fill the left column, leave room for GrapesJS toolbar */
 .editor-canvas .gjs-cv-canvas {
   left: 0 !important;
   width: 100% !important;
-  top: 0;
 }
 
 .editor-panel-right {
-  width: 280px;
-  min-width: 280px;
+  width: 300px;
+  min-width: 300px;
   border-left: 1px solid #e5e7eb;
   background-color: #f9fafb;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  z-index: 1;
 }
 
 /* Tab switcher */
@@ -83,12 +83,34 @@
   overflow-x: hidden;
 }
 
-/* Blocks grid inside right panel */
+/* Blocks grid inside right panel — single column for readable NL labels */
 #blocks .gjs-blocks-c {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 6px;
   padding: 8px;
+}
+
+#blocks .gjs-block {
+  width: 100%;
+  min-height: auto;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-direction: row;
+}
+
+#blocks .gjs-block__media {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+#blocks .gjs-block-label {
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Empty state hints */
@@ -120,48 +142,48 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   EDITOR CONTAINER
+   FORCE LIGHT THEME — override GrapesJS dark defaults
    ═══════════════════════════════════════════════════════════ */
 
-.gjs-one-bg {
-  background-color: #ffffff;
+.grapes-email-editor .gjs-one-bg {
+  background-color: #ffffff !important;
 }
 
-.gjs-two-color {
-  color: #3b82f6;
+.grapes-email-editor .gjs-two-color {
+  color: #3b82f6 !important;
 }
 
-.gjs-three-bg {
-  background-color: #f9fafb;
-  color: #111827;
+.grapes-email-editor .gjs-three-bg {
+  background-color: #f9fafb !important;
+  color: #111827 !important;
 }
 
-.gjs-four-color,
-.gjs-four-color-h:hover {
-  color: #3b82f6;
+.grapes-email-editor .gjs-four-color,
+.grapes-email-editor .gjs-four-color-h:hover {
+  color: #3b82f6 !important;
 }
 
 /* ═══════════════════════════════════════════════════════════
-   PANELS
+   PANELS — light toolbar
    ═══════════════════════════════════════════════════════════ */
 
-.gjs-pn-panel {
-  background-color: #f9fafb;
-  border-right: 1px solid #e5e7eb;
+.grapes-email-editor .gjs-pn-panel {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.gjs-pn-btn {
-  color: #6b7280;
+.grapes-email-editor .gjs-pn-btn {
+  color: #6b7280 !important;
   border-radius: 4px;
   transition: all 0.2s;
 }
 
-.gjs-pn-btn:hover {
-  background-color: #ffffff;
-  color: #111827;
+.grapes-email-editor .gjs-pn-btn:hover {
+  background-color: #f3f4f6 !important;
+  color: #111827 !important;
 }
 
-.gjs-pn-active {
+.grapes-email-editor .gjs-pn-active {
   background-color: #3b82f6 !important;
   color: #ffffff !important;
 }
@@ -170,25 +192,26 @@
    BLOCKS
    ═══════════════════════════════════════════════════════════ */
 
-.gjs-block {
-  min-height: 80px;
+.grapes-email-editor .gjs-block {
+  min-height: auto;
   border-radius: 6px;
   border: 1px solid #e5e7eb;
-  transition: all 0.2s;
+  transition: all 0.15s;
   background-color: #ffffff;
+  cursor: grab;
 }
 
-.gjs-block:hover {
+.grapes-email-editor .gjs-block:hover {
   border-color: #3b82f6;
   box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
-  transform: translateY(-2px);
+  background-color: #eff6ff;
 }
 
-.gjs-block__media {
+.grapes-email-editor .gjs-block__media {
   color: #3b82f6;
 }
 
-.gjs-block-label {
+.grapes-email-editor .gjs-block-label {
   font-size: 12px;
   color: #111827;
   font-weight: 500;
@@ -213,8 +236,8 @@
    CANVAS
    ═══════════════════════════════════════════════════════════ */
 
-.gjs-cv-canvas {
-  background-color: #f3f4f6;
+.grapes-email-editor .gjs-cv-canvas {
+  background-color: #f3f4f6 !important;
 }
 
 .gjs-frame-wrapper {
