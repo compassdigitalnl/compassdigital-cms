@@ -20,7 +20,7 @@ export const DEFAULT_SETTINGS = {
   indexedCollections: [
     { collection: 'products' as const, enabled: true, priority: 1, indexName: 'products' },
     { collection: 'blog-posts' as const, enabled: true, priority: 1, indexName: 'blog-posts' },
-    { collection: 'pages' as const, enabled: false, priority: 1, indexName: 'pages' },
+    { collection: 'pages' as const, enabled: true, priority: 1, indexName: 'pages' },
   ],
 
   // Default searchable fields per collection

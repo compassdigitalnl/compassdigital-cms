@@ -57,7 +57,9 @@ export async function getOrCreateIndex(indexName: string) {
     if (error.code === 'index_not_found') {
       // Create index if it doesn't exist
       console.log(`📋 Creating Meilisearch index: ${indexName}`)
-      await meilisearchClient.createIndex(indexName, { primaryKey: 'id' })
+      const task = await meilisearchClient.createIndex(indexName, { primaryKey: 'id' })
+      // Wait for the index creation task to complete before returning
+      await meilisearchClient.waitForTask(task.taskUid)
       return meilisearchClient.index(indexName)
     }
     throw error
