@@ -14,7 +14,7 @@ const isPlatformMode = isFeatureEnabled('platform')
 export const FlowInstances: CollectionConfig = {
   slug: 'flow-instances',
   admin: {
-    hidden: !emailMarketingFeatures.campaigns(),
+    hidden: ({ user }) => !isSuperAdmin(user as any),
     group: 'E-mail Marketing',
     useAsTitle: 'id',
     defaultColumns: ['flow', 'subscriber', 'currentStep', 'status', 'startedAt'],

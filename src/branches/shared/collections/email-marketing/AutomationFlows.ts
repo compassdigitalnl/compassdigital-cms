@@ -17,10 +17,8 @@ export const AutomationFlows: CollectionConfig = {
     hidden: !emailMarketingFeatures.campaigns(),
     group: 'E-mail Marketing',
     useAsTitle: 'name',
-    defaultColumns: isPlatformMode
-      ? ['name', 'status', 'stats', 'tenant', 'updatedAt']
-      : ['name', 'status', 'stats', 'updatedAt'],
-    description: 'Multi-step automation workflows with state tracking',
+    defaultColumns: ['name', 'status', 'updatedAt'],
+    description: 'Maak automatische e-mail reeksen (bijv. welkomstmail serie)',
   },
   access: {
     // Tenant isolation (only in multi-tenant/platform mode)
@@ -64,15 +62,17 @@ export const AutomationFlows: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
+      label: 'Flow naam',
       admin: {
-        description: 'Flow name (e.g., "Welcome Sequence", "Onboarding Flow")',
+        description: 'Naam van de flow (bijv. "Welkomst reeks", "Onboarding")',
       },
     },
     {
       name: 'description',
       type: 'textarea',
+      label: 'Omschrijving',
       admin: {
-        description: 'Describe what this flow does',
+        description: 'Beschrijf wat deze flow doet',
       },
     },
     {
@@ -80,13 +80,14 @@ export const AutomationFlows: CollectionConfig = {
       type: 'select',
       required: true,
       defaultValue: 'draft',
+      label: 'Status',
       options: [
-        { label: 'Draft', value: 'draft' },
-        { label: 'Active', value: 'active' },
-        { label: 'Paused', value: 'paused' },
+        { label: 'Concept', value: 'draft' },
+        { label: 'Actief', value: 'active' },
+        { label: 'Gepauzeerd', value: 'paused' },
       ],
       admin: {
-        description: 'Only active flows will accept new entries',
+        description: 'Alleen actieve flows accepteren nieuwe instappen',
       },
     },
 
@@ -96,8 +97,9 @@ export const AutomationFlows: CollectionConfig = {
     {
       name: 'entryTrigger',
       type: 'group',
+      label: 'Trigger',
       admin: {
-        description: 'What triggers users to enter this flow?',
+        description: 'Wat start deze flow?',
       },
       fields: [
         {
@@ -105,23 +107,23 @@ export const AutomationFlows: CollectionConfig = {
           type: 'select',
           required: true,
           options: [
-            { label: '👤 User: Signed Up', value: 'user.signup' },
-            { label: '📧 Subscriber: Added', value: 'subscriber.added' },
-            { label: '📧 Subscriber: Confirmed', value: 'subscriber.confirmed' },
-            { label: '🛒 Order: Placed', value: 'order.placed' },
-            { label: '🛒 Cart: Abandoned', value: 'cart.abandoned' },
-            { label: '✉️ Email: Clicked', value: 'email.clicked' },
-            { label: '🔔 Custom: Event', value: 'custom.event' },
+            { label: 'Klant: Aangemeld', value: 'user.signup' },
+            { label: 'Abonnee: Toegevoegd', value: 'subscriber.added' },
+            { label: 'Abonnee: Bevestigd', value: 'subscriber.confirmed' },
+            { label: 'Bestelling: Geplaatst', value: 'order.placed' },
+            { label: 'Winkelwagen: Verlaten', value: 'cart.abandoned' },
+            { label: 'E-mail: Geklikt', value: 'email.clicked' },
+            { label: 'Aangepast: Event', value: 'custom.event' },
           ],
           admin: {
-            description: 'Which event starts this flow?',
+            description: 'Welk event start deze flow?',
           },
         },
         {
           name: 'customEventName',
           type: 'text',
           admin: {
-            description: 'Custom event name (when event type is "custom.event")',
+            description: 'Naam van het aangepaste event',
             condition: (data, siblingData) => siblingData?.eventType === 'custom.event',
           },
         },
@@ -134,8 +136,9 @@ export const AutomationFlows: CollectionConfig = {
     {
       name: 'entryConditions',
       type: 'array',
+      label: 'Startvoorwaarden',
       admin: {
-        description: 'Optional: Add conditions to filter who can enter this flow',
+        description: 'Optioneel: voeg voorwaarden toe wie deze flow mag starten',
       },
       fields: [
         {
@@ -173,8 +176,9 @@ export const AutomationFlows: CollectionConfig = {
       type: 'array',
       required: true,
       minRows: 1,
+      label: 'Stappen',
       admin: {
-        description: 'Flow steps (executed in sequence)',
+        description: 'De stappen in deze flow (worden op volgorde uitgevoerd)',
       },
       fields: [
         {
@@ -190,15 +194,15 @@ export const AutomationFlows: CollectionConfig = {
           type: 'select',
           required: true,
           options: [
-            { label: '📧 Send Email', value: 'send_email' },
-            { label: '⏰ Wait', value: 'wait' },
-            { label: '📝 Add to List', value: 'add_to_list' },
-            { label: '🗑️ Remove from List', value: 'remove_from_list' },
-            { label: '🏷️ Add Tag', value: 'add_tag' },
-            { label: '🏷️ Remove Tag', value: 'remove_tag' },
-            { label: '🔀 Condition Check', value: 'condition' },
-            { label: '🔗 Webhook', value: 'webhook' },
-            { label: '🚪 Exit Flow', value: 'exit' },
+            { label: 'E-mail versturen', value: 'send_email' },
+            { label: 'Wachten', value: 'wait' },
+            { label: 'Toevoegen aan lijst', value: 'add_to_list' },
+            { label: 'Verwijderen van lijst', value: 'remove_from_list' },
+            { label: 'Label toevoegen', value: 'add_tag' },
+            { label: 'Label verwijderen', value: 'remove_tag' },
+            { label: 'Voorwaarde', value: 'condition' },
+            { label: 'Webhook', value: 'webhook' },
+            { label: 'Flow beëindigen', value: 'exit' },
           ],
         },
 
@@ -341,17 +345,18 @@ export const AutomationFlows: CollectionConfig = {
     {
       name: 'exitConditions',
       type: 'array',
+      label: 'Stop voorwaarden',
       admin: {
-        description: 'Optional: Conditions that will exit users from this flow early',
+        description: 'Optioneel: wanneer wordt een abonnee uit deze flow gehaald?',
       },
       fields: [
         {
           name: 'eventType',
           type: 'select',
           options: [
-            { label: 'User: Unsubscribed', value: 'subscriber.unsubscribed' },
-            { label: 'Order: Placed', value: 'order.placed' },
-            { label: 'Custom Event', value: 'custom.event' },
+            { label: 'Abonnee: Uitgeschreven', value: 'subscriber.unsubscribed' },
+            { label: 'Bestelling: Geplaatst', value: 'order.placed' },
+            { label: 'Aangepast: Event', value: 'custom.event' },
           ],
         },
         {
@@ -373,6 +378,7 @@ export const AutomationFlows: CollectionConfig = {
       admin: {
         readOnly: true,
         description: 'Flow performance statistics',
+        condition: () => false,
       },
       fields: [
         {
@@ -423,20 +429,23 @@ export const AutomationFlows: CollectionConfig = {
     {
       name: 'settings',
       type: 'group',
+      label: 'Instellingen',
       fields: [
         {
           name: 'allowReentry',
           type: 'checkbox',
           defaultValue: false,
+          label: 'Opnieuw instappen toestaan',
           admin: {
-            description: 'Allow users to re-enter this flow after completion?',
+            description: 'Mogen gebruikers deze flow opnieuw doorlopen na voltooiing?',
           },
         },
         {
           name: 'maxEntriesPerUser',
           type: 'number',
+          label: 'Max aantal keer per abonnee',
           admin: {
-            description: 'Max times a user can enter this flow (leave empty for unlimited)',
+            description: 'Max aantal keer dat een abonnee deze flow kan doorlopen (leeg = onbeperkt)',
           },
         },
       ],

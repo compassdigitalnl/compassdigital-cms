@@ -17,8 +17,8 @@ export const EmailSubscribers: CollectionConfig = {
     hidden: !emailMarketingFeatures.isEnabled(),
     group: 'E-mail Marketing',
     useAsTitle: 'email',
-    defaultColumns: ['email', 'name', 'status', 'lists', 'tenant', 'updatedAt'],
-    description: 'Manage email marketing subscribers synced with Listmonk',
+    defaultColumns: ['email', 'name', 'status', 'lists', 'updatedAt'],
+    description: 'Beheer e-mail abonnees en nieuwsbrieflijsten',
   },
   access: {
     // Tenant isolation: users can only access their tenant's subscribers
@@ -64,16 +64,18 @@ export const EmailSubscribers: CollectionConfig = {
       required: true,
       unique: false, // Unique per tenant, enforced via index
       index: true,
+      label: 'E-mailadres',
       admin: {
-        description: 'Subscriber email address',
+        description: 'E-mailadres van de abonnee',
       },
     },
     {
       name: 'name',
       type: 'text',
       required: true,
+      label: 'Naam',
       admin: {
-        description: 'Subscriber full name',
+        description: 'Volledige naam van de abonnee',
       },
     },
     {
@@ -81,13 +83,14 @@ export const EmailSubscribers: CollectionConfig = {
       type: 'select',
       required: true,
       defaultValue: 'enabled',
+      label: 'Status',
       options: [
-        { label: 'Enabled', value: 'enabled' },
-        { label: 'Disabled', value: 'disabled' },
-        { label: 'Blocklisted', value: 'blocklisted' },
+        { label: 'Actief', value: 'enabled' },
+        { label: 'Uitgeschakeld', value: 'disabled' },
+        { label: 'Geblokkeerd', value: 'blocklisted' },
       ],
       admin: {
-        description: 'Subscriber status in Listmonk',
+        description: 'Status van de abonnee',
       },
     },
 
@@ -127,8 +130,9 @@ export const EmailSubscribers: CollectionConfig = {
       relationTo: 'email-lists',
       required: false,
       hasMany: true,
+      label: 'Lijsten',
       admin: {
-        description: 'Email lists this subscriber is part of',
+        description: 'E-maillijsten waar deze abonnee bij hoort',
       },
     },
 
@@ -140,6 +144,7 @@ export const EmailSubscribers: CollectionConfig = {
       type: 'json',
       admin: {
         description: 'Custom attributes for this subscriber (synced to Listmonk attribs)',
+        condition: () => false,
       },
     },
 
@@ -149,29 +154,33 @@ export const EmailSubscribers: CollectionConfig = {
     {
       name: 'preferences',
       type: 'group',
+      label: 'Voorkeuren',
       fields: [
         {
           name: 'marketingEmails',
           type: 'checkbox',
           defaultValue: true,
+          label: 'Marketing e-mails',
           admin: {
-            description: 'Subscriber opted in for marketing emails',
+            description: 'Abonnee ontvangt marketing e-mails',
           },
         },
         {
           name: 'productUpdates',
           type: 'checkbox',
           defaultValue: true,
+          label: 'Product updates',
           admin: {
-            description: 'Subscriber opted in for product updates',
+            description: 'Abonnee ontvangt product updates',
           },
         },
         {
           name: 'newsletter',
           type: 'checkbox',
           defaultValue: false,
+          label: 'Nieuwsbrief',
           admin: {
-            description: 'Subscriber opted in for newsletter',
+            description: 'Abonnee ontvangt de nieuwsbrief',
           },
         },
       ],
@@ -183,16 +192,17 @@ export const EmailSubscribers: CollectionConfig = {
     {
       name: 'source',
       type: 'select',
+      label: 'Bron',
       options: [
-        { label: 'Manual Entry', value: 'manual' },
-        { label: 'Website Form', value: 'website' },
-        { label: 'Import', value: 'import' },
+        { label: 'Handmatig', value: 'manual' },
+        { label: 'Website formulier', value: 'website' },
+        { label: 'Importbestand', value: 'import' },
         { label: 'API', value: 'api' },
-        { label: 'Checkout', value: 'checkout' },
+        { label: 'Kassa/Checkout', value: 'checkout' },
       ],
       defaultValue: 'manual',
       admin: {
-        description: 'How this subscriber was added',
+        description: 'Hoe is deze abonnee toegevoegd?',
         position: 'sidebar',
       },
     },
@@ -207,6 +217,7 @@ export const EmailSubscribers: CollectionConfig = {
         description: 'Listmonk subscriber ID (auto-synced)',
         readOnly: true,
         position: 'sidebar',
+        condition: () => false,
       },
       index: true,
     },
@@ -217,6 +228,7 @@ export const EmailSubscribers: CollectionConfig = {
         description: 'Last synced with Listmonk',
         readOnly: true,
         position: 'sidebar',
+        condition: () => false,
         date: {
           displayFormat: 'yyyy-MM-dd HH:mm:ss',
         },
@@ -235,6 +247,7 @@ export const EmailSubscribers: CollectionConfig = {
         description: 'Sync status with Listmonk',
         readOnly: true,
         position: 'sidebar',
+        condition: () => false,
       },
     },
     {
@@ -244,7 +257,7 @@ export const EmailSubscribers: CollectionConfig = {
         description: 'Last sync error message (if any)',
         readOnly: true,
         position: 'sidebar',
-        condition: (data) => data.syncStatus === 'error',
+        condition: () => false,
       },
     },
 
@@ -254,8 +267,9 @@ export const EmailSubscribers: CollectionConfig = {
     {
       name: 'tags',
       type: 'array',
+      label: 'Labels',
       admin: {
-        description: 'Tags for organizing subscribers',
+        description: 'Labels voor het organiseren van abonnees',
       },
       fields: [
         {

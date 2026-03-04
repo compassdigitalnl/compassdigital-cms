@@ -17,10 +17,8 @@ export const AutomationRules: CollectionConfig = {
     hidden: !emailMarketingFeatures.campaigns(),
     group: 'E-mail Marketing',
     useAsTitle: 'name',
-    defaultColumns: isPlatformMode
-      ? ['name', 'trigger', 'status', 'stats', 'tenant', 'updatedAt']
-      : ['name', 'trigger', 'status', 'stats', 'updatedAt'],
-    description: 'Create event-driven automation rules for email campaigns',
+    defaultColumns: ['name', 'status', 'trigger', 'updatedAt'],
+    description: 'Maak automatische acties op basis van klantgedrag',
   },
   access: {
     // Tenant isolation (only in multi-tenant/platform mode)
@@ -64,15 +62,17 @@ export const AutomationRules: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
+      label: 'Regel naam',
       admin: {
-        description: 'Internal name for this automation rule',
+        description: 'Interne naam voor deze automatiseringsregel',
       },
     },
     {
       name: 'description',
       type: 'textarea',
+      label: 'Omschrijving',
       admin: {
-        description: 'Describe what this automation does',
+        description: 'Beschrijf wat deze automatisering doet',
       },
     },
     {
@@ -80,13 +80,14 @@ export const AutomationRules: CollectionConfig = {
       type: 'select',
       required: true,
       defaultValue: 'draft',
+      label: 'Status',
       options: [
-        { label: 'Draft', value: 'draft' },
-        { label: 'Active', value: 'active' },
-        { label: 'Paused', value: 'paused' },
+        { label: 'Concept', value: 'draft' },
+        { label: 'Actief', value: 'active' },
+        { label: 'Gepauzeerd', value: 'paused' },
       ],
       admin: {
-        description: 'Only active rules will process events',
+        description: 'Alleen actieve regels verwerken events',
       },
     },
 
@@ -96,6 +97,7 @@ export const AutomationRules: CollectionConfig = {
     {
       name: 'trigger',
       type: 'group',
+      label: 'Trigger',
       fields: [
         {
           name: 'eventType',
@@ -103,41 +105,41 @@ export const AutomationRules: CollectionConfig = {
           required: true,
           options: [
             // User Events
-            { label: '👤 User: Signed Up', value: 'user.signup' },
-            { label: '👤 User: Profile Updated', value: 'user.updated' },
-            { label: '👤 User: Logged In', value: 'user.login' },
+            { label: 'Klant: Aangemeld', value: 'user.signup' },
+            { label: 'Klant: Profiel bijgewerkt', value: 'user.updated' },
+            { label: 'Klant: Ingelogd', value: 'user.login' },
 
             // Subscription Events
-            { label: '📧 Subscriber: Added', value: 'subscriber.added' },
-            { label: '📧 Subscriber: Confirmed', value: 'subscriber.confirmed' },
-            { label: '📧 Subscriber: Unsubscribed', value: 'subscriber.unsubscribed' },
-            { label: '📧 Subscriber: List Changed', value: 'subscriber.list_changed' },
+            { label: 'Abonnee: Toegevoegd', value: 'subscriber.added' },
+            { label: 'Abonnee: Bevestigd', value: 'subscriber.confirmed' },
+            { label: 'Abonnee: Uitgeschreven', value: 'subscriber.unsubscribed' },
+            { label: 'Abonnee: Lijst gewijzigd', value: 'subscriber.list_changed' },
 
             // E-commerce Events
-            { label: '🛒 Order: Placed', value: 'order.placed' },
-            { label: '🛒 Order: Completed', value: 'order.completed' },
-            { label: '🛒 Order: Cancelled', value: 'order.cancelled' },
-            { label: '🛒 Cart: Abandoned', value: 'cart.abandoned' },
-            { label: '🛒 Product: Purchased', value: 'product.purchased' },
+            { label: 'Bestelling: Geplaatst', value: 'order.placed' },
+            { label: 'Bestelling: Voltooid', value: 'order.completed' },
+            { label: 'Bestelling: Geannuleerd', value: 'order.cancelled' },
+            { label: 'Winkelwagen: Verlaten', value: 'cart.abandoned' },
+            { label: 'Product: Gekocht', value: 'product.purchased' },
 
             // Engagement Events
-            { label: '✉️ Email: Opened', value: 'email.opened' },
-            { label: '✉️ Email: Clicked', value: 'email.clicked' },
-            { label: '✉️ Email: Bounced', value: 'email.bounced' },
-            { label: '✉️ Campaign: Completed', value: 'campaign.completed' },
+            { label: 'E-mail: Geopend', value: 'email.opened' },
+            { label: 'E-mail: Geklikt', value: 'email.clicked' },
+            { label: 'E-mail: Bounced', value: 'email.bounced' },
+            { label: 'Campagne: Voltooid', value: 'campaign.completed' },
 
             // Custom Events
-            { label: '🔔 Custom: Event', value: 'custom.event' },
+            { label: 'Aangepast: Event', value: 'custom.event' },
           ],
           admin: {
-            description: 'Which event triggers this automation?',
+            description: 'Welk event triggert deze automatisering?',
           },
         },
         {
           name: 'customEventName',
           type: 'text',
           admin: {
-            description: 'Custom event name (when event type is "custom.event")',
+            description: 'Naam van het aangepaste event',
             condition: (data, siblingData) => siblingData?.eventType === 'custom.event',
           },
         },
@@ -150,8 +152,9 @@ export const AutomationRules: CollectionConfig = {
     {
       name: 'conditions',
       type: 'array',
+      label: 'Voorwaarden',
       admin: {
-        description: 'Optional: Add conditions to filter when this automation runs',
+        description: 'Optioneel: voeg voorwaarden toe wanneer deze regel actief is',
       },
       fields: [
         {
@@ -199,8 +202,9 @@ export const AutomationRules: CollectionConfig = {
       type: 'array',
       required: true,
       minRows: 1,
+      label: 'Acties',
       admin: {
-        description: 'Actions to perform when this rule is triggered',
+        description: 'Wat moet er gebeuren als deze regel wordt getriggerd?',
       },
       fields: [
         {
@@ -208,13 +212,13 @@ export const AutomationRules: CollectionConfig = {
           type: 'select',
           required: true,
           options: [
-            { label: '📧 Send Email Template', value: 'send_email' },
-            { label: '📝 Add to List', value: 'add_to_list' },
-            { label: '🗑️ Remove from List', value: 'remove_from_list' },
-            { label: '🏷️ Add Tag', value: 'add_tag' },
-            { label: '🏷️ Remove Tag', value: 'remove_tag' },
-            { label: '⏰ Wait (Delay)', value: 'wait' },
-            { label: '🔗 Webhook', value: 'webhook' },
+            { label: 'E-mail versturen', value: 'send_email' },
+            { label: 'Toevoegen aan lijst', value: 'add_to_list' },
+            { label: 'Verwijderen van lijst', value: 'remove_from_list' },
+            { label: 'Label toevoegen', value: 'add_tag' },
+            { label: 'Label verwijderen', value: 'remove_tag' },
+            { label: 'Wachten', value: 'wait' },
+            { label: 'Webhook', value: 'webhook' },
           ],
         },
 
@@ -315,13 +319,15 @@ export const AutomationRules: CollectionConfig = {
     {
       name: 'timing',
       type: 'group',
+      label: 'Timing',
       fields: [
         {
           name: 'delayEnabled',
           type: 'checkbox',
           defaultValue: false,
+          label: 'Vertraging inschakelen',
           admin: {
-            description: 'Add a delay before executing this rule?',
+            description: 'Voeg een vertraging toe voordat deze regel wordt uitgevoerd',
           },
         },
         {
@@ -337,7 +343,7 @@ export const AutomationRules: CollectionConfig = {
               required: true,
               defaultValue: 1,
               admin: {
-                description: 'Delay duration',
+                description: 'Duur van de vertraging',
               },
             },
             {
@@ -346,10 +352,10 @@ export const AutomationRules: CollectionConfig = {
               required: true,
               defaultValue: 'hours',
               options: [
-                { label: 'Minutes', value: 'minutes' },
-                { label: 'Hours', value: 'hours' },
-                { label: 'Days', value: 'days' },
-                { label: 'Weeks', value: 'weeks' },
+                { label: 'Minuten', value: 'minutes' },
+                { label: 'Uren', value: 'hours' },
+                { label: 'Dagen', value: 'days' },
+                { label: 'Weken', value: 'weeks' },
               ],
             },
           ],
@@ -357,8 +363,9 @@ export const AutomationRules: CollectionConfig = {
         {
           name: 'maxExecutions',
           type: 'number',
+          label: 'Max uitvoeringen',
           admin: {
-            description: 'Max times this rule can trigger per user (leave empty for unlimited)',
+            description: 'Max aantal keer dat deze regel per gebruiker kan triggeren (leeg = onbeperkt)',
           },
         },
       ],
@@ -373,6 +380,7 @@ export const AutomationRules: CollectionConfig = {
       admin: {
         readOnly: true,
         description: 'Automation performance statistics',
+        condition: () => false,
       },
       fields: [
         {

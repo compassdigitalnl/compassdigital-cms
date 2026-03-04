@@ -14,7 +14,7 @@ const isPlatformMode = isFeatureEnabled('platform')
 export const EmailEvents: CollectionConfig = {
   slug: 'email-events',
   admin: {
-    hidden: !emailMarketingFeatures.campaigns(),
+    hidden: ({ user }) => !checkRole(['super-admin'], user as any),
     group: 'E-mail Marketing',
     useAsTitle: 'id',
     defaultColumns: ['type', 'campaign', 'subscriber', 'createdAt'],

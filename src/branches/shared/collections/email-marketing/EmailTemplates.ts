@@ -18,8 +18,8 @@ export const EmailTemplates: CollectionConfig = {
     hidden: !emailMarketingFeatures.isEnabled(),
     group: 'E-mail Marketing',
     useAsTitle: 'name',
-    defaultColumns: ['name', 'type', 'isDefault', 'tenant', 'updatedAt'],
-    description: 'Create and manage email templates with visual editor',
+    defaultColumns: ['name', 'type', 'isDefault', 'updatedAt'],
+    description: 'Maak en beheer e-mail templates',
   },
   access: {
     // Tenant isolation
@@ -63,15 +63,17 @@ export const EmailTemplates: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
+      label: 'Template naam',
       admin: {
-        description: 'Template name (e.g., "Welcome Email", "Product Launch")',
+        description: 'Naam van het template (bijv. "Welkomstmail", "Product lancering")',
       },
     },
     {
       name: 'description',
       type: 'textarea',
+      label: 'Omschrijving',
       admin: {
-        description: 'What is this template used for?',
+        description: 'Waarvoor wordt dit template gebruikt?',
       },
     },
 
@@ -83,26 +85,28 @@ export const EmailTemplates: CollectionConfig = {
       type: 'select',
       required: true,
       defaultValue: 'campaign',
+      label: 'Type',
       options: [
         {
-          label: 'Campaign Template',
+          label: 'Campagne template',
           value: 'campaign',
         },
         {
-          label: 'Transactional Template',
+          label: 'Transactionele template',
           value: 'transactional',
         },
       ],
       admin: {
-        description: 'Campaign templates are for bulk emails, transactional are for automated emails',
+        description: 'Campagne templates zijn voor bulk e-mails, transactionele voor geautomatiseerde e-mails',
       },
     },
     {
       name: 'isDefault',
       type: 'checkbox',
       defaultValue: false,
+      label: 'Standaard template',
       admin: {
-        description: 'Use this as the default template for this type',
+        description: 'Gebruik als standaard voor dit type',
         position: 'sidebar',
       },
     },
@@ -113,15 +117,17 @@ export const EmailTemplates: CollectionConfig = {
     {
       name: 'defaultSubject',
       type: 'text',
+      label: 'Standaard onderwerp',
       admin: {
-        description: 'Default subject line (can be overridden in campaigns)',
+        description: 'Kan worden overschreven in campagnes',
       },
     },
     {
       name: 'preheader',
       type: 'text',
+      label: 'Voorbeeldtekst',
       admin: {
-        description: 'Email preheader text (preview text shown in inbox)',
+        description: 'Tekst die zichtbaar is in de inbox preview',
       },
     },
 
@@ -132,8 +138,9 @@ export const EmailTemplates: CollectionConfig = {
       name: 'useVisualEditor',
       type: 'checkbox',
       defaultValue: emailMarketingFeatures.grapesEditor(),
+      label: 'Visuele editor gebruiken',
       admin: {
-        description: 'Use visual editor (GrapesJS) or raw HTML',
+        description: 'Gebruik de visuele editor (GrapesJS) of platte HTML',
         condition: () => emailMarketingFeatures.grapesEditor(),
       },
     },
@@ -156,9 +163,10 @@ export const EmailTemplates: CollectionConfig = {
       name: 'html',
       type: 'code',
       required: true,
+      label: 'HTML inhoud',
       admin: {
         language: 'html',
-        description: 'HTML content (auto-generated from visual editor or manually written)',
+        description: 'HTML code van de e-mail (automatisch gegenereerd bij visuele editor)',
       },
     },
 
@@ -168,15 +176,16 @@ export const EmailTemplates: CollectionConfig = {
     {
       name: 'variables',
       type: 'group',
+      label: 'Template variabelen',
       admin: {
-        description: 'Template variables that can be replaced in campaigns',
+        description: 'Variabelen die kunnen worden vervangen in campagnes',
       },
       fields: [
         {
           name: 'list',
           type: 'array',
           admin: {
-            description: 'Define custom variables (e.g., {{company_name}}, {{product_name}})',
+            description: 'Definieer eigen variabelen (bijv. {{bedrijfsnaam}}, {{productnaam}})',
           },
           fields: [
             {
@@ -184,7 +193,7 @@ export const EmailTemplates: CollectionConfig = {
               type: 'text',
               required: true,
               admin: {
-                description: 'Variable name (without {{ }})',
+                description: 'Variabele naam (zonder {{ }})',
               },
             },
             {
@@ -192,14 +201,14 @@ export const EmailTemplates: CollectionConfig = {
               type: 'text',
               required: true,
               admin: {
-                description: 'Human-readable label',
+                description: 'Leesbaar label',
               },
             },
             {
               name: 'defaultValue',
               type: 'text',
               admin: {
-                description: 'Default value if not provided',
+                description: 'Standaard waarde indien niet opgegeven',
               },
             },
             {
@@ -207,7 +216,7 @@ export const EmailTemplates: CollectionConfig = {
               type: 'checkbox',
               defaultValue: false,
               admin: {
-                description: 'Is this variable required?',
+                description: 'Is deze variabele verplicht?',
               },
             },
           ],
@@ -218,6 +227,7 @@ export const EmailTemplates: CollectionConfig = {
           admin: {
             description: 'Built-in Listmonk variables always available',
             readOnly: true,
+            condition: () => false,
           },
           fields: [
             // UI component temporarily disabled for migration generation (JSX not supported in .ts files)
@@ -289,24 +299,26 @@ export const EmailTemplates: CollectionConfig = {
     {
       name: 'category',
       type: 'select',
+      label: 'Categorie',
       options: [
-        { label: 'Welcome Series', value: 'welcome' },
-        { label: 'Newsletter', value: 'newsletter' },
-        { label: 'Promotional', value: 'promotional' },
-        { label: 'Transactional', value: 'transactional' },
-        { label: 'Notification', value: 'notification' },
-        { label: 'Other', value: 'other' },
+        { label: 'Welkomst serie', value: 'welcome' },
+        { label: 'Nieuwsbrief', value: 'newsletter' },
+        { label: 'Promotioneel', value: 'promotional' },
+        { label: 'Transactioneel', value: 'transactional' },
+        { label: 'Notificatie', value: 'notification' },
+        { label: 'Overig', value: 'other' },
       ],
       admin: {
-        description: 'Template category for organization',
+        description: 'Categorie voor het organiseren van templates',
         position: 'sidebar',
       },
     },
     {
       name: 'tags',
       type: 'array',
+      label: 'Labels',
       admin: {
-        description: 'Tags for organizing templates',
+        description: 'Labels voor het organiseren van templates',
       },
       fields: [
         {
@@ -323,15 +335,17 @@ export const EmailTemplates: CollectionConfig = {
     {
       name: 'testSettings',
       type: 'group',
+      label: 'Test instellingen',
       admin: {
-        description: 'Settings for testing this template',
+        description: 'Instellingen voor het testen van deze template',
       },
       fields: [
         {
           name: 'testRecipients',
           type: 'array',
+          label: 'Test ontvangers',
           admin: {
-            description: 'Email addresses for test sends',
+            description: 'E-mailadressen voor test verzendingen',
           },
           fields: [
             {
@@ -344,8 +358,9 @@ export const EmailTemplates: CollectionConfig = {
         {
           name: 'lastTestedAt',
           type: 'date',
+          label: 'Laatst getest op',
           admin: {
-            description: 'Last time this template was tested',
+            description: 'Laatste keer dat dit template is getest',
             readOnly: true,
             date: {
               displayFormat: 'yyyy-MM-dd HH:mm:ss',
@@ -365,6 +380,7 @@ export const EmailTemplates: CollectionConfig = {
         description: 'Listmonk template ID (auto-synced)',
         readOnly: true,
         position: 'sidebar',
+        condition: () => false,
       },
       index: true,
     },
@@ -375,6 +391,7 @@ export const EmailTemplates: CollectionConfig = {
         description: 'Last synced with Listmonk',
         readOnly: true,
         position: 'sidebar',
+        condition: () => false,
         date: {
           displayFormat: 'yyyy-MM-dd HH:mm:ss',
         },
@@ -393,6 +410,7 @@ export const EmailTemplates: CollectionConfig = {
         description: 'Sync status with Listmonk',
         readOnly: true,
         position: 'sidebar',
+        condition: () => false,
       },
     },
     {
@@ -402,7 +420,7 @@ export const EmailTemplates: CollectionConfig = {
         description: 'Last sync error message (if any)',
         readOnly: true,
         position: 'sidebar',
-        condition: (data) => data.syncStatus === 'error',
+        condition: () => false,
       },
     },
 
@@ -413,8 +431,9 @@ export const EmailTemplates: CollectionConfig = {
       name: 'isActive',
       type: 'checkbox',
       defaultValue: true,
+      label: 'Actief',
       admin: {
-        description: 'Active templates can be used in campaigns',
+        description: 'Alleen actieve templates kunnen in campagnes worden gebruikt',
         position: 'sidebar',
       },
     },

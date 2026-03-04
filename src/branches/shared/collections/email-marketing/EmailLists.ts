@@ -17,8 +17,8 @@ export const EmailLists: CollectionConfig = {
     hidden: !emailMarketingFeatures.isEnabled(),
     group: 'E-mail Marketing',
     useAsTitle: 'name',
-    defaultColumns: ['name', 'type', 'subscriberCount', 'tenant', 'updatedAt'],
-    description: 'Manage email lists for segmenting subscribers',
+    defaultColumns: ['name', 'type', 'subscriberCount', 'updatedAt'],
+    description: 'Beheer e-maillijsten en doelgroepen',
   },
   access: {
     // Tenant isolation
@@ -62,15 +62,17 @@ export const EmailLists: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
+      label: 'Lijst naam',
       admin: {
-        description: 'List name (e.g., "Newsletter Subscribers", "VIP Customers")',
+        description: 'Naam van de lijst (bijv. "Nieuwsbrief abonnees", "VIP Klanten")',
       },
     },
     {
       name: 'description',
       type: 'textarea',
+      label: 'Omschrijving',
       admin: {
-        description: 'What is this list for?',
+        description: 'Waarvoor wordt deze lijst gebruikt?',
       },
     },
 
@@ -82,18 +84,19 @@ export const EmailLists: CollectionConfig = {
       type: 'select',
       required: true,
       defaultValue: 'private',
+      label: 'Type',
       options: [
         {
-          label: 'Public',
+          label: 'Openbaar',
           value: 'public',
         },
         {
-          label: 'Private',
+          label: 'Privé',
           value: 'private',
         },
       ],
       admin: {
-        description: 'Public lists allow self-subscription, private lists are admin-managed',
+        description: 'Openbare lijsten staan zelf-aanmelding toe, privélijsten worden beheerd door admins',
       },
     },
     {
@@ -101,18 +104,19 @@ export const EmailLists: CollectionConfig = {
       type: 'select',
       required: true,
       defaultValue: 'single',
+      label: 'Aanmeldmethode',
       options: [
         {
-          label: 'Single Opt-in',
+          label: 'Enkele aanmelding',
           value: 'single',
         },
         {
-          label: 'Double Opt-in',
+          label: 'Dubbele aanmelding (aanbevolen)',
           value: 'double',
         },
       ],
       admin: {
-        description: 'Double opt-in requires email confirmation, single opt-in is immediate',
+        description: 'Dubbele aanmelding vereist e-mailbevestiging, enkele aanmelding is direct',
       },
     },
 
@@ -154,8 +158,9 @@ export const EmailLists: CollectionConfig = {
       name: 'subscriberCount',
       type: 'number',
       defaultValue: 0,
+      label: 'Aantal abonnees',
       admin: {
-        description: 'Number of subscribers in this list',
+        description: 'Aantal abonnees in deze lijst',
         readOnly: true,
         position: 'sidebar',
       },
@@ -167,8 +172,9 @@ export const EmailLists: CollectionConfig = {
     {
       name: 'subscriptionSettings',
       type: 'group',
+      label: 'Aanmeldinstellingen',
       admin: {
-        description: 'Settings for public subscription forms',
+        description: 'Instellingen voor openbare aanmeldformulieren',
         condition: (data) => data.type === 'public',
       },
       fields: [
@@ -176,24 +182,27 @@ export const EmailLists: CollectionConfig = {
           name: 'welcomeEmail',
           type: 'checkbox',
           defaultValue: true,
+          label: 'Welkomstmail',
           admin: {
-            description: 'Send welcome email on subscription',
+            description: 'Stuur een welkomstmail bij aanmelding',
           },
         },
         {
           name: 'welcomeEmailTemplate',
           type: 'relationship',
           relationTo: 'email-templates',
+          label: 'Welkomstmail template',
           admin: {
-            description: 'Template for welcome email',
+            description: 'Template voor de welkomstmail',
             condition: (data, siblingData) => siblingData?.welcomeEmail === true,
           },
         },
         {
           name: 'confirmationPage',
           type: 'text',
+          label: 'Bevestigingspagina',
           admin: {
-            description: 'URL to redirect after subscription',
+            description: 'URL om naar door te sturen na aanmelding',
           },
         },
       ],
@@ -205,8 +214,9 @@ export const EmailLists: CollectionConfig = {
     {
       name: 'tags',
       type: 'array',
+      label: 'Labels',
       admin: {
-        description: 'Tags for organizing lists',
+        description: 'Labels voor het organiseren van lijsten',
       },
       fields: [
         {
@@ -219,16 +229,17 @@ export const EmailLists: CollectionConfig = {
     {
       name: 'category',
       type: 'select',
+      label: 'Categorie',
       options: [
-        { label: 'Newsletter', value: 'newsletter' },
+        { label: 'Nieuwsbrief', value: 'newsletter' },
         { label: 'Marketing', value: 'marketing' },
-        { label: 'Transactional', value: 'transactional' },
+        { label: 'Transactioneel', value: 'transactional' },
         { label: 'Updates', value: 'updates' },
-        { label: 'Customers', value: 'customers' },
-        { label: 'Other', value: 'other' },
+        { label: 'Klanten', value: 'customers' },
+        { label: 'Overig', value: 'other' },
       ],
       admin: {
-        description: 'List category for organization',
+        description: 'Categorie voor het organiseren van lijsten',
         position: 'sidebar',
       },
     },
@@ -243,6 +254,7 @@ export const EmailLists: CollectionConfig = {
         description: 'Listmonk list ID (auto-synced)',
         readOnly: true,
         position: 'sidebar',
+        condition: () => false,
       },
       index: true,
     },
@@ -253,6 +265,7 @@ export const EmailLists: CollectionConfig = {
         description: 'Last synced with Listmonk',
         readOnly: true,
         position: 'sidebar',
+        condition: () => false,
         date: {
           displayFormat: 'yyyy-MM-dd HH:mm:ss',
         },
@@ -271,6 +284,7 @@ export const EmailLists: CollectionConfig = {
         description: 'Sync status with Listmonk',
         readOnly: true,
         position: 'sidebar',
+        condition: () => false,
       },
     },
     {
@@ -280,7 +294,7 @@ export const EmailLists: CollectionConfig = {
         description: 'Last sync error message (if any)',
         readOnly: true,
         position: 'sidebar',
-        condition: (data) => data.syncStatus === 'error',
+        condition: () => false,
       },
     },
 
@@ -291,8 +305,9 @@ export const EmailLists: CollectionConfig = {
       name: 'isActive',
       type: 'checkbox',
       defaultValue: true,
+      label: 'Actief',
       admin: {
-        description: 'Active lists can receive campaigns, inactive lists are archived',
+        description: 'Inactieve lijsten ontvangen geen e-mails',
         position: 'sidebar',
       },
     },

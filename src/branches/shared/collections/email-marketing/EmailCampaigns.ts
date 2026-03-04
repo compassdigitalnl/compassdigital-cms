@@ -19,8 +19,8 @@ export const EmailCampaigns: CollectionConfig = {
     hidden: !emailMarketingFeatures.campaigns(),
     group: 'E-mail Marketing',
     useAsTitle: 'name',
-    defaultColumns: ['name', 'status', 'lists', 'scheduledFor', 'tenant', 'updatedAt'],
-    description: 'Create and manage email marketing campaigns',
+    defaultColumns: ['name', 'status', 'lists', 'scheduledFor', 'updatedAt'],
+    description: 'Maak en verstuur e-mail campagnes',
   },
   access: {
     // Tenant isolation
@@ -78,23 +78,26 @@ export const EmailCampaigns: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
+      label: 'Campagne naam',
       admin: {
-        description: 'Internal campaign name (not shown to subscribers)',
+        description: 'Interne campagnenaam (niet zichtbaar voor abonnees)',
       },
     },
     {
       name: 'subject',
       type: 'text',
       required: true,
+      label: 'Onderwerpregel',
       admin: {
-        description: 'Email subject line',
+        description: 'Onderwerpregel van de e-mail',
       },
     },
     {
       name: 'preheader',
       type: 'text',
+      label: 'Inbox voorbeeldtekst',
       admin: {
-        description: 'Preview text shown in inbox',
+        description: 'Voorbeeldtekst zichtbaar in de inbox',
       },
     },
 
@@ -104,22 +107,25 @@ export const EmailCampaigns: CollectionConfig = {
     {
       name: 'fromName',
       type: 'text',
+      label: 'Afzendernaam',
       admin: {
-        description: 'Sender name (e.g., "John from Acme Inc")',
+        description: 'Naam van de afzender (bijv. "Jan van Plastimed")',
       },
     },
     {
       name: 'fromEmail',
       type: 'email',
+      label: 'Afzender e-mail',
       admin: {
-        description: 'Sender email (leave empty to use default from SMTP config)',
+        description: 'E-mailadres van de afzender (leeg = standaard SMTP)',
       },
     },
     {
       name: 'replyTo',
       type: 'email',
+      label: 'Antwoord e-mail',
       admin: {
-        description: 'Reply-to email address (optional)',
+        description: 'E-mailadres voor antwoorden (optioneel)',
       },
     },
 
@@ -131,26 +137,28 @@ export const EmailCampaigns: CollectionConfig = {
       type: 'select',
       required: true,
       defaultValue: 'template',
+      label: 'Inhoud type',
       options: [
         {
-          label: 'Use Template',
+          label: 'Bestaande template gebruiken',
           value: 'template',
         },
         {
-          label: 'Custom HTML',
+          label: 'Eigen HTML',
           value: 'custom',
         },
       ],
       admin: {
-        description: 'Use existing template or create custom HTML',
+        description: 'Gebruik een bestaande template of eigen HTML',
       },
     },
     {
       name: 'template',
       type: 'relationship',
       relationTo: 'email-templates',
+      label: 'Template',
       admin: {
-        description: 'Select template to use',
+        description: 'Selecteer een template',
         condition: (data) => data.contentType === 'template',
       },
     },
@@ -158,16 +166,17 @@ export const EmailCampaigns: CollectionConfig = {
       name: 'templateVariables',
       type: 'json',
       admin: {
-        description: 'Variables to replace in template (e.g., {"product_name": "Pro Plan"})',
-        condition: (data) => data.contentType === 'template',
+        description: 'Variables to replace in template',
+        condition: () => false,
       },
     },
     {
       name: 'html',
       type: 'code',
+      label: 'HTML inhoud',
       admin: {
         language: 'html',
-        description: 'Custom HTML content',
+        description: 'Eigen HTML inhoud',
         condition: (data) => data.contentType === 'custom',
       },
     },
@@ -181,8 +190,9 @@ export const EmailCampaigns: CollectionConfig = {
       relationTo: 'email-lists',
       required: true,
       hasMany: true,
+      label: 'Ontvangers',
       admin: {
-        description: 'Which email lists to send this campaign to',
+        description: 'Naar welke e-maillijsten wordt deze campagne verstuurd?',
       },
     },
     {
@@ -190,8 +200,9 @@ export const EmailCampaigns: CollectionConfig = {
       type: 'relationship',
       relationTo: 'email-lists',
       hasMany: true,
+      label: 'Uitsluiten',
       admin: {
-        description: 'Exclude subscribers from these lists (optional)',
+        description: 'Abonnees op deze lijsten worden uitgesloten (optioneel)',
       },
     },
     {
@@ -199,6 +210,7 @@ export const EmailCampaigns: CollectionConfig = {
       type: 'group',
       admin: {
         description: 'Advanced segmentation (optional)',
+        condition: () => false,
       },
       fields: [
         {
@@ -226,8 +238,9 @@ export const EmailCampaigns: CollectionConfig = {
     {
       name: 'scheduledFor',
       type: 'date',
+      label: 'Inplannen op',
       admin: {
-        description: 'When to send this campaign (leave empty for draft)',
+        description: 'Wanneer moet deze campagne verstuurd worden? (leeg = concept)',
         date: {
           displayFormat: 'yyyy-MM-dd HH:mm',
           pickerAppearance: 'dayAndTime',
@@ -238,6 +251,7 @@ export const EmailCampaigns: CollectionConfig = {
       name: 'timezone',
       type: 'select',
       defaultValue: 'Europe/Amsterdam',
+      label: 'Tijdzone',
       options: [
         { label: 'Europe/Amsterdam', value: 'Europe/Amsterdam' },
         { label: 'America/New_York', value: 'America/New_York' },
@@ -245,7 +259,7 @@ export const EmailCampaigns: CollectionConfig = {
         { label: 'UTC', value: 'UTC' },
       ],
       admin: {
-        description: 'Timezone for scheduled send',
+        description: 'Tijdzone voor het inplannen',
       },
     },
 
@@ -257,16 +271,17 @@ export const EmailCampaigns: CollectionConfig = {
       type: 'select',
       required: true,
       defaultValue: 'draft',
+      label: 'Status',
       options: [
-        { label: 'Draft', value: 'draft' },
-        { label: 'Scheduled', value: 'scheduled' },
-        { label: 'Sending', value: 'running' },
-        { label: 'Paused', value: 'paused' },
-        { label: 'Completed', value: 'finished' },
-        { label: 'Cancelled', value: 'cancelled' },
+        { label: 'Concept', value: 'draft' },
+        { label: 'Ingepland', value: 'scheduled' },
+        { label: 'Wordt verstuurd', value: 'running' },
+        { label: 'Gepauzeerd', value: 'paused' },
+        { label: 'Voltooid', value: 'finished' },
+        { label: 'Geannuleerd', value: 'cancelled' },
       ],
       admin: {
-        description: 'Campaign status',
+        description: 'Status van de campagne',
         readOnly: true,
         position: 'sidebar',
       },
@@ -274,8 +289,9 @@ export const EmailCampaigns: CollectionConfig = {
     {
       name: 'startedAt',
       type: 'date',
+      label: 'Gestart op',
       admin: {
-        description: 'When campaign started sending',
+        description: 'Wanneer is de campagne gestart met verzenden',
         readOnly: true,
         position: 'sidebar',
         date: {
@@ -286,8 +302,9 @@ export const EmailCampaigns: CollectionConfig = {
     {
       name: 'completedAt',
       type: 'date',
+      label: 'Voltooid op',
       admin: {
-        description: 'When campaign finished sending',
+        description: 'Wanneer is de campagne klaar met verzenden',
         readOnly: true,
         position: 'sidebar',
         date: {
@@ -302,16 +319,18 @@ export const EmailCampaigns: CollectionConfig = {
     {
       name: 'stats',
       type: 'group',
+      label: 'Statistieken',
       admin: {
-        description: 'Campaign performance statistics',
+        description: 'Prestaties van de campagne',
       },
       fields: [
         {
           name: 'sent',
           type: 'number',
           defaultValue: 0,
+          label: 'Verstuurd',
           admin: {
-            description: 'Total emails sent',
+            description: 'Totaal aantal verstuurde e-mails',
             readOnly: true,
           },
         },
@@ -319,8 +338,9 @@ export const EmailCampaigns: CollectionConfig = {
           name: 'delivered',
           type: 'number',
           defaultValue: 0,
+          label: 'Afgeleverd',
           admin: {
-            description: 'Successfully delivered',
+            description: 'Succesvol afgeleverd',
             readOnly: true,
           },
         },
@@ -328,8 +348,9 @@ export const EmailCampaigns: CollectionConfig = {
           name: 'bounced',
           type: 'number',
           defaultValue: 0,
+          label: 'Bounced',
           admin: {
-            description: 'Bounced emails',
+            description: 'Niet-afgeleverde e-mails',
             readOnly: true,
           },
         },
@@ -337,8 +358,9 @@ export const EmailCampaigns: CollectionConfig = {
           name: 'opened',
           type: 'number',
           defaultValue: 0,
+          label: 'Geopend',
           admin: {
-            description: 'Unique opens',
+            description: 'Unieke opens',
             readOnly: true,
           },
         },
@@ -346,8 +368,9 @@ export const EmailCampaigns: CollectionConfig = {
           name: 'clicked',
           type: 'number',
           defaultValue: 0,
+          label: 'Geklikt',
           admin: {
-            description: 'Unique clicks',
+            description: 'Unieke kliks',
             readOnly: true,
           },
         },
@@ -355,8 +378,9 @@ export const EmailCampaigns: CollectionConfig = {
           name: 'openRate',
           type: 'number',
           defaultValue: 0,
+          label: 'Open ratio',
           admin: {
-            description: 'Open rate (%)',
+            description: 'Open ratio (%)',
             readOnly: true,
           },
         },
@@ -364,8 +388,9 @@ export const EmailCampaigns: CollectionConfig = {
           name: 'clickRate',
           type: 'number',
           defaultValue: 0,
+          label: 'Klik ratio',
           admin: {
-            description: 'Click rate (%)',
+            description: 'Klik ratio (%)',
             readOnly: true,
           },
         },
@@ -373,8 +398,9 @@ export const EmailCampaigns: CollectionConfig = {
           name: 'bounceRate',
           type: 'number',
           defaultValue: 0,
+          label: 'Bounce ratio',
           admin: {
-            description: 'Bounce rate (%)',
+            description: 'Bounce ratio (%)',
             readOnly: true,
           },
         },
@@ -382,8 +408,9 @@ export const EmailCampaigns: CollectionConfig = {
           name: 'unsubscribed',
           type: 'number',
           defaultValue: 0,
+          label: 'Uitgeschreven',
           admin: {
-            description: 'Unsubscribes from this campaign',
+            description: 'Uitschrijvingen door deze campagne',
             readOnly: true,
           },
         },
@@ -427,23 +454,25 @@ export const EmailCampaigns: CollectionConfig = {
     {
       name: 'category',
       type: 'select',
+      label: 'Categorie',
       options: [
-        { label: 'Newsletter', value: 'newsletter' },
-        { label: 'Promotional', value: 'promotional' },
-        { label: 'Product Update', value: 'product_update' },
-        { label: 'Announcement', value: 'announcement' },
-        { label: 'Other', value: 'other' },
+        { label: 'Nieuwsbrief', value: 'newsletter' },
+        { label: 'Promotie', value: 'promotional' },
+        { label: 'Product update', value: 'product_update' },
+        { label: 'Aankondiging', value: 'announcement' },
+        { label: 'Overig', value: 'other' },
       ],
       admin: {
-        description: 'Campaign category',
+        description: 'Categorie van de campagne',
         position: 'sidebar',
       },
     },
     {
       name: 'tags',
       type: 'array',
+      label: 'Labels',
       admin: {
-        description: 'Tags for organizing campaigns',
+        description: 'Labels voor het organiseren van campagnes',
       },
       fields: [
         {
@@ -462,6 +491,7 @@ export const EmailCampaigns: CollectionConfig = {
       type: 'group',
       admin: {
         description: 'A/B testing settings (optional)',
+        condition: () => false,
       },
       fields: [
         {
@@ -519,6 +549,7 @@ export const EmailCampaigns: CollectionConfig = {
         description: 'Listmonk campaign ID (auto-synced)',
         readOnly: true,
         position: 'sidebar',
+        condition: () => false,
       },
       index: true,
     },
@@ -529,6 +560,7 @@ export const EmailCampaigns: CollectionConfig = {
         description: 'Last synced with Listmonk',
         readOnly: true,
         position: 'sidebar',
+        condition: () => false,
         date: {
           displayFormat: 'yyyy-MM-dd HH:mm:ss',
         },
@@ -547,6 +579,7 @@ export const EmailCampaigns: CollectionConfig = {
         description: 'Sync status with Listmonk',
         readOnly: true,
         position: 'sidebar',
+        condition: () => false,
       },
     },
     {
@@ -556,7 +589,7 @@ export const EmailCampaigns: CollectionConfig = {
         description: 'Last sync error message (if any)',
         readOnly: true,
         position: 'sidebar',
-        condition: (data) => data.syncStatus === 'error',
+        condition: () => false,
       },
     },
   ],

@@ -32,7 +32,7 @@ const isPlatformMode = isFeatureEnabled('platform')
 export const EmailApiKeys: CollectionConfig = {
   slug: 'email-api-keys',
   admin: {
-    hidden: !emailMarketingFeatures.isEnabled(),
+    hidden: ({ user }) => !isSuperAdmin(user as any),
     group: 'E-mail Marketing',
     useAsTitle: 'name',
     defaultColumns: ['name', 'keyPrefix', 'environment', 'status', 'tenant', 'lastUsedAt'],
