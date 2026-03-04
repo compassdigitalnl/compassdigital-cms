@@ -260,8 +260,24 @@ export const Pages: CollectionConfig = {
     // SEO fields are automatically added by @payloadcms/plugin-seo
   ],
   hooks: {
-    afterChange: [revalidatePage],
-    afterDelete: [revalidateDelete],
+    afterChange: [
+      revalidatePage,
+      async ({ doc }) => {
+        // Fire-and-forget: index page in Meilisearch
+        import('@/lib/meilisearch/indexPages').then(({ indexPage }) => {
+          indexPage(doc).catch(() => {})
+        }).catch(() => {})
+      },
+    ],
+    afterDelete: [
+      revalidateDelete,
+      async ({ doc }) => {
+        // Fire-and-forget: remove page from Meilisearch
+        import('@/lib/meilisearch/indexPages').then(({ deletePageFromIndex }) => {
+          deletePageFromIndex(doc.id).catch(() => {})
+        }).catch(() => {})
+      },
+    ],
   },
 }
 

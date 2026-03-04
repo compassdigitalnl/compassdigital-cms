@@ -166,7 +166,10 @@ export class RAGChatbotService {
     settings: ChatbotSettings,
   ): Promise<ChatbotContext[]> {
     const maxResults = settings.knowledgeBaseIntegration?.maxResults || 3
-    const collections = settings.knowledgeBaseIntegration?.searchCollections || ['blog-posts']
+    const configuredCollections = settings.knowledgeBaseIntegration?.searchCollections
+    const collections = configuredCollections && configuredCollections.length > 0
+      ? configuredCollections
+      : ['products', 'blog-posts', 'pages']
 
     const contexts: ChatbotContext[] = []
 
@@ -177,14 +180,29 @@ export class RAGChatbotService {
       const response = await fetch(searchUrl)
       const data = await response.json()
 
-      if (data.hits && data.hits.length > 0) {
+      // Flatten multi-index response: /api/search?type=all returns { products: { hits }, blogPosts: { hits }, pages: { hits } }
+      const allHits: Array<{ id: any; title?: string; collection: string }> = []
+      if (data.products?.hits) {
+        allHits.push(...data.products.hits.map((h: any) => ({ ...h, collection: h.collection || 'products' })))
+      }
+      if (data.blogPosts?.hits) {
+        allHits.push(...data.blogPosts.hits.map((h: any) => ({ ...h, collection: h.collection || 'blog-posts' })))
+      }
+      if (data.pages?.hits) {
+        allHits.push(...data.pages.hits.map((h: any) => ({ ...h, collection: h.collection || 'pages' })))
+      }
+      // Fallback: if response has top-level hits (single-index search)
+      if (allHits.length === 0 && data.hits) {
+        allHits.push(...data.hits.map((h: any) => ({ ...h, collection: h.collection || 'blog-posts' })))
+      }
+
+      if (allHits.length > 0) {
         const payload = await getPayload({ config })
 
         // Get full content for top results
-        for (const hit of data.hits.slice(0, maxResults)) {
+        for (const hit of allHits.slice(0, maxResults)) {
           try {
-            // Determine collection from hit
-            const collection = hit.collection || 'blog-posts'
+            const collection = hit.collection
 
             // Skip if not in allowed collections
             if (!collections.includes(collection)) continue

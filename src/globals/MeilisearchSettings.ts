@@ -40,6 +40,15 @@ export const MeilisearchSettings: GlobalConfig = {
           description: 'Configure which collections to index and search',
           fields: [
             {
+              name: 'reindexButton',
+              type: 'ui',
+              admin: {
+                components: {
+                  Field: '@/branches/shared/components/admin/ReindexButton#ReindexButton',
+                },
+              },
+            },
+            {
               name: 'indexedCollections',
               type: 'array',
               label: 'Indexed Collections',

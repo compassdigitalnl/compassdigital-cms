@@ -181,6 +181,7 @@ export function transformProductForSearch(product: Product, brandMap?: BrandMap)
     specs,
     specsFlatSearch,
     ...flatSpecs, // Flat spec fields for Meilisearch faceting
+    collection: 'products' as const,
     createdAt: product.createdAt,
     updatedAt: product.updatedAt,
   }

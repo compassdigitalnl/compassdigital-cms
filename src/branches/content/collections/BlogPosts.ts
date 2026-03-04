@@ -465,6 +465,22 @@ export const BlogPosts: CollectionConfig = {
         return data
       },
     ],
+    afterChange: [
+      async ({ doc }) => {
+        // Fire-and-forget: index blog post in Meilisearch
+        import('@/lib/meilisearch/indexBlogPosts').then(({ indexBlogPost }) => {
+          indexBlogPost(doc).catch(() => {})
+        }).catch(() => {})
+      },
+    ],
+    afterDelete: [
+      async ({ doc }) => {
+        // Fire-and-forget: remove blog post from Meilisearch
+        import('@/lib/meilisearch/indexBlogPosts').then(({ deleteBlogPostFromIndex }) => {
+          deleteBlogPostFromIndex(doc.id).catch(() => {})
+        }).catch(() => {})
+      },
+    ],
   },
 }
 

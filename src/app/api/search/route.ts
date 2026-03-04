@@ -39,18 +39,25 @@ export async function GET(request: NextRequest) {
       )
     }
 
+    // Empty result helper (used when an index doesn't exist yet)
+    const emptyResult = { hits: [] as any[], estimatedTotalHits: 0, processingTimeMs: 0 }
+
     // Search based on type
     if (type === 'all') {
-      // Multi-index search
-      const [products, blogPosts] = await Promise.all([
+      // Multi-index search — each index wrapped with .catch to prevent crashes on missing indexes
+      const [products, blogPosts, pages] = await Promise.all([
         meilisearchClient.index(INDEXES.PRODUCTS).search(query, {
           limit: 5,
           attributesToHighlight: ['title', 'brand', 'sku'],
-        }),
+        }).catch(() => emptyResult),
         meilisearchClient.index(INDEXES.BLOG_POSTS).search(query, {
           limit: 3,
           attributesToHighlight: ['title', 'excerpt'],
-        }),
+        }).catch(() => emptyResult),
+        meilisearchClient.index(INDEXES.PAGES).search(query, {
+          limit: 3,
+          attributesToHighlight: ['title', 'content'],
+        }).catch(() => emptyResult),
       ])
 
       return NextResponse.json({
@@ -62,16 +69,25 @@ export async function GET(request: NextRequest) {
           hits: blogPosts.hits,
           total: blogPosts.estimatedTotalHits || 0,
         },
+        pages: {
+          hits: pages.hits,
+          total: pages.estimatedTotalHits || 0,
+        },
         query,
-        processingTimeMs: products.processingTimeMs + blogPosts.processingTimeMs,
+        processingTimeMs: (products.processingTimeMs || 0) + (blogPosts.processingTimeMs || 0) + (pages.processingTimeMs || 0),
       })
     } else {
       // Single index search
-      const indexName = type === 'products' ? INDEXES.PRODUCTS : INDEXES.BLOG_POSTS
+      const indexMap: Record<string, string> = {
+        products: INDEXES.PRODUCTS,
+        'blog-posts': INDEXES.BLOG_POSTS,
+        pages: INDEXES.PAGES,
+      }
+      const indexName = indexMap[type] || INDEXES.PRODUCTS
 
       const results = await meilisearchClient.index(indexName).search(query, {
         limit,
-        attributesToHighlight: ['title', 'brand', 'sku', 'excerpt'],
+        attributesToHighlight: ['title', 'brand', 'sku', 'excerpt', 'content'],
       })
 
       return NextResponse.json({

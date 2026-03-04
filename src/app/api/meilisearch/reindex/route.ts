@@ -3,11 +3,14 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { isMeilisearchAvailable, initializeMeilisearch } from '@/lib/meilisearch/client'
 import { reindexAllProducts } from '@/lib/meilisearch/indexProducts'
+import { reindexAllBlogPosts } from '@/lib/meilisearch/indexBlogPosts'
+import { reindexAllPages } from '@/lib/meilisearch/indexPages'
+import { getMeilisearchSettings, mergeSettings, isCollectionIndexed } from '@/lib/meilisearch/settings'
 
 /**
  * POST /api/meilisearch/reindex
  *
- * Manually reindex all products in Meilisearch
+ * Manually reindex all enabled collections in Meilisearch
  *
  * Usage:
  * curl -X POST http://localhost:3020/api/meilisearch/reindex \
@@ -37,20 +40,48 @@ export async function POST(request: NextRequest) {
     // Initialize indexes (if not already done) with CMS settings
     await initializeMeilisearch(payload)
 
-    // Reindex all products
-    const success = await reindexAllProducts(payload)
+    // Get settings to check which collections are enabled
+    const cmsSettings = await getMeilisearchSettings(payload)
+    const settings = mergeSettings(cmsSettings)
 
-    if (success) {
+    // Reindex per enabled collection
+    const results: Record<string, boolean> = {}
+
+    if (isCollectionIndexed('products', settings)) {
+      results.products = await reindexAllProducts(payload)
+    }
+
+    if (isCollectionIndexed('blog-posts', settings)) {
+      results.blogPosts = await reindexAllBlogPosts(payload)
+    }
+
+    if (isCollectionIndexed('pages', settings)) {
+      results.pages = await reindexAllPages(payload)
+    }
+
+    const allSuccess = Object.values(results).every(Boolean)
+    const anySuccess = Object.values(results).some(Boolean)
+
+    if (allSuccess) {
       return NextResponse.json({
         success: true,
-        message: 'Products reindexed successfully',
+        message: 'All collections reindexed successfully',
+        results,
+        timestamp: new Date().toISOString(),
+      })
+    } else if (anySuccess) {
+      return NextResponse.json({
+        success: true,
+        message: 'Some collections reindexed (check results for details)',
+        results,
         timestamp: new Date().toISOString(),
       })
     } else {
       return NextResponse.json(
         {
           error: 'Reindex failed',
-          message: 'Failed to reindex products. Check server logs.',
+          message: 'Failed to reindex collections. Check server logs.',
+          results,
         },
         { status: 500 }
       )

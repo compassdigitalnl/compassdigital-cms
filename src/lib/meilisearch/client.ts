@@ -215,6 +215,60 @@ export async function configureBlogIndex(payload: Payload) {
 }
 
 /**
+ * Configure index settings for pages
+ * Uses CMS settings from Meilisearch Settings global
+ *
+ * @param payload - Payload instance to fetch settings
+ */
+export async function configurePagesIndex(payload: Payload) {
+  const index = await getOrCreateIndex(INDEXES.PAGES)
+
+  // Fetch CMS settings
+  const cmsSettings = await getMeilisearchSettings(payload)
+  const settings = mergeSettings(cmsSettings)
+
+  await index.updateSettings({
+    searchableAttributes: ['title', 'content', 'slug'],
+
+    filterableAttributes: ['status', 'collection'],
+
+    sortableAttributes: ['createdAt', 'title'],
+
+    displayedAttributes: ['*'],
+
+    // Ranking rules (from CMS)
+    rankingRules: settings.rankingRules as any[],
+
+    // Typo tolerance (from CMS)
+    typoTolerance: {
+      enabled: settings.typoTolerance.enabled,
+      minWordSizeForTypos: {
+        oneTypo: settings.typoTolerance.minWordSizeForOneTypo,
+        twoTypos: settings.typoTolerance.minWordSizeForTwoTypos,
+      },
+      disableOnWords: (settings.typoTolerance as any).disableOnWords,
+    },
+
+    // Synonyms (from CMS)
+    synonyms: (settings as any).synonyms?.reduce((acc: any, group: any) => {
+      const key = group[0]
+      acc[key] = group
+      return acc
+    }, {} as Record<string, string[]>) || {},
+
+    // Stop words (from CMS)
+    stopWords: (settings as any).stopWords || [],
+
+    // Pagination (from CMS)
+    pagination: {
+      maxTotalHits: settings.pagination.maxTotalHits,
+    },
+  })
+
+  console.log('✅ Pages index configured with CMS settings')
+}
+
+/**
  * Initialize all indexes
  * Uses CMS settings from Meilisearch Settings global
  *
@@ -233,6 +287,7 @@ export async function initializeMeilisearch(payload: Payload) {
 
     await configureProductsIndex(payload)
     await configureBlogIndex(payload)
+    await configurePagesIndex(payload)
 
     console.log('✅ Meilisearch initialized successfully with CMS settings!')
     return true
