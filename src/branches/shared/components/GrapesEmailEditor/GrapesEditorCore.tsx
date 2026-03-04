@@ -31,12 +31,6 @@ interface GrapesJSEditor {
   Commands: any
 }
 
-type GrapesJSModule = ((config: any) => GrapesJSEditor) & { default?: (config: any) => GrapesJSEditor }
-
-interface GrapesJSNewsletterModule {
-  default: (editor: GrapesJSEditor, options?: any) => void
-}
-
 // Loading state component
 function EditorInitializing() {
   return (
@@ -104,10 +98,12 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
     ;(async () => {
       try {
         // Dynamic imports - only load when this component is rendered
-        const grapesjs = (await import('grapesjs')) as unknown as GrapesJSModule
-        const gjsPresetNewsletter = (await import(
-          'grapesjs-preset-newsletter'
-        )) as GrapesJSNewsletterModule
+        const gjsModule = await import('grapesjs')
+        const gjsPresetModule = await import('grapesjs-preset-newsletter')
+
+        // Resolve the actual grapesjs object (ESM: { default: { init, ... } })
+        const grapesjs = (gjsModule as any).default || gjsModule
+        const gjsPresetNewsletter = (gjsPresetModule as any).default || gjsPresetModule
 
         // Get configuration
         const config = getGrapesConfig({
@@ -117,13 +113,13 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
           readOnly,
         })
 
-        // Initialize editor
-        const editorFn = grapesjs.default || grapesjs
-        editor = editorFn(config)
+        // Initialize editor — grapesjs exposes .init(), not a callable function
+        editor = grapesjs.init(config)
         editorRef.current = editor
 
-        // Load newsletter preset
-        gjsPresetNewsletter.default(editor, {
+        // Load newsletter preset (it's a GrapesJS plugin function)
+        if (typeof gjsPresetNewsletter === 'function') {
+          gjsPresetNewsletter(editor, {
           modalTitleImport: 'Import template',
           modalTitleExport: 'Export template',
           codeViewerTheme: 'material',
@@ -136,7 +132,8 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
             margin: '0',
             padding: '0',
           },
-        })
+          })
+        }
 
         // Register custom blocks
         registerCustomBlocks(editor, {
