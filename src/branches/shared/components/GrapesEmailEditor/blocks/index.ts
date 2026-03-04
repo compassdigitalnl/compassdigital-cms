@@ -9,7 +9,10 @@
 
 import { registerTenantBlocks } from './tenant'
 import { registerListmonkBlocks } from './listmonk'
+import { registerRteVariables } from './rteVariables'
 import { registerEcommerceBlocks } from './ecommerce'
+import { registerProductPicker } from './productPicker'
+import { registerLiveEcommerceBlocks } from './ecommerce-live'
 
 export interface CustomBlocksOptions {
   tenantBranding?: {
@@ -39,10 +42,13 @@ export function registerCustomBlocks(editor: any, options: CustomBlocksOptions =
   // Listmonk variables (subscriber data, unsubscribe link, etc.)
   if (listmonkVariables) {
     registerListmonkBlocks(editor)
+    registerRteVariables(editor)
   }
 
   // E-commerce blocks (product cards, etc.)
   if (ecommerceBlocks) {
     registerEcommerceBlocks(editor)
+    registerProductPicker(editor)
+    registerLiveEcommerceBlocks(editor)
   }
 }

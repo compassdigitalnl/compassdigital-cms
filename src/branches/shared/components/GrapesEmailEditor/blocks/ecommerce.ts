@@ -299,5 +299,74 @@ export function registerEcommerceBlocks(editor: any) {
     `,
   })
 
-  console.log('[E-commerce Blocks] Registered 6 e-commerce blokken')
+  // ═══════════════════════════════════════════════════════════
+  // KORTINGSCODE
+  // ═══════════════════════════════════════════════════════════
+  blockManager.add('ecom-discount-code', {
+    label: 'Kortingscode',
+    category: 'E-commerce',
+    attributes: { class: 'fa fa-ticket' },
+    content: `
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
+        <tr>
+          <td style="padding: 20px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border: 2px dashed #3b82f6; border-radius: 8px; background-color: #eff6ff;">
+              <tr>
+                <td style="padding: 30px 20px; text-align: center;">
+                  <p style="margin: 0 0 10px; padding: 0; color: #1e40af; font-family: Arial, sans-serif; font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">
+                    Jouw kortingscode
+                  </p>
+                  <div style="display: inline-block; background-color: #ffffff; border: 2px solid #3b82f6; border-radius: 6px; padding: 12px 30px; margin-bottom: 15px;">
+                    <span style="color: #1e40af; font-family: 'Courier New', monospace; font-size: 28px; font-weight: 700; letter-spacing: 3px;">
+                      KORTING25
+                    </span>
+                  </div>
+                  <p style="margin: 0; padding: 0; color: #6b7280; font-family: Arial, sans-serif; font-size: 13px;">
+                    Geldig t/m 31-12-2026 · Minimale bestelling €50
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    `,
+  })
+
+  // ═══════════════════════════════════════════════════════════
+  // KORTING BANNER
+  // ═══════════════════════════════════════════════════════════
+  blockManager.add('ecom-discount-banner', {
+    label: 'Korting banner',
+    category: 'E-commerce',
+    attributes: { class: 'fa fa-percent' },
+    content: `
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
+        <tr>
+          <td style="padding: 0;">
+            <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);">
+              <tr>
+                <td style="padding: 40px 20px; text-align: center;">
+                  <div style="color: #ffffff; font-family: Arial, sans-serif; font-size: 56px; font-weight: 800; line-height: 1; margin-bottom: 10px;">
+                    25% KORTING
+                  </div>
+                  <p style="margin: 0 0 5px; padding: 0; color: rgba(255,255,255,0.9); font-family: Arial, sans-serif; font-size: 18px; font-weight: 500;">
+                    Op alle producten in de webshop
+                  </p>
+                  <p style="margin: 0 0 25px; padding: 0; color: rgba(255,255,255,0.7); font-family: Arial, sans-serif; font-size: 14px;">
+                    Gebruik code <strong style="color: #ffffff;">KORTING25</strong> bij het afrekenen
+                  </p>
+                  <a href="#" style="display: inline-block; padding: 14px 40px; background-color: #ffffff; color: #7c3aed; font-family: Arial, sans-serif; font-size: 16px; font-weight: 700; text-decoration: none; border-radius: 6px;">
+                    Shop nu
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    `,
+  })
+
+  console.log('[E-commerce Blocks] Registered 8 e-commerce blokken')
 }

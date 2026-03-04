@@ -58,6 +58,7 @@ import { RecentlyViewed } from '@/branches/ecommerce/collections/RecentlyViewed'
 import { RecurringOrders } from '@/branches/ecommerce/collections/RecurringOrders'
 import { Returns } from '@/branches/ecommerce/collections/Returns'
 import { StockReservations } from '@/branches/ecommerce/collections/StockReservations'
+import { DiscountCodes } from '@/branches/ecommerce/collections/DiscountCodes'
 import { SubscriptionPlans } from '@/branches/ecommerce/collections/SubscriptionPlans'
 import { UserSubscriptions } from '@/branches/ecommerce/collections/UserSubscriptions'
 
@@ -297,6 +298,7 @@ export default buildConfig({
 
     // Cart & Checkout
     _col(Carts),
+    _col(DiscountCodes),
 
     // Order Management
     _col(Orders),

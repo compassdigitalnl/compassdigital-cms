@@ -43,6 +43,7 @@ export interface ClientFeatures {
   guestCheckout?: boolean
   invoices?: boolean
   orderTracking?: boolean
+  discounts?: boolean
 
   // === MY ACCOUNT (top-level) ===
   myAccount?: boolean
@@ -219,6 +220,7 @@ export const features = {
   guestCheckout: isFeatureEnabled('guest_checkout'),
   invoices: isFeatureEnabled('invoices'),
   orderTracking: isFeatureEnabled('order_tracking'),
+  discounts: isFeatureEnabled('discounts'),
 
   // === MY ACCOUNT ===
   myAccount: isFeatureEnabled('my_account'),
@@ -364,6 +366,7 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     guestCheckout: 'ENABLE_GUEST_CHECKOUT',
     invoices: 'ENABLE_INVOICES',
     orderTracking: 'ENABLE_ORDER_TRACKING',
+    discounts: 'ENABLE_DISCOUNTS',
 
     // === MY ACCOUNT ===
     myAccount: 'ENABLE_MY_ACCOUNT',
@@ -459,6 +462,7 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     // === CHECKOUT ===
     orders: 'checkout',
     invoices: 'invoices',
+    'discount-codes': 'discounts',
 
     // === MY ACCOUNT ===
     returns: 'returns',
