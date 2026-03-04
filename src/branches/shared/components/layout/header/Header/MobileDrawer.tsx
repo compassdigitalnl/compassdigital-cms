@@ -11,11 +11,12 @@ type Props = {
   isOpen: boolean
   onClose: () => void
   header: Header
+  navigation?: { mode: string; items?: any[]; specialItems?: any[]; ctaButton?: any } | null
   theme: Theme1 | null
   settings?: Setting | null
 }
 
-export function MobileDrawer({ isOpen, onClose, header, theme, settings }: Props) {
+export function MobileDrawer({ isOpen, onClose, header, navigation, theme, settings }: Props) {
   const primaryColor = (theme as any)?.primaryColor || '#00897B'
   const secondaryColor = (theme as any)?.secondaryColor || '#0A1628'
 
@@ -62,8 +63,8 @@ export function MobileDrawer({ isOpen, onClose, header, theme, settings }: Props
     }
   }, [isOpen])
 
-  const navItems = (header as any).navigation?.items || []
-  const specialItems = (header as any).navigation?.specialItems || []
+  const navItems = navigation?.items || []
+  const specialItems = navigation?.specialItems || []
 
   return (
     <>
@@ -85,21 +86,21 @@ export function MobileDrawer({ isOpen, onClose, header, theme, settings }: Props
       >
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-gray-200 flex-shrink-0">
-          {(header as any).logoOverride && typeof (header as any).logoOverride === 'object' && (header as any).logoOverride.url ? (
+          {(header as any).logo && typeof (header as any).logo === 'object' && (header as any).logo.url ? (
             <img
-              src={(header as any).logoOverride.url}
-              alt={(header as any).siteNameOverride || 'Logo'}
+              src={(header as any).logo.url}
+              alt={(header as any).siteName || 'Logo'}
               className="h-7 w-auto"
             />
-          ) : (header as any).siteNameOverride ? (
+          ) : (header as any).siteName ? (
             <span className="text-lg font-extrabold" style={{ color: secondaryColor }}>
               {header.siteNameAccent ? (
                 <>
-                  {(header as any).siteNameOverride.replace(header.siteNameAccent, '')}
+                  {(header as any).siteName.replace(header.siteNameAccent, '')}
                   <span style={{ color: primaryColor }}>{header.siteNameAccent}</span>
                 </>
               ) : (
-                (header as any).siteNameOverride
+                (header as any).siteName
               )}
             </span>
           ) : (

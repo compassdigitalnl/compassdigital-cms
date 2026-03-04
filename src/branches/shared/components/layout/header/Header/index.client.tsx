@@ -97,6 +97,63 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   ClipboardList,
 }
 
+// Adapter: maps flat CMS v2 fields to nested objects expected by child components
+function mapHeaderData(header: any) {
+  return {
+    // TopBar — nested object from flat fields
+    topBar: {
+      enabled: header.topbarEnabled ?? header.showTopbar ?? false,
+      backgroundColor: header.topbarBgColor || undefined,
+      textColor: header.topbarTextColor || undefined,
+      leftMessages: header.topbarMessages || [],
+      rightLinks: header.topbarRightLinks || [],
+    },
+
+    // AlertBar — nested object from flat fields
+    alertBar: {
+      enabled: header.alertBarEnabled ?? header.showAlertBar ?? false,
+      message: header.alertBarMessage || '',
+      type: header.alertBarType || 'info',
+      icon: header.alertBarIcon || undefined,
+      link: header.alertBarLink || {},
+      dismissible: header.alertBarDismissible ?? true,
+      schedule: header.alertBarSchedule || {},
+      customColors: header.alertBarCustomColors || {},
+    },
+
+    // Navigation — nested object from flat fields
+    navigation: (header.showNavigation !== false) ? {
+      mode: header.navigationMode || 'manual',
+      items: header.manualNavItems || [],
+      specialItems: header.specialNavItems || [],
+      ctaButton: header.ctaButton
+        ? { ...header.ctaButton, show: header.ctaButton.enabled }
+        : undefined,
+      categoryNavigation: header.categoryNavigation || {},
+    } : null,
+
+    // Logo — renamed fields
+    logoOverride: header.logo || undefined,
+    siteNameOverride: header.siteName || undefined,
+    siteNameAccent: header.siteNameAccent || undefined,
+
+    // Search — renamed fields
+    enableSearch: (header.searchEnabled ?? true) && (header.showSearchBar !== false),
+    searchPlaceholder: header.searchPlaceholder || 'Zoek producten...',
+
+    // Action buttons — renamed fields
+    showPhone: header.showPhoneButton ?? true,
+    showCart: header.showCartButton ?? true,
+    showAccount: header.showAccountButton ?? true,
+    showWishlist: header.showWishlistButton ?? false,
+    customButtons: header.customActionButtons || [],
+
+    // Behavior
+    stickyHeader: header.stickyHeader ?? true,
+    showShadow: header.stickyHeaderShadow ?? true,
+  }
+}
+
 export function HeaderClient({ header, theme, settings }: Props) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -113,24 +170,14 @@ export function HeaderClient({ header, theme, settings }: Props) {
     return null
   }
 
-  // Extract settings from header
+  // Map flat CMS v2 fields to nested structure for child components
+  const mapped = mapHeaderData(header)
   const {
-    topBar,
-    alertBar,
-    logoOverride,
-    siteNameOverride,
-    siteNameAccent,
-    enableSearch = true,
-    searchPlaceholder = 'Zoek producten...',
-    showPhone = true,
-    showWishlist = false,
-    showAccount = true,
-    showCart = true,
-    customButtons = [],
-    navigation,
-    stickyHeader = true,
-    showShadow = true,
-  } = header as any
+    topBar, alertBar, navigation, logoOverride, siteNameOverride,
+    siteNameAccent, enableSearch, searchPlaceholder, showPhone,
+    showWishlist, showAccount, showCart, customButtons,
+    stickyHeader, showShadow,
+  } = mapped
 
   // Build class names based on settings
   const headerClasses = cn(
@@ -331,6 +378,7 @@ export function HeaderClient({ header, theme, settings }: Props) {
         isOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
         header={header}
+        navigation={mapped.navigation}
         theme={theme || null}
         settings={settings}
       />
