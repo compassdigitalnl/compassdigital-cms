@@ -89,7 +89,8 @@ export default function MyAccountLayout({ children }: { children: React.ReactNod
   const userInitials = user
     ? (user.firstName?.[0] || '') + (user.lastName?.[0] || user.email?.[0] || '')
     : ''
-  const userCompany = (user as any)?.company || undefined
+  const companyRaw = (user as any)?.company
+  const userCompany = typeof companyRaw === 'string' ? companyRaw : companyRaw?.name || undefined
   const memberSinceDate = user?.createdAt
     ? new Date(user.createdAt).toLocaleDateString('nl-NL', { year: 'numeric', month: 'long' })
     : ''
