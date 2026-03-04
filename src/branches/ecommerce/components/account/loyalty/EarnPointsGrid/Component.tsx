@@ -1,7 +1,7 @@
 import React from 'react'
 import { Zap, Star } from 'lucide-react'
 import type { EarnPointsGridProps } from './types'
-import type { EarnWayColor } from '@/branches/ecommerce/templates/account/LoyaltyTemplate/types'
+import type { EarnWayColor } from '@/branches/ecommerce/templates/account/AccountTemplate1/LoyaltyTemplate/types'
 
 const bgColorMap: Record<EarnWayColor, string> = {
   teal: 'rgba(0,137,123,0.1)',

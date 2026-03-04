@@ -4,11 +4,13 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import RecurringOrdersTemplate from '@/branches/ecommerce/templates/account/RecurringOrdersTemplate'
+import RecurringOrdersTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/RecurringOrdersTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
 
 export default function RecurringOrdersPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
+  const { config } = useAccountTemplate()
   const { user, isLoading: authLoading } = useAccountAuth()
   const [recurringOrders, setRecurringOrders] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)

@@ -3,15 +3,18 @@
 import React, { useState } from 'react'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import LoyaltyTemplate from '@/branches/ecommerce/templates/account/LoyaltyTemplate'
+import LoyaltyTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/LoyaltyTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
 import type {
   LoyaltyData,
   LoyaltyTransaction,
   LoyaltyReward,
-} from '@/branches/ecommerce/templates/account/LoyaltyTemplate/types'
+} from '@/branches/ecommerce/templates/account/AccountTemplate1/LoyaltyTemplate/types'
 
 export default function LoyaltyPage() {
   if (!isFeatureEnabled('shop')) notFound()
+
+  const { config } = useAccountTemplate()
 
   // TODO: Replace with real loyalty data from API
   const [loyaltyData] = useState<LoyaltyData>({

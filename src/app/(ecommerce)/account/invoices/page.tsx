@@ -4,12 +4,14 @@ import React, { useState, useEffect } from 'react'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import InvoicesTemplate from '@/branches/ecommerce/templates/account/InvoicesTemplate'
-import type { Invoice, InvoiceStats } from '@/branches/ecommerce/templates/account/InvoicesTemplate/types'
+import InvoicesTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/InvoicesTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import type { Invoice, InvoiceStats } from '@/branches/ecommerce/templates/account/AccountTemplate1/InvoicesTemplate/types'
 
 export default function InvoicesPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
+  const { config } = useAccountTemplate()
   const { user, isLoading: authLoading } = useAccountAuth()
   const [invoices, setInvoices] = useState<Invoice[]>([])
   const [stats, setStats] = useState<InvoiceStats>({ totalInvoices: 0, paidInvoices: 0, pendingInvoices: 0 })

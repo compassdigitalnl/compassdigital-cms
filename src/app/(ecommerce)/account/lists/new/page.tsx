@@ -14,6 +14,7 @@ import {
   Package,
 } from 'lucide-react'
 import { isFeatureEnabled } from '@/lib/features'
+import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
 import { notFound } from 'next/navigation'
 
 const COLORS = {
@@ -48,6 +49,7 @@ const COLOR_OPTIONS = [
 export default function NewOrderListPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
+  const { config } = useAccountTemplate()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)

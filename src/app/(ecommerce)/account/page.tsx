@@ -4,13 +4,15 @@ import React, { useState, useEffect } from 'react'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import DashboardTemplate from '@/branches/ecommerce/templates/account/DashboardTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import DashboardTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/DashboardTemplate'
 import { AccountLoadingSkeleton } from '@/branches/ecommerce/components/account/ui'
-import type { DashboardStats, DashboardOrder, DashboardAddress } from '@/branches/ecommerce/templates/account/DashboardTemplate/types'
+import type { DashboardStats, DashboardOrder, DashboardAddress } from '@/branches/ecommerce/templates/account/AccountTemplate1/DashboardTemplate/types'
 
 export default function MyAccountPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
+  const { config } = useAccountTemplate()
   const { user, isLoading: authLoading } = useAccountAuth()
   const [stats, setStats] = useState<DashboardStats>({ totalOrders: 0, ordersInTransit: 0, orderLists: 0, yearlySpend: 0 })
   const [recentOrders, setRecentOrders] = useState<DashboardOrder[]>([])

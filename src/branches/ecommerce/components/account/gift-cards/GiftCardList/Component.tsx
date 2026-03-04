@@ -11,7 +11,7 @@ import {
 } from 'lucide-react'
 import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { GiftCardListProps } from './types'
-import type { GiftCard, GiftCardTransaction } from '@/branches/ecommerce/templates/account/GiftCardsTemplate/types'
+import type { GiftCard, GiftCardTransaction } from '@/branches/ecommerce/templates/account/AccountTemplate1/GiftCardsTemplate/types'
 
 // ── helpers ────────────────────────────────────────────────────────────────
 

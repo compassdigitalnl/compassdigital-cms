@@ -3,8 +3,9 @@
 import React, { useState } from 'react'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import LicensesTemplate from '@/branches/ecommerce/templates/account/LicensesTemplate'
-import type { LicenseItem, LicenseStats } from '@/branches/ecommerce/templates/account/LicensesTemplate/types'
+import LicensesTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/LicensesTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import type { LicenseItem, LicenseStats } from '@/branches/ecommerce/templates/account/AccountTemplate1/LicensesTemplate/types'
 
 // TODO: Replace with real licenses data from API
 const MOCK_LICENSES: LicenseItem[] = [
@@ -71,6 +72,7 @@ const MOCK_STATS: LicenseStats = {
 export default function LicensesPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
+  const { config } = useAccountTemplate()
   const [licenses] = useState<LicenseItem[]>(MOCK_LICENSES)
   const [stats] = useState<LicenseStats>(MOCK_STATS)
 

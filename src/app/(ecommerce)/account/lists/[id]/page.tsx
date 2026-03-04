@@ -6,8 +6,9 @@ import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 import { arrayMove } from '@dnd-kit/sortable'
 import { DragEndEvent } from '@dnd-kit/core'
-import OrderListDetailTemplate from '@/branches/ecommerce/templates/account/OrderListDetailTemplate'
-import type { OrderList, QuickAddProduct } from '@/branches/ecommerce/templates/account/OrderListDetailTemplate/types'
+import OrderListDetailTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/OrderListDetailTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import type { OrderList, QuickAddProduct } from '@/branches/ecommerce/templates/account/AccountTemplate1/OrderListDetailTemplate/types'
 
 // ============================================================================
 // COLORS (for loading/error states)
@@ -29,6 +30,7 @@ const COLORS = {
 export default function OrderListDetailPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
+  const { config } = useAccountTemplate()
   const params = useParams()
   const router = useRouter()
   const listId = params?.id as string

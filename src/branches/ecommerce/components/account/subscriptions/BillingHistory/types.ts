@@ -1,4 +1,4 @@
-import type { SubscriptionInvoice } from '@/branches/ecommerce/templates/account/SubscriptionsTemplate/types'
+import type { SubscriptionInvoice } from '@/branches/ecommerce/templates/account/AccountTemplate1/SubscriptionsTemplate/types'
 
 export interface BillingHistoryProps {
   invoices: SubscriptionInvoice[]

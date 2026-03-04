@@ -4,11 +4,13 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import FavoritesTemplate from '@/branches/ecommerce/templates/account/FavoritesTemplate'
+import FavoritesTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/FavoritesTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
 
 export default function FavoritesPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
+  const { config } = useAccountTemplate()
   const { user, isLoading: authLoading } = useAccountAuth()
   const [favorites, setFavorites] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)

@@ -344,10 +344,9 @@ export const Settings: GlobalConfig = {
               name: 'defaultMyAccountTemplate',
               type: 'select',
               label: 'Standaard My Account Template',
-              defaultValue: 'myaccounttemplate1',
+              defaultValue: 'enterprise',
               options: [
-                { label: 'My Account Template 1 - Enterprise (Dashboard, stats, quick actions)', value: 'myaccounttemplate1' },
-                // Template 2 will be simpler list view
+                { label: 'Enterprise — Dashboard met statistieken, sidebar navigatie', value: 'enterprise' },
               ],
               admin: {
                 description: 'Template voor mijn account pagina\'s',

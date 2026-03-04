@@ -3,12 +3,14 @@
 import React, { useState, useEffect } from 'react'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import OrderListsTemplate from '@/branches/ecommerce/templates/account/OrderListsTemplate'
-import type { OrderList } from '@/branches/ecommerce/templates/account/OrderListsTemplate/types'
+import OrderListsTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/OrderListsTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import type { OrderList } from '@/branches/ecommerce/templates/account/AccountTemplate1/OrderListsTemplate/types'
 
 export default function OrderListsPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
+  const { config } = useAccountTemplate()
   const [lists, setLists] = useState<OrderList[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)

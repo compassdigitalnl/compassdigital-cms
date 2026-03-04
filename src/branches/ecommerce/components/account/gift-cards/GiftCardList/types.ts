@@ -1,4 +1,4 @@
-import type { GiftCard, GiftCardTransaction } from '@/branches/ecommerce/templates/account/GiftCardsTemplate/types'
+import type { GiftCard, GiftCardTransaction } from '@/branches/ecommerce/templates/account/AccountTemplate1/GiftCardsTemplate/types'
 
 export interface GiftCardListProps {
   giftCards: GiftCard[]

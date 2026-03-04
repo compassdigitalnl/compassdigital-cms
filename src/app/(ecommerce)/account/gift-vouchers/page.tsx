@@ -3,12 +3,13 @@
 import React, { useState } from 'react'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import GiftCardsTemplate from '@/branches/ecommerce/templates/account/GiftCardsTemplate'
+import GiftCardsTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/GiftCardsTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
 import type {
   GiftCard,
   GiftCardTransaction,
   GiftCardBalanceSummary,
-} from '@/branches/ecommerce/templates/account/GiftCardsTemplate/types'
+} from '@/branches/ecommerce/templates/account/AccountTemplate1/GiftCardsTemplate/types'
 
 // TODO: Replace mock data with real API calls
 const MOCK_GIFT_CARDS: GiftCard[] = [
@@ -106,6 +107,7 @@ const MOCK_BALANCE: GiftCardBalanceSummary = {
 export default function GiftVouchersPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
+  const { config } = useAccountTemplate()
   const [redeemCode, setRedeemCode] = useState('')
 
   // TODO: Replace with real API call

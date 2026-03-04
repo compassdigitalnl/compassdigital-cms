@@ -1,4 +1,4 @@
-import type { RetourItem } from '@/branches/ecommerce/templates/account/RetourTemplate/types'
+import type { RetourItem } from '@/branches/ecommerce/templates/account/AccountTemplate1/RetourTemplate/types'
 
 export type { RetourItem }
 export type Step = 'select' | 'reason' | 'confirm' | 'done'

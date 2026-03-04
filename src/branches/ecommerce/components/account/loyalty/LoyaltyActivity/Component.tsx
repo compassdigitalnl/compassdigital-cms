@@ -1,7 +1,7 @@
 import React from 'react'
 import { List, ShoppingBag, Gift, Star, Users, TrendingUp } from 'lucide-react'
 import type { LoyaltyActivityProps } from './types'
-import type { TransactionType } from '@/branches/ecommerce/templates/account/LoyaltyTemplate/types'
+import type { TransactionType } from '@/branches/ecommerce/templates/account/AccountTemplate1/LoyaltyTemplate/types'
 
 function getTransactionIcon(type: TransactionType, isPositive: boolean) {
   const cls = `w-3.5 h-3.5`

@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { CreditCard, Download } from 'lucide-react'
 import type { BillingHistoryProps } from './types'
-import type { SubscriptionInvoice } from '@/branches/ecommerce/templates/account/SubscriptionsTemplate/types'
+import type { SubscriptionInvoice } from '@/branches/ecommerce/templates/account/AccountTemplate1/SubscriptionsTemplate/types'
 
 function statusLabel(status: SubscriptionInvoice['status']): string {
   switch (status) {

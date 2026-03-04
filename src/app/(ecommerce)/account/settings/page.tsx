@@ -5,11 +5,13 @@ import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 import { AccountLoadingSkeleton } from '@/branches/ecommerce/components/account/ui'
-import SettingsTemplate from '@/branches/ecommerce/templates/account/SettingsTemplate'
+import SettingsTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/SettingsTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
 
 export default function SettingsPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
+  const { config } = useAccountTemplate()
   const { user, isLoading: authLoading } = useAccountAuth()
 
   const [profileData, setProfileData] = useState({

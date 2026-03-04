@@ -4,8 +4,9 @@ import React, { useState } from 'react'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import QuotesTemplate from '@/branches/ecommerce/templates/account/QuotesTemplate'
-import type { QuoteProduct, QuoteFormData } from '@/branches/ecommerce/templates/account/QuotesTemplate/types'
+import QuotesTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/QuotesTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import type { QuoteProduct, QuoteFormData } from '@/branches/ecommerce/templates/account/AccountTemplate1/QuotesTemplate/types'
 
 const INITIAL_FORM_DATA: QuoteFormData = {
   companyName: '',
@@ -30,6 +31,7 @@ const SAMPLE_PRODUCTS: QuoteProduct[] = [
 export default function QuotesPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
+  const { config } = useAccountTemplate()
   const { isLoading: authLoading } = useAccountAuth()
 
   const [products, setProducts] = useState<QuoteProduct[]>(SAMPLE_PRODUCTS)

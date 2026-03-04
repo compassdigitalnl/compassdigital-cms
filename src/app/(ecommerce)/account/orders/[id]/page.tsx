@@ -5,13 +5,15 @@ import { useParams } from 'next/navigation'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import OrderDetailTemplate from '@/branches/ecommerce/templates/account/OrderDetailTemplate'
+import OrderDetailTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/OrderDetailTemplate'
 import { AccountLoadingSkeleton } from '@/branches/ecommerce/components/account/ui'
-import type { OrderDetail } from '@/branches/ecommerce/templates/account/OrderDetailTemplate/types'
+import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import type { OrderDetail } from '@/branches/ecommerce/templates/account/AccountTemplate1/OrderDetailTemplate/types'
 
 export default function OrderDetailPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
+  const { config } = useAccountTemplate()
   const params = useParams()
   const orderId = params?.id as string
   const { user, isLoading: authLoading } = useAccountAuth()

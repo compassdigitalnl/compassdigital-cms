@@ -5,7 +5,8 @@ import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 import { AccountLoadingSkeleton } from '@/branches/ecommerce/components/account/ui'
-import AddressesTemplate from '@/branches/ecommerce/templates/account/AddressesTemplate'
+import AddressesTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/AddressesTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
 
 const emptyFormData = {
   type: 'shipping',
@@ -25,6 +26,7 @@ const emptyFormData = {
 export default function AddressesPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
+  const { config } = useAccountTemplate()
   const { user, isLoading: authLoading } = useAccountAuth()
   const [addresses, setAddresses] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)

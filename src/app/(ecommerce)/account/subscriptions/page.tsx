@@ -3,14 +3,17 @@
 import React, { useState } from 'react'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import SubscriptionsTemplate from '@/branches/ecommerce/templates/account/SubscriptionsTemplate'
+import SubscriptionsTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/SubscriptionsTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
 import type {
   Subscription,
   SubscriptionInvoice,
-} from '@/branches/ecommerce/templates/account/SubscriptionsTemplate/types'
+} from '@/branches/ecommerce/templates/account/AccountTemplate1/SubscriptionsTemplate/types'
 
 export default function SubscriptionPage() {
   if (!isFeatureEnabled('shop')) notFound()
+
+  const { config } = useAccountTemplate()
 
   // TODO: Replace with real subscription data from API
   const [subscription] = useState<Subscription>({
