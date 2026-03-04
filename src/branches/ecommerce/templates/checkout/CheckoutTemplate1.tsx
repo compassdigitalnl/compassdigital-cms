@@ -22,6 +22,8 @@ import { useRouter } from 'next/navigation'
 import { useState, useCallback } from 'react'
 import { ShoppingBag, ArrowLeft, ArrowRight, Mail, ChevronDown, ChevronUp } from 'lucide-react'
 
+import { useEcommerceSettings } from '@/branches/ecommerce/hooks/useEcommerceSettings'
+
 // Phase 1 Components
 import { CheckoutProgressStepper } from '@/branches/ecommerce/components/checkout/CheckoutProgressStepper'
 import { AddressForm } from '@/branches/ecommerce/components/checkout/AddressForm'
@@ -52,6 +54,7 @@ export default function CheckoutTemplate1() {
   const { user } = useAuth()
   const router = useRouter()
   const { items, total, itemCount, updateQuantity, removeItem } = useCart()
+  const { settings: ecomSettings } = useEcommerceSettings()
 
   // Current step
   const [currentStep, setCurrentStep] = useState<CheckoutStep>('contact')
@@ -84,9 +87,9 @@ export default function CheckoutTemplate1() {
 
   // Pricing
   const subtotal = total
-  const freeShippingThreshold = 150
-  const shippingCost = shippingMethod === 'express' ? 9.95 : subtotal >= freeShippingThreshold ? 0 : 6.95
-  const tax = (subtotal + shippingCost - discount) * 0.21
+  const freeShippingThreshold = ecomSettings.freeShippingThreshold
+  const shippingCost = shippingMethod === 'express' ? 9.95 : subtotal >= freeShippingThreshold ? 0 : ecomSettings.shippingCost
+  const tax = (subtotal + shippingCost - discount) * (ecomSettings.vatPercentage / 100)
   const grandTotal = subtotal + shippingCost + tax - discount
 
   // Empty cart redirect
@@ -422,7 +425,7 @@ export default function CheckoutTemplate1() {
                       id="standard"
                       name="Standaard verzending"
                       description="Bezorging binnen 2-3 werkdagen"
-                      price={subtotal >= freeShippingThreshold ? 0 : 6.95}
+                      price={subtotal >= freeShippingThreshold ? 0 : ecomSettings.shippingCost}
                       estimatedDays="2-3 werkdagen"
                       selected={shippingMethod === 'standard'}
                       onSelect={() => setShippingMethod('standard')}

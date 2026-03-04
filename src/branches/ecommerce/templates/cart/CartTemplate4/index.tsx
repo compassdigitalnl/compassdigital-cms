@@ -26,6 +26,7 @@ import {
   Headphones,
 } from 'lucide-react'
 
+import { useEcommerceSettings } from '@/branches/ecommerce/hooks/useEcommerceSettings'
 import { CartLineItem } from '@/branches/ecommerce/components/ui/CartLineItem'
 import { OrderSummary } from '@/branches/ecommerce/components/ui/OrderSummary'
 import { CouponInput } from '@/branches/ecommerce/components/ui/CouponInput'
@@ -42,15 +43,16 @@ interface CartTemplate4Props {
 
 export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
   const { items, removeItem, updateQuantity, total, itemCount } = useCart()
+  const { settings: ecomSettings } = useEcommerceSettings()
 
   const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discountAmount: number } | undefined>()
   const [couponError, setCouponError] = useState('')
 
   const subtotal = total
-  const freeShippingThreshold = 150
-  const shipping = subtotal >= freeShippingThreshold ? 0 : 6.95
+  const freeShippingThreshold = ecomSettings.freeShippingThreshold
+  const shipping = subtotal >= freeShippingThreshold ? 0 : ecomSettings.shippingCost
   const discount = appliedCoupon?.discountAmount || 0
-  const tax = (subtotal + shipping - discount) * 0.21
+  const tax = (subtotal + shipping - discount) * (ecomSettings.vatPercentage / 100)
   const grandTotal = subtotal + shipping + tax - discount
 
   const handleCheckout = () => {

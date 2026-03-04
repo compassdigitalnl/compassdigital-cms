@@ -18,6 +18,7 @@ import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import Link from 'next/link'
 import { ShoppingCart, ArrowLeft, ChevronRight } from 'lucide-react'
 
+import { useEcommerceSettings } from '@/branches/ecommerce/hooks/useEcommerceSettings'
 import { CartLineItem } from '@/branches/ecommerce/components/ui/CartLineItem'
 import { OrderSummary } from '@/branches/ecommerce/components/ui/OrderSummary'
 import { CouponInput } from '@/branches/ecommerce/components/ui/CouponInput'
@@ -31,15 +32,16 @@ interface CartTemplate1Props {
 
 export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
   const { items, removeItem, updateQuantity, total, itemCount } = useCart()
+  const { settings: ecomSettings } = useEcommerceSettings()
 
   const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discountAmount: number } | undefined>()
   const [couponError, setCouponError] = useState('')
 
   const subtotal = total
-  const freeShippingThreshold = 150
-  const shipping = subtotal >= freeShippingThreshold ? 0 : 6.95
+  const freeShippingThreshold = ecomSettings.freeShippingThreshold
+  const shipping = subtotal >= freeShippingThreshold ? 0 : ecomSettings.shippingCost
   const discount = appliedCoupon?.discountAmount || 0
-  const tax = (subtotal + shipping - discount) * 0.21
+  const tax = (subtotal + shipping - discount) * (ecomSettings.vatPercentage / 100)
   const grandTotal = subtotal + shipping + tax - discount
 
   const handleCheckout = () => {
@@ -212,7 +214,7 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
                 variant="default"
                 signals={[
                   { icon: 'ShieldCheck', text: 'Veilig betalen via iDEAL, op rekening of creditcard' },
-                  { icon: 'Truck', text: 'Gratis verzending vanaf \u20AC150' },
+                  { icon: 'Truck', text: `Gratis verzending vanaf \u20AC${ecomSettings.freeShippingThreshold}` },
                   { icon: 'RotateCcw', text: '30 dagen retourrecht' },
                   { icon: 'Headphones', text: 'Vragen? Bel 0251-247233' },
                 ]}

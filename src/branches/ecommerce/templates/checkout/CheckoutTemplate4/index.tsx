@@ -21,10 +21,11 @@
 
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
 import { useAuth } from '@/providers/Auth'
+import { useEcommerceSettings } from '@/branches/ecommerce/hooks/useEcommerceSettings'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { ShoppingBag, ArrowLeft, ChevronDown, ChevronUp, CreditCard, Package, CheckCircle } from 'lucide-react'
 import { LucideIcon } from '@/branches/ecommerce/components/ui/LucideIcon'
 
@@ -89,34 +90,14 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
   const [showMobileCart, setShowMobileCart] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
 
-  // CMS data for shipping & payment (from e-commerce-settings global)
-  const [cmsShippingMethods, setCmsShippingMethods] = useState<any[]>([])
-  const [cmsPaymentOptions, setCmsPaymentOptions] = useState<any[]>([])
+  // E-commerce settings (shipping methods, payment options, VAT, etc.)
+  const { settings: ecomSettings } = useEcommerceSettings()
+  const cmsShippingMethods = ecomSettings.shippingMethods
+  const cmsPaymentOptions = ecomSettings.paymentOptions
 
-  // Fetch shipping methods + payment options from e-commerce-settings global
-  useEffect(() => {
-    fetch('/api/globals/e-commerce-settings?depth=1')
-      .then((res) => res.ok ? res.json() : null)
-      .then((data) => {
-        if (data?.shippingMethods?.length) {
-          const active = data.shippingMethods
-            .filter((m: any) => m.isActive)
-            .sort((a: any, b: any) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
-          setCmsShippingMethods(active)
-        }
-        if (data?.paymentOptions?.length) {
-          const active = data.paymentOptions
-            .filter((p: any) => p.isActive)
-            .sort((a: any, b: any) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
-          setCmsPaymentOptions(active)
-        }
-      })
-      .catch(() => {})
-  }, [])
-
-  // Pricing (from CMS settings with sensible defaults)
+  // Pricing
   const subtotal = total
-  const vatPercentage = (settings?.vatPercentage ?? 21) / 100
+  const vatPercentage = ecomSettings.vatPercentage / 100
 
   // Compute shipping cost from selected CMS method
   const selectedShipping = cmsShippingMethods.find((m) => m.slug === shippingMethod)
@@ -166,7 +147,8 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
   // Step validation
   const canProceedToShipping = isAddressComplete(billingAddress) && (sameAsBilling || isAddressComplete(shippingAddress))
   const canProceedToPayment = !!shippingMethod
-  const canPlaceOrder = paymentMethod && (paymentMethod !== 'invoice' || poNumber)
+  const meetsMinimumOrder = !ecomSettings.minimumOrderAmount || subtotal >= ecomSettings.minimumOrderAmount
+  const canPlaceOrder = paymentMethod && (paymentMethod !== 'invoice' || poNumber) && meetsMinimumOrder
 
   // Handlers
   const handleApplyCoupon = async (code: string) => {
@@ -341,7 +323,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                   /* Guest / Login / Register tabs */
                   <CheckoutAuthPanel
                     defaultTab="login"
-                    enableGuestCheckout={settings?.enableGuestCheckout ?? true}
+                    enableGuestCheckout={ecomSettings.enableGuestCheckout}
                     onAuthenticated={({ email: authEmail, isGuest: authIsGuest, guestData: authGuestData }) => {
                       setEmail(authEmail)
                       setIsGuest(authIsGuest)
@@ -749,6 +731,11 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                     readonly={!canPlaceOrder || isProcessing}
                     sticky={false}
                   />
+                  {!meetsMinimumOrder && ecomSettings.minimumOrderAmount && (
+                    <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 text-sm">
+                      {`Minimaal bestelbedrag: €${ecomSettings.minimumOrderAmount.toFixed(2)}`}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

@@ -69,13 +69,14 @@ export default async function ShopPage({
   // Breadcrumbs
   const breadcrumbs = category ? [{ label: 'Shop', href: '/shop' }] : []
 
-  // Fetch settings for filter ordering
+  // Fetch e-commerce settings for filter ordering + shipping info
   let shopFilterOrder: any[] = []
+  let ecommerceSettings: any = null
   try {
-    const settings = await payload.findGlobal({ slug: 'settings', depth: 0 })
-    shopFilterOrder = (settings as any)?.shopFilterOrder || []
+    ecommerceSettings = await payload.findGlobal({ slug: 'e-commerce-settings', depth: 0 })
+    shopFilterOrder = ecommerceSettings?.shopFilterOrder || []
   } catch (error) {
-    console.warn('Could not fetch shop filter order settings:', error)
+    console.warn('Could not fetch e-commerce settings:', error)
   }
 
   return (

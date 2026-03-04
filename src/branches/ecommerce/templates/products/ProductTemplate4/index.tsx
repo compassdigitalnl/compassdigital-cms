@@ -12,6 +12,7 @@ import { RichText } from '@/branches/shared/components/common/RichText'
 import { ReviewWidget } from '@/branches/ecommerce/components/products/ReviewWidget'
 import { BackInStockNotifier } from '@/branches/ecommerce/components/products/BackInStockNotifier'
 import { ProductTabs } from '@/branches/ecommerce/components/products/ProductTabs'
+import { useEcommerceSettings } from '@/branches/ecommerce/hooks/useEcommerceSettings'
 import { features } from '@/lib/features'
 import { getGroupedMinPrice } from '@/branches/ecommerce/lib/shop/utils'
 import type { Product } from '@/payload-types'
@@ -48,6 +49,7 @@ interface ProductTemplate4Props {
 
 export default function ProductTemplate4({ product }: ProductTemplate4Props) {
   const { addItem, addGroupedItems } = useCart()
+  const { settings: ecomSettings } = useEcommerceSettings()
   const { showToast } = useAddToCartToast()
   const [showStickyATC, setShowStickyATC] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
@@ -423,13 +425,15 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
 
           {/* Actions */}
           <div className="absolute top-3 right-3 flex gap-1.5 z-10">
-            <button
-              className="w-9 h-9 bg-white/95 border border-[var(--color-border)] rounded-lg flex items-center justify-center cursor-pointer"
-              aria-label={isWishlisted ? 'Verwijder uit favorieten' : 'Toevoegen aan favorieten'}
-              onClick={toggleWishlist}
-            >
-              <Heart className="w-4 h-4" style={{ color: isWishlisted ? '#FF6B6B' : 'var(--color-text-primary)', fill: isWishlisted ? '#FF6B6B' : 'none' }} />
-            </button>
+            {ecomSettings.features.enableWishlist && (
+              <button
+                className="w-9 h-9 bg-white/95 border border-[var(--color-border)] rounded-lg flex items-center justify-center cursor-pointer"
+                aria-label={isWishlisted ? 'Verwijder uit favorieten' : 'Toevoegen aan favorieten'}
+                onClick={toggleWishlist}
+              >
+                <Heart className="w-4 h-4" style={{ color: isWishlisted ? '#FF6B6B' : 'var(--color-text-primary)', fill: isWishlisted ? '#FF6B6B' : 'none' }} />
+              </button>
+            )}
             <button
               className="w-9 h-9 bg-white/95 border border-[var(--color-border)] rounded-lg flex items-center justify-center cursor-pointer"
               aria-label="Deel product"
@@ -504,13 +508,15 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
 
               {/* Actions */}
               <div className="absolute top-4 right-4 flex gap-2 z-10">
-                <button
-                  className="w-10 h-10 bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[10px] flex items-center justify-center cursor-pointer"
-                  aria-label={isWishlisted ? 'Verwijder uit favorieten' : 'Toevoegen aan favorieten'}
-                  onClick={toggleWishlist}
-                >
-                  <Heart className="w-[18px] h-[18px]" style={{ color: isWishlisted ? '#FF6B6B' : 'var(--color-text-primary)', fill: isWishlisted ? '#FF6B6B' : 'none' }} />
-                </button>
+                {ecomSettings.features.enableWishlist && (
+                  <button
+                    className="w-10 h-10 bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[10px] flex items-center justify-center cursor-pointer"
+                    aria-label={isWishlisted ? 'Verwijder uit favorieten' : 'Toevoegen aan favorieten'}
+                    onClick={toggleWishlist}
+                  >
+                    <Heart className="w-[18px] h-[18px]" style={{ color: isWishlisted ? '#FF6B6B' : 'var(--color-text-primary)', fill: isWishlisted ? '#FF6B6B' : 'none' }} />
+                  </button>
+                )}
                 <button
                   className="w-10 h-10 bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[10px] flex items-center justify-center cursor-pointer"
                   aria-label="Deel product"
@@ -732,10 +738,12 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                   <span className="w-2 h-2 bg-red-500 rounded-full shrink-0" />
                   Tijdelijk uitverkocht
                 </div>
-                <BackInStockNotifier
-                  product={{ id: String(product.id), name: product.title }}
-                  onSubmit={async (email) => { console.log('Back in stock notification requested:', { email, productId: product.id }) }}
-                />
+                {ecomSettings.features.enableStockNotifications && (
+                  <BackInStockNotifier
+                    product={{ id: String(product.id), name: product.title }}
+                    onSubmit={async (email) => { console.log('Back in stock notification requested:', { email, productId: product.id }) }}
+                  />
+                )}
               </div>
             )}
 
@@ -959,11 +967,11 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
             <div className="grid grid-cols-2 gap-2.5 pt-5 border-t border-t-[var(--color-border)]">
               <div className="flex items-center gap-2 text-[13px] text-[var(--color-text-secondary)]">
                 <Truck className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
-                Gratis verzending vanaf €150
+                {`Gratis verzending vanaf €${ecomSettings.freeShippingThreshold}`}
               </div>
               <div className="flex items-center gap-2 text-[13px] text-[var(--color-text-secondary)]">
                 <Undo2 className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
-                30 dagen retourrecht
+                {`${ecomSettings.returnDays ?? 30} dagen retourrecht`}
               </div>
               <div className="flex items-center gap-2 text-[13px] text-[var(--color-text-secondary)]">
                 <CreditCard className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
@@ -1073,10 +1081,12 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                 <span className="w-2 h-2 bg-red-500 rounded-full shrink-0" />
                 Tijdelijk uitverkocht
               </div>
-              <BackInStockNotifier
-                product={{ id: String(product.id), name: product.title }}
-                onSubmit={async (email) => { console.log('Back in stock notification requested:', { email, productId: product.id }) }}
-              />
+              {ecomSettings.features.enableStockNotifications && (
+                <BackInStockNotifier
+                  product={{ id: String(product.id), name: product.title }}
+                  onSubmit={async (email) => { console.log('Back in stock notification requested:', { email, productId: product.id }) }}
+                />
+              )}
             </div>
           )}
 
@@ -1410,7 +1420,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                     ),
                   }]
                 : []),
-              {
+              ...(ecomSettings.features.enableReviews ? [{
                 id: 'reviews',
                 label: 'Reviews',
                 badge: reviewCount > 0 ? reviewCount : undefined,
@@ -1424,7 +1434,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                     onWriteReview={() => {}}
                   />
                 ),
-              },
+              }] : []),
               ...(product.downloads && (product.downloads as any[]).length > 0
                 ? [{
                     id: 'downloads',

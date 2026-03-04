@@ -21,6 +21,8 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { ShoppingBag, ArrowLeft, Mail, CheckCircle } from 'lucide-react'
 
+import { useEcommerceSettings } from '@/branches/ecommerce/hooks/useEcommerceSettings'
+
 // Phase 1 Components
 import { AddressForm } from '@/branches/ecommerce/components/checkout/AddressForm'
 import { ShippingMethodCard } from '@/branches/ecommerce/components/checkout/ShippingMethodCard'
@@ -34,6 +36,7 @@ export default function CheckoutTemplate2() {
   const { user } = useAuth()
   const router = useRouter()
   const { items, total, itemCount } = useCart()
+  const { settings: ecomSettings } = useEcommerceSettings()
 
   // Form state
   const [email, setEmail] = useState('')
@@ -50,9 +53,9 @@ export default function CheckoutTemplate2() {
 
   // Pricing
   const subtotal = total
-  const freeShippingThreshold = 150
-  const shippingCost = shippingMethod === 'express' ? 9.95 : subtotal >= freeShippingThreshold ? 0 : 6.95
-  const tax = (subtotal + shippingCost - discount) * 0.21
+  const freeShippingThreshold = ecomSettings.freeShippingThreshold
+  const shippingCost = shippingMethod === 'express' ? 9.95 : subtotal >= freeShippingThreshold ? 0 : ecomSettings.shippingCost
+  const tax = (subtotal + shippingCost - discount) * (ecomSettings.vatPercentage / 100)
   const grandTotal = subtotal + shippingCost + tax - discount
 
   // Empty cart redirect
@@ -233,7 +236,7 @@ export default function CheckoutTemplate2() {
                     slug: 'standard',
                     icon: 'truck',
                     deliveryTime: '2-3 werkdagen',
-                    price: subtotal >= freeShippingThreshold ? 0 : 6.95,
+                    price: subtotal >= freeShippingThreshold ? 0 : ecomSettings.shippingCost,
                   }}
                   selected={shippingMethod === 'standard'}
                   onSelect={() => setShippingMethod('standard')}
@@ -363,7 +366,7 @@ export default function CheckoutTemplate2() {
                   variant="compact"
                   signals={[
                     { icon: 'ShieldCheck', text: 'Veilig betalen' },
-                    { icon: 'Truck', text: 'Gratis vanaf \u20AC150' },
+                    { icon: 'Truck', text: `Gratis vanaf \u20AC${ecomSettings.freeShippingThreshold}` },
                     { icon: 'RotateCcw', text: '30 dagen retour' },
                   ]}
                 />
