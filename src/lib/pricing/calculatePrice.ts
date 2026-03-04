@@ -55,10 +55,12 @@ export interface PriceCalculationResult {
   }
 }
 
+export type TaxClass = 'standard' | 'reduced' | 'zero'
+
 /**
  * Get tax rate from tax class
  */
-function getTaxRate(taxClass?: 'standard' | 'reduced' | 'zero'): number {
+export function getTaxRate(taxClass?: TaxClass): number {
   switch (taxClass) {
     case 'standard':
       return 0.21 // 21% BTW
