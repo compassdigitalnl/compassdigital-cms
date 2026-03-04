@@ -82,6 +82,14 @@ export const DEFAULT_SETTINGS = {
     { pattern: '/admin/*', type: 'url' },
     { pattern: '/api/*', type: 'url' },
   ],
+
+  // Default instant search display settings
+  instantSearchLayout: 'stacked' as const,
+  instantSearchSections: [
+    { collection: 'products' as const, enabled: true, label: 'Producten', icon: 'package' as const, maxResults: 5 },
+    { collection: 'blog-posts' as const, enabled: true, label: 'Artikelen', icon: 'book-open' as const, maxResults: 3 },
+    { collection: 'pages' as const, enabled: true, label: "Pagina's", icon: 'file-text' as const, maxResults: 3 },
+  ],
 }
 
 // ───────────────────────────────────────────────────────────────────────────
@@ -213,6 +221,14 @@ export function mergeSettings(cmsSettings: MeilisearchSettingsType | null) {
     excludePatterns: cmsSettings.excludePatterns || DEFAULT_SETTINGS.excludePatterns,
     excludeStatuses:
       cmsSettings.excludeStatuses?.map((s: any) => s.status) || DEFAULT_SETTINGS.excludeStatuses,
+
+    // Instant Search Display
+    instantSearchLayout:
+      (cmsSettings as any).instantSearchLayout || DEFAULT_SETTINGS.instantSearchLayout,
+    instantSearchSections:
+      (cmsSettings as any).instantSearchSections && (cmsSettings as any).instantSearchSections.length > 0
+        ? (cmsSettings as any).instantSearchSections
+        : DEFAULT_SETTINGS.instantSearchSections,
   }
 }
 

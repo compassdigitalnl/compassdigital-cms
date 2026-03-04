@@ -1,7 +1,7 @@
 'use client'
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { Search, X, Package, BookOpen, TrendingUp } from 'lucide-react'
+import { Search, X, Package, BookOpen, FileText, TrendingUp } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 interface SearchHit {
@@ -18,17 +18,30 @@ interface SearchHit {
   _formatted?: any
 }
 
+interface HitSection {
+  hits: SearchHit[]
+  total: number
+}
+
 interface SearchResults {
-  products?: {
-    hits: SearchHit[]
-    total: number
-  }
-  blogPosts?: {
-    hits: SearchHit[]
-    total: number
-  }
+  products?: HitSection
+  blogPosts?: HitSection
+  pages?: HitSection
   query?: string
   processingTimeMs?: number
+}
+
+interface SectionConfig {
+  collection: string
+  enabled: boolean
+  label: string
+  icon: string
+  maxResults: number
+}
+
+interface SearchConfig {
+  layout: 'stacked' | 'tabs'
+  sections: SectionConfig[]
 }
 
 interface InstantSearchProps {
@@ -36,13 +49,66 @@ interface InstantSearchProps {
   onClose: () => void
 }
 
+const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
+  'package': Package,
+  'book-open': BookOpen,
+  'file-text': FileText,
+}
+
+const DEFAULT_CONFIG: SearchConfig = {
+  layout: 'stacked',
+  sections: [
+    { collection: 'products', enabled: true, label: 'Producten', icon: 'package', maxResults: 5 },
+    { collection: 'blog-posts', enabled: true, label: 'Artikelen', icon: 'book-open', maxResults: 3 },
+    { collection: 'pages', enabled: true, label: "Pagina's", icon: 'file-text', maxResults: 3 },
+  ],
+}
+
+// Map collection to results key
+type HitSectionKey = 'products' | 'blogPosts' | 'pages'
+const COLLECTION_TO_KEY: Record<string, HitSectionKey> = {
+  'products': 'products',
+  'blog-posts': 'blogPosts',
+  'pages': 'pages',
+}
+
+function getHitSection(results: SearchResults | null, collection: string): HitSection | undefined {
+  if (!results) return undefined
+  const key = COLLECTION_TO_KEY[collection]
+  if (!key) return undefined
+  return results[key]
+}
+
+// Color schemes per collection for hover/selected states and badges
+const SECTION_COLORS: Record<string, { bg: string; badge: string; badgeText: string }> = {
+  'products': { bg: 'bg-teal-50', badge: 'bg-teal-100 text-teal-700', badgeText: 'Product' },
+  'blog-posts': { bg: 'bg-amber-50', badge: 'bg-amber-100 text-amber-700', badgeText: 'Artikel' },
+  'pages': { bg: 'bg-blue-50', badge: 'bg-blue-100 text-blue-700', badgeText: 'Pagina' },
+}
+
 export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose }) => {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<SearchResults | null>(null)
   const [loading, setLoading] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [searchConfig, setSearchConfig] = useState<SearchConfig>(DEFAULT_CONFIG)
+  const [activeTab, setActiveTab] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
+
+  // Fetch config on mount
+  useEffect(() => {
+    fetch('/api/search/config')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.layout && data?.sections) {
+          setSearchConfig(data)
+        }
+      })
+      .catch(() => {
+        // Keep defaults
+      })
+  }, [])
 
   // Focus input when modal opens
   useEffect(() => {
@@ -57,6 +123,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
       setQuery('')
       setResults(null)
       setSelectedIndex(0)
+      setActiveTab(0)
     }
   }, [isOpen])
 
@@ -78,20 +145,57 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
       } finally {
         setLoading(false)
       }
-    }, 300) // 300ms debounce
+    }, 300)
 
     return () => clearTimeout(timeout)
   }, [query])
+
+  // Get enabled sections with their hits
+  const enabledSections = searchConfig.sections.filter((s) => s.enabled)
+
+  // Build flat list of all hits for keyboard navigation
+  const getAllHits = () => {
+    if (!results) return []
+    const allHits: { hit: SearchHit; collection: string; sectionIndex: number }[] = []
+
+    if (searchConfig.layout === 'tabs') {
+      // In tabs mode, only navigate within the active tab
+      const section = enabledSections[activeTab]
+      if (section) {
+        const hits = getHitSection(results, section.collection)?.hits || []
+        hits.forEach((hit: SearchHit) => allHits.push({ hit, collection: section.collection, sectionIndex: activeTab }))
+      }
+    } else {
+      // In stacked mode, navigate through all sections
+      enabledSections.forEach((section, sIdx) => {
+        const hits = getHitSection(results, section.collection)?.hits || []
+        hits.forEach((hit: SearchHit) => allHits.push({ hit, collection: section.collection, sectionIndex: sIdx }))
+      })
+    }
+
+    return allHits
+  }
+
+  const getHitUrl = (hit: SearchHit, collection: string) => {
+    switch (collection) {
+      case 'products':
+        return `/${hit.slug}`
+      case 'blog-posts':
+        return `/blog/${hit.slug}`
+      case 'pages':
+        return `/${hit.slug}`
+      default:
+        return `/${hit.slug}`
+    }
+  }
 
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen) return
 
-      // Get all navigable items
-      const productCount = results?.products?.hits.length || 0
-      const blogCount = results?.blogPosts?.hits.length || 0
-      const totalItems = productCount + blogCount
+      const allHits = getAllHits()
+      const totalItems = allHits.length
 
       switch (e.key) {
         case 'Escape':
@@ -109,26 +213,21 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
           setSelectedIndex((prev) => Math.max(prev - 1, 0))
           break
 
+        case 'Tab':
+          if (searchConfig.layout === 'tabs' && enabledSections.length > 1) {
+            e.preventDefault()
+            setActiveTab((prev) => (e.shiftKey ? (prev - 1 + enabledSections.length) % enabledSections.length : (prev + 1) % enabledSections.length))
+            setSelectedIndex(0)
+          }
+          break
+
         case 'Enter':
           e.preventDefault()
-          if (totalItems > 0) {
-            // Navigate to selected item
-            const allHits = [
-              ...(results?.products?.hits || []).map((hit) => ({ ...hit, type: 'product' as const })),
-              ...(results?.blogPosts?.hits || []).map((hit) => ({ ...hit, type: 'blog' as const })),
-            ]
-
-            const selected = allHits[selectedIndex]
-            if (selected) {
-              const url = selected.type === 'product'
-                ? `/${selected.slug}`
-                : `/blog/${selected.slug}` // Simplified - should use category
-
-              router.push(url)
-              onClose()
-            }
+          if (totalItems > 0 && allHits[selectedIndex]) {
+            const { hit, collection } = allHits[selectedIndex]
+            router.push(getHitUrl(hit, collection))
+            onClose()
           } else if (query.length >= 2) {
-            // Navigate to search results page
             router.push(`/search?q=${encodeURIComponent(query)}`)
             onClose()
           }
@@ -138,13 +237,152 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, results, selectedIndex, query, onClose, router])
+  }, [isOpen, results, selectedIndex, query, onClose, router, searchConfig, activeTab, enabledSections])
 
   if (!isOpen) return null
 
-  const productHits = results?.products?.hits || []
-  const blogHits = results?.blogPosts?.hits || []
-  const hasResults = productHits.length > 0 || blogHits.length > 0
+  // Check if we have any results at all
+  const hasResults = enabledSections.some((section) => {
+    const s = getHitSection(results, section.collection)
+    return s && s.hits.length > 0
+  })
+
+  // Running offset for stacked keyboard navigation
+  let globalIndex = 0
+
+  const renderProductHit = (hit: SearchHit, isSelected: boolean) => (
+    <>
+      <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+        {hit.image ? (
+          <img src={hit.image} alt="" className="w-full h-full object-cover rounded-lg" />
+        ) : (
+          <Package className="w-5 h-5 text-gray-400" />
+        )}
+      </div>
+      <div className="flex-1 min-w-0">
+        {hit.brand && (
+          <div className="text-[10px] font-bold text-teal-600 uppercase tracking-wide">
+            {hit._formatted?.brand || hit.brand}
+          </div>
+        )}
+        <div
+          className="text-sm font-semibold text-gray-900 truncate"
+          dangerouslySetInnerHTML={{ __html: hit._formatted?.title || hit.title }}
+        />
+        {hit.sku && (
+          <div className="text-[11px] text-slate-400 font-mono mt-0.5">
+            SKU: {hit._formatted?.sku || hit.sku}
+          </div>
+        )}
+      </div>
+      {hit.price != null && (
+        <div className="text-right flex-shrink-0">
+          <div className="text-[15px] font-extrabold text-gray-900">
+            &euro;{hit.price.toFixed(2)}
+          </div>
+          {hit.stock !== undefined && hit.stock > 0 && (
+            <div className="text-[11px] text-emerald-600 flex items-center gap-1 justify-end">
+              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
+              Op voorraad
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  )
+
+  const renderBlogHit = (hit: SearchHit) => (
+    <>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <span
+            className="text-sm font-medium text-gray-900 truncate"
+            dangerouslySetInnerHTML={{ __html: hit._formatted?.title || hit.title }}
+          />
+          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-700 flex-shrink-0">
+            Artikel
+          </span>
+        </div>
+        {hit.excerpt && (
+          <p className="text-[12px] text-gray-500 line-clamp-1 mt-0.5">
+            {hit.excerpt}
+          </p>
+        )}
+      </div>
+    </>
+  )
+
+  const renderPageHit = (hit: SearchHit) => (
+    <>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <span
+            className="text-sm font-medium text-gray-900 truncate"
+            dangerouslySetInnerHTML={{ __html: hit._formatted?.title || hit.title }}
+          />
+          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-700 flex-shrink-0">
+            Pagina
+          </span>
+        </div>
+        {hit.excerpt && (
+          <p className="text-[12px] text-gray-500 line-clamp-1 mt-0.5">
+            {hit.excerpt}
+          </p>
+        )}
+      </div>
+    </>
+  )
+
+  const renderHit = (hit: SearchHit, collection: string, isSelected: boolean) => {
+    const colors = SECTION_COLORS[collection] || SECTION_COLORS['products']
+    const url = getHitUrl(hit, collection)
+
+    return (
+      <Link
+        key={`${collection}-${hit.id}`}
+        href={url}
+        onClick={onClose}
+        className={`flex items-center gap-4 p-3 rounded-xl hover:${colors.bg} transition-colors ${
+          isSelected ? colors.bg : ''
+        }`}
+      >
+        {collection === 'products' && renderProductHit(hit, isSelected)}
+        {collection === 'blog-posts' && renderBlogHit(hit)}
+        {collection === 'pages' && renderPageHit(hit)}
+      </Link>
+    )
+  }
+
+  const renderSection = (section: SectionConfig, sectionIndex: number) => {
+    const sectionData = getHitSection(results, section.collection)
+    const hits = sectionData?.hits || []
+    if (hits.length === 0) return null
+
+    const IconComponent = ICON_MAP[section.icon] || Package
+    const startIndex = globalIndex
+
+    const sectionContent = (
+      <div key={section.collection}>
+        {/* Section header — only show in stacked mode */}
+        {searchConfig.layout === 'stacked' && (
+          <div className="flex items-center gap-2 text-[11px] font-extrabold text-slate-400 uppercase tracking-wider mb-2">
+            <IconComponent className="w-3.5 h-3.5" />
+            {section.label} ({sectionData?.total || 0})
+          </div>
+        )}
+        <div className="space-y-0.5">
+          {hits.map((hit: SearchHit, hitIdx: number) => {
+            const currentGlobalIndex = startIndex + hitIdx
+            const isSelected = currentGlobalIndex === selectedIndex
+            return renderHit(hit, section.collection, isSelected)
+          })}
+        </div>
+      </div>
+    )
+
+    globalIndex += hits.length
+    return sectionContent
+  }
 
   return (
     <div className="fixed inset-0 z-[9999] animate-fadeIn">
@@ -165,7 +403,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Zoek producten, artikelen..."
+              placeholder="Zoek producten, artikelen, pagina's..."
               className="flex-1 text-lg outline-none placeholder:text-gray-400"
             />
             <button
@@ -174,7 +412,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
             >
               <X className="w-4 h-4 text-gray-500" />
             </button>
-            <kbd className="hidden sm:inline-block px-2 py-1 text-xs font-mono bg-gray-100 border border-gray-300 rounded">
+            <kbd className="hidden sm:inline-block px-2 py-1 text-[10px] font-mono bg-gray-100 border border-gray-300 rounded">
               ESC
             </kbd>
           </div>
@@ -204,94 +442,59 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
             )}
 
             {!loading && hasResults && (
-              <div className="space-y-6">
-                {/* Product Results */}
-                {productHits.length > 0 && (
-                  <div>
-                    <div className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wide mb-3">
-                      <Package className="w-4 h-4" />
-                      Producten ({results?.products?.total || 0})
-                    </div>
-                    <div className="space-y-1">
-                      {productHits.map((hit, index) => (
-                        <Link
-                          key={hit.id}
-                          href={`/${hit.slug}`}
-                          onClick={onClose}
-                          className={`flex items-center gap-4 p-3 rounded-xl hover:bg-teal-50 transition-colors ${
-                            index === selectedIndex ? 'bg-teal-50' : ''
+              <>
+                {/* Tabs header */}
+                {searchConfig.layout === 'tabs' && enabledSections.length > 1 && (
+                  <div className="flex gap-1 mb-4 border-b border-gray-200 -mt-1">
+                    {enabledSections.map((section, idx) => {
+                      const total = getHitSection(results, section.collection)?.total || 0
+                      const IconComponent = ICON_MAP[section.icon] || Package
+                      const isActive = idx === activeTab
+
+                      return (
+                        <button
+                          key={section.collection}
+                          onClick={() => { setActiveTab(idx); setSelectedIndex(0) }}
+                          className={`flex items-center gap-1.5 px-3 py-2 text-[12px] font-semibold border-b-2 transition-colors ${
+                            isActive
+                              ? 'border-teal-600 text-teal-700'
+                              : 'border-transparent text-gray-400 hover:text-gray-600'
                           }`}
                         >
-                          <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-2xl flex-shrink-0">
-                            🧤
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            {hit.brand && (
-                              <div className="text-xs font-bold text-teal-600 uppercase tracking-wide">
-                                {hit._formatted?.brand || hit.brand}
-                              </div>
-                            )}
-                            <div
-                              className="font-semibold text-gray-900"
-                              dangerouslySetInnerHTML={{ __html: hit._formatted?.title || hit.title }}
-                            />
-                            {hit.sku && (
-                              <div className="text-xs text-gray-500 font-mono mt-0.5">
-                                SKU: {hit._formatted?.sku || hit.sku}
-                              </div>
-                            )}
-                          </div>
-                          {hit.price != null && (
-                            <div className="text-right flex-shrink-0">
-                              <div className="font-bold text-gray-900">
-                                €{hit.price.toFixed(2)}
-                              </div>
-                              {hit.stock !== undefined && hit.stock > 0 && (
-                                <div className="text-xs text-green-600 flex items-center gap-1 justify-end">
-                                  <span className="w-1.5 h-1.5 bg-green-600 rounded-full" />
-                                  Op voorraad
-                                </div>
-                              )}
-                            </div>
+                          <IconComponent className="w-3.5 h-3.5" />
+                          {section.label}
+                          {total > 0 && (
+                            <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+                              isActive ? 'bg-teal-100 text-teal-700' : 'bg-gray-100 text-gray-500'
+                            }`}>
+                              {total}
+                            </span>
                           )}
-                        </Link>
-                      ))}
-                    </div>
+                        </button>
+                      )
+                    })}
                   </div>
                 )}
 
-                {/* Blog Results */}
-                {blogHits.length > 0 && (
+                {/* Sections content */}
+                {searchConfig.layout === 'tabs' ? (
+                  // Tabs: render only active tab section
                   <div>
-                    <div className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wide mb-3">
-                      <BookOpen className="w-4 h-4" />
-                      Artikelen ({results?.blogPosts?.total || 0})
-                    </div>
-                    <div className="space-y-1">
-                      {blogHits.map((hit, index) => (
-                        <Link
-                          key={hit.id}
-                          href={`/blog/${hit.slug}`}
-                          onClick={onClose}
-                          className={`block p-3 rounded-xl hover:bg-amber-50 transition-colors ${
-                            index + productHits.length === selectedIndex ? 'bg-amber-50' : ''
-                          }`}
-                        >
-                          <div
-                            className="font-semibold text-gray-900 mb-1"
-                            dangerouslySetInnerHTML={{ __html: hit._formatted?.title || hit.title }}
-                          />
-                          {hit.excerpt && (
-                            <p className="text-sm text-gray-600 line-clamp-2">
-                              {hit.excerpt}
-                            </p>
-                          )}
-                        </Link>
-                      ))}
-                    </div>
+                    {(() => {
+                      globalIndex = 0
+                      return renderSection(enabledSections[activeTab], activeTab)
+                    })()}
+                  </div>
+                ) : (
+                  // Stacked: render all sections
+                  <div className="space-y-5">
+                    {(() => {
+                      globalIndex = 0
+                      return enabledSections.map((section, idx) => renderSection(section, idx))
+                    })()}
                   </div>
                 )}
-              </div>
+              </>
             )}
           </div>
 
@@ -299,15 +502,21 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
           {hasResults && (
             <div className="px-6 py-3 border-t border-gray-200 bg-gray-50 flex items-center justify-between text-sm">
               <div className="flex items-center gap-3 text-gray-500">
-                <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-xs font-mono">↑↓</kbd>
-                <span>navigeren</span>
-                <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-xs font-mono">↵</kbd>
-                <span>selecteren</span>
+                <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-[10px] font-mono">&uarr;&darr;</kbd>
+                <span className="text-[11px]">navigeren</span>
+                <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-[10px] font-mono">&crarr;</kbd>
+                <span className="text-[11px]">selecteren</span>
+                {searchConfig.layout === 'tabs' && (
+                  <>
+                    <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-[10px] font-mono">Tab</kbd>
+                    <span className="text-[11px]">sectie</span>
+                  </>
+                )}
               </div>
               <Link
                 href={`/search?q=${encodeURIComponent(query)}`}
                 onClick={onClose}
-                className="text-teal-600 font-semibold hover:text-teal-700 flex items-center gap-1"
+                className="text-teal-600 font-semibold hover:text-teal-700 flex items-center gap-1 text-[13px]"
               >
                 Alle resultaten
                 <TrendingUp className="w-4 h-4" />

@@ -643,7 +643,99 @@ export const MeilisearchSettings: GlobalConfig = {
         },
 
         // ═══════════════════════════════════════════════════════════
-        // TAB 7: PAGINATION & PERFORMANCE
+        // TAB 7: INSTANT SEARCH DISPLAY
+        // ═══════════════════════════════════════════════════════════
+        {
+          label: 'Instant Search Weergave',
+          description: 'Configureer hoe de instant search overlay eruitziet en welke secties worden getoond',
+          fields: [
+            {
+              name: 'instantSearchLayout',
+              type: 'select',
+              label: 'Weergavemodus',
+              defaultValue: 'stacked',
+              options: [
+                { label: 'Gestapeld (secties onder elkaar)', value: 'stacked' },
+                { label: 'Tabs (één sectie tegelijk)', value: 'tabs' },
+              ],
+              admin: {
+                description: 'Hoe de zoekresultaat-secties worden weergegeven in de overlay',
+              },
+            },
+            {
+              name: 'instantSearchSections',
+              type: 'array',
+              label: 'Zoeksecties',
+              defaultValue: [
+                { collection: 'products', enabled: true, label: 'Producten', icon: 'package', maxResults: 5 },
+                { collection: 'blog-posts', enabled: true, label: 'Artikelen', icon: 'book-open', maxResults: 3 },
+                { collection: 'pages', enabled: true, label: "Pagina's", icon: 'file-text', maxResults: 3 },
+              ],
+              admin: {
+                description: 'Stel in welke secties in de instant search verschijnen en hoe ze worden weergegeven',
+              },
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'collection',
+                      type: 'select',
+                      required: true,
+                      label: 'Collectie',
+                      options: [
+                        { label: 'Producten', value: 'products' },
+                        { label: 'Blogberichten', value: 'blog-posts' },
+                        { label: "Pagina's", value: 'pages' },
+                      ],
+                      admin: { width: '25%' },
+                    },
+                    {
+                      name: 'enabled',
+                      type: 'checkbox',
+                      defaultValue: true,
+                      label: 'Actief',
+                      admin: { width: '15%' },
+                    },
+                    {
+                      name: 'label',
+                      type: 'text',
+                      label: 'Weergavelabel',
+                      admin: {
+                        width: '25%',
+                        placeholder: 'bijv. Producten',
+                      },
+                    },
+                    {
+                      name: 'icon',
+                      type: 'select',
+                      label: 'Icoon',
+                      defaultValue: 'package',
+                      options: [
+                        { label: 'Pakket', value: 'package' },
+                        { label: 'Boek', value: 'book-open' },
+                        { label: 'Document', value: 'file-text' },
+                      ],
+                      admin: { width: '15%' },
+                    },
+                    {
+                      name: 'maxResults',
+                      type: 'number',
+                      label: 'Max resultaten',
+                      defaultValue: 5,
+                      min: 1,
+                      max: 20,
+                      admin: { width: '20%' },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+
+        // ═══════════════════════════════════════════════════════════
+        // TAB 8: PAGINATION & PERFORMANCE
         // ═══════════════════════════════════════════════════════════
         {
           label: 'Pagination & Performance',
