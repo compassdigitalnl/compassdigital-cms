@@ -53,7 +53,7 @@ function EditorLoadingPlaceholder() {
             margin: '0 auto 16px',
           }}
         />
-        <p style={{ color: '#666', fontSize: '14px' }}>Loading email editor...</p>
+        <p style={{ color: '#666', fontSize: '14px' }}>E-mail editor wordt geladen...</p>
       </div>
       <style>{`
         @keyframes spin {
@@ -96,10 +96,10 @@ function EditorDisabled() {
           <line x1="12" y1="16" x2="12.01" y2="16" />
         </svg>
         <h3 style={{ margin: '0 0 8px', fontSize: '16px', fontWeight: 600 }}>
-          Visual Editor Disabled
+          Visuele editor uitgeschakeld
         </h3>
         <p style={{ margin: 0, fontSize: '14px', color: '#666' }}>
-          The GrapesJS visual editor is currently disabled. To enable it, set{' '}
+          De visuele editor is momenteel uitgeschakeld. Stel{' '}
           <code
             style={{
               background: '#fff',
@@ -110,7 +110,7 @@ function EditorDisabled() {
           >
             ENABLE_EMAIL_GRAPES_EDITOR=true
           </code>{' '}
-          in your environment variables.
+          in bij de omgevingsvariabelen om deze te activeren.
         </p>
       </div>
     </div>
@@ -155,7 +155,7 @@ export default function GrapesEmailEditor(props: GrapesEmailEditorProps) {
           borderRadius: '4px',
         }}
       >
-        <h3 style={{ margin: '0 0 8px', color: '#dc2626' }}>Failed to Load Editor</h3>
+        <h3 style={{ margin: '0 0 8px', color: '#dc2626' }}>Editor kon niet worden geladen</h3>
         <p style={{ margin: 0, fontSize: '14px', color: '#666' }}>{loadError}</p>
       </div>
     )

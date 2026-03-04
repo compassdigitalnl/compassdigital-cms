@@ -29,8 +29,8 @@ export function registerTenantBlocks(editor: any, branding: TenantBranding) {
   // TENANT LOGO BLOCK
   // ═══════════════════════════════════════════════════════════
   blockManager.add('tenant-logo', {
-    label: 'Company Logo',
-    category: 'Branding',
+    label: 'Bedrijfslogo',
+    category: 'Huisstijl',
     attributes: { class: 'fa fa-image' },
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
@@ -51,8 +51,8 @@ export function registerTenantBlocks(editor: any, branding: TenantBranding) {
   // BRANDED BUTTON
   // ═══════════════════════════════════════════════════════════
   blockManager.add('tenant-button', {
-    label: 'Branded Button',
-    category: 'Branding',
+    label: 'Huisstijl knop',
+    category: 'Huisstijl',
     attributes: { class: 'fa fa-square' },
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
@@ -71,8 +71,8 @@ export function registerTenantBlocks(editor: any, branding: TenantBranding) {
   // BRANDED HEADER
   // ═══════════════════════════════════════════════════════════
   blockManager.add('tenant-header', {
-    label: 'Branded Header',
-    category: 'Branding',
+    label: 'Huisstijl koptekst',
+    category: 'Huisstijl',
     attributes: { class: 'fa fa-header' },
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; background-color: ${primaryColor};">
@@ -96,8 +96,8 @@ export function registerTenantBlocks(editor: any, branding: TenantBranding) {
   // BRANDED FOOTER
   // ═══════════════════════════════════════════════════════════
   blockManager.add('tenant-footer', {
-    label: 'Branded Footer',
-    category: 'Branding',
+    label: 'Huisstijl voettekst',
+    category: 'Huisstijl',
     attributes: { class: 'fa fa-footer' },
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; background-color: #f9fafb;">
@@ -123,8 +123,8 @@ export function registerTenantBlocks(editor: any, branding: TenantBranding) {
   // BRANDED DIVIDER
   // ═══════════════════════════════════════════════════════════
   blockManager.add('tenant-divider', {
-    label: 'Branded Divider',
-    category: 'Branding',
+    label: 'Huisstijl scheidingslijn',
+    category: 'Huisstijl',
     attributes: { class: 'fa fa-minus' },
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
@@ -141,8 +141,8 @@ export function registerTenantBlocks(editor: any, branding: TenantBranding) {
   // BRANDED SECTION (Two Columns)
   // ═══════════════════════════════════════════════════════════
   blockManager.add('tenant-two-column', {
-    label: 'Branded Columns',
-    category: 'Branding',
+    label: 'Huisstijl kolommen',
+    category: 'Huisstijl',
     attributes: { class: 'fa fa-columns' },
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
@@ -174,5 +174,5 @@ export function registerTenantBlocks(editor: any, branding: TenantBranding) {
     `,
   })
 
-  console.log('[Tenant Blocks] Registered 6 tenant branding blocks')
+  console.log('[Tenant Blocks] Registered 6 huisstijl blocks')
 }

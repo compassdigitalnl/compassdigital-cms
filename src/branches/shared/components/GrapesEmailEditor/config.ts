@@ -28,47 +28,7 @@ export function getGrapesConfig(options: GrapesConfigOptions) {
 
     // Panels
     panels: {
-      defaults: [
-        {
-          id: 'layers',
-          el: '.panel__right',
-          // buttons: [...], // Defined by preset
-        },
-        {
-          id: 'panel-switcher',
-          el: '.panel__switcher',
-          buttons: [
-            {
-              id: 'show-layers',
-              active: true,
-              label: 'Layers',
-              command: 'show-layers',
-              togglable: false,
-            },
-            {
-              id: 'show-style',
-              active: true,
-              label: 'Styles',
-              command: 'show-styles',
-              togglable: false,
-            },
-            {
-              id: 'show-traits',
-              active: true,
-              label: 'Settings',
-              command: 'show-traits',
-              togglable: false,
-            },
-            {
-              id: 'show-blocks',
-              active: true,
-              label: 'Blocks',
-              command: 'show-blocks',
-              togglable: false,
-            },
-          ],
-        },
-      ],
+      defaults: [],
     },
 
     // Block Manager
@@ -87,13 +47,13 @@ export function getGrapesConfig(options: GrapesConfigOptions) {
       appendTo: '.styles-container',
       sectors: [
         {
-          name: 'Dimension',
+          name: 'Afmetingen',
           open: false,
           buildProps: ['width', 'min-height', 'padding'],
           properties: [
             {
               type: 'integer',
-              name: 'Width',
+              name: 'Breedte',
               property: 'width',
               units: ['px', '%'],
               defaults: 'auto',
@@ -102,7 +62,7 @@ export function getGrapesConfig(options: GrapesConfigOptions) {
           ],
         },
         {
-          name: 'Typography',
+          name: 'Typografie',
           open: false,
           buildProps: [
             'font-family',
@@ -114,24 +74,24 @@ export function getGrapesConfig(options: GrapesConfigOptions) {
             'text-align',
           ],
           properties: [
-            { name: 'Font', property: 'font-family' },
-            { name: 'Weight', property: 'font-weight' },
-            { name: 'Font color', property: 'color' },
+            { name: 'Lettertype', property: 'font-family' },
+            { name: 'Gewicht', property: 'font-weight' },
+            { name: 'Tekstkleur', property: 'color' },
             {
               property: 'text-align',
               type: 'radio',
               defaults: 'left',
               list: [
-                { value: 'left', name: 'Left', className: 'fa fa-align-left' },
-                { value: 'center', name: 'Center', className: 'fa fa-align-center' },
-                { value: 'right', name: 'Right', className: 'fa fa-align-right' },
-                { value: 'justify', name: 'Justify', className: 'fa fa-align-justify' },
+                { value: 'left', name: 'Links', className: 'fa fa-align-left' },
+                { value: 'center', name: 'Midden', className: 'fa fa-align-center' },
+                { value: 'right', name: 'Rechts', className: 'fa fa-align-right' },
+                { value: 'justify', name: 'Uitvullen', className: 'fa fa-align-justify' },
               ],
             },
           ],
         },
         {
-          name: 'Decorations',
+          name: 'Decoratie',
           open: false,
           buildProps: [
             'background-color',
@@ -141,14 +101,14 @@ export function getGrapesConfig(options: GrapesConfigOptions) {
             'background',
           ],
           properties: [
-            { name: 'Background', property: 'background-color' },
+            { name: 'Achtergrond', property: 'background-color' },
             {
               property: 'border-radius',
               properties: [
-                { name: 'Top', property: 'border-top-left-radius' },
-                { name: 'Right', property: 'border-top-right-radius' },
-                { name: 'Bottom', property: 'border-bottom-right-radius' },
-                { name: 'Left', property: 'border-bottom-left-radius' },
+                { name: 'Boven', property: 'border-top-left-radius' },
+                { name: 'Rechts', property: 'border-top-right-radius' },
+                { name: 'Onder', property: 'border-bottom-right-radius' },
+                { name: 'Links', property: 'border-bottom-left-radius' },
               ],
             },
           ],
@@ -161,9 +121,9 @@ export function getGrapesConfig(options: GrapesConfigOptions) {
             {
               property: 'transition',
               properties: [
-                { name: 'Property', property: 'transition-property' },
-                { name: 'Duration', property: 'transition-duration' },
-                { name: 'Easing', property: 'transition-timing-function' },
+                { name: 'Eigenschap', property: 'transition-property' },
+                { name: 'Duur', property: 'transition-duration' },
+                { name: 'Verloop', property: 'transition-timing-function' },
               ],
             },
           ],
@@ -181,9 +141,9 @@ export function getGrapesConfig(options: GrapesConfigOptions) {
       embedAsBase64: false,
       multiUpload: false,
       autoAdd: true,
-      uploadText: 'Drop files here or click to upload',
-      addBtnText: 'Add image',
-      modalTitle: 'Select Image',
+      uploadText: 'Sleep bestanden hierheen of klik om te uploaden',
+      addBtnText: 'Afbeelding toevoegen',
+      modalTitle: 'Afbeelding selecteren',
       // Custom upload endpoint would go here
       // upload: '/api/email/upload-asset',
     },
@@ -213,13 +173,13 @@ export function getGrapesConfig(options: GrapesConfigOptions) {
         },
         {
           id: 'mobileLandscape',
-          name: 'Mobile Landscape',
+          name: 'Mobiel liggend',
           width: '568px',
           widthMedia: '768px',
         },
         {
           id: 'mobilePortrait',
-          name: 'Mobile Portrait',
+          name: 'Mobiel staand',
           width: '320px',
           widthMedia: '480px',
         },
@@ -255,6 +215,7 @@ export function getGrapesConfig(options: GrapesConfigOptions) {
 
     // Selectors
     selectorManager: {
+      appendTo: '.styles-container',
       componentFirst: true,
       custom: false, // Disable custom classes (use inline styles for emails)
     },

@@ -6,6 +6,120 @@
  */
 
 /* ═══════════════════════════════════════════════════════════
+   LAYOUT — Two-column editor layout
+   ═══════════════════════════════════════════════════════════ */
+
+.grapes-email-editor {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.editor-layout {
+  display: flex;
+  height: 100%;
+}
+
+.editor-canvas {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+/* Reset GrapesJS canvas positioning so it fills the left column */
+.editor-canvas .gjs-cv-canvas {
+  left: 0 !important;
+  width: 100% !important;
+  top: 0;
+}
+
+.editor-panel-right {
+  width: 280px;
+  min-width: 280px;
+  border-left: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Tab switcher */
+.panel__switcher {
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  flex-shrink: 0;
+}
+
+.panel__btn {
+  flex: 1;
+  padding: 10px 4px;
+  border: none;
+  background: none;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 2px solid transparent;
+}
+
+.panel__btn:hover {
+  color: #111827;
+  background-color: #f9fafb;
+}
+
+.panel__btn--active {
+  color: #3b82f6;
+  border-bottom-color: #3b82f6;
+  background-color: #eff6ff;
+}
+
+/* Panel content area */
+.panel__content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Blocks grid inside right panel */
+#blocks .gjs-blocks-c {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 8px;
+}
+
+/* Empty state hints */
+.styles-container:empty::after {
+  content: 'Selecteer een element om de stijl aan te passen';
+  display: block;
+  padding: 20px;
+  color: #9ca3af;
+  font-size: 13px;
+  text-align: center;
+}
+
+.traits-container:empty::after {
+  content: 'Selecteer een element om de instellingen te zien';
+  display: block;
+  padding: 20px;
+  color: #9ca3af;
+  font-size: 13px;
+  text-align: center;
+}
+
+.layers-container:empty::after {
+  content: 'Lagen worden hier weergegeven';
+  display: block;
+  padding: 20px;
+  color: #9ca3af;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════
    EDITOR CONTAINER
    ═══════════════════════════════════════════════════════════ */
 
@@ -341,14 +455,14 @@
    CUSTOM BLOCKS STYLING
    ═══════════════════════════════════════════════════════════ */
 
-/* Branding category highlight */
-.gjs-block-category[data-title="Branding"] .gjs-title {
+/* Huisstijl category highlight */
+.gjs-block-category[data-title="Huisstijl"] .gjs-title {
   background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
   color: #1e40af;
 }
 
 /* Listmonk category highlight */
-.gjs-block-category[data-title="Listmonk Variables"] .gjs-title {
+.gjs-block-category[data-title="Listmonk"] .gjs-title {
   background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
   color: #78350f;
 }

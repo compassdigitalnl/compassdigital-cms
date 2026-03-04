@@ -16,7 +16,7 @@ export function registerEcommerceBlocks(editor: any) {
   // PRODUCT CARD
   // ═══════════════════════════════════════════════════════════
   blockManager.add('ecom-product-card', {
-    label: 'Product Card',
+    label: 'Productkaart',
     category: 'E-commerce',
     attributes: { class: 'fa fa-shopping-cart' },
     content: `
@@ -57,7 +57,7 @@ export function registerEcommerceBlocks(editor: any) {
   // PRICE DROP ALERT
   // ═══════════════════════════════════════════════════════════
   blockManager.add('ecom-price-drop', {
-    label: 'Price Drop Alert',
+    label: 'Prijsverlaging',
     category: 'E-commerce',
     attributes: { class: 'fa fa-tag' },
     content: `
@@ -96,7 +96,7 @@ export function registerEcommerceBlocks(editor: any) {
   // PRODUCT GRID (3 Products)
   // ═══════════════════════════════════════════════════════════
   blockManager.add('ecom-product-grid', {
-    label: 'Product Grid',
+    label: 'Productraster',
     category: 'E-commerce',
     attributes: { class: 'fa fa-th' },
     content: `
@@ -188,7 +188,7 @@ export function registerEcommerceBlocks(editor: any) {
   // CUSTOMER REVIEW
   // ═══════════════════════════════════════════════════════════
   blockManager.add('ecom-review', {
-    label: 'Customer Review',
+    label: 'Klantrecensie',
     category: 'E-commerce',
     attributes: { class: 'fa fa-star' },
     content: `
@@ -220,7 +220,7 @@ export function registerEcommerceBlocks(editor: any) {
   // ORDER SUMMARY
   // ═══════════════════════════════════════════════════════════
   blockManager.add('ecom-order-summary', {
-    label: 'Order Summary',
+    label: 'Bestelling overzicht',
     category: 'E-commerce',
     attributes: { class: 'fa fa-receipt' },
     content: `
@@ -268,7 +268,7 @@ export function registerEcommerceBlocks(editor: any) {
   // BACK IN STOCK ALERT
   // ═══════════════════════════════════════════════════════════
   blockManager.add('ecom-back-in-stock', {
-    label: 'Back in Stock',
+    label: 'Weer op voorraad',
     category: 'E-commerce',
     attributes: { class: 'fa fa-box' },
     content: `
@@ -299,5 +299,5 @@ export function registerEcommerceBlocks(editor: any) {
     `,
   })
 
-  console.log('[E-commerce Blocks] Registered 6 e-commerce blocks')
+  console.log('[E-commerce Blocks] Registered 6 e-commerce blokken')
 }

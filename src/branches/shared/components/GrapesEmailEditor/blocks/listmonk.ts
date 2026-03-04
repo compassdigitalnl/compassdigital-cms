@@ -15,8 +15,8 @@ export function registerListmonkBlocks(editor: any) {
   // PERSONALIZED GREETING
   // ═══════════════════════════════════════════════════════════
   blockManager.add('listmonk-greeting', {
-    label: 'Personalized Greeting',
-    category: 'Listmonk Variables',
+    label: 'Persoonlijke begroeting',
+    category: 'Listmonk',
     attributes: { class: 'fa fa-user' },
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
@@ -38,8 +38,8 @@ export function registerListmonkBlocks(editor: any) {
   // SUBSCRIBER INFO
   // ═══════════════════════════════════════════════════════════
   blockManager.add('listmonk-subscriber-info', {
-    label: 'Subscriber Info',
-    category: 'Listmonk Variables',
+    label: 'Abonnee info',
+    category: 'Listmonk',
     attributes: { class: 'fa fa-info-circle' },
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; background-color: #f9fafb;">
@@ -59,8 +59,8 @@ export function registerListmonkBlocks(editor: any) {
   // CAMPAIGN INFO
   // ═══════════════════════════════════════════════════════════
   blockManager.add('listmonk-campaign-info', {
-    label: 'Campaign Info',
-    category: 'Listmonk Variables',
+    label: 'Campagne info',
+    category: 'Listmonk',
     attributes: { class: 'fa fa-envelope' },
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
@@ -82,8 +82,8 @@ export function registerListmonkBlocks(editor: any) {
   // UNSUBSCRIBE LINK
   // ═══════════════════════════════════════════════════════════
   blockManager.add('listmonk-unsubscribe', {
-    label: 'Unsubscribe Link',
-    category: 'Listmonk Variables',
+    label: 'Uitschrijflink',
+    category: 'Listmonk',
     attributes: { class: 'fa fa-times-circle' },
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; background-color: #f9fafb;">
@@ -103,8 +103,8 @@ export function registerListmonkBlocks(editor: any) {
   // OPT-IN CONFIRMATION BUTTON
   // ═══════════════════════════════════════════════════════════
   blockManager.add('listmonk-optin', {
-    label: 'Opt-in Button',
-    category: 'Listmonk Variables',
+    label: 'Aanmeld-bevestiging',
+    category: 'Listmonk',
     attributes: { class: 'fa fa-check-circle' },
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
@@ -129,8 +129,8 @@ export function registerListmonkBlocks(editor: any) {
   // CUSTOM ATTRIBUTE (ADVANCED)
   // ═══════════════════════════════════════════════════════════
   blockManager.add('listmonk-custom-attribute', {
-    label: 'Custom Attribute',
-    category: 'Listmonk Variables',
+    label: 'Aangepast veld',
+    category: 'Listmonk',
     attributes: { class: 'fa fa-code' },
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
@@ -152,8 +152,8 @@ export function registerListmonkBlocks(editor: any) {
   // DATE PLACEHOLDER
   // ═══════════════════════════════════════════════════════════
   blockManager.add('listmonk-date', {
-    label: 'Current Date',
-    category: 'Listmonk Variables',
+    label: 'Huidige datum',
+    category: 'Listmonk',
     attributes: { class: 'fa fa-calendar' },
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
@@ -172,8 +172,8 @@ export function registerListmonkBlocks(editor: any) {
   // VIEW IN BROWSER LINK
   // ═══════════════════════════════════════════════════════════
   blockManager.add('listmonk-view-browser', {
-    label: 'View in Browser',
-    category: 'Listmonk Variables',
+    label: 'Bekijk in browser',
+    category: 'Listmonk',
     attributes: { class: 'fa fa-external-link' },
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; background-color: #f9fafb;">
@@ -189,5 +189,5 @@ export function registerListmonkBlocks(editor: any) {
     `,
   })
 
-  console.log('[Listmonk Blocks] Registered 8 Listmonk variable blocks')
+  console.log('[Listmonk Blocks] Registered 8 Listmonk blokken')
 }

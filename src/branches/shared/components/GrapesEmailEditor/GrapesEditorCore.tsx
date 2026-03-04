@@ -8,6 +8,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import 'grapesjs/dist/css/grapes.min.css'
 import type { GrapesEmailEditorProps } from './index'
 import { getGrapesConfig } from './config'
 import { registerCustomBlocks } from './blocks/index'
@@ -58,7 +59,7 @@ function EditorInitializing() {
           }}
         />
         <p style={{ color: '#6b7280', fontSize: '13px', margin: 0 }}>
-          Initializing editor...
+          Editor wordt geïnitialiseerd...
         </p>
       </div>
       <style>{`
@@ -88,6 +89,7 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isInitialized, setIsInitialized] = useState(false)
   const [initError, setInitError] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState<'blocks' | 'styles' | 'layers' | 'traits'>('blocks')
 
   // Initialize GrapesJS
   useEffect(() => {
@@ -120,10 +122,10 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
         // Load newsletter preset (it's a GrapesJS plugin function)
         if (typeof gjsPresetNewsletter === 'function') {
           gjsPresetNewsletter(editor, {
-          modalTitleImport: 'Import template',
-          modalTitleExport: 'Export template',
+          modalTitleImport: 'Template importeren',
+          modalTitleExport: 'Template exporteren',
           codeViewerTheme: 'material',
-          importPlaceholder: 'Paste your HTML/CSS template here',
+          importPlaceholder: 'Plak hier uw HTML/CSS template',
           cellStyle: {
             'font-size': '14px',
             'font-weight': '300',
@@ -293,7 +295,7 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
         }}
       >
         <h3 style={{ margin: '0 0 8px', color: '#dc2626', fontSize: '16px' }}>
-          Editor Initialization Failed
+          Editor kon niet worden gestart
         </h3>
         <p style={{ margin: 0, fontSize: '14px', color: '#666', fontFamily: 'monospace' }}>
           {initError}
@@ -303,16 +305,48 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
   }
 
   return (
-    <div style={{ width, height }}>
+    <div className="grapes-email-editor" style={{ width, height: isInitialized ? height : undefined }}>
       {!isInitialized && <EditorInitializing />}
-      <div
-        ref={containerRef}
-        style={{
-          width: '100%',
-          height: '100%',
-          display: isInitialized ? 'block' : 'none',
-        }}
-      />
+      <div className="editor-layout" style={{ display: isInitialized ? 'flex' : 'none', height: '100%' }}>
+        {/* Canvas (left) */}
+        <div className="editor-canvas" ref={containerRef} />
+
+        {/* Right panel */}
+        <div className="editor-panel-right">
+          <div className="panel__switcher">
+            <button
+              className={`panel__btn ${activeTab === 'blocks' ? 'panel__btn--active' : ''}`}
+              onClick={() => setActiveTab('blocks')}
+            >
+              Blokken
+            </button>
+            <button
+              className={`panel__btn ${activeTab === 'styles' ? 'panel__btn--active' : ''}`}
+              onClick={() => setActiveTab('styles')}
+            >
+              Stijlen
+            </button>
+            <button
+              className={`panel__btn ${activeTab === 'layers' ? 'panel__btn--active' : ''}`}
+              onClick={() => setActiveTab('layers')}
+            >
+              Lagen
+            </button>
+            <button
+              className={`panel__btn ${activeTab === 'traits' ? 'panel__btn--active' : ''}`}
+              onClick={() => setActiveTab('traits')}
+            >
+              Instellingen
+            </button>
+          </div>
+          <div className="panel__content">
+            <div id="blocks" style={{ display: activeTab === 'blocks' ? 'block' : 'none' }} />
+            <div className="styles-container" style={{ display: activeTab === 'styles' ? 'block' : 'none' }} />
+            <div className="layers-container" style={{ display: activeTab === 'layers' ? 'block' : 'none' }} />
+            <div className="traits-container" style={{ display: activeTab === 'traits' ? 'block' : 'none' }} />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
