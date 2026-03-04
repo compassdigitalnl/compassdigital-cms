@@ -164,9 +164,10 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
           })
         }
 
-        // Hide advanced toolbar buttons not needed by clients (keep undo/redo!)
+        // ── Replace ALL preset toolbar icons with Lucide SVGs ──
         const pn = editor.Panels
         if (pn) {
+          // Hide buttons not needed by clients
           const hideButtons = ['gjs-open-import-template', 'canvas-clear']
           hideButtons.forEach((id: string) => {
             try {
@@ -174,22 +175,67 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
               if (btn) btn.set('visible', false)
             } catch {}
           })
+
+          // Map of panel → button ID → Lucide icon + tooltip
+          const iconOverrides: Array<{ panel: string; id: string; icon: string; title: string }> = [
+            { panel: 'options', id: 'sw-visibility', icon: icons.borderAll, title: 'Randen tonen' },
+            { panel: 'options', id: 'preview', icon: icons.eye, title: 'Voorbeeld' },
+            { panel: 'options', id: 'fullscreen', icon: icons.maximize, title: 'Volledig scherm' },
+            { panel: 'options', id: 'export-code', icon: icons.fileCode, title: 'Bekijk code' },
+            { panel: 'options', id: 'undo', icon: icons.undo, title: 'Ongedaan maken' },
+            { panel: 'options', id: 'redo', icon: icons.redo, title: 'Opnieuw' },
+            { panel: 'options', id: 'gjs-open-import-template', icon: icons.upload, title: 'Importeer template' },
+            { panel: 'options', id: 'canvas-clear', icon: icons.trash, title: 'Canvas wissen' },
+          ]
+
+          iconOverrides.forEach(({ panel, id, icon, title }) => {
+            try {
+              const btn = pn.getButton(panel, id)
+              if (btn) {
+                btn.set('label', icon)
+                btn.set('className', '')
+                btn.set('attributes', { ...btn.get('attributes'), title })
+              }
+            } catch {}
+          })
         }
 
-        // Enable copy/duplicate in component toolbar
+        // Replace component toolbar icons with Lucide SVGs + add clone
+        const toolbarIconMap: Record<string, { icon: string; title: string }> = {
+          'tlb-move': { icon: icons.move, title: 'Verplaatsen' },
+          'select-parent': { icon: icons.arrowUp, title: 'Selecteer parent' },
+          'tlb-clone': { icon: icons.copy, title: 'Dupliceer' },
+          'tlb-delete': { icon: icons.x, title: 'Verwijder' },
+        }
+
         editor.on('component:selected', (component: any) => {
-          const toolbar = component.get('toolbar')
-          const hasCopy = toolbar?.some((btn: any) => btn.command === 'tlb-clone')
-          if (!hasCopy) {
-            component.set('toolbar', [
-              ...toolbar,
-              {
-                label: icons.copy,
-                attributes: { title: 'Dupliceer' },
-                command: 'tlb-clone',
-              },
-            ])
+          const toolbar = component.get('toolbar') || []
+
+          // Replace FA icons with Lucide on existing toolbar items
+          const updated = toolbar.map((btn: any) => {
+            const cmd = btn.command
+            const override = toolbarIconMap[cmd]
+            if (override) {
+              return {
+                ...btn,
+                label: override.icon,
+                attributes: { ...btn.attributes, title: override.title, class: '' },
+              }
+            }
+            return btn
+          })
+
+          // Add clone button if missing
+          const hasClone = updated.some((btn: any) => btn.command === 'tlb-clone')
+          if (!hasClone) {
+            updated.push({
+              label: icons.copy,
+              attributes: { title: 'Dupliceer' },
+              command: 'tlb-clone',
+            })
           }
+
+          component.set('toolbar', updated)
         })
 
         // Load initial content
