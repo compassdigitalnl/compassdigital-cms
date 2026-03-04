@@ -284,6 +284,7 @@ Als je het antwoord niet weet, zeg het eerlijk.`,
                   hasMany: true,
                   defaultValue: ['blog-posts', 'pages'],
                   dbName: 'chatbot_search_cols',
+                  enumName: 'chatbot_kb_search_cols',
                   options: [
                     { label: 'Blog Posts', value: 'blog-posts' },
                     { label: 'Pages', value: 'pages' },
