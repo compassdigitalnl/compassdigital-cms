@@ -27,6 +27,8 @@ export async function POST(request: NextRequest) {
       billingAddress,
       paymentMethod,
       shippingMethod,
+      shippingCost,
+      taxAmount,
       notes,
       guestEmail,
       guestName,
@@ -198,26 +200,14 @@ export async function POST(request: NextRequest) {
           ? cartItem.product
           : cartItem.product?.id
 
-      const brandName = product?.brand
-        ? typeof product.brand === 'string'
-          ? product.brand
-          : typeof product.brand === 'object' && product.brand !== null
-            ? (product.brand as any).name
-            : undefined
-        : undefined
-
       return {
         product: productId,
-        variantId: cartItem.variantId || undefined,
         quantity: cartItem.quantity || 1,
-        unitPrice: cartItem.unitPrice || 0,
-        totalPrice: cartItem.totalPrice || 0,
-        discount: cartItem.discount || undefined,
-        notes: cartItem.notes || undefined,
-        // Snapshot product details (for order history)
+        price: cartItem.unitPrice || 0,
+        // Snapshot product details (preserved even if product is deleted)
         title: product?.title || 'Unknown Product',
         sku: product?.sku || undefined,
-        brand: brandName,
+        ean: product?.ean || undefined,
       }
     })
 
@@ -231,35 +221,6 @@ export async function POST(request: NextRequest) {
         ? cart.customer
         : cart.customer?.id
 
-    const orderData: any = {
-      orderNumber,
-      customer: customerId || undefined,
-      status: 'pending',
-      paymentStatus: 'pending',
-      items: orderItems,
-      subtotal: cart.subtotal || 0,
-      discountTotal: cart.discountTotal || 0,
-      total: cart.total || 0,
-      currency: cart.currency || 'EUR',
-      paymentMethod: paymentMethod || 'unknown',
-      shippingMethod: shippingMethod || undefined,
-      notes: notes || undefined,
-      orderDate: now.toISOString(),
-    }
-
-    // Guest checkout
-    if (!customerId) {
-      if (!guestEmail) {
-        return NextResponse.json(
-          { error: 'Guest email is required for guest checkout' },
-          { status: 400 }
-        )
-      }
-      orderData.guestEmail = guestEmail
-      orderData.guestName = guestName || undefined
-      orderData.guestPhone = guestPhone || undefined
-    }
-
     // Shipping address (required)
     if (!shippingAddress) {
       return NextResponse.json(
@@ -268,21 +229,69 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    orderData.shippingStreet = shippingAddress.street
-    orderData.shippingHouseNumber = shippingAddress.houseNumber
-    orderData.shippingHouseNumberAddition = shippingAddress.houseNumberAddition || undefined
-    orderData.shippingPostalCode = shippingAddress.postalCode
-    orderData.shippingCity = shippingAddress.city
-    orderData.shippingCountry = shippingAddress.country || 'NL'
+    // Guest checkout validation
+    if (!customerId && !guestEmail) {
+      return NextResponse.json(
+        { error: 'Guest email is required for guest checkout' },
+        { status: 400 }
+      )
+    }
 
-    // Billing address (use shipping if not provided)
-    const billing = billingAddress || shippingAddress
-    orderData.billingStreet = billing.street
-    orderData.billingHouseNumber = billing.houseNumber
-    orderData.billingHouseNumberAddition = billing.houseNumberAddition || undefined
-    orderData.billingPostalCode = billing.postalCode
-    orderData.billingCity = billing.city
-    orderData.billingCountry = billing.country || 'NL'
+    // Determine customer email for notifications
+    const customerEmail = guestEmail || undefined
+
+    const orderData: any = {
+      orderNumber,
+      customer: customerId || undefined,
+      customerEmail,
+      status: 'pending',
+      paymentStatus: 'pending',
+      paymentMethod: paymentMethod || 'unknown',
+      shippingMethod: shippingMethod || undefined,
+      items: orderItems,
+      subtotal: cart.subtotal || 0,
+      shippingCost: shippingCost || 0,
+      tax: taxAmount || 0,
+      discount: cart.discountTotal || 0,
+      total: cart.total || 0,
+      notes: notes || undefined,
+      // Nested shipping address (matches legacy collection group fields)
+      shippingAddress: {
+        firstName: shippingAddress.firstName || '',
+        lastName: shippingAddress.lastName || '',
+        company: shippingAddress.company || undefined,
+        street: shippingAddress.street,
+        houseNumber: shippingAddress.houseNumber,
+        addition: shippingAddress.addition || undefined,
+        postalCode: shippingAddress.postalCode,
+        city: shippingAddress.city,
+        country: shippingAddress.country || 'Nederland',
+        phone: shippingAddress.phone || undefined,
+      },
+      // Nested billing address
+      billingAddress: {
+        sameAsShipping: !billingAddress,
+        firstName: (billingAddress || shippingAddress).firstName || '',
+        lastName: (billingAddress || shippingAddress).lastName || '',
+        company: (billingAddress || shippingAddress).company || undefined,
+        street: (billingAddress || shippingAddress).street,
+        houseNumber: (billingAddress || shippingAddress).houseNumber,
+        addition: (billingAddress || shippingAddress).addition || undefined,
+        postalCode: (billingAddress || shippingAddress).postalCode,
+        city: (billingAddress || shippingAddress).city,
+        country: (billingAddress || shippingAddress).country || 'Nederland',
+        phone: (billingAddress || shippingAddress).phone || undefined,
+        kvk: billingAddress?.kvk || undefined,
+        vatNumber: billingAddress?.vatNumber || undefined,
+      },
+    }
+
+    // Guest checkout fields
+    if (!customerId) {
+      orderData.guestEmail = guestEmail
+      orderData.guestName = guestName || undefined
+      orderData.guestPhone = guestPhone || undefined
+    }
 
     // Create the order
     const newOrder = await payload.create({

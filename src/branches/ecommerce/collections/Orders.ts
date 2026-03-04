@@ -251,6 +251,15 @@ export const Orders: CollectionConfig = {
         position: 'sidebar',
       },
     },
+    // Customer email (for notifications, guest + logged-in)
+    {
+      name: 'customerEmail',
+      type: 'email',
+      label: 'Klant e-mail',
+      admin: {
+        description: 'E-mailadres voor orderbevestiging en notificaties',
+      },
+    },
     // Addresses
     {
       name: 'shippingAddress',
@@ -258,10 +267,16 @@ export const Orders: CollectionConfig = {
       label: 'Verzendadres',
       fields: [
         {
-          name: 'name',
+          name: 'firstName',
           type: 'text',
           required: true,
-          label: 'Naam',
+          label: 'Voornaam',
+        },
+        {
+          name: 'lastName',
+          type: 'text',
+          required: true,
+          label: 'Achternaam',
         },
         {
           name: 'company',
@@ -281,6 +296,11 @@ export const Orders: CollectionConfig = {
           label: 'Huisnummer',
         },
         {
+          name: 'addition',
+          type: 'text',
+          label: 'Toevoeging',
+        },
+        {
           name: 'postalCode',
           type: 'text',
           required: true,
@@ -297,6 +317,11 @@ export const Orders: CollectionConfig = {
           type: 'text',
           defaultValue: 'Nederland',
           label: 'Land',
+        },
+        {
+          name: 'phone',
+          type: 'text',
+          label: 'Telefoon',
         },
       ],
     },
@@ -312,6 +337,22 @@ export const Orders: CollectionConfig = {
           defaultValue: true,
         },
         {
+          name: 'firstName',
+          type: 'text',
+          label: 'Voornaam',
+          admin: {
+            condition: (data, siblingData) => !siblingData?.sameAsShipping,
+          },
+        },
+        {
+          name: 'lastName',
+          type: 'text',
+          label: 'Achternaam',
+          admin: {
+            condition: (data, siblingData) => !siblingData?.sameAsShipping,
+          },
+        },
+        {
           name: 'company',
           type: 'text',
           label: 'Bedrijfsnaam',
@@ -331,6 +372,14 @@ export const Orders: CollectionConfig = {
           name: 'houseNumber',
           type: 'text',
           label: 'Huisnummer',
+          admin: {
+            condition: (data, siblingData) => !siblingData?.sameAsShipping,
+          },
+        },
+        {
+          name: 'addition',
+          type: 'text',
+          label: 'Toevoeging',
           admin: {
             condition: (data, siblingData) => !siblingData?.sameAsShipping,
           },
@@ -358,6 +407,32 @@ export const Orders: CollectionConfig = {
           label: 'Land',
           admin: {
             condition: (data, siblingData) => !siblingData?.sameAsShipping,
+          },
+        },
+        {
+          name: 'phone',
+          type: 'text',
+          label: 'Telefoon',
+          admin: {
+            condition: (data, siblingData) => !siblingData?.sameAsShipping,
+          },
+        },
+        {
+          name: 'kvk',
+          type: 'text',
+          label: 'KvK-nummer',
+          admin: {
+            condition: (data, siblingData) => !siblingData?.sameAsShipping,
+            description: 'Kamer van Koophandel nummer',
+          },
+        },
+        {
+          name: 'vatNumber',
+          type: 'text',
+          label: 'BTW-nummer',
+          admin: {
+            condition: (data, siblingData) => !siblingData?.sameAsShipping,
+            description: 'BTW-identificatienummer',
           },
         },
       ],

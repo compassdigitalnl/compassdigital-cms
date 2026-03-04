@@ -208,6 +208,8 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
           billingAddress,
           paymentMethod,
           shippingMethod,
+          shippingCost,
+          taxAmount: tax,
           guestEmail: !user ? email : undefined,
           guestName: !user
             ? guestData
