@@ -32,20 +32,10 @@ interface GrapesJSEditor {
   Commands: any
 }
 
-// Loading state component
+// Loading overlay — positioned absolute so editor-layout DOM is always accessible for GrapesJS
 function EditorInitializing() {
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '600px',
-        background: '#f9fafb',
-        border: '1px solid #e5e7eb',
-        borderRadius: '4px',
-      }}
-    >
+    <div className="editor-loading-overlay">
       <div style={{ textAlign: 'center' }}>
         <div
           style={{
@@ -143,6 +133,48 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
           listmonkVariables,
           ecommerceBlocks,
         })
+
+        // Clean up preset blocks: remove irrelevant ones, translate useful ones to Dutch
+        const bm = editor.BlockManager || (editor as any).Blocks
+        if (bm) {
+          // Remove blocks that are not useful for email clients
+          const removeIds = ['link', 'link-block', 'grid-items', 'list-items', 'quote', 'text-sect']
+          removeIds.forEach((id: string) => {
+            try { bm.remove(id) } catch {}
+          })
+
+          // Translate useful preset blocks to Dutch in "Basis" category
+          const translations: Record<string, { label: string; icon?: string }> = {
+            'sect100': { label: '1 Kolom', icon: '◻' },
+            'sect50': { label: '2 Kolommen', icon: '◫' },
+            'sect30': { label: '3 Kolommen', icon: '☰' },
+            'sect37': { label: '3/7 Kolommen', icon: '◧' },
+            'button': { label: 'Knop', icon: '▢' },
+            'divider': { label: 'Scheidingslijn', icon: '—' },
+            'text': { label: 'Tekst', icon: '¶' },
+            'image': { label: 'Afbeelding', icon: '🖼' },
+          }
+
+          Object.entries(translations).forEach(([id, { label, icon }]) => {
+            const block = bm.get(id)
+            if (block) {
+              block.set({ label, category: 'Basis', ...(icon && { media: icon }) })
+            }
+          })
+        }
+
+        // Hide advanced toolbar buttons not needed by clients
+        const pn = editor.Panels
+        if (pn) {
+          // Hide import, source-code, and fullscreen buttons from options panel
+          const hideButtons = ['gjs-open-import-template', 'undo', 'redo', 'canvas-clear']
+          hideButtons.forEach((id: string) => {
+            try {
+              const btn = pn.getButton('options', id)
+              if (btn) btn.set('visible', false)
+            } catch {}
+          })
+        }
 
         // Load initial content
         if (value) {
@@ -305,9 +337,9 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
   }
 
   return (
-    <div className="grapes-email-editor" style={{ width, height: isInitialized ? height : undefined }}>
+    <div className="grapes-email-editor" style={{ width, height }}>
       {!isInitialized && <EditorInitializing />}
-      <div className="editor-layout" style={{ display: isInitialized ? 'flex' : 'none', height: '100%' }}>
+      <div className="editor-layout" style={{ height: '100%' }}>
         {/* Canvas (left) */}
         <div className="editor-canvas" ref={containerRef} />
 

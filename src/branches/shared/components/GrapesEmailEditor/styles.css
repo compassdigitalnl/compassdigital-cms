@@ -25,6 +25,7 @@
   flex: 1;
   min-width: 0;
   position: relative;
+  overflow: hidden; /* prevent canvas iframe from bleeding under sidebar */
 }
 
 /* Reset GrapesJS canvas — fill the left column, leave room for GrapesJS toolbar */
@@ -44,6 +45,18 @@
   z-index: 1;
 }
 
+/* Loading overlay — sits above the layout so GrapesJS can still find its DOM targets */
+.editor-loading-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
 /* Tab switcher */
 .panel__switcher {
   display: flex;
@@ -54,11 +67,11 @@
 
 .panel__btn {
   flex: 1;
-  padding: 10px 4px;
+  padding: 11px 6px;
   border: none;
   background: none;
   color: #6b7280;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
@@ -199,12 +212,14 @@
   transition: all 0.15s;
   background-color: #ffffff;
   cursor: grab;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .grapes-email-editor .gjs-block:hover {
   border-color: #3b82f6;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 3px 10px rgba(59, 130, 246, 0.15);
   background-color: #eff6ff;
+  transform: translateY(-1px);
 }
 
 .grapes-email-editor .gjs-block__media {
@@ -494,4 +509,39 @@
 .gjs-block-category[data-title="E-commerce"] .gjs-title {
   background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
   color: #064e3b;
+}
+
+/* Basis category — neutral gradient */
+.gjs-block-category[data-title="Basis"] .gjs-title {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  color: #374151;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CANVAS — subtle grid background
+   ═══════════════════════════════════════════════════════════ */
+
+.grapes-email-editor .gjs-cv-canvas {
+  background-image:
+    linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
+    linear-gradient(-45deg, #e5e7eb 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e5e7eb 75%),
+    linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+  background-color: #f3f4f6 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TOOLBAR PANEL — cleaner look
+   ═══════════════════════════════════════════════════════════ */
+
+.grapes-email-editor .gjs-pn-panel {
+  padding: 4px 8px;
+}
+
+.grapes-email-editor .gjs-pn-btn {
+  min-width: 28px;
+  min-height: 28px;
+  margin: 2px;
 }
