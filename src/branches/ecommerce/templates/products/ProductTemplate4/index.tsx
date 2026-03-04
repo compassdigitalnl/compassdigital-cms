@@ -241,6 +241,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
               maxOrderQuantity: childProd.maxOrderQuantity || undefined,
               parentProductId: product.id,
               parentProductTitle: product.title,
+              backordersAllowed: childProd.backordersAllowed || false,
             })
             addedCount += qty
           }
@@ -279,6 +280,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
         sku: product.sku || undefined,
         ean: product.ean || undefined,
         stock: selectedSubscription.stockLevel || 999,
+        backordersAllowed: product.backordersAllowed || false,
       })
 
       showToast({
@@ -305,6 +307,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
         sku: product.sku || undefined,
         ean: product.ean || undefined,
         stock: (product.stock ?? 0) || 0,
+        backordersAllowed: product.backordersAllowed || false,
       })
 
       showToast({
@@ -329,6 +332,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
         sku: product.sku || undefined,
         ean: product.ean || undefined,
         stock: (product.stock ?? 0) || 0,
+        backordersAllowed: product.backordersAllowed || false,
       })
 
       // Show toast for simple product

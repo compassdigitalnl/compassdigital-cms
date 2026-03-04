@@ -36,6 +36,8 @@ export function CartLineItem({
         return 'cart-line-item__stock--in-stock'
       case 'low-stock':
         return 'cart-line-item__stock--low'
+      case 'on-backorder':
+        return 'cart-line-item__stock--backorder'
       case 'out-of-stock':
         return 'cart-line-item__stock--out'
       default:
@@ -49,6 +51,8 @@ export function CartLineItem({
       case 'in-stock':
         return <CheckCircle size={12} strokeWidth={2.5} />
       case 'low-stock':
+        return <AlertTriangle size={12} strokeWidth={2.5} />
+      case 'on-backorder':
         return <AlertTriangle size={12} strokeWidth={2.5} />
       case 'out-of-stock':
         return <XCircle size={12} strokeWidth={2.5} />
@@ -64,6 +68,8 @@ export function CartLineItem({
         return 'Op voorraad'
       case 'low-stock':
         return `Laag op voorraad${product.stockQuantity ? ` (${product.stockQuantity} stuks)` : ''}`
+      case 'on-backorder':
+        return 'Op bestelling'
       case 'out-of-stock':
         return 'Niet op voorraad'
       default:
@@ -134,9 +140,9 @@ export function CartLineItem({
               value={quantity}
               onChange={onQuantityChange}
               min={1}
-              max={product.stockQuantity || 999}
+              max={product.stockStatus === 'on-backorder' ? 999 : (product.stockQuantity || 999)}
               size="md"
-              disabled={product.stockStatus === 'out-of-stock'}
+              disabled={product.stockStatus === 'out-of-stock' && product.stockStatus !== 'on-backorder'}
               ariaLabel={`Aantal voor ${product.title}`}
             />
           </div>
@@ -264,6 +270,10 @@ export function CartLineItem({
 
         .cart-line-item__stock--low {
           color: var(--amber);
+        }
+
+        .cart-line-item__stock--backorder {
+          color: var(--amber, #F59E0B);
         }
 
         .cart-line-item__stock--out {

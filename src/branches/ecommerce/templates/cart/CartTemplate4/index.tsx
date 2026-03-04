@@ -182,7 +182,7 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
                       image: item.image,
                       sku: item.sku,
                       brand: item.parentProductTitle,
-                      stockStatus: item.stock > 10 ? 'in-stock' : item.stock > 0 ? 'low-stock' : 'out-of-stock',
+                      stockStatus: item.stock > 10 ? 'in-stock' : item.stock > 0 ? 'low-stock' : item.backordersAllowed ? 'on-backorder' : 'out-of-stock',
                       stockQuantity: item.stock,
                     }}
                     quantity={item.quantity}

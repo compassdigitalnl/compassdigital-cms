@@ -2,7 +2,7 @@
  * CartLineItem Type Definitions
  */
 
-export type StockStatus = 'in-stock' | 'low-stock' | 'out-of-stock'
+export type StockStatus = 'in-stock' | 'low-stock' | 'on-backorder' | 'out-of-stock'
 
 export interface CartProduct {
   /**
