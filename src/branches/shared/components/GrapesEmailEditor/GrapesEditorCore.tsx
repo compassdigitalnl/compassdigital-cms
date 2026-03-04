@@ -79,7 +79,7 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isInitialized, setIsInitialized] = useState(false)
   const [initError, setInitError] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'blocks' | 'styles' | 'layers' | 'traits'>('blocks')
+  const [activeTab, setActiveTab] = useState<'blocks' | 'styles' | 'traits'>('blocks')
 
   // Initialize GrapesJS
   useEffect(() => {
@@ -135,7 +135,7 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
         })
 
         // Clean up preset blocks: remove irrelevant ones, translate useful ones to Dutch
-        const bm = editor.BlockManager || (editor as any).Blocks
+        const bm = editor.BlockManager
         if (bm) {
           // Remove blocks that are not useful for email clients
           const removeIds = ['link', 'link-block', 'grid-items', 'list-items', 'quote', 'text-sect']
@@ -359,12 +359,6 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
               Stijlen
             </button>
             <button
-              className={`panel__btn ${activeTab === 'layers' ? 'panel__btn--active' : ''}`}
-              onClick={() => setActiveTab('layers')}
-            >
-              Lagen
-            </button>
-            <button
               className={`panel__btn ${activeTab === 'traits' ? 'panel__btn--active' : ''}`}
               onClick={() => setActiveTab('traits')}
             >
@@ -374,7 +368,6 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
           <div className="panel__content">
             <div id="blocks" style={{ display: activeTab === 'blocks' ? 'block' : 'none' }} />
             <div className="styles-container" style={{ display: activeTab === 'styles' ? 'block' : 'none' }} />
-            <div className="layers-container" style={{ display: activeTab === 'layers' ? 'block' : 'none' }} />
             <div className="traits-container" style={{ display: activeTab === 'traits' ? 'block' : 'none' }} />
           </div>
         </div>

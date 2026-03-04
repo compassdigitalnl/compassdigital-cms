@@ -31,22 +31,18 @@ export function GrapesJSField(props: GrapesJSFieldProps) {
 
   // Get field state from Payload
   const { value, setValue } = useField<string>({ path })
+  const { setValue: setHtmlValue } = useField<string>({ path: 'html' })
 
-  // Handle editor changes
+  // Handle editor changes — store projectData AND auto-populate html field
   const handleChange = (html: string, projectData: any) => {
-    // Store the complete GrapesJS project data as JSON string
     setValue(JSON.stringify(projectData))
+    setHtmlValue(html)
   }
 
-  // Handle export (when user clicks export button)
+  // Handle export — store inlined HTML in the html field
   const handleExport = (fullHtml: string, inlinedHtml: string) => {
-    console.log('[GrapesJSField] Export triggered')
-    console.log('Full HTML:', fullHtml.substring(0, 200) + '...')
-    console.log('Inlined HTML:', inlinedHtml.substring(0, 200) + '...')
-
-    // You could trigger a download or copy to clipboard here
-    // For now, just log it
-    alert('Template exported! Check browser console for HTML.')
+    console.log('[GrapesJSField] Export triggered, saving inlined HTML to html field')
+    setHtmlValue(inlinedHtml)
   }
 
   return (

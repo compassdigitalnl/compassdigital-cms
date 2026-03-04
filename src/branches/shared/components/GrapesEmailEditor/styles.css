@@ -25,13 +25,20 @@
   flex: 1;
   min-width: 0;
   position: relative;
-  overflow: hidden; /* prevent canvas iframe from bleeding under sidebar */
+  overflow: hidden;
 }
 
-/* Reset GrapesJS canvas — fill the left column, leave room for GrapesJS toolbar */
+/* Forceer GrapesJS wrapper binnen container */
+.editor-canvas .gjs-editor {
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+/* Canvas mag niet breder zijn dan container */
 .editor-canvas .gjs-cv-canvas {
   left: 0 !important;
   width: 100% !important;
+  max-width: 100% !important;
 }
 
 .editor-panel-right {
@@ -145,13 +152,10 @@
   text-align: center;
 }
 
-.layers-container:empty::after {
-  content: 'Lagen worden hier weergegeven';
-  display: block;
-  padding: 20px;
-  color: #9ca3af;
-  font-size: 13px;
-  text-align: center;
+/* Hide selector manager (class picker) — not useful for email templates */
+.styles-container .gjs-sm-selector,
+.styles-container .gjs-clm-tags {
+  display: none !important;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -280,27 +284,6 @@
 .gjs-toolbar-item:hover {
   background-color: #f9fafb;
   color: #111827;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   LAYERS PANEL
-   ═══════════════════════════════════════════════════════════ */
-
-.gjs-layer {
-  color: #111827;
-}
-
-.gjs-layer:hover {
-  background-color: #f9fafb;
-}
-
-.gjs-layer.gjs-selected {
-  background-color: #dbeafe;
-  color: #1e40af;
-}
-
-.gjs-layer__icon {
-  color: #6b7280;
 }
 
 /* ═══════════════════════════════════════════════════════════

@@ -161,11 +161,11 @@ export const EmailTemplates: CollectionConfig = {
     {
       name: 'html',
       type: 'code',
-      required: true,
       label: 'HTML inhoud',
       admin: {
         language: 'html',
-        description: 'HTML code van de e-mail (automatisch gegenereerd bij visuele editor)',
+        description: 'HTML code van de e-mail (handmatig bewerken als je geen visuele editor gebruikt)',
+        condition: (data) => data.useVisualEditor !== true,
       },
     },
 

@@ -37,11 +37,6 @@ export function getGrapesConfig(options: GrapesConfigOptions) {
       blocks: [], // Will be populated by custom blocks
     },
 
-    // Layer Manager
-    layerManager: {
-      appendTo: '.layers-container',
-    },
-
     // Style Manager
     styleManager: {
       appendTo: '.styles-container',
@@ -213,11 +208,10 @@ export function getGrapesConfig(options: GrapesConfigOptions) {
       backdrop: true,
     },
 
-    // Selectors
+    // Selectors — no appendTo so selector UI is not rendered (email = inline styles only)
     selectorManager: {
-      appendTo: '.styles-container',
       componentFirst: true,
-      custom: false, // Disable custom classes (use inline styles for emails)
+      custom: false,
     },
 
     // Read-only mode
