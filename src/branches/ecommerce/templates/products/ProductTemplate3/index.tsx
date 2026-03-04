@@ -8,6 +8,7 @@ import { VariantSelector } from '@/branches/ecommerce/components/VariantSelector
 import { SubscriptionPricingTable } from '@/branches/ecommerce/components/SubscriptionPricingTable'
 import { RelatedProductsSection } from '@/branches/ecommerce/components/RelatedProductsSection'
 import { RichText } from '@/branches/shared/components/common/RichText'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import { features } from '@/lib/features'
 import type { Product } from '@/payload-types'
 import {
@@ -33,6 +34,7 @@ interface ProductTemplate3Props {
 export default function ProductTemplate3({ product }: ProductTemplate3Props) {
   const { addItem } = useCart()
   const { showToast } = useAddToCartToast()
+  const { formatPriceStr, vatLabel } = usePriceMode()
   const [activeTab, setActiveTab] = useState<'story' | 'details' | 'specs' | 'downloads'>('story')
   const [quantity, setQuantity] = useState(1)
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null)
@@ -408,7 +410,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                   fontFamily: 'var(--font-heading)',
                 }}
               >
-                {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
+                {hasPrice ? `€${formatPriceStr(currentPrice, product.taxClass as any)}` : 'Prijs op aanvraag'}
               </span>
               {oldPrice && (
                 <span
@@ -418,7 +420,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                     textDecoration: 'line-through',
                   }}
                 >
-                  €{oldPrice.toFixed(2)}
+                  €{formatPriceStr(oldPrice, product.taxClass as any)}
                 </span>
               )}
             </div>
@@ -431,7 +433,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                   marginBottom: '6px',
                 }}
               >
-                You save €{savings.toFixed(2)} ({savingsPercent}%)
+                Bespaar €{formatPriceStr(savings, product.taxClass as any)} ({savingsPercent}%)
               </div>
             )}
             <div
@@ -500,7 +502,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                         {child.title}
                       </div>
                       <div style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
-                        {child.price != null ? `€${child.price.toFixed(2)}` : 'Prijs op aanvraag'}
+                        {child.price != null ? `€${formatPriceStr(child.price, child.taxClass as any)}` : 'Prijs op aanvraag'}
                         {child.stock !== undefined && ` · ${child.stock} in stock`}
                       </div>
                     </div>
@@ -621,7 +623,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
               </div>
               {quantity > 1 && hasPrice && (
                 <div style={{ fontSize: '13px', color: 'var(--color-text-muted)', marginTop: '6px' }}>
-                  {quantity}× €{currentPrice.toFixed(2)} = <strong style={{ color: 'var(--color-text-primary)' }}>€{(currentPrice * quantity).toFixed(2)}</strong>
+                  {quantity}× €{formatPriceStr(currentPrice, product.taxClass as any)} = <strong style={{ color: 'var(--color-text-primary)' }}>€{formatPriceStr(currentPrice * quantity, product.taxClass as any)}</strong>
                 </div>
               )}
               <div style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
@@ -657,7 +659,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
             }}
           >
             <ShoppingCart className="w-5 h-5" />
-            Add to Cart{hasPrice ? ` · €${(currentPrice * quantity).toFixed(2)}` : ''}
+            Add to Cart{hasPrice ? ` · €${formatPriceStr(currentPrice * quantity, product.taxClass as any)}` : ''}
           </button>
 
           {/* Premium Features */}
@@ -1292,7 +1294,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                     fontFamily: 'var(--font-heading)',
                   }}
                 >
-                  {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
+                  {hasPrice ? `€${formatPriceStr(currentPrice, product.taxClass as any)}` : 'Prijs op aanvraag'}
                 </span>
                 {oldPrice && (
                   <span
@@ -1302,7 +1304,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                       textDecoration: 'line-through',
                     }}
                   >
-                    €{oldPrice.toFixed(2)}
+                    €{formatPriceStr(oldPrice, product.taxClass as any)}
                   </span>
                 )}
               </div>
@@ -1314,7 +1316,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                     fontWeight: 600,
                   }}
                 >
-                  You save €{savings.toFixed(2)} ({savingsPercent}%)
+                  Bespaar €{formatPriceStr(savings, product.taxClass as any)} ({savingsPercent}%)
                 </div>
               )}
               <div
@@ -1384,7 +1386,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                           {child.title}
                         </div>
                         <div style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>
-                          {child.price != null ? `€${child.price.toFixed(2)}` : 'Prijs op aanvraag'}
+                          {child.price != null ? `€${formatPriceStr(child.price, child.taxClass as any)}` : 'Prijs op aanvraag'}
                           {child.stock !== undefined && ` · ${child.stock} in stock`}
                         </div>
                       </div>
@@ -1498,7 +1500,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                 </div>
                 {quantity > 1 && hasPrice && (
                   <div style={{ fontSize: '14px', color: 'var(--color-text-muted)', marginTop: '4px' }}>
-                    {quantity}× €{currentPrice.toFixed(2)} = <strong style={{ color: 'var(--color-text-primary)' }}>€{(currentPrice * quantity).toFixed(2)}</strong>
+                    {quantity}× €{formatPriceStr(currentPrice, product.taxClass as any)} = <strong style={{ color: 'var(--color-text-primary)' }}>€{formatPriceStr(currentPrice * quantity, product.taxClass as any)}</strong>
                   </div>
                 )}
                 <div style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>
@@ -1534,7 +1536,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
               }}
             >
               <ShoppingCart className="w-5 h-5" />
-              Add to Cart{hasPrice ? ` · €${(currentPrice * quantity).toFixed(2)}` : ''}
+              Add to Cart{hasPrice ? ` · €${formatPriceStr(currentPrice * quantity, product.taxClass as any)}` : ''}
             </button>
 
             {/* Premium Features */}
@@ -1973,7 +1975,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                   color: 'var(--color-primary)',
                 }}
               >
-                {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
+                {hasPrice ? `€${formatPriceStr(currentPrice, product.taxClass as any)}` : 'Prijs op aanvraag'}
               </div>
             </div>
 

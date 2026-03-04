@@ -1,6 +1,9 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
 import { FileText, Download, Eye, Calendar } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { InvoiceRowProps } from './types'
 
 const getStatusColor = (status: string) => {
@@ -17,6 +20,7 @@ const getStatusColor = (status: string) => {
 }
 
 export function InvoiceRow({ invoice }: InvoiceRowProps) {
+  const { formatPriceStr } = usePriceMode()
   const statusColors = getStatusColor(invoice.paymentStatus)
 
   return (
@@ -44,7 +48,7 @@ export function InvoiceRow({ invoice }: InvoiceRowProps) {
         </div>
         <div className="flex items-center gap-3">
           <div className="text-right mr-2">
-            <div className="text-xl font-bold">€{invoice.total.toFixed(2)}</div>
+            <div className="text-xl font-bold">€{formatPriceStr(invoice.total)}</div>
           </div>
           <div className="flex items-center gap-2">
             <Link

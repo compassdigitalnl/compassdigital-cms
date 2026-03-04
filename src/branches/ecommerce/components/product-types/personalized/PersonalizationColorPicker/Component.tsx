@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { Check } from 'lucide-react'
 import type { PersonalizationColorPickerProps } from '@/branches/ecommerce/lib/product-types'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 /**
  * PP03: PersonalizationColorPicker
@@ -39,6 +40,7 @@ export const PersonalizationColorPicker: React.FC<PersonalizationColorPickerProp
   className = '',
 }) => {
   const [customHex, setCustomHex] = useState('')
+  const { formatPriceStr } = usePriceMode()
 
   // Build color options
   const colorOptions = presetColors
@@ -51,8 +53,8 @@ export const PersonalizationColorPicker: React.FC<PersonalizationColorPickerProp
   // Price modifier display
   const priceText = option.priceModifier
     ? option.priceModifier > 0
-      ? ` (+€${option.priceModifier.toFixed(2)})`
-      : ` (€${option.priceModifier.toFixed(2)})`
+      ? ` (+€${formatPriceStr(option.priceModifier)})`
+      : ` (€${formatPriceStr(option.priceModifier)})`
     : ''
 
   // Handle custom hex input

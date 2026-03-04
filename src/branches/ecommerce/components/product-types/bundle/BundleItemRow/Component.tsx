@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Minus, Plus, X, Package } from 'lucide-react'
 import type { BundleItemRowProps } from '@/branches/ecommerce/lib/product-types'
 import type { Product, Media } from '@/payload-types'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 /**
  * BB03: BundleItemRow
@@ -27,6 +28,7 @@ export const BundleItemRow: React.FC<BundleItemRowProps> = ({
   onRemove,
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
   const product = typeof item.product === 'object' ? (item.product as Product) : null
 
   // Get product image (first image from images array)
@@ -98,7 +100,7 @@ export const BundleItemRow: React.FC<BundleItemRowProps> = ({
         </div>
         {productPrice > 0 && (
           <p className="text-[13px] text-gray-600">
-            €{productPrice.toFixed(2)} per stuk
+            €{formatPriceStr(productPrice)} per stuk
           </p>
         )}
       </div>
@@ -144,7 +146,7 @@ export const BundleItemRow: React.FC<BundleItemRowProps> = ({
       {productPrice > 0 && (
         <div className="text-right min-w-[80px]">
           <p className="text-[16px] font-mono font-bold text-gray-900">
-            €{totalPrice.toFixed(2)}
+            €{formatPriceStr(totalPrice)}
           </p>
         </div>
       )}

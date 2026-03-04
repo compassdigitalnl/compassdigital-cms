@@ -40,7 +40,7 @@ export function MiniCartFlyout({
 }: MiniCartFlyoutProps) {
   const panelRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
-  const { displayPrice, vatLabel } = usePriceMode()
+  const { displayPrice, formatPriceStr, vatLabel } = usePriceMode()
 
   // Prevent body scroll when open
   useEffect(() => {
@@ -120,7 +120,7 @@ export function MiniCartFlyout({
               <Truck size={14} />
               Nog{' '}
               <strong>
-                €{freeShipping.remaining.toFixed(2).replace('.', ',')}
+                €{formatPriceStr(freeShipping.remaining)}
               </strong>{' '}
               tot gratis verzending
             </div>
@@ -168,13 +168,13 @@ export function MiniCartFlyout({
             <div className="mc-summary">
               <div className="mc-summary-row">
                 <span>Subtotaal</span>
-                <span>€{items.reduce((sum, it) => sum + (displayPrice(it.price, it.taxClass) ?? it.price) * it.quantity, 0).toFixed(2).replace('.', ',')}</span>
+                <span>€{formatPriceStr(items.reduce((sum, it) => sum + (it.price * it.quantity), 0))}</span>
               </div>
 
               {summary.discount && summary.discount > 0 && (
                 <div className="mc-summary-row mc-discount">
                   <span>Korting</span>
-                  <span>−€{summary.discount.toFixed(2).replace('.', ',')}</span>
+                  <span>−€{formatPriceStr(summary.discount)}</span>
                 </div>
               )}
 
@@ -183,13 +183,13 @@ export function MiniCartFlyout({
                 <span>
                   {summary.shipping === 0
                     ? 'Gratis'
-                    : `€${summary.shipping.toFixed(2).replace('.', ',')}`}
+                    : `€${formatPriceStr(summary.shipping)}`}
                 </span>
               </div>
 
               <div className="mc-summary-row total">
                 <span>Totaal ({vatLabel})</span>
-                <span>€{(items.reduce((sum, it) => sum + (displayPrice(it.price, it.taxClass) ?? it.price) * it.quantity, 0) + summary.shipping - (summary.discount || 0)).toFixed(2).replace('.', ',')}</span>
+                <span>€{formatPriceStr(items.reduce((sum, it) => sum + (it.price * it.quantity), 0) + summary.shipping - (summary.discount || 0))}</span>
               </div>
             </div>
 
@@ -469,8 +469,7 @@ function CartItem({ item, onQuantityChange, onRemove }: CartItemProps) {
     onQuantityChange(item.id, item.quantity + 1)
   }
 
-  const unitPrice = displayPrice(item.price, item.taxClass) ?? item.price
-  const totalPrice = (item.quantity * unitPrice).toFixed(2).replace('.', ',')
+  const totalPrice = formatPriceStr(item.price * item.quantity, item.taxClass)
 
   return (
     <div className="mc-item">

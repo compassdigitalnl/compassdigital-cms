@@ -14,6 +14,7 @@ import React from 'react'
 import Image from 'next/image'
 import { Box, Ruler, CheckCircle, AlertTriangle, XCircle, ListPlus, Trash2 } from 'lucide-react'
 import { QuantityStepper } from '@/branches/shared/components/ui'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { CartLineItemProps, StockStatus } from './types'
 
 export function CartLineItem({
@@ -24,10 +25,11 @@ export function CartLineItem({
   onAddToList,
   className = '',
 }: CartLineItemProps) {
+  const { displayPrice: applyPriceMode, formatPriceStr } = usePriceMode()
   // Calculate prices
-  const unitPrice = product.price
-  const totalPrice = (quantity * unitPrice).toFixed(2)
-  const formattedUnitPrice = `€${unitPrice.toFixed(2)}`
+  const unitPrice = applyPriceMode(product.price, product.taxClass) ?? product.price
+  const totalPrice = formatPriceStr(quantity * product.price, product.taxClass)
+  const formattedUnitPrice = `€${formatPriceStr(product.price, product.taxClass)}`
 
   // Get stock status styling
   const getStockClassName = (status: StockStatus) => {
@@ -78,7 +80,7 @@ export function CartLineItem({
   }
 
   // Split price into euros and cents for styling
-  const [euros, cents] = totalPrice.split('.')
+  const [euros, cents] = totalPrice.split(',')
 
   return (
     <>

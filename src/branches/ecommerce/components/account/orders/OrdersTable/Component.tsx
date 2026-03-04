@@ -1,10 +1,14 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
 import { Package } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import { StatusBadge } from '@/branches/ecommerce/components/account/ui'
 import type { OrdersTableProps } from './types'
 
 export function OrdersTable({ orders }: OrdersTableProps) {
+  const { formatPriceStr } = usePriceMode()
   return (
     <div className="hidden lg:block overflow-x-auto">
       <table className="w-full">
@@ -41,7 +45,7 @@ export function OrdersTable({ orders }: OrdersTableProps) {
                 <StatusBadge status={order.status} />
               </td>
               <td className="px-6 py-4 text-right">
-                <span className="text-sm font-bold text-gray-900">€{order.total.toFixed(2)}</span>
+                <span className="text-sm font-bold text-gray-900">€{formatPriceStr(order.total)}</span>
               </td>
               <td className="px-6 py-4 text-right">
                 <Link

@@ -47,7 +47,7 @@ export function CheckoutSummary({
 }: CheckoutSummaryProps) {
   const { items, total, itemCount } = useCart()
   const [showItems, setShowItems] = useState(false)
-  const { displayPrice, showInclVAT, vatLabel } = usePriceMode()
+  const { displayPrice, formatPriceStr, showInclVAT, vatLabel } = usePriceMode()
 
   // Calculate price-mode-aware subtotal from cart items
   const subtotal = items.reduce((sum, item) => {
@@ -115,11 +115,11 @@ export function CheckoutSummary({
                       {item.title}
                     </div>
                     <div className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
-                      {item.quantity}x €{(displayPrice(item.unitPrice ?? item.price, item.taxClass as any) ?? (item.unitPrice ?? item.price)).toFixed(2)}
+                      {item.quantity}x €{formatPriceStr(item.unitPrice ?? item.price, item.taxClass as any)}
                     </div>
                   </div>
                   <div className="text-sm font-bold" style={{ color: 'var(--color-text-primary)' }}>
-                    €{((displayPrice(item.unitPrice ?? item.price, item.taxClass as any) ?? (item.unitPrice ?? item.price)) * item.quantity).toFixed(2)}
+                    €{formatPriceStr((item.unitPrice ?? item.price) * item.quantity, item.taxClass as any)}
                   </div>
                 </div>
               ))}
@@ -128,7 +128,7 @@ export function CheckoutSummary({
 
           {/* Summary Rows */}
           <div className="space-y-2 py-4">
-            <SummaryRow label={`Subtotaal`} value={`€${subtotal.toFixed(2)}`} />
+            <SummaryRow label={`Subtotaal`} value={`€${formatPriceStr(subtotal)}`} />
 
             {discount > 0 && couponCode && (
               <SummaryRow
@@ -146,14 +146,14 @@ export function CheckoutSummary({
                     )}
                   </div>
                 }
-                value={`-€${discountAmount.toFixed(2)}`}
+                value={`-€${formatPriceStr(discountAmount)}`}
                 valueColor="var(--color-success, #16a34a)"
               />
             )}
 
             <SummaryRow
               label="Verzendkosten"
-              value={isFreeShipping ? 'Gratis' : `€${finalShippingCost.toFixed(2)}`}
+              value={isFreeShipping ? 'Gratis' : `€${formatPriceStr(finalShippingCost)}`}
               valueColor={isFreeShipping ? 'var(--color-success, #16a34a)' : undefined}
               bold={isFreeShipping}
             />
@@ -177,7 +177,7 @@ export function CheckoutSummary({
                 color: 'var(--color-text-primary)',
               }}
             >
-              €{grandTotal.toFixed(2)}
+              €{formatPriceStr(grandTotal)}
             </span>
           </div>
 

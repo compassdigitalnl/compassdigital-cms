@@ -15,8 +15,10 @@ import {
   Download,
   MapPin,
 } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export default function MyAccountTemplate1() {
+  const { formatPriceStr } = usePriceMode()
   // TODO: Replace with real data from API
   const stats = {
     totalOrders: 47,
@@ -341,7 +343,7 @@ export default function MyAccountTemplate1() {
                     </div>
 
                     <div className="text-lg lg:text-xl font-extrabold text-gray-900">
-                      €{order.total.toFixed(2)}
+                      €{formatPriceStr(order.total)}
                     </div>
                   </div>
 
@@ -442,7 +444,7 @@ export default function MyAccountTemplate1() {
                       </div>
                     </div>
                     <div className="text-base lg:text-lg font-bold" style={{ color: 'var(--color-primary)' }}>
-                      €{list.total.toFixed(2)}
+                      €{formatPriceStr(list.total)}
                     </div>
                   </div>
 

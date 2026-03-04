@@ -4,9 +4,11 @@ import React from 'react'
 import { CheckCircle2, Clock, Package, MapPin, CreditCard } from 'lucide-react'
 import { buildOrderTimeline } from '@/utilities/buildOrderTimeline'
 import { OrderDetailHeader, TrackingBanner, OrderSummaryCard } from '@/branches/ecommerce/components/account/orders'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { OrderDetailTemplateProps } from './types'
 
 export default function OrderDetailTemplate({ order }: OrderDetailTemplateProps) {
+  const { formatPriceStr } = usePriceMode()
   const timeline = buildOrderTimeline(order.status, order.timeline)
   const shippingAddr = order.shippingAddress
   const billingAddr = order.billingAddress
@@ -96,11 +98,11 @@ export default function OrderDetailTemplate({ order }: OrderDetailTemplateProps)
                     </div>
                     <div className="mt-1.5 lg:mt-2 flex items-center gap-2 lg:gap-4 text-xs lg:text-sm text-gray-900">
                       <span>Aantal: <span className="font-bold">{item.quantity}x</span></span>
-                      <span>Prijs: <span className="font-bold">€{item.price.toFixed(2)}</span></span>
+                      <span>Prijs: <span className="font-bold">€{formatPriceStr(item.price)}</span></span>
                     </div>
                   </div>
                   <div className="text-sm lg:text-base font-extrabold text-gray-900 flex-shrink-0">
-                    €{item.subtotal.toFixed(2)}
+                    €{formatPriceStr(item.subtotal)}
                   </div>
                 </div>
               ))}

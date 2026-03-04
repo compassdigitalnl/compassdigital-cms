@@ -29,6 +29,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { OrderListProductTableProps, OrderListItem } from './types'
 
 // ============================================================================
@@ -76,6 +77,7 @@ function SortableRow({
   onDeleteItem,
   onAddToCart,
 }: SortableRowProps) {
+  const { formatPriceStr } = usePriceMode()
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: item.id,
   })
@@ -176,7 +178,7 @@ function SortableRow({
               color: COLORS.navy,
             }}
           >
-            €{item.product.price.toFixed(2)}
+            €{formatPriceStr(item.product.price)}
           </div>
           <div style={{ fontSize: '11px', color: COLORS.greyMid }}>
             {item.product.priceUnit}
@@ -229,7 +231,7 @@ function SortableRow({
             color: COLORS.navy,
           }}
         >
-          €{lineTotal.toFixed(2)}
+          €{formatPriceStr(lineTotal)}
         </span>
       </td>
       <td style={{ padding: '14px 16px', borderBottom: idx < totalItems - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
@@ -292,6 +294,7 @@ interface MobileCardProps {
 }
 
 function MobileCard({ item, isSelected, onSelectItem, onQuantityChange, onDeleteItem, onAddToCart }: MobileCardProps) {
+  const { formatPriceStr } = usePriceMode()
   const isLowStock = item.product.stockCount <= 50
   const lineTotal = item.product.price * item.quantity
 
@@ -357,7 +360,7 @@ function MobileCard({ item, isSelected, onSelectItem, onQuantityChange, onDelete
               color: COLORS.navy,
             }}
           >
-            €{item.product.price.toFixed(2)}
+            €{formatPriceStr(item.product.price)}
           </div>
         </div>
         <div>
@@ -387,7 +390,7 @@ function MobileCard({ item, isSelected, onSelectItem, onQuantityChange, onDelete
               color: COLORS.navy,
             }}
           >
-            €{lineTotal.toFixed(2)}
+            €{formatPriceStr(lineTotal)}
           </div>
         </div>
       </div>

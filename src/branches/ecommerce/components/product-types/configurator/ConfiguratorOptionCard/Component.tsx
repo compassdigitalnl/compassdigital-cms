@@ -5,6 +5,7 @@ import { Check, Star } from 'lucide-react'
 import Image from 'next/image'
 import type { ConfiguratorOptionCardProps } from '@/branches/ecommerce/lib/product-types'
 import type { Media } from '@/payload-types'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 /**
  * PC03: ConfiguratorOptionCard
@@ -28,6 +29,7 @@ export const ConfiguratorOptionCard: React.FC<ConfiguratorOptionCardProps> = ({
   className = '',
 }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const { formatPriceStr } = usePriceMode()
 
   // Get image URL
   const image = option.image
@@ -104,11 +106,11 @@ export const ConfiguratorOptionCard: React.FC<ConfiguratorOptionCardProps> = ({
               <p className="text-[14px] font-semibold text-green-600">Inbegrepen</p>
             ) : option.price > 0 ? (
               <p className="text-[15px] font-mono font-bold text-teal-600">
-                +€{option.price.toFixed(2)}
+                +€{formatPriceStr(option.price)}
               </p>
             ) : (
               <p className="text-[15px] font-mono font-bold text-red-600">
-                €{option.price.toFixed(2)}
+                €{formatPriceStr(option.price)}
               </p>
             )}
           </div>

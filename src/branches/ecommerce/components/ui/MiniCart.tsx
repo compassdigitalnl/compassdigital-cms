@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useEffect, type ReactNode }
 import Link from 'next/link'
 import { X, ShoppingCart, Trash2, Plus, Minus } from 'lucide-react'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import { cn } from '@/utilities/cn'
 
 interface MiniCartContextValue {
@@ -24,6 +25,7 @@ export function MiniCartProvider({
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const { items, itemCount, total, removeItem, updateQuantity } = useCart()
+  const { displayPrice, formatPriceStr } = usePriceMode()
 
   // Prevent body scroll when open
   useEffect(() => {
@@ -107,7 +109,8 @@ export function MiniCartProvider({
               ) : (
                 <div className="divide-y divide-[var(--color-border,#e5e7eb)]">
                   {items.map((item) => {
-                    const pricePerUnit = item.unitPrice ?? item.price
+                    const rawPrice = item.unitPrice ?? item.price
+                    const pricePerUnit = displayPrice(rawPrice, item.taxClass as any) ?? rawPrice
                     return (
                       <div key={item.id} className="flex gap-4 p-4">
                         {/* Image */}
@@ -130,7 +133,7 @@ export function MiniCartProvider({
                             </div>
                           )}
                           <div className="text-sm font-bold mt-1" style={{ color: 'var(--color-primary, #00897B)' }}>
-                            €{pricePerUnit.toFixed(2)}
+                            €{formatPriceStr(rawPrice, item.taxClass as any)}
                           </div>
 
                           {/* Quantity Controls */}
@@ -160,7 +163,7 @@ export function MiniCartProvider({
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
                             <span className="ml-auto text-sm font-bold" style={{ color: 'var(--color-text-primary)' }}>
-                              €{(pricePerUnit * item.quantity).toFixed(2)}
+                              €{formatPriceStr(rawPrice * item.quantity, item.taxClass as any)}
                             </span>
                           </div>
                         </div>
@@ -180,7 +183,7 @@ export function MiniCartProvider({
                     Totaal
                   </span>
                   <span className="text-xl font-extrabold" style={{ color: 'var(--color-text-primary)' }}>
-                    €{total.toFixed(2)}
+                    €{formatPriceStr(items.reduce((sum, it) => sum + (it.unitPrice ?? it.price) * it.quantity, 0))}
                   </span>
                 </div>
 

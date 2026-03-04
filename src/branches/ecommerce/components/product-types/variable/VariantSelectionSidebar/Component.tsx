@@ -3,6 +3,7 @@
 import React from 'react'
 import { ShoppingCart, X, Truck } from 'lucide-react'
 import type { VariantSelectionSidebarProps } from '@/branches/ecommerce/lib/product-types'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 /**
  * VP10: VariantSelectionSidebar
@@ -26,6 +27,7 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
   onAddToCart,
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
   const itemCount = selectedVariants.length
   const hasItems = itemCount > 0
   const hasDiscount = discount > 0
@@ -100,14 +102,14 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
                     {variant.name}
                   </h4>
                   <p className="text-xs text-gray-600">
-                    {quantity} × €{variant.price.toFixed(2)}
+                    {quantity} × €{formatPriceStr(variant.price)}
                   </p>
                 </div>
 
                 {/* Total Price */}
                 <div className="text-right flex-shrink-0">
                   <span className="text-sm font-mono font-bold text-gray-900">
-                    €{(variant.price * quantity).toFixed(2)}
+                    €{formatPriceStr(variant.price * quantity)}
                   </span>
                 </div>
 
@@ -130,7 +132,7 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
             <div className="flex items-center justify-between text-sm">
               <span className="text-gray-600">Subtotaal</span>
               <span className="font-mono font-semibold text-gray-900">
-                €{subtotal.toFixed(2)}
+                €{formatPriceStr(subtotal)}
               </span>
             </div>
 
@@ -141,7 +143,7 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
                   Staffelkorting (−{((discount / subtotal) * 100).toFixed(0)}%)
                 </span>
                 <span className="font-mono font-semibold text-green-600">
-                  −€{discount.toFixed(2)}
+                  −€{formatPriceStr(discount)}
                 </span>
               </div>
             )}
@@ -150,7 +152,7 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
             <div className="flex items-center justify-between pt-2 border-t border-gray-200">
               <span className="text-lg font-bold text-gray-900">Totaal</span>
               <span className="text-xl font-mono font-extrabold text-teal-600">
-                €{total.toFixed(2)}
+                €{formatPriceStr(total)}
               </span>
             </div>
           </div>

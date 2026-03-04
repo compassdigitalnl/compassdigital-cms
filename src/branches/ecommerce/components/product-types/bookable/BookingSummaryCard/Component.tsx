@@ -3,6 +3,7 @@
 import React from 'react'
 import { Calendar, Clock, Users, Package, ShoppingCart } from 'lucide-react'
 import { Button } from '@/branches/shared/components/ui/button'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export interface BookingSummary {
   date?: Date
@@ -38,6 +39,8 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
   showEditButtons = false,
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
+
   const formatDate = (date: Date): string => {
     const days = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag']
     const months = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec']
@@ -134,7 +137,7 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
                     {p.count}x {p.category}
                   </span>
                   <span className="font-mono font-semibold text-gray-900">
-                    €{(p.count * p.price).toFixed(2)}
+                    €{formatPriceStr(p.count * p.price)}
                   </span>
                 </div>
               ))}
@@ -162,7 +165,7 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
                 <div key={index} className="flex justify-between text-sm mb-1">
                   <span className="text-gray-700">{addon.label}</span>
                   <span className="font-mono font-semibold text-gray-900">
-                    €{addon.price.toFixed(2)}
+                    €{formatPriceStr(addon.price)}
                   </span>
                 </div>
               ))}
@@ -184,7 +187,7 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
           {summary.basePrice && (
             <div className="flex justify-between text-sm text-gray-600 mb-1">
               <span>Basisprijs</span>
-              <span className="font-mono">€{summary.basePrice.toFixed(2)}</span>
+              <span className="font-mono">€{formatPriceStr(summary.basePrice)}</span>
             </div>
           )}
 
@@ -192,7 +195,7 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
           <div className="flex justify-between items-baseline mt-3">
             <span className="text-base font-bold text-gray-900">Totaal</span>
             <span className="text-2xl font-extrabold font-heading text-gray-900">
-              €{summary.totalPrice.toFixed(2)}
+              €{formatPriceStr(summary.totalPrice)}
             </span>
           </div>
         </div>

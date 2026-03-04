@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { Check, Minus, Plus } from 'lucide-react'
 import Image from 'next/image'
 import type { VariantRowCompactProps } from '@/branches/ecommerce/lib/product-types'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 /**
  * VP09: VariantRowCompact
@@ -27,6 +28,7 @@ export const VariantRowCompact: React.FC<VariantRowCompactProps> = ({
   className = '',
 }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const { formatPriceStr } = usePriceMode()
 
   // Stock status logic
   const getStockStatus = (): 'in-stock' | 'low-stock' | 'pre-order' | 'out-of-stock' => {
@@ -163,13 +165,13 @@ export const VariantRowCompact: React.FC<VariantRowCompactProps> = ({
 
           {/* Unit Price */}
           <span className="text-[14px] font-mono font-bold text-gray-900">
-            €{variant.price.toFixed(2)} /st
+            €{formatPriceStr(variant.price)} /st
           </span>
 
           {/* Compare At Price */}
           {variant.compareAtPrice && variant.compareAtPrice > variant.price && (
             <span className="text-[12px] font-mono text-gray-500 line-through">
-              €{variant.compareAtPrice.toFixed(2)}
+              €{formatPriceStr(variant.compareAtPrice)}
             </span>
           )}
         </div>
@@ -231,10 +233,10 @@ export const VariantRowCompact: React.FC<VariantRowCompactProps> = ({
       {quantity > 0 && (
         <div className="text-right">
           <div className="text-[14px] font-mono font-bold text-teal-600">
-            €{totalPrice.toFixed(2)}
+            €{formatPriceStr(totalPrice)}
           </div>
           <div className="text-[11px] text-gray-500">
-            {quantity} × €{variant.price.toFixed(2)}
+            {quantity} × €{formatPriceStr(variant.price)}
           </div>
         </div>
       )}

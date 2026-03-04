@@ -5,6 +5,7 @@ import { Edit2, Check, ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
 import type { ConfiguratorReviewProps } from '@/branches/ecommerce/lib/product-types'
 import type { Media } from '@/payload-types'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 /**
  * PC07: ConfiguratorReview
@@ -27,6 +28,8 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
   onEdit,
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
+
   return (
     <div className={`configurator-review ${className}`}>
       {/* Header */}
@@ -118,7 +121,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
                         <p
                           className={`text-[14px] font-mono font-bold ${selection.price > 0 ? 'text-teal-600' : 'text-red-600'}`}
                         >
-                          {selection.price > 0 ? '+' : ''}€{selection.price.toFixed(2)}
+                          {selection.price > 0 ? '+' : ''}€{formatPriceStr(selection.price)}
                         </p>
                       )}
                     </div>
@@ -151,7 +154,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
                 <span
                   className={`text-[14px] font-mono font-semibold ${selection.price > 0 ? 'text-teal-600' : 'text-red-600'}`}
                 >
-                  {selection.price > 0 ? '+' : ''}€{selection.price.toFixed(2)}
+                  {selection.price > 0 ? '+' : ''}€{formatPriceStr(selection.price)}
                 </span>
               </div>
             )
@@ -164,7 +167,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
           <div className="flex items-center justify-between">
             <span className="text-[16px] font-bold text-gray-900">Totaal:</span>
             <span className="text-[20px] font-mono font-bold text-teal-600">
-              €{totalPrice.toFixed(2)}
+              €{formatPriceStr(totalPrice)}
             </span>
           </div>
         </div>

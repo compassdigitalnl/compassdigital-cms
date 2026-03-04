@@ -1,9 +1,11 @@
 'use client'
 
 import React from 'react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { GiftCardBalanceProps } from './types'
 
 export function GiftCardBalance({ balance }: GiftCardBalanceProps) {
+  const { formatPriceStr } = usePriceMode()
   return (
     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-6 lg:p-7 mb-4">
       {/* Decorative emoji watermark */}
@@ -21,7 +23,7 @@ export function GiftCardBalance({ balance }: GiftCardBalanceProps) {
             Totaal beschikbaar saldo
           </div>
           <div className="text-4xl lg:text-5xl font-extrabold text-white leading-none">
-            €{balance.totalBalance.toFixed(2).replace('.', ',')}
+            €{formatPriceStr(balance.totalBalance)}
           </div>
           <div className="text-sm text-white/35 mt-1">
             Over {balance.activeCount} actieve {balance.activeCount === 1 ? 'cadeaubon' : 'cadeaubonnen'}
@@ -40,13 +42,13 @@ export function GiftCardBalance({ balance }: GiftCardBalanceProps) {
           </div>
           <div className="text-center px-4 py-2.5 bg-white/[0.06] border border-white/[0.08] rounded-xl min-w-[100px]">
             <div className="text-lg font-extrabold text-white">
-              €{balance.totalSpent.toFixed(2).replace('.', ',')}
+              €{formatPriceStr(balance.totalSpent)}
             </div>
             <div className="text-[11px] text-white/35">Totaal besteed</div>
           </div>
           <div className="text-center px-4 py-2.5 bg-white/[0.06] border border-white/[0.08] rounded-xl min-w-[100px]">
             <div className="text-lg font-extrabold text-white">
-              €{balance.totalReceived.toFixed(2).replace('.', ',')}
+              €{formatPriceStr(balance.totalReceived)}
             </div>
             <div className="text-[11px] text-white/35">Totaal ontvangen</div>
           </div>

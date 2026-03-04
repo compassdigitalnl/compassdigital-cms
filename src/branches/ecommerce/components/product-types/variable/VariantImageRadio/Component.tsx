@@ -10,6 +10,7 @@ import Image from 'next/image'
 import type { VariantImageRadioProps } from '@/branches/ecommerce/lib/product-types'
 import type { Media } from '@/payload-types'
 import { cn } from '@/utilities/cn'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export function VariantImageRadio({
   product,
@@ -19,6 +20,8 @@ export function VariantImageRadio({
   imageSize = 'md',
   className,
 }: VariantImageRadioProps) {
+  const { formatPriceStr } = usePriceMode()
+
   if (!option.values || option.values.length === 0) {
     return null
   }
@@ -146,7 +149,7 @@ export function VariantImageRadio({
                   value.priceModifier !== null &&
                   value.priceModifier !== 0 && (
                     <span className="text-xs text-gray-500">
-                      {value.priceModifier > 0 ? '+' : ''}€{value.priceModifier.toFixed(2)}
+                      {value.priceModifier > 0 ? '+' : ''}€{formatPriceStr(value.priceModifier)}
                     </span>
                   )}
               </div>

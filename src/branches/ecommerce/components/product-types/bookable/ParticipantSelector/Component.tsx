@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Users, Plus, Minus } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export interface ParticipantCategory {
   id: string
@@ -28,6 +29,7 @@ export const ParticipantSelector: React.FC<ParticipantSelectorProps> = ({
   showPrices = true,
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
   const totalParticipants = categories.reduce((sum, cat) => sum + cat.count, 0)
   const isAtCapacity = totalCapacity !== undefined && totalParticipants >= totalCapacity
 
@@ -92,7 +94,7 @@ export const ParticipantSelector: React.FC<ParticipantSelectorProps> = ({
                 )}
                 {showPrices && (
                   <div className="text-xs font-semibold text-teal-600 mt-1">
-                    €{category.price.toFixed(2)} per persoon
+                    €{formatPriceStr(category.price)} per persoon
                   </div>
                 )}
               </div>

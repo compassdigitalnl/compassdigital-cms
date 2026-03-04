@@ -8,6 +8,7 @@
 import React from 'react'
 import type { VariantBulkSelectorProps } from '@/branches/ecommerce/lib/product-types'
 import { cn } from '@/utilities/cn'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export function VariantBulkSelector({
   product,
@@ -19,6 +20,8 @@ export function VariantBulkSelector({
   maxQuantity = 999,
   className,
 }: VariantBulkSelectorProps) {
+  const { formatPriceStr } = usePriceMode()
+
   if (!options || options.length === 0) {
     return null
   }
@@ -158,7 +161,7 @@ export function VariantBulkSelector({
                   {/* Price Modifier */}
                   <td className="px-4 py-3 text-center">
                     <span className="text-sm text-gray-700">
-                      {variant.priceModifier > 0 ? '+' : ''}€{variant.priceModifier.toFixed(2)}
+                      {variant.priceModifier > 0 ? '+' : ''}€{formatPriceStr(variant.priceModifier)}
                     </span>
                   </td>
 
@@ -250,7 +253,7 @@ export function VariantBulkSelector({
                   {/* Subtotal */}
                   <td className="px-4 py-3 text-right">
                     <span className={cn('text-sm font-medium', quantity > 0 ? 'text-blue-600' : 'text-gray-400')}>
-                      {subtotal > 0 ? '+' : ''}€{subtotal.toFixed(2)}
+                      {subtotal > 0 ? '+' : ''}€{formatPriceStr(subtotal)}
                     </span>
                   </td>
                 </tr>
@@ -274,7 +277,7 @@ export function VariantBulkSelector({
               <div className="text-right">
                 <div className="text-xs text-blue-700">Total Price Adjustment</div>
                 <div className="text-xl font-bold text-blue-900">
-                  {totalPrice > 0 ? '+' : ''}€{totalPrice.toFixed(2)}
+                  {totalPrice > 0 ? '+' : ''}€{formatPriceStr(totalPrice)}
                 </div>
               </div>
             )}

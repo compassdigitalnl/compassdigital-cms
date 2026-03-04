@@ -1,10 +1,14 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
 import { Package } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import { StatusBadge } from '@/branches/ecommerce/components/account/ui'
 import type { OrderCardMobileProps } from './types'
 
 export function OrderCardMobile({ order }: OrderCardMobileProps) {
+  const { formatPriceStr } = usePriceMode()
   return (
     <div className="p-4">
       <div className="flex items-start justify-between mb-2">
@@ -14,7 +18,7 @@ export function OrderCardMobile({ order }: OrderCardMobileProps) {
             {new Date(order.createdAt).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' })}
           </span>
         </div>
-        <span className="text-base font-bold text-gray-900 flex-shrink-0 ml-2">€{order.total.toFixed(2)}</span>
+        <span className="text-base font-bold text-gray-900 flex-shrink-0 ml-2">€{formatPriceStr(order.total)}</span>
       </div>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">

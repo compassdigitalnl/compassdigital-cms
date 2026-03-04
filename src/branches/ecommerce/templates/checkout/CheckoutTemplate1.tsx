@@ -23,6 +23,7 @@ import { useState, useCallback } from 'react'
 import { ShoppingBag, ArrowLeft, ArrowRight, Mail, ChevronDown, ChevronUp } from 'lucide-react'
 
 import { useEcommerceSettings } from '@/branches/ecommerce/hooks/useEcommerceSettings'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 // Phase 1 Components
 import { CheckoutProgressStepper } from '@/branches/ecommerce/components/checkout/CheckoutProgressStepper'
@@ -55,6 +56,7 @@ export default function CheckoutTemplate1() {
   const router = useRouter()
   const { items, total, itemCount, updateQuantity, removeItem } = useCart()
   const { settings: ecomSettings } = useEcommerceSettings()
+  const { formatPriceStr } = usePriceMode()
 
   // Current step
   const [currentStep, setCurrentStep] = useState<CheckoutStep>('contact')
@@ -199,7 +201,7 @@ export default function CheckoutTemplate1() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="font-bold text-lg">€ {grandTotal.toFixed(2)}</div>
+              <div className="font-bold text-lg">€ {formatPriceStr(grandTotal)}</div>
               {showCartSummary ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
             </div>
           </button>
@@ -558,7 +560,7 @@ export default function CheckoutTemplate1() {
                   className="w-full px-6 py-4 rounded-xl font-bold text-lg transition-all hover:opacity-90 disabled:opacity-50"
                   style={{ background: 'var(--teal)', color: 'white', boxShadow: 'var(--sh-md)' }}
                 >
-                  {isProcessing ? 'Bezig met verwerken...' : `Bestelling plaatsen (€ ${grandTotal.toFixed(2)})`}
+                  {isProcessing ? 'Bezig met verwerken...' : `Bestelling plaatsen (€ ${formatPriceStr(grandTotal)})`}
                 </button>
 
                 <p className="text-xs text-center" style={{ color: 'var(--grey-mid)' }}>

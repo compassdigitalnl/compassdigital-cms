@@ -22,6 +22,7 @@ import {
   PlusCircle,
   Building2,
 } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { OrderListsTemplateProps, OrderList } from './types'
 
 const iconMap: Record<string, React.ComponentType<{ className?: string; style?: React.CSSProperties }>> = {
@@ -77,6 +78,7 @@ function renderIcon(iconName: string, color: string) {
 }
 
 export default function OrderListsTemplate({ lists, loading, error, onRetry, onAddToCart }: OrderListsTemplateProps) {
+  const { formatPriceStr } = usePriceMode()
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState('updated')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
@@ -347,7 +349,7 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
                 <div style={{ fontSize: '13px', color: '#94A3B8' }}>
                   Waarde:{' '}
                   <strong style={{ color: '#0A1628', fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '16px', fontWeight: 800 }}>
-                    €{totalValue.toFixed(2)}
+                    €{formatPriceStr(totalValue)}
                   </strong>
                 </div>
                 <div className="flex gap-2">

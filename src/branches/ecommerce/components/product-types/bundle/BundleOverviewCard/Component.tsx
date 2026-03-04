@@ -4,6 +4,7 @@ import React from 'react'
 import { Package, ShoppingCart, TrendingDown } from 'lucide-react'
 import type { BundleOverviewCardProps } from '@/branches/ecommerce/lib/product-types'
 import type { Product } from '@/payload-types'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 /**
  * BB01: BundleOverviewCard
@@ -28,6 +29,7 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
   onAddToCart,
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
   const savings = originalPrice - totalPrice
   const savingsPercentage = originalPrice > 0 ? (savings / originalPrice) * 100 : 0
 
@@ -98,7 +100,7 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
           <div className="flex items-center justify-between">
             <span className="text-[14px] text-gray-600">Losse producten:</span>
             <span className="text-[14px] text-gray-500 line-through font-mono">
-              €{originalPrice.toFixed(2)}
+              €{formatPriceStr(originalPrice)}
             </span>
           </div>
 
@@ -107,7 +109,7 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
             <div className="flex items-center justify-between">
               <span className="text-[14px] text-gray-600">Bundle korting ({discount}%):</span>
               <span className="text-[14px] text-green-600 font-semibold font-mono">
-                -€{savings.toFixed(2)}
+                -€{formatPriceStr(savings)}
               </span>
             </div>
           )}
@@ -119,7 +121,7 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
           <div className="flex items-center justify-between">
             <span className="text-[16px] font-bold text-gray-900">Bundle prijs:</span>
             <span className="text-[22px] font-mono font-bold text-purple-600">
-              €{totalPrice.toFixed(2)}
+              €{formatPriceStr(totalPrice)}
             </span>
           </div>
 
@@ -128,7 +130,7 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
             <div className="flex items-center justify-center gap-2 mt-3 px-3 py-2 bg-green-100 rounded-lg">
               <TrendingDown className="w-4 h-4 text-green-700" strokeWidth={2.5} />
               <span className="text-[14px] font-bold text-green-700">
-                Je bespaart €{savings.toFixed(2)} ({savingsPercentage.toFixed(0)}%)
+                Je bespaart €{formatPriceStr(savings)} ({savingsPercentage.toFixed(0)}%)
               </span>
             </div>
           )}

@@ -3,6 +3,7 @@
 import React from 'react'
 import { Check, Plus, Minus, Flame, Clock } from 'lucide-react'
 import { Button } from '@/branches/shared/components/ui/button'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export interface MixMatchProductCardProps {
   // Product data
@@ -62,6 +63,8 @@ export const MixMatchProductCard: React.FC<MixMatchProductCardProps> = ({
   onClick,
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
+
   const handleIncrement = (e: React.MouseEvent) => {
     e.stopPropagation()
     if (quantity < maxQuantity) {
@@ -174,7 +177,7 @@ export const MixMatchProductCard: React.FC<MixMatchProductCardProps> = ({
             </div>
           ) : (
             <div className="mmp-price font-mono text-sm font-bold">
-              € {price?.toFixed(2)}
+              € {formatPriceStr(price)}
             </div>
           )}
 

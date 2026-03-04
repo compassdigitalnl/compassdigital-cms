@@ -13,6 +13,7 @@
 import React, { useEffect, useState } from 'react'
 import { CheckCircle, ShoppingCart, ArrowRight, X } from 'lucide-react'
 import Image from 'next/image'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { AddToCartToastProps, CartToastProduct } from './types'
 
 export function AddToCartToast({
@@ -25,6 +26,7 @@ export function AddToCartToast({
 }: AddToCartToastProps) {
   const [isVisible, setIsVisible] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
+  const { formatPriceStr } = usePriceMode()
 
   useEffect(() => {
     if (show) {
@@ -69,8 +71,8 @@ export function AddToCartToast({
   if (!show && !isClosing) return null
 
   // Calculate total price
-  const totalPrice = (product.quantity * product.price).toFixed(2)
-  const formattedPrice = `€${product.price.toFixed(2)}`
+  const totalPrice = formatPriceStr(product.quantity * product.price)
+  const formattedPrice = `€${formatPriceStr(product.price)}`
 
   return (
     <>

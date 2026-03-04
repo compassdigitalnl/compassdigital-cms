@@ -2,6 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Icon } from '@/branches/shared/components/common/Icon'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { ProductEmbedBlock, Product } from '@/payload-types'
 
 /**
@@ -21,6 +22,8 @@ export const ProductEmbedComponent: React.FC<ProductEmbedBlock> = ({
   showButton = true,
   customDescription,
 }) => {
+  const { formatPriceFull } = usePriceMode()
+
   if (!product || typeof product === 'string') {
     return null
   }
@@ -37,8 +40,8 @@ export const ProductEmbedComponent: React.FC<ProductEmbedBlock> = ({
 
   // Price formatting
   const formatPrice = (price: number | null | undefined) => {
-    if (!price) return '€0,00'
-    return `€${price.toFixed(2).replace('.', ',')}`
+    if (!price) return '€ 0,00'
+    return formatPriceFull(price, prod.taxClass as any)
   }
 
   return (

@@ -20,7 +20,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
   const [quantity, setQuantity] = useState(1)
   const modalRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
-  const { displayPrice: applyPriceMode, vatLabelForClass } = usePriceMode()
+  const { vatLabelForClass, formatPriceStr } = usePriceMode()
 
   // Initialize selected variant (find default or first available)
   useEffect(() => {
@@ -234,7 +234,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
           {/* Price */}
           <div className="mt-4 flex items-baseline gap-2.5">
             <span className="font-heading text-[26px] font-extrabold text-theme-navy">
-              €{(applyPriceMode(product.price, product.taxClass) ?? product.price).toFixed(2)}
+              €{formatPriceStr(product.price, product.taxClass)}
             </span>
             {product.unit && <span className="text-[13px] text-theme-grey-mid">{vatLabelForClass(product.taxClass)} · {product.unit}</span>}
             {!product.unit && <span className="text-[13px] text-theme-grey-mid">{vatLabelForClass(product.taxClass)}</span>}

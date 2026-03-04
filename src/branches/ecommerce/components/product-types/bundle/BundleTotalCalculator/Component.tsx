@@ -3,6 +3,7 @@
 import React from 'react'
 import { Calculator, TrendingDown } from 'lucide-react'
 import type { BundleTotalCalculatorProps } from '@/branches/ecommerce/lib/product-types'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 /**
  * BB05: BundleTotalCalculator
@@ -25,6 +26,8 @@ export const BundleTotalCalculator: React.FC<BundleTotalCalculatorProps> = ({
   tax = 0,
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
+
   // Calculate subtotal
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
@@ -53,7 +56,7 @@ export const BundleTotalCalculator: React.FC<BundleTotalCalculatorProps> = ({
         <div className="flex items-center justify-between">
           <span className="text-[15px] text-gray-700">Subtotaal ({items.length} {items.length === 1 ? 'item' : 'items'}):</span>
           <span className="text-[15px] font-mono font-semibold text-gray-900">
-            €{subtotal.toFixed(2)}
+            €{formatPriceStr(subtotal)}
           </span>
         </div>
 
@@ -65,7 +68,7 @@ export const BundleTotalCalculator: React.FC<BundleTotalCalculatorProps> = ({
               Korting ({discountPercentage}%):
             </span>
             <span className="text-[15px] font-mono font-semibold text-green-600">
-              -€{discountAmount.toFixed(2)}
+              -€{formatPriceStr(discountAmount)}
             </span>
           </div>
         )}
@@ -80,7 +83,7 @@ export const BundleTotalCalculator: React.FC<BundleTotalCalculatorProps> = ({
           <div className="flex items-center justify-between">
             <span className="text-[15px] text-gray-700">Subtotaal na korting:</span>
             <span className="text-[15px] font-mono font-semibold text-gray-900">
-              €{subtotalAfterDiscount.toFixed(2)}
+              €{formatPriceStr(subtotalAfterDiscount)}
             </span>
           </div>
         )}
@@ -90,7 +93,7 @@ export const BundleTotalCalculator: React.FC<BundleTotalCalculatorProps> = ({
           <div className="flex items-center justify-between">
             <span className="text-[15px] text-gray-700">Verzendkosten:</span>
             <span className="text-[15px] font-mono font-semibold text-gray-900">
-              €{shipping.toFixed(2)}
+              €{formatPriceStr(shipping)}
             </span>
           </div>
         )}
@@ -108,7 +111,7 @@ export const BundleTotalCalculator: React.FC<BundleTotalCalculatorProps> = ({
           <div className="flex items-center justify-between">
             <span className="text-[15px] text-gray-700">BTW:</span>
             <span className="text-[15px] font-mono font-semibold text-gray-900">
-              €{tax.toFixed(2)}
+              €{formatPriceStr(tax)}
             </span>
           </div>
         )}
@@ -120,7 +123,7 @@ export const BundleTotalCalculator: React.FC<BundleTotalCalculatorProps> = ({
         <div className="flex items-center justify-between pt-2">
           <span className="text-[18px] font-bold text-gray-900">Totaal:</span>
           <span className="text-[22px] font-mono font-bold text-purple-600">
-            €{total.toFixed(2)}
+            €{formatPriceStr(total)}
           </span>
         </div>
       </div>
@@ -129,7 +132,7 @@ export const BundleTotalCalculator: React.FC<BundleTotalCalculatorProps> = ({
       {discountPercentage > 0 && (
         <div className="mt-4 p-3 bg-green-50 border-2 border-green-200 rounded-lg">
           <p className="text-[13px] text-green-900 text-center">
-            <span className="font-bold">Je bespaart €{discountAmount.toFixed(2)}</span> met deze bundel!
+            <span className="font-bold">Je bespaart €{formatPriceStr(discountAmount)}</span> met deze bundel!
           </p>
         </div>
       )}
@@ -138,7 +141,7 @@ export const BundleTotalCalculator: React.FC<BundleTotalCalculatorProps> = ({
       {tax > 0 && (
         <div className="mt-3">
           <p className="text-[12px] text-gray-500 text-center">
-            Inclusief €{tax.toFixed(2)} BTW
+            Inclusief €{formatPriceStr(tax)} BTW
           </p>
         </div>
       )}

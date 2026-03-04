@@ -93,7 +93,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
 
   // E-commerce settings (shipping methods, payment options, VAT, etc.)
   const { settings: ecomSettings } = useEcommerceSettings()
-  const { displayPrice, showInclVAT, vatLabel } = usePriceMode()
+  const { displayPrice, formatPriceStr, showInclVAT, vatLabel } = usePriceMode()
   const cmsShippingMethods = ecomSettings.shippingMethods
   const cmsPaymentOptions = ecomSettings.paymentOptions
 
@@ -651,7 +651,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                       }
                     }}
                   >
-                    {isProcessing ? 'Bezig...' : `Bestelling plaatsen - €${grandTotal.toFixed(2)}`}
+                    {isProcessing ? 'Bezig...' : `Bestelling plaatsen - €${formatPriceStr(grandTotal)}`}
                   </button>
                 </div>
 
@@ -698,10 +698,10 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                       </div>
                       <div className="t4-order-item__info">
                         <p className="t4-order-item__name">{item.title}</p>
-                        <p className="t4-order-item__qty">{item.quantity}x €{(displayPrice(item.unitPrice ?? item.price, item.taxClass as any) ?? (item.unitPrice ?? item.price)).toFixed(2)}</p>
+                        <p className="t4-order-item__qty">{item.quantity}x €{formatPriceStr(item.unitPrice ?? item.price, item.taxClass as any)}</p>
                       </div>
                       <span className="t4-order-item__total">
-                        €{((displayPrice(item.unitPrice ?? item.price, item.taxClass as any) ?? (item.unitPrice ?? item.price)) * item.quantity).toFixed(2)}
+                        €{formatPriceStr((item.unitPrice ?? item.price) * item.quantity, item.taxClass as any)}
                       </span>
                     </div>
                   ))}
@@ -741,7 +741,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                   />
                   {!meetsMinimumOrder && ecomSettings.minimumOrderAmount && (
                     <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 text-sm">
-                      {`Minimaal bestelbedrag: €${ecomSettings.minimumOrderAmount.toFixed(2)}`}
+                      {`Minimaal bestelbedrag: €${formatPriceStr(ecomSettings.minimumOrderAmount)}`}
                     </div>
                   )}
                 </div>

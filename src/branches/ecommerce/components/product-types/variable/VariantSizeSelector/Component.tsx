@@ -8,6 +8,7 @@
 import React, { useState } from 'react'
 import type { VariantSizeSelectorProps } from '@/branches/ecommerce/lib/product-types'
 import { cn } from '@/utilities/cn'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export function VariantSizeSelector({
   product,
@@ -18,6 +19,7 @@ export function VariantSizeSelector({
   className,
 }: VariantSizeSelectorProps) {
   const [showSizeGuideModal, setShowSizeGuideModal] = useState(false)
+  const { formatPriceStr } = usePriceMode()
 
   if (!option.values || option.values.length === 0) {
     return null
@@ -51,7 +53,7 @@ export function VariantSizeSelector({
             selectedValue.priceModifier !== 0 && (
               <span className="ml-2 text-blue-700">
                 ({selectedValue.priceModifier > 0 ? '+' : ''}€
-                {selectedValue.priceModifier.toFixed(2)})
+                {formatPriceStr(selectedValue.priceModifier)})
               </span>
             )}
         </div>
@@ -105,7 +107,7 @@ export function VariantSizeSelector({
                 value.priceModifier !== null &&
                 value.priceModifier !== 0 && (
                   <span className="text-[10px] text-gray-500">
-                    {value.priceModifier > 0 ? '+' : ''}€{value.priceModifier.toFixed(2)}
+                    {value.priceModifier > 0 ? '+' : ''}€{formatPriceStr(value.priceModifier)}
                   </span>
                 )}
 

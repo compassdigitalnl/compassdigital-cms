@@ -9,6 +9,7 @@ import { VariantSelector } from '@/branches/ecommerce/components/VariantSelector
 import { SubscriptionPricingTable } from '@/branches/ecommerce/components/SubscriptionPricingTable'
 import { RelatedProductsSection } from '@/branches/ecommerce/components/RelatedProductsSection'
 import { RichText } from '@/branches/shared/components/common/RichText'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import { features } from '@/lib/features'
 import { getGroupedMinPrice } from '@/branches/ecommerce/lib/shop/utils'
 import type { Product } from '@/payload-types'
@@ -52,6 +53,7 @@ interface ProductTemplate1Props {
 export default function ProductTemplate1({ product }: ProductTemplate1Props) {
   const { addItem } = useCart()
   const { showToast } = useAddToCartToast()
+  const { formatPriceStr, vatLabel, displayPrice } = usePriceMode()
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'reviews' | 'downloads'>(
     'description',
   )
@@ -559,12 +561,12 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                       className="font-heading text-[32px] font-extrabold"
                       style={{ color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)' }}
                     >
-                      €{currentPrice.toFixed(2)}
+                      €{formatPriceStr(currentPrice, product.taxClass as any)}
                     </span>
                     {oldPrice && (
                       <>
                         <span className="text-lg text-[var(--color-text-muted)] line-through font-normal">
-                          €{oldPrice.toFixed(2)}
+                          €{formatPriceStr(oldPrice, product.taxClass as any)}
                         </span>
                         <span className="text-[13px] font-bold text-[#FF6B6B] bg-[#FFF0F0] px-2.5 py-[3px] rounded-md">
                           Bespaar {savingsPercent}%
@@ -590,7 +592,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               {/* Price Meta */}
               {(product as any).packaging && (
                 <div className="text-xs text-[var(--color-text-muted)] mb-4">
-                  {(product as any).packaging} · {product.taxClass === 'standard' ? 'incl.' : 'excl.'} BTW
+                  {(product as any).packaging} · {vatLabel}
                 </div>
               )}
 
@@ -735,7 +737,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                     {volumeTiers.length > 0 && totalQty > 0 && ' · staffelprijs van toepassing'}
                   </div>
                   <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
-                    €{totalPrice.toFixed(2)}
+                    €{formatPriceStr(totalPrice, product.taxClass as any)}
                   </div>
                 </div>
               </div>
@@ -769,7 +771,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                 </div>
                 {quantity > 1 && hasPrice && (
                   <div className="mt-2 text-sm text-[var(--color-text-muted)]">
-                    {quantity}× €{currentPrice.toFixed(2)} = <strong className="text-[var(--color-text-primary)]">€{(currentPrice * quantity).toFixed(2)}</strong>
+                    {quantity}× €{formatPriceStr(currentPrice, product.taxClass as any)} = <strong className="text-[var(--color-text-primary)]">€{formatPriceStr(currentPrice * quantity, product.taxClass as any)}</strong>
                   </div>
                 )}
               </div>
@@ -851,12 +853,12 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                     className="font-heading text-[26px] font-extrabold"
                     style={{ color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)' }}
                   >
-                    €{currentPrice.toFixed(2)}
+                    €{formatPriceStr(currentPrice, product.taxClass as any)}
                   </span>
                   {oldPrice && (
                     <>
                       <span className="text-base text-[var(--color-text-muted)] line-through font-normal">
-                        €{oldPrice.toFixed(2)}
+                        €{formatPriceStr(oldPrice, product.taxClass as any)}
                       </span>
                       <span className="text-[11px] font-bold text-[#FF6B6B] bg-[#FFF0F0] px-2 py-[3px] rounded">
                         -{savingsPercent}%
@@ -881,7 +883,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
             {(product as any).packaging && (
               <div className="text-[11px] text-[var(--color-text-muted)] mb-3">
-                {(product as any).packaging} · {product.taxClass === 'standard' ? 'incl.' : 'excl.'} BTW
+                {(product as any).packaging} · {vatLabel}
               </div>
             )}
 
@@ -1009,7 +1011,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
                     <strong className="text-[var(--color-text-primary)]">{totalQty}</strong> dozen totaal
                   </div>
                   <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
-                    €{totalPrice.toFixed(2)}
+                    €{formatPriceStr(totalPrice, product.taxClass as any)}
                   </div>
                 </div>
               )}
@@ -1044,7 +1046,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               </div>
               {quantity > 1 && (
                 <div className="mt-2 text-sm text-[var(--color-text-muted)]">
-                  {quantity}× €{currentPrice.toFixed(2)} = <strong className="text-[var(--color-text-primary)]">€{(currentPrice * quantity).toFixed(2)}</strong>
+                  {quantity}× €{formatPriceStr(currentPrice, product.taxClass as any)} = <strong className="text-[var(--color-text-primary)]">€{formatPriceStr(currentPrice * quantity, product.taxClass as any)}</strong>
                 </div>
               )}
             </div>
@@ -1541,7 +1543,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
                       <div className="flex justify-between items-center">
                         <div className="font-heading text-base font-extrabold text-[var(--color-text-primary)]">
-                          {rp.price != null ? `€${rp.price.toFixed(2)}` : 'Prijs op aanvraag'}
+                          {rp.price != null ? `€${formatPriceStr(rp.price, rp.taxClass as any)}` : 'Prijs op aanvraag'}
                         </div>
                         <button
                           className="w-9 h-9 rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
@@ -1602,7 +1604,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
 
                       <div className="flex justify-between items-center">
                         <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
-                          {rp.price != null ? `€${rp.price.toFixed(2)}` : 'Prijs op aanvraag'}
+                          {rp.price != null ? `€${formatPriceStr(rp.price, rp.taxClass as any)}` : 'Prijs op aanvraag'}
                         </div>
                         <button
                           className="w-[38px] h-[38px] rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
@@ -1636,7 +1638,7 @@ export default function ProductTemplate1({ product }: ProductTemplate1Props) {
               {product.title}
             </div>
             <div className="text-base font-extrabold text-[var(--color-primary)] font-heading">
-              {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
+              {hasPrice ? `€${formatPriceStr(currentPrice, product.taxClass as any)}` : 'Prijs op aanvraag'}
             </div>
           </div>
 

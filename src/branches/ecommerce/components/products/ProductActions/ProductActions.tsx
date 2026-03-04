@@ -20,13 +20,14 @@ export const ProductActions: React.FC<ProductActionsProps> = ({
   addToCartLabel = 'In winkelwagen',
   showWishlist = true,
   showTotalPrice = false,
+  taxClass,
   className = '',
 }) => {
   const [quantity, setQuantity] = useState(initialQuantity)
   const [wishlistActive, setWishlistActive] = useState(inWishlist)
   const [isAdding, setIsAdding] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
-  const { displayPriceCents } = usePriceMode()
+  const { formatPriceStr } = usePriceMode()
 
   // Handle quantity change
   const handleQuantityChange = (newQuantity: number) => {
@@ -64,9 +65,9 @@ export const ProductActions: React.FC<ProductActionsProps> = ({
     await onWishlistToggle?.(productId, newState)
   }
 
-  // Format price
+  // Format price (cents → euros, applying B2B/B2C mode)
   const formatPrice = (cents: number): string => {
-    return `€ ${(cents / 100).toFixed(2).replace('.', ',')}`
+    return `€ ${formatPriceStr(cents / 100, taxClass)}`
   }
 
   return (
@@ -141,7 +142,7 @@ export const ProductActions: React.FC<ProductActionsProps> = ({
       {/* Total price (optional) */}
       {showTotalPrice && (
         <div className="total-price">
-          Totaal: <span>{formatPrice((displayPriceCents(price) ?? 0) * quantity)}</span>
+          Totaal: <span>{formatPrice((price ?? 0) * quantity)}</span>
         </div>
       )}
     </div>

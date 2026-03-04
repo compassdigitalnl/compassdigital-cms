@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Timer, Check } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export interface DurationOption {
   id: string
@@ -27,6 +28,8 @@ export const DurationSelector: React.FC<DurationSelectorProps> = ({
   layout = 'grid',
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
+
   const layoutClasses = {
     grid: 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3',
     list: 'flex flex-col gap-2',
@@ -97,7 +100,7 @@ export const DurationSelector: React.FC<DurationSelectorProps> = ({
 
               {/* Price */}
               <div className={`text-lg font-bold font-mono ${isSelected ? 'text-white' : 'text-teal-600'}`}>
-                €{option.price.toFixed(2)}
+                €{formatPriceStr(option.price)}
               </div>
             </button>
           )

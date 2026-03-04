@@ -10,6 +10,7 @@ import { RelatedArticles } from '@/branches/shared/components/features/blog/blog
 import { PrevNextNavigation } from '@/branches/shared/components/features/blog/blog/PrevNextNavigation'
 import { ReadingProgressBar } from '@/branches/shared/components/features/blog/blog/ReadingProgressBar'
 import { BlogPostWithPaywall } from '@/branches/content/components/BlogPostWithPaywall'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 interface BlogTemplate1Props {
   post: BlogPost
@@ -20,6 +21,7 @@ interface BlogTemplate1Props {
 }
 
 export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextPost, category }: BlogTemplate1Props) {
+  const { formatPriceStr } = usePriceMode()
   // Get category info (already passed as prop, but keep for backwards compatibility)
   const firstCategory = post.categories?.[0]
   const categoryName = typeof firstCategory === 'object' && firstCategory !== null ? firstCategory.name : 'Blog'
@@ -224,7 +226,7 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
                       {/* Price */}
                       {prod.price && (
                         <div className="text-sm font-extrabold text-gray-900 flex-shrink-0">
-                          €{prod.price.toFixed(2).replace('.', ',')}
+                          €{formatPriceStr(prod.price)}
                         </div>
                       )}
                     </Link>

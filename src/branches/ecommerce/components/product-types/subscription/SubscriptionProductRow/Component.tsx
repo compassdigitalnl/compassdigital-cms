@@ -3,6 +3,7 @@
 import React from 'react'
 import * as LucideIcons from 'lucide-react'
 import { Button } from '@/branches/shared/components/ui/button'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export interface Badge {
   label: string
@@ -41,6 +42,8 @@ export const SubscriptionProductRow: React.FC<SubscriptionProductRowProps> = ({
   onLearnMore,
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
+
   const badgeVariantStyles = {
     popular: 'bg-purple-100 text-purple-700',
     personal: 'bg-gray-100 text-gray-700',
@@ -100,7 +103,7 @@ export const SubscriptionProductRow: React.FC<SubscriptionProductRowProps> = ({
           style={{ gridColumn: '3', gridRow: '1 / 3', alignSelf: 'center' }}
         >
           <div className="text-xl font-extrabold text-gray-900">
-            €{pricePerMonth.toFixed(2)}
+            €{formatPriceStr(pricePerMonth)}
           </div>
           <div className="text-[10px] text-gray-500">per maand</div>
         </div>
@@ -113,7 +116,7 @@ export const SubscriptionProductRow: React.FC<SubscriptionProductRowProps> = ({
       >
         {totalPrice && (
           <div className="text-sm font-bold text-gray-900 font-mono">
-            €{totalPrice.toFixed(2)}
+            €{formatPriceStr(totalPrice)}
           </div>
         )}
         {savingsPercent && savingsPercent > 0 && (

@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Package, Check } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export interface AddOn {
   id: string
@@ -26,6 +27,8 @@ export const AddOnSelector: React.FC<AddOnSelectorProps> = ({
   layout = 'list',
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
+
   const layoutClasses = {
     grid: 'grid grid-cols-1 sm:grid-cols-2 gap-3',
     list: 'flex flex-col gap-2',
@@ -95,7 +98,7 @@ export const AddOnSelector: React.FC<AddOnSelectorProps> = ({
 
                 {/* Price */}
                 <div className={`text-sm font-bold font-mono ${isSelected ? 'text-teal-600' : 'text-gray-700'}`}>
-                  {addOn.price === 0 ? 'Gratis' : `+€${addOn.price.toFixed(2)}`}
+                  {addOn.price === 0 ? 'Gratis' : `+€${formatPriceStr(addOn.price)}`}
                 </div>
               </div>
             </button>

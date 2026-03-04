@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { X } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export interface SelectedItem {
   id: string
@@ -26,6 +27,8 @@ export const MixMatchSelectionSummary: React.FC<MixMatchSelectionSummaryProps> =
   maxHeight = '260px',
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
+
   return (
     <div
       className={`box-items flex flex-col gap-1 overflow-y-auto ${className}`}
@@ -60,7 +63,7 @@ export const MixMatchSelectionSummary: React.FC<MixMatchSelectionSummaryProps> =
 
           {/* Price */}
           <div className="bi-price font-mono text-[11px] font-bold flex-shrink-0">
-            €{item.price.toFixed(2)}
+            €{formatPriceStr(item.price)}
           </div>
 
           {/* Remove button */}

@@ -4,6 +4,7 @@ import React from 'react'
 import { ShoppingCart } from 'lucide-react'
 import { Button } from '@/branches/shared/components/ui/button'
 import { MixMatchSelectionSummary, type SelectedItem } from '../MixMatchSelectionSummary'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export interface MixMatchPricingCardProps {
   // Box configuration
@@ -43,6 +44,7 @@ export const MixMatchPricingCard: React.FC<MixMatchPricingCardProps> = ({
   isAddingToCart = false,
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
   const isComplete = filledSlots >= totalSlots
   const canAddToCart = isComplete && selectedItems.length > 0
 
@@ -103,7 +105,7 @@ export const MixMatchPricingCard: React.FC<MixMatchPricingCardProps> = ({
           {individualTotal !== undefined && (
             <div className="flex justify-between text-xs text-gray-500">
               <span>Losse prijs</span>
-              <span className="font-mono line-through">€{individualTotal.toFixed(2)}</span>
+              <span className="font-mono line-through">€{formatPriceStr(individualTotal)}</span>
             </div>
           )}
 
@@ -111,7 +113,7 @@ export const MixMatchPricingCard: React.FC<MixMatchPricingCardProps> = ({
           {savings !== undefined && savings > 0 && (
             <div className="flex justify-between text-xs text-green-600 font-bold">
               <span>Besparing</span>
-              <span className="font-mono">-€{savings.toFixed(2)}</span>
+              <span className="font-mono">-€{formatPriceStr(savings)}</span>
             </div>
           )}
 
@@ -119,7 +121,7 @@ export const MixMatchPricingCard: React.FC<MixMatchPricingCardProps> = ({
           <div className="flex justify-between items-baseline">
             <span className="text-sm font-bold">Boxprijs</span>
             <span className="text-2xl font-extrabold font-heading">
-              €{boxPrice.toFixed(2)}
+              €{formatPriceStr(boxPrice)}
             </span>
           </div>
         </div>

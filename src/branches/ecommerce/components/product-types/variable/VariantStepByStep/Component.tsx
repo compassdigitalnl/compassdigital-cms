@@ -8,6 +8,7 @@
 import React, { useState } from 'react'
 import type { VariantStepByStepProps } from '@/branches/ecommerce/lib/product-types'
 import { cn } from '@/utilities/cn'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export function VariantStepByStep({
   product,
@@ -18,6 +19,7 @@ export function VariantStepByStep({
   className,
 }: VariantStepByStepProps) {
   const [currentStep, setCurrentStep] = useState(0)
+  const { formatPriceStr } = usePriceMode()
 
   if (!options || options.length === 0) {
     return null
@@ -214,7 +216,7 @@ export function VariantStepByStep({
                       </span>
                       {value.priceModifier !== undefined && value.priceModifier !== null && value.priceModifier !== 0 && (
                         <span className="text-xs text-gray-600">
-                          {value.priceModifier > 0 ? '+' : ''}€{value.priceModifier.toFixed(2)}
+                          {value.priceModifier > 0 ? '+' : ''}€{formatPriceStr(value.priceModifier)}
                         </span>
                       )}
                     </button>
@@ -236,7 +238,7 @@ export function VariantStepByStep({
                 currentValue.priceModifier !== null &&
                 currentValue.priceModifier !== 0 && (
                   <span className="text-sm font-semibold text-blue-600">
-                    {currentValue.priceModifier > 0 ? '+' : ''}€{currentValue.priceModifier.toFixed(2)}
+                    {currentValue.priceModifier > 0 ? '+' : ''}€{formatPriceStr(currentValue.priceModifier)}
                   </span>
                 )}
             </div>
@@ -299,7 +301,7 @@ export function VariantStepByStep({
                     value.priceModifier !== null &&
                     value.priceModifier !== 0 && (
                       <span className="font-medium text-blue-900">
-                        {value.priceModifier > 0 ? '+' : ''}€{value.priceModifier.toFixed(2)}
+                        {value.priceModifier > 0 ? '+' : ''}€{formatPriceStr(value.priceModifier)}
                       </span>
                     )}
                 </div>

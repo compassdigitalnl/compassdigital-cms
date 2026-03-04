@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Check, Package, Tag } from 'lucide-react'
 import type { BundleProductCardProps } from '@/branches/ecommerce/lib/product-types'
 import type { Product, Media } from '@/payload-types'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 /**
  * BB02: BundleProductCard
@@ -27,6 +28,7 @@ export const BundleProductCard: React.FC<BundleProductCardProps> = ({
   onToggle,
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
   const product = typeof item.product === 'object' ? (item.product as Product) : null
   const isSelectable = !item.required && onToggle
   const hasDiscount = item.discount && item.discount > 0
@@ -131,15 +133,15 @@ export const BundleProductCard: React.FC<BundleProductCardProps> = ({
             {hasDiscount ? (
               <>
                 <span className="text-[16px] font-mono font-bold text-purple-600">
-                  €{(discountedPrice * item.quantity).toFixed(2)}
+                  €{formatPriceStr(discountedPrice * item.quantity)}
                 </span>
                 <span className="text-[13px] font-mono text-gray-400 line-through">
-                  €{(productPrice * item.quantity).toFixed(2)}
+                  €{formatPriceStr(productPrice * item.quantity)}
                 </span>
               </>
             ) : (
               <span className="text-[16px] font-mono font-bold text-gray-900">
-                €{(productPrice * item.quantity).toFixed(2)}
+                €{formatPriceStr(productPrice * item.quantity)}
               </span>
             )}
           </div>

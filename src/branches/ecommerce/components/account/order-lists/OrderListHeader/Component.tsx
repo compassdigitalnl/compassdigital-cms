@@ -23,6 +23,7 @@ import {
   PlusCircle,
   Building2,
 } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { OrderListHeaderProps } from './types'
 
 // ============================================================================
@@ -80,6 +81,7 @@ function formatRelativeTime(date: string): string {
 // ============================================================================
 
 export function OrderListHeader({ list, stats, onAddAllToCart }: OrderListHeaderProps) {
+  const { formatPriceStr } = usePriceMode()
   const IconComponent = (iconMap[list.icon] || Repeat) as React.ComponentType<{ className?: string; style?: React.CSSProperties }>
   const colorStyle = colorMap[list.color as keyof typeof colorMap] || colorMap.teal
 
@@ -307,7 +309,7 @@ export function OrderListHeader({ list, stats, onAddAllToCart }: OrderListHeader
                 color: COLORS.navy,
               }}
             >
-              €{stats.totalValue.toFixed(2)}
+              €{formatPriceStr(stats.totalValue)}
             </div>
             <div style={{ fontSize: '12px', color: COLORS.greyMid }}>Totale waarde</div>
           </div>

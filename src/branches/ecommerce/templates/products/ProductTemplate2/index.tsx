@@ -8,6 +8,7 @@ import { VariantSelector } from '@/branches/ecommerce/components/VariantSelector
 import { SubscriptionPricingTable } from '@/branches/ecommerce/components/SubscriptionPricingTable'
 import { RelatedProductsSection } from '@/branches/ecommerce/components/RelatedProductsSection'
 import { RichText } from '@/branches/shared/components/common/RichText'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import { features } from '@/lib/features'
 import type { Product } from '@/payload-types'
 import {
@@ -33,6 +34,7 @@ interface ProductTemplate2Props {
 export default function ProductTemplate2({ product }: ProductTemplate2Props) {
   const { addItem } = useCart()
   const { showToast } = useAddToCartToast()
+  const { formatPriceStr, vatLabel } = usePriceMode()
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'downloads'>('description')
   const [quantity, setQuantity] = useState(1)
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null)
@@ -367,7 +369,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                   color: 'var(--color-text-primary)',
                 }}
               >
-                {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
+                {hasPrice ? `€${formatPriceStr(currentPrice, product.taxClass as any)}` : 'Prijs op aanvraag'}
               </span>
               {oldPrice && (
                 <>
@@ -378,7 +380,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                       textDecoration: 'line-through',
                     }}
                   >
-                    €{oldPrice.toFixed(2)}
+                    €{formatPriceStr(oldPrice, product.taxClass as any)}
                   </span>
                   <span
                     style={{
@@ -390,16 +392,14 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                       borderRadius: '4px',
                     }}
                   >
-                    Save €{savings.toFixed(2)}
+                    Bespaar €{formatPriceStr(savings, product.taxClass as any)}
                   </span>
                 </>
               )}
             </div>
             {product.taxClass && (
               <p style={{ fontSize: '13px', color: 'var(--color-text-muted)' }}>
-                {product.taxClass === 'standard' && 'Incl. 21% BTW'}
-                {product.taxClass === 'reduced' && 'Incl. 9% BTW'}
-                {product.taxClass === 'zero' && 'Excl. BTW'}
+                {vatLabel}
               </p>
             )}
           </div>
@@ -443,7 +443,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                       </span>
                       <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <span style={{ fontWeight: 600, color: 'var(--color-text-primary)' }}>
-                          €{tierPrice.toFixed(2)}
+                          €{formatPriceStr(tierPrice, product.taxClass as any)}
                         </span>
                         {tier.discountPercentage && (
                           <span style={{ color: 'var(--color-primary)', fontSize: '11px', fontWeight: 600 }}>
@@ -512,7 +512,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                 >
                   {childProducts.map((child) => (
                     <option key={child.id} value={child.id}>
-                      {child.title} - {child.price != null ? `€${child.price.toFixed(2)}` : 'Prijs op aanvraag'}
+                      {child.title} - {child.price != null ? `€${formatPriceStr(child.price, child.taxClass as any)}` : 'Prijs op aanvraag'}
                       {child.stock !== undefined && ` (${child.stock} in stock)`}
                     </option>
                   ))}
@@ -616,7 +616,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
             </div>
             {quantity > 1 && hasPrice && (
               <div className="mt-2 text-sm" style={{ color: 'var(--color-text-muted)' }}>
-                {quantity}× €{currentPrice.toFixed(2)} = <strong style={{ color: 'var(--color-text-primary)' }}>€{(currentPrice * quantity).toFixed(2)}</strong>
+                {quantity}× €{formatPriceStr(currentPrice, product.taxClass as any)} = <strong style={{ color: 'var(--color-text-primary)' }}>€{formatPriceStr(currentPrice * quantity, product.taxClass as any)}</strong>
               </div>
             )}
           </div>
@@ -1237,7 +1237,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                     color: 'var(--color-text-primary)',
                   }}
                 >
-                  {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
+                  {hasPrice ? `€${formatPriceStr(currentPrice, product.taxClass as any)}` : 'Prijs op aanvraag'}
                 </span>
                 {oldPrice && (
                   <>
@@ -1248,7 +1248,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                         textDecoration: 'line-through',
                       }}
                     >
-                      €{oldPrice.toFixed(2)}
+                      €{formatPriceStr(oldPrice, product.taxClass as any)}
                     </span>
                     <span
                       style={{
@@ -1260,7 +1260,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                         borderRadius: '6px',
                       }}
                     >
-                      Save €{savings.toFixed(2)}
+                      Bespaar €{formatPriceStr(savings, product.taxClass as any)}
                     </span>
                   </>
                 )}
@@ -1313,7 +1313,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                         </span>
                         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                           <span style={{ fontWeight: 600, color: 'var(--color-text-primary)' }}>
-                            €{tierPrice.toFixed(2)}
+                            €{formatPriceStr(tierPrice, product.taxClass as any)}
                           </span>
                           {tier.discountPercentage && (
                             <span style={{ color: 'var(--color-primary)', fontSize: '12px', fontWeight: 600 }}>
@@ -1382,7 +1382,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                   >
                     {childProducts.map((child) => (
                       <option key={child.id} value={child.id}>
-                        {child.title} - {child.price != null ? `€${child.price.toFixed(2)}` : 'Prijs op aanvraag'}
+                        {child.title} - {child.price != null ? `€${formatPriceStr(child.price, child.taxClass as any)}` : 'Prijs op aanvraag'}
                         {child.stock !== undefined && ` (${child.stock} in stock)`}
                       </option>
                     ))}
@@ -1484,7 +1484,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
               </div>
               {quantity > 1 && (
                 <div className="mt-2 text-sm" style={{ color: 'var(--color-text-muted)' }}>
-                  {quantity}× €{currentPrice.toFixed(2)} = <strong style={{ color: 'var(--color-text-primary)' }}>€{(currentPrice * quantity).toFixed(2)}</strong>
+                  {quantity}× €{formatPriceStr(currentPrice, product.taxClass as any)} = <strong style={{ color: 'var(--color-text-primary)' }}>€{formatPriceStr(currentPrice * quantity, product.taxClass as any)}</strong>
                 </div>
               )}
             </div>
@@ -1964,7 +1964,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                   color: 'var(--color-primary)',
                 }}
               >
-                {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
+                {hasPrice ? `€${formatPriceStr(currentPrice, product.taxClass as any)}` : 'Prijs op aanvraag'}
               </div>
             </div>
 

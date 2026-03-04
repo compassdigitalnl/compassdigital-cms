@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react'
 import { Upload, X, Image as ImageIcon } from 'lucide-react'
 import Image from 'next/image'
 import type { PersonalizationImageUploadProps } from '@/branches/ecommerce/lib/product-types'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 /**
  * PP04: PersonalizationImageUpload
@@ -28,6 +29,7 @@ export const PersonalizationImageUpload: React.FC<PersonalizationImageUploadProp
   className = '',
 }) => {
   const [isDragging, setIsDragging] = useState(false)
+  const { formatPriceStr } = usePriceMode()
   const [error, setError] = useState<string | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -35,8 +37,8 @@ export const PersonalizationImageUpload: React.FC<PersonalizationImageUploadProp
   // Price modifier display
   const priceText = option.priceModifier
     ? option.priceModifier > 0
-      ? ` (+€${option.priceModifier.toFixed(2)})`
-      : ` (€${option.priceModifier.toFixed(2)})`
+      ? ` (+€${formatPriceStr(option.priceModifier)})`
+      : ` (€${formatPriceStr(option.priceModifier)})`
     : ''
 
   // Format file size

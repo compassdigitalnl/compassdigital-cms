@@ -3,6 +3,7 @@
 import React from 'react'
 import { Check } from 'lucide-react'
 import type { PersonalizationFontSelectorProps } from '@/branches/ecommerce/lib/product-types'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 /**
  * PP02: PersonalizationFontSelector
@@ -32,6 +33,8 @@ export const PersonalizationFontSelector: React.FC<PersonalizationFontSelectorPr
   availableFonts,
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
+
   // Build font options
   const fontOptions = availableFonts
     ? availableFonts.map((font) => ({
@@ -44,8 +47,8 @@ export const PersonalizationFontSelector: React.FC<PersonalizationFontSelectorPr
   // Price modifier display
   const priceText = option.priceModifier
     ? option.priceModifier > 0
-      ? ` (+€${option.priceModifier.toFixed(2)})`
-      : ` (€${option.priceModifier.toFixed(2)})`
+      ? ` (+€${formatPriceStr(option.priceModifier)})`
+      : ` (€${formatPriceStr(option.priceModifier)})`
     : ''
 
   return (

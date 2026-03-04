@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { Check, Minus, Plus } from 'lucide-react'
 import type { VariantCardCompactProps } from '@/branches/ecommerce/lib/product-types'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 /**
  * VP08: VariantCardCompact
@@ -26,6 +27,7 @@ export const VariantCardCompact: React.FC<VariantCardCompactProps> = ({
   className = '',
 }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const { formatPriceStr } = usePriceMode()
 
   // Stock status logic
   const getStockStatus = (): 'in-stock' | 'low-stock' | 'pre-order' | 'out-of-stock' => {
@@ -129,11 +131,11 @@ export const VariantCardCompact: React.FC<VariantCardCompactProps> = ({
         {/* Price */}
         <div className="flex items-baseline gap-2 mt-1">
           <span className="text-[16px] font-mono font-bold text-gray-900">
-            €{variant.price.toFixed(2)}
+            €{formatPriceStr(variant.price)}
           </span>
           {variant.compareAtPrice && variant.compareAtPrice > variant.price && (
             <span className="text-[13px] font-mono text-gray-500 line-through">
-              €{variant.compareAtPrice.toFixed(2)}
+              €{formatPriceStr(variant.compareAtPrice)}
             </span>
           )}
         </div>

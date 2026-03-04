@@ -8,6 +8,7 @@
 import React, { useState } from 'react'
 import type { VariantComparisonTableProps } from '@/branches/ecommerce/lib/product-types'
 import { cn } from '@/utilities/cn'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export function VariantComparisonTable({
   product,
@@ -18,6 +19,7 @@ export function VariantComparisonTable({
   className,
 }: VariantComparisonTableProps) {
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null)
+  const { formatPriceStr } = usePriceMode()
 
   if (!options || options.length === 0) {
     return null
@@ -143,8 +145,8 @@ export function VariantComparisonTable({
                         {variant?.priceModifier !== undefined &&
                         variant?.priceModifier !== null &&
                         variant?.priceModifier !== 0
-                          ? `${variant.priceModifier > 0 ? '+' : ''}€${variant.priceModifier.toFixed(2)}`
-                          : '€0.00'}
+                          ? `${variant.priceModifier > 0 ? '+' : ''}€${formatPriceStr(variant.priceModifier)}`
+                          : `€${formatPriceStr(0)}`}
                       </span>
                     </td>
                   )

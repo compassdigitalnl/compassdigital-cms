@@ -9,6 +9,7 @@ import {
   ShoppingBag,
   Check,
 } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { GiftCardListProps } from './types'
 import type { GiftCard, GiftCardTransaction } from '@/branches/ecommerce/templates/account/GiftCardsTemplate/types'
 
@@ -57,6 +58,7 @@ function TxIcon({ tx }: { tx: GiftCardTransaction }) {
 // ── sub-components ─────────────────────────────────────────────────────────
 
 function GiftCardCard({ card, onSend, onPrint }: { card: GiftCard; onSend: (id: number) => void; onPrint: (id: number) => void }) {
+  const { formatPriceStr } = usePriceMode()
   const fillPct = card.amount > 0 ? Math.round((card.balance / card.amount) * 100) : 0
   const isActive = card.status === 'active'
   const opacity = isActive ? '' : 'opacity-60'
@@ -104,10 +106,10 @@ function GiftCardCard({ card, onSend, onPrint }: { card: GiftCard; onSend: (id: 
 
         <div className="flex items-center justify-between mt-1">
           <span className={`font-extrabold text-[13px] ${balanceColor(card.status)}`}>
-            €{card.balance.toFixed(2).replace('.', ',')} over
+            €{formatPriceStr(card.balance)} over
           </span>
           <span className="text-[11px] text-gray-400">
-            van €{card.amount.toFixed(2).replace('.', ',')}
+            van €{formatPriceStr(card.amount)}
           </span>
         </div>
 
@@ -138,6 +140,7 @@ function GiftCardCard({ card, onSend, onPrint }: { card: GiftCard; onSend: (id: 
 }
 
 function TransactionRow({ tx }: { tx: GiftCardTransaction }) {
+  const { formatPriceStr } = usePriceMode()
   return (
     <div className="grid grid-cols-[40px_1fr_auto] gap-3 items-center px-5 py-3 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
       <div className={`w-9 h-9 rounded-[10px] flex items-center justify-center ${txIconBg(tx)}`}>
@@ -151,7 +154,7 @@ function TransactionRow({ tx }: { tx: GiftCardTransaction }) {
         </div>
       </div>
       <div className={`font-mono font-bold text-sm ${tx.type === 'credit' ? 'text-green-600' : 'text-gray-900'}`}>
-        {tx.type === 'credit' ? '+ ' : '− '}€{tx.amount.toFixed(2).replace('.', ',')}
+        {tx.type === 'credit' ? '+ ' : '− '}€{formatPriceStr(tx.amount)}
       </div>
     </div>
   )

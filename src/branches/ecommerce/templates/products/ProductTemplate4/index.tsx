@@ -13,6 +13,7 @@ import { ReviewWidget } from '@/branches/ecommerce/components/products/ReviewWid
 import { BackInStockNotifier } from '@/branches/ecommerce/components/products/BackInStockNotifier'
 import { ProductTabs } from '@/branches/ecommerce/components/products/ProductTabs'
 import { useEcommerceSettings } from '@/branches/ecommerce/hooks/useEcommerceSettings'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import { features } from '@/lib/features'
 import { getGroupedMinPrice } from '@/branches/ecommerce/lib/shop/utils'
 import type { Product } from '@/payload-types'
@@ -51,6 +52,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
   const { addItem, addGroupedItems } = useCart()
   const { settings: ecomSettings } = useEcommerceSettings()
   const { showToast } = useAddToCartToast()
+  const { formatPriceStr, formatPriceFull, vatLabel, displayPrice } = usePriceMode()
   const [showStickyATC, setShowStickyATC] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
   const [isWishlisted, setIsWishlisted] = useState(false)
@@ -650,12 +652,12 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                       className="font-heading text-[32px] font-extrabold"
                       style={{ color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)' }}
                     >
-                      €{currentPrice.toFixed(2)}
+                      €{formatPriceStr(currentPrice, product.taxClass as any)}
                     </span>
                     {oldPrice && (
                       <>
                         <span className="text-lg text-[var(--color-text-muted)] line-through font-normal">
-                          €{oldPrice.toFixed(2)}
+                          €{formatPriceStr(oldPrice, product.taxClass as any)}
                         </span>
                         <span className="text-[13px] font-bold text-[#FF6B6B] bg-[#FFF0F0] px-2.5 py-[3px] rounded-md">
                           Bespaar {savingsPercent}%
@@ -687,7 +689,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
               {/* Price Meta */}
               {(product as any).packaging && (
                 <div className="text-xs text-[var(--color-text-muted)] mb-4">
-                  {(product as any).packaging} · {product.taxClass === 'standard' ? 'incl.' : 'excl.'} BTW
+                  {(product as any).packaging} · {vatLabel}
                 </div>
               )}
 
@@ -796,11 +798,11 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                           {(child.salePrice || child.price) != null && (
                             <div className="mt-1 flex items-center justify-center gap-1.5">
                               <span className="text-[13px] font-extrabold text-[var(--color-primary)]">
-                                €{(child.salePrice || child.price).toFixed(2)}
+                                €{formatPriceStr(child.salePrice || child.price, child.taxClass as any)}
                               </span>
                               {child.salePrice && child.price && child.salePrice < child.price && (
                                 <span className="text-[11px] text-[var(--color-text-muted)] line-through">
-                                  €{child.price.toFixed(2)}
+                                  €{formatPriceStr(child.price, child.taxClass as any)}
                                 </span>
                               )}
                             </div>
@@ -872,7 +874,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                     {volumeTiers.length > 0 && totalQty > 0 && ' · staffelprijs van toepassing'}
                   </div>
                   <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
-                    €{totalPrice.toFixed(2)}
+                    €{formatPriceStr(totalPrice, product.taxClass as any)}
                   </div>
                 </div>
               </div>
@@ -918,7 +920,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                 </div>
                 {quantity > 1 && hasPrice && (
                   <div className="mt-2 text-sm text-[var(--color-text-muted)]">
-                    {quantity}× €{currentPrice.toFixed(2)} = <strong className="text-[var(--color-text-primary)]">€{(currentPrice * quantity).toFixed(2)}</strong>
+                    {quantity}× €{formatPriceStr(currentPrice, product.taxClass as any)} = <strong className="text-[var(--color-text-primary)]">€{formatPriceStr(currentPrice * quantity, product.taxClass as any)}</strong>
                   </div>
                 )}
               </div>
@@ -966,7 +968,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
             <div className="grid grid-cols-2 gap-2.5 pt-5 border-t border-t-[var(--color-border)]">
               <div className="flex items-center gap-2 text-[13px] text-[var(--color-text-secondary)]">
                 <Truck className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
-                {`Gratis verzending vanaf €${ecomSettings.freeShippingThreshold}`}
+                {`Gratis verzending vanaf €${formatPriceStr(ecomSettings.freeShippingThreshold)}`}
               </div>
               <div className="flex items-center gap-2 text-[13px] text-[var(--color-text-secondary)]">
                 <Undo2 className="w-4 h-4 text-[var(--color-primary)] shrink-0" />
@@ -998,12 +1000,12 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                     className="font-heading text-[26px] font-extrabold"
                     style={{ color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)' }}
                   >
-                    €{currentPrice.toFixed(2)}
+                    €{formatPriceStr(currentPrice, product.taxClass as any)}
                   </span>
                   {oldPrice && (
                     <>
                       <span className="text-base text-[var(--color-text-muted)] line-through font-normal">
-                        €{oldPrice.toFixed(2)}
+                        €{formatPriceStr(oldPrice, product.taxClass as any)}
                       </span>
                       <span className="text-[11px] font-bold text-[#FF6B6B] bg-[#FFF0F0] px-2 py-[3px] rounded">
                         -{savingsPercent}%
@@ -1034,7 +1036,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
 
             {(product as any).packaging && (
               <div className="text-[11px] text-[var(--color-text-muted)] mb-3">
-                {(product as any).packaging} · {product.taxClass === 'standard' ? 'incl.' : 'excl.'} BTW
+                {(product as any).packaging} · {vatLabel}
               </div>
             )}
 
@@ -1136,12 +1138,12 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                           <div className="flex items-center gap-2 mt-0.5">
                             {(child.salePrice || child.price) != null && (
                               <span className="text-[13px] font-extrabold text-[var(--color-primary)]">
-                                €{(child.salePrice || child.price).toFixed(2)}
+                                €{formatPriceStr(child.salePrice || child.price, child.taxClass as any)}
                               </span>
                             )}
                             {child.salePrice && child.price && child.salePrice < child.price && (
                               <span className="text-[11px] text-[var(--color-text-muted)] line-through">
-                                €{child.price.toFixed(2)}
+                                €{formatPriceStr(child.price, child.taxClass as any)}
                               </span>
                             )}
                           </div>
@@ -1198,7 +1200,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
                     <strong className="text-[var(--color-text-primary)]">{totalQty}</strong> artikelen totaal
                   </div>
                   <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
-                    €{totalPrice.toFixed(2)}
+                    €{formatPriceStr(totalPrice, product.taxClass as any)}
                   </div>
                 </div>
               )}
@@ -1245,7 +1247,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
               </div>
               {quantity > 1 && (
                 <div className="mt-2 text-sm text-[var(--color-text-muted)]">
-                  {quantity}× €{currentPrice.toFixed(2)} = <strong className="text-[var(--color-text-primary)]">€{(currentPrice * quantity).toFixed(2)}</strong>
+                  {quantity}× €{formatPriceStr(currentPrice, product.taxClass as any)} = <strong className="text-[var(--color-text-primary)]">€{formatPriceStr(currentPrice * quantity, product.taxClass as any)}</strong>
                 </div>
               )}
             </div>
@@ -1538,7 +1540,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
 
                       <div className="flex justify-between items-center">
                         <div className="font-heading text-base font-extrabold text-[var(--color-text-primary)]">
-                          {rp.price != null ? `€${rp.price.toFixed(2)}` : 'Prijs op aanvraag'}
+                          {rp.price != null ? `€${formatPriceStr(rp.price, rp.taxClass as any)}` : 'Prijs op aanvraag'}
                         </div>
                         <button
                           className="w-9 h-9 rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
@@ -1607,7 +1609,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
 
                       <div className="flex justify-between items-center">
                         <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
-                          {rp.price != null ? `€${rp.price.toFixed(2)}` : 'Prijs op aanvraag'}
+                          {rp.price != null ? `€${formatPriceStr(rp.price, rp.taxClass as any)}` : 'Prijs op aanvraag'}
                         </div>
                         <button
                           className="w-[38px] h-[38px] rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
@@ -1649,7 +1651,7 @@ export default function ProductTemplate4({ product }: ProductTemplate4Props) {
               {product.title}
             </div>
             <div className="text-base font-extrabold text-[var(--color-primary)] font-heading">
-              {hasPrice ? `€${currentPrice.toFixed(2)}` : 'Prijs op aanvraag'}
+              {hasPrice ? `€${formatPriceStr(currentPrice, product.taxClass as any)}` : 'Prijs op aanvraag'}
             </div>
           </div>
 

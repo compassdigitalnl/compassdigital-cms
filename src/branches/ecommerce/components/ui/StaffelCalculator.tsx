@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Tag } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 interface StaffelCalculatorProps {
   productId?: string
@@ -25,6 +26,8 @@ export function StaffelCalculator({
   unit = 'stuks',
   onQuantityChange,
 }: StaffelCalculatorProps) {
+  const { formatPriceStr } = usePriceMode()
+
   if (!tiers || tiers.length === 0) return null
 
   const qty = currentQuantity ?? initialQuantity ?? 1
@@ -86,7 +89,7 @@ export function StaffelCalculator({
                     color: isActive ? 'var(--color-primary)' : 'var(--color-text-primary)',
                   }}
                 >
-                  €{tier.price.toFixed(2)}
+                  €{formatPriceStr(tier.price)}
                 </span>
                 {tier.savePercentage && tier.savePercentage > 0 && (
                   <span className="text-[11px] font-bold text-[#FF6B6B] bg-[#FFF0F0] px-1.5 py-0.5 rounded">

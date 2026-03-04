@@ -22,11 +22,11 @@ export const ProductMeta: React.FC<ProductMetaProps> = ({
   showTrustBadges = true,
   variant = 'default',
 }) => {
-  const { displayPriceCents } = usePriceMode()
+  const { formatPriceStr } = usePriceMode()
 
-  // Format price from cents to EUR
+  // Format price from cents to EUR (applying B2B/B2C mode)
   const formatPrice = (cents: number): string => {
-    return `€ ${(cents / 100).toFixed(2).replace('.', ',')}`
+    return `€ ${formatPriceStr(cents / 100, product.taxClass)}`
   }
 
   // Calculate discount percentage — always based on original excl. prices
@@ -149,12 +149,12 @@ export const ProductMeta: React.FC<ProductMetaProps> = ({
                 : undefined
             }
           >
-            {formatPrice(displayPriceCents(product.price) ?? product.price)}
+            {formatPrice(product.price)}
           </span>
           {product.priceOriginal && product.priceOriginal > product.price && (
             <>
               <span className="price-original" aria-label="Oorspronkelijke prijs">
-                {formatPrice(displayPriceCents(product.priceOriginal) ?? product.priceOriginal)}
+                {formatPrice(product.priceOriginal)}
               </span>
               {discount && (
                 <span className="price-save" aria-label={`${discount.replace('-', '')} korting`}>

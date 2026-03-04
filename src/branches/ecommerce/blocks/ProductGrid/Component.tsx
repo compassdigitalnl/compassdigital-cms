@@ -9,6 +9,7 @@ import React from 'react'
 import Link from 'next/link'
 import { Icon } from '@/branches/shared/components/common/Icon'
 import { SectionLabel } from '@/branches/shared/components/admin/SectionLabel'
+import { ProductGridPrice } from './ProductGridPrice'
 import type { ProductGridBlock as ProductGridType } from '@/payload-types'
 import type { Product } from '@/payload-types'
 
@@ -233,16 +234,7 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
 
                   <div className="flex items-center justify-between mb-3">
                     <div>
-                      {price != null && (
-                        <div className="text-2xl font-bold text-gray-900">
-                          €{price.toFixed(2)}
-                        </div>
-                      )}
-                      {compareAtPrice != null && price != null && compareAtPrice > price && (
-                        <div className="text-sm text-gray-400 line-through">
-                          €{compareAtPrice.toFixed(2)}
-                        </div>
-                      )}
+                      <ProductGridPrice price={price} compareAtPrice={compareAtPrice} taxClass={product.taxClass as any} />
                     </div>
 
                     {showAddToCart && inStock && (

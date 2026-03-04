@@ -8,6 +8,7 @@
 import React from 'react'
 import type { VariantMatrixSelectorProps } from '@/branches/ecommerce/lib/product-types'
 import { cn } from '@/utilities/cn'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export function VariantMatrixSelector({
   product,
@@ -18,6 +19,8 @@ export function VariantMatrixSelector({
   showStock = true,
   className,
 }: VariantMatrixSelectorProps) {
+  const { formatPriceStr } = usePriceMode()
+
   if (
     !primaryOption.values ||
     primaryOption.values.length === 0 ||
@@ -81,7 +84,7 @@ export function VariantMatrixSelector({
                     secValue.priceModifier !== null &&
                     secValue.priceModifier !== 0 && (
                       <div className="mt-1 text-xs font-normal text-gray-600">
-                        {secValue.priceModifier > 0 ? '+' : ''}€{secValue.priceModifier.toFixed(2)}
+                        {secValue.priceModifier > 0 ? '+' : ''}€{formatPriceStr(secValue.priceModifier)}
                       </div>
                     )}
                 </th>
@@ -99,7 +102,7 @@ export function VariantMatrixSelector({
                     primValue.priceModifier !== 0 && (
                       <div className="mt-1 text-xs font-normal text-gray-600">
                         {primValue.priceModifier > 0 ? '+' : ''}€
-                        {primValue.priceModifier.toFixed(2)}
+                        {formatPriceStr(primValue.priceModifier)}
                       </div>
                     )}
                 </td>
@@ -186,9 +189,9 @@ export function VariantMatrixSelector({
                               )}
                             >
                               +€
-                              {(
+                              {formatPriceStr(
                                 (primValue.priceModifier || 0) + (secValue.priceModifier || 0)
-                              ).toFixed(2)}
+                              )}
                             </div>
                           )}
                       </button>
@@ -225,7 +228,7 @@ export function VariantMatrixSelector({
               return (
                 totalModifier !== 0 && (
                   <div className="text-base font-bold text-blue-900">
-                    {totalModifier > 0 ? '+' : ''}€{totalModifier.toFixed(2)}
+                    {totalModifier > 0 ? '+' : ''}€{formatPriceStr(totalModifier)}
                   </div>
                 )
               )

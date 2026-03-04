@@ -8,6 +8,7 @@
 import React from 'react'
 import type { VariantColorSwatchesProps } from '@/branches/ecommerce/lib/product-types'
 import { cn } from '@/utilities/cn'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export function VariantColorSwatches({
   product,
@@ -16,6 +17,8 @@ export function VariantColorSwatches({
   onSelect,
   className,
 }: VariantColorSwatchesProps) {
+  const { formatPriceStr } = usePriceMode()
+
   if (!option.values || option.values.length === 0) {
     return null
   }
@@ -116,7 +119,7 @@ export function VariantColorSwatches({
                   value.priceModifier !== null &&
                   value.priceModifier !== 0 && (
                     <span className="text-xs text-gray-500">
-                      {value.priceModifier > 0 ? '+' : ''}€{value.priceModifier.toFixed(2)}
+                      {value.priceModifier > 0 ? '+' : ''}€{formatPriceStr(value.priceModifier)}
                     </span>
                   )}
 

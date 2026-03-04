@@ -8,6 +8,7 @@
 import React from 'react'
 import type { VariantCheckboxAddonsProps } from '@/branches/ecommerce/lib/product-types'
 import { cn } from '@/utilities/cn'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export function VariantCheckboxAddons({
   product,
@@ -16,6 +17,8 @@ export function VariantCheckboxAddons({
   onToggle,
   className,
 }: VariantCheckboxAddonsProps) {
+  const { formatPriceStr } = usePriceMode()
+
   if (!option.values || option.values.length === 0) {
     return null
   }
@@ -38,7 +41,7 @@ export function VariantCheckboxAddons({
         {selectedValues.length > 0 && (
           <span className="text-sm font-semibold text-blue-600">
             {selectedValues.length} selected
-            {totalPrice !== 0 && ` (+€${totalPrice.toFixed(2)})`}
+            {totalPrice !== 0 && ` (+€${formatPriceStr(totalPrice)})`}
           </span>
         )}
       </div>
@@ -116,7 +119,7 @@ export function VariantCheckboxAddons({
                         isSelected ? 'text-blue-600' : 'text-gray-600',
                       )}
                     >
-                      {value.priceModifier > 0 ? '+' : ''}€{value.priceModifier.toFixed(2)}
+                      {value.priceModifier > 0 ? '+' : ''}€{formatPriceStr(value.priceModifier)}
                     </span>
                   )}
               </div>
@@ -137,7 +140,7 @@ export function VariantCheckboxAddons({
                   value.priceModifier !== null &&
                   value.priceModifier !== 0 && (
                     <span className="font-medium text-blue-900">
-                      {value.priceModifier > 0 ? '+' : ''}€{value.priceModifier.toFixed(2)}
+                      {value.priceModifier > 0 ? '+' : ''}€{formatPriceStr(value.priceModifier)}
                     </span>
                   )}
               </div>
@@ -146,7 +149,7 @@ export function VariantCheckboxAddons({
           {totalPrice !== 0 && (
             <div className="mt-2 flex items-center justify-between border-t border-blue-200 pt-2 text-sm font-bold text-blue-900">
               <span>Total Add-ons:</span>
-              <span>+€{totalPrice.toFixed(2)}</span>
+              <span>+€{formatPriceStr(totalPrice)}</span>
             </div>
           )}
         </div>

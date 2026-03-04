@@ -3,6 +3,7 @@
 import React from 'react'
 import { Edit2, FileText, Type, Palette, Image as ImageIcon } from 'lucide-react'
 import type { PersonalizationSummaryCardProps } from '@/branches/ecommerce/lib/product-types'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 /**
  * PP06: PersonalizationSummaryCard
@@ -23,6 +24,8 @@ export const PersonalizationSummaryCard: React.FC<PersonalizationSummaryCardProp
   onEdit,
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
+
   // Calculate total personalization cost
   const totalCost = options.reduce((sum, option) => {
     const hasValue = personalization[option.fieldName]?.value
@@ -100,7 +103,7 @@ export const PersonalizationSummaryCard: React.FC<PersonalizationSummaryCardProp
                     </p>
                     {option.priceModifier && option.priceModifier !== 0 && (
                       <p className="text-[11px] text-teal-600 font-semibold mt-0.5">
-                        {option.priceModifier > 0 ? '+' : ''}€{option.priceModifier.toFixed(2)}
+                        {option.priceModifier > 0 ? '+' : ''}€{formatPriceStr(option.priceModifier)}
                       </p>
                     )}
                   </div>
@@ -135,7 +138,7 @@ export const PersonalizationSummaryCard: React.FC<PersonalizationSummaryCardProp
               Totale personalisatie kosten:
             </span>
             <span className="text-[16px] font-mono font-bold text-teal-600">
-              {totalCost > 0 ? '+' : ''}€{totalCost.toFixed(2)}
+              {totalCost > 0 ? '+' : ''}€{formatPriceStr(totalCost)}
             </span>
           </div>
         </div>

@@ -3,6 +3,7 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Search, Package, ArrowRight, TrendingUp } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 interface SearchHit {
   id: string
@@ -35,6 +36,7 @@ export function SearchResults() {
   const query = searchParams?.get('q') || ''
   const [data, setData] = useState<SearchData | null>(null)
   const [loading, setLoading] = useState(true)
+  const { formatPriceStr } = usePriceMode()
 
   useEffect(() => {
     if (!query || query.length < 2) {
@@ -162,7 +164,7 @@ export function SearchResults() {
               <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
                 {hit.price !== undefined && (
                   <div className="font-extrabold text-lg text-gray-900">
-                    €{hit.price.toFixed(2)}
+                    €{formatPriceStr(hit.price)}
                   </div>
                 )}
                 {hit.stock !== undefined && hit.stock > 0 && (

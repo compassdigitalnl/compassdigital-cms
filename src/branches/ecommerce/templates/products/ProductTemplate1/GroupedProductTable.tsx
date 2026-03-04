@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { useCart } from '@/branches/ecommerce/contexts/CartContext'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import { Plus, Minus, ShoppingCart } from 'lucide-react'
 import type { Product } from '@/payload-types'
 
@@ -25,6 +26,7 @@ interface ProductSelection {
 
 export function GroupedProductTable({ parentProduct, childProducts }: GroupedProductTableProps) {
   const { addGroupedItems } = useCart()
+  const { formatPriceStr } = usePriceMode()
 
   // Initialize selections with defaults
   const [selections, setSelections] = useState<ProductSelection[]>(() => {
@@ -281,7 +283,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                   <td className="px-6 py-4 text-right">
                     <span className="font-semibold text-gray-900">
                       {selection.product.price != null
-                        ? `€${selection.product.price.toFixed(2)}`
+                        ? `€${formatPriceStr(selection.product.price, selection.product.taxClass as any)}`
                         : 'Op aanvraag'}
                     </span>
                   </td>
@@ -351,7 +353,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                   <td className="px-6 py-4 text-right">
                     {selection.selected && selection.product.price != null && (
                       <span className="font-semibold text-gray-900">
-                        €{((selection.product.price ?? 0) * selection.quantity).toFixed(2)}
+                        €{formatPriceStr((selection.product.price ?? 0) * selection.quantity, selection.product.taxClass as any)}
                       </span>
                     )}
                   </td>
@@ -377,7 +379,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
           <div className="flex items-center gap-6">
             <div className="text-right">
               <p className="text-sm text-gray-600">Totaal</p>
-              <p className="text-2xl font-bold text-gray-900">€{subtotal.toFixed(2)}</p>
+              <p className="text-2xl font-bold text-gray-900">€{formatPriceStr(subtotal)}</p>
             </div>
             <button
               onClick={handleAddToCart}

@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Clock } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 export interface TimeSlot {
   id: string
@@ -31,6 +32,8 @@ export const TimeSlotSelector: React.FC<TimeSlotSelectorProps> = ({
   layout = 'grid',
   className = '',
 }) => {
+  const { formatPriceStr } = usePriceMode()
+
   const layoutClasses = {
     grid: 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2',
     list: 'flex flex-col gap-2',
@@ -89,7 +92,7 @@ export const TimeSlotSelector: React.FC<TimeSlotSelectorProps> = ({
               <div className={`flex items-center gap-2 ${layout === 'list' ? '' : 'mt-1'}`}>
                 {showPrices && slot.price && (
                   <div className={`text-xs font-semibold font-mono ${isSelected ? 'text-white' : 'text-teal-600'}`}>
-                    €{slot.price.toFixed(2)}
+                    €{formatPriceStr(slot.price)}
                   </div>
                 )}
                 {slot.spotsLeft !== undefined && slot.spotsLeft <= 5 && slot.spotsLeft > 0 && !isDisabled && (

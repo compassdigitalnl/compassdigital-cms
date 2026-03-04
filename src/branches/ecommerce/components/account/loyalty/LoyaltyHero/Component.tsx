@@ -1,8 +1,12 @@
+'use client'
+
 import React from 'react'
 import { Crown } from 'lucide-react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { LoyaltyHeroProps } from './types'
 
 export function LoyaltyHero({ loyaltyData }: LoyaltyHeroProps) {
+  const { formatPriceStr } = usePriceMode()
   const { availablePoints, totalEarned, tier, nextTier } = loyaltyData
 
   const progressPercentage = Math.min(
@@ -53,7 +57,7 @@ export function LoyaltyHero({ loyaltyData }: LoyaltyHeroProps) {
             {availablePoints.toLocaleString('nl-NL')}
           </div>
           <div className="text-xs text-white/30 mt-1">
-            ≈ €{(availablePoints / 100).toFixed(2).replace('.', ',')} aan beloningen
+            ≈ €{formatPriceStr(availablePoints / 100)} aan beloningen
           </div>
         </div>
         <div>

@@ -15,10 +15,9 @@ interface RelatedProductsSectionProps {
 function ProductCard({ product, badge }: { product: Product; badge?: string }) {
   const image = typeof product.images?.[0] === 'object' ? product.images[0] : null
   const imageUrl = image && 'url' in image ? image.url : null
-  const { displayPrice: applyPriceMode, formatPriceStr } = usePriceMode()
+  const { formatPriceStr } = usePriceMode()
 
   const rawPrice = product.salePrice || product.price || 0
-  const priceDisplay = applyPriceMode(rawPrice, product.taxClass as any) ?? rawPrice
   const hasDiscount = product.salePrice && product.compareAtPrice && product.salePrice < product.compareAtPrice
 
   return (
@@ -58,11 +57,11 @@ function ProductCard({ product, badge }: { product: Product; badge?: string }) {
         )}
         <div className="flex items-baseline gap-2">
           <span className="text-lg font-bold text-gray-900">
-            €{priceDisplay.toFixed(2)}
+            €{formatPriceStr(rawPrice, product.taxClass as any)}
           </span>
           {hasDiscount && (
             <span className="text-sm text-gray-400 line-through">
-              €{(applyPriceMode(product.compareAtPrice, product.taxClass as any) ?? product.compareAtPrice ?? 0).toFixed(2)}
+              €{formatPriceStr(product.compareAtPrice, product.taxClass as any)}
             </span>
           )}
         </div>

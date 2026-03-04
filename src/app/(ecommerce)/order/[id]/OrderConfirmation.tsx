@@ -5,6 +5,7 @@ import {
   type OrderConfirmationData,
   type SiteContactInfo,
 } from '@/branches/ecommerce/templates/orders/OrderConfirmationTemplate1'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { TimelineStep } from '@/branches/ecommerce/components/orders/OrderTimeline'
 import type { OrderItem } from '@/branches/ecommerce/components/orders/OrderItemsSummary'
 import type { OrderAddress } from '@/branches/ecommerce/components/orders/OrderAddresses'
@@ -82,7 +83,7 @@ function mapAddress(addr: any, fallbackAddr?: any): OrderAddress {
 }
 
 /** Map order items to OrderItem type */
-function mapItems(items: any[]): OrderItem[] {
+function mapItems(items: any[], formatPriceStr: (price: number | null | undefined, taxClass?: any) => string): OrderItem[] {
   return (items || []).map((item: any, idx: number) => {
     const quantity = item.quantity || 1
     const price = item.price || 0
@@ -93,7 +94,7 @@ function mapItems(items: any[]): OrderItem[] {
       metadata.push({ label: `Art. ${item.sku}`, icon: 'tag' })
     }
     if (quantity > 1) {
-      metadata.push({ label: `${quantity}x €${price.toFixed(2)}` })
+      metadata.push({ label: `${quantity}x €${formatPriceStr(price, item.taxClass)}` })
     }
 
     return {
@@ -134,6 +135,7 @@ const siteContact: SiteContactInfo = {
 }
 
 export function OrderConfirmation({ order }: OrderConfirmationProps) {
+  const { formatPriceStr } = usePriceMode()
   const email = order.customerEmail || order.guestEmail || ''
 
   const actions: NextStepAction[] = [
@@ -170,7 +172,7 @@ export function OrderConfirmation({ order }: OrderConfirmationProps) {
         })
       : undefined,
     deliveryMethod: formatShippingMethod(order.shippingMethod),
-    items: mapItems(order.items),
+    items: mapItems(order.items, formatPriceStr),
     shippingAddress: shippingAddr,
     billingAddress: billingAddr,
     subtotal: order.subtotal || 0,
