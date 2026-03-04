@@ -26,6 +26,7 @@
 import React from 'react'
 import { Receipt, Lock, FileText } from 'lucide-react'
 import type { OrderSummaryProps } from './types'
+import { usePriceMode } from '../../../hooks/usePriceMode'
 
 export function OrderSummary({
   subtotal,
@@ -45,6 +46,8 @@ export function OrderSummary({
   onRequestQuote,
   className = '',
 }: OrderSummaryProps) {
+  const { taxNote } = usePriceMode()
+
   // Format price with euro/cent separation
   const formatPrice = (price: number | 'free') => {
     if (price === 'free') return 'Gratis'
@@ -118,7 +121,7 @@ export function OrderSummary({
       </div>
 
       {/* Tax Note */}
-      <div className="order-summary__tax-note">Inclusief BTW</div>
+      <div className="order-summary__tax-note">{taxNote}</div>
 
       {/* Action Buttons */}
       {!readonly && (

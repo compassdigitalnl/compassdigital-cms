@@ -3,6 +3,7 @@
 import React from 'react'
 import { Truck, ShieldCheck, Award, Package, RotateCcw, Leaf, Bell } from 'lucide-react'
 import type { ProductMetaProps, StockStatus } from './types'
+import { usePriceMode } from '../../../hooks/usePriceMode'
 
 // Icon mapping for trust badges
 const ICON_MAP = {
@@ -21,12 +22,14 @@ export const ProductMeta: React.FC<ProductMetaProps> = ({
   showTrustBadges = true,
   variant = 'default',
 }) => {
+  const { displayPriceCents } = usePriceMode()
+
   // Format price from cents to EUR
   const formatPrice = (cents: number): string => {
     return `€ ${(cents / 100).toFixed(2).replace('.', ',')}`
   }
 
-  // Calculate discount percentage
+  // Calculate discount percentage — always based on original excl. prices
   const calculateDiscount = (): string | null => {
     if (!product.priceOriginal || product.priceOriginal <= product.price) return null
     const percentage = Math.round(
@@ -146,12 +149,12 @@ export const ProductMeta: React.FC<ProductMetaProps> = ({
                 : undefined
             }
           >
-            {formatPrice(product.price)}
+            {formatPrice(displayPriceCents(product.price) ?? product.price)}
           </span>
           {product.priceOriginal && product.priceOriginal > product.price && (
             <>
               <span className="price-original" aria-label="Oorspronkelijke prijs">
-                {formatPrice(product.priceOriginal)}
+                {formatPrice(displayPriceCents(product.priceOriginal) ?? product.priceOriginal)}
               </span>
               {discount && (
                 <span className="price-save" aria-label={`${discount.replace('-', '')} korting`}>

@@ -27,6 +27,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ShoppingCart, Star, Layers, Heart, Eye, Minus, Plus } from 'lucide-react'
 import type { ProductCardProps } from './types'
+import { usePriceMode } from '../../../hooks/usePriceMode'
 import './ProductCard.css'
 
 export function ProductCard({
@@ -55,6 +56,7 @@ export function ProductCard({
   priceLabel,
 }: ProductCardProps) {
   const [quantity, setQuantity] = useState(1)
+  const { displayPrice: applyPriceMode, vatLabel } = usePriceMode()
 
   // Format price with euros and cents split
   const formatPrice = (priceValue: number | null | undefined) => {
@@ -136,8 +138,10 @@ export function ProductCard({
   // Product URL
   const productHref = href || `/${slug}`
 
-  // Price formatting
-  const currentPriceFormatted = formatPrice(price)
+  // Price formatting — apply B2B/B2C mode
+  const displayPriceValue = applyPriceMode(price)
+  const displayCompareAt = applyPriceMode(compareAtPrice)
+  const currentPriceFormatted = formatPrice(displayPriceValue)
 
   // Badge component
   const renderBadge = () => {
@@ -227,9 +231,9 @@ export function ProductCard({
           {priceLabel && <span style={{ fontSize: '12px', fontWeight: 500, color: 'var(--color-text-muted)', marginRight: '4px' }}>{priceLabel}</span>}
           {currencySymbol} {currentPriceFormatted.euros}
           <small>,{currentPriceFormatted.cents}</small>
-          {compareAtPrice && (
+          {displayCompareAt != null && compareAtPrice != null && compareAtPrice > (price ?? 0) && (
             <span className="product-card__price--old">
-              {currencySymbol} {formatOldPrice(compareAtPrice)}
+              {currencySymbol} {formatOldPrice(displayCompareAt)}
             </span>
           )}
         </div>
@@ -238,7 +242,7 @@ export function ProductCard({
           Prijs op aanvraag
         </div>
       )}
-      {unit && <div className="product-card__unit">excl. BTW · {unit}</div>}
+      {unit && <div className="product-card__unit">{vatLabel} · {unit}</div>}
       {bestVolumeTier && (
         <div className="product-card__staffel-hint">
           <Layers size={12} />

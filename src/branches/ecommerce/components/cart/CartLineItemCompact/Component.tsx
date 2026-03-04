@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { X } from 'lucide-react'
 import type { CartLineItemCompactProps } from './types'
+import { usePriceMode } from '../../../hooks/usePriceMode'
 
 export default function CartLineItemCompact({
   product,
@@ -13,12 +14,14 @@ export default function CartLineItemCompact({
   className = '',
 }: CartLineItemCompactProps) {
   const [localQty, setLocalQty] = useState(quantity)
+  const { displayPrice: applyPriceMode } = usePriceMode()
 
   useEffect(() => {
     setLocalQty(quantity)
   }, [quantity])
 
-  const lineTotal = product.price * quantity
+  const displayUnitPrice = applyPriceMode(product.price) ?? product.price
+  const lineTotal = displayUnitPrice * quantity
 
   const handleQtyChange = (delta: number) => {
     const newQty = Math.max(1, localQty + delta)
@@ -73,7 +76,7 @@ export default function CartLineItemCompact({
 
       {/* Price */}
       <div className="compact-row__price">
-        &euro;{product.price.toFixed(2).replace('.', ',')}
+        &euro;{displayUnitPrice.toFixed(2).replace('.', ',')}
       </div>
 
       {/* Quantity stepper */}

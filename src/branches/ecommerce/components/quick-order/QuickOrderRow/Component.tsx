@@ -3,6 +3,7 @@
 import React, { useRef, useEffect } from 'react'
 import { Trash2, TrendingDown } from 'lucide-react'
 import type { QuickOrderRowProps } from './types'
+import { usePriceMode } from '../../../hooks/usePriceMode'
 
 /**
  * QuickOrderRow Component
@@ -31,6 +32,7 @@ export function QuickOrderRow({
   className = '',
 }: QuickOrderRowProps) {
   const inputRef = useRef<HTMLInputElement>(null)
+  const { displayPrice: applyPriceMode } = usePriceMode()
 
   // Close autocomplete on click outside
   useEffect(() => {
@@ -167,7 +169,7 @@ export function QuickOrderRow({
         className={`qor-price ${!row.unitPrice ? 'qor-empty' : ''}`}
         role="cell"
       >
-        {row.unitPrice ? formatCurrency(row.unitPrice) : '—'}
+        {row.unitPrice ? formatCurrency(applyPriceMode(row.unitPrice) ?? row.unitPrice) : '—'}
       </div>
 
       {/* Column 4: Total Display */}
@@ -175,7 +177,7 @@ export function QuickOrderRow({
         className={`qor-total ${!row.total ? 'qor-empty' : ''}`}
         role="cell"
       >
-        {formatCurrency(row.total)}
+        {formatCurrency(applyPriceMode(row.total) ?? row.total)}
       </div>
 
       {/* Column 5: Delete Button */}

@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { ShoppingCart, Heart, Minus, Plus, Check } from 'lucide-react'
 import type { ProductActionsProps } from './types'
+import { usePriceMode } from '../../../hooks/usePriceMode'
 
 export const ProductActions: React.FC<ProductActionsProps> = ({
   productId,
@@ -25,6 +26,7 @@ export const ProductActions: React.FC<ProductActionsProps> = ({
   const [wishlistActive, setWishlistActive] = useState(inWishlist)
   const [isAdding, setIsAdding] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
+  const { displayPriceCents } = usePriceMode()
 
   // Handle quantity change
   const handleQuantityChange = (newQuantity: number) => {
@@ -139,7 +141,7 @@ export const ProductActions: React.FC<ProductActionsProps> = ({
       {/* Total price (optional) */}
       {showTotalPrice && (
         <div className="total-price">
-          Totaal: <span>{formatPrice(price * quantity)}</span>
+          Totaal: <span>{formatPrice((displayPriceCents(price) ?? 0) * quantity)}</span>
         </div>
       )}
     </div>
