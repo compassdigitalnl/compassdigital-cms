@@ -158,6 +158,12 @@
   display: none !important;
 }
 
+/* Hide built-in GrapesJS view-switcher panels — we use our own tabs */
+.gjs-pn-views,
+.gjs-pn-views-container {
+  display: none !important;
+}
+
 /* ═══════════════════════════════════════════════════════════
    FORCE LIGHT THEME — override GrapesJS dark defaults
    ═══════════════════════════════════════════════════════════ */
