@@ -11,6 +11,7 @@ import { HeaderClient } from '@/branches/shared/components/layout/header/Header/
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { isFeatureEnabled } from '@/lib/features'
+import { ChatbotProvider } from '@/branches/shared/components/features/chatbot/ChatbotProvider'
 import React from 'react'
 import '../globals.css'
 import './legal.css'
@@ -74,6 +75,9 @@ export default async function SharedLayout({ children }: { children: ReactNode }
 
               {/* Footer (CMS-driven) */}
               <Footer />
+
+              {/* Chatbot (CMS-driven, feature-flagged) */}
+              <ChatbotProvider />
             </MiniCartProvider>
           </ToastProvider>
         </SearchProvider>

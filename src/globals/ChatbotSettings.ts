@@ -1,5 +1,8 @@
 import type { GlobalConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
+import { isClientDeployment } from '@/lib/isClientDeployment'
+
+const _isClient = isClientDeployment()
 
 /**
  * Chatbot Settings Global
@@ -52,33 +55,35 @@ export const ChatbotSettings: GlobalConfig = {
               label: 'AI Model',
               options: [
                 {
-                  label: '⚡ Groq (Llama 3 70B) - Fast & Free',
+                  label: 'Groq (Llama 3 70B) - Fast & Free',
                   value: 'groq',
                 },
                 {
-                  label: '🤖 OpenAI GPT-4 - Highest Quality',
+                  label: 'OpenAI GPT-4 - Highest Quality',
                   value: 'gpt-4',
                 },
                 {
-                  label: '💡 OpenAI GPT-3.5 - Balanced',
+                  label: 'OpenAI GPT-3.5 - Balanced',
                   value: 'gpt-3.5',
                 },
                 {
-                  label: '🏠 Ollama (Self-hosted) - Privacy',
+                  label: 'Ollama (Self-hosted) - Privacy',
                   value: 'ollama',
                 },
                 {
-                  label: '🔀 Hybrid (Auto-route) - Best of All',
+                  label: 'Hybrid (Auto-route) - Best of All',
                   value: 'hybrid',
                 },
               ],
               admin: {
                 description:
                   'Choose AI model. Hybrid automatically routes simple → Groq, complex → GPT-4.',
+                hidden: _isClient,
               },
             },
             {
               type: 'row',
+              admin: { hidden: _isClient },
               fields: [
                 {
                   name: 'temperature',
@@ -317,11 +322,13 @@ Als je het antwoord niet weet, zeg het eerlijk.`,
         },
 
         // ═══════════════════════════════════════════════════════════
-        // TAB 4: RATE LIMITING & SECURITY
+        // TAB 4: RATE LIMITING & SECURITY (Platform only)
         // ═══════════════════════════════════════════════════════════
-        {
-          label: 'Rate Limiting & Security',
-          description: 'Prevent abuse and manage usage',
+        ...(!_isClient
+          ? ([
+              {
+                label: 'Rate Limiting & Security',
+                description: 'Prevent abuse and manage usage',
           fields: [
             {
               name: 'rateLimiting',
@@ -556,6 +563,8 @@ Als je het antwoord niet weet, zeg het eerlijk.`,
             },
           ],
         },
+            ] as any[])
+          : []),
       ],
     },
   ],

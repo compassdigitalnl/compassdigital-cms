@@ -211,12 +211,6 @@ export const EcommerceSettings: GlobalConfig = {
                     description: 'Klanten krijgen bericht als product weer op voorraad is',
                   },
                 },
-                {
-                  name: 'enableLiveChat',
-                  type: 'checkbox',
-                  label: 'Live Chat',
-                  defaultValue: false,
-                },
               ],
             },
           ],

@@ -18,7 +18,6 @@ interface EcommerceSettingsData {
     enableReviews: boolean
     enableWishlist: boolean
     enableStockNotifications: boolean
-    enableLiveChat: boolean
   }
   shippingMethods: any[]
   paymentOptions: any[]
@@ -40,7 +39,6 @@ const DEFAULTS: EcommerceSettingsData = {
     enableReviews: false,
     enableWishlist: true,
     enableStockNotifications: false,
-    enableLiveChat: false,
   },
   shippingMethods: [],
   paymentOptions: [],
@@ -73,7 +71,6 @@ async function fetchSettings(): Promise<EcommerceSettingsData> {
             enableReviews: data.features?.enableReviews ?? DEFAULTS.features.enableReviews,
             enableWishlist: data.features?.enableWishlist ?? DEFAULTS.features.enableWishlist,
             enableStockNotifications: data.features?.enableStockNotifications ?? DEFAULTS.features.enableStockNotifications,
-            enableLiveChat: data.features?.enableLiveChat ?? DEFAULTS.features.enableLiveChat,
           },
           shippingMethods: (data.shippingMethods || [])
             .filter((m: any) => m.isActive)
