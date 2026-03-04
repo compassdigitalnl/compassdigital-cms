@@ -190,6 +190,15 @@
   min-height: 36px !important;
   font-size: 16px !important;
   transition: all 0.15s !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.gjs-pn-device-panel .gjs-pn-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
 }
 
 .gjs-pn-device-panel .gjs-pn-btn:hover {
@@ -812,6 +821,26 @@
 .gjs-toolbar-item:hover {
   background-color: #334155 !important;
   color: #ffffff !important;
+}
+
+.gjs-toolbar-item svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+}
+
+/* SVG icons in panel buttons */
+.grapes-email-editor .gjs-pn-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+}
+
+/* SVG icons in block media */
+.grapes-email-editor .gjs-block__media svg {
+  width: 20px;
+  height: 20px;
+  stroke: #3b82f6;
 }
 
 /* ═══════════════════════════════════════════════════════════

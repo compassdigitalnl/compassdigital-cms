@@ -7,6 +7,7 @@
  * - Branded header
  * - Branded footer
  */
+import { icons } from './icons'
 
 interface TenantBranding {
   logo?: string
@@ -31,7 +32,7 @@ export function registerTenantBlocks(editor: any, branding: TenantBranding) {
   blockManager.add('tenant-logo', {
     label: 'Bedrijfslogo',
     category: 'Huisstijl',
-    attributes: { class: 'fa fa-image' },
+    media: icons.image,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -53,7 +54,7 @@ export function registerTenantBlocks(editor: any, branding: TenantBranding) {
   blockManager.add('tenant-button', {
     label: 'Huisstijl knop',
     category: 'Huisstijl',
-    attributes: { class: 'fa fa-square' },
+    media: icons.button,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -73,7 +74,7 @@ export function registerTenantBlocks(editor: any, branding: TenantBranding) {
   blockManager.add('tenant-header', {
     label: 'Huisstijl koptekst',
     category: 'Huisstijl',
-    attributes: { class: 'fa fa-header' },
+    media: icons.type,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; background-color: ${primaryColor};">
         <tr>
@@ -98,7 +99,7 @@ export function registerTenantBlocks(editor: any, branding: TenantBranding) {
   blockManager.add('tenant-footer', {
     label: 'Huisstijl voettekst',
     category: 'Huisstijl',
-    attributes: { class: 'fa fa-footer' },
+    media: icons.mail,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; background-color: #f9fafb;">
         <tr>
@@ -125,7 +126,7 @@ export function registerTenantBlocks(editor: any, branding: TenantBranding) {
   blockManager.add('tenant-divider', {
     label: 'Huisstijl scheidingslijn',
     category: 'Huisstijl',
-    attributes: { class: 'fa fa-minus' },
+    media: icons.minus,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -143,7 +144,7 @@ export function registerTenantBlocks(editor: any, branding: TenantBranding) {
   blockManager.add('tenant-two-column', {
     label: 'Huisstijl kolommen',
     category: 'Huisstijl',
-    attributes: { class: 'fa fa-columns' },
+    media: icons.columns2,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>

@@ -7,6 +7,7 @@
  * - Video placeholder (thumbnail + play knop)
  * - Countdown timer
  */
+import { icons } from './icons'
 
 export function registerUtilityBlocks(editor: any) {
   const blockManager = editor.BlockManager
@@ -17,7 +18,7 @@ export function registerUtilityBlocks(editor: any) {
   blockManager.add('util-spacer', {
     label: 'Witruimte',
     category: 'Basis',
-    attributes: { class: 'fa fa-arrows-v' },
+    media: icons.arrowsVertical,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -33,7 +34,7 @@ export function registerUtilityBlocks(editor: any) {
   blockManager.add('util-social', {
     label: 'Social media',
     category: 'Basis',
-    attributes: { class: 'fa fa-share-alt' },
+    media: icons.share,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -77,7 +78,7 @@ export function registerUtilityBlocks(editor: any) {
   blockManager.add('util-video', {
     label: 'Video',
     category: 'Basis',
-    attributes: { class: 'fa fa-play-circle' },
+    media: icons.playCircle,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -113,7 +114,7 @@ export function registerUtilityBlocks(editor: any) {
   blockManager.add('util-countdown', {
     label: 'Countdown',
     category: 'Basis',
-    attributes: { class: 'fa fa-clock-o' },
+    media: icons.clock,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -166,7 +167,7 @@ export function registerUtilityBlocks(editor: any) {
   blockManager.add('util-toc', {
     label: 'Inhoudsopgave',
     category: 'Basis',
-    attributes: { class: 'fa fa-list-ol' },
+    media: icons.listOrdered,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>

@@ -7,6 +7,7 @@
  *
  * Uses the product-picker:open command from productPicker.ts
  */
+import { icons } from './icons'
 
 interface ProductData {
   id: number
@@ -126,7 +127,7 @@ export function registerLiveEcommerceBlocks(editor: any) {
   blockManager.add('ecom-product-live', {
     label: 'Productkaart (live)',
     category: 'E-commerce',
-    attributes: { class: 'fa fa-shopping-bag' },
+    media: icons.shoppingBag,
     content: {
       type: 'product-card',
       content: generatePlaceholderHtml('Productkaart'),
@@ -140,7 +141,7 @@ export function registerLiveEcommerceBlocks(editor: any) {
   blockManager.add('ecom-product-grid-2-live', {
     label: 'Productraster 2 (live)',
     category: 'E-commerce',
-    attributes: { class: 'fa fa-columns' },
+    media: icons.grid2cols,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -167,7 +168,7 @@ export function registerLiveEcommerceBlocks(editor: any) {
   blockManager.add('ecom-product-grid-live', {
     label: 'Productraster 3 (live)',
     category: 'E-commerce',
-    attributes: { class: 'fa fa-th-large' },
+    media: icons.grid3cols,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>

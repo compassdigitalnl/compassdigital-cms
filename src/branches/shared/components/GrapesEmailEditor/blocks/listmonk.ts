@@ -8,6 +8,8 @@
  * - Opt-in confirmation
  */
 
+import { icons } from './icons'
+
 export function registerListmonkBlocks(editor: any) {
   const blockManager = editor.BlockManager
 
@@ -17,7 +19,7 @@ export function registerListmonkBlocks(editor: any) {
   blockManager.add('listmonk-greeting', {
     label: 'Persoonlijke begroeting',
     category: 'Listmonk',
-    attributes: { class: 'fa fa-user' },
+    media: icons.user,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -40,7 +42,7 @@ export function registerListmonkBlocks(editor: any) {
   blockManager.add('listmonk-subscriber-info', {
     label: 'Abonnee info',
     category: 'Listmonk',
-    attributes: { class: 'fa fa-info-circle' },
+    media: icons.info,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; background-color: #f9fafb;">
         <tr>
@@ -61,7 +63,7 @@ export function registerListmonkBlocks(editor: any) {
   blockManager.add('listmonk-campaign-info', {
     label: 'Campagne info',
     category: 'Listmonk',
-    attributes: { class: 'fa fa-envelope' },
+    media: icons.mail,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -84,7 +86,7 @@ export function registerListmonkBlocks(editor: any) {
   blockManager.add('listmonk-unsubscribe', {
     label: 'Uitschrijflink',
     category: 'Listmonk',
-    attributes: { class: 'fa fa-times-circle' },
+    media: icons.xCircle,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; background-color: #f9fafb;">
         <tr>
@@ -105,7 +107,7 @@ export function registerListmonkBlocks(editor: any) {
   blockManager.add('listmonk-optin', {
     label: 'Aanmeld-bevestiging',
     category: 'Listmonk',
-    attributes: { class: 'fa fa-check-circle' },
+    media: icons.checkCircle,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -131,7 +133,7 @@ export function registerListmonkBlocks(editor: any) {
   blockManager.add('listmonk-custom-attribute', {
     label: 'Aangepast veld',
     category: 'Listmonk',
-    attributes: { class: 'fa fa-code' },
+    media: icons.code,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -154,7 +156,7 @@ export function registerListmonkBlocks(editor: any) {
   blockManager.add('listmonk-date', {
     label: 'Huidige datum',
     category: 'Listmonk',
-    attributes: { class: 'fa fa-calendar' },
+    media: icons.calendar,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -174,7 +176,7 @@ export function registerListmonkBlocks(editor: any) {
   blockManager.add('listmonk-view-browser', {
     label: 'Bekijk in browser',
     category: 'Listmonk',
-    attributes: { class: 'fa fa-external-link' },
+    media: icons.externalLink,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; background-color: #f9fafb;">
         <tr>

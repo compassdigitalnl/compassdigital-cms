@@ -12,6 +12,7 @@ import 'grapesjs/dist/css/grapes.min.css'
 import type { GrapesEmailEditorProps } from './index'
 import { getGrapesConfig } from './config'
 import { registerCustomBlocks } from './blocks/index'
+import { icons } from './blocks/icons'
 import juice from 'juice'
 
 // GrapesJS types (minimal - library doesn't have official types)
@@ -81,16 +82,6 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
   const [initError, setInitError] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<'blocks' | 'styles' | 'traits'>('blocks')
 
-  // Load Font Awesome for block/panel icons
-  useEffect(() => {
-    if (document.querySelector('link[data-grapes-fa]')) return
-    const link = document.createElement('link')
-    link.rel = 'stylesheet'
-    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'
-    link.setAttribute('data-grapes-fa', 'true')
-    document.head.appendChild(link)
-  }, [])
-
   // Initialize GrapesJS
   useEffect(() => {
     if (!containerRef.current) return
@@ -155,14 +146,14 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
 
           // Translate useful preset blocks to Dutch in "Basis" category
           const translations: Record<string, { label: string; icon?: string }> = {
-            'sect100': { label: '1 Kolom', icon: '◻' },
-            'sect50': { label: '2 Kolommen', icon: '◫' },
-            'sect30': { label: '3 Kolommen', icon: '☰' },
-            'sect37': { label: '3/7 Kolommen', icon: '◧' },
-            'button': { label: 'Knop', icon: '▢' },
-            'divider': { label: 'Scheidingslijn', icon: '—' },
-            'text': { label: 'Tekst', icon: '¶' },
-            'image': { label: 'Afbeelding', icon: '🖼' },
+            'sect100': { label: '1 Kolom', icon: icons.columns1 },
+            'sect50': { label: '2 Kolommen', icon: icons.columns2 },
+            'sect30': { label: '3 Kolommen', icon: icons.columns3 },
+            'sect37': { label: '3/7 Kolommen', icon: icons.columns37 },
+            'button': { label: 'Knop', icon: icons.button },
+            'divider': { label: 'Scheidingslijn', icon: icons.minus },
+            'text': { label: 'Tekst', icon: icons.type },
+            'image': { label: 'Afbeelding', icon: icons.image },
           }
 
           Object.entries(translations).forEach(([id, { label, icon }]) => {
@@ -193,7 +184,8 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
             component.set('toolbar', [
               ...toolbar,
               {
-                attributes: { class: 'fa fa-clone', title: 'Dupliceer' },
+                label: icons.copy,
+                attributes: { title: 'Dupliceer' },
                 command: 'tlb-clone',
               },
             ])
@@ -319,7 +311,7 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
         // Add export button to toolbar
         editor.Panels.addButton('options', {
           id: 'export-template',
-          className: 'fa fa-download',
+          label: icons.externalLink,
           command: 'export-template',
           attributes: {
             title: 'Export template (with inlined CSS)',
@@ -353,7 +345,7 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
             {
               id: 'device-desktop',
               command: 'device-desktop',
-              className: 'fa fa-desktop',
+              label: icons.monitor,
               attributes: { title: 'Desktop' },
               active: true,
               togglable: false,
@@ -361,21 +353,21 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
             {
               id: 'device-tablet',
               command: 'device-tablet',
-              className: 'fa fa-tablet',
+              label: icons.tablet,
               attributes: { title: 'Tablet (768px)' },
               togglable: false,
             },
             {
               id: 'device-mobile-landscape',
               command: 'device-mobile-landscape',
-              className: 'fa fa-mobile',
+              label: icons.smartphoneLandscape,
               attributes: { title: 'Mobiel liggend (568px)' },
               togglable: false,
             },
             {
               id: 'device-mobile',
               command: 'device-mobile',
-              className: 'fa fa-mobile',
+              label: icons.smartphone,
               attributes: { title: 'Mobiel staand (320px)' },
               togglable: false,
             },

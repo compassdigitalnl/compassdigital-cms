@@ -9,6 +9,8 @@
  * - Order summary
  */
 
+import { icons } from './icons'
+
 export function registerEcommerceBlocks(editor: any) {
   const blockManager = editor.BlockManager
 
@@ -18,7 +20,7 @@ export function registerEcommerceBlocks(editor: any) {
   blockManager.add('ecom-product-card', {
     label: 'Productkaart',
     category: 'E-commerce',
-    attributes: { class: 'fa fa-shopping-cart' },
+    media: icons.shoppingCart,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -59,7 +61,7 @@ export function registerEcommerceBlocks(editor: any) {
   blockManager.add('ecom-price-drop', {
     label: 'Prijsverlaging',
     category: 'E-commerce',
-    attributes: { class: 'fa fa-tag' },
+    media: icons.tag,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -98,7 +100,7 @@ export function registerEcommerceBlocks(editor: any) {
   blockManager.add('ecom-product-grid-2', {
     label: 'Productraster (2)',
     category: 'E-commerce',
-    attributes: { class: 'fa fa-columns' },
+    media: icons.grid2cols,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -166,7 +168,7 @@ export function registerEcommerceBlocks(editor: any) {
   blockManager.add('ecom-product-grid', {
     label: 'Productraster (3)',
     category: 'E-commerce',
-    attributes: { class: 'fa fa-th' },
+    media: icons.grid3cols,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -258,7 +260,7 @@ export function registerEcommerceBlocks(editor: any) {
   blockManager.add('ecom-review', {
     label: 'Klantrecensie',
     category: 'E-commerce',
-    attributes: { class: 'fa fa-star' },
+    media: icons.star,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -290,7 +292,7 @@ export function registerEcommerceBlocks(editor: any) {
   blockManager.add('ecom-order-summary', {
     label: 'Bestelling overzicht',
     category: 'E-commerce',
-    attributes: { class: 'fa fa-receipt' },
+    media: icons.receipt,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -338,7 +340,7 @@ export function registerEcommerceBlocks(editor: any) {
   blockManager.add('ecom-back-in-stock', {
     label: 'Weer op voorraad',
     category: 'E-commerce',
-    attributes: { class: 'fa fa-box' },
+    media: icons.package,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -373,7 +375,7 @@ export function registerEcommerceBlocks(editor: any) {
   blockManager.add('ecom-discount-code', {
     label: 'Kortingscode',
     category: 'E-commerce',
-    attributes: { class: 'fa fa-ticket' },
+    media: icons.ticket,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
@@ -407,7 +409,7 @@ export function registerEcommerceBlocks(editor: any) {
   blockManager.add('ecom-discount-banner', {
     label: 'Korting banner',
     category: 'E-commerce',
-    attributes: { class: 'fa fa-percent' },
+    media: icons.percent,
     content: `
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
         <tr>
