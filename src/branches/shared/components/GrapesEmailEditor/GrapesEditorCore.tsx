@@ -81,6 +81,16 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
   const [initError, setInitError] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<'blocks' | 'styles' | 'traits'>('blocks')
 
+  // Load Font Awesome for block/panel icons
+  useEffect(() => {
+    if (document.querySelector('link[data-grapes-fa]')) return
+    const link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'
+    link.setAttribute('data-grapes-fa', 'true')
+    document.head.appendChild(link)
+  }, [])
+
   // Initialize GrapesJS
   useEffect(() => {
     if (!containerRef.current) return
