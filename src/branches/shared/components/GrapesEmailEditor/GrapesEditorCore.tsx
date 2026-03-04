@@ -274,6 +274,40 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
           },
         })
 
+        // ── Device Preview Buttons ──────────────────────────
+        // Add a dedicated panel for device switching
+        editor.Panels.addPanel({
+          id: 'device-panel',
+          visible: true,
+          buttons: [
+            {
+              id: 'device-desktop',
+              command: { run: (ed: any) => ed.setDevice('Desktop') },
+              className: 'fa fa-desktop',
+              attributes: { title: 'Desktop' },
+              active: true,
+            },
+            {
+              id: 'device-tablet',
+              command: { run: (ed: any) => ed.setDevice('Tablet') },
+              className: 'fa fa-tablet',
+              attributes: { title: 'Tablet (768px)' },
+            },
+            {
+              id: 'device-mobile-landscape',
+              command: { run: (ed: any) => ed.setDevice('Mobiel liggend') },
+              className: 'fa fa-mobile fa-flip-horizontal',
+              attributes: { title: 'Mobiel liggend (568px)' },
+            },
+            {
+              id: 'device-mobile',
+              command: { run: (ed: any) => ed.setDevice('Mobiel staand') },
+              className: 'fa fa-mobile',
+              attributes: { title: 'Mobiel staand (320px)' },
+            },
+          ],
+        })
+
         setIsInitialized(true)
       } catch (error) {
         console.error('[GrapesEditorCore] Failed to initialize:', error)

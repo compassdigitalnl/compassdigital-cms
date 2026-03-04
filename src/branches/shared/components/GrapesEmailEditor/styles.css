@@ -34,11 +34,17 @@
   overflow: hidden !important;
 }
 
-/* Canvas mag niet breder zijn dan container */
+/* Canvas — allow GrapesJS to control width for device preview */
 .editor-canvas .gjs-cv-canvas {
-  left: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
+  width: 100%;
+  max-width: 100%;
+  transition: width 0.3s ease;
+}
+
+/* Center the frame when device preview is smaller than canvas */
+.editor-canvas .gjs-frame-wrapper {
+  margin: 0 auto;
+  transition: width 0.3s ease;
 }
 
 .editor-panel-right {
@@ -162,6 +168,16 @@
 .gjs-pn-views,
 .gjs-pn-views-container {
   display: none !important;
+}
+
+/* Device panel — horizontal bar above canvas */
+.gjs-pn-device-panel {
+  display: flex !important;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 8px !important;
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb !important;
 }
 
 /* ═══════════════════════════════════════════════════════════

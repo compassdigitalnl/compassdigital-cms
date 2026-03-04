@@ -93,10 +93,78 @@ export function registerEcommerceBlocks(editor: any) {
   })
 
   // ═══════════════════════════════════════════════════════════
+  // PRODUCT GRID (2 Products)
+  // ═══════════════════════════════════════════════════════════
+  blockManager.add('ecom-product-grid-2', {
+    label: 'Productraster (2)',
+    category: 'E-commerce',
+    attributes: { class: 'fa fa-columns' },
+    content: `
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
+        <tr>
+          <td style="padding: 20px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <!-- Product 1 -->
+                <td width="50%" style="padding: 10px; vertical-align: top;">
+                  <table style="width: 100%; border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;">
+                    <tr>
+                      <td style="padding: 0;">
+                        <img src="https://via.placeholder.com/300x300?text=Product+1" alt="Product 1" style="width: 100%; height: auto; display: block;" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 15px; text-align: center;">
+                        <p style="margin: 0 0 8px; padding: 0; color: #111827; font-family: Arial, sans-serif; font-size: 14px; font-weight: 600;">
+                          Product Name
+                        </p>
+                        <p style="margin: 0 0 12px; padding: 0; color: #3b82f6; font-family: Arial, sans-serif; font-size: 16px; font-weight: 700;">
+                          €29.99
+                        </p>
+                        <a href="#" style="display: inline-block; padding: 8px 20px; background-color: #3b82f6; color: #ffffff; font-family: Arial, sans-serif; font-size: 13px; font-weight: 500; text-decoration: none; border-radius: 4px;">
+                          Bekijk
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+
+                <!-- Product 2 -->
+                <td width="50%" style="padding: 10px; vertical-align: top;">
+                  <table style="width: 100%; border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;">
+                    <tr>
+                      <td style="padding: 0;">
+                        <img src="https://via.placeholder.com/300x300?text=Product+2" alt="Product 2" style="width: 100%; height: auto; display: block;" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 15px; text-align: center;">
+                        <p style="margin: 0 0 8px; padding: 0; color: #111827; font-family: Arial, sans-serif; font-size: 14px; font-weight: 600;">
+                          Product Name
+                        </p>
+                        <p style="margin: 0 0 12px; padding: 0; color: #3b82f6; font-family: Arial, sans-serif; font-size: 16px; font-weight: 700;">
+                          €39.99
+                        </p>
+                        <a href="#" style="display: inline-block; padding: 8px 20px; background-color: #3b82f6; color: #ffffff; font-family: Arial, sans-serif; font-size: 13px; font-weight: 500; text-decoration: none; border-radius: 4px;">
+                          Bekijk
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    `,
+  })
+
+  // ═══════════════════════════════════════════════════════════
   // PRODUCT GRID (3 Products)
   // ═══════════════════════════════════════════════════════════
   blockManager.add('ecom-product-grid', {
-    label: 'Productraster',
+    label: 'Productraster (3)',
     category: 'E-commerce',
     attributes: { class: 'fa fa-th' },
     content: `
@@ -368,5 +436,5 @@ export function registerEcommerceBlocks(editor: any) {
     `,
   })
 
-  console.log('[E-commerce Blocks] Registered 8 e-commerce blokken')
+  console.log('[E-commerce Blocks] Registered 9 e-commerce blokken')
 }

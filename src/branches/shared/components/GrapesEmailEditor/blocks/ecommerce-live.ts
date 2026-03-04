@@ -135,10 +135,37 @@ export function registerLiveEcommerceBlocks(editor: any) {
   })
 
   // ═══════════════════════════════════════════════════════════
-  // PRODUCTRASTER (LIVE) — 3 products side by side
+  // PRODUCTRASTER 2 (LIVE) — 2 products side by side
+  // ═══════════════════════════════════════════════════════════
+  blockManager.add('ecom-product-grid-2-live', {
+    label: 'Productraster 2 (live)',
+    category: 'E-commerce',
+    attributes: { class: 'fa fa-columns' },
+    content: `
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
+        <tr>
+          <td style="padding: 20px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td width="50%" style="padding: 10px; vertical-align: top;" data-gjs-type="product-card" data-product-id="">
+                  ${generatePlaceholderHtml('Product 1')}
+                </td>
+                <td width="50%" style="padding: 10px; vertical-align: top;" data-gjs-type="product-card" data-product-id="">
+                  ${generatePlaceholderHtml('Product 2')}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    `,
+  })
+
+  // ═══════════════════════════════════════════════════════════
+  // PRODUCTRASTER 3 (LIVE) — 3 products side by side
   // ═══════════════════════════════════════════════════════════
   blockManager.add('ecom-product-grid-live', {
-    label: 'Productraster (live)',
+    label: 'Productraster 3 (live)',
     category: 'E-commerce',
     attributes: { class: 'fa fa-th-large' },
     content: `
@@ -164,5 +191,5 @@ export function registerLiveEcommerceBlocks(editor: any) {
     `,
   })
 
-  console.log('[Live E-commerce Blocks] Registered 2 live product blokken')
+  console.log('[Live E-commerce Blocks] Registered 3 live product blokken')
 }
