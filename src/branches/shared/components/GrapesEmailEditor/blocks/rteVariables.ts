@@ -71,16 +71,22 @@ export function registerRteVariables(editor: any) {
         dropdown.appendChild(item)
       })
 
-      // Position the dropdown near the button
+      // Append to body and position absolutely near the RTE toolbar
+      document.body.appendChild(dropdown)
+
       const toolbar = document.querySelector('.gjs-rte-toolbar')
       if (toolbar) {
-        toolbar.appendChild(dropdown)
+        const rect = toolbar.getBoundingClientRect()
+        dropdown.style.position = 'fixed'
+        dropdown.style.top = `${rect.bottom + 4}px`
+        dropdown.style.left = `${Math.max(8, rect.left)}px`
+        dropdown.style.zIndex = '9999'
       }
 
       // Close dropdown when clicking outside
       const closeHandler = (e: MouseEvent) => {
         if (!dropdown.contains(e.target as Node)) {
-          dropdown.remove()
+          if (dropdown.parentNode) dropdown.parentNode.removeChild(dropdown)
           document.removeEventListener('click', closeHandler, true)
         }
       }

@@ -150,7 +150,12 @@ export const EmailTemplates: CollectionConfig = {
         description: 'Visuele e-mail template editor',
         condition: (data) => data.useVisualEditor === true,
         components: {
-          Field: '@/branches/shared/components/GrapesEmailEditor/PayloadField#GrapesJSField',
+          Field: {
+            path: '@/branches/shared/components/GrapesEmailEditor/PayloadField#GrapesJSField',
+            clientProps: {
+              ecommerceBlocks: true,
+            },
+          },
         },
       },
     },
