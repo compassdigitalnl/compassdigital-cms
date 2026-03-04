@@ -52,6 +52,11 @@ export const MeilisearchSettings: GlobalConfig = {
               name: 'indexedCollections',
               type: 'array',
               label: 'Indexed Collections',
+              defaultValue: [
+                { collection: 'products', enabled: true, priority: 1 },
+                { collection: 'blog-posts', enabled: true, priority: 1 },
+                { collection: 'pages', enabled: true, priority: 1 },
+              ],
               admin: {
                 description:
                   'Select which collections to include in the search index. Each collection can be customized individually.',
