@@ -163,11 +163,10 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
           })
         }
 
-        // Hide advanced toolbar buttons not needed by clients
+        // Hide advanced toolbar buttons not needed by clients (keep undo/redo!)
         const pn = editor.Panels
         if (pn) {
-          // Hide import, source-code, and fullscreen buttons from options panel
-          const hideButtons = ['gjs-open-import-template', 'undo', 'redo', 'canvas-clear']
+          const hideButtons = ['gjs-open-import-template', 'canvas-clear']
           hideButtons.forEach((id: string) => {
             try {
               const btn = pn.getButton('options', id)
@@ -175,6 +174,21 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
             } catch {}
           })
         }
+
+        // Enable copy/duplicate in component toolbar
+        editor.on('component:selected', (component: any) => {
+          const toolbar = component.get('toolbar')
+          const hasCopy = toolbar?.some((btn: any) => btn.command === 'tlb-clone')
+          if (!hasCopy) {
+            component.set('toolbar', [
+              ...toolbar,
+              {
+                attributes: { class: 'fa fa-clone', title: 'Dupliceer' },
+                command: 'tlb-clone',
+              },
+            ])
+          }
+        })
 
         // Load initial content
         if (value) {
@@ -193,6 +207,35 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
             editor.setComponents(value)
           }
         }
+
+        // ── Empty State Hint ──────────────────────────────
+        const updateEmptyState = () => {
+          const canvasEl = containerRef.current?.querySelector('.gjs-cv-canvas')
+          if (!canvasEl) return
+
+          const existing = canvasEl.querySelector('.canvas-empty-state')
+          const wrapper = editor.getWrapper()
+          const isEmpty = !wrapper || wrapper.components().length === 0
+
+          if (isEmpty && !existing) {
+            const hint = document.createElement('div')
+            hint.className = 'canvas-empty-state'
+            hint.innerHTML = `
+              <div class="canvas-empty-state__icon">📧</div>
+              <p class="canvas-empty-state__title">Begin met het bouwen van je email</p>
+              <p class="canvas-empty-state__text">Sleep een blok vanuit het rechterpaneel naar hier</p>
+            `
+            canvasEl.appendChild(hint)
+          } else if (!isEmpty && existing) {
+            existing.remove()
+          }
+        }
+
+        editor.on('component:add', updateEmptyState)
+        editor.on('component:remove', updateEmptyState)
+        editor.on('load', updateEmptyState)
+        // Check after initial load
+        setTimeout(updateEmptyState, 500)
 
         // Listen to changes
         let changeTimeout: NodeJS.Timeout

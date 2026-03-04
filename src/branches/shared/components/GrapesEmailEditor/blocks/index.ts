@@ -10,6 +10,7 @@
 import { registerTenantBlocks } from './tenant'
 import { registerListmonkBlocks } from './listmonk'
 import { registerRteVariables } from './rteVariables'
+import { registerUtilityBlocks } from './utility'
 import { registerEcommerceBlocks } from './ecommerce'
 import { registerProductPicker } from './productPicker'
 import { registerLiveEcommerceBlocks } from './ecommerce-live'
@@ -38,6 +39,9 @@ export function registerCustomBlocks(editor: any, options: CustomBlocksOptions =
   if (tenantBranding) {
     registerTenantBlocks(editor, tenantBranding)
   }
+
+  // Utility blocks (spacer, social, video, countdown) — always available
+  registerUtilityBlocks(editor)
 
   // Listmonk variables (subscriber data, unsubscribe link, etc.)
   if (listmonkVariables) {
