@@ -21,6 +21,7 @@ import * as migration_20260304_100000_add_shipping_methods from './20260304_1000
 import * as migration_20260304_110000_add_checkout_payment_options from './20260304_110000_add_checkout_payment_options';
 import * as migration_20260304_120000_add_ecommerce_settings from './20260304_120000_add_ecommerce_settings';
 import * as migration_20260304_130000_add_instant_search_display from './20260304_130000_add_instant_search_display';
+import * as migration_20260304_140000_add_brands_tagline_certifications from './20260304_140000_add_brands_tagline_certifications';
 
 export const migrations = [
   {
@@ -137,5 +138,10 @@ export const migrations = [
     up: migration_20260304_130000_add_instant_search_display.up,
     down: migration_20260304_130000_add_instant_search_display.down,
     name: '20260304_130000_add_instant_search_display',
+  },
+  {
+    up: migration_20260304_140000_add_brands_tagline_certifications.up,
+    down: migration_20260304_140000_add_brands_tagline_certifications.down,
+    name: '20260304_140000_add_brands_tagline_certifications',
   },
 ];

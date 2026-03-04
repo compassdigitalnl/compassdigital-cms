@@ -85,6 +85,14 @@ export const Brands: CollectionConfig = {
       },
     },
     {
+      name: 'tagline',
+      type: 'text',
+      label: 'Tagline',
+      admin: {
+        description: 'Bijv: Officiële partner, Premium merk, etc.',
+      },
+    },
+    {
       name: 'logo',
       type: 'upload',
       relationTo: 'media',
@@ -98,7 +106,7 @@ export const Brands: CollectionConfig = {
       type: 'richText',
       label: 'Beschrijving',
       admin: {
-        description: 'Optionele beschrijving over het merk',
+        description: 'Merkverhaal en beschrijving',
       },
     },
     {
@@ -109,6 +117,30 @@ export const Brands: CollectionConfig = {
         description: 'Bijv: https://www.hartmann.nl',
         placeholder: 'https://',
       },
+    },
+    {
+      name: 'certifications',
+      type: 'array',
+      label: 'Certificeringen',
+      admin: {
+        description: 'Bijv: ISO 13485, CE Markering, OEKO-TEX',
+      },
+      fields: [
+        {
+          name: 'name',
+          type: 'text',
+          required: true,
+          label: 'Naam',
+        },
+        {
+          name: 'icon',
+          type: 'text',
+          label: 'Icoon',
+          admin: {
+            description: 'Lucide icoon naam (bijv: shield-check, award)',
+          },
+        },
+      ],
     },
     {
       name: 'featured',
