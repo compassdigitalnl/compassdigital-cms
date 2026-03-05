@@ -42,6 +42,7 @@ import {
   Check,
   Info,
   Minus,
+  Wrench,
 } from 'lucide-react'
 
 interface ProductTemplate4Props {
@@ -887,42 +888,55 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
               </div>
             )}
 
-            {/* Simple Product Quantity */}
+            {/* Simple Product Quantity + Add to Cart — horizontal row */}
             {!isGrouped && !isOutOfStock && (
               <div className="mb-5">
-                <div className="text-sm font-bold text-[var(--color-text-primary)] mb-2">
-                  Aantal
-                </div>
-                <div className="inline-flex items-center border-[1.5px] border-[var(--color-border)] rounded-[10px] overflow-hidden bg-white">
+                <div className="flex items-center gap-2">
+                  {/* Quantity selector */}
+                  <div className="inline-flex items-center border-[1.5px] border-[var(--color-border)] rounded-[10px] overflow-hidden bg-white shrink-0">
+                    <button
+                      onClick={() => {
+                        const minQty = product.minOrderQuantity || 1
+                        const step = product.orderMultiple || 1
+                        setQuantity(Math.max(minQty, quantity - step))
+                      }}
+                      className="w-[52px] h-[52px] border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-lg text-[var(--color-text-primary)]"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <input
+                      type="number"
+                      value={quantity}
+                      onChange={(e: any) => {
+                        const minQty = product.minOrderQuantity || 1
+                        const maxQty = product.maxOrderQuantity || (product.trackStock ? (product.stock ?? 999) : 999)
+                        setQuantity(Math.min(maxQty, Math.max(minQty, parseInt(e.target.value) || minQty)))
+                      }}
+                      className="w-[60px] h-[52px] border-0 text-center font-mono text-base font-bold text-[var(--color-text-primary)] outline-none"
+                    />
+                    <button
+                      onClick={() => {
+                        const step = product.orderMultiple || 1
+                        const maxQty = product.maxOrderQuantity || (product.trackStock ? (product.stock ?? 999) : 999)
+                        setQuantity(Math.min(maxQty, quantity + step))
+                      }}
+                      className="w-[52px] h-[52px] border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-lg text-[var(--color-text-primary)]"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
+                  {/* Add to Cart button */}
                   <button
-                    onClick={() => {
-                      const minQty = product.minOrderQuantity || 1
-                      const step = product.orderMultiple || 1
-                      setQuantity(Math.max(minQty, quantity - step))
+                    onClick={handleAddToCart}
+                    className="flex-1 flex items-center justify-center gap-2.5 h-[52px] text-white border-0 rounded-xl font-body text-base font-bold"
+                    style={{
+                      background: 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
                     }}
-                    className="w-11 h-11 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-lg text-[var(--color-text-primary)]"
                   >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                  <input
-                    type="number"
-                    value={quantity}
-                    onChange={(e: any) => {
-                      const minQty = product.minOrderQuantity || 1
-                      const maxQty = product.maxOrderQuantity || (product.trackStock ? (product.stock ?? 999) : 999)
-                      setQuantity(Math.min(maxQty, Math.max(minQty, parseInt(e.target.value) || minQty)))
-                    }}
-                    className="w-[60px] h-11 border-0 text-center font-mono text-base font-bold text-[var(--color-text-primary)] outline-none"
-                  />
-                  <button
-                    onClick={() => {
-                      const step = product.orderMultiple || 1
-                      const maxQty = product.maxOrderQuantity || (product.trackStock ? (product.stock ?? 999) : 999)
-                      setQuantity(Math.min(maxQty, quantity + step))
-                    }}
-                    className="w-11 h-11 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-lg text-[var(--color-text-primary)]"
-                  >
-                    <Plus className="w-4 h-4" />
+                    <ShoppingCart className="w-5 h-5" />
+                    In winkelwagen
                   </button>
                 </div>
                 {quantity > 1 && hasPrice && (
@@ -933,24 +947,27 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
               </div>
             )}
 
-            {/* ACTION BUTTONS */}
-            <div className="flex flex-col gap-2.5 mb-5">
-              {/* Add to Cart */}
-              {!isOutOfStock && (
+            {/* Grouped product Add to Cart (full width) */}
+            {isGrouped && !isOutOfStock && (
+              <div className="mb-5">
                 <button
                   onClick={handleAddToCart}
-                  disabled={isGrouped && totalQty === 0}
-                  className="flex items-center justify-center gap-2.5 w-full p-4 text-white border-0 rounded-xl font-body text-base font-bold"
+                  disabled={totalQty === 0}
+                  className="flex items-center justify-center gap-2.5 w-full h-[52px] text-white border-0 rounded-xl font-body text-base font-bold"
                   style={{
-                    background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
-                    cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
-                    boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
+                    background: totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
+                    cursor: totalQty === 0 ? 'not-allowed' : 'pointer',
+                    boxShadow: totalQty === 0 ? 'none' : '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
                   }}
                 >
                   <ShoppingCart className="w-5 h-5" />
                   In winkelwagen
                 </button>
-              )}
+              </div>
+            )}
+
+            {/* ACTION BUTTONS */}
+            <div className="flex flex-col gap-2.5 mb-5">
 
               {/* Secondary Buttons */}
               <div className="flex gap-2.5">
@@ -1316,8 +1333,9 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
           </div>
         </div>
 
-        {/* ═══ TABS (Description, Specs, Reviews, Downloads) — ProductTabs component ═══ */}
+        {/* ═══ TABS (Description, Specs, Reviews, Downloads) + Accessories sidebar ═══ */}
         <div className="px-4 pt-8">
+          <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 items-start">
           <ProductTabs
             enableMobileAccordion
             enableKeyboardNav
@@ -1443,6 +1461,51 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                 : []),
             ]}
           />
+
+          {/* Accessories sidebar — "Maak je bestelling compleet" */}
+          {(() => {
+            const accessoryProducts = (product.accessories as any[])?.filter((p: any) => typeof p === 'object' && p !== null) || []
+            if (accessoryProducts.length === 0) return null
+            return (
+              <div className="bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[var(--border-radius,16px)] p-5 self-start hidden lg:block">
+                <h3 className="font-heading text-base font-bold text-[var(--color-text-primary)] mb-4 flex items-center gap-2">
+                  <Wrench className="w-5 h-5 text-[var(--color-primary)]" />
+                  Maak je bestelling compleet
+                </h3>
+                <div className="flex flex-col gap-3">
+                  {accessoryProducts.slice(0, 6).map((acc: any) => {
+                    const accImage = typeof acc.images?.[0] === 'object' ? acc.images[0] : null
+                    const accImageUrl = accImage && 'url' in accImage ? accImage.url : null
+                    const accPrice = acc.salePrice || acc.price || 0
+                    return (
+                      <Link
+                        key={acc.id}
+                        href={`/${acc.slug}`}
+                        className="flex items-center gap-3 p-2.5 rounded-xl border border-transparent hover:border-[var(--color-border)] hover:bg-[var(--color-background)] transition-colors no-underline"
+                      >
+                        <div className="w-14 h-14 rounded-lg bg-[var(--color-background)] shrink-0 flex items-center justify-center overflow-hidden">
+                          {accImageUrl ? (
+                            <img src={accImageUrl} alt={acc.title} className="w-full h-full object-contain" />
+                          ) : (
+                            <Package className="w-6 h-6 text-[var(--color-text-muted)]" />
+                          )}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="text-sm font-semibold text-[var(--color-text-primary)] line-clamp-2 leading-tight">{acc.title}</div>
+                          {accPrice > 0 && (
+                            <div className="text-sm font-bold text-[var(--color-primary)] mt-0.5">€{accPrice.toFixed(2).replace('.', ',')}</div>
+                          )}
+                        </div>
+                        <ArrowRight className="w-4 h-4 text-[var(--color-text-muted)] shrink-0" />
+                      </Link>
+                    )
+                  })}
+                </div>
+              </div>
+            )
+          })()}
+
+          </div>{/* end grid */}
         </div>
 
         {/* UP-SELLS - Show above ATC in feature release, for now show after related */}
