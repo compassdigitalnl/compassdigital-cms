@@ -30,84 +30,7 @@ export const Header: GlobalConfig = {
       type: 'tabs',
       tabs: [
         // ═══════════════════════════════════════════════════════════════════════
-        // TAB 1: LAYOUT & STRUCTUUR
-        // ═══════════════════════════════════════════════════════════════════════
-        {
-          label: 'Layout & Structuur',
-          description: 'Kies header layout en beheer component zichtbaarheid',
-          fields: [
-            {
-              name: 'layoutType',
-              type: 'select',
-              label: 'Header Layout Type',
-              defaultValue: 'mega-nav',
-              required: true,
-              options: [
-                {
-                  label: 'Mega Navigation (c14-meganav) - Volledig webshop layout',
-                  value: 'mega-nav',
-                },
-                {
-                  label: 'Single Row - Logo + Nav + Acties op 1 rij',
-                  value: 'single-row',
-                },
-                {
-                  label: 'Minimal - Alleen logo + acties (landing pages)',
-                  value: 'minimal',
-                },
-              ],
-              admin: {
-                description:
-                  'Mega Nav: Topbar + Header + Navigatie balk (ideaal voor webshops). Single Row: Alles op 1 rij (compacte sites). Minimal: Alleen logo en acties (landing pages).',
-              },
-            },
-            {
-              name: 'showTopbar',
-              type: 'checkbox',
-              label: 'Toon Topbar',
-              defaultValue: true,
-              admin: {
-                description:
-                  'Topbar met USP berichten, links, taalwisselaar en prijs toggle. Configureer in "Topbar" tab.',
-              },
-            },
-            {
-              name: 'showAlertBar',
-              type: 'checkbox',
-              label: 'Toon Alert Bar',
-              defaultValue: false,
-              admin: {
-                description:
-                  'Alert bar met belangrijke mededelingen. Configureer in "Alert Bar" tab.',
-              },
-            },
-            {
-              name: 'showNavigation',
-              type: 'checkbox',
-              label: 'Toon Hoofdnavigatie',
-              defaultValue: true,
-              admin: {
-                description:
-                  'Hoofdnavigatie menu. Configureer in "Navigatie" tab. Niet beschikbaar bij Minimal layout.',
-                condition: (data) => data.layoutType !== 'minimal',
-              },
-            },
-            {
-              name: 'showSearchBar',
-              type: 'checkbox',
-              label: 'Toon Zoekbalk',
-              defaultValue: true,
-              admin: {
-                description:
-                  'Zoekbalk in header. Op mobile wordt dit een search icon met overlay. Configureer in "Zoeken" tab.',
-                condition: (data) => data.layoutType !== 'minimal',
-              },
-            },
-          ],
-        },
-
-        // ═══════════════════════════════════════════════════════════════════════
-        // TAB 2: TOPBAR
+        // TAB 1: TOPBAR
         // ═══════════════════════════════════════════════════════════════════════
         {
           label: 'Topbar',
@@ -577,6 +500,15 @@ export const Header: GlobalConfig = {
           label: 'Navigatie',
           description: 'Hoofdmenu configuratie: handmatig, categorie-gedreven of hybride',
           fields: [
+            {
+              name: 'navigationEnabled',
+              type: 'checkbox',
+              label: 'Navigatie Actief',
+              defaultValue: true,
+              admin: {
+                description: 'Schakel de hoofdnavigatie in of uit.',
+              },
+            },
             {
               name: 'navigationMode',
               type: 'select',
@@ -1454,7 +1386,7 @@ export const Header: GlobalConfig = {
               admin: {
                 description:
                   'Verberg de topbar automatisch bij scrollen om ruimte te besparen. Topbar verschijnt weer bij terugscrollen.',
-                condition: (data) => data.stickyHeader === true && data.showTopbar === true,
+                condition: (data) => data.stickyHeader === true && data.topbarEnabled === true,
               },
             },
             {

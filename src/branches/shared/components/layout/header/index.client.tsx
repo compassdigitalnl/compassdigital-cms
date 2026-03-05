@@ -18,14 +18,14 @@ type Props = {
 function mapHeaderData(header: any): MappedHeaderData {
   return {
     topBar: {
-      enabled: header.topbarEnabled ?? header.showTopbar ?? false,
+      enabled: header.topbarEnabled ?? false,
       backgroundColor: header.topbarBgColor || undefined,
       textColor: header.topbarTextColor || undefined,
       leftMessages: header.topbarMessages || [],
       rightLinks: header.topbarRightLinks || [],
     },
     alertBar: {
-      enabled: header.alertBarEnabled ?? header.showAlertBar ?? false,
+      enabled: header.alertBarEnabled ?? false,
       message: header.alertBarMessage || '',
       type: (header.alertBarType || 'info') as 'info' | 'success' | 'warning' | 'error' | 'promo',
       icon: header.alertBarIcon || undefined,
@@ -35,7 +35,7 @@ function mapHeaderData(header: any): MappedHeaderData {
       customColors: header.alertBarCustomColors || {},
     },
     navigation:
-      header.showNavigation !== false
+      header.navigationEnabled !== false
         ? {
             mode: header.navigationMode || 'manual',
             items: header.manualNavItems || [],
@@ -49,7 +49,7 @@ function mapHeaderData(header: any): MappedHeaderData {
     logoOverride: header.logo || undefined,
     siteNameOverride: header.siteName || undefined,
     siteNameAccent: header.siteNameAccent || undefined,
-    enableSearch: (header.searchEnabled ?? true) && header.showSearchBar !== false,
+    enableSearch: header.searchEnabled ?? true,
     searchPlaceholder: header.searchPlaceholder || 'Zoek producten...',
     enablePriceToggle: header.enablePriceToggle ?? false,
     priceToggle: header.priceToggle || {
