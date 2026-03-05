@@ -12,7 +12,7 @@ import type { BlogPost } from '@/payload-types'
 import { useContentAccess } from '@/branches/content/hooks/useContentAccess'
 import { PaywallOverlay } from '@/branches/content/components/PaywallOverlay'
 import { PremiumBadge } from '@/branches/content/components/PremiumBadge'
-import { RenderBlogContent } from '@/branches/content/components/blog/RenderBlogContent'
+import { RenderBlogContent } from '@/branches/shared/components/blog/RenderBlogContent'
 
 export interface BlogPostWithPaywallProps {
   /**

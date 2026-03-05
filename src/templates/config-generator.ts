@@ -29,7 +29,7 @@ const collectionRegistry: Record<string, () => Promise<any>> = {
   'blog-posts': () => import('@/branches/content/collections/BlogPosts'),
 
   // Portfolio (exist in platform)
-  cases: () => import('@/branches/content/collections/Cases'),
+  cases: () => import('@/branches/shared/collections/Cases'),
   services: () => import('@/branches/shared/collections/ServicesCollection'),
 
   // Forms (exist in platform)

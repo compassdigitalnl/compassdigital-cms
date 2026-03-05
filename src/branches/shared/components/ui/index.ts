@@ -20,9 +20,6 @@ export type { PaginationProps, PaginationButtonProps, PaginationVariant } from '
 export { Toaster } from './sonner'
 
 // Custom components
-export { EmptyState } from './empty-state'
-export { LoadingSpinner } from './loading-spinner'
-export { StatusBadge } from './status-badge'
 export {
   ToastSystemProvider,
   useToast,

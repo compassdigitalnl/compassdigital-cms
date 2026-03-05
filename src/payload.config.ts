@@ -76,12 +76,14 @@ import { Carts } from '../packages/modules/cart/collections/Carts'
 import { Customers } from '../packages/modules/accounts/collections/Customers'
 import { Addresses } from '../packages/modules/accounts/collections/Addresses'
 
-// Content Branch (5 collections)
+// Content Branch (1 collection — premium content)
 import { BlogPosts } from '@/branches/content/collections/BlogPosts'
-import { BlogCategories } from '@/branches/content/collections/BlogCategories'
-import { Cases } from '@/branches/content/collections/Cases'
-import { FAQs } from '@/branches/content/collections/FAQs'
-import { Testimonials } from '@/branches/content/collections/Testimonials'
+
+// Shared Collections (blog, marketing)
+import { BlogCategories } from '@/branches/shared/collections/BlogCategories'
+import { Cases } from '@/branches/shared/collections/Cases'
+import { FAQs } from '@/branches/shared/collections/FAQs'
+import { Testimonials } from '@/branches/shared/collections/Testimonials'
 
 // Marketplace Branch (3 collections)
 import { Vendors } from '@/branches/marketplace/collections/Vendors'
