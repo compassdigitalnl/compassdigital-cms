@@ -20,7 +20,7 @@ const COMMON_ICONS = [
   'Mail', 'Phone', 'MapPin',
 ]
 
-export const IconPickerField: React.FC<any> = ({ path }) => {
+const IconPickerField: React.FC<any> = ({ path }) => {
   const { value, setValue } = useField<string>({ path })
   const [search, setSearch] = React.useState('')
   const [showAll, setShowAll] = React.useState(false)
@@ -132,3 +132,5 @@ export const IconPickerField: React.FC<any> = ({ path }) => {
     </div>
   )
 }
+
+export default IconPickerField
