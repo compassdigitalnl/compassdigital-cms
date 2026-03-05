@@ -33,6 +33,7 @@ import * as migration_20260305_170000_branches_collection from './20260305_17000
 import * as migration_20260305_180000_cleanup_header_theme_tab from './20260305_180000_cleanup_header_theme_tab';
 import * as migration_20260305_190000_ecommerce_b2b_benefits from './20260305_190000_ecommerce_b2b_benefits';
 import * as migration_20260305_200000_simplify_header_fields from './20260305_200000_simplify_header_fields';
+import * as migration_20260305_210000_convert_header_icon_enums_to_varchar from './20260305_210000_convert_header_icon_enums_to_varchar';
 
 export const migrations = [
   {
@@ -209,5 +210,10 @@ export const migrations = [
     up: migration_20260305_200000_simplify_header_fields.up,
     down: migration_20260305_200000_simplify_header_fields.down,
     name: '20260305_200000_simplify_header_fields',
+  },
+  {
+    up: migration_20260305_210000_convert_header_icon_enums_to_varchar.up,
+    down: migration_20260305_210000_convert_header_icon_enums_to_varchar.down,
+    name: '20260305_210000_convert_header_icon_enums_to_varchar',
   },
 ];
