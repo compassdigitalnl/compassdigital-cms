@@ -286,7 +286,11 @@ export default async function Page({
             <Breadcrumbs items={productBreadcrumbs} currentPage={product.title} />
           </div>
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <ProductComponent product={product} parentGroupedProduct={parentGroupedProduct} />
+            {parentGroupedProduct ? (
+              <ProductComponent product={parentGroupedProduct} defaultSelectedChildId={product.id} />
+            ) : (
+              <ProductComponent product={product} />
+            )}
           </div>
         </div>
       )

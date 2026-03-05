@@ -16,7 +16,6 @@ import { useEcommerceSettings } from '@/branches/ecommerce/hooks/useEcommerceSet
 import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import { features } from '@/lib/features'
 import { getGroupedMinPrice } from '@/branches/ecommerce/lib/shop/utils'
-import { GroupedProductTable } from '@/branches/ecommerce/templates/products/ProductTemplate1/GroupedProductTable'
 import type { Product } from '@/payload-types'
 import {
   Heart,
@@ -43,15 +42,15 @@ import {
   Check,
   Info,
   Minus,
-  Layers,
 } from 'lucide-react'
 
 interface ProductTemplate4Props {
   product: Product
   parentGroupedProduct?: Product | null
+  defaultSelectedChildId?: number | string
 }
 
-export default function ProductTemplate4({ product, parentGroupedProduct }: ProductTemplate4Props) {
+export default function ProductTemplate4({ product, parentGroupedProduct, defaultSelectedChildId }: ProductTemplate4Props) {
   const { addItem, addGroupedItems } = useCart()
   const { settings: ecomSettings } = useEcommerceSettings()
   const { showToast } = useAddToCartToast()
@@ -62,8 +61,13 @@ export default function ProductTemplate4({ product, parentGroupedProduct }: Prod
   const [shareMsg, setShareMsg] = useState<string | null>(null)
   const [touchStart, setTouchStart] = useState<number | null>(null)
 
-  // For grouped products - size quantities
-  const [sizeQuantities, setSizeQuantities] = useState<Record<string, number>>({})
+  // For grouped products - size quantities (pre-select child if defaultSelectedChildId provided)
+  const [sizeQuantities, setSizeQuantities] = useState<Record<string, number>>(() => {
+    if (defaultSelectedChildId) {
+      return { [String(defaultSelectedChildId)]: 1 }
+    }
+    return {}
+  })
   const [totalQty, setTotalQty] = useState(0)
   const [totalPrice, setTotalPrice] = useState(0)
   const [activeTier, setActiveTier] = useState(0)
@@ -1311,34 +1315,6 @@ export default function ProductTemplate4({ product, parentGroupedProduct }: Prod
             </div>
           </div>
         </div>
-
-        {/* ═══ GROUPED PRODUCT TABLE — shown when this child product belongs to a grouped parent ═══ */}
-        {parentGroupedProduct && parentGroupedProduct.childProducts && parentGroupedProduct.childProducts.length > 0 && (
-          <div className="px-4 pt-10">
-            <div className="flex items-center gap-2.5 mb-4">
-              <Layers className="w-5 h-5 text-[var(--color-primary)]" />
-              <h2 className="font-heading text-lg md:text-xl font-extrabold text-[var(--color-text-primary)]">
-                Alle uitvoeringen
-              </h2>
-            </div>
-            <p className="text-sm text-[var(--color-text-secondary)] mb-4">
-              Dit product is onderdeel van{' '}
-              <Link href={`/${parentGroupedProduct.slug}`} className="text-[var(--color-primary)] font-semibold no-underline hover:underline">
-                {parentGroupedProduct.title}
-              </Link>
-              . Selecteer hieronder de gewenste uitvoeringen en aantallen.
-            </p>
-            <GroupedProductTable
-              parentProduct={{ id: parentGroupedProduct.id, title: parentGroupedProduct.title }}
-              childProducts={parentGroupedProduct.childProducts.map((child: any) => ({
-                ...child,
-                isDefault: (typeof child.product === 'object' ? child.product?.id : child.product) === product.id
-                  ? true
-                  : child.isDefault,
-              }))}
-            />
-          </div>
-        )}
 
         {/* ═══ TABS (Description, Specs, Reviews, Downloads) — ProductTabs component ═══ */}
         <div className="px-4 pt-8">

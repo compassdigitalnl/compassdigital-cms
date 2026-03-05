@@ -30,6 +30,7 @@ import {
 interface ProductTemplate3Props {
   product: Product
   parentGroupedProduct?: Product | null
+  defaultSelectedChildId?: number | string
 }
 
 export default function ProductTemplate3({ product }: ProductTemplate3Props) {

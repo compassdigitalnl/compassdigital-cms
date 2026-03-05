@@ -12,7 +12,6 @@ import { RichText } from '@/branches/shared/components/common/RichText'
 import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import { features } from '@/lib/features'
 import { getGroupedMinPrice } from '@/branches/ecommerce/lib/shop/utils'
-import { GroupedProductTable } from './GroupedProductTable'
 import type { Product } from '@/payload-types'
 import {
   Heart,
@@ -23,7 +22,6 @@ import {
   Barcode,
   Package,
   Star,
-  Layers,
   Truck,
   ShoppingCart,
   ClipboardList,
@@ -50,9 +48,10 @@ import {
 interface ProductTemplate1Props {
   product: Product
   parentGroupedProduct?: Product | null
+  defaultSelectedChildId?: number | string
 }
 
-export default function ProductTemplate1({ product, parentGroupedProduct }: ProductTemplate1Props) {
+export default function ProductTemplate1({ product, parentGroupedProduct, defaultSelectedChildId }: ProductTemplate1Props) {
   const { addItem } = useCart()
   const { showToast } = useAddToCartToast()
   const { formatPriceStr, vatLabel, displayPrice } = usePriceMode()
@@ -1272,34 +1271,6 @@ export default function ProductTemplate1({ product, parentGroupedProduct }: Prod
             </div>
           )}
         </div>
-
-        {/* GROUPED PRODUCT TABLE — shown when this child product belongs to a grouped parent */}
-        {parentGroupedProduct && parentGroupedProduct.childProducts && parentGroupedProduct.childProducts.length > 0 && (
-          <div className="px-4 lg:px-6 pt-10">
-            <div className="flex items-center gap-2.5 mb-4">
-              <Layers className="w-5 h-5 text-[var(--color-primary)]" />
-              <h2 className="font-heading text-lg md:text-xl font-extrabold text-[var(--color-text-primary)]">
-                Alle uitvoeringen
-              </h2>
-            </div>
-            <p className="text-sm text-[var(--color-text-secondary)] mb-4">
-              Dit product is onderdeel van{' '}
-              <Link href={`/${parentGroupedProduct.slug}`} className="text-[var(--color-primary)] font-semibold no-underline hover:underline">
-                {parentGroupedProduct.title}
-              </Link>
-              . Selecteer hieronder de gewenste uitvoeringen en aantallen.
-            </p>
-            <GroupedProductTable
-              parentProduct={{ id: parentGroupedProduct.id, title: parentGroupedProduct.title }}
-              childProducts={parentGroupedProduct.childProducts.map((child: any) => ({
-                ...child,
-                isDefault: (typeof child.product === 'object' ? child.product?.id : child.product) === product.id
-                  ? true
-                  : child.isDefault,
-              }))}
-            />
-          </div>
-        )}
 
         {/* DESKTOP: TABS SECTION */}
         <div className="hidden pt-12 lg:block lg:px-6">
