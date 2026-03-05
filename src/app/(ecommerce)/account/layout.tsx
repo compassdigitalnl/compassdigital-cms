@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
-import { features } from '@/lib/features'
+import { useFeatures } from '@/providers/Features'
 import { AccountTemplateProvider } from '@/branches/ecommerce/contexts/AccountTemplateContext'
 import {
   LayoutDashboard,
@@ -31,6 +31,7 @@ export default function MyAccountLayout({ children }: { children: React.ReactNod
   const router = useRouter()
   const { user, isLoading, logout } = useAccountAuth()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const features = useFeatures()
   const [templateKey, setTemplateKey] = useState('enterprise')
 
   // Fetch template setting client-side

@@ -12,7 +12,8 @@ import { AddToCartToastProviderClient } from '@/branches/ecommerce/components/ui
 import { HeaderClient } from '@/branches/shared/components/layout/header/Header/index.client'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled, features as serverFeatures } from '@/lib/features'
+import { FeaturesProvider } from '@/providers/Features'
 import { ChatbotProvider } from '@/branches/shared/components/features/chatbot/ChatbotProvider'
 import React from 'react'
 import '../globals.css'
@@ -67,6 +68,7 @@ export default async function EcommerceLayout({ children }: { children: ReactNod
 
   return (
     <Providers>
+      <FeaturesProvider features={serverFeatures}>
       <ThemeProvider theme={themeGlobal}>
         <SearchProvider enableSearch={isFeatureEnabled('search')}>
           <ToastProvider>
@@ -91,6 +93,7 @@ export default async function EcommerceLayout({ children }: { children: ReactNod
           </ToastProvider>
         </SearchProvider>
       </ThemeProvider>
+      </FeaturesProvider>
     </Providers>
   )
 }
