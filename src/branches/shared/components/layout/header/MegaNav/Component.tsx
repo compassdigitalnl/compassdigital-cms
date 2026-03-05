@@ -16,9 +16,13 @@ export function MegaNav({
   onClose,
   navTop,
   categoryNav,
+  categorySettings,
   primaryColor,
   secondaryColor,
 }: MegaNavProps) {
+  const showIcons = categorySettings?.showCategoryIcons !== false
+  const showCount = categorySettings?.showProductCount !== false
+  const maxCats = categorySettings?.maxCategories || 12
   const {
     rootCategories,
     l2Categories,
@@ -97,7 +101,7 @@ export function MegaNav({
 
               {!loading &&
                 !error &&
-                rootCategories.map((cat) => (
+                rootCategories.slice(0, maxCats).map((cat) => (
                   <button
                     key={cat.id}
                     onMouseEnter={() => handleL1Select(cat.id)}
@@ -119,15 +123,17 @@ export function MegaNav({
                         e.currentTarget.style.backgroundColor = 'transparent'
                     }}
                   >
-                    <Package
-                      className="w-[17px] h-[17px] flex-shrink-0"
-                      style={{
-                        color:
-                          activeL1 === cat.id ? primaryColor : 'rgba(255,255,255,0.35)',
-                      }}
-                    />
+                    {showIcons && (
+                      <Package
+                        className="w-[17px] h-[17px] flex-shrink-0"
+                        style={{
+                          color:
+                            activeL1 === cat.id ? primaryColor : 'rgba(255,255,255,0.35)',
+                        }}
+                      />
+                    )}
                     {cat.name}
-                    {cat.productCount && (
+                    {showCount && cat.productCount && (
                       <span className="ml-auto text-[11px] text-white/20 group-hover:opacity-0 transition-opacity">
                         {cat.productCount}
                       </span>
@@ -205,7 +211,7 @@ export function MegaNav({
                         }}
                       />
                       {cat.name}
-                      {cat.productCount && (
+                      {showCount && cat.productCount && (
                         <span className="ml-auto text-[11px] text-gray-400 group-hover:opacity-0 transition-opacity">
                           {cat.productCount}
                         </span>
@@ -264,7 +270,7 @@ export function MegaNav({
                       >
                         <ChevronRight className="w-[17px] h-[17px] flex-shrink-0 text-gray-400" />
                         {cat.name}
-                        {cat.productCount && (
+                        {showCount && cat.productCount && (
                           <span className="ml-auto text-[11px] text-gray-400">
                             {cat.productCount}
                           </span>

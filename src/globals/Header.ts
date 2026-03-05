@@ -44,7 +44,7 @@ export const Header: GlobalConfig = {
               defaultValue: true,
               admin: {
                 description:
-                  'Let op: Als "Toon Topbar" uitstaat in Layout tab, wordt de topbar niet getoond, zelfs als deze hier aanstaat.',
+                  'Schakel de topbar in of uit. De topbar toont USP berichten, links en taalwisselaar.',
               },
             },
             {
@@ -246,7 +246,7 @@ export const Header: GlobalConfig = {
               label: 'Alert Bar Tonen',
               admin: {
                 description:
-                  'Toon een alert bar bovenaan alle pagina\'s (boven topbar). Let op: Als "Toon Alert Bar" uitstaat in Layout tab, wordt deze niet getoond.',
+                  'Toon een alert bar bovenaan alle pagina\'s (boven topbar) met een belangrijke mededeling.',
               },
             },
             {
@@ -904,7 +904,7 @@ export const Header: GlobalConfig = {
               defaultValue: true,
               admin: {
                 description:
-                  'Let op: Als "Toon Zoekbalk" uitstaat in Layout tab, wordt de zoekbalk niet getoond, zelfs als deze hier aanstaat.',
+                  'Schakel de zoekfunctie in de header in of uit.',
               },
             },
             {
@@ -1278,75 +1278,7 @@ export const Header: GlobalConfig = {
         },
 
         // ═══════════════════════════════════════════════════════════════════════
-        // TAB 9: THEME KLEUREN
-        // ═══════════════════════════════════════════════════════════════════════
-        {
-          label: 'Theme Kleuren',
-          description: 'Kleur instellingen en theme integratie',
-          fields: [
-            {
-              name: 'useThemeColors',
-              type: 'checkbox',
-              label: 'Gebruik Theme Kleuren',
-              defaultValue: true,
-              admin: {
-                description:
-                  'AANBEVOLEN: Gebruik kleuren uit Theme Global (var(--color-*)). Als uit: gebruik custom hex codes hieronder.',
-              },
-            },
-            {
-              name: 'headerBgColor',
-              type: 'text',
-              label: 'Header Achtergrondkleur',
-              defaultValue: 'var(--color-white)',
-              admin: {
-                description:
-                  'Achtergrondkleur van de hoofdheader. Gebruik CSS variabele (var(--color-white)) of hex code (#FFFFFF).',
-              },
-            },
-            {
-              name: 'navBgColor',
-              type: 'text',
-              label: 'Navigatie Achtergrondkleur',
-              defaultValue: 'var(--color-primary)',
-              admin: {
-                description:
-                  'Achtergrondkleur van de navigatiebalk (alleen bij mega-nav layout). Gebruik var(--color-primary) aanbevolen.',
-              },
-            },
-            {
-              name: 'navTextColor',
-              type: 'text',
-              label: 'Navigatie Tekstkleur',
-              defaultValue: 'var(--color-white)',
-              admin: {
-                description: 'Tekstkleur in de navigatiebalk. Gebruik var(--color-white) aanbevolen.',
-              },
-            },
-            {
-              name: 'stickyHeaderBg',
-              type: 'text',
-              label: 'Sticky Header Achtergrond (optioneel)',
-              admin: {
-                description:
-                  'Optioneel: Andere achtergrondkleur als header sticky wordt. Laat leeg om zelfde kleur te gebruiken.',
-                placeholder: 'var(--color-white)',
-              },
-            },
-            {
-              name: 'stickyHeaderShadow',
-              type: 'checkbox',
-              label: 'Sticky Header Shadow',
-              defaultValue: true,
-              admin: {
-                description: 'Toon schaduw onder header wanneer sticky (scroll)',
-              },
-            },
-          ],
-        },
-
-        // ═══════════════════════════════════════════════════════════════════════
-        // TAB 10: GEDRAG
+        // TAB 9: GEDRAG
         // ═══════════════════════════════════════════════════════════════════════
         {
           label: 'Gedrag',
@@ -1360,6 +1292,16 @@ export const Header: GlobalConfig = {
               admin: {
                 description:
                   'Header blijft bovenaan vast zitten bij scrollen. Aanbevolen voor betere navigatie.',
+              },
+            },
+            {
+              name: 'stickyHeaderShadow',
+              type: 'checkbox',
+              label: 'Sticky Header Shadow',
+              defaultValue: true,
+              admin: {
+                description: 'Toon schaduw onder header wanneer sticky (scroll)',
+                condition: (data) => data.stickyHeader === true,
               },
             },
             {

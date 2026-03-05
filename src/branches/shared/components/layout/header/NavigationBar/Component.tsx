@@ -314,15 +314,28 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
             </div>
 
             {/* CTA Button */}
-            {showCTA && (
-              <Link
-                href={navigation.ctaButton?.link || '/contact'}
-                className="ml-4 flex items-center px-5 text-sm font-bold text-white transition-all border-b-2"
-                style={{ backgroundColor: primaryColor, borderColor: primaryColor }}
-              >
-                {navigation.ctaButton?.text}
-              </Link>
-            )}
+            {showCTA && (() => {
+              const ctaStyle = navigation.ctaButton?.style || 'primary'
+              const ctaClasses = ctaStyle === 'outline'
+                ? 'border-2 bg-transparent'
+                : ctaStyle === 'secondary'
+                  ? 'text-white border-b-2'
+                  : 'text-white border-b-2'
+              const ctaColors = ctaStyle === 'outline'
+                ? { backgroundColor: 'transparent', borderColor: primaryColor, color: primaryColor }
+                : ctaStyle === 'secondary'
+                  ? { backgroundColor: secondaryColor, borderColor: secondaryColor }
+                  : { backgroundColor: primaryColor, borderColor: primaryColor }
+              return (
+                <Link
+                  href={navigation.ctaButton?.link || '/contact'}
+                  className={cn('ml-4 flex items-center px-5 text-sm font-bold transition-all', ctaClasses)}
+                  style={ctaColors}
+                >
+                  {navigation.ctaButton?.text}
+                </Link>
+              )
+            })()}
           </div>
         </div>
       </nav>
@@ -333,6 +346,7 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
         onClose={() => setMegaMenuOpen(false)}
         navTop={navTop}
         categoryNav={categoryNav}
+        categorySettings={navigation.categoryNavigation || {}}
         primaryColor={primaryColor}
         secondaryColor={secondaryColor}
       />

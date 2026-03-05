@@ -46,24 +46,42 @@ function mapHeaderData(header: any): MappedHeaderData {
             categoryNavigation: header.categoryNavigation || {},
           }
         : null,
+    // Logo & Branding
     logoOverride: header.logo || undefined,
+    logoHeight: header.logoHeight ?? 32,
+    logoUrl: header.logoUrl || '/',
     siteNameOverride: header.siteName || undefined,
     siteNameAccent: header.siteNameAccent || undefined,
+    showLogoOnMobile: header.showLogoOnMobile ?? true,
+    // Search
     enableSearch: header.searchEnabled ?? true,
     searchPlaceholder: header.searchPlaceholder || 'Zoek producten...',
+    searchKeyboardShortcut: header.searchKeyboardShortcut || '⌘K',
+    searchCategories: header.searchCategories || [],
     enablePriceToggle: header.enablePriceToggle ?? false,
     priceToggle: header.priceToggle || {
       defaultMode: 'b2c',
       b2cLabel: 'Particulier',
       b2bLabel: 'Zakelijk',
     },
+    // Header Actions
     showPhone: header.showPhoneButton ?? true,
     showCart: header.showCartButton ?? true,
     showAccount: header.showAccountButton ?? true,
     showWishlist: header.showWishlistButton ?? false,
     customButtons: header.customActionButtons || [],
+    // Sticky / Behavior
     stickyHeader: header.stickyHeader ?? true,
+    stickyBehavior: header.stickyBehavior || 'always',
+    hideTopbarOnScroll: header.hideTopbarOnScroll ?? false,
     showShadow: header.stickyHeaderShadow ?? true,
+    enableAnimations: header.enableAnimations ?? true,
+    // Mobile
+    mobileDrawerWidth: header.mobileDrawerWidth ?? 320,
+    mobileDrawerPosition: header.mobileDrawerPosition || 'left',
+    showMobileContactInfo: header.showMobileContactInfo ?? true,
+    mobileContactInfo: header.mobileContactInfo || undefined,
+    showMobileToggles: header.showMobileToggles ?? true,
   }
 }
 

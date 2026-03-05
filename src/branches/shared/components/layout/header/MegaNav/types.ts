@@ -15,6 +15,11 @@ export type MegaNavProps = {
     handleL1Select: (id: string) => void
     handleL2Select: (id: string) => void
   }
+  categorySettings?: {
+    showCategoryIcons?: boolean
+    showProductCount?: boolean
+    maxCategories?: number
+  }
   primaryColor: string
   secondaryColor: string
 }

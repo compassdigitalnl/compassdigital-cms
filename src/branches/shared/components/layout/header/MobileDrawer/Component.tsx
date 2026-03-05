@@ -17,6 +17,11 @@ export function MobileDrawer({
   theme,
   settings,
   onOpenSearch,
+  drawerWidth = 320,
+  drawerPosition = 'left',
+  showContactInfo = true,
+  contactInfoOverride,
+  showToggles = true,
 }: MobileDrawerProps) {
   const primaryColor = (theme as any)?.primaryColor || '#00897B'
   const secondaryColor = (theme as any)?.secondaryColor || '#0A1628'
@@ -86,9 +91,15 @@ export function MobileDrawer({
       {/* Drawer */}
       <div
         className={cn(
-          'fixed top-0 left-0 bottom-0 w-80 max-w-[85vw] bg-white z-[300] flex flex-col transition-transform duration-300 ease-out lg:hidden shadow-2xl',
-          isOpen ? 'translate-x-0' : '-translate-x-full',
+          'fixed top-0 bottom-0 max-w-[85vw] bg-white z-[300] flex flex-col transition-transform duration-300 ease-out lg:hidden shadow-2xl',
+          drawerPosition === 'right' ? 'right-0' : 'left-0',
+          isOpen
+            ? 'translate-x-0'
+            : drawerPosition === 'right'
+              ? 'translate-x-full'
+              : '-translate-x-full',
         )}
+        style={{ width: `${drawerWidth}px` }}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-gray-200 flex-shrink-0">
@@ -98,7 +109,8 @@ export function MobileDrawer({
             <img
               src={(header as any).logo.url}
               alt={(header as any).siteName || 'Logo'}
-              className="h-7 w-auto"
+              className="w-auto"
+              style={{ height: `${Math.min((header as any).logoHeight || 28, 36)}px` }}
             />
           ) : (header as any).siteName ? (
             <span className="text-lg font-extrabold" style={{ color: secondaryColor }}>
@@ -226,7 +238,7 @@ export function MobileDrawer({
         {/* Footer */}
         <div className="border-t border-gray-200 p-5 flex-shrink-0 flex flex-col gap-3">
           {/* B2B/B2C Toggle */}
-          {enablePriceToggle && (
+          {showToggles && enablePriceToggle && (
             <button
               onClick={togglePriceMode}
               className="flex items-center justify-between w-full px-3 py-2.5 rounded-lg bg-gray-50 transition-colors"
@@ -261,7 +273,7 @@ export function MobileDrawer({
           )}
 
           {/* Language Switcher */}
-          {enableLanguageSwitcher && languages && languages.length > 0 && (
+          {showToggles && enableLanguageSwitcher && languages && languages.length > 0 && (
             <div className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-gray-50">
               <span
                 className="flex items-center gap-2 text-sm font-semibold"
@@ -291,26 +303,34 @@ export function MobileDrawer({
           )}
 
           {/* Contact Info */}
-          {settings?.phone && (
-            <a
-              href={`tel:${settings.phone}`}
-              className="flex items-center gap-2 text-sm font-semibold"
-              style={{ color: secondaryColor }}
-            >
-              <Phone className="w-4 h-4" style={{ color: primaryColor }} />
-              {settings.phone}
-            </a>
-          )}
-          {settings?.email && (
-            <a
-              href={`mailto:${settings.email}`}
-              className="flex items-center gap-2 text-sm font-semibold"
-              style={{ color: secondaryColor }}
-            >
-              <Mail className="w-4 h-4" style={{ color: primaryColor }} />
-              {settings.email}
-            </a>
-          )}
+          {showContactInfo && (() => {
+            const phone = contactInfoOverride?.phone || settings?.phone
+            const email = contactInfoOverride?.email || settings?.email
+            return (
+              <>
+                {phone && (
+                  <a
+                    href={`tel:${phone}`}
+                    className="flex items-center gap-2 text-sm font-semibold"
+                    style={{ color: secondaryColor }}
+                  >
+                    <Phone className="w-4 h-4" style={{ color: primaryColor }} />
+                    {phone}
+                  </a>
+                )}
+                {email && (
+                  <a
+                    href={`mailto:${email}`}
+                    className="flex items-center gap-2 text-sm font-semibold"
+                    style={{ color: secondaryColor }}
+                  >
+                    <Mail className="w-4 h-4" style={{ color: primaryColor }} />
+                    {email}
+                  </a>
+                )}
+              </>
+            )
+          })()}
         </div>
       </div>
     </>

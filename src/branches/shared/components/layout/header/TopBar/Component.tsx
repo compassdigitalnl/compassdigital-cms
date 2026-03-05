@@ -93,23 +93,27 @@ export function TopBar({ topBar, theme, header }: TopBarProps) {
 
         {/* Right: Links + Language Switcher — hidden on mobile */}
         <div className="hidden md:flex items-center gap-1">
-          {topBar.rightLinks?.map((link: any, index: number) => (
-            <div key={`link-${index}`} className="flex items-center">
-              {index > 0 && (
-                <div
-                  className="w-px h-3.5 mx-0.5"
-                  style={{ backgroundColor: textColor + '1A' }}
-                />
-              )}
-              <Link
-                href={link.link || '#'}
-                className="px-2.5 py-1 rounded-md text-xs font-medium transition-all hover:bg-white/10"
-                style={{ color: textColor + 'CC' }}
-              >
-                {link.label}
-              </Link>
-            </div>
-          ))}
+          {topBar.rightLinks?.map((link: any, index: number) => {
+            const LinkIcon = link.icon ? iconMap[link.icon] : null
+            return (
+              <div key={`link-${index}`} className="flex items-center">
+                {index > 0 && (
+                  <div
+                    className="w-px h-3.5 mx-0.5"
+                    style={{ backgroundColor: textColor + '1A' }}
+                  />
+                )}
+                <Link
+                  href={link.link || '#'}
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all hover:bg-white/10"
+                  style={{ color: textColor + 'CC' }}
+                >
+                  {LinkIcon && <LinkIcon className="w-3.5 h-3.5" style={{ color: primaryColor }} />}
+                  {link.label}
+                </Link>
+              </div>
+            )
+          })}
 
           {enableLanguageSwitcher && (topBar.rightLinks?.length ?? 0) > 0 && (
             <div className="w-px h-3.5 mx-1.5" style={{ backgroundColor: textColor + '2A' }} />

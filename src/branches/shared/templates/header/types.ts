@@ -39,22 +39,41 @@ export type MappedHeaderData = {
     ctaButton?: any
     categoryNavigation?: any
   } | null
+  // Logo & Branding
   logoOverride?: any
+  logoHeight: number
+  logoUrl: string
   siteNameOverride?: string
   siteNameAccent?: string
+  showLogoOnMobile: boolean
+  // Search
   enableSearch: boolean
   searchPlaceholder: string
+  searchKeyboardShortcut: string
+  searchCategories: any[]
+  // Price Toggle
   enablePriceToggle: boolean
   priceToggle: {
     defaultMode: 'b2c' | 'b2b'
     b2cLabel: string
     b2bLabel: string
   }
+  // Header Actions
   showPhone: boolean
   showCart: boolean
   showAccount: boolean
   showWishlist: boolean
   customButtons: any[]
+  // Sticky / Behavior
   stickyHeader: boolean
+  stickyBehavior: 'always' | 'scroll-up' | 'scroll-down'
+  hideTopbarOnScroll: boolean
   showShadow: boolean
+  enableAnimations: boolean
+  // Mobile
+  mobileDrawerWidth: number
+  mobileDrawerPosition: 'left' | 'right'
+  showMobileContactInfo: boolean
+  mobileContactInfo?: { phone?: string; email?: string }
+  showMobileToggles: boolean
 }

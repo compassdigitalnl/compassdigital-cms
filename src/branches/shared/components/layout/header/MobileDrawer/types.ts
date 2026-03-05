@@ -13,4 +13,10 @@ export type MobileDrawerProps = {
   theme: Theme1 | null
   settings?: Setting | null
   onOpenSearch?: () => void
+  // Mobile settings from mapped data
+  drawerWidth?: number
+  drawerPosition?: 'left' | 'right'
+  showContactInfo?: boolean
+  contactInfoOverride?: { phone?: string; email?: string }
+  showToggles?: boolean
 }

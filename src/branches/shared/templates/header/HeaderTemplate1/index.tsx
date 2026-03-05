@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { cn } from '@/utilities/cn'
 import {
   Search,
@@ -70,10 +70,15 @@ export default function HeaderTemplate1({
     alertBar,
     navigation,
     logoOverride,
+    logoHeight,
+    logoUrl,
     siteNameOverride,
     siteNameAccent,
+    showLogoOnMobile,
     enableSearch,
     searchPlaceholder,
+    searchKeyboardShortcut,
+    searchCategories,
     showPhone,
     showWishlist,
     showAccount,
@@ -83,9 +88,41 @@ export default function HeaderTemplate1({
     showShadow,
   } = mapped
 
-  const headerClasses = cn('bg-white border-b transition-all', {
+  const { stickyBehavior, hideTopbarOnScroll, enableAnimations } = mapped
+
+  // Scroll direction tracking for stickyBehavior and hideTopbarOnScroll
+  const lastScrollY = useRef(0)
+  const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>('up')
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    if (!stickyHeader || (stickyBehavior === 'always' && !hideTopbarOnScroll)) return
+
+    const handleScroll = () => {
+      const currentY = window.scrollY
+      setIsScrolled(currentY > 10)
+      setScrollDirection(currentY > lastScrollY.current ? 'down' : 'up')
+      lastScrollY.current = currentY
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [stickyHeader, stickyBehavior, hideTopbarOnScroll])
+
+  // Determine if header should be visible based on stickyBehavior
+  const isHeaderVisible =
+    !stickyHeader ||
+    stickyBehavior === 'always' ||
+    (stickyBehavior === 'scroll-up' && scrollDirection === 'up') ||
+    (stickyBehavior === 'scroll-down' && scrollDirection === 'down')
+
+  // Determine if topbar should be hidden on scroll
+  const isTopbarHidden = hideTopbarOnScroll && isScrolled && stickyHeader
+
+  const headerClasses = cn('bg-white border-b', {
     'sticky top-0 z-50': stickyHeader,
     'shadow-sm': showShadow,
+    'transition-all': enableAnimations,
+    '-translate-y-full': stickyHeader && !isHeaderVisible,
   })
 
   const headerStyle = {
@@ -98,7 +135,7 @@ export default function HeaderTemplate1({
       {alertBar?.enabled && <AlertBar alertBar={alertBar} theme={theme} />}
 
       {/* Top Bar */}
-      {topBar?.enabled && <TopBar topBar={topBar} theme={theme} header={header} />}
+      {topBar?.enabled && !isTopbarHidden && <TopBar topBar={topBar} theme={theme} header={header} />}
 
       {/* Main Header */}
       <header className={headerClasses} style={headerStyle}>
@@ -114,14 +151,15 @@ export default function HeaderTemplate1({
             </button>
 
             {/* Logo */}
-            <Link href="/" className="flex items-center">
+            <Link href={logoUrl} className={cn('flex items-center', !showLogoOnMobile && 'hidden md:flex')}>
               {logoOverride &&
               typeof logoOverride === 'object' &&
               logoOverride.url ? (
                 <img
                   src={logoOverride.url}
                   alt={siteNameOverride || 'Logo'}
-                  className="h-9 w-auto"
+                  className="w-auto"
+                  style={{ height: `${logoHeight}px` }}
                 />
               ) : siteNameOverride ? (
                 <span className="text-xl font-extrabold text-[var(--color-secondary,#0A1628)]">
@@ -232,7 +270,7 @@ export default function HeaderTemplate1({
                   </div>
                 )}
 
-                {/* Command+K Badge */}
+                {/* Keyboard Shortcut Badge */}
                 <div
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-semibold font-mono bg-white border rounded px-2 py-0.5 pointer-events-none hidden xl:block"
                   style={{
@@ -240,9 +278,29 @@ export default function HeaderTemplate1({
                     borderColor: 'var(--color-border, #e5e7eb)',
                   }}
                 >
-                  &#8984;K
+                  {searchKeyboardShortcut}
                 </div>
               </button>
+            )}
+
+            {/* Search Quick Categories — desktop */}
+            {enableSearch && searchCategories.length > 0 && (
+              <div className="hidden lg:flex items-center gap-2 absolute left-1/2 -translate-x-1/2 top-[60px]">
+                {searchCategories.map((cat: any, i: number) => {
+                  const CatIcon = cat.icon ? iconMap[cat.icon] : null
+                  return (
+                    <Link
+                      key={i}
+                      href={cat.url || '#'}
+                      className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium transition-all hover:bg-gray-100"
+                      style={{ color: 'var(--color-text-secondary, #64748b)' }}
+                    >
+                      {CatIcon && <CatIcon className="w-3 h-3" />}
+                      {cat.label}
+                    </Link>
+                  )
+                })}
+              </div>
             )}
 
             {/* Action Buttons */}
@@ -290,6 +348,7 @@ export default function HeaderTemplate1({
                     className={cn(
                       'h-[42px] px-4 rounded-[10px] border border-transparent flex items-center justify-center gap-2 transition-all text-sm font-semibold',
                       buttonStyle,
+                      button.showOnMobile === false && 'hidden lg:flex',
                     )}
                     title={button.label || undefined}
                   >
@@ -379,6 +438,11 @@ export default function HeaderTemplate1({
         theme={theme}
         settings={settings}
         onOpenSearch={openSearch}
+        drawerWidth={mapped.mobileDrawerWidth}
+        drawerPosition={mapped.mobileDrawerPosition}
+        showContactInfo={mapped.showMobileContactInfo}
+        contactInfoOverride={mapped.mobileContactInfo}
+        showToggles={mapped.showMobileToggles}
       />
     </>
   )
