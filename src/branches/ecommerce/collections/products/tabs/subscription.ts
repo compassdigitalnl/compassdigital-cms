@@ -93,7 +93,7 @@ export const subscriptionProductTabs: Tab[] = featureTab('subscriptions', {
       name: 'subscriptionProductInfo',
       admin: {
         condition: (data: any) => data.productType !== 'subscription',
-        components: { Field: '@/branches/shared/components/admin/NullField#NullField' },
+        components: { Field: '@/branches/shared/components/admin/fields/NullField#NullField' },
       },
     },
   ],

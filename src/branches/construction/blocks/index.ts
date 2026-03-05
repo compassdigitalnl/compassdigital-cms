@@ -6,7 +6,7 @@
  *
  * Usage in Pages collection:
  * ```ts
- * import { isConstructionEnabled } from '@/lib/features/isFeatureEnabled'
+ * import { isFeatureEnabled } from '@/lib/features'
  * import { constructionBlocks } from '@/branches/construction/blocks'
  *
  * blocks: [

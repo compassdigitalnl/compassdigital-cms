@@ -1,5 +1,5 @@
 import type { CollectionAfterChangeHook } from 'payload'
-import { emailService } from '@/lib/email/EmailService'
+import { emailService } from '@/features/email-marketing/lib/EmailService'
 
 /**
  * Product AfterChange Hook: Notify Edition Subscribers

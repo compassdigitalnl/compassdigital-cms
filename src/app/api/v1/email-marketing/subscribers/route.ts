@@ -12,7 +12,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { requireApiKey } from '@/lib/email/api-auth/validateApiKey'
+import { requireApiKey } from '@/features/email-marketing/lib/api-auth/validateApiKey'
 
 /**
  * GET /api/v1/email-marketing/subscribers

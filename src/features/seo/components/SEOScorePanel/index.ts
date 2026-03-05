@@ -1,0 +1,1 @@
+export { SEOScorePanel } from './Component'

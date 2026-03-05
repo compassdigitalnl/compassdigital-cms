@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
     // ── Run provisioning ───────────────────────────────────────────────────
     console.log(`[API /provision] Starting provisioning for client ${clientId} via Ploi`)
 
-    const { provisionClient } = await import('@/lib/provisioning/provisionClient')
+    const { provisionClient } = await import('@/features/platform/lib/provisioning/provisionClient')
 
     const result = await provisionClient({
       clientId,

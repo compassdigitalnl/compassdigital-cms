@@ -3,7 +3,7 @@
 import React from 'react'
 import { StatusBadge } from '@/branches/ecommerce/components/account/ui'
 import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
-import { formatPaymentStatus } from '@/utilities/formatOrderStatus'
+import { formatPaymentStatus } from '@/branches/ecommerce/lib/formatOrderStatus'
 import type { OrderSummaryCardProps } from './types'
 
 const paymentMethodLabels: Record<string, string> = {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { formatOrderStatus } from '@/utilities/formatOrderStatus'
+import { formatOrderStatus } from '@/branches/ecommerce/lib/formatOrderStatus'
 import type { StatusBadgeProps } from './types'
 
 export function StatusBadge({ status, label, statusInfo, className = '' }: StatusBadgeProps) {

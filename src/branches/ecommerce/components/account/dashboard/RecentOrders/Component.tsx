@@ -6,7 +6,7 @@ import { Package, ChevronRight } from 'lucide-react'
 import { features } from '@/lib/features'
 import { StatusBadge } from '@/branches/ecommerce/components/account/ui'
 import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
-import { formatOrderStatus } from '@/utilities/formatOrderStatus'
+import { formatOrderStatus } from '@/branches/ecommerce/lib/formatOrderStatus'
 import type { RecentOrdersProps } from './types'
 
 export function RecentOrders({ orders }: RecentOrdersProps) {

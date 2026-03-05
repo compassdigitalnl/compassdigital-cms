@@ -12,11 +12,11 @@
 import { Worker, Job } from 'bullmq'
 import { redis } from '../redis'
 import { baseWorkerConfig } from '../config'
-import { ListmonkClient } from '@/lib/email/listmonk/client'
+import { ListmonkClient } from '@/features/email-marketing/lib/listmonk/client'
 import type { Payload } from 'payload'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { getUsageTracker } from '@/lib/email/billing/usage-tracker'
+import { getUsageTracker } from '@/features/email-marketing/lib/billing/usage-tracker'
 import {
   classifyError,
   shouldRetry,

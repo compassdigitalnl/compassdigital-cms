@@ -7,7 +7,7 @@
  */
 
 import React from 'react'
-import PlatformSidebar from '@/branches/platform/components/PlatformSidebar'
+import PlatformSidebar from '@/features/platform/components/PlatformSidebar'
 import '../globals.css'
 
 export const metadata = {

@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
 import { useEcommerceSettings } from './useEcommerceSettings'
-import { getTaxRate, type TaxClass } from '@/lib/pricing/calculatePrice'
+import { getTaxRate, type TaxClass } from '@/branches/ecommerce/lib/pricing/calculatePrice'
 
 export function usePriceMode() {
   const [mode, setMode] = useState<'b2c' | 'b2b'>(() => {

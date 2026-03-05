@@ -53,7 +53,7 @@ export const configuratorProductTabs: Tab[] = featureTab('configuratorProducts',
       name: 'configuratorProductInfo',
       admin: {
         condition: (data: any) => data.productType !== 'configurator',
-        components: { Field: '@/branches/shared/components/admin/NullField#NullField' },
+        components: { Field: '@/branches/shared/components/admin/fields/NullField#NullField' },
       },
     },
   ],

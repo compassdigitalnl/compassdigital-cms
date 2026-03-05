@@ -240,7 +240,7 @@ export const Pages: CollectionConfig = {
       admin: {
         position: 'sidebar',
         components: {
-          Field: '@/branches/shared/components/seo/SEOScorePanel#SEOScorePanel',
+          Field: '@/features/seo/components/SEOScorePanel#SEOScorePanel',
         },
       },
     },
@@ -252,7 +252,7 @@ export const Pages: CollectionConfig = {
       admin: {
         position: 'sidebar',
         components: {
-          Field: '@/branches/shared/components/seo/SchemaPreviewPanel#SchemaPreviewPanel',
+          Field: '@/features/seo/components/SchemaPreviewPanel#SchemaPreviewPanel',
         },
       },
     },
@@ -264,7 +264,7 @@ export const Pages: CollectionConfig = {
       revalidatePage,
       async ({ doc }) => {
         // Fire-and-forget: index page in Meilisearch
-        import('@/lib/meilisearch/indexPages').then(({ indexPage }) => {
+        import('@/features/search/lib/meilisearch/indexPages').then(({ indexPage }) => {
           indexPage(doc).catch(() => {})
         }).catch(() => {})
       },
@@ -273,7 +273,7 @@ export const Pages: CollectionConfig = {
       revalidateDelete,
       async ({ doc }) => {
         // Fire-and-forget: remove page from Meilisearch
-        import('@/lib/meilisearch/indexPages').then(({ deletePageFromIndex }) => {
+        import('@/features/search/lib/meilisearch/indexPages').then(({ deletePageFromIndex }) => {
           deletePageFromIndex(doc.id).catch(() => {})
         }).catch(() => {})
       },

@@ -17,7 +17,7 @@ import {
   scheduleTenantReconciliation,
   clearAllSchedules,
 } from '@/lib/queue/schedulers/reconciliationScheduler'
-import { getReconciler } from '@/lib/email/reconciliation/reconciler'
+import { getReconciler } from '@/features/email-marketing/lib/reconciliation/reconciler'
 import { rateLimit, RateLimitPresets } from '@/lib/security/rate-limiter'
 import { checkRole, isUser } from '@/access/utilities'
 

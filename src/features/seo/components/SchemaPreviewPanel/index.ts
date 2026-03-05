@@ -1,0 +1,1 @@
+export { SchemaPreviewPanel } from './Component'

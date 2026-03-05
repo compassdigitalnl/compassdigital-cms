@@ -1,1 +1,0 @@
-export { LegalLayout } from './LegalLayout'

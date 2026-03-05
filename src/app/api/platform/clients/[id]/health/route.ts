@@ -3,7 +3,7 @@
  * GET /api/platform/clients/:id/health - Check client health
  */
 
-import { GET_ClientHealth } from '@/branches/platform/api/clients'
+import { GET_ClientHealth } from '@/features/platform/api/clients'
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params

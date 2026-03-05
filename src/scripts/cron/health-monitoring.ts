@@ -15,10 +15,10 @@
  *   * * * * * cd /app && npx tsx src/scripts/cron/health-monitoring.ts
  */
 
-import { getHealthChecker } from '@/lib/email/monitoring/HealthChecker'
-import { getMetricsCollector } from '@/lib/email/monitoring/MetricsCollector'
-import { getAlertManager } from '@/lib/email/monitoring/AlertManager'
-import { captureError, addBreadcrumb } from '@/lib/email/monitoring/SentryIntegration'
+import { getHealthChecker } from '@/features/email-marketing/lib/monitoring/HealthChecker'
+import { getMetricsCollector } from '@/features/email-marketing/lib/monitoring/MetricsCollector'
+import { getAlertManager } from '@/features/email-marketing/lib/monitoring/AlertManager'
+import { captureError, addBreadcrumb } from '@/features/email-marketing/lib/monitoring/SentryIntegration'
 
 /**
  * Main monitoring function

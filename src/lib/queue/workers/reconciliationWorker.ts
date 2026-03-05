@@ -8,8 +8,8 @@
 import { Worker, Job, WorkerOptions } from 'bullmq'
 import { redis } from '../redis'
 import { baseWorkerConfig } from '../config'
-import { getReconciler } from '@/lib/email/reconciliation/reconciler'
-import type { ReconciliationResult } from '@/lib/email/reconciliation/reconciler'
+import { getReconciler } from '@/features/email-marketing/lib/reconciliation/reconciler'
+import type { ReconciliationResult } from '@/features/email-marketing/lib/reconciliation/reconciler'
 import {
   classifyError,
   shouldRetry,

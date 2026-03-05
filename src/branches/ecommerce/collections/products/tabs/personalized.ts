@@ -111,7 +111,7 @@ export const personalizedProductTabs: Tab[] = featureTab('personalizedProducts',
       name: 'personalizedProductInfo',
       admin: {
         condition: (data: any) => data.productType !== 'personalized',
-        components: { Field: '@/branches/shared/components/admin/NullField#NullField' },
+        components: { Field: '@/branches/shared/components/admin/fields/NullField#NullField' },
       },
     },
   ],

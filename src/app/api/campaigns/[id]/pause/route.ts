@@ -8,7 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { ListmonkClient } from '@/lib/email/listmonk/client'
+import { ListmonkClient } from '@/features/email-marketing/lib/listmonk/client'
 import { emailMarketingFeatures } from '@/lib/features'
 import { checkRole, isUser } from '@/access/utilities'
 

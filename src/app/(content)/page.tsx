@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { RenderBlocks } from '@/branches/shared/blocks/RenderBlocks'
-import { JsonLdSchema } from '@/branches/shared/components/seo/JsonLdSchema'
+import { JsonLdSchema } from '@/features/seo/components/JsonLdSchema'
 import type { Page } from 'src/payload-types'
 
 export const metadata = {

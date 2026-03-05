@@ -10,7 +10,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { validateDNS, extractDomain } from '@/lib/email/deliverability/dns-validator'
+import { validateDNS, extractDomain } from '@/features/email-marketing/lib/deliverability/dns-validator'
 import { emailMarketingFeatures } from '@/lib/features'
 
 export async function POST(request: NextRequest) {

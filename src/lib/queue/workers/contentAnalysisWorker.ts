@@ -6,7 +6,7 @@
 import { Worker, Job, WorkerOptions } from 'bullmq'
 import { redis, getCached, generateContentHash } from '../redis'
 import { QUEUE_NAMES, ContentAnalysisJob, baseWorkerConfig } from '../config'
-import { contentAnalyzer } from '@/lib/ai'
+import { contentAnalyzer } from '@/features/ai/lib'
 import { sendSSEUpdate } from '../sse'
 
 // Create worker

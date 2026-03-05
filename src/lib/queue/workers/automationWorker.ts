@@ -9,7 +9,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { redis } from '../redis'
 import { baseWorkerConfig } from '../config'
-import { updateRuleStats } from '@/lib/email/automation/engine'
+import { updateRuleStats } from '@/features/email-marketing/lib/automation/engine'
 import type {
   AutomationExecutionContext,
   Action,
@@ -20,8 +20,8 @@ import type {
   RemoveTagAction,
   WaitAction,
   WebhookAction,
-} from '@/lib/email/automation/types'
-import { ListmonkClient } from '@/lib/email/listmonk/client'
+} from '@/features/email-marketing/lib/automation/types'
+import { ListmonkClient } from '@/features/email-marketing/lib/listmonk/client'
 
 const listmonkClient = new ListmonkClient()
 

@@ -1,6 +1,6 @@
 import type { CollectionConfig, Tab } from 'payload'
 import { autoGenerateSlug } from '@/utilities/slugify'
-import { autoFillSEO, autoSetPublishedDate, autoUpdateStockStatus } from '@/utilities/seoAutoFill'
+import { autoFillSEO, autoSetPublishedDate, autoUpdateStockStatus } from '@/features/seo/lib/seoAutoFill'
 
 /**
  * Products Collection - Enterprise Template with 63+ fields

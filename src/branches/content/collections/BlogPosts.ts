@@ -3,7 +3,7 @@ import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
 import { featureFields } from '@/lib/featureFields'
 import { autoGenerateSlug } from '@/utilities/slugify'
-import { autoFillSEO, autoSetPublishedDate, autoSetAuthor } from '@/utilities/seoAutoFill'
+import { autoFillSEO, autoSetPublishedDate, autoSetAuthor } from '@/features/seo/lib/seoAutoFill'
 import {
   BoldFeature,
   HeadingFeature,
@@ -468,7 +468,7 @@ export const BlogPosts: CollectionConfig = {
     afterChange: [
       async ({ doc }) => {
         // Fire-and-forget: index blog post in Meilisearch
-        import('@/lib/meilisearch/indexBlogPosts').then(({ indexBlogPost }) => {
+        import('@/features/search/lib/meilisearch/indexBlogPosts').then(({ indexBlogPost }) => {
           indexBlogPost(doc).catch(() => {})
         }).catch(() => {})
       },
@@ -476,7 +476,7 @@ export const BlogPosts: CollectionConfig = {
     afterDelete: [
       async ({ doc }) => {
         // Fire-and-forget: remove blog post from Meilisearch
-        import('@/lib/meilisearch/indexBlogPosts').then(({ deleteBlogPostFromIndex }) => {
+        import('@/features/search/lib/meilisearch/indexBlogPosts').then(({ deleteBlogPostFromIndex }) => {
           deleteBlogPostFromIndex(doc.id).catch(() => {})
         }).catch(() => {})
       },

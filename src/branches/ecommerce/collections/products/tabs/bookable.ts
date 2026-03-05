@@ -96,7 +96,7 @@ export const bookableProductTabs: Tab[] = featureTab('bookableProducts', {
       name: 'bookableProductInfo',
       admin: {
         condition: (data: any) => data.productType !== 'bookable',
-        components: { Field: '@/branches/shared/components/admin/NullField#NullField' },
+        components: { Field: '@/branches/shared/components/admin/fields/NullField#NullField' },
       },
     },
   ],

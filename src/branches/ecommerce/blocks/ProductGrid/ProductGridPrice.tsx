@@ -1,7 +1,7 @@
 'use client'
 
 import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
-import type { TaxClass } from '@/lib/pricing/calculatePrice'
+import type { TaxClass } from '@/branches/ecommerce/lib/pricing/calculatePrice'
 
 interface ProductGridPriceProps {
   price: number | null | undefined

@@ -7,7 +7,7 @@
 import { Worker, Job, WorkerOptions } from 'bullmq'
 import { redis } from '../redis'
 import { baseWorkerConfig } from '../config'
-import { executeFlowStep } from '@/lib/email/flows/executor'
+import { executeFlowStep } from '@/features/email-marketing/lib/flows/executor'
 import {
   classifyError,
   shouldRetry,

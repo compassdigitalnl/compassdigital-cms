@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { cleanupExpiredReservations } from '@/lib/stock/reservations'
+import { cleanupExpiredReservations } from '@/branches/ecommerce/lib/stock/reservations'
 
 /**
  * GET /api/cron/cleanup-stock-reservations

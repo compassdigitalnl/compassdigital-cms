@@ -101,10 +101,10 @@ import { Themes } from '@/branches/shared/collections/Themes'
 import { Pages } from '@/branches/shared/collections/Pages'
 import { Users } from '@/branches/shared/collections/Users'
 
-// Platform Branch (Multi-Tenant - 3 collections)
-import { Clients } from '@/branches/platform/collections/Clients'
-import { ClientRequests } from '@/branches/platform/collections/ClientRequests'
-import { Deployments } from '@/branches/platform/collections/Deployments'
+// Platform Feature (Multi-Tenant - 3 collections)
+import { Clients } from '@/features/platform/collections/Clients'
+import { ClientRequests } from '@/features/platform/collections/ClientRequests'
+import { Deployments } from '@/features/platform/collections/Deployments'
 
 // Construction Branch (4 collections - Sprint 2)
 import { ConstructionServices } from '@/branches/construction/collections/ConstructionServices'
@@ -127,7 +127,7 @@ import { MenuItems } from '@/branches/horeca/collections/MenuItems'
 import { Reservations } from '@/branches/horeca/collections/Reservations'
 import { Events } from '@/branches/horeca/collections/Events'
 
-// Email Marketing Branch (8 collections - Feature flagged)
+// Email Marketing Feature (8 collections - Feature flagged)
 import { emailMarketingFeatures } from '@/lib/features'
 import {
   EmailSubscribers,
@@ -139,16 +139,16 @@ import {
   FlowInstances,
   EmailEvents,
   EmailApiKeys,
-} from '@/branches/shared/collections/email-marketing'
+} from '@/features/email-marketing/collections'
 
 // Globals (Consolidated: 8 → 6 globals!)
-import { Footer } from '@/globals/Footer'
-import { Header } from '@/globals/Header'
-import { MeilisearchSettings } from '@/globals/MeilisearchSettings'
-import { ChatbotSettings } from '@/globals/ChatbotSettings'
-import { Settings } from '@/globals/Settings'
+import { Footer } from '@/globals/site/footer/Footer'
+import { Header } from '@/globals/site/header/Header'
+import { MeilisearchSettings } from '@/features/search/globals/MeilisearchSettings'
+import { ChatbotSettings } from '@/features/ai/globals/ChatbotSettings'
+import { Settings } from '@/globals/site/Settings'
 import { EcommerceSettings } from '@/branches/ecommerce/collections/ecommerce-settings'
-import { Theme } from '@/globals/Theme'
+import { Theme } from '@/globals/design/Theme'
 
 // Plugins
 import { plugins } from './plugins'
@@ -199,7 +199,7 @@ export default buildConfig({
       beforeLogin: ['@/branches/shared/components/admin/BeforeLogin#BeforeLogin'],
       beforeDashboard: ['@/branches/shared/components/admin/BeforeDashboard#BeforeDashboard'],
       beforeNavLinks: [
-        '@/branches/platform/components/ClientSwitcher#ClientSwitcher',
+        '@/features/platform/components/ClientSwitcher#ClientSwitcher',
         '@/branches/shared/components/admin/HideCollections#HideCollections',
       ],
       graphics: {
@@ -212,7 +212,7 @@ export default buildConfig({
       titleSuffix: '— Contyzr CMS',
     },
     // Custom CSS - Contyzr Brand Styling (DISABLED - uncomment to re-enable)
-    // css: path.resolve(dirname, 'styles/admin.scss'),
+    // css: path.resolve(dirname, 'globals/design/styles/admin.scss'),
   },
 
   // ─── Editor ───────────────────────────────

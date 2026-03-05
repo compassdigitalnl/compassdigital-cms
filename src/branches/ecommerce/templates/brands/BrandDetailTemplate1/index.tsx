@@ -6,8 +6,8 @@ import type { Brand, Media, Product } from '@/payload-types'
 import { TrendingUp, Layers } from 'lucide-react'
 
 // Layout
-import { Breadcrumbs } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumbs'
-import type { BreadcrumbItem } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumbs'
+import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
+import type { BreadcrumbItem } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 
 // Brand components
 import { BrandHero } from '@/branches/ecommerce/components/brands/BrandHero/Component'

@@ -1,0 +1,5 @@
+export { Search } from './components'
+export { SearchProvider, useSearch } from './components/SearchProvider'
+export { InstantSearch } from './components/InstantSearch'
+export { ReindexButton } from './components/ReindexButton'
+export { MeilisearchSettings } from './globals/MeilisearchSettings'

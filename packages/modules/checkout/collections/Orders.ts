@@ -533,7 +533,7 @@ export const Orders: CollectionConfig = {
         // ========================================
         // SEND EMAIL NOTIFICATIONS
         // ========================================
-        const { emailService } = await import('@/lib/email/EmailService')
+        const { emailService } = await import('@/features/email-marketing/lib/EmailService')
 
         // Get customer email
         let customerEmail = doc.customerEmail // Guest checkout

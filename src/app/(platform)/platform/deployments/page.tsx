@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import DeploymentsTable from '@/branches/platform/components/DeploymentsTable'
+import DeploymentsTable from '@/features/platform/components/DeploymentsTable'
 
 export default function DeploymentsPage() {
   return (

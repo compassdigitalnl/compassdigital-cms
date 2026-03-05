@@ -7,8 +7,8 @@ import { Worker, Job, WorkerOptions } from 'bullmq'
 import { redis } from '../redis'
 import { QUEUE_NAMES, baseWorkerConfig } from '../config'
 import { sendSSEUpdate } from '../sse'
-import { SiteGeneratorService } from '@/lib/siteGenerator/SiteGeneratorService'
-import type { WizardState } from '@/lib/siteGenerator/types'
+import { SiteGeneratorService } from '@/features/platform/lib/siteGenerator/SiteGeneratorService'
+import type { WizardState } from '@/features/platform/lib/siteGenerator/types'
 
 interface SiteGenerationJob {
   jobId: string

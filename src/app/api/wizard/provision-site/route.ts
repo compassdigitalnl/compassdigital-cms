@@ -11,9 +11,9 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { sendProgress } from '@/app/api/ai/stream/stream-utils'
-import { WizardState } from '@/lib/siteGenerator/types'
-import { computeCMSConfig } from '@/lib/provisioning/CMSConfigService'
-import type { ProvisioningProgress } from '@/lib/provisioning/types'
+import { WizardState } from '@/features/platform/lib/siteGenerator/types'
+import { computeCMSConfig } from '@/features/platform/lib/provisioning/CMSConfigService'
+import type { ProvisioningProgress } from '@/features/platform/lib/provisioning/types'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -102,7 +102,7 @@ async function provisionClientSite(
     // ===== STAP 2: Start Provisioning via Ploi =====
     await sendProgressUpdate(10, 'Deployment starten via Ploi...')
 
-    const { createProvisioningService } = await import('@/lib/provisioning/ProvisioningService')
+    const { createProvisioningService } = await import('@/features/platform/lib/provisioning/ProvisioningService')
 
     const provisioningService = await createProvisioningService('ploi', {
       onProgress: async (provProgress: ProvisioningProgress) => {

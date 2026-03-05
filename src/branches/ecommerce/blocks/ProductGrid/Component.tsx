@@ -8,7 +8,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Icon } from '@/branches/shared/components/common/Icon'
-import { SectionLabel } from '@/branches/shared/components/admin/SectionLabel'
+import { SectionLabel } from '@/branches/shared/components/ui/SectionLabel'
 import { ProductGridPrice } from './ProductGridPrice'
 import type { ProductGridBlock as ProductGridType } from '@/payload-types'
 import type { Product } from '@/payload-types'

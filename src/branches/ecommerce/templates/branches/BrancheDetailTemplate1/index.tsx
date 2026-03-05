@@ -3,7 +3,7 @@
 import React from 'react'
 import { TrendingUp } from 'lucide-react'
 
-import { Breadcrumbs } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumbs'
+import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 import { BranchHero } from '@/branches/ecommerce/components/branches/BranchHero/Component'
 import { BranchUSPCards } from '@/branches/ecommerce/components/branches/BranchUSPCards/Component'
 import { BranchCategoryGrid } from '@/branches/ecommerce/components/branches/BranchCategoryGrid/Component'

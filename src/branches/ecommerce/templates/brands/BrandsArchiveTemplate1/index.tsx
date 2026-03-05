@@ -5,8 +5,8 @@ import type { Brand, Media } from '@/payload-types'
 import { Award } from 'lucide-react'
 
 // Layout
-import { Breadcrumbs } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumbs'
-import type { BreadcrumbItem } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumbs'
+import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
+import type { BreadcrumbItem } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 
 // Brand components
 import { BrandCard } from '@/branches/ecommerce/components/brands/BrandCard/Component'

@@ -64,9 +64,9 @@ const blockRegistry: Record<string, () => Promise<any>> = {
  * Global imports
  */
 const globalRegistry: Record<string, () => Promise<any>> = {
-  header: () => import('@/globals/Header'),
-  footer: () => import('@/globals/Footer'),
-  settings: () => import('@/globals/Settings'),
+  header: () => import('@/globals/site/header/Header'),
+  footer: () => import('@/globals/site/footer/Footer'),
+  settings: () => import('@/globals/site/Settings'),
 }
 
 /**

@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { CheckCircle2, Clock, Package, MapPin, CreditCard } from 'lucide-react'
-import { buildOrderTimeline } from '@/utilities/buildOrderTimeline'
+import { buildOrderTimeline } from '@/branches/ecommerce/lib/buildOrderTimeline'
 import { OrderDetailHeader, TrackingBanner, OrderSummaryCard } from '@/branches/ecommerce/components/account/orders'
 import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { OrderDetailTemplateProps } from './types'

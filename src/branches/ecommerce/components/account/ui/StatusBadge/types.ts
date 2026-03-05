@@ -1,4 +1,4 @@
-import type { OrderStatusInfo } from '@/utilities/formatOrderStatus'
+import type { OrderStatusInfo } from '@/branches/ecommerce/lib/formatOrderStatus'
 
 export interface StatusBadgeProps {
   status: string

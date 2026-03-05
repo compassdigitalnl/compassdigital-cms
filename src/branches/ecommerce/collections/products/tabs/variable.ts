@@ -59,7 +59,7 @@ export const variableProductTabs: Tab[] = featureTab('variableProducts', {
       name: 'variableProductInfo',
       admin: {
         condition: (data: any) => data.productType !== 'variable',
-        components: { Field: '@/branches/shared/components/admin/NullField#NullField' },
+        components: { Field: '@/branches/shared/components/admin/fields/NullField#NullField' },
       },
     },
   ],

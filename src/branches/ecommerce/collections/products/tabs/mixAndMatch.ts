@@ -43,7 +43,7 @@ export const mixAndMatchTabs: Tab[] = featureTab('mixAndMatch', {
       name: 'mixMatchProductInfo',
       admin: {
         condition: (data: any) => data.productType !== 'mixAndMatch',
-        components: { Field: '@/branches/shared/components/admin/NullField#NullField' },
+        components: { Field: '@/branches/shared/components/admin/fields/NullField#NullField' },
       },
     },
   ],

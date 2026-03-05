@@ -2,8 +2,8 @@
 
 import type { BlogPost, BlogCategory } from '@/payload-types'
 import { Calendar, User, Sparkles } from 'lucide-react'
-import { PrevNextNavigation } from '@/branches/shared/components/features/blog/blog/PrevNextNavigation'
-import { ReadingProgressBar } from '@/branches/shared/components/features/blog/blog/ReadingProgressBar'
+import { PrevNextNavigation } from '@/branches/content/components/blog/PrevNextNavigation'
+import { ReadingProgressBar } from '@/branches/content/components/blog/ReadingProgressBar'
 import { BlogPostWithPaywall } from '@/branches/content/components/BlogPostWithPaywall'
 
 interface BlogTemplate3Props {

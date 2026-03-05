@@ -19,12 +19,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { processEvent } from '@/lib/email/automation/engine'
-import { isValidEventType } from '@/lib/email/automation/types'
-import type { EventPayload } from '@/lib/email/automation/types'
+import { processEvent } from '@/features/email-marketing/lib/automation/engine'
+import { isValidEventType } from '@/features/email-marketing/lib/automation/types'
+import type { EventPayload } from '@/features/email-marketing/lib/automation/types'
 import { emailMarketingFeatures } from '@/lib/features'
-import { applyWebhookRateLimit, recordWebhookResult } from '@/lib/email/webhooks/RateLimiter'
-import { verifyWebhookSignature } from '@/lib/email/webhooks/SignatureVerifier'
+import { applyWebhookRateLimit, recordWebhookResult } from '@/features/email-marketing/lib/webhooks/RateLimiter'
+import { verifyWebhookSignature } from '@/features/email-marketing/lib/webhooks/SignatureVerifier'
 
 export async function POST(request: NextRequest) {
   let tenantId: string | undefined

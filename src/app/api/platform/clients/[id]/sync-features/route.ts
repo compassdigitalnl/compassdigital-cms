@@ -18,7 +18,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { checkRole } from '@/access/utilities'
 import { generateFeatureEnvVars } from '@/lib/features'
-import { PloiAdapter } from '@/lib/provisioning/adapters/PloiAdapter'
+import { PloiAdapter } from '@/features/platform/lib/provisioning/adapters/PloiAdapter'
 
 export async function POST(
   request: NextRequest,

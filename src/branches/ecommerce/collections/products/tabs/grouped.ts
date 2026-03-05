@@ -36,7 +36,7 @@ export const groupedTab: Tab = {
       name: 'groupedProductsInfo',
       admin: {
         condition: (data: any) => data.productType !== 'grouped',
-        components: { Field: '@/branches/shared/components/admin/NullField#NullField' },
+        components: { Field: '@/branches/shared/components/admin/fields/NullField#NullField' },
       },
     },
   ],

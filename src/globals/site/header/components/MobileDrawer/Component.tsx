@@ -1,0 +1,338 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import type { Header, Theme1, Setting } from '@/payload-types'
+import { X, ChevronRight, Phone, Mail, Globe, Search, Heart } from 'lucide-react'
+import { cn } from '@/utilities/cn'
+import { CMSLink } from '@/branches/shared/components/common/Link'
+import { MobileCategoryNav } from '@/globals/site/header/components/MobileCategoryNav'
+import type { MobileDrawerProps } from './types'
+
+export function MobileDrawer({
+  isOpen,
+  onClose,
+  header,
+  navigation,
+  theme,
+  settings,
+  onOpenSearch,
+  drawerWidth = 320,
+  drawerPosition = 'left',
+  showContactInfo = true,
+  contactInfoOverride,
+  showToggles = true,
+}: MobileDrawerProps) {
+  const primaryColor = (theme as any)?.primaryColor || '#00897B'
+  const secondaryColor = (theme as any)?.secondaryColor || '#0A1628'
+
+  const enablePriceToggle = (header as any)?.enablePriceToggle === true
+  const priceToggleConfig = (header as any)?.priceToggle
+  const enableLanguageSwitcher = (header as any)?.enableLanguageSwitcher === true
+  const languages = (header as any)?.languages as
+    | Array<{ code: string; label: string; flag?: string; isDefault?: boolean }>
+    | undefined
+
+  const showCategories =
+    navigation?.mode === 'categories' || navigation?.mode === 'hybrid'
+
+  const [priceMode, setPriceMode] = useState<'b2c' | 'b2b'>(
+    priceToggleConfig?.defaultMode || 'b2c',
+  )
+  const [currentLang, setCurrentLang] = useState(
+    () => languages?.find((l) => l.isDefault)?.code || languages?.[0]?.code || 'NL',
+  )
+
+  useEffect(() => {
+    const savedMode = localStorage.getItem('price-mode') as 'b2c' | 'b2b' | null
+    if (savedMode) setPriceMode(savedMode)
+    const savedLang = localStorage.getItem('preferred-language')
+    if (savedLang) setCurrentLang(savedLang)
+  }, [])
+
+  const togglePriceMode = () => {
+    const newMode = priceMode === 'b2c' ? 'b2b' : 'b2c'
+    setPriceMode(newMode)
+    localStorage.setItem('price-mode', newMode)
+    window.dispatchEvent(new CustomEvent('priceToggle', { detail: { mode: newMode } }))
+  }
+
+  const handleLanguageChange = (code: string) => {
+    setCurrentLang(code)
+    localStorage.setItem('preferred-language', code)
+    window.dispatchEvent(new CustomEvent('languageChange', { detail: { language: code } }))
+  }
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
+
+  const navItems = navigation?.items || []
+  const specialItems = navigation?.specialItems || []
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div
+        className={cn(
+          'fixed inset-0 bg-black/40 backdrop-blur-sm z-[299] transition-opacity lg:hidden',
+          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none',
+        )}
+        onClick={onClose}
+      />
+
+      {/* Drawer */}
+      <div
+        className={cn(
+          'fixed top-0 bottom-0 max-w-[85vw] bg-white z-[300] flex flex-col transition-transform duration-300 ease-out lg:hidden shadow-2xl',
+          drawerPosition === 'right' ? 'right-0' : 'left-0',
+          isOpen
+            ? 'translate-x-0'
+            : drawerPosition === 'right'
+              ? 'translate-x-full'
+              : '-translate-x-full',
+        )}
+        style={{ width: `${drawerWidth}px` }}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-5 border-b border-gray-200 flex-shrink-0">
+          {(header as any).logo &&
+          typeof (header as any).logo === 'object' &&
+          (header as any).logo.url ? (
+            <img
+              src={(header as any).logo.url}
+              alt={(header as any).siteName || 'Logo'}
+              className="w-auto"
+              style={{ height: `${Math.min((header as any).logoHeight || 28, 36)}px` }}
+            />
+          ) : (header as any).siteName ? (
+            <span className="text-lg font-extrabold" style={{ color: secondaryColor }}>
+              {header.siteNameAccent ? (
+                <>
+                  {(header as any).siteName.replace(header.siteNameAccent, '')}
+                  <span style={{ color: primaryColor }}>{header.siteNameAccent}</span>
+                </>
+              ) : (
+                (header as any).siteName
+              )}
+            </span>
+          ) : (
+            <span className="text-lg font-extrabold" style={{ color: secondaryColor }}>
+              Site<span style={{ color: primaryColor }}>Forge</span>
+            </span>
+          )}
+          <button
+            onClick={onClose}
+            className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+            aria-label="Close menu"
+          >
+            <X className="w-5 h-5" style={{ color: secondaryColor }} />
+          </button>
+        </div>
+
+        {/* Quick Actions: Search + Wishlist */}
+        <div className="flex items-center gap-2 px-5 py-3 border-b border-gray-100">
+          {onOpenSearch && (
+            <button
+              onClick={() => {
+                onClose()
+                setTimeout(() => onOpenSearch(), 150)
+              }}
+              className="flex-1 flex items-center gap-2 h-10 px-3 rounded-lg bg-gray-50 border border-gray-200 text-sm text-gray-500"
+            >
+              <Search className="w-4 h-4" />
+              Zoeken...
+            </button>
+          )}
+          <Link
+            href="/wishlist"
+            onClick={onClose}
+            className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
+          >
+            <Heart className="w-4 h-4" style={{ color: secondaryColor }} />
+          </Link>
+        </div>
+
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto py-2">
+          {/* Category Navigation */}
+          {showCategories && <MobileCategoryNav onClose={onClose} />}
+
+          {/* Special Items */}
+          {specialItems.length > 0 && (
+            <>
+              <div className="px-5 py-3 text-[10px] font-extrabold uppercase tracking-wider text-gray-400">
+                Speciale Items
+              </div>
+              {specialItems.map((item: any, index: number) => (
+                <Link
+                  key={index}
+                  href={item.url || '#'}
+                  onClick={onClose}
+                  className={cn(
+                    'flex items-center gap-3 px-5 py-3 text-base font-semibold transition-colors',
+                    item.highlight
+                      ? 'text-[#FF6B6B] hover:bg-red-50'
+                      : 'hover:bg-gray-50',
+                  )}
+                  style={{ color: item.highlight ? '#FF6B6B' : secondaryColor }}
+                >
+                  {item.label}
+                  <ChevronRight className="w-4 h-4 ml-auto text-gray-400" />
+                </Link>
+              ))}
+              <div className="h-px bg-gray-200 my-2 mx-5" />
+            </>
+          )}
+
+          {/* Navigation Items */}
+          {navItems.length > 0 && (
+            <>
+              <div className="px-5 py-3 text-[10px] font-extrabold uppercase tracking-wider text-gray-400">
+                Navigatie
+              </div>
+              {navItems.map((item: any) => (
+                <div key={item.id}>
+                  <CMSLink
+                    {...({} as any)}
+                    {...(item.type === 'page'
+                      ? { reference: item.page }
+                      : { url: item.url })}
+                    onClick={onClose}
+                    className="flex items-center gap-3 px-5 py-3 text-base font-semibold hover:bg-gray-50 transition-colors"
+                    style={{ color: secondaryColor }}
+                  >
+                    {item.label}
+                    <ChevronRight className="w-4 h-4 ml-auto text-gray-400" />
+                  </CMSLink>
+                  {item.children && item.children.length > 0 && (
+                    <div className="bg-gray-50">
+                      {item.children.map((child: any) => (
+                        <CMSLink
+                          {...({} as any)}
+                          key={child.id}
+                          {...(typeof child.page === 'object' && 'slug' in child.page
+                            ? { reference: child.page }
+                            : {})}
+                          onClick={onClose}
+                          className="flex items-center gap-3 pl-12 pr-5 py-2.5 text-sm font-medium hover:bg-gray-100 transition-colors text-gray-600"
+                        >
+                          {child.label}
+                        </CMSLink>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="border-t border-gray-200 p-5 flex-shrink-0 flex flex-col gap-3">
+          {/* B2B/B2C Toggle */}
+          {showToggles && enablePriceToggle && (
+            <button
+              onClick={togglePriceMode}
+              className="flex items-center justify-between w-full px-3 py-2.5 rounded-lg bg-gray-50 transition-colors"
+            >
+              <span className="text-sm font-semibold" style={{ color: secondaryColor }}>
+                Prijsmodus
+              </span>
+              <div
+                className="flex items-center gap-1 text-xs font-bold rounded-md overflow-hidden border"
+                style={{ borderColor: primaryColor }}
+              >
+                <span
+                  className="px-2.5 py-1 transition-all"
+                  style={{
+                    backgroundColor: priceMode === 'b2c' ? primaryColor : 'transparent',
+                    color: priceMode === 'b2c' ? 'white' : secondaryColor,
+                  }}
+                >
+                  {priceToggleConfig?.b2cLabel || 'Particulier'}
+                </span>
+                <span
+                  className="px-2.5 py-1 transition-all"
+                  style={{
+                    backgroundColor: priceMode === 'b2b' ? primaryColor : 'transparent',
+                    color: priceMode === 'b2b' ? 'white' : secondaryColor,
+                  }}
+                >
+                  {priceToggleConfig?.b2bLabel || 'Zakelijk'}
+                </span>
+              </div>
+            </button>
+          )}
+
+          {/* Language Switcher */}
+          {showToggles && enableLanguageSwitcher && languages && languages.length > 0 && (
+            <div className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-gray-50">
+              <span
+                className="flex items-center gap-2 text-sm font-semibold"
+                style={{ color: secondaryColor }}
+              >
+                <Globe className="w-4 h-4" style={{ color: primaryColor }} />
+                Taal
+              </span>
+              <div className="flex items-center gap-1">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => handleLanguageChange(lang.code)}
+                    className="px-2 py-1 rounded text-xs font-bold transition-all"
+                    style={{
+                      backgroundColor:
+                        currentLang === lang.code ? primaryColor : 'transparent',
+                      color: currentLang === lang.code ? 'white' : secondaryColor,
+                      border: `1px solid ${currentLang === lang.code ? primaryColor : '#e5e7eb'}`,
+                    }}
+                  >
+                    {lang.flag || lang.code}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Contact Info */}
+          {showContactInfo && (() => {
+            const phone = contactInfoOverride?.phone || settings?.phone
+            const email = contactInfoOverride?.email || settings?.email
+            return (
+              <>
+                {phone && (
+                  <a
+                    href={`tel:${phone}`}
+                    className="flex items-center gap-2 text-sm font-semibold"
+                    style={{ color: secondaryColor }}
+                  >
+                    <Phone className="w-4 h-4" style={{ color: primaryColor }} />
+                    {phone}
+                  </a>
+                )}
+                {email && (
+                  <a
+                    href={`mailto:${email}`}
+                    className="flex items-center gap-2 text-sm font-semibold"
+                    style={{ color: secondaryColor }}
+                  >
+                    <Mail className="w-4 h-4" style={{ color: primaryColor }} />
+                    {email}
+                  </a>
+                )}
+              </>
+            )
+          })()}
+        </div>
+      </div>
+    </>
+  )
+}

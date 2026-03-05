@@ -1,7 +1,7 @@
 /* Theme Utilities - CMS-driven design system */
-@import '../styles/theme-utilities.css';
+@import '../globals/design/styles/theme-utilities.css';
 /* Central form styling - single source of truth */
-@import '../styles/forms.css';
+@import '../globals/design/styles/forms.css';
 
 @tailwind base;
 @tailwind components;

@@ -5,7 +5,7 @@
  * DELETE /api/platform/clients/:id - Delete client
  */
 
-import { GET_ClientById, PATCH_Client, DELETE_Client } from '@/branches/platform/api/clients'
+import { GET_ClientById, PATCH_Client, DELETE_Client } from '@/features/platform/api/clients'
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params

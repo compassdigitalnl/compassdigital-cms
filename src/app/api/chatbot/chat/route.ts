@@ -6,7 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { RAGChatbotService, type ChatbotMessage } from '@/lib/ai/RAGChatbotService'
+import { RAGChatbotService, type ChatbotMessage } from '@/features/ai/lib/RAGChatbotService'
 import { isFeatureEnabled } from '@/lib/features'
 
 export const runtime = 'nodejs'

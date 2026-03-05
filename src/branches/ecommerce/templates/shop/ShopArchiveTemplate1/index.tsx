@@ -16,11 +16,11 @@ import {
 } from '@/branches/ecommerce/lib/shop/facetsToFilters'
 
 // Types & Utils
-import type { BreadcrumbItem } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumbs'
+import type { BreadcrumbItem } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 
 // Modern Components
 import { CategoryHero } from '@/branches/ecommerce/components/shop/CategoryHero/CategoryHero'
-import { Breadcrumbs } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumbs'
+import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 import { SubcategoryChips, type SubcategoryChip } from '@/branches/ecommerce/components/shop/SubcategoryChips/Component'
 import { FilterSidebar } from '@/branches/ecommerce/components/shop/FilterSidebar/FilterSidebar'
 import { MobileFilterDrawer } from '@/branches/ecommerce/components/shop/FilterSidebar/MobileFilterDrawer'

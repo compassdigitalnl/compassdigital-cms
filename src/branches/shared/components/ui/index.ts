@@ -41,3 +41,9 @@ export type { QuantityStepperProps, QuantitySize } from './QuantityStepper'
 
 export { ProgressSteps, generateSteps } from './ProgressSteps'
 export type { ProgressStepsProps, Step, StepStatus } from './ProgressSteps'
+
+export { OptimizedImage, OptimizedBackgroundImage, ResponsiveImage } from './OptimizedImage'
+export type { OptimizedImageProps, OptimizedBackgroundImageProps, ResponsiveImageProps } from './OptimizedImage'
+
+export { SectionLabel } from './SectionLabel'
+export type { SectionLabelProps } from './SectionLabel'

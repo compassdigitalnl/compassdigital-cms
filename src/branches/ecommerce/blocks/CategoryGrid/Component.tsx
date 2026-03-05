@@ -7,7 +7,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Icon } from '@/branches/shared/components/common/Icon'
-import { SectionLabel } from '@/branches/shared/components/admin/SectionLabel'
+import { SectionLabel } from '@/branches/shared/components/ui/SectionLabel'
 import type { CategoryGridBlock as CategoryGridType } from '@/payload-types'
 import type { ProductCategory } from '@/payload-types'
 

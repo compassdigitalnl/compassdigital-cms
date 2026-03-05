@@ -67,7 +67,7 @@ export const bundleProductTabs: Tab[] = featureTab('bundleProducts', {
       name: 'bundleProductInfo',
       admin: {
         condition: (data: any) => data.productType !== 'bundle',
-        components: { Field: '@/branches/shared/components/admin/NullField#NullField' },
+        components: { Field: '@/branches/shared/components/admin/fields/NullField#NullField' },
       },
     },
   ],

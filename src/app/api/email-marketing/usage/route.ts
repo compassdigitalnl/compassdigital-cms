@@ -8,7 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { getUsageTracker, TIER_CONFIG } from '@/lib/email/billing/usage-tracker'
+import { getUsageTracker, TIER_CONFIG } from '@/features/email-marketing/lib/billing/usage-tracker'
 import { rateLimit, RateLimitPresets } from '@/lib/security/rate-limiter'
 import { checkRole } from '@/access/utilities'
 import { isUser } from '@/access/utilities'

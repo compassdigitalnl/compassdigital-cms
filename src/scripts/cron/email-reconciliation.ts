@@ -18,7 +18,7 @@
 import 'dotenv/config'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { ReconciliationService } from '@/lib/email/reconciliation/ReconciliationService'
+import { ReconciliationService } from '@/features/email-marketing/lib/reconciliation/ReconciliationService'
 import { emailMarketingFeatures } from '@/lib/features'
 
 async function main() {

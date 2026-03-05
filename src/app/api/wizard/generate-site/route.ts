@@ -7,7 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { sendProgress } from '@/app/api/ai/stream/stream-utils'
-import { WizardState } from '@/lib/siteGenerator/types'
+import { WizardState } from '@/features/platform/lib/siteGenerator/types'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 300 // 5 minutes for AI processing
@@ -35,7 +35,7 @@ async function generateSiteWithAI(wizardData: WizardState, sseConnectionId: stri
     }
 
     // Lazy import SiteGeneratorService to avoid build-time initialization
-    const { SiteGeneratorService } = await import('@/lib/siteGenerator/SiteGeneratorService')
+    const { SiteGeneratorService } = await import('@/features/platform/lib/siteGenerator/SiteGeneratorService')
 
     // Initialize AI-powered generator
     const generator = new SiteGeneratorService(onProgress)

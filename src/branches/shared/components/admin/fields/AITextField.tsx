@@ -18,7 +18,7 @@
 
 import React from 'react'
 import { useField } from '@payloadcms/ui'
-import { AIContentGenerator } from '@/branches/shared/components/features/ai/AI'
+import { AIContentGenerator } from '@/features/ai/components/ai'
 import { Label } from '@/branches/shared/components/ui/label'
 import { Input } from '@/branches/shared/components/ui/input'
 

@@ -7,7 +7,7 @@ import {
   POST_SuspendClient,
   POST_ActivateClient,
   POST_RedeployClient,
-} from '@/branches/platform/api/clients'
+} from '@/features/platform/api/clients'
 import { NextResponse } from 'next/server'
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {

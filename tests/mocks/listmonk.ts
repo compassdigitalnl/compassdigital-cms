@@ -20,7 +20,7 @@ import type {
   ListmonkTemplateResponse,
   ListmonkTemplatesResponse,
   ListmonkErrorResponse,
-} from '@/types/listmonk'
+} from '@/features/email-marketing/types/listmonk'
 
 // ═══════════════════════════════════════════════════════════
 // MOCK DATA

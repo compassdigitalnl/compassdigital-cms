@@ -11,13 +11,13 @@ import type {
   ListmonkList,
   ListmonkCampaign,
   ListmonkTemplate,
-} from '@/types/listmonk'
+} from '@/features/email-marketing/types/listmonk'
 import type {
   SendCampaignJob,
   SendTransactionalJob,
   ProcessAutomationJob,
   FlowStepJob,
-} from '@/types/email-marketing'
+} from '@/features/email-marketing/types/email-marketing'
 
 // ═══════════════════════════════════════════════════════════
 // FACTORY FUNCTIONS - Create Test Data

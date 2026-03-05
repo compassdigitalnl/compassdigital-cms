@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { autoGenerateSlug } from '@/utilities/slugify'
-import { autoFillSEO, autoSetPublishedDate } from '@/utilities/seoAutoFill'
+import { autoFillSEO, autoSetPublishedDate } from '@/features/seo/lib/seoAutoFill'
 import { isAdmin } from '@/access/utilities'
 
 /**

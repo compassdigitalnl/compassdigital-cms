@@ -12,8 +12,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { getMetricsCollector } from '@/lib/email/monitoring/MetricsCollector'
-import { requireApiKey } from '@/lib/email/api-auth/validateApiKey'
+import { getMetricsCollector } from '@/features/email-marketing/lib/monitoring/MetricsCollector'
+import { requireApiKey } from '@/features/email-marketing/lib/api-auth/validateApiKey'
 import { emailMarketingFeatures } from '@/lib/features'
 
 export async function GET(request: NextRequest) {

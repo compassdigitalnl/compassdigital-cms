@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { mergeOpenGraph } from '@/features/seo/lib/mergeOpenGraph'
 import React from 'react'
 import { FindOrderForm } from '@/branches/ecommerce/components/account/orders/FindOrderForm'
 import { getPayload } from 'payload'

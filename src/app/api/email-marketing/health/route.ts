@@ -10,7 +10,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getHealthChecker } from '@/lib/email/monitoring/HealthChecker'
+import { getHealthChecker } from '@/features/email-marketing/lib/monitoring/HealthChecker'
 import { emailMarketingFeatures } from '@/lib/features'
 
 export async function GET(request: NextRequest) {
