@@ -601,6 +601,69 @@ export const Settings: GlobalConfig = {
               },
             },
 
+            // ─── Archive Page SEO ────────────────────────────────
+            {
+              name: 'archiveSeo',
+              type: 'group',
+              label: 'Archief Pagina SEO',
+              admin: {
+                description: 'SEO instellingen voor overzichtspagina\'s (shop, merken, branches)',
+              },
+              fields: [
+                {
+                  name: 'shopTitle',
+                  type: 'text',
+                  label: 'Shop - Meta Title',
+                  admin: {
+                    description: 'SEO titel voor /shop',
+                  },
+                },
+                {
+                  name: 'shopDescription',
+                  type: 'textarea',
+                  label: 'Shop - Meta Beschrijving',
+                  maxLength: 160,
+                  admin: {
+                    description: 'SEO beschrijving voor /shop',
+                  },
+                },
+                {
+                  name: 'brandsTitle',
+                  type: 'text',
+                  label: 'Merken - Meta Title',
+                  admin: {
+                    description: 'SEO titel voor /merken',
+                  },
+                },
+                {
+                  name: 'brandsDescription',
+                  type: 'textarea',
+                  label: 'Merken - Meta Beschrijving',
+                  maxLength: 160,
+                  admin: {
+                    description: 'SEO beschrijving voor /merken',
+                  },
+                },
+                {
+                  name: 'branchesTitle',
+                  type: 'text',
+                  label: 'Branches - Meta Title',
+                  admin: {
+                    description: 'SEO titel voor /branches',
+                  },
+                },
+                {
+                  name: 'branchesDescription',
+                  type: 'textarea',
+                  label: 'Branches - Meta Beschrijving',
+                  maxLength: 160,
+                  admin: {
+                    description: 'SEO beschrijving voor /branches',
+                  },
+                },
+              ],
+            },
+
             // ─── Structured Data ───────────────────────────────────
             {
               name: 'businessCategory',

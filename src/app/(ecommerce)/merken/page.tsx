@@ -4,13 +4,27 @@ import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 import BrandsArchiveTemplate1 from '@/branches/ecommerce/templates/brands/BrandsArchiveTemplate1'
 import type { Brand, Media } from '@/payload-types'
+import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-export const metadata = {
-  title: 'Merken - Alle merken in ons assortiment',
-  description: 'Ontdek alle merken in ons assortiment. Van toonaangevende fabrikanten tot gespecialiseerde productlijnen.',
+export async function generateMetadata(): Promise<import('next').Metadata> {
+  try {
+    const payload = await getPayload({ config })
+    const settings = await payload.findGlobal({ slug: 'settings' }) as any
+    const archiveSeo = settings?.archiveSeo
+
+    return {
+      title: archiveSeo?.brandsTitle || 'Merken - Alle merken in ons assortiment',
+      description: archiveSeo?.brandsDescription || 'Ontdek alle merken in ons assortiment. Van toonaangevende fabrikanten tot gespecialiseerde productlijnen.',
+    }
+  } catch {
+    return {
+      title: 'Merken - Alle merken in ons assortiment',
+      description: 'Ontdek alle merken in ons assortiment. Van toonaangevende fabrikanten tot gespecialiseerde productlijnen.',
+    }
+  }
 }
 
 export default async function MerkenPage() {

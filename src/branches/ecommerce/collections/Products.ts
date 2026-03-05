@@ -221,6 +221,17 @@ export const Products: CollectionConfig = {
                 position: 'sidebar',
               },
             },
+            ...featureField('shop', {
+              name: 'branches',
+              type: 'relationship',
+              relationTo: 'branches',
+              hasMany: true,
+              label: 'Branches',
+              admin: {
+                position: 'sidebar',
+                description: 'Selecteer branches waar dit product bij hoort',
+              },
+            }),
             {
               name: 'tags',
               type: 'array',

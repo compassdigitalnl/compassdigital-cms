@@ -36,6 +36,7 @@ import sharp from 'sharp'
 // Ecommerce Branch (23 collections)
 import { ABTests } from '@/branches/ecommerce/collections/ABTests'
 import { ABTestResults } from '@/branches/ecommerce/collections/ABTestResults'
+import { Branches } from '@/branches/ecommerce/collections/Branches'
 import { Brands } from '@/branches/ecommerce/collections/Brands'
 import { Carts } from '../packages/modules/cart/collections/Carts'
 import { Customers } from '../packages/modules/accounts/collections/Customers'
@@ -289,6 +290,7 @@ export default buildConfig({
     _col(Products),
     _col(ProductCategories),
     _col(Brands),
+    _col(Branches),
     _col(RecentlyViewed),
     _col(EditionNotifications), // Aboland Magazine Features
 

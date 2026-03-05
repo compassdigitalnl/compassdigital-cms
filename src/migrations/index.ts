@@ -29,6 +29,7 @@ import * as migration_20260304_180000_account_template_field from './20260304_18
 import * as migration_20260305_120000_quotes_collection from './20260305_120000_quotes_collection';
 import * as migration_20260305_150000_add_header_template_setting from './20260305_150000_add_header_template_setting';
 import * as migration_20260305_160000_cleanup_header_layout_tab from './20260305_160000_cleanup_header_layout_tab';
+import * as migration_20260305_170000_branches_collection from './20260305_170000_branches_collection';
 
 export const migrations = [
   {
@@ -185,5 +186,10 @@ export const migrations = [
     up: migration_20260305_160000_cleanup_header_layout_tab.up,
     down: migration_20260305_160000_cleanup_header_layout_tab.down,
     name: '20260305_160000_cleanup_header_layout_tab',
+  },
+  {
+    up: migration_20260305_170000_branches_collection.up,
+    down: migration_20260305_170000_branches_collection.down,
+    name: '20260305_170000_branches_collection',
   },
 ];
