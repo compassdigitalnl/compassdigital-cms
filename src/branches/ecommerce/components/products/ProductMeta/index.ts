@@ -1,4 +1,4 @@
-export { ProductMeta } from './ProductMeta'
+export { ProductMeta } from './Component'
 export type {
   ProductMetaProps,
   ProductMetaProduct,

@@ -186,6 +186,16 @@ export interface ProductCardProps {
   onAddToCart?: (productId: string, quantity: number) => void
 
   /**
+   * Callback when wishlist button is clicked
+   */
+  onWishlistToggle?: () => void
+
+  /**
+   * Callback when quick-view button is clicked
+   */
+  onQuickView?: () => void
+
+  /**
    * Product detail page URL (overrides default /products/[slug])
    */
   href?: string

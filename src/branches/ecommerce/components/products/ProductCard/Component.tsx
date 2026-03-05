@@ -204,23 +204,23 @@ export function ProductCard({
       ) : (
         <span style={{ fontSize: '52px' }}>🧤</span>
       )}
-      {/* Hover actions - Hidden for now (TODO: Implement wishlist & quick view functionality) */}
-      {/* <div className="product-card__hover-actions">
+      {/* Hover actions */}
+      <div className="product-card__hover-actions">
         <button
           className="product-card__hover-btn"
-          onClick={(e) => { e.preventDefault(); e.stopPropagation() }}
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); onWishlistToggle?.() }}
           aria-label="Toevoegen aan verlanglijst"
         >
           <Heart size={16} />
         </button>
         <button
           className="product-card__hover-btn"
-          onClick={(e) => { e.preventDefault(); e.stopPropagation() }}
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); onQuickView?.() }}
           aria-label="Snel bekijken"
         >
           <Eye size={16} />
         </button>
-      </div> */}
+      </div>
     </div>
   )
 

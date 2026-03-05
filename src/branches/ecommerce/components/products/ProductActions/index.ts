@@ -1,2 +1,2 @@
-export { ProductActions } from './ProductActions'
+export { ProductActions } from './Component'
 export type { ProductActionsProps } from './types'

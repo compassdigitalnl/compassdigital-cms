@@ -1,4 +1,4 @@
-export { ReviewWidget } from './ReviewWidget'
+export { ReviewWidget } from './Component'
 export type {
   ReviewWidgetProps,
   Review,

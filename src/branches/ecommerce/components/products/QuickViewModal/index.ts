@@ -1,4 +1,4 @@
-export { QuickViewModal } from './QuickViewModal'
+export { QuickViewModal } from './Component'
 export type {
   QuickViewModalProps,
   QuickViewProduct,

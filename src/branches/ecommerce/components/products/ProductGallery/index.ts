@@ -1,4 +1,4 @@
-export { ProductGallery } from './ProductGallery'
+export { ProductGallery } from './Component'
 export type {
   ProductGalleryProps,
   GalleryImage,
