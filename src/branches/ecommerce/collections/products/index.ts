@@ -10,14 +10,7 @@ import {
   stockTab,
   shippingTab,
   mediaTab,
-  groupedTab,
-  variableProductTabs,
-  bundleProductTabs,
-  mixAndMatchTabs,
-  bookableProductTabs,
-  configuratorProductTabs,
-  personalizedProductTabs,
-  subscriptionProductTabs,
+  typeConfigTab,
   b2bTabs,
   seoTab,
   specificationsTab,
@@ -84,15 +77,8 @@ export const Products: CollectionConfig = {
         shippingTab,
         mediaTab,
 
-        // Product-type-specific tabs
-        groupedTab,
-        ...variableProductTabs,
-        ...bundleProductTabs,
-        ...mixAndMatchTabs,
-        ...bookableProductTabs,
-        ...configuratorProductTabs,
-        ...personalizedProductTabs,
-        ...subscriptionProductTabs,
+        // Single tab for all product-type-specific config (conditionally shows content)
+        typeConfigTab,
 
         // Feature-gated tabs
         ...b2bTabs,

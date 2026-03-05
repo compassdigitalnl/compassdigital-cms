@@ -1,2 +1,2 @@
-export { SiteFooter } from './SiteFooter'
-export { SiteFooter as Footer } from './SiteFooter'
+export { SiteFooter } from './Component'
+export { SiteFooter as Footer } from './Component'
