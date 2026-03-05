@@ -288,7 +288,7 @@ export default function HeaderTemplate1({
               {/* Account */}
               {showAccount && (
                 <Link
-                  href="/my-account/"
+                  href="/account/"
                   className="w-[42px] h-[42px] rounded-[10px] border border-transparent bg-gray-100 hover:border-[var(--color-primary,#00897B)] hover:bg-[var(--color-primary,#00897B)]/10 flex items-center justify-center transition-all"
                   title="Account"
                 >
