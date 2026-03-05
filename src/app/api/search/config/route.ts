@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { getMeilisearchSettings, mergeSettings } from '@/lib/meilisearch/settings'
+import { getMeilisearchSettings, mergeSettings } from '@/features/search/lib/meilisearch/settings'
 
 /**
  * GET /api/search/config

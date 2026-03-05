@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { isMeilisearchAvailable, initializeMeilisearch } from '@/lib/meilisearch/client'
-import { reindexAllProducts } from '@/lib/meilisearch/indexProducts'
-import { reindexAllBlogPosts } from '@/lib/meilisearch/indexBlogPosts'
-import { reindexAllPages } from '@/lib/meilisearch/indexPages'
-import { getMeilisearchSettings, mergeSettings, isCollectionIndexed } from '@/lib/meilisearch/settings'
+import { isMeilisearchAvailable, initializeMeilisearch } from '@/features/search/lib/meilisearch/client'
+import { reindexAllProducts } from '@/features/search/lib/meilisearch/indexProducts'
+import { reindexAllBlogPosts } from '@/features/search/lib/meilisearch/indexBlogPosts'
+import { reindexAllPages } from '@/features/search/lib/meilisearch/indexPages'
+import { getMeilisearchSettings, mergeSettings, isCollectionIndexed } from '@/features/search/lib/meilisearch/settings'
 
 /**
  * POST /api/meilisearch/reindex

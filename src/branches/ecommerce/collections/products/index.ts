@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/shouldHideCollection'
-import { indexProduct, deleteProductFromIndex } from '@/lib/meilisearch/indexProducts'
+import { indexProduct, deleteProductFromIndex } from '@/features/search/lib/meilisearch/indexProducts'
 import { notifyEditionSubscribers } from '../../hooks/notifyEditionSubscribers'
 
 import {

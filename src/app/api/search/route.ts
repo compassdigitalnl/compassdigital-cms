@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { meilisearchClient, INDEXES, isMeilisearchAvailable } from '@/lib/meilisearch/client'
+import { meilisearchClient, INDEXES, isMeilisearchAvailable } from '@/features/search/lib/meilisearch/client'
 
 /**
  * GET /api/search?q=query&type=products
