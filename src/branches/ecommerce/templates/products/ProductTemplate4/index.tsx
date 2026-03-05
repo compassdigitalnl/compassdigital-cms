@@ -909,7 +909,8 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                       value={quantity}
                       onChange={(e: any) => {
                         const minQty = product.minOrderQuantity || 1
-                        const maxQty = product.maxOrderQuantity || (product.trackStock ? (product.stock ?? 999) : 999)
+                        const stockCap = product.trackStock && !product.backordersAllowed ? (product.stock || 999) : 999
+                        const maxQty = product.maxOrderQuantity || stockCap
                         setQuantity(Math.min(maxQty, Math.max(minQty, parseInt(e.target.value) || minQty)))
                       }}
                       className="w-[60px] h-[52px] border-0 text-center font-mono text-base font-bold text-[var(--color-text-primary)] outline-none"
@@ -917,7 +918,8 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                     <button
                       onClick={() => {
                         const step = product.orderMultiple || 1
-                        const maxQty = product.maxOrderQuantity || (product.trackStock ? (product.stock ?? 999) : 999)
+                        const stockCap = product.trackStock && !product.backordersAllowed ? (product.stock || 999) : 999
+                        const maxQty = product.maxOrderQuantity || stockCap
                         setQuantity(Math.min(maxQty, quantity + step))
                       }}
                       className="w-[52px] h-[52px] border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-lg text-[var(--color-text-primary)]"
@@ -1253,7 +1255,8 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                   value={quantity}
                   onChange={(e: any) => {
                     const minQty = product.minOrderQuantity || 1
-                    const maxQty = product.maxOrderQuantity || (product.trackStock ? (product.stock ?? 999) : 999)
+                    const stockCap = product.trackStock && !product.backordersAllowed ? (product.stock || 999) : 999
+                    const maxQty = product.maxOrderQuantity || stockCap
                     setQuantity(Math.min(maxQty, Math.max(minQty, parseInt(e.target.value) || minQty)))
                   }}
                   className="w-[60px] h-11 border-0 text-center font-mono text-base font-bold text-[var(--color-text-primary)] outline-none"
@@ -1261,7 +1264,8 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                 <button
                   onClick={() => {
                     const step = product.orderMultiple || 1
-                    const maxQty = product.maxOrderQuantity || (product.trackStock ? (product.stock ?? 999) : 999)
+                    const stockCap = product.trackStock && !product.backordersAllowed ? (product.stock || 999) : 999
+                    const maxQty = product.maxOrderQuantity || stockCap
                     setQuantity(Math.min(maxQty, quantity + step))
                   }}
                   className="w-11 h-11 border-0 bg-[var(--color-background,var(--color-surface))] cursor-pointer flex items-center justify-center text-base text-[var(--color-text-primary)]"
