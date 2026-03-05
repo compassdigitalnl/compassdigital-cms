@@ -54,9 +54,10 @@ export function ProductCard({
   locale = 'nl-NL',
   className = '',
   priceLabel,
+  taxClass,
 }: ProductCardProps) {
   const [quantity, setQuantity] = useState(1)
-  const { displayPrice: applyPriceMode, vatLabel } = usePriceMode()
+  const { displayPrice: applyPriceMode, vatLabelForClass } = usePriceMode()
 
   // Format price with euros and cents split
   const formatPrice = (priceValue: number | null | undefined) => {
@@ -139,8 +140,8 @@ export function ProductCard({
   const productHref = href || `/${slug}`
 
   // Price formatting — apply B2B/B2C mode
-  const displayPriceValue = applyPriceMode(price)
-  const displayCompareAt = applyPriceMode(compareAtPrice)
+  const displayPriceValue = applyPriceMode(price, taxClass)
+  const displayCompareAt = applyPriceMode(compareAtPrice, taxClass)
   const currentPriceFormatted = formatPrice(displayPriceValue)
 
   // Badge component
@@ -242,7 +243,7 @@ export function ProductCard({
           Prijs op aanvraag
         </div>
       )}
-      {unit && <div className="product-card__unit">{vatLabel} · {unit}</div>}
+      {unit && <div className="product-card__unit">{vatLabelForClass(taxClass)} · {unit}</div>}
       {bestVolumeTier && (
         <div className="product-card__staffel-hint">
           <Layers size={12} />

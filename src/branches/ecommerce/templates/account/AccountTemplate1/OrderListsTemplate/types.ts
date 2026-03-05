@@ -31,4 +31,7 @@ export interface OrderListsTemplateProps {
   error: string | null
   onRetry: () => void
   onAddToCart: (listId: string, listName: string) => void
+  onDeleteList?: (listId: string) => void
+  onDuplicateList?: (listId: string) => void
+  onTogglePin?: (listId: string) => void
 }

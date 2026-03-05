@@ -1,16 +1,74 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Search, PlusCircle, Trash2, Minus, Plus } from 'lucide-react'
-import type { QuoteProductTableProps } from './types'
+import type { QuoteProductTableProps, QuoteProduct } from './types'
 
-export function QuoteProductTable({ products, onQuantityChange, onRemove }: QuoteProductTableProps) {
+interface SearchResult {
+  id: string
+  title: string
+  sku: string
+  brand?: string
+}
+
+export function QuoteProductTable({ products, onQuantityChange, onRemove, onAddProduct }: QuoteProductTableProps) {
   const [searchQuery, setSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([])
+  const [searchLoading, setSearchLoading] = useState(false)
+  const [showResults, setShowResults] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (searchQuery.length < 2) {
+      setSearchResults([])
+      return
+    }
+    const timer = setTimeout(async () => {
+      setSearchLoading(true)
+      try {
+        const res = await fetch(`/api/products/search?q=${encodeURIComponent(searchQuery)}&limit=8`)
+        if (res.ok) {
+          const data = await res.json()
+          setSearchResults(data.docs || [])
+        }
+      } catch {
+        setSearchResults([])
+      } finally {
+        setSearchLoading(false)
+      }
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [searchQuery])
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setShowResults(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const handleSelectResult = (result: SearchResult) => {
+    if (onAddProduct) {
+      onAddProduct({
+        id: String(result.id),
+        name: result.title,
+        sku: result.sku || '',
+        emoji: '📦',
+        quantity: 1,
+      })
+    }
+    setSearchQuery('')
+    setShowResults(false)
+    setSearchResults([])
+  }
 
   return (
     <div>
       {/* Product search */}
-      <div className="relative mb-4">
+      <div className="relative mb-4" ref={containerRef}>
         <Search
           className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none"
           style={{ color: 'var(--color-muted, #94A3B8)' }}
@@ -18,7 +76,7 @@ export function QuoteProductTable({ products, onQuantityChange, onRemove }: Quot
         <input
           type="text"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => { setSearchQuery(e.target.value); setShowResults(true) }}
           placeholder="Zoek product op naam, merk of artikelnummer…"
           className="w-full h-11 pl-10 pr-4 text-sm rounded-lg border-2 bg-gray-50 outline-none transition-all focus:bg-white"
           style={{
@@ -28,12 +86,46 @@ export function QuoteProductTable({ products, onQuantityChange, onRemove }: Quot
           onFocus={(e) => {
             e.currentTarget.style.borderColor = 'var(--color-primary, #00897B)'
             e.currentTarget.style.boxShadow = '0 0 0 4px rgba(0,137,123,0.10)'
+            setShowResults(true)
           }}
           onBlur={(e) => {
             e.currentTarget.style.borderColor = 'var(--color-border, #E8ECF1)'
             e.currentTarget.style.boxShadow = 'none'
           }}
         />
+        {showResults && searchQuery.length >= 2 && (
+          <div
+            className="absolute top-full left-0 right-0 z-50 mt-1 rounded-xl overflow-hidden"
+            style={{ background: 'white', border: '1px solid var(--color-border, #E8ECF1)', boxShadow: '0 8px 28px rgba(0,0,0,0.1)' }}
+          >
+            {searchLoading && (
+              <div className="px-4 py-3 text-sm text-gray-400">Zoeken...</div>
+            )}
+            {!searchLoading && searchResults.length === 0 && (
+              <div className="px-4 py-3 text-sm text-gray-400">Geen resultaten gevonden</div>
+            )}
+            {searchResults.map((result) => (
+              <button
+                key={result.id}
+                type="button"
+                onMouseDown={() => handleSelectResult(result)}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-gray-50 transition-colors"
+              >
+                <div
+                  className="w-8 h-8 rounded-md flex items-center justify-center text-sm flex-shrink-0"
+                  style={{ background: 'var(--color-surface, #F1F4F8)' }}
+                >
+                  📦
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-semibold text-gray-900 truncate">{result.title}</div>
+                  <div className="text-xs text-gray-400 font-mono">{result.sku}</div>
+                </div>
+                <PlusCircle className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--color-primary, #00897B)' }} />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Product table */}

@@ -1,29 +1,29 @@
 'use client'
 
-import React from 'react'
+import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import {
-  Repeat,
-  Package,
-  User,
+  AlertTriangle,
+  Building2,
+  CheckCircle,
+  ClipboardList,
   Clock,
-  Pin,
-  Users,
-  Share2,
   Copy,
   Download,
-  Settings,
-  Printer,
-  ShoppingCart,
-  CheckCircle,
-  AlertTriangle,
   Euro,
-  ClipboardList,
-  Stethoscope,
   FlaskConical,
+  Package,
+  Pin,
   PlusCircle,
-  Building2,
+  Printer,
+  Repeat,
+  Settings,
+  Share2,
+  ShoppingCart,
+  Stethoscope,
+  User,
+  Users,
 } from 'lucide-react'
-import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
+import React from 'react'
 import type { OrderListHeaderProps } from './types'
 
 // ============================================================================
@@ -80,7 +80,7 @@ function formatRelativeTime(date: string): string {
 // COMPONENT
 // ============================================================================
 
-export function OrderListHeader({ list, stats, onAddAllToCart }: OrderListHeaderProps) {
+export function OrderListHeader({ list, stats, onAddAllToCart, onShare, onDuplicate, onExport, onPrint }: OrderListHeaderProps) {
   const { formatPriceStr } = usePriceMode()
   const IconComponent = (iconMap[list.icon] || Repeat) as React.ComponentType<{ className?: string; style?: React.CSSProperties }>
   const colorStyle = colorMap[list.color as keyof typeof colorMap] || colorMap.teal
@@ -165,6 +165,7 @@ export function OrderListHeader({ list, stats, onAddAllToCart }: OrderListHeader
         {/* Actions */}
         <div className="flex gap-2 flex-wrap">
           <button
+            onClick={onShare}
             className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:border-teal-700 hover:bg-teal-50"
             style={{ background: 'white', border: `1.5px solid ${COLORS.grey}` }}
             title="Delen"
@@ -172,6 +173,7 @@ export function OrderListHeader({ list, stats, onAddAllToCart }: OrderListHeader
             <Share2 className="w-4 h-4" style={{ color: COLORS.navy }} />
           </button>
           <button
+            onClick={onDuplicate}
             className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:border-teal-700 hover:bg-teal-50"
             style={{ background: 'white', border: `1.5px solid ${COLORS.grey}` }}
             title="Dupliceren"
@@ -179,6 +181,7 @@ export function OrderListHeader({ list, stats, onAddAllToCart }: OrderListHeader
             <Copy className="w-4 h-4" style={{ color: COLORS.navy }} />
           </button>
           <button
+            onClick={onExport}
             className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:border-teal-700 hover:bg-teal-50"
             style={{ background: 'white', border: `1.5px solid ${COLORS.grey}` }}
             title="Exporteren"
@@ -188,11 +191,12 @@ export function OrderListHeader({ list, stats, onAddAllToCart }: OrderListHeader
           <button
             className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:border-teal-700 hover:bg-teal-50"
             style={{ background: 'white', border: `1.5px solid ${COLORS.grey}` }}
-            title="Instellingen"
+            title="Instellingen (binnenkort beschikbaar)"
           >
             <Settings className="w-4 h-4" style={{ color: COLORS.navy }} />
           </button>
           <button
+            onClick={onPrint}
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all hover:border-teal-700 hover:bg-teal-50"
             style={{
               background: 'white',

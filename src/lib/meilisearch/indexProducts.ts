@@ -176,6 +176,7 @@ export function transformProductForSearch(product: Product, brandMap?: BrandMap)
     productType: product.productType || 'simple',
     badge: product.badge || null,
     tags: product.tags || [],
+    taxClass: product.taxClass || 'standard',
     status: product.status || 'draft',
     featured: product.featured || false,
     specs,

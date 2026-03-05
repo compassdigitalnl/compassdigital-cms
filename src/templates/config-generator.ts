@@ -21,9 +21,9 @@ const collectionRegistry: Record<string, () => Promise<any>> = {
 
   // E-commerce (exist in platform)
   products: () => import('@/branches/ecommerce/collections/Products'),
-  'product-categories': () => import('@/branches/ecommerce/collections/ProductCategories'),
-  'product-brands': () => import('@/branches/ecommerce/collections/Brands'),
-  orders: () => import('@/branches/ecommerce/collections/Orders'),
+  'product-categories': () => import('@/branches/ecommerce/collections/catalog/ProductCategories'),
+  'product-brands': () => import('@/branches/ecommerce/collections/catalog/Brands'),
+  orders: () => import('@/branches/ecommerce/collections/orders/Orders'),
 
   // Blog (exist in platform)
   'blog-posts': () => import('@/branches/content/collections/BlogPosts'),

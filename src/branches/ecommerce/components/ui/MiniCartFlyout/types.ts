@@ -37,6 +37,11 @@ export interface MiniCartItem {
    * Quantity in cart
    */
   quantity: number
+
+  /**
+   * Tax class for BTW calculation
+   */
+  taxClass?: 'standard' | 'reduced' | 'zero'
 }
 
 export interface CartSummary {

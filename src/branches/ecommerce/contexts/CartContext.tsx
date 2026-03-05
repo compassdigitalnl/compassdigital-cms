@@ -19,6 +19,7 @@ export interface CartItem {
   orderMultiple?: number // NEW: B2B order multiple
   maxOrderQuantity?: number // NEW: B2B max quantity
   backordersAllowed?: boolean // Backorder support
+  taxClass?: 'standard' | 'reduced' | 'zero'
 }
 
 interface CartContextType {

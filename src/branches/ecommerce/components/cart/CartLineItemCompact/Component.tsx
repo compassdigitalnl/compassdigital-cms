@@ -20,7 +20,7 @@ export default function CartLineItemCompact({
     setLocalQty(quantity)
   }, [quantity])
 
-  const displayUnitPrice = applyPriceMode(product.price) ?? product.price
+  const displayUnitPrice = applyPriceMode(product.price, product.taxClass) ?? product.price
   const lineTotal = displayUnitPrice * quantity
 
   const handleQtyChange = (delta: number) => {

@@ -62,4 +62,6 @@ export interface OrderDetail {
 
 export interface OrderDetailTemplateProps {
   order: OrderDetail
+  onReorder?: () => void
+  onDownloadInvoice?: () => void
 }

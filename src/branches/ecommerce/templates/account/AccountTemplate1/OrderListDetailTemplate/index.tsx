@@ -49,6 +49,13 @@ export default function OrderListDetailTemplate({
   onScanBarcode,
   onBarcodeScan,
   onCloseBarcodeScanner,
+  onShare,
+  onDuplicate,
+  onExport,
+  onPrint,
+  onNotesChange,
+  onRequestQuote,
+  notesValue,
 }: OrderListDetailTemplateProps) {
   return (
     <div>
@@ -57,6 +64,10 @@ export default function OrderListDetailTemplate({
         list={list}
         stats={stats}
         onAddAllToCart={onAddAllToCart}
+        onShare={onShare}
+        onDuplicate={onDuplicate}
+        onExport={onExport}
+        onPrint={onPrint}
       />
 
       {/* Quick Add: search / barcode input */}
@@ -97,8 +108,10 @@ export default function OrderListDetailTemplate({
         totalValue={stats.totalValue}
         discount={discount}
         expectedTotal={expectedTotal}
-        notes={list.notes}
+        notes={notesValue}
         onAddAllToCart={onAddAllToCart}
+        onRequestQuote={onRequestQuote}
+        onNotesChange={onNotesChange}
       />
 
       {/* Barcode scanner modal */}

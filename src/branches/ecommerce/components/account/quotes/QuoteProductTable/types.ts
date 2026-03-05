@@ -10,4 +10,5 @@ export interface QuoteProductTableProps {
   products: QuoteProduct[]
   onQuantityChange: (id: string, quantity: number) => void
   onRemove: (id: string) => void
+  onAddProduct?: (product: QuoteProduct) => void
 }

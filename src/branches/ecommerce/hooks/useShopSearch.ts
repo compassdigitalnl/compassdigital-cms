@@ -28,6 +28,7 @@ export interface ShopSearchHit {
   categoryIds: number[]
   productType: string
   badge: string | null
+  taxClass?: string
   specs: Record<string, string[]>
   shortDescription: string
   _formatted?: any

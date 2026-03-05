@@ -21,6 +21,8 @@ export function OrderListSummary({
   expectedTotal,
   notes,
   onAddAllToCart,
+  onRequestQuote,
+  onNotesChange,
 }: OrderListSummaryProps) {
   return (
     <>
@@ -94,6 +96,7 @@ export function OrderListSummary({
 
         <div className="flex gap-2.5 flex-wrap">
           <button
+            onClick={onRequestQuote}
             className="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold transition-all hover:border-teal-700 hover:bg-teal-50"
             style={{
               background: 'white',
@@ -136,7 +139,8 @@ export function OrderListSummary({
           Notities bij deze lijst
         </div>
         <textarea
-          defaultValue={notes}
+          value={notes ?? ''}
+          onChange={(e) => onNotesChange?.(e.target.value)}
           placeholder="Bijv. instructies voor collega's, bestelmomenten, leveringsvoorkeuren…"
           className="w-full px-3.5 py-3 rounded-xl resize-vertical transition-all focus:outline-none"
           style={{

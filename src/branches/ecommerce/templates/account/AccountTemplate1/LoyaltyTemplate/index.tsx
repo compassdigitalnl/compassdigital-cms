@@ -85,15 +85,8 @@ export default function LoyaltyTemplate({
       onRedeemReward(rewardId, pointsCost)
       return
     }
-    // Default fallback
-    if (loyaltyData.availablePoints < pointsCost) {
-      alert('Je hebt niet genoeg punten voor deze beloning')
-      return
-    }
-    if (confirm(`Wil je deze beloning inwisselen voor ${pointsCost} punten?`)) {
-      console.log(`Redeeming reward ${rewardId}`)
-      alert('Beloning ingewisseld!')
-    }
+    // Default fallback (should not reach here if page passes onRedeemReward)
+    return
   }
 
   return (

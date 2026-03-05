@@ -169,7 +169,7 @@ export function QuickOrderRow({
         className={`qor-price ${!row.unitPrice ? 'qor-empty' : ''}`}
         role="cell"
       >
-        {row.unitPrice ? formatCurrency(applyPriceMode(row.unitPrice) ?? row.unitPrice) : '—'}
+        {row.unitPrice ? formatCurrency(applyPriceMode(row.unitPrice, row.taxClass) ?? row.unitPrice) : '—'}
       </div>
 
       {/* Column 4: Total Display */}
@@ -177,7 +177,7 @@ export function QuickOrderRow({
         className={`qor-total ${!row.total ? 'qor-empty' : ''}`}
         role="cell"
       >
-        {formatCurrency(applyPriceMode(row.total) ?? row.total)}
+        {formatCurrency(applyPriceMode(row.total, row.taxClass) ?? row.total)}
       </div>
 
       {/* Column 5: Delete Button */}

@@ -44,4 +44,8 @@ export interface OrderListHeaderProps {
   list: OrderList
   stats: ListStats
   onAddAllToCart: () => void
+  onShare?: () => void
+  onDuplicate?: () => void
+  onExport?: () => void
+  onPrint?: () => void
 }

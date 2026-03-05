@@ -18,6 +18,7 @@ export interface QuickOrderRowProps {
     quantity: number
     unitPrice: number
     total: number
+    taxClass?: 'standard' | 'reduced' | 'zero'
     staffelHint?: {
       quantityNeeded: number
       nextTierPrice: number

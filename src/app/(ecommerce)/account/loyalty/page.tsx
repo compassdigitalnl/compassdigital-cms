@@ -5,6 +5,7 @@ import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 import LoyaltyTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/LoyaltyTemplate'
 import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import { toast } from '@/lib/toast'
 import type {
   LoyaltyData,
   LoyaltyTransaction,
@@ -63,11 +64,40 @@ export default function LoyaltyPage() {
     fetchData()
   }, [])
 
+  const handleRedeemReward = async (rewardId: number, pointsCost: number) => {
+    if (loyaltyData.availablePoints < pointsCost) {
+      toast.error('Je hebt niet genoeg punten voor deze beloning')
+      return
+    }
+    if (!confirm(`Wil je deze beloning inwisselen voor ${pointsCost} punten?`)) return
+    try {
+      const res = await fetch('/api/account/loyalty/redeem', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rewardId, pointsCost }),
+      })
+      if (res.ok) {
+        toast.success('Beloning ingewisseld!')
+        setLoyaltyData((prev) => ({
+          ...prev,
+          availablePoints: prev.availablePoints - pointsCost,
+          totalSpent: prev.totalSpent + pointsCost,
+        }))
+      } else {
+        toast.error('Inwisselen mislukt. Probeer het later opnieuw.')
+      }
+    } catch {
+      toast.error('Er is iets misgegaan')
+    }
+  }
+
   return (
     <LoyaltyTemplate
       loyaltyData={loyaltyData}
       transactions={transactions}
       rewards={rewards}
+      onRedeemReward={handleRedeemReward}
     />
   )
 }

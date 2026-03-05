@@ -33,40 +33,48 @@ import sharp from 'sharp'
 // - platform: Multi-tenant management (Clients, Deployments, etc.)
 //
 
-// Ecommerce Branch (23 collections)
-import { ABTests } from '@/branches/ecommerce/collections/ABTests'
-import { ABTestResults } from '@/branches/ecommerce/collections/ABTestResults'
-import { Branches } from '@/branches/ecommerce/collections/Branches'
-import { Brands } from '@/branches/ecommerce/collections/Brands'
+// Ecommerce Branch — organized by subdomain
+// Orders & Fulfillment
+import { Orders } from '@/branches/ecommerce/collections/orders/Orders'
+import { OrderLists } from '@/branches/ecommerce/collections/orders/OrderLists'
+import Quotes from '@/branches/ecommerce/collections/orders/Quotes'
+import { Invoices } from '@/branches/ecommerce/collections/orders/Invoices'
+import { Returns } from '@/branches/ecommerce/collections/orders/Returns'
+import { RecurringOrders } from '@/branches/ecommerce/collections/orders/RecurringOrders'
+// Products & Catalog
+import { Products } from '@/branches/ecommerce/collections/products'
+import { ProductCategories } from '@/branches/ecommerce/collections/catalog/ProductCategories'
+import { Brands } from '@/branches/ecommerce/collections/catalog/Brands'
+import { Branches } from '@/branches/ecommerce/collections/catalog/Branches'
+import { RecentlyViewed } from '@/branches/ecommerce/collections/catalog/RecentlyViewed'
+// Customers
+import { CustomerGroups } from '@/branches/ecommerce/collections/customers/CustomerGroups'
+// Checkout & Payment
+import { PaymentMethods } from '@/branches/ecommerce/collections/checkout/PaymentMethods'
+// Shipping & Stock
+import { StockReservations } from '@/branches/ecommerce/collections/shipping/StockReservations'
+// Subscriptions
+import { SubscriptionPlans } from '@/branches/ecommerce/collections/subscriptions/SubscriptionPlans'
+import { UserSubscriptions } from '@/branches/ecommerce/collections/subscriptions/UserSubscriptions'
+// Licenses
+import { Licenses } from '@/branches/ecommerce/collections/licenses/Licenses'
+import { LicenseActivations } from '@/branches/ecommerce/collections/licenses/LicenseActivations'
+// Loyalty
+import { LoyaltyPoints } from '@/branches/ecommerce/collections/loyalty/LoyaltyPoints'
+import { LoyaltyRedemptions } from '@/branches/ecommerce/collections/loyalty/LoyaltyRedemptions'
+import { LoyaltyRewards } from '@/branches/ecommerce/collections/loyalty/LoyaltyRewards'
+import { LoyaltyTiers } from '@/branches/ecommerce/collections/loyalty/LoyaltyTiers'
+import { LoyaltyTransactions } from '@/branches/ecommerce/collections/loyalty/LoyaltyTransactions'
+// Marketing & A/B Testing
+import { ABTests } from '@/branches/ecommerce/collections/marketing/ABTests'
+import { ABTestResults } from '@/branches/ecommerce/collections/marketing/ABTestResults'
+import { DiscountCodes } from '@/branches/ecommerce/collections/marketing/DiscountCodes'
+import { EditionNotifications } from '@/branches/ecommerce/collections/marketing/EditionNotifications'
+import { GiftVouchers } from '@/branches/ecommerce/collections/marketing/GiftVouchers'
+// Customer & Cart
 import { Carts } from '../packages/modules/cart/collections/Carts'
 import { Customers } from '../packages/modules/accounts/collections/Customers'
 import { Addresses } from '../packages/modules/accounts/collections/Addresses'
-import { EditionNotifications } from '@/branches/ecommerce/collections/EditionNotifications'
-import { GiftVouchers } from '@/branches/ecommerce/collections/GiftVouchers'
-import Quotes from '@/branches/ecommerce/collections/Quotes'
-import { Invoices } from '@/branches/ecommerce/collections/Invoices'
-import { LicenseActivations } from '@/branches/ecommerce/collections/LicenseActivations'
-import { Licenses } from '@/branches/ecommerce/collections/Licenses'
-import { LoyaltyPoints } from '@/branches/ecommerce/collections/LoyaltyPoints'
-import { LoyaltyRedemptions } from '@/branches/ecommerce/collections/LoyaltyRedemptions'
-import { LoyaltyRewards } from '@/branches/ecommerce/collections/LoyaltyRewards'
-import { LoyaltyTiers } from '@/branches/ecommerce/collections/LoyaltyTiers'
-import { LoyaltyTransactions } from '@/branches/ecommerce/collections/LoyaltyTransactions'
-import { OrderLists } from '@/branches/ecommerce/collections/OrderLists'
-import { Orders } from '@/branches/ecommerce/collections/Orders'
-import { PaymentMethods } from '@/branches/ecommerce/collections/PaymentMethods'
-import { Products } from '@/branches/ecommerce/collections/Products'
-import { RecentlyViewed } from '@/branches/ecommerce/collections/RecentlyViewed'
-import { RecurringOrders } from '@/branches/ecommerce/collections/RecurringOrders'
-import { Returns } from '@/branches/ecommerce/collections/Returns'
-import { StockReservations } from '@/branches/ecommerce/collections/StockReservations'
-import { DiscountCodes } from '@/branches/ecommerce/collections/DiscountCodes'
-import { SubscriptionPlans } from '@/branches/ecommerce/collections/SubscriptionPlans'
-import { UserSubscriptions } from '@/branches/ecommerce/collections/UserSubscriptions'
-
-// Ecommerce - Shop Subdirectory (still in old location temporarily)
-import { ProductCategories } from '@/branches/ecommerce/collections/ProductCategories'
-import { CustomerGroups } from '@/branches/ecommerce/collections/CustomerGroups'
 
 // Content Branch (5 collections)
 import { BlogPosts } from '@/branches/content/collections/BlogPosts'
@@ -139,7 +147,7 @@ import { Header } from '@/globals/Header'
 import { MeilisearchSettings } from '@/globals/MeilisearchSettings'
 import { ChatbotSettings } from '@/globals/ChatbotSettings'
 import { Settings } from '@/globals/Settings'
-import { EcommerceSettings } from '@/globals/EcommerceSettings'
+import { EcommerceSettings } from '@/branches/ecommerce/collections/ecommerce-settings'
 import { Theme } from '@/globals/Theme'
 
 // Plugins

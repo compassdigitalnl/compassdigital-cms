@@ -49,6 +49,11 @@ export interface CartProduct {
    * Available stock quantity (optional, shown in low-stock state)
    */
   stockQuantity?: number
+
+  /**
+   * Tax class for BTW calculation
+   */
+  taxClass?: 'standard' | 'reduced' | 'zero'
 }
 
 export interface CartLineItemProps {

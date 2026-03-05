@@ -2,4 +2,5 @@ import type { OrderDetail } from '@/branches/ecommerce/templates/account/Account
 
 export interface OrderSummaryCardProps {
   order: OrderDetail
+  onReorder?: () => void
 }

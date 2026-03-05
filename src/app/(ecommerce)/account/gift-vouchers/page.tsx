@@ -5,6 +5,7 @@ import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 import GiftCardsTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/GiftCardsTemplate'
 import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import { toast } from '@/lib/toast'
 import type {
   GiftCard,
   GiftCardTransaction,
@@ -64,19 +65,31 @@ export default function GiftVouchersPage() {
         setRedeemCode('')
         fetchData()
       } else {
-        alert(data.error || 'Code kon niet worden ingewisseld.')
+        toast.error(data.error || 'Code kon niet worden ingewisseld')
       }
     } catch {
-      alert('Er is iets misgegaan. Probeer het later opnieuw.')
+      toast.error('Er is iets misgegaan. Probeer het later opnieuw.')
     }
   }
 
-  const handleSend = (id: number) => {
-    console.log(`Re-sending gift card ${id}`)
+  const handleSend = async (id: number) => {
+    try {
+      const res = await fetch(`/api/account/gift-vouchers/${id}/send`, {
+        method: 'POST',
+        credentials: 'include',
+      })
+      if (res.ok) {
+        toast.success('Verzoek om opnieuw te versturen is ontvangen')
+      } else {
+        toast.error('Versturen mislukt. Probeer het later opnieuw.')
+      }
+    } catch {
+      toast.error('Er is iets misgegaan')
+    }
   }
 
-  const handlePrint = (id: number) => {
-    console.log(`Printing gift card ${id}`)
+  const handlePrint = () => {
+    window.print()
   }
 
   return (

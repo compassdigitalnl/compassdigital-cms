@@ -30,6 +30,12 @@ export interface ClientFeatures {
   recentlyViewed?: boolean
   variableProducts?: boolean
   mixAndMatch?: boolean
+  bookableProducts?: boolean
+  bundleProducts?: boolean
+  configuratorProducts?: boolean
+  personalizedProducts?: boolean
+  editionNotifications?: boolean
+  globalVolumePricing?: boolean
 
   // === CART (top-level) ===
   cart?: boolean
@@ -209,6 +215,12 @@ export const features = {
   recentlyViewed: isFeatureEnabled('recently_viewed'),
   variableProducts: isFeatureEnabled('variable_products'),
   mixAndMatch: isFeatureEnabled('mix_and_match'),
+  bookableProducts: isFeatureEnabled('bookable_products'),
+  bundleProducts: isFeatureEnabled('bundle_products'),
+  configuratorProducts: isFeatureEnabled('configurator_products'),
+  personalizedProducts: isFeatureEnabled('personalized_products'),
+  editionNotifications: isFeatureEnabled('edition_notifications'),
+  globalVolumePricing: isFeatureEnabled('global_volume_pricing'),
 
   // === CART ===
   cart: isFeatureEnabled('cart'),
@@ -301,6 +313,12 @@ export const featureCategories = {
     'recentlyViewed',
     'variableProducts',
     'mixAndMatch',
+    'bookableProducts',
+    'bundleProducts',
+    'configuratorProducts',
+    'personalizedProducts',
+    'editionNotifications',
+    'globalVolumePricing',
   ],
   cart: ['cart', 'miniCart', 'freeShippingBar'],
   checkout: ['checkout', 'guestCheckout', 'invoices', 'orderTracking'],
@@ -355,6 +373,12 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     recentlyViewed: 'ENABLE_RECENTLY_VIEWED',
     variableProducts: 'ENABLE_VARIABLE_PRODUCTS',
     mixAndMatch: 'ENABLE_MIX_AND_MATCH',
+    bookableProducts: 'ENABLE_BOOKABLE_PRODUCTS',
+    bundleProducts: 'ENABLE_BUNDLE_PRODUCTS',
+    configuratorProducts: 'ENABLE_CONFIGURATOR_PRODUCTS',
+    personalizedProducts: 'ENABLE_PERSONALIZED_PRODUCTS',
+    editionNotifications: 'ENABLE_EDITION_NOTIFICATIONS',
+    globalVolumePricing: 'ENABLE_GLOBAL_VOLUME_PRICING',
 
     // === CART ===
     cart: 'ENABLE_CART',
@@ -458,6 +482,7 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     'product-categories': 'shop',
     brands: 'brands',
     'recently-viewed': 'recentlyViewed',
+    'edition-notifications': 'editionNotifications',
 
     // === CHECKOUT ===
     orders: 'checkout',

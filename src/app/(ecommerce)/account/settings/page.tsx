@@ -1,17 +1,20 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 import { AccountLoadingSkeleton } from '@/branches/ecommerce/components/account/ui'
 import SettingsTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/SettingsTemplate'
 import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import { toast } from '@/lib/toast'
 
 export default function SettingsPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
   const { config } = useAccountTemplate()
+  const router = useRouter()
   const { user, isLoading: authLoading } = useAccountAuth()
 
   const [profileData, setProfileData] = useState({
@@ -69,13 +72,13 @@ export default function SettingsPage() {
         }),
       })
       if (res.ok) {
-        alert('Profiel succesvol bijgewerkt!')
+        toast.success('Profiel succesvol bijgewerkt')
       } else {
-        alert('Er ging iets mis bij het opslaan.')
+        toast.error('Er ging iets mis bij het opslaan')
       }
     } catch (err) {
       console.error('Error saving profile:', err)
-      alert('Er ging iets mis bij het opslaan.')
+      toast.error('Er ging iets mis bij het opslaan')
     } finally {
       setIsSaving(false)
     }
@@ -83,11 +86,11 @@ export default function SettingsPage() {
 
   const handleChangePassword = async () => {
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      alert('Nieuwe wachtwoorden komen niet overeen!')
+      toast.error('Nieuwe wachtwoorden komen niet overeen')
       return
     }
     if (passwordData.newPassword.length < 8) {
-      alert('Wachtwoord moet minimaal 8 tekens bevatten!')
+      toast.error('Wachtwoord moet minimaal 8 tekens bevatten')
       return
     }
 
@@ -104,25 +107,57 @@ export default function SettingsPage() {
       })
       if (res.ok) {
         setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' })
-        alert('Wachtwoord succesvol gewijzigd!')
+        toast.success('Wachtwoord succesvol gewijzigd')
       } else {
-        alert('Er ging iets mis bij het wijzigen van je wachtwoord.')
+        toast.error('Er ging iets mis bij het wijzigen van je wachtwoord')
       }
     } catch (err) {
       console.error('Error changing password:', err)
+      toast.error('Er ging iets mis bij het wijzigen van je wachtwoord')
     } finally {
       setIsSaving(false)
     }
   }
 
-  const handleDeleteAccount = () => {
+  const handleToggleNotification = async (key: string) => {
+    const newNotifications = { ...notifications, [key]: !notifications[key as keyof typeof notifications] }
+    setNotifications(newNotifications)
+    try {
+      const res = await fetch('/api/account/settings', {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ notifications: newNotifications }),
+      })
+      if (!res.ok) throw new Error('Failed to save')
+    } catch (err) {
+      console.error('Error saving notification preferences:', err)
+      // Revert on failure
+      setNotifications(notifications)
+      toast.error('Fout bij opslaan notificatievoorkeuren')
+    }
+  }
+
+  const handleDeleteAccount = async () => {
     const confirmed = confirm('Weet je zeker dat je je account wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.')
-    if (confirmed) {
-      const doubleConfirmed = confirm('Dit zal al je gegevens permanent verwijderen. Doorgaan?')
-      if (doubleConfirmed) {
-        // TODO: Implement account deletion API
-        console.log('Deleting account')
+    if (!confirmed) return
+    const doubleConfirmed = confirm('Dit zal al je gegevens permanent verwijderen. Doorgaan?')
+    if (!doubleConfirmed) return
+
+    try {
+      const res = await fetch('/api/account/delete', {
+        method: 'DELETE',
+        credentials: 'include',
+      })
+      if (res.ok) {
+        toast.success('Account verwijderd')
+        router.push('/login')
+      } else {
+        toast.error('Er ging iets mis bij het verwijderen van je account')
       }
+    } catch (err) {
+      console.error('Error deleting account:', err)
+      toast.error('Er ging iets mis bij het verwijderen van je account')
     }
   }
 
@@ -137,7 +172,7 @@ export default function SettingsPage() {
       onUpdatePassword={(data) => setPasswordData({ ...passwordData, ...data })}
       onChangePassword={handleChangePassword}
       notifications={notifications}
-      onToggleNotification={(key) => setNotifications({ ...notifications, [key]: !notifications[key as keyof typeof notifications] })}
+      onToggleNotification={handleToggleNotification}
       onDeleteAccount={handleDeleteAccount}
       isSaving={isSaving}
     />

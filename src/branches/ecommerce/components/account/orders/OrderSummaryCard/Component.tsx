@@ -13,7 +13,7 @@ const paymentMethodLabels: Record<string, string> = {
   banktransfer: 'Bankoverschrijving',
 }
 
-export function OrderSummaryCard({ order }: OrderSummaryCardProps) {
+export function OrderSummaryCard({ order, onReorder }: OrderSummaryCardProps) {
   const { formatPriceStr, vatLabel } = usePriceMode()
   const paymentInfo = formatPaymentStatus(order.paymentStatus)
 
@@ -65,6 +65,7 @@ export function OrderSummaryCard({ order }: OrderSummaryCardProps) {
       </div>
 
       <button
+        onClick={onReorder}
         className="w-full px-4 py-3 rounded-xl text-sm font-bold transition-all active:opacity-80 lg:hover:opacity-90 mb-2 text-white"
         style={{ background: 'var(--color-primary)' }}
       >

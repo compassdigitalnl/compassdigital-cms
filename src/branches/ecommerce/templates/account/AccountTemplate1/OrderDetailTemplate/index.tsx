@@ -7,7 +7,7 @@ import { OrderDetailHeader, TrackingBanner, OrderSummaryCard } from '@/branches/
 import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { OrderDetailTemplateProps } from './types'
 
-export default function OrderDetailTemplate({ order }: OrderDetailTemplateProps) {
+export default function OrderDetailTemplate({ order, onReorder, onDownloadInvoice }: OrderDetailTemplateProps) {
   const { formatPriceStr } = usePriceMode()
   const timeline = buildOrderTimeline(order.status, order.timeline)
   const shippingAddr = order.shippingAddress
@@ -16,7 +16,7 @@ export default function OrderDetailTemplate({ order }: OrderDetailTemplateProps)
 
   return (
     <div className="space-y-4 lg:space-y-6">
-      <OrderDetailHeader order={order} />
+      <OrderDetailHeader order={order} onReorder={onReorder} onDownloadInvoice={onDownloadInvoice} />
 
       {order.trackingUrl && (
         <TrackingBanner trackingUrl={order.trackingUrl} trackingCode={order.trackingCode} />
@@ -155,7 +155,7 @@ export default function OrderDetailTemplate({ order }: OrderDetailTemplateProps)
 
         {/* Sidebar */}
         <div className="space-y-4 lg:space-y-6">
-          <OrderSummaryCard order={order} />
+          <OrderSummaryCard order={order} onReorder={onReorder} />
         </div>
       </div>
     </div>

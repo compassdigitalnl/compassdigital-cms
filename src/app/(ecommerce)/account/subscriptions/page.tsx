@@ -1,10 +1,12 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 import SubscriptionsTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/SubscriptionsTemplate'
 import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import { toast } from '@/lib/toast'
 import type {
   Subscription,
   SubscriptionInvoice,
@@ -38,6 +40,7 @@ export default function SubscriptionPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
   const { config } = useAccountTemplate()
+  const router = useRouter()
   const [subscription, setSubscription] = useState<Subscription>(EMPTY_SUBSCRIPTION)
   const [invoices, setInvoices] = useState<SubscriptionInvoice[]>([])
 
@@ -68,23 +71,26 @@ export default function SubscriptionPage() {
       if (res.ok) {
         fetchData()
       } else {
-        alert('Opzeggen mislukt. Probeer het later opnieuw.')
+        toast.error('Opzeggen mislukt. Probeer het later opnieuw.')
       }
     } catch {
-      alert('Er is iets misgegaan.')
+      toast.error('Er is iets misgegaan')
     }
   }
 
   const handleUpgradePlan = () => {
-    console.log('Upgrading plan...')
+    toast.info('Neem contact op met ons verkoopteam voor upgradeopties')
+    router.push('/contact')
   }
 
   const handleAddAddon = () => {
-    console.log('Adding addon...')
+    toast.info('Neem contact op met ons verkoopteam voor add-on opties')
+    router.push('/contact')
   }
 
   const handleAddPaymentMethod = () => {
-    console.log('Adding payment method...')
+    toast.info('Neem contact op met ons om een betaalmethode toe te voegen')
+    router.push('/contact')
   }
 
   return (

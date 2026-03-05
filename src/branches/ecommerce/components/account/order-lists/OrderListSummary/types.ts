@@ -5,4 +5,6 @@ export interface OrderListSummaryProps {
   expectedTotal: number
   notes?: string
   onAddAllToCart: () => void
+  onRequestQuote?: () => void
+  onNotesChange?: (value: string) => void
 }

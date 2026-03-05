@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import {
   ClipboardList,
@@ -21,6 +21,8 @@ import {
   FlaskConical,
   PlusCircle,
   Building2,
+  Copy,
+  Trash2,
 } from 'lucide-react'
 import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 import type { OrderListsTemplateProps, OrderList } from './types'
@@ -77,11 +79,23 @@ function renderIcon(iconName: string, color: string) {
   )
 }
 
-export default function OrderListsTemplate({ lists, loading, error, onRetry, onAddToCart }: OrderListsTemplateProps) {
+export default function OrderListsTemplate({ lists, loading, error, onRetry, onAddToCart, onDeleteList, onDuplicateList, onTogglePin }: OrderListsTemplateProps) {
   const { formatPriceStr } = usePriceMode()
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState('updated')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setOpenDropdown(null)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const stats = {
     activeLists: lists.length,
@@ -323,13 +337,55 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
                     </div>
                   )}
                 </div>
-                <button
-                  onClick={(e) => { e.preventDefault() }}
-                  className="w-8 h-8 rounded-lg flex items-center justify-center transition-all hover:border-teal-700 hover:bg-teal-50"
-                  style={{ background: 'white', border: '1px solid #E8ECF1' }}
-                >
-                  <MoreVertical className="w-4 h-4" style={{ color: '#94A3B8' }} />
-                </button>
+                <div className="relative" ref={openDropdown === list.id ? dropdownRef : undefined}>
+                  <button
+                    onClick={(e) => { e.preventDefault(); setOpenDropdown(openDropdown === list.id ? null : list.id) }}
+                    className="w-8 h-8 rounded-lg flex items-center justify-center transition-all hover:border-teal-700 hover:bg-teal-50"
+                    style={{ background: 'white', border: '1px solid #E8ECF1' }}
+                  >
+                    <MoreVertical className="w-4 h-4" style={{ color: '#94A3B8' }} />
+                  </button>
+                  {openDropdown === list.id && (
+                    <div
+                      className="absolute right-0 top-10 z-50 rounded-xl py-1.5 min-w-[180px]"
+                      style={{ background: 'white', border: '1px solid #E8ECF1', boxShadow: '0 8px 28px rgba(0,0,0,0.1)' }}
+                    >
+                      <button
+                        onClick={(e) => { e.preventDefault(); setOpenDropdown(null); window.location.href = `/account/lists/${list.id}` }}
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-gray-50"
+                        style={{ fontSize: '13px', color: '#0A1628' }}
+                      >
+                        <Eye className="w-4 h-4" style={{ color: '#94A3B8' }} />
+                        Bekijken
+                      </button>
+                      <button
+                        onClick={(e) => { e.preventDefault(); setOpenDropdown(null); onDuplicateList?.(list.id) }}
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-gray-50"
+                        style={{ fontSize: '13px', color: '#0A1628' }}
+                      >
+                        <Copy className="w-4 h-4" style={{ color: '#94A3B8' }} />
+                        Dupliceren
+                      </button>
+                      <button
+                        onClick={(e) => { e.preventDefault(); setOpenDropdown(null); onTogglePin?.(list.id) }}
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-gray-50"
+                        style={{ fontSize: '13px', color: '#0A1628' }}
+                      >
+                        <Pin className="w-4 h-4" style={{ color: '#94A3B8' }} />
+                        {list.isPinned ? 'Losmaken' : 'Vastpinnen'}
+                      </button>
+                      <div style={{ borderTop: '1px solid #E8ECF1', margin: '4px 0' }} />
+                      <button
+                        onClick={(e) => { e.preventDefault(); setOpenDropdown(null); onDeleteList?.(list.id) }}
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-red-50"
+                        style={{ fontSize: '13px', color: '#FF6B6B' }}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        Verwijderen
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="flex gap-2 mb-4 flex-wrap">

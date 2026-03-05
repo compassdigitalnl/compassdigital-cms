@@ -20,5 +20,6 @@ export interface ProductActionsProps {
   addToCartLabel?: string // Button label (default: "In winkelwagen")
   showWishlist?: boolean // Show wishlist button (default: true)
   showTotalPrice?: boolean // Show total price below (default: false)
+  taxClass?: 'standard' | 'reduced' | 'zero'
   className?: string
 }

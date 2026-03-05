@@ -209,4 +209,9 @@ export interface ProductCardProps {
    * Price label prefix (e.g. "Vanaf" for grouped products)
    */
   priceLabel?: string
+
+  /**
+   * Tax class for correct BTW calculation
+   */
+  taxClass?: 'standard' | 'reduced' | 'zero'
 }

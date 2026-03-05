@@ -47,6 +47,17 @@ export interface OrderListDetailTemplateProps {
   onScanBarcode: () => void
   onBarcodeScan: (barcode: string) => void
   onCloseBarcodeScanner: () => void
+
+  // Header actions
+  onShare: () => void
+  onDuplicate: () => void
+  onExport: () => void
+  onPrint: () => void
+
+  // Summary actions
+  onNotesChange: (value: string) => void
+  onRequestQuote: () => void
+  notesValue: string
 }
 
 export type { OrderList, QuickAddProduct }

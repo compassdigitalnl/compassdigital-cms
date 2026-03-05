@@ -5,6 +5,7 @@ import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 import LicensesTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/LicensesTemplate'
 import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import { toast } from '@/lib/toast'
 import type { LicenseItem, LicenseStats } from '@/branches/ecommerce/templates/account/AccountTemplate1/LicensesTemplate/types'
 
 const EMPTY_STATS: LicenseStats = {
@@ -52,16 +53,22 @@ export default function LicensesPage() {
       })
       if (res.ok) {
         fetchData()
+        toast.success('Apparaat gedeactiveerd')
       } else {
-        alert('Deactivatie mislukt. Probeer het later opnieuw.')
+        toast.error('Deactivatie mislukt. Probeer het later opnieuw.')
       }
     } catch {
-      alert('Er is iets misgegaan.')
+      toast.error('Er is iets misgegaan')
     }
   }
 
   const handleDownloadLicense = (licenseId: number) => {
-    console.log(`Downloading license ${licenseId}`)
+    const license = licenses.find((l) => l.id === licenseId)
+    if (license && (license as any).downloadUrl) {
+      window.open((license as any).downloadUrl, '_blank')
+    } else {
+      toast.info('Geen download beschikbaar', 'Deze licentie heeft geen downloadbestand')
+    }
   }
 
   return (

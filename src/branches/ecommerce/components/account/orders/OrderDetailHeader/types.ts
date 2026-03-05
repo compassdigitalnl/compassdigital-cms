@@ -2,4 +2,6 @@ import type { OrderDetail } from '@/branches/ecommerce/templates/account/Account
 
 export interface OrderDetailHeaderProps {
   order: OrderDetail
+  onReorder?: () => void
+  onDownloadInvoice?: () => void
 }

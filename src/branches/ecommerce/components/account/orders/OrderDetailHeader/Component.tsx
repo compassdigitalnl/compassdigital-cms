@@ -5,7 +5,7 @@ import { StatusBadge } from '@/branches/ecommerce/components/account/ui'
 import { features } from '@/lib/features'
 import type { OrderDetailHeaderProps } from './types'
 
-export function OrderDetailHeader({ order }: OrderDetailHeaderProps) {
+export function OrderDetailHeader({ order, onReorder, onDownloadInvoice }: OrderDetailHeaderProps) {
   return (
     <>
       <div className="space-y-3 lg:space-y-0 lg:flex lg:items-center lg:justify-between lg:gap-4">
@@ -40,13 +40,17 @@ export function OrderDetailHeader({ order }: OrderDetailHeaderProps) {
 
         <div className="hidden lg:flex lg:flex-wrap lg:gap-2">
           <button
+            onClick={onReorder}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:opacity-90 text-white"
             style={{ background: 'var(--color-primary)' }}
           >
             <RotateCcw className="w-4 h-4" />
             Bestel opnieuw
           </button>
-          <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-gray-100 bg-gray-50 text-gray-900">
+          <button
+            onClick={onDownloadInvoice}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-gray-100 bg-gray-50 text-gray-900"
+          >
             <Download className="w-4 h-4" />
             Factuur
           </button>
@@ -64,6 +68,7 @@ export function OrderDetailHeader({ order }: OrderDetailHeaderProps) {
       {/* Mobile action buttons */}
       <div className="grid grid-cols-1 gap-2 lg:hidden">
         <button
+          onClick={onReorder}
           className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all active:opacity-80 text-white"
           style={{ background: 'var(--color-primary)' }}
         >
@@ -71,7 +76,10 @@ export function OrderDetailHeader({ order }: OrderDetailHeaderProps) {
           Bestel opnieuw
         </button>
         <div className="grid grid-cols-2 gap-2">
-          <button className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 bg-gray-50 text-gray-900">
+          <button
+            onClick={onDownloadInvoice}
+            className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 bg-gray-50 text-gray-900"
+          >
             <Download className="w-4 h-4" />
             Factuur
           </button>

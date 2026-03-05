@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
@@ -8,6 +8,9 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { DragEndEvent } from '@dnd-kit/core'
 import OrderListDetailTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/OrderListDetailTemplate'
 import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import { useCart } from '@/branches/ecommerce/contexts/CartContext'
+import { useAddToCartToast } from '@/branches/ecommerce/components/ui/AddToCartToast'
+import { toast } from '@/lib/toast'
 import type { OrderList, QuickAddProduct } from '@/branches/ecommerce/templates/account/AccountTemplate1/OrderListDetailTemplate/types'
 
 // ============================================================================
@@ -34,6 +37,8 @@ export default function OrderListDetailPage() {
   const params = useParams()
   const router = useRouter()
   const listId = params?.id as string
+  const { addItem, addGroupedItems } = useCart()
+  const { showToast } = useAddToCartToast()
 
   // Data state
   const [list, setList] = useState<OrderList | null>(null)
@@ -50,6 +55,8 @@ export default function OrderListDetailPage() {
   const [quickAddResults, setQuickAddResults] = useState<QuickAddProduct[]>([])
   const [quickAddLoading, setQuickAddLoading] = useState(false)
   const [showBarcodeScanner, setShowBarcodeScanner] = useState(false)
+  const [notesValue, setNotesValue] = useState('')
+  const notesTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // ============================================================================
   // FETCH DATA
@@ -109,6 +116,7 @@ export default function OrderListDetailPage() {
       }
 
       setList(mapped)
+      setNotesValue(mapped.notes || '')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Er is een fout opgetreden')
     } finally {
@@ -227,7 +235,7 @@ export default function OrderListDetailPage() {
         if (!response.ok) throw new Error('Failed to update list')
       } catch (err) {
         console.error('Failed to delete item:', err)
-        alert('Fout bij verwijderen product')
+        toast.error('Fout bij verwijderen product')
       }
     }
   }
@@ -235,25 +243,130 @@ export default function OrderListDetailPage() {
   const handleAddToCart = (itemId: string) => {
     const item = list?.items.find((i) => i.id === itemId)
     if (item) {
-      alert(`${item.quantity}x ${item.product.name} toegevoegd aan winkelwagen`)
+      addItem({
+        id: item.product.id,
+        slug: item.product.sku,
+        title: item.product.name,
+        price: item.product.price,
+        quantity: item.quantity,
+        stock: item.product.stockCount,
+        sku: item.product.sku,
+      })
+      showToast({
+        id: item.product.id,
+        name: item.product.name,
+        quantity: item.quantity,
+        price: item.product.price,
+      })
     }
   }
 
-  const handleAddAllToCart = async () => {
-    if (!list) return
-    try {
-      const response = await fetch(`/api/order-lists/${list.id}/add-to-cart`, { method: 'POST' })
-      if (!response.ok) throw new Error('Failed to add to cart')
-      const data = await response.json()
-      alert(data.message || `Alle ${list.items.length} producten toegevoegd aan winkelwagen`)
-    } catch (err) {
-      alert('Fout bij toevoegen aan winkelwagen')
-      console.error(err)
-    }
+  const handleAddAllToCart = () => {
+    if (!list || list.items.length === 0) return
+    const cartItems = list.items.map((item) => ({
+      id: item.product.id,
+      slug: item.product.sku,
+      title: item.product.name,
+      price: item.product.price,
+      quantity: item.quantity,
+      stock: item.product.stockCount,
+      sku: item.product.sku,
+    }))
+    addGroupedItems(cartItems)
+    toast.success(
+      `${list.items.length} producten toegevoegd`,
+      'Alle producten zijn aan je winkelwagen toegevoegd',
+    )
   }
 
-  const handleBulkAction = (action: string) => {
-    alert(`Bulk actie: ${action} voor ${selectedItems.size} items`)
+  const handleBulkAction = async (action: string) => {
+    if (!list || selectedItems.size === 0) return
+    const selectedItemsList = list.items.filter((item) => selectedItems.has(item.id))
+
+    switch (action) {
+      case 'add-to-cart': {
+        const cartItems = selectedItemsList.map((item) => ({
+          id: item.product.id,
+          slug: item.product.sku,
+          title: item.product.name,
+          price: item.product.price,
+          quantity: item.quantity,
+          stock: item.product.stockCount,
+          sku: item.product.sku,
+        }))
+        addGroupedItems(cartItems)
+        toast.success(
+          `${selectedItemsList.length} producten toegevoegd`,
+          'Geselecteerde producten zijn aan je winkelwagen toegevoegd',
+        )
+        setSelectedItems(new Set())
+        setShowBulkBar(false)
+        break
+      }
+      case 'delete': {
+        if (!confirm(`Weet je zeker dat je ${selectedItemsList.length} producten wilt verwijderen?`)) return
+        const updatedItems = list.items.filter((item) => !selectedItems.has(item.id))
+        setList({ ...list, items: updatedItems })
+        setSelectedItems(new Set())
+        setShowBulkBar(false)
+        try {
+          const itemsForAPI = updatedItems.map((item) => ({
+            product: typeof item.product === 'string' ? item.product : item.product.id,
+            defaultQuantity: item.quantity,
+            notes: item.notes || '',
+          }))
+          const response = await fetch(`/api/order-lists/${list.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items: itemsForAPI }),
+          })
+          if (!response.ok) throw new Error('Failed to update list')
+          toast.success(`${selectedItemsList.length} producten verwijderd`)
+        } catch (err) {
+          console.error('Failed to delete items:', err)
+          toast.error('Fout bij verwijderen producten')
+          setList({ ...list })
+        }
+        break
+      }
+      case 'change-qty': {
+        const newQtyStr = prompt('Nieuw aantal voor geselecteerde producten:')
+        if (!newQtyStr) return
+        const newQty = parseInt(newQtyStr, 10)
+        if (isNaN(newQty) || newQty < 1) {
+          toast.error('Ongeldig aantal', 'Voer een getal groter dan 0 in')
+          return
+        }
+        const updatedItems = list.items.map((item) =>
+          selectedItems.has(item.id) ? { ...item, quantity: newQty } : item,
+        )
+        setList({ ...list, items: updatedItems })
+        try {
+          const itemsForAPI = updatedItems.map((item) => ({
+            product: typeof item.product === 'string' ? item.product : item.product.id,
+            defaultQuantity: item.quantity,
+            notes: item.notes || '',
+          }))
+          const response = await fetch(`/api/order-lists/${list.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items: itemsForAPI }),
+          })
+          if (!response.ok) throw new Error('Failed to update list')
+          toast.success(`Aantal gewijzigd naar ${newQty} voor ${selectedItemsList.length} producten`)
+        } catch (err) {
+          console.error('Failed to update quantities:', err)
+          toast.error('Fout bij wijzigen aantal')
+        }
+        break
+      }
+      case 'copy':
+      case 'move':
+        toast.info('Binnenkort beschikbaar', 'Deze functie wordt in een volgende update toegevoegd')
+        break
+      default:
+        break
+    }
   }
 
   const handleAddProductToList = async (product: QuickAddProduct) => {
@@ -296,7 +409,7 @@ export default function OrderListDetailPage() {
       await fetchListDetail()
     } catch (err) {
       console.error('Failed to add product to list:', err)
-      alert('Fout bij toevoegen product aan lijst')
+      toast.error('Fout bij toevoegen product aan lijst')
       setList({ ...list, items: list.items })
     }
   }
@@ -326,7 +439,7 @@ export default function OrderListDetailPage() {
       if (!response.ok) throw new Error('Failed to update list order')
     } catch (err) {
       console.error('Failed to reorder items:', err)
-      alert('Fout bij herschikken producten')
+      toast.error('Fout bij herschikken producten')
       setList({ ...list, items: list.items })
     }
   }
@@ -343,14 +456,115 @@ export default function OrderListDetailPage() {
       if (data.docs && data.docs.length > 0) {
         const product = data.docs[0]
         await handleAddProductToList(product)
-        alert(`Product "${product.title}" toegevoegd aan lijst!`)
+        toast.success(`Product "${product.title}" toegevoegd aan lijst`)
       } else {
-        alert(`Geen product gevonden met barcode: ${barcode}`)
+        toast.warning(`Geen product gevonden met barcode: ${barcode}`)
       }
     } catch (err) {
       console.error('Error searching product by barcode:', err)
-      alert('Fout bij zoeken product met barcode')
+      toast.error('Fout bij zoeken product met barcode')
     }
+  }
+
+  // ============================================================================
+  // HEADER ACTION HANDLERS
+  // ============================================================================
+
+  const handleShare = async () => {
+    if (!list) return
+    const url = window.location.href
+    const shareData = { title: list.name, text: `Bestellijst: ${list.name}`, url }
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData)
+      } else {
+        await navigator.clipboard.writeText(url)
+        toast.success('Link gekopieerd naar klembord')
+      }
+    } catch (err: any) {
+      if (err?.name !== 'AbortError') {
+        toast.error('Delen mislukt')
+      }
+    }
+  }
+
+  const handleDuplicate = async () => {
+    if (!list) return
+    try {
+      const response = await fetch('/api/order-lists', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: `${list.name} (kopie)`,
+          icon: list.icon,
+          color: list.color,
+          items: list.items.map((item) => ({
+            product: typeof item.product === 'string' ? item.product : item.product.id,
+            defaultQuantity: item.quantity,
+            notes: item.notes || '',
+          })),
+          notes: list.notes || '',
+        }),
+      })
+      if (!response.ok) throw new Error('Failed to duplicate list')
+      const data = await response.json()
+      toast.success('Lijst gedupliceerd')
+      router.push(`/account/lists/${data.doc?.id || data.id}`)
+    } catch (err) {
+      console.error('Failed to duplicate list:', err)
+      toast.error('Fout bij dupliceren lijst')
+    }
+  }
+
+  const handleExport = () => {
+    if (!list) return
+    const headers = ['Product', 'Merk', 'SKU', 'Maat', 'Stukprijs', 'Aantal', 'Totaal']
+    const rows = list.items.map((item) => [
+      item.product.name,
+      item.product.brand,
+      item.product.sku,
+      item.product.size || '',
+      item.product.price.toFixed(2),
+      item.quantity.toString(),
+      (item.product.price * item.quantity).toFixed(2),
+    ])
+    const csv = [headers, ...rows].map((row) => row.map((cell) => `"${cell}"`).join(',')).join('\n')
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${list.name.replace(/[^a-zA-Z0-9]/g, '_')}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+    toast.success('Lijst geëxporteerd als CSV')
+  }
+
+  const handlePrint = () => {
+    window.print()
+  }
+
+  const handleNotesChange = useCallback((value: string) => {
+    setNotesValue(value)
+    if (notesTimerRef.current) clearTimeout(notesTimerRef.current)
+    notesTimerRef.current = setTimeout(async () => {
+      try {
+        const response = await fetch(`/api/order-lists/${listId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ notes: value }),
+        })
+        if (!response.ok) throw new Error('Failed to save notes')
+      } catch (err) {
+        console.error('Failed to save notes:', err)
+        toast.error('Fout bij opslaan notities')
+      }
+    }, 1000)
+  }, [listId])
+
+  const handleRequestQuote = () => {
+    if (!list) return
+    const productIds = list.items.map((item) => item.product.id).join(',')
+    router.push(`/account/quotes?from=list&listId=${list.id}&products=${productIds}`)
   }
 
   // ============================================================================
@@ -430,6 +644,13 @@ export default function OrderListDetailPage() {
       onScanBarcode={() => setShowBarcodeScanner(true)}
       onBarcodeScan={handleBarcodeScan}
       onCloseBarcodeScanner={() => setShowBarcodeScanner(false)}
+      onShare={handleShare}
+      onDuplicate={handleDuplicate}
+      onExport={handleExport}
+      onPrint={handlePrint}
+      onNotesChange={handleNotesChange}
+      onRequestQuote={handleRequestQuote}
+      notesValue={notesValue}
     />
   )
 }

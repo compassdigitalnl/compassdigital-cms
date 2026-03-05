@@ -29,7 +29,8 @@ export function QuickActions() {
           </Link>
         )}
 
-        <button
+        <Link
+          href="/account/quotes"
           className="flex items-center gap-3 lg:gap-4 p-3 lg:p-4 rounded-xl transition-all active:scale-95 lg:hover:scale-[1.02]"
           style={{ background: 'rgba(0,200,83,0.08)', border: '1.5px solid var(--color-border)' }}
         >
@@ -43,9 +44,10 @@ export function QuickActions() {
             <div className="text-sm font-bold text-gray-900 mb-0.5">Offerte aanvragen</div>
             <div className="text-xs text-gray-500">Voor grote hoeveelheden</div>
           </div>
-        </button>
+        </Link>
 
-        <button
+        <Link
+          href="/contact"
           className="flex items-center gap-3 lg:gap-4 p-3 lg:p-4 rounded-xl transition-all active:scale-95 lg:hover:scale-[1.02]"
           style={{ background: 'rgba(33,150,243,0.08)', border: '1.5px solid var(--color-border)' }}
         >
@@ -59,7 +61,7 @@ export function QuickActions() {
             <div className="text-sm font-bold text-gray-900 mb-0.5">Klantenservice</div>
             <div className="text-xs text-gray-500">Chat of bel ons</div>
           </div>
-        </button>
+        </Link>
       </div>
     </div>
   )

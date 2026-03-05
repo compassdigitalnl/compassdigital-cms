@@ -37,6 +37,9 @@ export interface ProductMetaProduct {
 
   // Trust badges
   trustBadges?: TrustBadge[]
+
+  // Tax class
+  taxClass?: 'standard' | 'reduced' | 'zero'
 }
 
 export interface ProductMetaProps {

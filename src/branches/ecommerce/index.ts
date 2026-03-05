@@ -2,57 +2,52 @@
  * Ecommerce Branch
  *
  * Vertical slice containing all ecommerce-related collections, components, and logic.
- *
- * Collections: Products, ProductCategories, Orders, Carts, CustomerGroups, Brands, Invoices, RecentlyViewed, Returns, RecurringOrders, OrderLists, SubscriptionPlans, UserSubscriptions, PaymentMethods, GiftVouchers, Licenses, LicenseActivations, LoyaltyTiers, LoyaltyRewards
+ * Collections organized by subdomain: orders/, loyalty/, subscriptions/, etc.
  */
 
-// Export all collections
-export { default as Products } from './collections/Products'
-export { default as ProductCategories } from './collections/ProductCategories'
-export { default as Orders } from './collections/Orders'
+// Product Management
+export { default as Products } from './collections/products'
+export { default as ProductCategories } from './collections/catalog/ProductCategories'
+export { default as Brands } from './collections/catalog/Brands'
+export { default as RecentlyViewed } from './collections/catalog/RecentlyViewed'
+export { default as CustomerGroups } from './collections/customers/CustomerGroups'
+
+// Orders & Fulfillment
+export { default as Orders } from './collections/orders/Orders'
+export { default as OrderLists } from './collections/orders/OrderLists'
+export { default as Invoices } from './collections/orders/Invoices'
+export { default as Returns } from './collections/orders/Returns'
+export { default as RecurringOrders } from './collections/orders/RecurringOrders'
+
+// Subscriptions
+export { default as SubscriptionPlans } from './collections/subscriptions/SubscriptionPlans'
+export { default as UserSubscriptions } from './collections/subscriptions/UserSubscriptions'
+
+// Checkout & Payment
+export { default as PaymentMethods } from './collections/checkout/PaymentMethods'
+
+// Marketing
+export { default as GiftVouchers } from './collections/marketing/GiftVouchers'
+
+// Licenses
+export { default as Licenses } from './collections/licenses/Licenses'
+export { default as LicenseActivations } from './collections/licenses/LicenseActivations'
+
+// Loyalty
+export { default as LoyaltyTiers } from './collections/loyalty/LoyaltyTiers'
+export { default as LoyaltyRewards } from './collections/loyalty/LoyaltyRewards'
+
+// Cart (external module)
 export { Carts } from '../../../packages/modules/cart/collections/Carts'
-export { default as CustomerGroups } from './collections/CustomerGroups'
-export { default as Brands } from './collections/Brands'
-export { default as Invoices } from './collections/Invoices'
-export { default as RecentlyViewed } from './collections/RecentlyViewed'
-export { default as Returns } from './collections/Returns'
-export { default as RecurringOrders } from './collections/RecurringOrders'
-export { default as OrderLists } from './collections/OrderLists'
-export { default as SubscriptionPlans } from './collections/SubscriptionPlans'
-export { default as UserSubscriptions } from './collections/UserSubscriptions'
-export { default as PaymentMethods } from './collections/PaymentMethods'
-export { default as GiftVouchers } from './collections/GiftVouchers'
-export { default as Licenses } from './collections/Licenses'
-export { default as LicenseActivations } from './collections/LicenseActivations'
-export { default as LoyaltyTiers } from './collections/LoyaltyTiers'
-export { default as LoyaltyRewards } from './collections/LoyaltyRewards'
 
 // Export branch metadata
 export const branchMetadata = {
   name: 'ecommerce',
   collections: [
-  "Products",
-  "ProductCategories",
-  "Orders",
-  "Carts",
-  "CustomerGroups",
-  "Brands",
-  "Invoices",
-  "RecentlyViewed",
-  "Returns",
-  "RecurringOrders",
-  "OrderLists",
-  "SubscriptionPlans",
-  "UserSubscriptions",
-  "PaymentMethods",
-  "GiftVouchers",
-  "Licenses",
-  "LicenseActivations",
-  "LoyaltyTiers",
-  "LoyaltyRewards"
-],
+    'Products', 'ProductCategories', 'Orders', 'Carts', 'CustomerGroups',
+    'Brands', 'Invoices', 'RecentlyViewed', 'Returns', 'RecurringOrders',
+    'OrderLists', 'SubscriptionPlans', 'UserSubscriptions', 'PaymentMethods',
+    'GiftVouchers', 'Licenses', 'LicenseActivations', 'LoyaltyTiers', 'LoyaltyRewards',
+  ],
   featureFlag: 'ENABLE_ECOMMERCE',
 } as const
-
-// Export branch routes (to be implemented)
-// export { routes } from './routes'
