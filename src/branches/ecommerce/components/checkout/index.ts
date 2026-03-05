@@ -21,3 +21,20 @@ export type { PONumberInputProps, PONumberVariant, IconPosition } from './PONumb
 
 export { CheckoutAuthPanel } from './CheckoutAuthPanel'
 export type { CheckoutAuthPanelProps } from './CheckoutAuthPanel'
+
+export { AddressItem } from './AddressItem'
+export type { AddressItemProps } from './AddressItem'
+
+export { CreateAddressModal } from './CreateAddressModal'
+export type { CreateAddressModalProps } from './CreateAddressModal'
+
+export { CheckoutAddresses } from './CheckoutAddresses'
+export type { CheckoutAddressesProps } from './CheckoutAddresses'
+
+export { CheckoutSteps } from './CheckoutSteps'
+export type { CheckoutStepsProps } from './CheckoutSteps'
+
+export { CheckoutSummary } from './CheckoutSummary'
+export type { CheckoutSummaryProps } from './CheckoutSummary'
+
+export { ConfirmOrder } from './ConfirmOrder'

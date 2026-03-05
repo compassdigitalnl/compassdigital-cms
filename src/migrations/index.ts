@@ -26,6 +26,7 @@ import * as migration_20260304_150000_add_brands_template_setting from './202603
 import * as migration_20260305_100000_add_discount_codes from './20260305_100000_add_discount_codes';
 import * as migration_20260304_170000_extend_orders_addresses from './20260304_170000_extend_orders_addresses';
 import * as migration_20260304_180000_account_template_field from './20260304_180000_account_template_field';
+import * as migration_20260305_120000_quotes_collection from './20260305_120000_quotes_collection';
 
 export const migrations = [
   {
@@ -167,5 +168,10 @@ export const migrations = [
     up: migration_20260304_180000_account_template_field.up,
     down: migration_20260304_180000_account_template_field.down,
     name: '20260304_180000_account_template_field',
+  },
+  {
+    up: migration_20260305_120000_quotes_collection.up,
+    down: migration_20260305_120000_quotes_collection.down,
+    name: '20260305_120000_quotes_collection',
   },
 ];

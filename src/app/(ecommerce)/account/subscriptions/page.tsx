@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 import SubscriptionsTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/SubscriptionsTemplate'
@@ -10,84 +10,81 @@ import type {
   SubscriptionInvoice,
 } from '@/branches/ecommerce/templates/account/AccountTemplate1/SubscriptionsTemplate/types'
 
+const EMPTY_SUBSCRIPTION: Subscription = {
+  plan: {
+    name: 'Geen abonnement',
+    price: 0,
+    billingInterval: 'monthly',
+    icon: '📦',
+  },
+  status: 'canceled',
+  currentPeriodStart: '',
+  currentPeriodEnd: '',
+  usage: {
+    users: { current: 0, limit: 0 },
+    storage: { current: 0, limit: 0 },
+    apiCalls: { current: 0, limit: 0 },
+  },
+  addons: [],
+  paymentMethod: {
+    type: '',
+    brand: '',
+    last4: '',
+    isDefault: false,
+  },
+}
+
 export default function SubscriptionPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
   const { config } = useAccountTemplate()
+  const [subscription, setSubscription] = useState<Subscription>(EMPTY_SUBSCRIPTION)
+  const [invoices, setInvoices] = useState<SubscriptionInvoice[]>([])
 
-  // TODO: Replace with real subscription data from API
-  const [subscription] = useState<Subscription>({
-    plan: {
-      name: 'Professional',
-      price: 49,
-      billingInterval: 'monthly',
-      icon: '💼',
-    },
-    status: 'active',
-    currentPeriodStart: '2026-02-01',
-    currentPeriodEnd: '2026-03-01',
-    usage: {
-      users: { current: 3, limit: 5 },
-      storage: { current: 12.5, limit: 50 },
-      apiCalls: { current: 45000, limit: 100000 },
-    },
-    addons: [
-      { name: 'Extra Storage', icon: '💾', price: 9, since: '2026-01-15' },
-      { name: 'Priority Support', icon: '🎧', price: 19, since: '2026-01-01' },
-    ],
-    paymentMethod: {
-      type: 'card',
-      brand: 'Visa',
-      last4: '4242',
-      isDefault: true,
-    },
-  })
+  const fetchData = useCallback(async () => {
+    try {
+      const res = await fetch('/api/account/subscriptions', { credentials: 'include' })
+      if (res.ok) {
+        const data = await res.json()
+        if (data.subscription) setSubscription(data.subscription)
+        setInvoices(data.invoices || [])
+      }
+    } catch (err) {
+      console.error('Error fetching subscriptions:', err)
+    }
+  }, [])
 
-  const [invoices] = useState<SubscriptionInvoice[]>([
-    {
-      id: 1,
-      date: '2026-02-01',
-      description: 'Professional plan — February 2026',
-      amount: 77,
-      status: 'paid',
-    },
-    {
-      id: 2,
-      date: '2026-01-01',
-      description: 'Professional plan — January 2026',
-      amount: 77,
-      status: 'paid',
-    },
-  ])
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
 
-  const handleCancelSubscription = () => {
-    // TODO: Implement cancel subscription API call
-    if (
-      confirm(
-        'Weet je zeker dat je je abonnement wilt opzeggen? Je blijft toegang houden tot het einde van de huidige periode.',
-      )
-    ) {
-      console.log('Canceling subscription...')
-      alert('Abonnement opgezegd')
+  const handleCancelSubscription = async () => {
+    if (!confirm('Weet je zeker dat je je abonnement wilt opzeggen? Je blijft toegang houden tot het einde van de huidige periode.')) return
+    try {
+      const res = await fetch('/api/account/subscriptions/cancel', {
+        method: 'POST',
+        credentials: 'include',
+      })
+      if (res.ok) {
+        fetchData()
+      } else {
+        alert('Opzeggen mislukt. Probeer het later opnieuw.')
+      }
+    } catch {
+      alert('Er is iets misgegaan.')
     }
   }
 
   const handleUpgradePlan = () => {
-    // TODO: Implement upgrade plan flow
     console.log('Upgrading plan...')
-    alert('Upgrade functionaliteit nog niet beschikbaar')
   }
 
   const handleAddAddon = () => {
-    // TODO: Implement add-on flow
     console.log('Adding addon...')
-    alert('Add-on functionaliteit nog niet beschikbaar')
   }
 
   const handleAddPaymentMethod = () => {
-    // TODO: Implement add payment method flow
     console.log('Adding payment method...')
-    alert('Betaalmethode toevoegen nog niet beschikbaar')
   }
 
   return (

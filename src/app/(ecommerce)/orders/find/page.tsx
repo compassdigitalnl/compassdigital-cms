@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import React from 'react'
-import { FindOrderForm } from '@/branches/ecommerce/components/forms/FindOrderForm'
+import { FindOrderForm } from '@/branches/ecommerce/components/account/orders/FindOrderForm'
 import { getPayload } from 'payload'
 import { headers as getHeaders } from 'next/headers.js'
 import configPromise from '@payload-config'

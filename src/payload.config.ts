@@ -42,6 +42,7 @@ import { Customers } from '../packages/modules/accounts/collections/Customers'
 import { Addresses } from '../packages/modules/accounts/collections/Addresses'
 import { EditionNotifications } from '@/branches/ecommerce/collections/EditionNotifications'
 import { GiftVouchers } from '@/branches/ecommerce/collections/GiftVouchers'
+import Quotes from '@/branches/ecommerce/collections/Quotes'
 import { Invoices } from '@/branches/ecommerce/collections/Invoices'
 import { LicenseActivations } from '@/branches/ecommerce/collections/LicenseActivations'
 import { Licenses } from '@/branches/ecommerce/collections/Licenses'
@@ -326,6 +327,9 @@ export default buildConfig({
     _col(LoyaltyPoints),
     _col(LoyaltyTransactions),
     _col(LoyaltyRedemptions),
+
+    // Quotes (Sprint 10)
+    _col(Quotes),
 
     // A/B Testing (Sprint 9)
     _col(ABTests),

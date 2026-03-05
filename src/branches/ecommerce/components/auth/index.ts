@@ -45,3 +45,8 @@ export type { RegisterFormProps, RegisterFormData } from './RegisterForm'
 
 export { GuestCheckoutForm } from './GuestCheckoutForm'
 export type { GuestCheckoutFormProps, GuestCheckoutFormData } from './GuestCheckoutForm'
+
+export { ForgotPasswordForm } from './ForgotPasswordForm'
+export type { ForgotPasswordFormData } from './ForgotPasswordForm'
+
+export { CreateAccountForm } from './CreateAccountForm'

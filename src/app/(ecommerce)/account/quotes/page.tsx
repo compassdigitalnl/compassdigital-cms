@@ -22,19 +22,13 @@ const INITIAL_FORM_DATA: QuoteFormData = {
   agreedToPrivacy: false,
 }
 
-const SAMPLE_PRODUCTS: QuoteProduct[] = [
-  { id: '1', name: 'Peha-soft Nitrile Fino — Maat M', sku: '942210', emoji: '🧤', quantity: 50 },
-  { id: '2', name: 'Baktolan Protect+ Pure 100ml', sku: '232451', emoji: '🧴', quantity: 24 },
-  { id: '3', name: 'BD Discardit II Spuit 10ml', sku: '309110', emoji: '💉', quantity: 100 },
-]
-
 export default function QuotesPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
   const { config } = useAccountTemplate()
   const { isLoading: authLoading } = useAccountAuth()
 
-  const [products, setProducts] = useState<QuoteProduct[]>(SAMPLE_PRODUCTS)
+  const [products, setProducts] = useState<QuoteProduct[]>([])
   const [formData, setFormData] = useState<QuoteFormData>(INITIAL_FORM_DATA)
   const [isSubmitting, setIsSubmitting] = useState(false)
 

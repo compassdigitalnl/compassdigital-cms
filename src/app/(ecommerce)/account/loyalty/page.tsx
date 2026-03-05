@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 import LoyaltyTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/LoyaltyTemplate'
@@ -11,115 +11,57 @@ import type {
   LoyaltyReward,
 } from '@/branches/ecommerce/templates/account/AccountTemplate1/LoyaltyTemplate/types'
 
+const EMPTY_LOYALTY: LoyaltyData = {
+  availablePoints: 0,
+  totalEarned: 0,
+  totalSpent: 0,
+  tier: {
+    name: 'Bronze',
+    icon: '🥉',
+    color: 'amber',
+    minPoints: 0,
+    multiplier: 1,
+    benefits: [],
+  },
+  nextTier: {
+    name: 'Silver',
+    icon: '🥈',
+    requiredPoints: 1000,
+    pointsNeeded: 1000,
+  },
+  referralCode: '',
+  stats: {
+    totalOrders: 0,
+    totalSpentMoney: 0,
+    rewardsRedeemed: 0,
+    referrals: 0,
+  },
+}
+
 export default function LoyaltyPage() {
   if (!isFeatureEnabled('shop')) notFound()
 
   const { config } = useAccountTemplate()
+  const [loyaltyData, setLoyaltyData] = useState<LoyaltyData>(EMPTY_LOYALTY)
+  const [transactions, setTransactions] = useState<LoyaltyTransaction[]>([])
+  const [rewards, setRewards] = useState<LoyaltyReward[]>([])
 
-  // TODO: Replace with real loyalty data from API
-  const [loyaltyData] = useState<LoyaltyData>({
-    availablePoints: 2450,
-    totalEarned: 4200,
-    totalSpent: 1750,
-    tier: {
-      name: 'Gold',
-      icon: '👑',
-      color: 'amber',
-      minPoints: 2000,
-      multiplier: 1.5,
-      benefits: [
-        'Gratis verzending',
-        'Priority support',
-        '15% korting op nieuwe producten',
-        'Early access tot sales',
-      ],
-    },
-    nextTier: {
-      name: 'Platinum',
-      icon: '💎',
-      requiredPoints: 5000,
-      pointsNeeded: 550,
-    },
-    referralCode: 'MARK2024',
-    referralPointsEarned: 750,
-    referralActiveUsers: 2,
-    stats: {
-      totalOrders: 42,
-      totalSpentMoney: 4850,
-      rewardsRedeemed: 7,
-      referrals: 3,
-    },
-  })
-
-  const [transactions] = useState<LoyaltyTransaction[]>([
-    {
-      id: 1,
-      type: 'earned_purchase',
-      points: 150,
-      description: 'Aankoop bestelling #DS-2026-0847',
-      createdAt: '2026-02-15',
-    },
-    {
-      id: 2,
-      type: 'earned_review',
-      points: 50,
-      description: 'Product review geschreven',
-      createdAt: '2026-02-10',
-    },
-    {
-      id: 3,
-      type: 'spent_reward',
-      points: -200,
-      description: '€10 korting ingewisseld',
-      createdAt: '2026-02-05',
-    },
-    {
-      id: 4,
-      type: 'earned_referral',
-      points: 100,
-      description: 'Vriend doorverwezen',
-      createdAt: '2026-02-01',
-    },
-  ])
-
-  const [rewards] = useState<LoyaltyReward[]>([
-    {
-      id: 1,
-      name: '€5 korting',
-      icon: '🏷️',
-      description: 'Op je volgende bestelling',
-      type: 'discount',
-      pointsCost: 500,
-      value: 5,
-    },
-    {
-      id: 2,
-      name: 'Gratis verzending',
-      icon: '🚚',
-      description: 'Op je volgende bestelling',
-      type: 'shipping',
-      pointsCost: 300,
-      value: null,
-    },
-    {
-      id: 3,
-      name: '€10 korting',
-      icon: '🎁',
-      description: 'Op je volgende bestelling',
-      type: 'discount',
-      pointsCost: 1000,
-      value: 10,
-    },
-    {
-      id: 4,
-      name: 'VIP Event toegang',
-      icon: '🎫',
-      description: 'Exclusieve productlancering',
-      type: 'event',
-      pointsCost: 2000,
-      value: null,
-    },
-  ])
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch('/api/account/loyalty', { credentials: 'include' })
+        if (res.ok) {
+          const data = await res.json()
+          if (data.loyaltyData) setLoyaltyData(data.loyaltyData)
+          setTransactions(data.transactions || [])
+          setRewards(data.rewards || [])
+        }
+      } catch (err) {
+        console.error('Error fetching loyalty data:', err)
+      }
+    }
+    fetchData()
+  }, [])
 
   return (
     <LoyaltyTemplate
