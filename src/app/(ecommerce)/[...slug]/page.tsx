@@ -88,19 +88,25 @@ export async function generateMetadata({
       let canonicalUrl = meta?.canonicalUrl || undefined
       if (!canonicalUrl) {
         // Auto-canonical: if this product is a child of a grouped product, point to parent
-        const parentGroup = await payload.find({
-          collection: 'products',
-          limit: 1,
-          where: {
-            productType: { equals: 'grouped' },
-            'childProducts.product': { equals: product.id },
-          },
-          depth: 0,
-          select: { slug: true },
-        })
-        if (parentGroup.docs[0]?.slug) {
-          const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''
-          canonicalUrl = `${baseUrl}/${parentGroup.docs[0].slug}`
+        // Use raw SQL via drizzle since Payload's array.relationship filter is unreliable
+        try {
+          const parentResult: any = await payload.db.drizzle.execute(
+            (await import('drizzle-orm')).sql`
+              SELECT p.slug FROM products p
+              INNER JOIN products_child_products cp ON cp._parent_id = p.id
+              WHERE cp.product_id = ${product.id}
+                AND p.product_type = 'grouped'
+                AND p.status = 'published'
+              LIMIT 1
+            `
+          )
+          const parentSlug = parentResult?.rows?.[0]?.slug
+          if (parentSlug) {
+            const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''
+            canonicalUrl = `${baseUrl}/${parentSlug}`
+          }
+        } catch (e) {
+          // Silently fail — canonical is optional
         }
       }
 
@@ -210,18 +216,30 @@ export default async function Page({
       // Check if this product is a child of a grouped product
       let parentGroupedProduct: Product | null = null
       if (product.productType === 'simple') {
-        const parentGroup = await payload.find({
-          collection: 'products',
-          limit: 1,
-          where: {
-            productType: { equals: 'grouped' },
-            'childProducts.product': { equals: product.id },
-            status: { equals: 'published' },
-          },
-          depth: 2,
-        })
-        if (parentGroup.docs[0]) {
-          parentGroupedProduct = parentGroup.docs[0] as Product
+        try {
+          // Find parent via join table (Payload's array.relationship filter is unreliable)
+          const { sql } = await import('drizzle-orm')
+          const parentResult: any = await payload.db.drizzle.execute(
+            sql`SELECT p.id FROM products p
+                INNER JOIN products_child_products cp ON cp._parent_id = p.id
+                WHERE cp.product_id = ${product.id}
+                  AND p.product_type = 'grouped'
+                  AND p.status = 'published'
+                LIMIT 1`
+          )
+          const parentId = parentResult?.rows?.[0]?.id
+          if (parentId) {
+            const parentDoc = await payload.findByID({
+              collection: 'products',
+              id: parentId,
+              depth: 2,
+            })
+            if (parentDoc) {
+              parentGroupedProduct = parentDoc as Product
+            }
+          }
+        } catch (e) {
+          // Silently fail — grouped table is optional enhancement
         }
       }
 
