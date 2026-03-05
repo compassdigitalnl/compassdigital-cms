@@ -1,9 +1,6 @@
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 import BrancheDetailTemplate1 from '@/branches/ecommerce/templates/branches/BrancheDetailTemplate1'
-import {
-  Stethoscope, Tag, Truck, ClipboardList, Headphones,
-} from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
@@ -17,17 +14,17 @@ const branchesData: Record<string, any> = {
     badge: 'Branche',
     title: 'Alles voor de huisartsenpraktijk',
     description: 'Van diagnostiek tot verbruiksmateriaal — speciaal samengesteld voor de huisarts. Profiteer van B2B-prijzen, snelle levering en persoonlijk advies.',
-    icon: Stethoscope,
+    icon: 'Stethoscope',
     stats: [
       { value: '1.240', label: 'Producten' },
       { value: '48', label: 'Merken' },
       { value: '96%', label: 'Op voorraad' },
     ],
     uspCards: [
-      { icon: Tag, iconColor: '#00897B', iconBg: 'rgba(0,137,123,0.12)', title: 'B2B prijzen', description: 'Exclusieve kortingen voor zorgprofessionals' },
-      { icon: Truck, iconColor: '#00C853', iconBg: '#E8F5E9', title: 'Volgende dag geleverd', description: 'Besteld voor 16:00, morgen in de praktijk' },
-      { icon: ClipboardList, iconColor: '#2196F3', iconBg: '#E3F2FD', title: 'Bestellijsten', description: 'Sla vaste bestellingen op voor snel herbestellen' },
-      { icon: Headphones, iconColor: '#F59E0B', iconBg: '#FFF8E1', title: 'Persoonlijk advies', description: 'Productspecialisten die uw praktijk kennen' },
+      { icon: 'Tag', iconColor: '#00897B', iconBg: 'rgba(0,137,123,0.12)', title: 'B2B prijzen', description: 'Exclusieve kortingen voor zorgprofessionals' },
+      { icon: 'Truck', iconColor: '#00C853', iconBg: '#E8F5E9', title: 'Volgende dag geleverd', description: 'Besteld voor 16:00, morgen in de praktijk' },
+      { icon: 'ClipboardList', iconColor: '#2196F3', iconBg: '#E3F2FD', title: 'Bestellijsten', description: 'Sla vaste bestellingen op voor snel herbestellen' },
+      { icon: 'Headphones', iconColor: '#F59E0B', iconBg: '#FFF8E1', title: 'Persoonlijk advies', description: 'Productspecialisten die uw praktijk kennen' },
     ],
     testimonial: {
       initials: 'JV',

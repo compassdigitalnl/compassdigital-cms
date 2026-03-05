@@ -2,16 +2,18 @@
 
 import React from 'react'
 import { Building2 } from 'lucide-react'
+import { resolveIcon } from '../iconMap'
 import type { BranchHeroProps } from './types'
 
 export const BranchHero: React.FC<BranchHeroProps> = ({
   badge = 'Branche',
   title,
   description,
-  icon: Icon,
+  icon: iconName,
   stats = [],
   className = '',
 }) => {
+  const Icon = iconName ? resolveIcon(iconName) : undefined
   return (
     <section
       className={`relative overflow-hidden rounded-[20px] bg-gradient-to-br from-theme-navy to-theme-navy-light p-8 md:p-12 lg:p-14 ${className}`}

@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Building2, ArrowRight } from 'lucide-react'
+import { resolveIcon } from '../iconMap'
 import type { BranchCardProps } from './types'
 import type { Media } from '@/payload-types'
 
@@ -10,11 +11,12 @@ export const BranchCard: React.FC<BranchCardProps> = ({
   name,
   slug,
   description,
-  icon: Icon = Building2,
+  icon: iconName,
   image,
   productCount,
   className = '',
 }) => {
+  const Icon = iconName ? resolveIcon(iconName) ?? Building2 : Building2
   const imageUrl = image && typeof image === 'object' ? (image as Media).url : null
 
   return (

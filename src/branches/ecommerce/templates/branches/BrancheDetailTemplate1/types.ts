@@ -1,4 +1,3 @@
-import type { LucideIcon } from 'lucide-react'
 import type { BranchStat } from '@/branches/ecommerce/components/branches/BranchHero/types'
 import type { USPCard } from '@/branches/ecommerce/components/branches/BranchUSPCards/types'
 import type { BranchCategory } from '@/branches/ecommerce/components/branches/BranchCategoryGrid/types'
@@ -25,7 +24,7 @@ export interface BrancheDetailTemplate1Props {
   badge?: string
   title: string
   description?: string
-  icon?: LucideIcon
+  icon?: string
   stats?: BranchStat[]
   uspCards?: USPCard[]
   categories?: BranchCategory[]

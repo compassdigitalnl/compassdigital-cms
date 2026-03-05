@@ -3,15 +3,17 @@
 import React from 'react'
 import Link from 'next/link'
 import { LayoutGrid } from 'lucide-react'
+import { resolveIcon } from '../iconMap'
 import type { BranchCategoryGridProps } from './types'
 
 export const BranchCategoryGrid: React.FC<BranchCategoryGridProps> = ({
   title = 'Populaire categorieen',
-  titleIcon: TitleIcon = LayoutGrid,
+  titleIcon: titleIconName,
   categories,
   branchSlug,
   className = '',
 }) => {
+  const TitleIcon = titleIconName ? resolveIcon(titleIconName) ?? LayoutGrid : LayoutGrid
   return (
     <section className={className}>
       <h2 className="mb-4 flex items-center gap-2.5 font-heading text-[22px] font-extrabold text-theme-navy">
@@ -21,7 +23,7 @@ export const BranchCategoryGrid: React.FC<BranchCategoryGridProps> = ({
 
       <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
         {categories.map((category) => {
-          const Icon = category.icon
+          const Icon = resolveIcon(category.icon)
 
           return (
             <Link
@@ -40,7 +42,7 @@ export const BranchCategoryGrid: React.FC<BranchCategoryGridProps> = ({
                 className="flex h-14 w-14 items-center justify-center rounded-[14px]"
                 style={{ background: category.iconBg }}
               >
-                <Icon className="h-7 w-7 text-theme-teal" />
+                {Icon && <Icon className="h-7 w-7 text-theme-teal" />}
               </div>
               <div className="font-heading text-sm font-extrabold text-theme-navy">
                 {category.name}

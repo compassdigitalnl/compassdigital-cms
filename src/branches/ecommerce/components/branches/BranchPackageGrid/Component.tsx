@@ -2,14 +2,16 @@
 
 import React from 'react'
 import { Package, Check, ShoppingCart } from 'lucide-react'
+import { resolveIcon } from '../iconMap'
 import type { BranchPackageGridProps } from './types'
 
 export const BranchPackageGrid: React.FC<BranchPackageGridProps> = ({
   title = 'Starterspakketten',
-  titleIcon: TitleIcon = Package,
+  titleIcon: titleIconName,
   packages,
   className = '',
 }) => {
+  const TitleIcon = titleIconName ? resolveIcon(titleIconName) ?? Package : Package
   return (
     <section className={className}>
       <h2 className="mb-4 flex items-center gap-2.5 font-heading text-[22px] font-extrabold text-theme-navy">
@@ -19,7 +21,7 @@ export const BranchPackageGrid: React.FC<BranchPackageGridProps> = ({
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {packages.map((pkg, index) => {
-          const BtnIcon = pkg.buttonIcon || ShoppingCart
+          const BtnIcon = (pkg.buttonIcon ? resolveIcon(pkg.buttonIcon) : null) || ShoppingCart
 
           return (
             <div

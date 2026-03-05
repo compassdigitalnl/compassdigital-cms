@@ -1,4 +1,3 @@
-import type { LucideIcon } from 'lucide-react'
 import type { Media } from '@/payload-types'
 
 export interface BranchWithMeta {
@@ -6,7 +5,7 @@ export interface BranchWithMeta {
   name: string
   slug: string
   description?: string | null
-  icon?: LucideIcon
+  icon?: string
   image?: Media | number | null
   productCount?: number
 }

@@ -1,7 +1,5 @@
-import type { LucideIcon } from 'lucide-react'
-
 export interface USPCard {
-  icon: LucideIcon
+  icon: string
   iconColor: string
   iconBg: string
   title: string

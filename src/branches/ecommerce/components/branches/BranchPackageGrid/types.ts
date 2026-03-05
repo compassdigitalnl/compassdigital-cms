@@ -1,5 +1,3 @@
-import type { LucideIcon } from 'lucide-react'
-
 export interface PackageItem {
   text: string
 }
@@ -13,14 +11,14 @@ export interface BranchPackage {
   featured?: boolean
   featuredLabel?: string
   buttonLabel?: string
-  buttonIcon?: LucideIcon
+  buttonIcon?: string
   buttonVariant?: 'primary' | 'outline'
   onOrder?: () => void
 }
 
 export interface BranchPackageGridProps {
   title?: string
-  titleIcon?: LucideIcon
+  titleIcon?: string
   packages: BranchPackage[]
   className?: string
 }
