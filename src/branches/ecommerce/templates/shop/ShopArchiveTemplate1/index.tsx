@@ -26,6 +26,8 @@ import { FilterSidebar } from '@/branches/ecommerce/components/shop/FilterSideba
 import { MobileFilterDrawer } from '@/branches/ecommerce/components/shop/FilterSidebar/MobileFilterDrawer'
 import { ShopToolbar } from '@/branches/ecommerce/components/shop/SortDropdown/ShopToolbar'
 import { ProductCard } from '@/branches/ecommerce/components/products/ProductCard/Component'
+import { QuickViewModal } from '@/branches/ecommerce/components/products/QuickViewModal'
+import type { QuickViewProduct } from '@/branches/ecommerce/components/products/QuickViewModal'
 import { RecentlyViewed } from '@/branches/ecommerce/components/shop/RecentlyViewed/RecentlyViewed'
 
 // Types
@@ -140,6 +142,7 @@ export default function ShopArchiveTemplate1({
 
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [quickViewProduct, setQuickViewProduct] = useState<QuickViewProduct | null>(null)
 
   // Use Meilisearch results when available, fall back to server products
   const useMeilisearch = !searchError && hits.length > 0 || (!searchError && !searchLoading)
@@ -335,6 +338,40 @@ export default function ShopArchiveTemplate1({
   )
 
   // ========================================
+  // QUICK VIEW HANDLER
+  // ========================================
+
+  const handleQuickView = useCallback(
+    (productId: string) => {
+      const hit = hits.find(h => String(h.id) === productId)
+      if (!hit) return
+
+      const stockStatus = hitStockStatus(hit)
+      const msStatus = stockStatus === 'in-stock' ? 'in_stock' as const
+        : stockStatus === 'low' ? 'low_stock' as const
+        : stockStatus === 'on-backorder' ? 'pre_order' as const
+        : 'out_of_stock' as const
+
+      setQuickViewProduct({
+        id: String(hit.id),
+        name: hit.title,
+        brand: hit.brand || undefined,
+        sku: hit.sku || undefined,
+        image: hit.image || '',
+        imageAlt: hit.title,
+        stock: {
+          status: msStatus,
+          quantity: hit.stock ?? 0,
+        },
+        price: hit.effectivePrice ?? hit.price ?? 0,
+        unit: hit.unit || undefined,
+        slug: hit.slug || undefined,
+      })
+    },
+    [hits],
+  )
+
+  // ========================================
   // PAGINATION HANDLER
   // ========================================
 
@@ -520,6 +557,7 @@ export default function ShopArchiveTemplate1({
                           stockText={stockStatus === 'on-backorder' ? 'Op bestelling' : undefined}
                           variant={viewMode}
                           onAddToCart={canAddToCart ? handleAddToCart : undefined}
+                          onQuickView={() => handleQuickView(String(hit.id))}
                         />
                       )
                     })}
@@ -626,6 +664,17 @@ export default function ShopArchiveTemplate1({
         defaultOpen={allFilterIds}
         resultCount={displayTotal}
       />
+
+      {/* Quick View Modal */}
+      {quickViewProduct && (
+        <QuickViewModal
+          product={quickViewProduct}
+          isOpen={!!quickViewProduct}
+          onClose={() => setQuickViewProduct(null)}
+          onAddToCart={(productId, _variantId, quantity) => handleAddToCart(productId, quantity)}
+          showViewFullLink
+        />
+      )}
     </div>
   )
 }
