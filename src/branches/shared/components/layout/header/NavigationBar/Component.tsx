@@ -3,43 +3,13 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import {
-  Menu,
-  ChevronDown,
-  Phone,
-  Mail,
-  Flame,
-  Star,
-  Sparkles,
-  Gift,
-  Package,
-  Tag,
-  Zap,
-  Building2,
-  Award,
-  FileText,
-  Home,
-} from 'lucide-react'
+import { Menu, ChevronDown, Phone, Mail } from 'lucide-react'
+import { Icon } from '@/branches/shared/components/common/Icon'
 import { cn } from '@/utilities/cn'
 import { CMSLink } from '@/branches/shared/components/common/Link'
 import { MegaNav } from '../MegaNav'
 import { useCategoryNavigation } from '../hooks/useCategoryNavigation'
 import type { NavigationBarProps } from './types'
-
-const iconMap: Record<string, React.ComponentType<any>> = {
-  Flame,
-  Star,
-  Sparkles,
-  Gift,
-  Package,
-  Tag,
-  Zap,
-  Building2,
-  Award,
-  FileText,
-  Home,
-  Menu,
-}
 
 export function NavigationBar({ navigation, theme, settings }: NavigationBarProps) {
   const pathname = usePathname()
@@ -58,8 +28,6 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
       : []
 
   const specialItems = navigation.specialItems || []
-  const startItems = specialItems.filter((item: any) => item.position === 'start')
-  const endItems = specialItems.filter((item: any) => item.position === 'end')
   const showCTA = navigation.ctaButton?.show && navigation.ctaButton?.text
 
   useEffect(() => {
@@ -137,37 +105,9 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
               </button>
             )}
 
-            {/* Start Special Items */}
-            {startItems.map((item: any, index: number) => {
-              const Icon = item.icon ? iconMap[item.icon] : null
-              return (
-                <Link
-                  key={`start-${index}`}
-                  href={item.url || '#'}
-                  className={cn(
-                    'flex items-center gap-2 px-4 text-sm font-semibold border-b-2 border-transparent transition-all',
-                    item.highlight
-                      ? 'text-[#FF6B6B] hover:border-[#FF6B6B]'
-                      : 'hover:border-[var(--color-primary)]',
-                  )}
-                  style={{ color: item.highlight ? '#FF6B6B' : 'var(--color-secondary)' }}
-                  onMouseEnter={(e: any) => {
-                    if (!item.highlight) e.currentTarget.style.color = 'var(--color-primary)'
-                  }}
-                  onMouseLeave={(e: any) => {
-                    if (!item.highlight) e.currentTarget.style.color = 'var(--color-secondary)'
-                  }}
-                >
-                  {Icon && <Icon className="w-4 h-4" />}
-                  {item.label}
-                </Link>
-              )
-            })}
-
             {/* Manual/Hybrid Navigation Items */}
             {navItems.map((item: any) => {
               const hasChildren = item.children && item.children.length > 0
-              const Icon = item.icon ? iconMap[item.icon as string] : null
               const isActive =
                 item.type === 'page' && item.page
                   ? typeof item.page === 'object' &&
@@ -189,7 +129,7 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
                         color: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
                       }}
                     >
-                      {Icon && <Icon className="w-4 h-4" />}
+                      {item.icon && <Icon name={item.icon} size={16} />}
                       {item.label}
                       <ChevronDown className="w-3.5 h-3.5 opacity-40" />
                     </button>
@@ -208,7 +148,7 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
                         color: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
                       }}
                     >
-                      {Icon && <Icon className="w-4 h-4" />}
+                      {item.icon && <Icon name={item.icon} size={16} />}
                       {item.label}
                     </CMSLink>
                   )}
@@ -245,26 +185,23 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
               )
             })}
 
-            {/* End Special Items */}
-            {endItems.map((item: any, index: number) => {
-              const Icon = item.icon ? iconMap[item.icon] : null
-              return (
-                <Link
-                  key={`end-${index}`}
-                  href={item.url || '#'}
-                  className={cn(
-                    'flex items-center gap-2 px-4 text-sm font-semibold border-b-2 border-transparent transition-all',
-                    item.highlight
-                      ? 'text-[#FF6B6B] hover:border-[#FF6B6B]'
-                      : 'hover:border-[var(--color-primary)]',
-                  )}
-                  style={{ color: item.highlight ? '#FF6B6B' : 'var(--color-secondary)' }}
-                >
-                  {Icon && <Icon className="w-4 h-4" />}
-                  {item.label}
-                </Link>
-              )
-            })}
+            {/* Special Items */}
+            {specialItems.map((item: any, index: number) => (
+              <Link
+                key={`special-${index}`}
+                href={item.url || '#'}
+                className={cn(
+                  'flex items-center gap-2 px-4 text-sm font-semibold border-b-2 border-transparent transition-all',
+                  item.highlight
+                    ? 'text-[#FF6B6B] hover:border-[#FF6B6B]'
+                    : 'hover:border-[var(--color-primary)]',
+                )}
+                style={{ color: item.highlight ? '#FF6B6B' : 'var(--color-secondary)' }}
+              >
+                {item.icon && <Icon name={item.icon} size={16} />}
+                {item.label}
+              </Link>
+            ))}
 
             {/* Spacer */}
             <div className="flex-1" />

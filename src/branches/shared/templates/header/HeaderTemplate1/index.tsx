@@ -3,54 +3,13 @@
 import Link from 'next/link'
 import React, { useState, useEffect, useRef } from 'react'
 import { cn } from '@/utilities/cn'
-import {
-  Search,
-  ShoppingCart,
-  User,
-  Heart,
-  Phone,
-  Menu,
-  BadgeCheck,
-  Truck,
-  Shield,
-  ShieldCheck,
-  Award,
-  Mail,
-  Clock,
-  MapPin,
-  CheckCircle,
-  CreditCard,
-  Lock,
-  Zap,
-  Gift,
-  RefreshCw,
-  Users,
-  AlertCircle,
-  Info,
-  Bell,
-  Megaphone,
-  Flame,
-  Star,
-  Sparkles,
-  Package,
-  Tag,
-  Building2,
-  FileText,
-  Home,
-  ClipboardList,
-} from 'lucide-react'
+import { Search, ShoppingCart, User, Heart, Phone, Menu } from 'lucide-react'
+import { Icon } from '@/branches/shared/components/common/Icon'
 import { AlertBar } from '@/branches/shared/components/layout/header/AlertBar'
 import { TopBar } from '@/branches/shared/components/layout/header/TopBar'
 import { NavigationBar } from '@/branches/shared/components/layout/header/NavigationBar'
 import { MobileDrawer } from '@/branches/shared/components/layout/header/MobileDrawer'
 import type { HeaderTemplateProps } from '../types'
-
-const iconMap: Record<string, React.ComponentType<any>> = {
-  BadgeCheck, Truck, Shield, ShieldCheck, Award, Phone, Mail, Clock, MapPin,
-  CheckCircle, CreditCard, Lock, Zap, Gift, RefreshCw, Users, AlertCircle,
-  Info, Bell, Megaphone, Flame, Star, Sparkles, Package, Tag, Building2,
-  FileText, Home, Search, ShoppingCart, User, Heart, ClipboardList,
-}
 
 export default function HeaderTemplate1({
   header,
@@ -73,12 +32,8 @@ export default function HeaderTemplate1({
     logoHeight,
     logoUrl,
     siteNameOverride,
-    siteNameAccent,
-    showLogoOnMobile,
     enableSearch,
     searchPlaceholder,
-    searchKeyboardShortcut,
-    searchCategories,
     showPhone,
     showWishlist,
     showAccount,
@@ -88,7 +43,7 @@ export default function HeaderTemplate1({
     showShadow,
   } = mapped
 
-  const { stickyBehavior, hideTopbarOnScroll, enableAnimations } = mapped
+  const { stickyBehavior, hideTopbarOnScroll } = mapped
 
   // Scroll direction tracking for stickyBehavior and hideTopbarOnScroll
   const lastScrollY = useRef(0)
@@ -121,7 +76,7 @@ export default function HeaderTemplate1({
   const headerClasses = cn('bg-white border-b', {
     'sticky top-0 z-50': stickyHeader,
     'shadow-sm': showShadow,
-    'transition-all': enableAnimations,
+    'transition-all': true,
     '-translate-y-full': stickyHeader && !isHeaderVisible,
   })
 
@@ -151,7 +106,7 @@ export default function HeaderTemplate1({
             </button>
 
             {/* Logo */}
-            <Link href={logoUrl} className={cn('flex items-center', !showLogoOnMobile && 'hidden md:flex')}>
+            <Link href={logoUrl} className="flex items-center">
               {logoOverride &&
               typeof logoOverride === 'object' &&
               logoOverride.url ? (
@@ -163,16 +118,7 @@ export default function HeaderTemplate1({
                 />
               ) : siteNameOverride ? (
                 <span className="text-xl font-extrabold text-[var(--color-secondary,#0A1628)]">
-                  {siteNameAccent ? (
-                    <>
-                      {siteNameOverride.replace(siteNameAccent, '')}
-                      <span className="text-[var(--color-primary,#00897B)]">
-                        {siteNameAccent}
-                      </span>
-                    </>
-                  ) : (
-                    siteNameOverride
-                  )}
+                  {siteNameOverride}
                 </span>
               ) : (
                 <span className="text-xl font-extrabold text-[var(--color-secondary,#0A1628)]">
@@ -278,29 +224,9 @@ export default function HeaderTemplate1({
                     borderColor: 'var(--color-border, #e5e7eb)',
                   }}
                 >
-                  {searchKeyboardShortcut}
+                  ⌘K
                 </div>
               </button>
-            )}
-
-            {/* Search Quick Categories — desktop */}
-            {enableSearch && searchCategories.length > 0 && (
-              <div className="hidden lg:flex items-center gap-2 absolute left-1/2 -translate-x-1/2 top-[60px]">
-                {searchCategories.map((cat: any, i: number) => {
-                  const CatIcon = cat.icon ? iconMap[cat.icon] : null
-                  return (
-                    <Link
-                      key={i}
-                      href={cat.url || '#'}
-                      className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium transition-all hover:bg-gray-100"
-                      style={{ color: 'var(--color-text-secondary, #64748b)' }}
-                    >
-                      {CatIcon && <CatIcon className="w-3 h-3" />}
-                      {cat.label}
-                    </Link>
-                  )
-                })}
-              </div>
             )}
 
             {/* Action Buttons */}
@@ -332,31 +258,21 @@ export default function HeaderTemplate1({
               )}
 
               {/* Custom Buttons */}
-              {customButtons?.map((button: any, index: number) => {
-                const Icon = button.icon ? iconMap[button.icon] : null
-                const buttonStyle =
-                  button.style === 'primary'
-                    ? 'bg-[var(--color-primary,#00897B)] text-white hover:bg-[var(--color-primary,#00897B)]/90'
-                    : button.style === 'secondary'
-                      ? 'bg-[var(--color-secondary,#0A1628)] text-white hover:bg-[var(--color-secondary,#0A1628)]/90'
-                      : 'bg-gray-100 hover:border-[var(--color-primary,#00897B)] hover:bg-[var(--color-primary,#00897B)]/10'
-
-                return (
-                  <Link
-                    key={index}
-                    href={button.url || '#'}
-                    className={cn(
-                      'h-[42px] px-4 rounded-[10px] border border-transparent flex items-center justify-center gap-2 transition-all text-sm font-semibold',
-                      buttonStyle,
-                      button.showOnMobile === false && 'hidden lg:flex',
-                    )}
-                    title={button.label || undefined}
-                  >
-                    {Icon && <Icon className="w-[19px] h-[19px]" />}
-                    <span className="hidden xl:inline">{button.label}</span>
-                  </Link>
-                )
-              })}
+              {customButtons?.map((button: any, index: number) => (
+                <Link
+                  key={index}
+                  href={button.url || '#'}
+                  className={cn(
+                    'h-[42px] px-4 rounded-[10px] border border-transparent flex items-center justify-center gap-2 transition-all text-sm font-semibold',
+                    'bg-gray-100 hover:border-[var(--color-primary,#00897B)] hover:bg-[var(--color-primary,#00897B)]/10',
+                    button.showOnMobile === false && 'hidden lg:flex',
+                  )}
+                  title={button.label || undefined}
+                >
+                  {button.icon && <Icon name={button.icon} size={19} />}
+                  <span className="hidden xl:inline">{button.label}</span>
+                </Link>
+              ))}
 
               {/* Wishlist — always visible */}
               {showWishlist && (
@@ -439,7 +355,7 @@ export default function HeaderTemplate1({
         settings={settings}
         onOpenSearch={openSearch}
         drawerWidth={mapped.mobileDrawerWidth}
-        drawerPosition={mapped.mobileDrawerPosition}
+        drawerPosition="left"
         showContactInfo={mapped.showMobileContactInfo}
         contactInfoOverride={mapped.mobileContactInfo}
         showToggles={mapped.showMobileToggles}

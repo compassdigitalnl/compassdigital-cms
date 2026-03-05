@@ -27,10 +27,7 @@ export type MappedHeaderData = {
     message: string
     type: 'info' | 'success' | 'warning' | 'error' | 'promo'
     icon?: string
-    link: any
     dismissible: boolean
-    schedule: any
-    customColors: any
   }
   navigation: {
     mode: string
@@ -44,13 +41,9 @@ export type MappedHeaderData = {
   logoHeight: number
   logoUrl: string
   siteNameOverride?: string
-  siteNameAccent?: string
-  showLogoOnMobile: boolean
   // Search
   enableSearch: boolean
   searchPlaceholder: string
-  searchKeyboardShortcut: string
-  searchCategories: any[]
   // Price Toggle
   enablePriceToggle: boolean
   priceToggle: {
@@ -69,10 +62,8 @@ export type MappedHeaderData = {
   stickyBehavior: 'always' | 'scroll-up' | 'scroll-down'
   hideTopbarOnScroll: boolean
   showShadow: boolean
-  enableAnimations: boolean
   // Mobile
   mobileDrawerWidth: number
-  mobileDrawerPosition: 'left' | 'right'
   showMobileContactInfo: boolean
   mobileContactInfo?: { phone?: string; email?: string }
   showMobileToggles: boolean

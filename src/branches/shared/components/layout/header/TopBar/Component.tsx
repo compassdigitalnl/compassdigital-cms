@@ -3,45 +3,9 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { getContainerMaxWidth } from '@/branches/shared/components/utilities/containerWidth'
-import {
-  BadgeCheck,
-  Truck,
-  Shield,
-  ShieldCheck,
-  Award,
-  Phone,
-  Mail,
-  Clock,
-  MapPin,
-  CheckCircle,
-  CreditCard,
-  Lock,
-  Zap,
-  Gift,
-  RefreshCw,
-  Users,
-  Globe,
-} from 'lucide-react'
+import { Globe } from 'lucide-react'
+import { Icon } from '@/branches/shared/components/common/Icon'
 import type { TopBarProps } from './types'
-
-const iconMap: Record<string, React.ComponentType<any>> = {
-  BadgeCheck,
-  Truck,
-  Shield,
-  ShieldCheck,
-  Award,
-  Phone,
-  Mail,
-  Clock,
-  MapPin,
-  CheckCircle,
-  CreditCard,
-  Lock,
-  Zap,
-  Gift,
-  RefreshCw,
-  Users,
-}
 
 export function TopBar({ topBar, theme, header }: TopBarProps) {
   if (!topBar.enabled) return null
@@ -51,10 +15,10 @@ export function TopBar({ topBar, theme, header }: TopBarProps) {
   const containerClass = getContainerMaxWidth('default' as any)
   const primaryColor = theme?.teal || '#26A69A'
 
-  const enableLanguageSwitcher = (header as any)?.enableLanguageSwitcher === true
   const languages = (header as any)?.languages as
     | Array<{ code: string; label: string; flag?: string; isDefault?: boolean }>
     | undefined
+  const enableLanguageSwitcher = languages && languages.length > 0
 
   return (
     <div className="topbar" style={{ backgroundColor: bgColor }}>
@@ -64,13 +28,12 @@ export function TopBar({ topBar, theme, header }: TopBarProps) {
         {/* Left Messages — show first on mobile, all on desktop */}
         <div className="flex items-center gap-6 min-w-0 overflow-hidden">
           {topBar.leftMessages?.map((message: any, index: number) => {
-            const Icon = message.icon ? iconMap[message.icon] : null
             const content = (
               <span
                 className={`flex items-center gap-1.5 whitespace-nowrap ${index > 0 ? 'hidden md:flex' : 'flex'}`}
                 style={{ color: textColor + '99' }}
               >
-                {Icon && <Icon className="w-3.5 h-3.5" style={{ color: primaryColor }} />}
+                {message.icon && <Icon name={message.icon} size={14} style={{ color: primaryColor }} />}
                 {message.text}
               </span>
             )
@@ -94,7 +57,6 @@ export function TopBar({ topBar, theme, header }: TopBarProps) {
         {/* Right: Links + Language Switcher — hidden on mobile */}
         <div className="hidden md:flex items-center gap-1">
           {topBar.rightLinks?.map((link: any, index: number) => {
-            const LinkIcon = link.icon ? iconMap[link.icon] : null
             return (
               <div key={`link-${index}`} className="flex items-center">
                 {index > 0 && (
@@ -108,7 +70,7 @@ export function TopBar({ topBar, theme, header }: TopBarProps) {
                   className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all hover:bg-white/10"
                   style={{ color: textColor + 'CC' }}
                 >
-                  {LinkIcon && <LinkIcon className="w-3.5 h-3.5" style={{ color: primaryColor }} />}
+                  {link.icon && <Icon name={link.icon} size={14} style={{ color: primaryColor }} />}
                   {link.label}
                 </Link>
               </div>

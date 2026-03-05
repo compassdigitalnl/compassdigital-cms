@@ -1,35 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { getContainerMaxWidth } from '@/branches/shared/components/utilities/containerWidth'
-import {
-  BadgeCheck,
-  Truck,
-  Award,
-  Gift,
-  Zap,
-  AlertCircle,
-  Info,
-  CheckCircle,
-  Bell,
-  Megaphone,
-  X,
-} from 'lucide-react'
+import { X } from 'lucide-react'
+import { Icon } from '@/branches/shared/components/common/Icon'
 import type { AlertBarProps } from './types'
-
-const iconMap: Record<string, React.ComponentType<any>> = {
-  BadgeCheck,
-  Truck,
-  Award,
-  Gift,
-  Zap,
-  AlertCircle,
-  Info,
-  CheckCircle,
-  Bell,
-  Megaphone,
-}
 
 const typeColors = {
   info: { bg: '#EFF6FF', border: '#DBEAFE', text: '#1E40AF', icon: '#3B82F6' },
@@ -54,18 +29,6 @@ export function AlertBar({ alertBar, theme }: AlertBarProps) {
       return
     }
 
-    if (alertBar.schedule?.useSchedule) {
-      const now = new Date()
-      if (alertBar.schedule.startDate && now < new Date(alertBar.schedule.startDate)) {
-        setIsVisible(false)
-        return
-      }
-      if (alertBar.schedule.endDate && now > new Date(alertBar.schedule.endDate)) {
-        setIsVisible(false)
-        return
-      }
-    }
-
     setIsVisible(true)
   }, [alertBar])
 
@@ -79,16 +42,8 @@ export function AlertBar({ alertBar, theme }: AlertBarProps) {
   if (!isMounted) return null
   if (!alertBar.enabled || isDismissed || !isVisible) return null
 
-  const Icon = alertBar.icon ? iconMap[alertBar.icon] : null
   const alertType = (alertBar.type || 'info') as keyof typeof typeColors
-  const colors = alertBar.customColors?.useCustomColors
-    ? {
-        bg: alertBar.customColors.backgroundColor || typeColors[alertType].bg,
-        text: alertBar.customColors.textColor || typeColors[alertType].text,
-        border: typeColors[alertType].border,
-        icon: typeColors[alertType].icon,
-      }
-    : typeColors[alertType]
+  const colors = typeColors[alertType]
 
   return (
     <div
@@ -99,22 +54,10 @@ export function AlertBar({ alertBar, theme }: AlertBarProps) {
       }}
     >
       <div className={`${containerClass} mx-auto px-4 py-2.5 flex items-center justify-center gap-3`}>
-        {Icon && <Icon className="w-4 h-4" style={{ color: colors.icon }} />}
+        {alertBar.icon && <Icon name={alertBar.icon} size={16} style={{ color: colors.icon }} />}
         <p className="text-sm font-medium" style={{ color: colors.text }}>
           {alertBar.message}
         </p>
-        {alertBar.link?.enabled && alertBar.link.label && alertBar.link.url && (
-          <>
-            <span style={{ color: colors.text + '40' }}>&bull;</span>
-            <Link
-              href={alertBar.link.url}
-              className="text-sm font-semibold hover:underline"
-              style={{ color: colors.text }}
-            >
-              {alertBar.link.label} &rarr;
-            </Link>
-          </>
-        )}
         {alertBar.dismissible && (
           <button
             onClick={handleDismiss}

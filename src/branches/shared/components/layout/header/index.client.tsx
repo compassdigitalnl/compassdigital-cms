@@ -29,10 +29,7 @@ function mapHeaderData(header: any): MappedHeaderData {
       message: header.alertBarMessage || '',
       type: (header.alertBarType || 'info') as 'info' | 'success' | 'warning' | 'error' | 'promo',
       icon: header.alertBarIcon || undefined,
-      link: header.alertBarLink || {},
       dismissible: header.alertBarDismissible ?? true,
-      schedule: header.alertBarSchedule || {},
-      customColors: header.alertBarCustomColors || {},
     },
     navigation:
       header.navigationEnabled !== false
@@ -51,13 +48,9 @@ function mapHeaderData(header: any): MappedHeaderData {
     logoHeight: header.logoHeight ?? 32,
     logoUrl: header.logoUrl || '/',
     siteNameOverride: header.siteName || undefined,
-    siteNameAccent: header.siteNameAccent || undefined,
-    showLogoOnMobile: header.showLogoOnMobile ?? true,
     // Search
     enableSearch: header.searchEnabled ?? true,
     searchPlaceholder: header.searchPlaceholder || 'Zoek producten...',
-    searchKeyboardShortcut: header.searchKeyboardShortcut || '⌘K',
-    searchCategories: header.searchCategories || [],
     enablePriceToggle: header.enablePriceToggle ?? false,
     priceToggle: header.priceToggle || {
       defaultMode: 'b2c',
@@ -74,11 +67,9 @@ function mapHeaderData(header: any): MappedHeaderData {
     stickyHeader: header.stickyHeader ?? true,
     stickyBehavior: header.stickyBehavior || 'always',
     hideTopbarOnScroll: header.hideTopbarOnScroll ?? false,
-    showShadow: header.stickyHeaderShadow ?? true,
-    enableAnimations: header.enableAnimations ?? true,
+    showShadow: true,
     // Mobile
     mobileDrawerWidth: header.mobileDrawerWidth ?? 320,
-    mobileDrawerPosition: header.mobileDrawerPosition || 'left',
     showMobileContactInfo: header.showMobileContactInfo ?? true,
     mobileContactInfo: header.mobileContactInfo || undefined,
     showMobileToggles: header.showMobileToggles ?? true,

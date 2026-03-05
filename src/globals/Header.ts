@@ -83,22 +83,12 @@ export const Header: GlobalConfig = {
               fields: [
                 {
                   name: 'icon',
-                  type: 'select',
+                  type: 'text',
                   label: 'Icon',
-                  options: [
-                    { label: 'Geen icon', value: '' },
-                    { label: '✓ Badge Check (verificatie)', value: 'BadgeCheck' },
-                    { label: '🚚 Truck (verzending)', value: 'Truck' },
-                    { label: '🛡️ Shield (veiligheid)', value: 'Shield' },
-                    { label: '⭐ Award (kwaliteit)', value: 'Award' },
-                    { label: '⚡ Zap (snel)', value: 'Zap' },
-                    { label: '💳 Credit Card', value: 'CreditCard' },
-                    { label: '🔒 Lock (beveiligd)', value: 'Lock' },
-                    { label: '🔄 Refresh (retour)', value: 'RefreshCw' },
-                    { label: '✅ Check Circle', value: 'CheckCircle' },
-                  ],
                   admin: {
-                    description: 'Lucide icon naam',
+                    components: {
+                      Field: '@/branches/shared/components/admin/IconPickerField',
+                    },
                   },
                 },
                 {
@@ -153,40 +143,26 @@ export const Header: GlobalConfig = {
                 },
                 {
                   name: 'icon',
-                  type: 'select',
+                  type: 'text',
                   label: 'Icon (optioneel)',
-                  options: [
-                    { label: 'Geen icon', value: '' },
-                    { label: '📞 Phone', value: 'Phone' },
-                    { label: '✉️ Mail', value: 'Mail' },
-                    { label: '📍 Map Pin', value: 'MapPin' },
-                    { label: '🕐 Clock', value: 'Clock' },
-                    { label: '👥 Users', value: 'Users' },
-                  ],
+                  admin: {
+                    components: {
+                      Field: '@/branches/shared/components/admin/IconPickerField',
+                    },
+                  },
                 },
               ],
             },
 
             // ── Taalwisselaar ──
             {
-              name: 'enableLanguageSwitcher',
-              type: 'checkbox',
-              label: 'Toon Taalwisselaar',
-              defaultValue: false,
-              admin: {
-                description:
-                  'Taalwisselaar in topbar (rechts). Bij 2-3 talen: button group. Bij 4+ talen: dropdown.',
-                condition: (data) => data.topbarEnabled === true,
-              },
-            },
-            {
               name: 'languages',
               type: 'array',
               label: 'Beschikbare Talen',
               maxRows: 8,
               admin: {
-                description: 'Configureer beschikbare talen. Eerste taal met isDefault=true wordt standaard.',
-                condition: (data) => data.topbarEnabled === true && data.enableLanguageSwitcher === true,
+                description: 'Configureer beschikbare talen. Als er talen zijn ingesteld, wordt automatisch een taalwisselaar getoond. Eerste taal met isDefault=true wordt standaard.',
+                condition: (data) => data.topbarEnabled === true,
               },
               fields: [
                 {
@@ -278,59 +254,14 @@ export const Header: GlobalConfig = {
             },
             {
               name: 'alertBarIcon',
-              type: 'select',
+              type: 'text',
               label: 'Icon',
-              options: [
-                { label: 'Geen icon', value: '' },
-                { label: 'ℹ️ Info', value: 'Info' },
-                { label: '✅ Check Circle', value: 'CheckCircle' },
-                { label: '⚠️ Alert Circle', value: 'AlertCircle' },
-                { label: '❌ X Circle', value: 'XCircle' },
-                { label: '🎁 Gift', value: 'Gift' },
-                { label: '⚡ Zap', value: 'Zap' },
-                { label: '🔔 Bell', value: 'Bell' },
-                { label: '📢 Megaphone', value: 'Megaphone' },
-                { label: '⭐ Award', value: 'Award' },
-                { label: '🚚 Truck', value: 'Truck' },
-              ],
               admin: {
-                description: 'Lucide icon naam',
+                components: {
+                  Field: '@/branches/shared/components/admin/IconPickerField',
+                },
                 condition: (data) => data.alertBarEnabled === true,
               },
-            },
-            {
-              name: 'alertBarLink',
-              type: 'group',
-              label: 'Call-to-Action Link (optioneel)',
-              admin: {
-                condition: (data) => data.alertBarEnabled === true,
-              },
-              fields: [
-                {
-                  name: 'enabled',
-                  type: 'checkbox',
-                  defaultValue: false,
-                  label: 'Link toevoegen',
-                },
-                {
-                  name: 'label',
-                  type: 'text',
-                  label: 'Link tekst',
-                  admin: {
-                    description: 'Bijvoorbeeld: "Bekijk aanbiedingen"',
-                    condition: (data, siblingData) => siblingData?.enabled === true,
-                  },
-                },
-                {
-                  name: 'url',
-                  type: 'text',
-                  label: 'URL',
-                  admin: {
-                    description: 'Interne (/shop) of externe URL',
-                    condition: (data, siblingData) => siblingData?.enabled === true,
-                  },
-                },
-              ],
             },
             {
               name: 'alertBarDismissible',
@@ -341,82 +272,6 @@ export const Header: GlobalConfig = {
                 description: 'Gebruikers kunnen de alert sluiten (wordt opgeslagen in localStorage)',
                 condition: (data) => data.alertBarEnabled === true,
               },
-            },
-            {
-              name: 'alertBarSchedule',
-              type: 'group',
-              label: 'Planning (optioneel)',
-              admin: {
-                description: 'Automatisch tonen/verbergen op basis van datums',
-                condition: (data) => data.alertBarEnabled === true,
-              },
-              fields: [
-                {
-                  name: 'useSchedule',
-                  type: 'checkbox',
-                  defaultValue: false,
-                  label: 'Gebruik planning',
-                },
-                {
-                  name: 'startDate',
-                  type: 'date',
-                  label: 'Startdatum',
-                  admin: {
-                    description: 'Alert wordt getoond vanaf deze datum',
-                    condition: (data, siblingData) => siblingData?.useSchedule === true,
-                    date: {
-                      pickerAppearance: 'dayAndTime',
-                    },
-                  },
-                },
-                {
-                  name: 'endDate',
-                  type: 'date',
-                  label: 'Einddatum',
-                  admin: {
-                    description: 'Alert wordt verborgen na deze datum',
-                    condition: (data, siblingData) => siblingData?.useSchedule === true,
-                    date: {
-                      pickerAppearance: 'dayAndTime',
-                    },
-                  },
-                },
-              ],
-            },
-            {
-              name: 'alertBarCustomColors',
-              type: 'group',
-              label: 'Aangepaste Kleuren (optioneel)',
-              admin: {
-                description: 'Overschrijf standaard kleuren voor dit type',
-                condition: (data) => data.alertBarEnabled === true,
-              },
-              fields: [
-                {
-                  name: 'useCustomColors',
-                  type: 'checkbox',
-                  defaultValue: false,
-                  label: 'Gebruik aangepaste kleuren',
-                },
-                {
-                  name: 'backgroundColor',
-                  type: 'text',
-                  label: 'Achtergrondkleur',
-                  admin: {
-                    description: 'CSS var of hex code (bijv. var(--color-info) of #0A1628)',
-                    condition: (data, siblingData) => siblingData?.useCustomColors === true,
-                  },
-                },
-                {
-                  name: 'textColor',
-                  type: 'text',
-                  label: 'Tekstkleur',
-                  admin: {
-                    description: 'CSS var of hex code',
-                    condition: (data, siblingData) => siblingData?.useCustomColors === true,
-                  },
-                },
-              ],
             },
           ],
         },
@@ -468,26 +323,6 @@ export const Header: GlobalConfig = {
                 description:
                   'Optioneel: Overschrijf sitenaam alleen voor header. Laat leeg om sitenaam uit Site Settings te gebruiken.',
                 placeholder: 'Mijn Bedrijf',
-              },
-            },
-            {
-              name: 'siteNameAccent',
-              type: 'text',
-              label: 'Accent deel van sitenaam',
-              admin: {
-                description:
-                  'Optioneel: Dit deel wordt in de primary kleur getoond (bijv. "med" in "plastimed"). Laat leeg als je geen accent wilt.',
-                placeholder: 'med',
-                condition: (data) => !!data.siteName,
-              },
-            },
-            {
-              name: 'showLogoOnMobile',
-              type: 'checkbox',
-              label: 'Toon Logo op Mobile',
-              defaultValue: true,
-              admin: {
-                description: 'Op mobile (<768px) logo tonen? Uit voor extra ruimte voor andere elementen.',
               },
             },
           ],
@@ -556,15 +391,6 @@ export const Header: GlobalConfig = {
                   },
                 },
                 {
-                  name: 'showProductCount',
-                  type: 'checkbox',
-                  label: 'Toon product aantal',
-                  defaultValue: true,
-                  admin: {
-                    description: 'Toon aantal producten per subcategorie in het mega menu',
-                  },
-                },
-                {
                   name: 'megaMenuStyle',
                   type: 'select',
                   label: 'Mega Menu Stijl',
@@ -600,21 +426,6 @@ export const Header: GlobalConfig = {
                       'Maximaal aantal categorieën in de navigatiebalk (1-12). Te veel items passen niet op het scherm.',
                   },
                 },
-                {
-                  name: 'maxProductsInMega',
-                  type: 'number',
-                  label: 'Max producten in mega menu',
-                  defaultValue: 3,
-                  min: 1,
-                  max: 6,
-                  admin: {
-                    description:
-                      'Aantal populaire producten per categorie (alleen bij stijl "with-products" of "full")',
-                    condition: (data, siblingData) =>
-                      siblingData?.megaMenuStyle === 'with-products' ||
-                      siblingData?.megaMenuStyle === 'full',
-                  },
-                },
               ],
             },
 
@@ -640,18 +451,13 @@ export const Header: GlobalConfig = {
                 },
                 {
                   name: 'icon',
-                  type: 'select',
+                  type: 'text',
                   label: 'Icon',
-                  options: [
-                    { label: 'Geen icon', value: '' },
-                    { label: '🔥 Flame (hot/sale)', value: 'Flame' },
-                    { label: '⭐ Star', value: 'Star' },
-                    { label: '🎁 Gift', value: 'Gift' },
-                    { label: '✨ Sparkles (nieuw)', value: 'Sparkles' },
-                    { label: '📦 Package', value: 'Package' },
-                    { label: '🏷️ Tag (sale)', value: 'Tag' },
-                    { label: '⚡ Zap', value: 'Zap' },
-                  ],
+                  admin: {
+                    components: {
+                      Field: '@/branches/shared/components/admin/IconPickerField',
+                    },
+                  },
                 },
                 {
                   name: 'url',
@@ -670,16 +476,6 @@ export const Header: GlobalConfig = {
                   admin: {
                     description: 'Toont in accent kleur (bijv. coral/teal) voor extra aandacht',
                   },
-                },
-                {
-                  name: 'position',
-                  type: 'select',
-                  label: 'Positie',
-                  defaultValue: 'end',
-                  options: [
-                    { label: 'Begin (links)', value: 'start' },
-                    { label: 'Einde (rechts)', value: 'end' },
-                  ],
                 },
               ],
             },
@@ -708,21 +504,13 @@ export const Header: GlobalConfig = {
                 },
                 {
                   name: 'icon',
-                  type: 'select',
+                  type: 'text',
                   label: 'Icon (optioneel)',
-                  options: [
-                    { label: 'Geen icon', value: '' },
-                    { label: '🏠 Home', value: 'Home' },
-                    { label: '📦 Package', value: 'Package' },
-                    { label: '🏢 Building', value: 'Building2' },
-                    { label: '👥 Users', value: 'Users' },
-                    { label: '⭐ Award', value: 'Award' },
-                    { label: '📄 File Text', value: 'FileText' },
-                    { label: '🛒 Shopping Cart', value: 'ShoppingCart' },
-                    { label: '📧 Mail', value: 'Mail' },
-                    { label: '📞 Phone', value: 'Phone' },
-                    { label: 'ℹ️ Info', value: 'Info' },
-                  ],
+                  admin: {
+                    components: {
+                      Field: '@/branches/shared/components/admin/IconPickerField',
+                    },
+                  },
                 },
                 {
                   name: 'type',
@@ -918,29 +706,6 @@ export const Header: GlobalConfig = {
               },
             },
             {
-              name: 'searchKeyboardShortcut',
-              type: 'text',
-              label: 'Keyboard Shortcut Hint',
-              defaultValue: '⌘K',
-              admin: {
-                description:
-                  'Toon deze hint in de zoekbalk (bijv. ⌘K op Mac, Ctrl+K op Windows). De shortcut moet in frontend code geïmplementeerd worden.',
-                placeholder: '⌘K',
-                condition: (data) => data.searchEnabled === true,
-              },
-            },
-            {
-              name: 'enableSearchOverlay',
-              type: 'checkbox',
-              label: 'Toon Search Overlay',
-              defaultValue: true,
-              admin: {
-                description:
-                  'Op mobile: altijd overlay. Op desktop: overlay optioneel (als uit: inline search dropdown).',
-                condition: (data) => data.searchEnabled === true,
-              },
-            },
-            {
               name: 'enableSearchSuggestions',
               type: 'checkbox',
               label: 'Toon Zoeksuggesties',
@@ -950,51 +715,6 @@ export const Header: GlobalConfig = {
                 condition: (data) => data.searchEnabled === true,
               },
             },
-            {
-              name: 'searchCategories',
-              type: 'array',
-              label: 'Snelle Zoek Categorieën',
-              maxRows: 6,
-              admin: {
-                description:
-                  'Quick links die onder de zoekbalk verschijnen wanneer deze focus heeft (bijv. "Alle producten", "Nieuw", "Sale")',
-                condition: (data) => data.searchEnabled === true,
-              },
-              fields: [
-                {
-                  name: 'label',
-                  type: 'text',
-                  required: true,
-                  label: 'Label',
-                  admin: {
-                    placeholder: 'Alle producten',
-                  },
-                },
-                {
-                  name: 'url',
-                  type: 'text',
-                  required: true,
-                  label: 'URL',
-                  admin: {
-                    placeholder: '/producten',
-                  },
-                },
-                {
-                  name: 'icon',
-                  type: 'select',
-                  label: 'Icon',
-                  options: [
-                    { label: 'Geen icon', value: '' },
-                    { label: '📦 Package', value: 'Package' },
-                    { label: '✨ Sparkles', value: 'Sparkles' },
-                    { label: '🔥 Flame', value: 'Flame' },
-                    { label: '⭐ Star', value: 'Star' },
-                    { label: '🏷️ Tag', value: 'Tag' },
-                  ],
-                },
-              ],
-            },
-
             // ── Prijs Toggle (B2B/B2C) — embedded in zoekbalk ──
             {
               name: 'enablePriceToggle',
@@ -1117,25 +837,13 @@ export const Header: GlobalConfig = {
                 },
                 {
                   name: 'icon',
-                  type: 'select',
+                  type: 'text',
                   label: 'Icon',
                   required: true,
-                  options: [
-                    { label: '🔍 Search', value: 'Search' },
-                    { label: '🛒 Shopping Cart', value: 'ShoppingCart' },
-                    { label: '👤 User', value: 'User' },
-                    { label: '❤️ Heart', value: 'Heart' },
-                    { label: '⚖️ Scale (vergelijk)', value: 'Scale' },
-                    { label: '📋 Clipboard', value: 'Clipboard' },
-                    { label: '📞 Phone', value: 'Phone' },
-                    { label: '✉️ Mail', value: 'Mail' },
-                    { label: '📍 Map Pin', value: 'MapPin' },
-                    { label: '📥 Download', value: 'Download' },
-                    { label: '🔔 Bell', value: 'Bell' },
-                    { label: '⚙️ Settings', value: 'Settings' },
-                  ],
                   admin: {
-                    description: 'Lucide icon naam',
+                    components: {
+                      Field: '@/branches/shared/components/admin/IconPickerField',
+                    },
                   },
                 },
                 {
@@ -1148,16 +856,6 @@ export const Header: GlobalConfig = {
                   },
                 },
                 {
-                  name: 'showBadge',
-                  type: 'checkbox',
-                  label: 'Toon Badge',
-                  defaultValue: false,
-                  admin: {
-                    description:
-                      'Toon een count badge (bijv. aantal items). Badge waarde moet via JavaScript geüpdatet worden.',
-                  },
-                },
-                {
                   name: 'showOnMobile',
                   type: 'checkbox',
                   label: 'Toon op Mobile',
@@ -1165,17 +863,6 @@ export const Header: GlobalConfig = {
                   admin: {
                     description: 'Toon deze knop ook op mobile (<768px)? Ruimte is beperkt!',
                   },
-                },
-                {
-                  name: 'style',
-                  type: 'select',
-                  label: 'Knop Stijl',
-                  defaultValue: 'default',
-                  options: [
-                    { label: 'Default (icon only)', value: 'default' },
-                    { label: 'Primary (met achtergrond)', value: 'primary' },
-                    { label: 'Secondary', value: 'secondary' },
-                  ],
                 },
               ],
             },
@@ -1199,19 +886,6 @@ export const Header: GlobalConfig = {
               admin: {
                 description:
                   'Breedte van de mobile drawer in pixels. 320px = standaard (100% op kleine phones), 360-400px = breed.',
-              },
-            },
-            {
-              name: 'mobileDrawerPosition',
-              type: 'select',
-              label: 'Mobile Drawer Positie',
-              defaultValue: 'left',
-              options: [
-                { label: 'Links', value: 'left' },
-                { label: 'Rechts', value: 'right' },
-              ],
-              admin: {
-                description: 'Van welke kant schuift de mobile drawer in?',
               },
             },
             {
@@ -1262,18 +936,6 @@ export const Header: GlobalConfig = {
                   'Toon taalwisselaar en/of prijs toggle onderaan de mobile drawer (als deze ingeschakeld zijn).',
               },
             },
-            {
-              name: 'mobileBreakpoint',
-              type: 'number',
-              label: 'Mobile Breakpoint (px)',
-              defaultValue: 768,
-              min: 640,
-              max: 1024,
-              admin: {
-                description:
-                  'Bij welke breedte (px) schakelt de header naar mobile modus? 768px = standaard (tablet), 1024px = alleen phone.',
-              },
-            },
           ],
         },
 
@@ -1292,16 +954,6 @@ export const Header: GlobalConfig = {
               admin: {
                 description:
                   'Header blijft bovenaan vast zitten bij scrollen. Aanbevolen voor betere navigatie.',
-              },
-            },
-            {
-              name: 'stickyHeaderShadow',
-              type: 'checkbox',
-              label: 'Sticky Header Shadow',
-              defaultValue: true,
-              admin: {
-                description: 'Toon schaduw onder header wanneer sticky (scroll)',
-                condition: (data) => data.stickyHeader === true,
               },
             },
             {
@@ -1329,40 +981,6 @@ export const Header: GlobalConfig = {
                 description:
                   'Verberg de topbar automatisch bij scrollen om ruimte te besparen. Topbar verschijnt weer bij terugscrollen.',
                 condition: (data) => data.stickyHeader === true && data.topbarEnabled === true,
-              },
-            },
-            {
-              name: 'enableAnimations',
-              type: 'checkbox',
-              label: 'Animaties Inschakelen',
-              defaultValue: true,
-              admin: {
-                description:
-                  'Smooth animations voor dropdowns, mobile drawer, sticky header, etc. Zet uit voor betere performance op langzame devices.',
-              },
-            },
-            {
-              name: 'dropdownOpenDelay',
-              type: 'number',
-              label: 'Dropdown Open Delay (ms)',
-              defaultValue: 150,
-              min: 0,
-              max: 500,
-              admin: {
-                description:
-                  'Vertraging voordat dropdown menu opent bij hover (in milliseconden). 150ms = standaard, 0ms = instant.',
-              },
-            },
-            {
-              name: 'dropdownCloseDelay',
-              type: 'number',
-              label: 'Dropdown Close Delay (ms)',
-              defaultValue: 300,
-              min: 0,
-              max: 1000,
-              admin: {
-                description:
-                  'Vertraging voordat dropdown menu sluit na mouse-out (in milliseconden). 300ms = standaard (tijd om terug te bewegen).',
               },
             },
           ],
