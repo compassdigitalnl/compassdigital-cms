@@ -114,23 +114,19 @@ export const CTABannerComponent: React.FC<CTABannerBlock> = ({
           {buttons && buttons.length > 0 && (
             <div className={`flex flex-wrap gap-4 ${alignment === 'center' ? 'justify-center' : ''} mb-6`}>
               {buttons.map((button, index) => {
-                const buttonVariants = {
-                  primary: isDark
-                    ? 'bg-white text-primary hover:bg-white/90'
-                    : 'bg-primary text-white hover:bg-primary-light',
-                  secondary: isDark
-                    ? 'bg-white/10 text-white border-2 border-white/20 hover:bg-white/20'
-                    : 'bg-transparent text-primary border-2 border-primary hover:bg-primary-glow',
-                  white: 'bg-white text-secondary-color hover:bg-white/90',
-                }
                 const currentVariant = button.variant || 'primary'
-                const buttonClass = buttonVariants[currentVariant] || buttonVariants.primary
+                const buttonVariantClasses = {
+                  primary: isDark ? 'btn btn-secondary' : 'btn btn-primary',
+                  secondary: isDark ? 'btn btn-outline-neutral' : 'btn btn-outline-primary',
+                  white: 'btn btn-secondary',
+                }
+                const buttonClass = buttonVariantClasses[currentVariant] || buttonVariantClasses.primary
 
                 return (
                   <Link
                     key={index}
                     href={button.link || '/'}
-                    className={`inline-flex items-center gap-2 px-6 py-3 font-semibold rounded-lg transition-colors ${buttonClass}`}
+                    className={`${buttonClass} inline-flex items-center gap-2`}
                   >
                     {button.text}
                   </Link>

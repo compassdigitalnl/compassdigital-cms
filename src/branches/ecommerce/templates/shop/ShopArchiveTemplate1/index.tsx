@@ -513,7 +513,7 @@ export default function ShopArchiveTemplate1({
                     {activeFilters.length > 0 && (
                       <button
                         onClick={handleResetFilters}
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-theme-teal text-white rounded-xl font-semibold hover:bg-opacity-90 transition-all"
+                        className="btn btn-primary"
                         data-testid="reset-filters-button"
                       >
                         <RotateCcw className="w-4 h-4" />

@@ -142,7 +142,7 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
         <button
           type="button"
           onClick={onAddToCart}
-          className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-[16px] font-bold shadow-lg"
+          className="btn btn-primary btn-lg w-full flex items-center justify-center gap-2"
         >
           <ShoppingCart className="w-5 h-5" strokeWidth={2.5} />
           Voeg Bundle Toe Aan Winkelwagen

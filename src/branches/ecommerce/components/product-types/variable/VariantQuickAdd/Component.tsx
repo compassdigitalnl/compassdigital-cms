@@ -71,7 +71,7 @@ export function VariantQuickAdd({
             type="button"
             onClick={handleAddAllToCart}
             disabled={isAdding}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn btn-primary btn-sm"
           >
             {isAdding ? 'Adding...' : `Add All (${totalSelectedItems})`}
           </button>
@@ -234,7 +234,7 @@ export function VariantQuickAdd({
                         type="button"
                         onClick={() => handleAddToCart(variant.value)}
                         disabled={isAdding}
-                        className="rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="btn btn-primary btn-sm"
                       >
                         Add
                       </button>
@@ -268,7 +268,7 @@ export function VariantQuickAdd({
               type="button"
               onClick={handleAddAllToCart}
               disabled={isAdding}
-              className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+              className="btn btn-primary"
             >
               {isAdding ? (
                 <span className="flex items-center gap-2">

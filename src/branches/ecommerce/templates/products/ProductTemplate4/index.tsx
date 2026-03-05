@@ -45,6 +45,106 @@ import {
   Wrench,
 } from 'lucide-react'
 
+interface SidebarItem { id: string | number; title: string; slug?: string; image?: string; price?: number }
+
+function ProductSidebar({ product }: { product: Product }) {
+  const [autoSuggestions, setAutoSuggestions] = useState<SidebarItem[]>([])
+
+  // Curated items (priority order): accessories → crossSells → relatedProducts
+  const curated: SidebarItem[] = (() => {
+    for (const field of ['accessories', 'crossSells', 'relatedProducts'] as const) {
+      const items = ((product as any)[field] as any[])?.filter((p: any) => typeof p === 'object' && p !== null) || []
+      if (items.length > 0) {
+        return items.map((p: any) => ({
+          id: p.id,
+          title: p.title,
+          slug: p.slug,
+          image: typeof p.images?.[0] === 'object' && p.images[0]?.url ? p.images[0].url : undefined,
+          price: p.salePrice || p.price || 0,
+        }))
+      }
+    }
+    return []
+  })()
+
+  const curatedTitle = (() => {
+    const acc = ((product as any).accessories as any[])?.filter((p: any) => typeof p === 'object') || []
+    if (acc.length > 0) return 'Maak je bestelling compleet'
+    const cs = ((product as any).crossSells as any[])?.filter((p: any) => typeof p === 'object') || []
+    if (cs.length > 0) return 'Vaak samen gekocht'
+    const rp = ((product as any).relatedProducts as any[])?.filter((p: any) => typeof p === 'object') || []
+    if (rp.length > 0) return 'Misschien ook interessant'
+    return ''
+  })()
+
+  // Auto-fetch from Meilisearch when no curated items
+  useEffect(() => {
+    if (curated.length > 0) return
+    const categoryIds = (product.categories as any[])?.map((c: any) => typeof c === 'object' ? c.id : c).filter(Boolean) || []
+    if (categoryIds.length === 0) return
+
+    const params = new URLSearchParams()
+    params.set('category', String(categoryIds[0]))
+    params.set('limit', '6')
+
+    fetch(`/api/shop/search?${params}`)
+      .then(res => res.json())
+      .then(data => {
+        const hits = (data.hits || [])
+          .filter((h: any) => String(h.id) !== String(product.id))
+          .slice(0, 6)
+          .map((h: any) => ({
+            id: h.id,
+            title: h.title,
+            slug: h.slug,
+            image: h.image || undefined,
+            price: h.effectivePrice ?? h.price ?? 0,
+          }))
+        setAutoSuggestions(hits)
+      })
+      .catch(() => {})
+  }, [curated.length, product.id, product.categories])
+
+  const items = curated.length > 0 ? curated : autoSuggestions
+  const title = curated.length > 0 ? curatedTitle : 'Misschien ook interessant'
+  const SidebarIcon = curated.length > 0 && curatedTitle === 'Maak je bestelling compleet' ? Wrench : Sparkles
+
+  if (items.length === 0) return null
+
+  return (
+    <div className="bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[var(--border-radius,16px)] p-5 self-start hidden lg:block">
+      <h3 className="font-heading text-base font-bold text-[var(--color-text-primary)] mb-4 flex items-center gap-2">
+        <SidebarIcon className="w-5 h-5 text-[var(--color-primary)]" />
+        {title}
+      </h3>
+      <div className="flex flex-col gap-3">
+        {items.slice(0, 6).map((item) => (
+          <Link
+            key={item.id}
+            href={`/${item.slug}`}
+            className="flex items-center gap-3 p-2.5 rounded-xl border border-transparent hover:border-[var(--color-border)] hover:bg-[var(--color-background)] transition-colors no-underline"
+          >
+            <div className="w-14 h-14 rounded-lg bg-[var(--color-background)] shrink-0 flex items-center justify-center overflow-hidden">
+              {item.image ? (
+                <img src={item.image} alt={item.title} className="w-full h-full object-contain" />
+              ) : (
+                <Package className="w-6 h-6 text-[var(--color-text-muted)]" />
+              )}
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-sm font-semibold text-[var(--color-text-primary)] line-clamp-2 leading-tight">{item.title}</div>
+              {item.price != null && item.price > 0 && (
+                <div className="text-sm font-bold text-[var(--color-primary)] mt-0.5">€{item.price.toFixed(2).replace('.', ',')}</div>
+              )}
+            </div>
+            <ArrowRight className="w-4 h-4 text-[var(--color-text-muted)] shrink-0" />
+          </Link>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 interface ProductTemplate4Props {
   product: Product
   parentGroupedProduct?: Product | null
@@ -930,12 +1030,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                   {/* Add to Cart button */}
                   <button
                     onClick={handleAddToCart}
-                    className="flex-1 flex items-center justify-center gap-2.5 h-[52px] text-white border-0 rounded-xl font-body text-base font-bold"
-                    style={{
-                      background: 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
-                      cursor: 'pointer',
-                      boxShadow: '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
-                    }}
+                    className="btn btn-primary btn-lg flex-1"
                   >
                     <ShoppingCart className="w-5 h-5" />
                     In winkelwagen
@@ -955,12 +1050,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                 <button
                   onClick={handleAddToCart}
                   disabled={totalQty === 0}
-                  className="flex items-center justify-center gap-2.5 w-full h-[52px] text-white border-0 rounded-xl font-body text-base font-bold"
-                  style={{
-                    background: totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
-                    cursor: totalQty === 0 ? 'not-allowed' : 'pointer',
-                    boxShadow: totalQty === 0 ? 'none' : '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
-                  }}
+                  className="btn btn-primary btn-lg w-full"
                 >
                   <ShoppingCart className="w-5 h-5" />
                   In winkelwagen
@@ -975,14 +1065,14 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
               <div className="flex gap-2.5">
                 <button
                   onClick={() => alert('Bestellijst functie komt binnenkort beschikbaar.')}
-                  className="flex-1 flex items-center justify-center gap-2 p-[13px] bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-xl font-body text-sm font-semibold cursor-pointer hover:border-[var(--color-primary)] transition-colors"
+                  className="btn btn-outline-neutral flex-1"
                 >
                   <ClipboardList className="w-[18px] h-[18px]" />
                   Op bestellijst
                 </button>
                 <button
                   onClick={() => alert('Herhaalbestelling functie komt binnenkort beschikbaar.')}
-                  className="flex-1 flex items-center justify-center gap-2 p-[13px] bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-xl font-body text-sm font-semibold cursor-pointer hover:border-[var(--color-primary)] transition-colors"
+                  className="btn btn-outline-neutral flex-1"
                 >
                   <Repeat className="w-[18px] h-[18px]" />
                   Herhaalbestelling
@@ -1286,12 +1376,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
             <button
               onClick={handleAddToCart}
               disabled={isGrouped && totalQty === 0}
-              className="flex items-center justify-center gap-2.5 w-full p-4 text-white border-0 rounded-xl font-body text-base font-bold mb-3"
-              style={{
-                background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
-                cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
-                boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
-              }}
+              className="btn btn-primary btn-lg w-full mb-3"
             >
               <ShoppingCart className="w-5 h-5" />
               In winkelwagen
@@ -1302,14 +1387,14 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
           <div className="flex gap-2 mb-4">
             <button
               onClick={() => alert('Bestellijst functie komt binnenkort beschikbaar.')}
-              className="flex-1 flex items-center justify-center gap-1.5 p-3 bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-[10px] font-body text-[13px] font-semibold cursor-pointer"
+              className="btn btn-outline-neutral btn-sm flex-1"
             >
               <ClipboardList className="w-4 h-4" />
               Bestellijst
             </button>
             <button
               onClick={() => alert('Herhaalbestelling functie komt binnenkort beschikbaar.')}
-              className="flex-1 flex items-center justify-center gap-1.5 p-3 bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-[10px] font-body text-[13px] font-semibold cursor-pointer"
+              className="btn btn-outline-neutral btn-sm flex-1"
             >
               <Repeat className="w-4 h-4" />
               Herhalen
@@ -1466,48 +1551,8 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
             ]}
           />
 
-          {/* Accessories sidebar — "Maak je bestelling compleet" */}
-          {(() => {
-            const accessoryProducts = (product.accessories as any[])?.filter((p: any) => typeof p === 'object' && p !== null) || []
-            if (accessoryProducts.length === 0) return null
-            return (
-              <div className="bg-[var(--color-surface,white)] border border-[var(--color-border)] rounded-[var(--border-radius,16px)] p-5 self-start hidden lg:block">
-                <h3 className="font-heading text-base font-bold text-[var(--color-text-primary)] mb-4 flex items-center gap-2">
-                  <Wrench className="w-5 h-5 text-[var(--color-primary)]" />
-                  Maak je bestelling compleet
-                </h3>
-                <div className="flex flex-col gap-3">
-                  {accessoryProducts.slice(0, 6).map((acc: any) => {
-                    const accImage = typeof acc.images?.[0] === 'object' ? acc.images[0] : null
-                    const accImageUrl = accImage && 'url' in accImage ? accImage.url : null
-                    const accPrice = acc.salePrice || acc.price || 0
-                    return (
-                      <Link
-                        key={acc.id}
-                        href={`/${acc.slug}`}
-                        className="flex items-center gap-3 p-2.5 rounded-xl border border-transparent hover:border-[var(--color-border)] hover:bg-[var(--color-background)] transition-colors no-underline"
-                      >
-                        <div className="w-14 h-14 rounded-lg bg-[var(--color-background)] shrink-0 flex items-center justify-center overflow-hidden">
-                          {accImageUrl ? (
-                            <img src={accImageUrl} alt={acc.title} className="w-full h-full object-contain" />
-                          ) : (
-                            <Package className="w-6 h-6 text-[var(--color-text-muted)]" />
-                          )}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <div className="text-sm font-semibold text-[var(--color-text-primary)] line-clamp-2 leading-tight">{acc.title}</div>
-                          {accPrice > 0 && (
-                            <div className="text-sm font-bold text-[var(--color-primary)] mt-0.5">€{accPrice.toFixed(2).replace('.', ',')}</div>
-                          )}
-                        </div>
-                        <ArrowRight className="w-4 h-4 text-[var(--color-text-muted)] shrink-0" />
-                      </Link>
-                    )
-                  })}
-                </div>
-              </div>
-            )
-          })()}
+          {/* Sidebar — curated (accessories/crossSells/related) or auto-suggestions from same category */}
+          <ProductSidebar product={product} />
 
           </div>{/* end grid */}
         </div>
@@ -1584,8 +1629,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                           {rp.price != null ? `€${formatPriceStr(rp.price, rp.taxClass as any)}` : 'Prijs op aanvraag'}
                         </div>
                         <button
-                          className="w-9 h-9 rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
-                          style={{ boxShadow: '0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent)' }}
+                          className="btn btn-primary w-9 h-9 !p-0"
                           onClick={(e) => {
                             e.preventDefault()
                             e.stopPropagation()
@@ -1653,8 +1697,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                           {rp.price != null ? `€${formatPriceStr(rp.price, rp.taxClass as any)}` : 'Prijs op aanvraag'}
                         </div>
                         <button
-                          className="w-[38px] h-[38px] rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
-                          style={{ boxShadow: '0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent)' }}
+                          className="btn btn-primary w-[38px] h-[38px] !p-0"
                           onClick={(e) => {
                             e.preventDefault()
                             e.stopPropagation()
@@ -1721,12 +1764,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
           <button
             onClick={handleAddToCart}
             disabled={isGrouped && totalQty === 0}
-            className="flex items-center justify-center gap-2 py-3 px-5 text-white border-0 rounded-[10px] font-body text-sm font-bold whitespace-nowrap"
-            style={{
-              background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
-              cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
-              boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 16px color-mix(in srgb, var(--color-primary) 40%, transparent)',
-            }}
+            className="btn btn-primary btn-sm whitespace-nowrap"
           >
             <ShoppingCart className="w-4 h-4" />
             {isGrouped ? `${totalQty} toevoegen` : 'Toevoegen'}

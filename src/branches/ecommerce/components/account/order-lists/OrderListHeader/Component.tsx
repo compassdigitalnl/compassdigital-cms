@@ -166,59 +166,41 @@ export function OrderListHeader({ list, stats, onAddAllToCart, onShare, onDuplic
         <div className="flex gap-2 flex-wrap">
           <button
             onClick={onShare}
-            className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:border-teal-700 hover:bg-teal-50"
-            style={{ background: 'white', border: `1.5px solid ${COLORS.grey}` }}
+            className="btn btn-outline-neutral w-10 h-10 flex items-center justify-center"
             title="Delen"
           >
             <Share2 className="w-4 h-4" style={{ color: COLORS.navy }} />
           </button>
           <button
             onClick={onDuplicate}
-            className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:border-teal-700 hover:bg-teal-50"
-            style={{ background: 'white', border: `1.5px solid ${COLORS.grey}` }}
+            className="btn btn-outline-neutral w-10 h-10 flex items-center justify-center"
             title="Dupliceren"
           >
             <Copy className="w-4 h-4" style={{ color: COLORS.navy }} />
           </button>
           <button
             onClick={onExport}
-            className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:border-teal-700 hover:bg-teal-50"
-            style={{ background: 'white', border: `1.5px solid ${COLORS.grey}` }}
+            className="btn btn-outline-neutral w-10 h-10 flex items-center justify-center"
             title="Exporteren"
           >
             <Download className="w-4 h-4" style={{ color: COLORS.navy }} />
           </button>
           <button
-            className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:border-teal-700 hover:bg-teal-50"
-            style={{ background: 'white', border: `1.5px solid ${COLORS.grey}` }}
+            className="btn btn-outline-neutral w-10 h-10 flex items-center justify-center"
             title="Instellingen (binnenkort beschikbaar)"
           >
             <Settings className="w-4 h-4" style={{ color: COLORS.navy }} />
           </button>
           <button
             onClick={onPrint}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all hover:border-teal-700 hover:bg-teal-50"
-            style={{
-              background: 'white',
-              color: COLORS.navy,
-              border: `1.5px solid ${COLORS.grey}`,
-              fontFamily: 'DM Sans, sans-serif',
-              fontSize: '14px',
-            }}
+            className="btn btn-outline-neutral flex items-center gap-2"
           >
             <Printer className="w-4 h-4" />
             Print
           </button>
           <button
             onClick={onAddAllToCart}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold transition-all hover:opacity-90"
-            style={{
-              background: `linear-gradient(135deg, ${COLORS.teal} 0%, ${COLORS.tealLight} 100%)`,
-              color: 'white',
-              fontFamily: 'DM Sans, sans-serif',
-              fontSize: '14px',
-              boxShadow: '0 4px 16px rgba(0,137,123,0.3)',
-            }}
+            className="btn btn-primary flex items-center gap-2"
           >
             <ShoppingCart className="w-4 h-4" />
             Alles in winkelwagen

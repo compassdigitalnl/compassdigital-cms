@@ -137,7 +137,7 @@ export const SubscriptionProductCard: React.FC<SubscriptionProductCardProps> = (
         {onSubscribe && (
           <Button
             onClick={() => onSubscribe(id)}
-            className="w-full bg-teal-600 hover:bg-gray-900 text-white font-bold"
+            className="btn btn-primary w-full"
           >
             Start abonnement
           </Button>
@@ -146,7 +146,7 @@ export const SubscriptionProductCard: React.FC<SubscriptionProductCardProps> = (
           <Button
             onClick={() => onLearnMore(id)}
             variant="outline"
-            className="w-full border-gray-200 text-gray-700 hover:border-teal-600 hover:text-teal-600"
+            className="btn btn-outline-neutral w-full"
           >
             Meer informatie
           </Button>

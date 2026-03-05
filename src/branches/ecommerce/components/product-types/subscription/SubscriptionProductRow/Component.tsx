@@ -135,7 +135,7 @@ export const SubscriptionProductRow: React.FC<SubscriptionProductRowProps> = ({
           <Button
             onClick={() => onSubscribe(id)}
             size="sm"
-            className="bg-teal-600 hover:bg-gray-900 text-white font-bold"
+            className="btn btn-primary btn-sm"
           >
             Start
           </Button>
@@ -145,7 +145,7 @@ export const SubscriptionProductRow: React.FC<SubscriptionProductRowProps> = ({
             onClick={() => onLearnMore(id)}
             size="sm"
             variant="outline"
-            className="border-gray-200 text-gray-700 hover:border-teal-600 hover:text-teal-600"
+            className="btn btn-outline-neutral btn-sm"
           >
             Info
           </Button>

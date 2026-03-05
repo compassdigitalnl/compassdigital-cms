@@ -34,7 +34,7 @@ export default function GiftCardsTemplate({
         </div>
         <Link
           href="/gift-vouchers/purchase/"
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-teal-600 text-white text-sm font-bold rounded-xl hover:bg-gray-900 transition-colors self-start lg:self-auto"
+          className="btn btn-primary inline-flex items-center gap-2 self-start lg:self-auto"
         >
           <Gift className="w-4 h-4" />
           Cadeaubon kopen
@@ -82,7 +82,7 @@ export default function GiftCardsTemplate({
         </div>
         <Link
           href="/gift-vouchers/purchase/"
-          className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 bg-teal-600 text-white text-xs font-bold rounded-lg hover:bg-gray-900 transition-colors"
+          className="btn btn-primary btn-sm flex-shrink-0 flex items-center gap-1.5"
         >
           <Plus className="w-3.5 h-3.5" />
           Kopen

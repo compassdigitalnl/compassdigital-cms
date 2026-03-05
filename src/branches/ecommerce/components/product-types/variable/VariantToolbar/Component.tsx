@@ -61,14 +61,14 @@ export const VariantToolbar: React.FC<VariantToolbarProps> = ({
             type="button"
             onClick={() => onViewModeChange('grid')}
             className={`
-              flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-all duration-200
-              ${viewMode === 'grid' ? 'bg-teal-600 text-white shadow-sm' : 'bg-transparent text-gray-600 hover:text-teal-600'}
+              btn btn-sm flex items-center gap-1.5
+              ${viewMode === 'grid' ? 'btn-primary' : 'btn-ghost'}
             `}
             aria-label="Grid weergave"
             aria-pressed={viewMode === 'grid'}
           >
             <Grid className="w-4 h-4" strokeWidth={2.5} />
-            <span className="text-sm font-semibold hidden sm:inline">Grid</span>
+            <span className="hidden sm:inline">Grid</span>
           </button>
 
           {/* List View Button */}
@@ -76,14 +76,14 @@ export const VariantToolbar: React.FC<VariantToolbarProps> = ({
             type="button"
             onClick={() => onViewModeChange('list')}
             className={`
-              flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-all duration-200
-              ${viewMode === 'list' ? 'bg-teal-600 text-white shadow-sm' : 'bg-transparent text-gray-600 hover:text-teal-600'}
+              btn btn-sm flex items-center gap-1.5
+              ${viewMode === 'list' ? 'btn-primary' : 'btn-ghost'}
             `}
             aria-label="Lijst weergave"
             aria-pressed={viewMode === 'list'}
           >
             <List className="w-4 h-4" strokeWidth={2.5} />
-            <span className="text-sm font-semibold hidden sm:inline">Lijst</span>
+            <span className="hidden sm:inline">Lijst</span>
           </button>
         </div>
 
@@ -94,7 +94,7 @@ export const VariantToolbar: React.FC<VariantToolbarProps> = ({
             <button
               type="button"
               onClick={onSelectAll}
-              className="flex items-center gap-1.5 px-3 py-1.5 border-2 border-gray-400 text-gray-700 hover:border-teal-500 hover:text-teal-600 rounded-lg transition-colors text-sm font-semibold"
+              className="btn btn-outline-neutral btn-sm flex items-center gap-1.5"
             >
               <CheckSquare className="w-4 h-4" strokeWidth={2.5} />
               <span className="hidden sm:inline">Selecteer alle</span>
@@ -106,7 +106,7 @@ export const VariantToolbar: React.FC<VariantToolbarProps> = ({
             <button
               type="button"
               onClick={onDeselectAll}
-              className="flex items-center gap-1.5 px-3 py-1.5 border-2 border-gray-400 text-gray-700 hover:border-red-500 hover:text-red-600 rounded-lg transition-colors text-sm font-semibold"
+              className="btn btn-outline-neutral btn-sm flex items-center gap-1.5"
             >
               <Square className="w-4 h-4" strokeWidth={2.5} />
               <span className="hidden sm:inline">Deselecteer alle</span>

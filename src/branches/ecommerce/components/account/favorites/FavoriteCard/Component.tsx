@@ -48,7 +48,7 @@ export function FavoriteCard({ favorite, onRemove }: FavoriteCardProps) {
         <div className="space-y-2">
           <Link
             href={slug ? `/product/${slug}` : '#'}
-            className="w-full px-4 py-2 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition-colors text-sm flex items-center justify-center gap-2"
+            className="btn btn-sm btn-outline-neutral w-full flex items-center justify-center gap-2"
           >
             <Eye className="w-4 h-4" />
             Bekijk

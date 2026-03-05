@@ -97,28 +97,14 @@ export function OrderListSummary({
         <div className="flex gap-2.5 flex-wrap">
           <button
             onClick={onRequestQuote}
-            className="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold transition-all hover:border-teal-700 hover:bg-teal-50"
-            style={{
-              background: 'white',
-              color: COLORS.navy,
-              border: `1.5px solid ${COLORS.grey}`,
-              fontFamily: 'DM Sans, sans-serif',
-              fontSize: '14px',
-            }}
+            className="btn btn-outline-neutral flex items-center gap-2"
           >
             <FileText className="w-4 h-4" />
             Offerte aanvragen
           </button>
           <button
             onClick={onAddAllToCart}
-            className="flex items-center gap-2 px-5 py-3 rounded-xl font-bold transition-all hover:opacity-90"
-            style={{
-              background: `linear-gradient(135deg, ${COLORS.teal} 0%, ${COLORS.tealLight} 100%)`,
-              color: 'white',
-              fontFamily: 'DM Sans, sans-serif',
-              fontSize: '14px',
-              boxShadow: '0 4px 16px rgba(0,137,123,0.3)',
-            }}
+            className="btn btn-primary flex items-center gap-2"
           >
             <ShoppingCart className="w-4 h-4" />
             Alles in winkelwagen

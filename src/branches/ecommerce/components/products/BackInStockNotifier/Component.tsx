@@ -128,11 +128,7 @@ export const BackInStockNotifier: React.FC<BackInStockNotifierProps> = ({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="
-              bis-btn h-[42px] px-4.5 bg-teal-600 text-white rounded-lg font-bold text-[13px]
-              cursor-pointer transition-all duration-200 flex items-center gap-1.5 whitespace-nowrap
-              hover:bg-navy-600 disabled:opacity-50 disabled:cursor-not-allowed
-            "
+            className="btn btn-primary btn-sm bis-btn flex items-center gap-1.5 whitespace-nowrap"
             aria-label="Melding aanvragen"
           >
             <Bell className="w-[15px] h-[15px]" aria-hidden="true" />

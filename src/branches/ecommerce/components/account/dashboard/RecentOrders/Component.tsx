@@ -90,8 +90,7 @@ export function RecentOrders({ orders }: RecentOrdersProps) {
             <div className="flex flex-wrap gap-2">
               <Link
                 href={`/account/orders/${order.id}`}
-                className="px-3 lg:px-4 py-2 rounded-lg text-xs lg:text-sm font-semibold transition-all active:opacity-80 lg:hover:opacity-80"
-                style={{ background: 'var(--color-primary)', color: 'white' }}
+                className="btn btn-primary btn-sm"
               >
                 Details
               </Link>
@@ -100,7 +99,7 @@ export function RecentOrders({ orders }: RecentOrdersProps) {
                   href={order.trackingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 lg:px-4 py-2 rounded-lg text-xs lg:text-sm font-semibold transition-all active:bg-gray-100 lg:hover:bg-gray-100 bg-gray-50 text-gray-900"
+                  className="btn btn-secondary btn-sm"
                 >
                   Track & trace
                 </a>

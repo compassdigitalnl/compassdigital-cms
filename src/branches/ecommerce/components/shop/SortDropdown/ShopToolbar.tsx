@@ -45,7 +45,7 @@ export const ShopToolbar: React.FC<ShopToolbarProps> = ({
           {onOpenMobileFilters && (
             <button
               onClick={onOpenMobileFilters}
-              className="lg:hidden inline-flex items-center gap-2 px-4 py-2.5 border-[1.5px] border-theme-border bg-white rounded-xl text-[13px] font-semibold text-theme-navy hover:border-theme-teal hover:text-theme-teal transition-all"
+              className="btn btn-outline-neutral btn-sm lg:hidden inline-flex items-center gap-2"
               aria-label="Open filters"
             >
               <SlidersHorizontal className="w-4 h-4" />
@@ -78,12 +78,7 @@ export const ShopToolbar: React.FC<ShopToolbarProps> = ({
             <button
               key={filter.groupId}
               onClick={() => onRemoveFilter?.(filter.groupId)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-medium transition-colors"
-              style={{
-                background: 'var(--teal-glow, rgba(0, 137, 123, 0.1))',
-                color: 'var(--teal, #00897B)',
-                border: '1px solid rgba(0, 137, 123, 0.2)',
-              }}
+              className="btn btn-outline-primary btn-sm inline-flex items-center gap-1.5"
             >
               {filter.label}
               <X size={12} />
@@ -91,8 +86,7 @@ export const ShopToolbar: React.FC<ShopToolbarProps> = ({
           ))}
           <button
             onClick={onResetFilters}
-            className="text-[12px] font-medium px-2 py-1 transition-colors"
-            style={{ color: 'var(--grey-mid, #94A3B8)' }}
+            className="btn btn-ghost btn-sm"
           >
             Wis alles
           </button>

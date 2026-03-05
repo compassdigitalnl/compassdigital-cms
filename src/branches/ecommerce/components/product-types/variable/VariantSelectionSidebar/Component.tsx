@@ -63,7 +63,7 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
           <button
             type="button"
             onClick={onClearAll}
-            className="text-sm text-gray-600 hover:text-teal-600 font-semibold transition-colors"
+            className="btn btn-ghost btn-sm"
           >
             Wis alles
           </button>
@@ -162,7 +162,7 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
             <button
               type="button"
               onClick={onAddToCart}
-              className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-lg transition-colors shadow-md hover:shadow-lg"
+              className="btn btn-primary w-full flex items-center justify-center gap-2"
             >
               <ShoppingCart className="w-5 h-5" strokeWidth={2.5} />
               <span>

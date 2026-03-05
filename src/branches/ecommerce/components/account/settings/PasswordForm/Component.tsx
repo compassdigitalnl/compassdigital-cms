@@ -64,8 +64,7 @@ export function PasswordForm({ onChangePassword, isSaving }: PasswordFormProps) 
       <button
         onClick={handleSubmit}
         disabled={isSaving || !passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword}
-        className="flex items-center justify-center gap-2 px-4 lg:px-5 py-2.5 lg:py-3 rounded-xl text-sm font-semibold transition-all active:opacity-80 lg:hover:opacity-90 disabled:opacity-50 text-white w-full lg:w-auto"
-        style={{ background: 'var(--color-primary)' }}
+        className="btn btn-primary flex items-center justify-center gap-2 w-full lg:w-auto"
       >
         <Lock className="w-4 h-4" />
         Wachtwoord wijzigen

@@ -101,10 +101,10 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
               <button
                 type="button"
                 onClick={() => handleChange('type', 'delivery')}
-                className={`px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm font-medium transition-colors ${
+                className={`btn btn-sm ${
                   formData.type === 'delivery'
-                    ? 'bg-teal-700 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'btn-primary'
+                    : 'btn-ghost'
                 }`}
               >
                 Bezorgadres
@@ -112,10 +112,10 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
               <button
                 type="button"
                 onClick={() => handleChange('type', 'billing')}
-                className={`px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm font-medium transition-colors ${
+                className={`btn btn-sm ${
                   formData.type === 'billing'
-                    ? 'bg-teal-700 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'btn-primary'
+                    : 'btn-ghost'
                 }`}
               >
                 Factuuradres
@@ -123,10 +123,10 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
               <button
                 type="button"
                 onClick={() => handleChange('type', 'both')}
-                className={`px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm font-medium transition-colors ${
+                className={`btn btn-sm ${
                   formData.type === 'both'
-                    ? 'bg-teal-700 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'btn-primary'
+                    : 'btn-ghost'
                 }`}
               >
                 Beide

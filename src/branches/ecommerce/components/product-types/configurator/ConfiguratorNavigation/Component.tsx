@@ -41,10 +41,7 @@ export const ConfiguratorNavigation: React.FC<ConfiguratorNavigationProps> = ({
           type="button"
           onClick={onPrevious}
           disabled={!canGoPrevious}
-          className={`
-            flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 transition-colors text-[14px] font-semibold
-            ${canGoPrevious ? 'border-gray-400 text-gray-700 hover:border-teal-500 hover:text-teal-600' : 'border-gray-300 text-gray-400 cursor-not-allowed'}
-          `}
+          className="btn btn-outline-neutral flex items-center gap-2"
         >
           <ChevronLeft className="w-4 h-4" strokeWidth={2.5} />
           <span className="hidden sm:inline">Vorige</span>
@@ -65,7 +62,7 @@ export const ConfiguratorNavigation: React.FC<ConfiguratorNavigationProps> = ({
             <button
               type="button"
               onClick={onReset}
-              className="hidden md:flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 border-gray-400 text-gray-700 hover:border-yellow-500 hover:text-yellow-600 transition-colors text-[14px] font-semibold"
+              className="btn btn-outline-neutral hidden md:flex items-center gap-2"
             >
               <Save className="w-4 h-4" strokeWidth={2.5} />
               Opslaan & Afsluiten
@@ -78,10 +75,7 @@ export const ConfiguratorNavigation: React.FC<ConfiguratorNavigationProps> = ({
           type="button"
           onClick={onNext}
           disabled={!canGoNext}
-          className={`
-            flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 transition-colors text-[14px] font-semibold
-            ${canGoNext ? 'bg-teal-600 border-teal-600 text-white hover:bg-teal-700' : 'bg-gray-300 border-gray-300 text-gray-500 cursor-not-allowed'}
-          `}
+          className="btn btn-primary flex items-center gap-2"
         >
           <span className="hidden sm:inline">
             {currentStep === totalSteps ? 'Afronden' : 'Volgende'}
@@ -96,7 +90,7 @@ export const ConfiguratorNavigation: React.FC<ConfiguratorNavigationProps> = ({
           <button
             type="button"
             onClick={onReset}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border-2 border-gray-400 text-gray-700 hover:border-yellow-500 hover:text-yellow-600 transition-colors text-[14px] font-semibold"
+            className="btn btn-outline-neutral w-full flex items-center justify-center gap-2"
           >
             <Save className="w-4 h-4" strokeWidth={2.5} />
             Opslaan & Afsluiten

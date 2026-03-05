@@ -129,10 +129,10 @@ export const NewsletterBlockComponent: React.FC<NewsletterBlockProps> = ({
   }
 
   const buttonVariants = {
-    white: 'bg-teal text-white hover:bg-teal-dark',
-    grey: 'bg-teal text-white hover:bg-teal-dark',
-    teal: 'bg-white text-teal hover:bg-white/90',
-    navy: 'bg-teal text-white hover:bg-teal-dark',
+    white: 'btn btn-primary',
+    grey: 'btn btn-primary',
+    teal: 'btn btn-outline-neutral',
+    navy: 'btn btn-primary',
   }
 
   return (
@@ -207,7 +207,7 @@ export const NewsletterBlockComponent: React.FC<NewsletterBlockProps> = ({
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`px-8 py-3.5 text-sm font-bold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap ${buttonVariants[backgroundColor]}`}
+                  className={`whitespace-nowrap ${buttonVariants[backgroundColor]}`}
                 >
                   {isSubmitting ? (
                     <>

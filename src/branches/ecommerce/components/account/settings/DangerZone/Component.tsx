@@ -23,7 +23,7 @@ export function DangerZone({ onDeleteAccount }: DangerZoneProps) {
 
       <button
         onClick={onDeleteAccount}
-        className="flex items-center justify-center gap-2 px-4 lg:px-5 py-2.5 lg:py-3 rounded-xl text-sm font-semibold transition-all active:opacity-80 lg:hover:opacity-90 bg-red-600 text-white w-full lg:w-auto"
+        className="btn btn-danger flex items-center justify-center gap-2 w-full lg:w-auto"
       >
         <Trash2 className="w-4 h-4" />
         Account permanent verwijderen

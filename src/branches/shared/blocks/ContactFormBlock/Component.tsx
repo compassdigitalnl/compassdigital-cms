@@ -209,7 +209,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlockProps> = ({
                 </p>
                 <button
                   onClick={() => setSubmitStatus('idle')}
-                  className="text-[13px] font-semibold text-green hover:text-green transition-colors"
+                  className="btn btn-ghost text-green"
                 >
                   Nieuw bericht verzenden →
                 </button>
@@ -336,7 +336,7 @@ export const ContactFormBlockComponent: React.FC<ContactFormBlockProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full md:w-auto px-8 py-3.5 bg-teal text-white text-sm font-bold rounded-lg hover:bg-teal-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="btn btn-primary w-full md:w-auto"
                   >
                     {isSubmitting ? (
                       <>

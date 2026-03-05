@@ -41,15 +41,14 @@ export function OrderDetailHeader({ order, onReorder, onDownloadInvoice }: Order
         <div className="hidden lg:flex lg:flex-wrap lg:gap-2">
           <button
             onClick={onReorder}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:opacity-90 text-white"
-            style={{ background: 'var(--color-primary)' }}
+            className="btn btn-primary flex items-center gap-2"
           >
             <RotateCcw className="w-4 h-4" />
             Bestel opnieuw
           </button>
           <button
             onClick={onDownloadInvoice}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-gray-100 bg-gray-50 text-gray-900"
+            className="btn btn-secondary flex items-center gap-2"
           >
             <Download className="w-4 h-4" />
             Factuur
@@ -57,7 +56,7 @@ export function OrderDetailHeader({ order, onReorder, onDownloadInvoice }: Order
           {features.returns && (
             <Link
               href={`/account/orders/${order.id}/retour`}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-gray-100 bg-gray-50 text-gray-900"
+              className="btn btn-secondary flex items-center gap-2"
             >
               Retour aanvragen
             </Link>
@@ -69,8 +68,7 @@ export function OrderDetailHeader({ order, onReorder, onDownloadInvoice }: Order
       <div className="grid grid-cols-1 gap-2 lg:hidden">
         <button
           onClick={onReorder}
-          className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all active:opacity-80 text-white"
-          style={{ background: 'var(--color-primary)' }}
+          className="btn btn-primary flex items-center justify-center gap-2"
         >
           <RotateCcw className="w-4 h-4" />
           Bestel opnieuw
@@ -78,7 +76,7 @@ export function OrderDetailHeader({ order, onReorder, onDownloadInvoice }: Order
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={onDownloadInvoice}
-            className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 bg-gray-50 text-gray-900"
+            className="btn btn-secondary flex items-center justify-center gap-2"
           >
             <Download className="w-4 h-4" />
             Factuur
@@ -86,7 +84,7 @@ export function OrderDetailHeader({ order, onReorder, onDownloadInvoice }: Order
           {features.returns && (
             <Link
               href={`/account/orders/${order.id}/retour`}
-              className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 bg-gray-50 text-gray-900"
+              className="btn btn-secondary flex items-center justify-center gap-2"
             >
               Retour
             </Link>

@@ -35,7 +35,7 @@ export function AddressCard({ address, onDelete, onSetDefault, onEdit }: Address
       <div className="flex gap-2">
         <button
           onClick={() => onEdit(address)}
-          className="flex-1 flex items-center justify-center gap-1.5 lg:gap-2 px-2.5 lg:px-3 py-2 rounded-lg text-xs lg:text-sm font-semibold transition-all active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900"
+          className="btn btn-sm btn-outline-neutral flex-1 flex items-center justify-center gap-1.5 lg:gap-2"
         >
           <Pencil className="w-3 h-3 lg:w-3.5 lg:h-3.5" />
           <span className="hidden lg:inline">Bewerken</span>
@@ -43,7 +43,7 @@ export function AddressCard({ address, onDelete, onSetDefault, onEdit }: Address
         {!address.isPrimary && !address.isDefault && (
           <button
             onClick={() => onSetDefault(id)}
-            className="flex-1 flex items-center justify-center gap-1.5 lg:gap-2 px-2.5 lg:px-3 py-2 rounded-lg text-xs lg:text-sm font-semibold transition-all active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900"
+            className="btn btn-sm btn-outline-neutral flex-1 flex items-center justify-center gap-1.5 lg:gap-2"
           >
             <Star className="w-3 h-3 lg:w-3.5 lg:h-3.5" />
             <span className="hidden lg:inline">Standaard</span>
@@ -51,7 +51,7 @@ export function AddressCard({ address, onDelete, onSetDefault, onEdit }: Address
         )}
         <button
           onClick={() => onDelete(id)}
-          className="px-2.5 lg:px-3 py-2 rounded-lg font-semibold transition-all active:bg-red-50 lg:hover:bg-red-50 bg-gray-50 text-red-600"
+          className="btn btn-sm btn-danger"
         >
           <Trash2 className="w-4 h-4" />
         </button>

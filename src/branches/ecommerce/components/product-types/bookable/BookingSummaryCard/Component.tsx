@@ -87,7 +87,7 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
             {showEditButtons && onEdit && (
               <button
                 onClick={() => onEdit('date')}
-                className="text-xs text-teal-600 font-semibold hover:underline"
+                className="btn btn-ghost btn-sm"
               >
                 Wijzig
               </button>
@@ -115,7 +115,7 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
             {showEditButtons && onEdit && (
               <button
                 onClick={() => onEdit('time')}
-                className="text-xs text-teal-600 font-semibold hover:underline"
+                className="btn btn-ghost btn-sm"
               >
                 Wijzig
               </button>
@@ -145,7 +145,7 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
             {showEditButtons && onEdit && (
               <button
                 onClick={() => onEdit('participants')}
-                className="text-xs text-teal-600 font-semibold hover:underline"
+                className="btn btn-ghost btn-sm"
               >
                 Wijzig
               </button>
@@ -173,7 +173,7 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
             {showEditButtons && onEdit && (
               <button
                 onClick={() => onEdit('addons')}
-                className="text-xs text-teal-600 font-semibold hover:underline"
+                className="btn btn-ghost btn-sm"
               >
                 Wijzig
               </button>
@@ -205,7 +205,7 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
           <Button
             onClick={onBook}
             disabled={!canBook || isBooking}
-            className="w-full h-12 text-base font-extrabold bg-teal-600 hover:bg-gray-900 disabled:bg-gray-200 disabled:text-gray-400"
+            className="btn btn-primary btn-lg w-full"
           >
             {isBooking ? (
               'Reserveren...'

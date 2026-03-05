@@ -79,7 +79,7 @@ export const ReviewWidget: React.FC<ReviewWidgetProps> = ({
           {showWriteButton && onWriteReview && (
             <button
               onClick={onWriteReview}
-              className="mt-2.5 inline-flex items-center gap-1.5 rounded-lg bg-theme-teal px-4 py-2.5 text-[13px] font-bold text-white transition-colors hover:bg-theme-navy"
+              className="btn btn-primary btn-sm mt-2.5 inline-flex items-center gap-1.5"
               aria-label="Review schrijven"
             >
               <PenLine className="h-[15px] w-[15px]" />

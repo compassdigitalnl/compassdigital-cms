@@ -86,7 +86,7 @@ export const ConstructionHeroComponent: React.FC<ConstructionHeroBlock> = ({
               <div className="flex flex-wrap gap-4">
                 <Link
                   href={primaryCTA.link || '/'}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-light transition-colors"
+                  className="btn btn-primary inline-flex items-center gap-2"
                 >
                   {primaryCTA.text}
                   {primaryCTA.icon && <Icon name={primaryCTA.icon as any} size={20} />}
@@ -95,7 +95,7 @@ export const ConstructionHeroComponent: React.FC<ConstructionHeroBlock> = ({
                 {secondaryCTA?.text && (
                   <Link
                     href={secondaryCTA.link || '/'}
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 text-white font-semibold rounded-lg border border-white/20 hover:bg-white/20 transition-colors backdrop-blur-sm"
+                    className="btn btn-outline-neutral inline-flex items-center gap-2 backdrop-blur-sm"
                   >
                     {secondaryCTA.text}
                     {secondaryCTA.icon && <Icon name={secondaryCTA.icon as any} size={20} />}

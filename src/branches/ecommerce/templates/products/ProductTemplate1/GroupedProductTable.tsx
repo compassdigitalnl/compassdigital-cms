@@ -371,7 +371,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
             <p className="text-sm text-gray-600">{selectedCount} product(en) geselecteerd</p>
             <button
               onClick={handleAddAll}
-              className="text-sm text-teal-600 hover:text-teal-700 font-medium mt-1"
+              className="btn btn-ghost btn-sm mt-1"
             >
               Alles selecteren
             </button>
@@ -384,7 +384,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
             <button
               onClick={handleAddToCart}
               disabled={selectedCount === 0}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+              className="btn btn-primary btn-lg"
             >
               <ShoppingCart className="w-5 h-5" />
               Geselecteerde toevoegen ({selectedCount})

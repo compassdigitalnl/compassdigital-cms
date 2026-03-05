@@ -119,7 +119,7 @@ function GiftCardCard({ card, onSend, onPrint }: { card: GiftCard; onSend: (id: 
             {card.deliveryMethod === 'email' && (
               <button
                 onClick={() => onSend(card.id)}
-                className="flex-1 px-2 py-1.5 border border-gray-200 text-gray-700 text-xs font-semibold rounded-lg hover:border-teal-500 hover:text-teal-600 hover:bg-teal-50 transition-colors"
+                className="btn btn-sm btn-outline-neutral flex-1"
               >
                 Opnieuw versturen
               </button>
@@ -127,7 +127,7 @@ function GiftCardCard({ card, onSend, onPrint }: { card: GiftCard; onSend: (id: 
             {card.deliveryMethod === 'print' && (
               <button
                 onClick={() => onPrint(card.id)}
-                className="flex-1 px-2 py-1.5 border border-gray-200 text-gray-700 text-xs font-semibold rounded-lg hover:border-teal-500 hover:text-teal-600 hover:bg-teal-50 transition-colors"
+                className="btn btn-sm btn-outline-neutral flex-1"
               >
                 Printen
               </button>

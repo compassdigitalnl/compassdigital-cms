@@ -186,7 +186,7 @@ export const MixMatchProductCard: React.FC<MixMatchProductCardProps> = ({
             <div className="mmp-qty flex items-center gap-0 border-[1.5px] border-gray-200 rounded-lg overflow-hidden">
               <button
                 onClick={handleDecrement}
-                className="mmp-qty-btn w-7 h-7 border-none bg-gray-100 cursor-pointer flex items-center justify-center text-sm font-bold text-gray-900 transition-colors hover:bg-teal-500/10 hover:text-teal-600"
+                className="btn btn-ghost btn-sm mmp-qty-btn w-7 h-7 flex items-center justify-center"
               >
                 <Minus className="w-3 h-3" />
               </button>
@@ -196,7 +196,7 @@ export const MixMatchProductCard: React.FC<MixMatchProductCardProps> = ({
               <button
                 onClick={handleIncrement}
                 disabled={quantity >= maxQuantity}
-                className="mmp-qty-btn w-7 h-7 border-none bg-gray-100 cursor-pointer flex items-center justify-center text-sm font-bold text-gray-900 transition-colors hover:bg-teal-500/10 hover:text-teal-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn btn-ghost btn-sm mmp-qty-btn w-7 h-7 flex items-center justify-center"
               >
                 <Plus className="w-3 h-3" />
               </button>
@@ -204,7 +204,7 @@ export const MixMatchProductCard: React.FC<MixMatchProductCardProps> = ({
           ) : (
             <button
               onClick={handleAdd}
-              className="mmp-add h-7 px-3 bg-teal-600 text-white border-none rounded-lg text-[11px] font-extrabold cursor-pointer flex items-center gap-0.5 transition-all duration-150 hover:bg-gray-900"
+              className="btn btn-primary btn-sm mmp-add h-7 flex items-center gap-0.5"
             >
               <Plus className="w-3 h-3" />
               Toevoegen

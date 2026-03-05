@@ -34,7 +34,7 @@ export const BrandCTA: React.FC<BrandCTAProps> = ({
 
       <Link
         href="/shop"
-        className="relative inline-flex items-center gap-[7px] rounded-xl bg-theme-teal px-7 py-3.5 text-[15px] font-bold text-white transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] hover:bg-theme-teal-light"
+        className="btn btn-primary btn-lg relative inline-flex items-center gap-[7px]"
       >
         <LayoutGrid className="h-[17px] w-[17px]" />
         Bekijk alle producten

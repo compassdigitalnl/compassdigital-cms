@@ -35,10 +35,10 @@ export const SubscriptionFilterTabs: React.FC<SubscriptionFilterTabsProps> = ({
           <button
             key={tab.id}
             onClick={() => onChange(tab.id)}
-            className={`filter-tab px-4 py-2.5 rounded-full border-[1.5px] text-[13px] font-bold cursor-pointer transition-all flex items-center gap-1.5 ${
+            className={`btn filter-tab flex items-center gap-1.5 ${
               isActive
-                ? 'bg-teal-600 border-teal-600 text-white'
-                : 'bg-white border-gray-200 text-gray-500 hover:border-teal-600 hover:text-teal-600'
+                ? 'btn-primary'
+                : 'btn-outline-neutral'
             }`}
           >
             {Icon && <Icon className="w-3.5 h-3.5" />}

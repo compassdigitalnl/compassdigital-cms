@@ -32,7 +32,7 @@ export function RedeemCodeInput({ code, onChange, onRedeem }: RedeemCodeInputPro
           <button
             onClick={onRedeem}
             disabled={!code.trim()}
-            className="flex-shrink-0 h-10 px-4 bg-teal-600 text-white text-sm font-bold rounded-lg hover:bg-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1.5"
+            className="btn btn-sm btn-primary flex-shrink-0 flex items-center gap-1.5"
           >
             <CheckCircle className="w-3.5 h-3.5" />
             Inwisselen

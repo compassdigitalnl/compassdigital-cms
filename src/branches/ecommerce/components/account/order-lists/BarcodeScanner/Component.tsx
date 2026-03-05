@@ -103,7 +103,7 @@ export default function BarcodeScanner({ onScan, onClose }: BarcodeScannerProps)
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-lg flex items-center justify-center transition-all hover:bg-white/10"
+            className="btn btn-ghost btn-sm w-8 h-8 flex items-center justify-center"
           >
             <X className="w-5 h-5" />
           </button>
@@ -121,12 +121,7 @@ export default function BarcodeScanner({ onScan, onClose }: BarcodeScannerProps)
               </p>
               <button
                 onClick={onClose}
-                className="mt-4 px-4 py-2 rounded-lg font-semibold transition-all"
-                style={{
-                  background: '#FF6B6B',
-                  color: 'white',
-                  fontSize: '13px',
-                }}
+                className="btn btn-danger btn-sm mt-4"
               >
                 Sluiten
               </button>

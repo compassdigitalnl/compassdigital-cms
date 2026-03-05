@@ -245,7 +245,7 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-primary hover:bg-primary-light disabled:bg-gray-400 text-white font-semibold py-4 px-6 rounded-xl transition-colors flex items-center justify-center gap-2"
+              className="btn btn-primary btn-lg w-full flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>

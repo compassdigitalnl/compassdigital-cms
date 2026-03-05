@@ -166,11 +166,7 @@ export const StickyAddToCartBar: React.FC<StickyAddToCartBarProps> = ({
         {/* Add to Cart Button */}
         <button
           onClick={handleAddToCart}
-          className="
-            sb-add h-11 px-6 bg-teal-600 text-white rounded-[10px] font-bold text-sm
-            cursor-pointer flex items-center gap-2 transition-all duration-200 flex-shrink-0
-            shadow-[0_4px_16px_rgba(0,137,123,0.3)] hover:bg-navy-600
-          "
+          className="btn btn-primary sb-add flex items-center gap-2 flex-shrink-0"
           aria-label="Toevoegen aan winkelwagen"
         >
           <ShoppingCart className="w-[17px] h-[17px]" aria-hidden="true" />

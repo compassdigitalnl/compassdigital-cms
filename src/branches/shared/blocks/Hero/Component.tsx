@@ -59,9 +59,9 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
 
   // Button styles
   const buttonStyles = {
-    primary: 'bg-teal text-white hover:bg-teal-dark shadow-sm',
-    secondary: 'bg-transparent border-2 border-current hover:bg-white/10',
-    ghost: 'text-current hover:underline',
+    primary: 'btn btn-primary',
+    secondary: 'btn btn-outline-neutral',
+    ghost: 'btn btn-ghost',
   }
 
   return (
@@ -124,9 +124,7 @@ export const HeroBlockComponent: React.FC<HeroBlock> = ({
                   <Link
                     key={idx}
                     href={btn.link}
-                    className={`inline-block px-6 py-3 rounded-lg text-sm font-bold transition-all duration-200 ${
-                      buttonStyles[buttonStyle as keyof typeof buttonStyles]
-                    }`}
+                    className={buttonStyles[buttonStyle as keyof typeof buttonStyles]}
                   >
                     {btn.label}
                   </Link>

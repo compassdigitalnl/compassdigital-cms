@@ -46,7 +46,7 @@ export function OrderSearchBar({ searchQuery, statusFilter, onSearch, onStatusFi
             onSearch('')
             onStatusFilter('all')
           }}
-          className="text-sm font-semibold transition-colors py-2 lg:py-0"
+          className="btn btn-ghost btn-sm"
           style={{ color: 'var(--color-primary)' }}
         >
           Filters wissen

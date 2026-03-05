@@ -145,8 +145,7 @@ export function QuickAddSearch({
                       &euro;{product.price.toFixed(2)}
                     </div>
                     <button
-                      className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all hover:opacity-80"
-                      style={{ background: COLORS.teal, color: 'white' }}
+                      className="btn btn-primary btn-sm w-8 h-8 flex items-center justify-center flex-shrink-0"
                       onClick={(e) => {
                         e.stopPropagation()
                         onAddProduct(product)
@@ -171,15 +170,8 @@ export function QuickAddSearch({
         {/* Barcode scan button */}
         <button
           onClick={onScanBarcode}
-          className="flex items-center gap-1.5 px-4 py-3 rounded-xl font-semibold transition-all hover:border-teal-700 hover:bg-teal-50 hover:text-teal-700"
-          style={{
-            background: 'white',
-            border: `1.5px solid ${COLORS.grey}`,
-            fontFamily: 'DM Sans, sans-serif',
-            fontSize: '13px',
-            color: COLORS.navy,
-            whiteSpace: 'nowrap',
-          }}
+          className="btn btn-outline-neutral flex items-center gap-1.5"
+          style={{ whiteSpace: 'nowrap' }}
         >
           <ScanLine className="w-4 h-4" />
           Scan barcode

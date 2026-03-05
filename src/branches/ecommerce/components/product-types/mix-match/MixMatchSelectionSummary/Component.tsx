@@ -70,7 +70,7 @@ export const MixMatchSelectionSummary: React.FC<MixMatchSelectionSummaryProps> =
           {onRemove && (
             <button
               onClick={() => onRemove(item.id)}
-              className="bi-remove w-5 h-5 rounded border-none bg-transparent cursor-pointer flex items-center justify-center transition-all hover:bg-red-50 flex-shrink-0"
+              className="btn btn-ghost btn-sm bi-remove w-5 h-5 flex items-center justify-center flex-shrink-0"
               aria-label={`Remove ${item.name}`}
             >
               <X className="w-3 h-3 text-red-400" />

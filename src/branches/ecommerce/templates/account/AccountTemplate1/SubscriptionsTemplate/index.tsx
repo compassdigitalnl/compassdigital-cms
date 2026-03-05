@@ -53,7 +53,7 @@ export default function SubscriptionsTemplate({
         </div>
         <button
           onClick={onUpgradePlan}
-          className="px-4 py-2 bg-teal-600 text-white text-sm font-bold rounded-lg hover:bg-navy-900 transition-colors"
+          className="btn btn-primary btn-sm"
         >
           Upgrade
         </button>
@@ -82,7 +82,7 @@ export default function SubscriptionsTemplate({
           ))}
           <button
             onClick={onAddAddon}
-            className="border-2 border-dashed border-gray-300 rounded-lg p-4 flex items-center justify-center gap-2 text-sm font-semibold text-gray-500 hover:border-teal-500 hover:text-teal-600 hover:bg-teal-50/50 transition-all cursor-pointer"
+            className="btn btn-ghost border-2 border-dashed border-gray-300 p-4 flex items-center justify-center gap-2"
           >
             + Add-on toevoegen
           </button>
@@ -120,7 +120,7 @@ export default function SubscriptionsTemplate({
           </div>
           <button
             onClick={onAddPaymentMethod}
-            className="border border-gray-300 rounded-lg p-4 flex items-center justify-center gap-2 text-sm font-semibold text-gray-600 hover:border-teal-500 hover:text-teal-600 hover:bg-teal-50/50 transition-all"
+            className="btn btn-ghost border border-gray-300 p-4 flex items-center justify-center gap-2"
           >
             + Betaalmethode toevoegen
           </button>
@@ -140,7 +140,7 @@ export default function SubscriptionsTemplate({
         </div>
         <button
           onClick={onCancelSubscription}
-          className="px-4 py-2 border-2 border-red-500 text-red-500 text-xs font-bold rounded-lg hover:bg-red-500 hover:text-white transition-colors"
+          className="btn btn-danger btn-sm"
         >
           Opzeggen
         </button>

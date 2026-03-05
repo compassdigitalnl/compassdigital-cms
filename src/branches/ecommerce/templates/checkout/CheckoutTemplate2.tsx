@@ -78,8 +78,7 @@ export default function CheckoutTemplate2() {
           </h1>
           <Link
             href="/shop/"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-80"
-            style={{ color: 'var(--teal)' }}
+            className="btn btn-ghost"
           >
             <ArrowLeft className="w-4 h-4" />
             Naar shop
@@ -143,8 +142,7 @@ export default function CheckoutTemplate2() {
           </h1>
           <Link
             href="/cart/"
-            className="text-sm font-semibold flex items-center gap-1 hover:opacity-70 transition-opacity w-fit"
-            style={{ color: 'var(--teal)' }}
+            className="btn btn-ghost btn-sm w-fit"
           >
             <ArrowLeft className="w-4 h-4" />
             Terug naar winkelwagen
@@ -329,8 +327,7 @@ export default function CheckoutTemplate2() {
             <button
               onClick={handlePlaceOrder}
               disabled={!canPlaceOrder || isProcessing}
-              className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold text-lg transition-all hover:opacity-90 disabled:opacity-50"
-              style={{ background: 'var(--teal)', color: 'white', boxShadow: 'var(--sh-md)' }}
+              className="btn btn-primary btn-lg w-full"
             >
               {isProcessing ? (
                 'Bezig met verwerken...'

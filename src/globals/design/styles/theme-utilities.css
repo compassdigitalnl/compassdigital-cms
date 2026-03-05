@@ -56,48 +56,8 @@
 
 /* ============================================
    BUTTON UTILITIES
+   (Comprehensive .btn classes are in ThemeProvider)
    ============================================ */
-
-.btn {
-  border-radius: var(--border-radius);
-  transition-duration: var(--transition-duration);
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-}
-
-.btn-primary:hover {
-  opacity: 0.9;
-}
-
-.btn-secondary {
-  background-color: var(--color-secondary);
-  color: white;
-  border: none;
-}
-
-.btn-secondary:hover {
-  opacity: 0.9;
-}
-
-.btn-outline {
-  background-color: transparent;
-  color: var(--color-primary);
-  border: 2px solid var(--color-primary);
-}
-
-.btn-outline:hover {
-  background-color: var(--color-primary);
-  color: white;
-}
 
 /* ============================================
    GRADIENT UTILITIES

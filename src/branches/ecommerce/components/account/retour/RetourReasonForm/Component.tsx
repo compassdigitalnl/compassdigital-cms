@@ -28,13 +28,13 @@ export function RetourReasonForm({ items, onSetReason, onNext, onPrev }: RetourR
         ))}
       </div>
       <div className="mt-4 flex justify-between">
-        <button onClick={onPrev} className="px-6 py-3 rounded-xl text-sm font-semibold bg-gray-50 text-gray-900">
+        <button onClick={onPrev} className="btn btn-outline-neutral">
           Vorige
         </button>
         <button
           onClick={onNext}
           disabled={!allHaveReason}
-          className="px-6 py-3 rounded-xl text-sm font-semibold transition-all disabled:opacity-40 bg-teal-700 text-white"
+          className="btn btn-primary"
         >
           Volgende
         </button>

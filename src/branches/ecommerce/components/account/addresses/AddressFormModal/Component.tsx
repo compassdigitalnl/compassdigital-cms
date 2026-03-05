@@ -29,13 +29,13 @@ export function AddressFormModal({
             <div className="grid grid-cols-2 gap-2 lg:gap-3">
               <button
                 onClick={() => onUpdateForm({ type: 'shipping' })}
-                className={`px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm font-semibold transition-all ${formData.type === 'shipping' ? 'bg-teal-50 text-teal-700 border-teal-700' : 'bg-gray-50 text-gray-900 border-gray-200'} border`}
+                className={`btn btn-sm ${formData.type === 'shipping' ? 'btn-outline-primary' : 'btn-outline-neutral'}`}
               >
                 Bezorgadres
               </button>
               <button
                 onClick={() => onUpdateForm({ type: 'billing' })}
-                className={`px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm font-semibold transition-all ${formData.type === 'billing' ? 'bg-teal-50 text-teal-700 border-teal-700' : 'bg-gray-50 text-gray-900 border-gray-200'} border`}
+                className={`btn btn-sm ${formData.type === 'billing' ? 'btn-outline-primary' : 'btn-outline-neutral'}`}
               >
                 Factuuradres
               </button>
@@ -95,10 +95,10 @@ export function AddressFormModal({
         </div>
 
         <div className="flex gap-2 lg:gap-3">
-          <button onClick={onClose} className="flex-1 px-4 py-2.5 lg:py-3 rounded-xl text-sm font-semibold transition-all active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900">
+          <button onClick={onClose} className="btn btn-outline-neutral flex-1">
             Annuleren
           </button>
-          <button onClick={onSave} className="flex-1 px-4 py-2.5 lg:py-3 rounded-xl text-sm font-semibold transition-all active:opacity-80 lg:hover:opacity-90 bg-teal-700 text-white">
+          <button onClick={onSave} className="btn btn-primary flex-1">
             Opslaan
           </button>
         </div>

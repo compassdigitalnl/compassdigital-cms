@@ -54,11 +54,10 @@ export const ConfiguratorStepIndicator: React.FC<ConfiguratorStepIndicatorProps>
                   onClick={() => isClickable && onStepClick && onStepClick(step.stepNumber)}
                   disabled={!isClickable}
                   className={`
-                    relative w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all duration-200
-                    ${stepState === 'completed' ? 'bg-teal-600 border-teal-600' : ''}
-                    ${stepState === 'active' ? 'bg-teal-600 border-teal-600 ring-4 ring-teal-200' : ''}
-                    ${stepState === 'pending' ? 'bg-gray-200 border-gray-300' : ''}
-                    ${isClickable ? 'cursor-pointer hover:scale-110' : 'cursor-not-allowed'}
+                    btn relative w-12 h-12 flex items-center justify-center
+                    ${stepState === 'completed' ? 'btn-primary' : ''}
+                    ${stepState === 'active' ? 'btn-primary ring-4 ring-teal-200' : ''}
+                    ${stepState === 'pending' ? 'btn-outline-neutral' : ''}
                   `}
                   aria-label={`Stap ${step.stepNumber}: ${step.title}`}
                 >
@@ -116,9 +115,8 @@ export const ConfiguratorStepIndicator: React.FC<ConfiguratorStepIndicatorProps>
                 onClick={() => isClickable && onStepClick && onStepClick(step.stepNumber)}
                 disabled={!isClickable}
                 className={`
-                  w-full flex items-center gap-3 p-3 rounded-lg border-2 transition-all duration-200
-                  ${stepState === 'active' ? 'border-teal-600 bg-teal-50' : 'border-gray-300 bg-white'}
-                  ${isClickable ? 'cursor-pointer hover:border-teal-400' : 'cursor-not-allowed'}
+                  btn w-full flex items-center gap-3 p-3
+                  ${stepState === 'active' ? 'btn-outline-primary' : 'btn-outline-neutral'}
                 `}
               >
                 {/* Step Circle */}

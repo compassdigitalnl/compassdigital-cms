@@ -132,7 +132,7 @@ export const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-2 -mr-2 rounded-lg hover:bg-gray-50 transition-colors"
+            className="btn btn-ghost p-2 -mr-2"
             aria-label="Sluit filters"
           >
             <X className="w-5 h-5 text-[var(--color-text-muted)]" />
@@ -169,7 +169,7 @@ export const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
         <div className="flex-shrink-0 p-5 border-t border-[var(--color-border)] bg-white">
           <button
             onClick={handleApplyFilters}
-            className="w-full py-3.5 px-4 bg-[var(--color-primary)] text-white rounded-xl text-[15px] font-semibold hover:bg-opacity-90 transition-all shadow-sm"
+            className="btn btn-primary w-full"
           >
             Toon {resultCount} {resultCount === 1 ? 'product' : 'producten'}
           </button>

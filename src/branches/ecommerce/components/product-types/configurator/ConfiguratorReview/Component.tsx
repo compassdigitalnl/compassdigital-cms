@@ -87,7 +87,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
                 <button
                   type="button"
                   onClick={() => onEdit(step.stepNumber)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 border-2 border-gray-400 text-gray-700 hover:border-teal-500 hover:text-teal-600 rounded-md transition-colors text-[13px] font-semibold"
+                  className="btn btn-outline-neutral btn-sm flex items-center gap-1.5"
                 >
                   <Edit2 className="w-3.5 h-3.5" strokeWidth={2.5} />
                   Bewerk
@@ -176,7 +176,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
       {/* Confirm Button */}
       <button
         type="button"
-        className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-teal-600 hover:bg-teal-700 text-white rounded-lg transition-colors text-[16px] font-bold shadow-lg"
+        className="btn btn-primary btn-lg w-full flex items-center justify-center gap-2"
       >
         <ShoppingCart className="w-5 h-5" strokeWidth={2.5} />
         Bevestig Configuratie & Voeg Toe Aan Winkelwagen

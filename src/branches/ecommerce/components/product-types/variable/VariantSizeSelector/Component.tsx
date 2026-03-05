@@ -37,7 +37,7 @@ export function VariantSizeSelector({
           <button
             type="button"
             onClick={() => setShowSizeGuideModal(true)}
-            className="text-sm text-blue-600 underline hover:text-blue-700"
+            className="btn btn-ghost btn-sm"
           >
             Size Guide
           </button>

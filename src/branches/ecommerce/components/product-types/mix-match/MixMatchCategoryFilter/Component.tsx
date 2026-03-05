@@ -36,10 +36,10 @@ export const MixMatchCategoryFilter: React.FC<MixMatchCategoryFilterProps> = ({
           <button
             key={category.id}
             onClick={() => onChange(category.id)}
-            className={`cat-tab px-4 py-2 rounded-full text-[13px] font-bold border-[1.5px] cursor-pointer transition-all duration-150 flex items-center gap-1.5 ${
+            className={`btn cat-tab flex items-center gap-1.5 ${
               isActive
-                ? 'bg-teal-600 text-white border-teal-600'
-                : 'bg-white text-gray-500 border-gray-200 hover:border-teal-600 hover:text-teal-600'
+                ? 'btn-primary'
+                : 'btn-outline-neutral'
             }`}
           >
             {/* Icon or Emoji */}

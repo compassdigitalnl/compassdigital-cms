@@ -159,8 +159,7 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
         </p>
         <button
           onClick={onRetry}
-          className="mt-4 px-4 py-2 rounded-lg font-semibold transition-all"
-          style={{ background: '#FF6B6B', color: 'white', fontSize: '13px' }}
+          className="btn btn-danger btn-sm mt-4"
         >
           Opnieuw proberen
         </button>
@@ -191,28 +190,14 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
         </div>
         <div className="flex gap-2.5">
           <button
-            className="flex items-center gap-2 px-4 py-3 rounded-xl font-semibold transition-all hover:border-teal-700 hover:bg-teal-50 hover:text-teal-700"
-            style={{
-              background: 'white',
-              color: '#0A1628',
-              border: '1.5px solid #E8ECF1',
-              fontFamily: 'DM Sans, sans-serif',
-              fontSize: '14px',
-            }}
+            className="btn btn-outline-neutral flex items-center gap-2"
           >
             <Upload className="w-4 h-4" />
             Importeren
           </button>
           <Link
             href="/account/lists/new/"
-            className="flex items-center gap-2 px-5 py-3 rounded-xl font-bold transition-all hover:opacity-90"
-            style={{
-              background: 'linear-gradient(135deg, #00897B 0%, #26A69A 100%)',
-              color: 'white',
-              fontFamily: 'DM Sans, sans-serif',
-              fontSize: '14px',
-              boxShadow: '0 4px 16px rgba(0,137,123,0.3)',
-            }}
+            className="btn btn-primary flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
             Nieuwe lijst
@@ -411,15 +396,13 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
                 <div className="flex gap-2">
                   <button
                     onClick={(e) => { e.preventDefault(); window.location.href = `/account/lists/${list.id}` }}
-                    className="px-3.5 py-2 rounded-lg font-semibold transition-all hover:border-teal-700 hover:text-teal-700"
-                    style={{ background: '#F5F7FA', color: '#0A1628', border: '1px solid #E8ECF1', fontFamily: 'DM Sans, sans-serif', fontSize: '12px' }}
+                    className="btn btn-outline-neutral btn-sm"
                   >
                     <Eye className="w-3.5 h-3.5 inline mr-1.5" />Bekijk
                   </button>
                   <button
                     onClick={(e) => { e.preventDefault(); onAddToCart(list.id, list.name) }}
-                    className="px-3.5 py-2 rounded-lg font-semibold transition-all hover:opacity-90"
-                    style={{ background: '#00897B', color: 'white', fontFamily: 'DM Sans, sans-serif', fontSize: '12px', boxShadow: '0 2px 8px rgba(0,137,123,0.3)' }}
+                    className="btn btn-primary btn-sm"
                   >
                     <ShoppingCart className="w-3.5 h-3.5 inline mr-1.5" />Bestel alles
                   </button>
@@ -464,8 +447,7 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
           {!searchQuery && (
             <Link
               href="/account/lists/new/"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold transition-all hover:opacity-90"
-              style={{ background: 'linear-gradient(135deg, #00897B 0%, #26A69A 100%)', color: 'white', fontFamily: 'DM Sans, sans-serif', fontSize: '14px', boxShadow: '0 4px 16px rgba(0,137,123,0.3)' }}
+              className="btn btn-primary inline-flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
               Maak je eerste lijst

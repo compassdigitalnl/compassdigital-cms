@@ -82,7 +82,7 @@ export default function SettingsTemplate({
           </div>
         </div>
 
-        <button onClick={onSaveProfile} disabled={isSaving} className="flex items-center justify-center gap-2 px-4 lg:px-5 py-2.5 lg:py-3 rounded-xl text-sm font-semibold transition-all active:opacity-80 lg:hover:opacity-90 disabled:opacity-50 bg-teal-700 text-white w-full lg:w-auto">
+        <button onClick={onSaveProfile} disabled={isSaving} className="btn btn-primary flex items-center justify-center gap-2 w-full lg:w-auto">
           <Save className="w-4 h-4" />
           {isSaving ? 'Opslaan...' : 'Wijzigingen opslaan'}
         </button>
@@ -117,7 +117,7 @@ export default function SettingsTemplate({
           </div>
         </div>
 
-        <button onClick={onSaveProfile} disabled={isSaving} className="flex items-center justify-center gap-2 px-4 lg:px-5 py-2.5 lg:py-3 rounded-xl text-sm font-semibold transition-all active:opacity-80 lg:hover:opacity-90 disabled:opacity-50 bg-teal-700 text-white w-full lg:w-auto">
+        <button onClick={onSaveProfile} disabled={isSaving} className="btn btn-primary flex items-center justify-center gap-2 w-full lg:w-auto">
           <Save className="w-4 h-4" />
           {isSaving ? 'Opslaan...' : 'Wijzigingen opslaan'}
         </button>
@@ -164,7 +164,7 @@ export default function SettingsTemplate({
         <button
           onClick={onChangePassword}
           disabled={isSaving || !passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword}
-          className="flex items-center justify-center gap-2 px-4 lg:px-5 py-2.5 lg:py-3 rounded-xl text-sm font-semibold transition-all active:opacity-80 lg:hover:opacity-90 disabled:opacity-50 bg-teal-700 text-white w-full lg:w-auto"
+          className="btn btn-primary flex items-center justify-center gap-2 w-full lg:w-auto"
         >
           <Lock className="w-4 h-4" />
           Wachtwoord wijzigen
@@ -226,7 +226,7 @@ export default function SettingsTemplate({
           </p>
         </div>
 
-        <button onClick={onDeleteAccount} className="flex items-center justify-center gap-2 px-4 lg:px-5 py-2.5 lg:py-3 rounded-xl text-sm font-semibold transition-all active:opacity-80 lg:hover:opacity-90 bg-red-600 text-white w-full lg:w-auto">
+        <button onClick={onDeleteAccount} className="btn btn-danger flex items-center justify-center gap-2 w-full lg:w-auto">
           <Trash2 className="w-4 h-4" />
           Account permanent verwijderen
         </button>

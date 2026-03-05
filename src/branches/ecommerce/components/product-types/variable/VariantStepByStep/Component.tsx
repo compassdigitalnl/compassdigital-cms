@@ -253,10 +253,8 @@ export function VariantStepByStep({
           onClick={handlePrevious}
           disabled={isFirstStep}
           className={cn(
-            'flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold transition-all',
-            isFirstStep
-              ? 'cursor-not-allowed bg-gray-100 text-gray-400'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+            'btn btn-outline-neutral flex items-center gap-2',
+            isFirstStep && 'cursor-not-allowed opacity-50',
           )}
         >
           <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -270,10 +268,8 @@ export function VariantStepByStep({
           onClick={handleNext}
           disabled={!canProceed() || isLastStep}
           className={cn(
-            'flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold transition-all',
-            !canProceed() || isLastStep
-              ? 'cursor-not-allowed bg-gray-100 text-gray-400'
-              : 'bg-blue-600 text-white hover:bg-blue-700',
+            'btn btn-primary flex items-center gap-2',
+            (!canProceed() || isLastStep) && 'cursor-not-allowed opacity-50',
           )}
         >
           Next

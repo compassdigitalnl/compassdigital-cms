@@ -24,8 +24,7 @@ export function AccountEmptyState({
       {actionLabel && actionHref && (
         <Link
           href={actionHref}
-          className="inline-flex items-center px-6 py-3 rounded-xl text-sm font-semibold transition-all text-white"
-          style={{ background: 'var(--color-primary, #00897B)' }}
+          className="btn btn-primary inline-flex items-center"
         >
           {actionLabel}
         </Link>
@@ -33,8 +32,7 @@ export function AccountEmptyState({
       {actionLabel && onAction && !actionHref && (
         <button
           onClick={onAction}
-          className="inline-flex items-center px-6 py-3 rounded-xl text-sm font-semibold transition-all text-white"
-          style={{ background: 'var(--color-primary, #00897B)' }}
+          className="btn btn-primary inline-flex items-center"
         >
           {actionLabel}
         </button>

@@ -112,15 +112,7 @@ export const BundleItemRow: React.FC<BundleItemRowProps> = ({
           type="button"
           onClick={handleDecrement}
           disabled={quantity <= 1}
-          className={`
-            w-8 h-8 rounded-md border-2 flex items-center justify-center
-            transition-colors
-            ${
-              quantity <= 1
-                ? 'border-gray-200 text-gray-300 cursor-not-allowed'
-                : 'border-gray-400 text-gray-700 hover:border-purple-600 hover:text-purple-600'
-            }
-          `}
+          className="btn btn-outline-neutral btn-sm w-8 h-8 flex items-center justify-center"
           aria-label="Verminder aantal"
         >
           <Minus className="w-4 h-4" strokeWidth={2.5} />
@@ -135,7 +127,7 @@ export const BundleItemRow: React.FC<BundleItemRowProps> = ({
         <button
           type="button"
           onClick={handleIncrement}
-          className="w-8 h-8 rounded-md border-2 border-gray-400 text-gray-700 hover:border-purple-600 hover:text-purple-600 flex items-center justify-center transition-colors"
+          className="btn btn-outline-neutral btn-sm w-8 h-8 flex items-center justify-center"
           aria-label="Verhoog aantal"
         >
           <Plus className="w-4 h-4" strokeWidth={2.5} />
@@ -156,7 +148,7 @@ export const BundleItemRow: React.FC<BundleItemRowProps> = ({
         <button
           type="button"
           onClick={handleRemove}
-          className="w-8 h-8 rounded-md border-2 border-gray-300 text-gray-600 hover:border-red-600 hover:text-red-600 hover:bg-red-50 flex items-center justify-center transition-colors flex-shrink-0"
+          className="btn btn-danger btn-sm w-8 h-8 flex items-center justify-center flex-shrink-0"
           aria-label="Verwijder item"
         >
           <X className="w-4 h-4" strokeWidth={2.5} />

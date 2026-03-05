@@ -101,7 +101,7 @@ export function TestimonialsCarousel({ title, testimonials }: TestimonialsCarous
             <>
               <button
                 onClick={prevSlide}
-                className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-grey bg-white p-3 shadow-md transition-all hover:bg-grey-light hover:shadow-lg"
+                className="btn btn-outline-neutral absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full p-3"
                 aria-label="Previous testimonial"
               >
                 <svg className="h-5 w-5 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -110,7 +110,7 @@ export function TestimonialsCarousel({ title, testimonials }: TestimonialsCarous
               </button>
               <button
                 onClick={nextSlide}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 rounded-full border border-grey bg-white p-3 shadow-md transition-all hover:bg-grey-light hover:shadow-lg"
+                className="btn btn-outline-neutral absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 rounded-full p-3"
                 aria-label="Next testimonial"
               >
                 <svg className="h-5 w-5 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">

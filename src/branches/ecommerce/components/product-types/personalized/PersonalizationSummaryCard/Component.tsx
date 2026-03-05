@@ -114,7 +114,7 @@ export const PersonalizationSummaryCard: React.FC<PersonalizationSummaryCardProp
                   <button
                     type="button"
                     onClick={onEdit}
-                    className="flex-shrink-0 flex items-center gap-1 px-2 py-1 border-2 border-gray-400 text-gray-700 hover:border-teal-500 hover:text-teal-600 rounded-md transition-colors text-[12px] font-semibold"
+                    className="btn btn-outline-neutral btn-sm flex-shrink-0 flex items-center gap-1"
                   >
                     <Edit2 className="w-3 h-3" strokeWidth={2.5} />
                     Bewerk

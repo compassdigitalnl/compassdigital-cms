@@ -207,7 +207,7 @@ export const PersonalizationImageUpload: React.FC<PersonalizationImageUploadProp
             <button
               type="button"
               onClick={handleRemove}
-              className="flex items-center gap-1 px-3 py-1.5 border-2 border-red-500 text-red-600 hover:bg-red-50 rounded-lg transition-colors text-[13px] font-semibold"
+              className="btn btn-danger btn-sm flex items-center gap-1"
             >
               <X className="w-4 h-4" strokeWidth={2.5} />
               Verwijder

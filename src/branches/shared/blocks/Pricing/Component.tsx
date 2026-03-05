@@ -60,10 +60,10 @@ export const PricingBlockComponent: React.FC<any> = ({ heading, intro, plans }) 
 
               <a
                 href={plan.ctaLink}
-                className={`block text-center py-3 px-6 rounded-lg font-semibold transition-all duration-300 ${
+                className={`btn w-full justify-center ${
                   plan.highlighted
-                    ? 'bg-primary hover:bg-secondary text-white'
-                    : 'border-2 border-primary text-primary hover:bg-primary hover:text-white'
+                    ? 'btn-primary'
+                    : 'btn-outline-primary'
                 }`}
               >
                 {plan.ctaText}

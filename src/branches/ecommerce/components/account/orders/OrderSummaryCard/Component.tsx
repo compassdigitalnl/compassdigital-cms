@@ -66,8 +66,7 @@ export function OrderSummaryCard({ order, onReorder }: OrderSummaryCardProps) {
 
       <button
         onClick={onReorder}
-        className="w-full px-4 py-3 rounded-xl text-sm font-bold transition-all active:opacity-80 lg:hover:opacity-90 mb-2 text-white"
-        style={{ background: 'var(--color-primary)' }}
+        className="btn btn-primary w-full mb-2"
       >
         Bestel opnieuw
       </button>

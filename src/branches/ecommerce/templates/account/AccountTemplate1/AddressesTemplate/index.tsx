@@ -32,7 +32,7 @@ export default function AddressesTemplate({
         <div className="flex gap-2">
           <button
             onClick={onOpenNewModal}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:opacity-90 bg-teal-700 text-white"
+            className="btn btn-primary flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
             Nieuw adres

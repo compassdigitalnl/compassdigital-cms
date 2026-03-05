@@ -14,7 +14,7 @@ export function RetourSuccess() {
       </p>
       <Link
         href="/account/orders"
-        className="inline-flex items-center px-6 py-3 rounded-xl text-sm font-semibold text-white bg-teal-700"
+        className="btn btn-primary inline-flex items-center"
       >
         Terug naar bestellingen
       </Link>

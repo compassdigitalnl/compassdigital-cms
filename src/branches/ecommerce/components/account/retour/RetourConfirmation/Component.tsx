@@ -28,13 +28,13 @@ export function RetourConfirmation({ items, onSubmit, onPrev, submitting }: Reto
         </div>
       </div>
       <div className="flex justify-between">
-        <button onClick={onPrev} className="px-6 py-3 rounded-xl text-sm font-semibold bg-gray-50 text-gray-900">
+        <button onClick={onPrev} className="btn btn-outline-neutral">
           Vorige
         </button>
         <button
           onClick={onSubmit}
           disabled={submitting}
-          className="px-6 py-3 rounded-xl text-sm font-semibold transition-all disabled:opacity-50 bg-teal-700 text-white"
+          className="btn btn-primary"
         >
           {submitting ? 'Verzenden...' : 'Retour bevestigen'}
         </button>

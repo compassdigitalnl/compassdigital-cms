@@ -114,7 +114,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
           onClick={goToPreviousMonth}
           variant="ghost"
           size="sm"
-          className="hover:bg-gray-100"
+          className="btn btn-ghost btn-sm"
         >
           <ChevronLeft className="w-5 h-5" />
         </Button>
@@ -125,7 +125,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
           onClick={goToNextMonth}
           variant="ghost"
           size="sm"
-          className="hover:bg-gray-100"
+          className="btn btn-ghost btn-sm"
         >
           <ChevronRight className="w-5 h-5" />
         </Button>

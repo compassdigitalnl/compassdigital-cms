@@ -112,7 +112,7 @@ export function VariantComparisonTable({
                         <button
                           type="button"
                           onClick={() => handleVariantToggle(variantValue)}
-                          className="text-xs text-red-600 hover:text-red-700"
+                          className="btn btn-ghost btn-sm text-red-600"
                         >
                           Remove
                         </button>

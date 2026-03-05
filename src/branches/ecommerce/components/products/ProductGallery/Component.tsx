@@ -319,7 +319,7 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
             {/* Close Button */}
             <button
               onClick={handleLightboxClose}
-              className="absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-white text-theme-navy transition-all hover:bg-theme-teal hover:text-white md:-top-12"
+              className="btn btn-ghost absolute right-0 top-0 flex h-10 w-10 items-center justify-center md:-top-12"
               aria-label="Sluit vergroting"
             >
               <X className="h-5 w-5" />
@@ -329,7 +329,7 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
             {images.length > 1 && (
               <button
                 onClick={handlePrevImage}
-                className="absolute left-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white text-theme-navy transition-all hover:scale-110 hover:bg-theme-teal hover:text-white md:left-6 md:h-12 md:w-12"
+                className="btn btn-ghost absolute left-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center md:left-6 md:h-12 md:w-12"
                 aria-label="Vorige afbeelding"
               >
                 <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
@@ -349,7 +349,7 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
             {images.length > 1 && (
               <button
                 onClick={handleNextImage}
-                className="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white text-theme-navy transition-all hover:scale-110 hover:bg-theme-teal hover:text-white md:right-6 md:h-12 md:w-12"
+                className="btn btn-ghost absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center md:right-6 md:h-12 md:w-12"
                 aria-label="Volgende afbeelding"
               >
                 <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />

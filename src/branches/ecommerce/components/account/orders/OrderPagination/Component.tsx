@@ -10,7 +10,7 @@ export function OrderPagination({ page, totalPages, hasNextPage, hasPrevPage, on
       <button
         onClick={() => onPageChange(page - 1)}
         disabled={!hasPrevPage}
-        className="flex items-center gap-1.5 lg:gap-2 px-3 lg:px-4 py-2.5 rounded-xl text-sm lg:text-base font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900"
+        className="btn btn-secondary flex items-center gap-1.5 lg:gap-2"
       >
         <ChevronLeft className="w-4 h-4" />
         <span className="hidden lg:inline">Vorige</span>
@@ -23,7 +23,7 @@ export function OrderPagination({ page, totalPages, hasNextPage, hasPrevPage, on
       <button
         onClick={() => onPageChange(page + 1)}
         disabled={!hasNextPage}
-        className="flex items-center gap-1.5 lg:gap-2 px-3 lg:px-4 py-2.5 rounded-xl text-sm lg:text-base font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed active:bg-gray-200 lg:hover:bg-gray-100 bg-gray-50 text-gray-900"
+        className="btn btn-secondary flex items-center gap-1.5 lg:gap-2"
       >
         <span className="hidden lg:inline">Volgende</span>
         <ChevronRight className="w-4 h-4" />

@@ -246,7 +246,7 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
               </p>
               <Link
                 href="/products/"
-                className="inline-flex items-center gap-2 px-5 py-3 bg-teal-500 text-white rounded-xl font-bold text-sm hover:bg-teal-600 transition-colors"
+                className="btn btn-primary inline-flex items-center gap-2"
               >
                 <Icon name="ShoppingCart" size={16} />
                 Naar de shop

@@ -299,7 +299,7 @@ export function VariantBulkSelector({
             })
             Object.entries(cleared).forEach(([key, val]) => onQuantityChange(key, val))
           }}
-          className="rounded-lg border-2 border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="btn btn-outline-neutral btn-sm"
         >
           Clear All
         </button>

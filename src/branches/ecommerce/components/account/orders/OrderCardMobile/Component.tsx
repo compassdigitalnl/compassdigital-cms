@@ -31,8 +31,7 @@ export function OrderCardMobile({ order }: OrderCardMobileProps) {
       </div>
       <Link
         href={`/account/orders/${order.id}`}
-        className="block w-full px-4 py-2.5 rounded-lg text-sm font-semibold text-center transition-all active:opacity-80 text-white"
-        style={{ background: 'var(--color-primary)' }}
+        className="btn btn-primary block w-full text-center"
       >
         Bekijk details
       </Link>

@@ -50,7 +50,7 @@ export function RetourItemSelector({ items, onToggleItem, onSetQuantity, onNext,
         <button
           onClick={onNext}
           disabled={selectedCount === 0}
-          className="px-6 py-3 rounded-xl text-sm font-semibold transition-all disabled:opacity-40 bg-teal-700 text-white"
+          className="btn btn-primary"
         >
           Volgende
         </button>

@@ -793,12 +793,7 @@ export default function ProductTemplate1({ product, parentGroupedProduct, defaul
                 <button
                   onClick={handleAddToCart}
                   disabled={isGrouped && totalQty === 0}
-                  className="flex items-center justify-center gap-2.5 w-full p-4 text-white border-0 rounded-xl font-body text-base font-bold"
-                  style={{
-                    background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
-                    cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
-                    boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
-                  }}
+                  className="btn btn-primary btn-lg w-full"
                 >
                   <ShoppingCart className="w-5 h-5" />
                   {isBackorder ? 'Bestellen' : 'Toevoegen aan winkelwagen'}
@@ -807,11 +802,11 @@ export default function ProductTemplate1({ product, parentGroupedProduct, defaul
 
               {/* Secondary Buttons */}
               <div className="flex gap-2.5">
-                <button className="flex-1 flex items-center justify-center gap-2 p-[13px] bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-xl font-body text-sm font-semibold cursor-pointer">
+                <button className="btn btn-outline-neutral flex-1">
                   <ClipboardList className="w-[18px] h-[18px]" />
                   Op bestellijst
                 </button>
-                <button className="flex-1 flex items-center justify-center gap-2 p-[13px] bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-xl font-body text-sm font-semibold cursor-pointer">
+                <button className="btn btn-outline-neutral flex-1">
                   <Repeat className="w-[18px] h-[18px]" />
                   Herhaalbestelling
                 </button>
@@ -1063,12 +1058,7 @@ export default function ProductTemplate1({ product, parentGroupedProduct, defaul
             <button
               onClick={handleAddToCart}
               disabled={isGrouped && totalQty === 0}
-              className="flex items-center justify-center gap-2.5 w-full p-4 text-white border-0 rounded-xl font-body text-base font-bold mb-3"
-              style={{
-                background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
-                cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
-                boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent)',
-              }}
+              className="btn btn-primary btn-lg w-full mb-3"
             >
               <ShoppingCart className="w-5 h-5" />
               {isBackorder ? 'Bestellen' : 'Toevoegen aan winkelwagen'}
@@ -1077,11 +1067,11 @@ export default function ProductTemplate1({ product, parentGroupedProduct, defaul
 
           {/* Secondary Buttons - Mobile */}
           <div className="flex gap-2 mb-4">
-            <button className="flex-1 flex items-center justify-center gap-1.5 p-3 bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-[10px] font-body text-[13px] font-semibold cursor-pointer">
+            <button className="btn btn-outline-neutral btn-sm flex-1">
               <ClipboardList className="w-4 h-4" />
               Bestellijst
             </button>
-            <button className="flex-1 flex items-center justify-center gap-1.5 p-3 bg-[var(--color-surface,white)] text-[var(--color-text-primary)] border-[1.5px] border-[var(--color-border)] rounded-[10px] font-body text-[13px] font-semibold cursor-pointer">
+            <button className="btn btn-outline-neutral btn-sm flex-1">
               <Repeat className="w-4 h-4" />
               Herhalen
             </button>
@@ -1510,8 +1500,7 @@ export default function ProductTemplate1({ product, parentGroupedProduct, defaul
                           {rp.price != null ? `€${formatPriceStr(rp.price, rp.taxClass as any)}` : 'Prijs op aanvraag'}
                         </div>
                         <button
-                          className="w-9 h-9 rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
-                          style={{ boxShadow: '0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent)' }}
+                          className="btn btn-primary w-9 h-9 !p-0"
                         >
                           <Plus className="w-4 h-4" />
                         </button>
@@ -1571,8 +1560,7 @@ export default function ProductTemplate1({ product, parentGroupedProduct, defaul
                           {rp.price != null ? `€${formatPriceStr(rp.price, rp.taxClass as any)}` : 'Prijs op aanvraag'}
                         </div>
                         <button
-                          className="w-[38px] h-[38px] rounded-[10px] bg-[var(--color-primary)] text-white border-0 cursor-pointer flex items-center justify-center"
-                          style={{ boxShadow: '0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent)' }}
+                          className="btn btn-primary w-[38px] h-[38px] !p-0"
                         >
                           <Plus className="w-[18px] h-[18px]" />
                         </button>
@@ -1631,12 +1619,7 @@ export default function ProductTemplate1({ product, parentGroupedProduct, defaul
           <button
             onClick={handleAddToCart}
             disabled={isGrouped && totalQty === 0}
-            className="flex items-center justify-center gap-2 py-3 px-5 text-white border-0 rounded-[10px] font-body text-sm font-bold whitespace-nowrap"
-            style={{
-              background: isGrouped && totalQty === 0 ? '#CBD5E1' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, white))',
-              cursor: isGrouped && totalQty === 0 ? 'not-allowed' : 'pointer',
-              boxShadow: isGrouped && totalQty === 0 ? 'none' : '0 4px 16px color-mix(in srgb, var(--color-primary) 40%, transparent)',
-            }}
+            className="btn btn-primary btn-sm whitespace-nowrap"
           >
             <ShoppingCart className="w-4 h-4" />
             {isGrouped ? `${totalQty} toevoegen` : 'Toevoegen'}

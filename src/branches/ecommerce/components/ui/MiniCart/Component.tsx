@@ -78,7 +78,7 @@ export function MiniCartProvider({
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                className="btn btn-ghost w-9 h-9 flex items-center justify-center"
                 aria-label="Sluiten"
               >
                 <X className="w-5 h-5" style={{ color: 'var(--color-text-primary)' }} />
@@ -183,10 +183,7 @@ export function MiniCartProvider({
                   <Link
                     href="/cart"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl text-sm font-bold text-white transition-all"
-                    style={{
-                      backgroundColor: 'var(--color-primary, #00897B)',
-                    }}
+                    className="btn btn-primary w-full flex items-center justify-center gap-2"
                   >
                     <ShoppingCart className="w-4 h-4" />
                     Bekijk winkelwagen
@@ -194,11 +191,7 @@ export function MiniCartProvider({
                   <Link
                     href="/checkout"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl text-sm font-bold transition-all border-2"
-                    style={{
-                      color: 'var(--color-secondary, #0A1628)',
-                      borderColor: 'var(--color-secondary, #0A1628)',
-                    }}
+                    className="btn btn-outline-neutral w-full flex items-center justify-center gap-2"
                   >
                     Afrekenen
                   </Link>

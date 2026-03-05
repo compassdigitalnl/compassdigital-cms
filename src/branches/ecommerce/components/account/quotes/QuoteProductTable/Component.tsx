@@ -109,7 +109,7 @@ export function QuoteProductTable({ products, onQuantityChange, onRemove, onAddP
                 key={result.id}
                 type="button"
                 onMouseDown={() => handleSelectResult(result)}
-                className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-gray-50 transition-colors"
+                className="btn btn-ghost w-full flex items-center gap-3 text-left"
               >
                 <div
                   className="w-8 h-8 rounded-md flex items-center justify-center text-sm flex-shrink-0"
@@ -181,7 +181,7 @@ export function QuoteProductTable({ products, onQuantityChange, onRemove, onAddP
                       <button
                         type="button"
                         onClick={() => onQuantityChange(product.id, Math.max(1, product.quantity - 1))}
-                        className="w-8 h-8 flex items-center justify-center bg-white hover:bg-gray-50 transition-colors text-sm"
+                        className="btn btn-ghost btn-sm w-8 h-8 flex items-center justify-center"
                         style={{ color: 'var(--color-foreground, #0A1628)' }}
                         aria-label="Minder"
                       >
@@ -196,7 +196,7 @@ export function QuoteProductTable({ products, onQuantityChange, onRemove, onAddP
                       <button
                         type="button"
                         onClick={() => onQuantityChange(product.id, product.quantity + 1)}
-                        className="w-8 h-8 flex items-center justify-center bg-white hover:bg-gray-50 transition-colors text-sm"
+                        className="btn btn-ghost btn-sm w-8 h-8 flex items-center justify-center"
                         style={{ color: 'var(--color-foreground, #0A1628)' }}
                         aria-label="Meer"
                       >
@@ -208,7 +208,7 @@ export function QuoteProductTable({ products, onQuantityChange, onRemove, onAddP
                     <button
                       type="button"
                       onClick={() => onRemove(product.id)}
-                      className="w-7 h-7 rounded-md flex items-center justify-center transition-colors hover:bg-red-50 group"
+                      className="btn btn-ghost btn-sm w-7 h-7 flex items-center justify-center group"
                       aria-label="Verwijder product"
                     >
                       <Trash2
@@ -226,16 +226,8 @@ export function QuoteProductTable({ products, onQuantityChange, onRemove, onAddP
       {/* Add product row */}
       <button
         type="button"
-        className="mt-3 w-full flex items-center gap-2 px-3 py-2.5 rounded-lg border-2 border-dashed text-sm font-semibold transition-all"
-        style={{ borderColor: 'var(--color-border, #E8ECF1)', color: 'var(--color-primary, #00897B)' }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = 'var(--color-primary, #00897B)'
-          e.currentTarget.style.background = 'rgba(0,137,123,0.06)'
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = 'var(--color-border, #E8ECF1)'
-          e.currentTarget.style.background = 'transparent'
-        }}
+        className="btn btn-outline-primary mt-3 w-full flex items-center gap-2"
+        style={{ borderStyle: 'dashed' }}
       >
         <PlusCircle className="w-4 h-4" />
         Product toevoegen

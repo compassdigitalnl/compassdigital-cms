@@ -46,7 +46,7 @@ export function BulkActionBar({
               <button
                 type="button"
                 onClick={() => onAddToCart(selectedProducts)}
-                className="flex items-center gap-2 px-4 py-2.5 bg-[var(--teal)] hover:bg-[var(--teal-light)] text-white font-semibold text-[13px] rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--teal)]/50 focus:ring-offset-2 focus:ring-offset-[var(--navy)]"
+                className="btn btn-primary btn-sm flex items-center gap-2"
                 aria-label={`Voeg ${selectedCount} producten toe aan winkelwagen`}
               >
                 <ShoppingCart className="w-4 h-4" />
@@ -60,7 +60,7 @@ export function BulkActionBar({
               <button
                 type="button"
                 onClick={() => onRequestQuote(selectedProducts)}
-                className="flex items-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white font-semibold text-[13px] rounded-lg border border-white/20 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-[var(--navy)]"
+                className="btn btn-outline-neutral btn-sm flex items-center gap-2"
                 aria-label={`Vraag offerte aan voor ${selectedCount} producten`}
               >
                 <FileText className="w-4 h-4" />
@@ -74,7 +74,7 @@ export function BulkActionBar({
               <button
                 type="button"
                 onClick={() => onCompare(selectedProducts)}
-                className="flex items-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white font-semibold text-[13px] rounded-lg border border-white/20 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-[var(--navy)]"
+                className="btn btn-outline-neutral btn-sm flex items-center gap-2"
                 aria-label={`Vergelijk ${selectedCount} producten`}
               >
                 <Scale className="w-4 h-4" />
@@ -86,7 +86,7 @@ export function BulkActionBar({
             <button
               type="button"
               onClick={onClearSelection}
-              className="flex items-center justify-center w-10 h-10 bg-white/10 hover:bg-white/20 text-white rounded-lg border border-white/20 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-[var(--navy)]"
+              className="btn btn-ghost w-10 h-10 flex items-center justify-center"
               aria-label="Wis selectie"
             >
               <X className="w-4 h-4" />

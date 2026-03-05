@@ -125,8 +125,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
           </h1>
           <Link
             href="/shop/"
-            className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-lg font-semibold transition-all duration-200"
-            style={{ background: 'var(--color-primary, #0A1628)' }}
+            className="btn btn-primary btn-lg"
           >
             <ArrowLeft className="w-4 h-4" />
             Naar shop
@@ -310,17 +309,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                     <button
                       type="button"
                       onClick={() => setCurrentStep(2)}
-                      className="w-full py-3.5 px-4 rounded-lg text-white text-base font-bold transition-all duration-300 hover:-translate-y-0.5"
-                      style={{
-                        background: 'var(--color-primary, #0A1628)',
-                        boxShadow: '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'var(--color-primary-dark, #121F33)'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'var(--color-primary, #0A1628)'
-                      }}
+                      className="btn btn-primary btn-lg w-full"
                     >
                       Ga door naar adres
                     </button>
@@ -386,18 +375,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                   <button
                     type="button"
                     onClick={() => setCurrentStep(1)}
-                    className="flex-1 py-3.5 px-4 rounded-lg text-sm font-semibold transition-all duration-200"
-                    style={{
-                      background: 'transparent',
-                      border: '1.5px solid var(--color-primary, #0A1628)',
-                      color: 'var(--color-primary, #0A1628)',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'var(--color-primary-glow, rgba(10,22,40,0.05))'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'transparent'
-                    }}
+                    className="btn btn-outline-primary flex-1"
                   >
                     Vorige stap
                   </button>
@@ -405,21 +383,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                     type="button"
                     onClick={() => canProceedToShipping && setCurrentStep(3)}
                     disabled={!canProceedToShipping}
-                    className="flex-1 py-3.5 px-4 rounded-lg text-white text-base font-bold transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                    style={{
-                      background: 'var(--color-primary, #0A1628)',
-                      boxShadow: '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!e.currentTarget.disabled) {
-                        e.currentTarget.style.background = 'var(--color-primary-dark, #121F33)'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!e.currentTarget.disabled) {
-                        e.currentTarget.style.background = 'var(--color-primary, #0A1628)'
-                      }
-                    }}
+                    className="btn btn-primary btn-lg flex-1"
                   >
                     Ga door naar verzending
                   </button>
@@ -489,18 +453,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                   <button
                     type="button"
                     onClick={() => setCurrentStep(2)}
-                    className="flex-1 py-3.5 px-4 rounded-lg text-sm font-semibold transition-all duration-200"
-                    style={{
-                      background: 'transparent',
-                      border: '1.5px solid var(--color-primary, #0A1628)',
-                      color: 'var(--color-primary, #0A1628)',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'var(--color-primary-glow, rgba(10,22,40,0.05))'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'transparent'
-                    }}
+                    className="btn btn-outline-primary flex-1"
                   >
                     Vorige stap
                   </button>
@@ -508,21 +461,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                     type="button"
                     onClick={() => canProceedToPayment && setCurrentStep(4)}
                     disabled={!canProceedToPayment}
-                    className="flex-1 py-3.5 px-4 rounded-lg text-white text-base font-bold transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                    style={{
-                      background: 'var(--color-primary, #0A1628)',
-                      boxShadow: '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!e.currentTarget.disabled) {
-                        e.currentTarget.style.background = 'var(--color-primary-dark, #121F33)'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!e.currentTarget.disabled) {
-                        e.currentTarget.style.background = 'var(--color-primary, #0A1628)'
-                      }
-                    }}
+                    className="btn btn-primary btn-lg flex-1"
                   >
                     Ga door naar betaling
                   </button>
@@ -614,18 +553,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                   <button
                     type="button"
                     onClick={() => setCurrentStep(3)}
-                    className="flex-1 py-3.5 px-4 rounded-lg text-sm font-semibold transition-all duration-200"
-                    style={{
-                      background: 'transparent',
-                      border: '1.5px solid var(--color-primary, #0A1628)',
-                      color: 'var(--color-primary, #0A1628)',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'var(--color-primary-glow, rgba(10,22,40,0.05))'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'transparent'
-                    }}
+                    className="btn btn-outline-primary flex-1"
                   >
                     Vorige stap
                   </button>
@@ -633,23 +561,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                     type="button"
                     onClick={handlePlaceOrder}
                     disabled={!canPlaceOrder || isProcessing}
-                    className="flex-1 py-3.5 px-4 rounded-lg text-white text-base font-bold transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                    style={{
-                      background: isProcessing
-                        ? 'var(--color-text-secondary, #94A3B8)'
-                        : 'var(--color-primary, #0A1628)',
-                      boxShadow: isProcessing ? 'none' : '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!isProcessing) {
-                        e.currentTarget.style.background = 'var(--color-primary-dark, #121F33)'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!isProcessing) {
-                        e.currentTarget.style.background = 'var(--color-primary, #0A1628)'
-                      }
-                    }}
+                    className="btn btn-primary btn-lg flex-1"
                   >
                     {isProcessing ? 'Bezig...' : `Bestelling plaatsen - €${formatPriceStr(grandTotal)}`}
                   </button>

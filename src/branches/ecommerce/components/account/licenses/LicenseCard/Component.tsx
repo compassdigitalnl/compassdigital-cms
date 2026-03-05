@@ -145,14 +145,14 @@ export function LicenseCard({
         {/* Action buttons */}
         <div className="flex items-center gap-2 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
           {isExpiring ? (
-            <button className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-xs font-bold transition-colors">
+            <button className="btn btn-sm btn-primary flex items-center gap-1.5">
               <RefreshCw className="w-3 h-3" />
               <span className="hidden sm:inline">Verlengen</span>
             </button>
           ) : (
             <button
               onClick={() => onDownloadLicense(id)}
-              className="flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 hover:border-teal-500 hover:text-teal-600 rounded-lg text-xs font-bold transition-colors"
+              className="btn btn-sm btn-outline-neutral flex items-center gap-1.5"
             >
               <Download className="w-3 h-3" />
               <span className="hidden sm:inline">Download</span>

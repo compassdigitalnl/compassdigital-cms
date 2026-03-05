@@ -130,7 +130,7 @@ export const MixMatchPricingCard: React.FC<MixMatchPricingCardProps> = ({
         <Button
           onClick={onAddToCart}
           disabled={!canAddToCart || isAddingToCart}
-          className="w-full mt-4 h-12 text-base font-extrabold bg-teal-600 hover:bg-gray-900 disabled:bg-gray-200 disabled:text-gray-400 transition-colors"
+          className="btn btn-primary btn-lg w-full mt-4"
         >
           {isAddingToCart ? (
             'Toevoegen...'

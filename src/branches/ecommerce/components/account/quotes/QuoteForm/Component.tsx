@@ -278,17 +278,7 @@ export function QuoteForm({ formData, onChange, onSubmit, isSubmitting }: QuoteF
             type="button"
             onClick={onSubmit}
             disabled={isSubmitting}
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-sm font-bold text-white transition-all disabled:opacity-60"
-            style={{
-              background: 'var(--color-primary, #00897B)',
-              boxShadow: '0 4px 16px rgba(0,137,123,0.28)',
-            }}
-            onMouseEnter={(e) => {
-              if (!isSubmitting) e.currentTarget.style.background = 'var(--color-foreground, #0A1628)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'var(--color-primary, #00897B)'
-            }}
+            className="btn btn-primary btn-lg inline-flex items-center gap-2"
           >
             <Send className="w-4 h-4" />
             {isSubmitting ? 'Versturen…' : 'Offerte aanvragen'}

@@ -108,8 +108,7 @@ export default function CheckoutTemplate1() {
           </h1>
           <Link
             href="/shop/"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-80"
-            style={{ color: 'var(--teal)' }}
+            className="btn btn-ghost"
           >
             <ArrowLeft className="w-4 h-4" />
             Naar shop
@@ -263,8 +262,7 @@ export default function CheckoutTemplate1() {
                     <div className="flex gap-3 mb-4">
                       <Link
                         href="/login/"
-                        className="px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-90"
-                        style={{ background: 'var(--teal)', color: 'white' }}
+                        className="btn btn-primary"
                       >
                         Inloggen
                       </Link>
@@ -302,8 +300,7 @@ export default function CheckoutTemplate1() {
                 <button
                   onClick={() => setCurrentStep('shipping')}
                   disabled={!canProceedToShipping}
-                  className="w-full mt-6 flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold transition-all hover:opacity-90 disabled:opacity-50"
-                  style={{ background: 'var(--teal)', color: 'white' }}
+                  className="btn btn-primary btn-lg w-full mt-6"
                 >
                   Doorgaan naar verzending
                   <ArrowRight className="w-5 h-5" />
@@ -385,20 +382,18 @@ export default function CheckoutTemplate1() {
                 <div className="flex gap-3">
                   <button
                     onClick={() => setCurrentStep('contact')}
-                    className="px-6 py-3 rounded-lg border-2 font-semibold transition-all hover:bg-gray-50"
-                    style={{ borderColor: 'var(--grey)' }}
+                    className="btn btn-outline-neutral"
                   >
-                    <ArrowLeft className="w-4 h-4 inline mr-2" />
+                    <ArrowLeft className="w-4 h-4" />
                     Terug
                   </button>
                   <button
                     onClick={() => setCurrentStep('payment')}
                     disabled={!canProceedToPayment}
-                    className="flex-1 px-6 py-3 rounded-lg font-bold transition-all hover:opacity-90 disabled:opacity-50"
-                    style={{ background: 'var(--teal)', color: 'white' }}
+                    className="btn btn-primary flex-1"
                   >
                     Doorgaan naar betaling
-                    <ArrowRight className="w-4 h-4 inline ml-2" />
+                    <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
               </div>
@@ -500,20 +495,18 @@ export default function CheckoutTemplate1() {
                 <div className="flex gap-3">
                   <button
                     onClick={() => setCurrentStep('shipping')}
-                    className="px-6 py-3 rounded-lg border-2 font-semibold transition-all hover:bg-gray-50"
-                    style={{ borderColor: 'var(--grey)' }}
+                    className="btn btn-outline-neutral"
                   >
-                    <ArrowLeft className="w-4 h-4 inline mr-2" />
+                    <ArrowLeft className="w-4 h-4" />
                     Terug
                   </button>
                   <button
                     onClick={() => setCurrentStep('review')}
                     disabled={!canProceedToReview}
-                    className="flex-1 px-6 py-3 rounded-lg font-bold transition-all hover:opacity-90 disabled:opacity-50"
-                    style={{ background: 'var(--teal)', color: 'white' }}
+                    className="btn btn-primary flex-1"
                   >
                     Doorgaan naar overzicht
-                    <ArrowRight className="w-4 h-4 inline ml-2" />
+                    <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
               </div>
@@ -557,8 +550,7 @@ export default function CheckoutTemplate1() {
                 <button
                   onClick={handlePlaceOrder}
                   disabled={isProcessing}
-                  className="w-full px-6 py-4 rounded-xl font-bold text-lg transition-all hover:opacity-90 disabled:opacity-50"
-                  style={{ background: 'var(--teal)', color: 'white', boxShadow: 'var(--sh-md)' }}
+                  className="btn btn-primary btn-lg w-full"
                 >
                   {isProcessing ? 'Bezig met verwerken...' : `Bestelling plaatsen (€ ${formatPriceStr(grandTotal)})`}
                 </button>
@@ -573,10 +565,9 @@ export default function CheckoutTemplate1() {
 
                 <button
                   onClick={() => setCurrentStep('payment')}
-                  className="w-full px-6 py-3 rounded-lg border-2 font-semibold transition-all hover:bg-gray-50"
-                  style={{ borderColor: 'var(--grey)' }}
+                  className="btn btn-outline-neutral w-full"
                 >
-                  <ArrowLeft className="w-4 h-4 inline mr-2" />
+                  <ArrowLeft className="w-4 h-4" />
                   Terug naar betaling
                 </button>
               </div>

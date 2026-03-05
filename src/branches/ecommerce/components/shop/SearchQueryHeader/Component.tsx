@@ -55,7 +55,7 @@ export function SearchQueryHeader({
           <button
             type="button"
             onClick={onClearSearch}
-            className="flex items-center gap-2 px-3 py-2 text-[13px] font-semibold text-[var(--grey-dark)] hover:text-[var(--coral)] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:ring-offset-2 rounded-lg"
+            className="btn btn-ghost btn-sm flex items-center gap-2"
             aria-label="Wis zoekopdracht"
           >
             <X className="w-4 h-4" />

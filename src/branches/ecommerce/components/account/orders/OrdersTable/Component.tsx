@@ -50,8 +50,7 @@ export function OrdersTable({ orders }: OrdersTableProps) {
               <td className="px-6 py-4 text-right">
                 <Link
                   href={`/account/orders/${order.id}`}
-                  className="inline-block px-4 py-2 rounded-lg text-sm font-semibold transition-all hover:opacity-80 text-white"
-                  style={{ background: 'var(--color-primary)' }}
+                  className="btn btn-primary btn-sm inline-block"
                 >
                   Bekijk
                 </Link>

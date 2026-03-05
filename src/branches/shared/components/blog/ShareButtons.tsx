@@ -52,7 +52,7 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({ title, url, classNam
 
         <button
           onClick={() => handleShare('linkedin')}
-          className="w-10 h-10 rounded-xl border-2 border-gray-200 bg-white flex items-center justify-center hover:border-teal-500 hover:bg-teal-50 hover:text-teal-600 transition-all"
+          className="btn btn-outline-neutral btn-sm w-10 h-10 flex items-center justify-center"
           title="Delen op LinkedIn"
           aria-label="Delen op LinkedIn"
         >
@@ -61,7 +61,7 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({ title, url, classNam
 
         <button
           onClick={() => handleShare('twitter')}
-          className="w-10 h-10 rounded-xl border-2 border-gray-200 bg-white flex items-center justify-center hover:border-teal-500 hover:bg-teal-50 hover:text-teal-600 transition-all"
+          className="btn btn-outline-neutral btn-sm w-10 h-10 flex items-center justify-center"
           title="Delen op Twitter"
           aria-label="Delen op Twitter"
         >
@@ -70,7 +70,7 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({ title, url, classNam
 
         <button
           onClick={() => handleShare('email')}
-          className="w-10 h-10 rounded-xl border-2 border-gray-200 bg-white flex items-center justify-center hover:border-teal-500 hover:bg-teal-50 hover:text-teal-600 transition-all"
+          className="btn btn-outline-neutral btn-sm w-10 h-10 flex items-center justify-center"
           title="Delen via e-mail"
           aria-label="Delen via e-mail"
         >
@@ -79,7 +79,7 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({ title, url, classNam
 
         <button
           onClick={() => handleShare('copy')}
-          className="w-10 h-10 rounded-xl border-2 border-gray-200 bg-white flex items-center justify-center hover:border-teal-500 hover:bg-teal-50 hover:text-teal-600 transition-all"
+          className="btn btn-outline-neutral btn-sm w-10 h-10 flex items-center justify-center"
           title="Link kopiëren"
           aria-label="Link kopiëren"
         >
@@ -88,7 +88,7 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({ title, url, classNam
 
         <button
           onClick={() => handleShare('print')}
-          className="w-10 h-10 rounded-xl border-2 border-gray-200 bg-white flex items-center justify-center hover:border-teal-500 hover:bg-teal-50 hover:text-teal-600 transition-all"
+          className="btn btn-outline-neutral btn-sm w-10 h-10 flex items-center justify-center"
           title="Printen"
           aria-label="Printen"
         >

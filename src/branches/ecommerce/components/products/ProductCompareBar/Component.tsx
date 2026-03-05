@@ -96,7 +96,7 @@ export const ProductCompareBar: React.FC<ProductCompareBarProps> = ({
               {/* Remove Button */}
               <button
                 onClick={() => onRemove(product.id)}
-                className="ci-remove w-6 h-6 rounded-md bg-white/10 hover:bg-red-500/20 transition-colors flex items-center justify-center cursor-pointer border-none"
+                className="btn btn-ghost ci-remove w-6 h-6 flex items-center justify-center"
                 aria-label={`Verwijder ${product.name} uit vergelijking`}
               >
                 <X className="w-3 h-3 text-white/50" aria-hidden="true" />
@@ -120,7 +120,7 @@ export const ProductCompareBar: React.FC<ProductCompareBarProps> = ({
         <button
           onClick={handleCompare}
           disabled={compareButtonDisabled}
-          className={`compare-btn h-[42px] px-5.5 bg-teal-600 text-white rounded-[10px] font-bold text-sm cursor-pointer transition-all duration-200 flex items-center gap-1.5 flex-shrink-0 border-none ${compareButtonDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-teal-500'}`}
+          className={`btn btn-primary compare-btn flex items-center gap-1.5 flex-shrink-0 ${compareButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           aria-label="Vergelijk geselecteerde producten"
           title={
             compareButtonDisabled ? 'Selecteer minimaal 2 producten om te vergelijken' : undefined
@@ -133,7 +133,7 @@ export const ProductCompareBar: React.FC<ProductCompareBarProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="compare-close w-[42px] h-[42px] rounded-[10px] bg-white/[0.08] hover:bg-white/15 cursor-pointer flex items-center justify-center flex-shrink-0 border-none transition-colors"
+          className="btn btn-ghost compare-close w-[42px] h-[42px] flex items-center justify-center flex-shrink-0"
           aria-label="Sluit vergelijkingsbalk"
         >
           <X className="w-4.5 h-4.5 text-white/50" aria-hidden="true" />

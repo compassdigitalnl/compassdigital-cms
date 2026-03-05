@@ -187,7 +187,7 @@ export const PriceRangeSlider: React.FC<PriceRangeSliderProps> = ({
       <button
         type="button"
         onClick={onApply}
-        className="w-full px-4 py-2.5 border-[1.5px] border-[var(--color-border)] bg-white rounded-lg text-[13px] font-semibold text-[var(--color-text-primary)] hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:ring-offset-2"
+        className="btn btn-outline-primary btn-sm w-full"
       >
         Toepassen
       </button>

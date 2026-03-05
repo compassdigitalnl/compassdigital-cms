@@ -86,7 +86,7 @@ export function LegalLayout({
           )}
           <button
             onClick={handlePrint}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-300 rounded-lg font-semibold text-navy-900 hover:border-teal-600 hover:text-teal-600 transition-all"
+            className="btn btn-outline-neutral btn-sm flex items-center gap-1.5"
           >
             <Printer className="w-3.5 h-3.5" />
             Print

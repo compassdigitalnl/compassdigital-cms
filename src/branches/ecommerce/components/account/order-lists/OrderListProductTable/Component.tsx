@@ -192,8 +192,8 @@ function SortableRow({
         >
           <button
             onClick={() => onQuantityChange(item.id, -1)}
-            className="w-8 h-9 flex items-center justify-center transition-all hover:bg-teal-50 hover:text-teal-700"
-            style={{ background: COLORS.bg, color: COLORS.navy, fontSize: '14px', border: 'none' }}
+            className="btn btn-ghost w-8 h-9 flex items-center justify-center"
+            style={{ background: COLORS.bg, color: COLORS.navy, border: 'none' }}
           >
             <Minus className="w-3.5 h-3.5" />
           </button>
@@ -215,8 +215,8 @@ function SortableRow({
           />
           <button
             onClick={() => onQuantityChange(item.id, 1)}
-            className="w-8 h-9 flex items-center justify-center transition-all hover:bg-teal-50 hover:text-teal-700"
-            style={{ background: COLORS.bg, color: COLORS.navy, fontSize: '14px', border: 'none' }}
+            className="btn btn-ghost w-8 h-9 flex items-center justify-center"
+            style={{ background: COLORS.bg, color: COLORS.navy, border: 'none' }}
           >
             <Plus className="w-3.5 h-3.5" />
           </button>
@@ -254,22 +254,14 @@ function SortableRow({
         <div className="flex gap-1">
           <button
             onClick={() => onAddToCart(item.id)}
-            className="w-8 h-8 rounded-md flex items-center justify-center transition-all hover:border-teal-700 hover:bg-teal-50"
-            style={{
-              background: 'white',
-              border: `1px solid ${COLORS.grey}`,
-            }}
+            className="btn btn-outline-neutral btn-sm w-8 h-8 flex items-center justify-center"
             title="In winkelwagen"
           >
             <ShoppingCart className="w-3.5 h-3.5" style={{ color: COLORS.navy }} />
           </button>
           <button
             onClick={() => onDeleteItem(item.id)}
-            className="w-8 h-8 rounded-md flex items-center justify-center transition-all hover:border-coral-700 hover:bg-red-50"
-            style={{
-              background: 'white',
-              border: `1px solid ${COLORS.grey}`,
-            }}
+            className="btn btn-outline-neutral btn-sm w-8 h-8 flex items-center justify-center"
             title="Verwijderen"
           >
             <Trash2 className="w-3.5 h-3.5" style={{ color: COLORS.coral }} />
@@ -402,7 +394,7 @@ function MobileCard({ item, isSelected, onSelectItem, onQuantityChange, onDelete
         >
           <button
             onClick={() => onQuantityChange(item.id, -1)}
-            className="w-10 h-9 flex items-center justify-center transition-all"
+            className="btn btn-ghost w-10 h-9 flex items-center justify-center"
             style={{ background: COLORS.bg, color: COLORS.navy }}
           >
             <Minus className="w-4 h-4" />
@@ -424,7 +416,7 @@ function MobileCard({ item, isSelected, onSelectItem, onQuantityChange, onDelete
           />
           <button
             onClick={() => onQuantityChange(item.id, 1)}
-            className="w-10 h-9 flex items-center justify-center transition-all"
+            className="btn btn-ghost w-10 h-9 flex items-center justify-center"
             style={{ background: COLORS.bg, color: COLORS.navy }}
           >
             <Plus className="w-4 h-4" />
@@ -432,14 +424,13 @@ function MobileCard({ item, isSelected, onSelectItem, onQuantityChange, onDelete
         </div>
         <button
           onClick={() => onAddToCart(item.id)}
-          className="w-9 h-9 rounded-lg flex items-center justify-center transition-all"
-          style={{ background: COLORS.teal, color: 'white' }}
+          className="btn btn-primary btn-sm w-9 h-9 flex items-center justify-center"
         >
           <ShoppingCart className="w-4 h-4" />
         </button>
         <button
           onClick={() => onDeleteItem(item.id)}
-          className="w-9 h-9 rounded-lg flex items-center justify-center transition-all"
+          className="btn btn-danger btn-sm w-9 h-9 flex items-center justify-center"
           style={{ background: COLORS.coralLight, color: COLORS.coral }}
         >
           <Trash2 className="w-4 h-4" />
@@ -495,14 +486,11 @@ export function OrderListProductTable({
           <div className="flex gap-2 ml-auto flex-wrap">
             <button
               onClick={() => onBulkAction('add-to-cart')}
-              className="flex items-center gap-1 px-3 py-2 rounded-lg transition-all"
+              className="btn btn-ghost btn-sm flex items-center gap-1"
               style={{
                 border: '1px solid rgba(255,255,255,0.15)',
                 background: 'rgba(255,255,255,0.06)',
                 color: 'white',
-                fontFamily: 'DM Sans, sans-serif',
-                fontSize: '12px',
-                fontWeight: 600,
               }}
             >
               <ShoppingCart className="w-3.5 h-3.5" />
@@ -510,14 +498,11 @@ export function OrderListProductTable({
             </button>
             <button
               onClick={() => onBulkAction('copy')}
-              className="flex items-center gap-1 px-3 py-2 rounded-lg transition-all"
+              className="btn btn-ghost btn-sm flex items-center gap-1"
               style={{
                 border: '1px solid rgba(255,255,255,0.15)',
                 background: 'rgba(255,255,255,0.06)',
                 color: 'white',
-                fontFamily: 'DM Sans, sans-serif',
-                fontSize: '12px',
-                fontWeight: 600,
               }}
             >
               <Copy className="w-3.5 h-3.5" />
@@ -525,14 +510,11 @@ export function OrderListProductTable({
             </button>
             <button
               onClick={() => onBulkAction('move')}
-              className="flex items-center gap-1 px-3 py-2 rounded-lg transition-all"
+              className="btn btn-ghost btn-sm flex items-center gap-1"
               style={{
                 border: '1px solid rgba(255,255,255,0.15)',
                 background: 'rgba(255,255,255,0.06)',
                 color: 'white',
-                fontFamily: 'DM Sans, sans-serif',
-                fontSize: '12px',
-                fontWeight: 600,
               }}
             >
               <Move className="w-3.5 h-3.5" />
@@ -540,14 +522,11 @@ export function OrderListProductTable({
             </button>
             <button
               onClick={() => onBulkAction('change-qty')}
-              className="flex items-center gap-1 px-3 py-2 rounded-lg transition-all"
+              className="btn btn-ghost btn-sm flex items-center gap-1"
               style={{
                 border: '1px solid rgba(255,255,255,0.15)',
                 background: 'rgba(255,255,255,0.06)',
                 color: 'white',
-                fontFamily: 'DM Sans, sans-serif',
-                fontSize: '12px',
-                fontWeight: 600,
               }}
             >
               <Edit3 className="w-3.5 h-3.5" />
@@ -555,14 +534,11 @@ export function OrderListProductTable({
             </button>
             <button
               onClick={() => onBulkAction('delete')}
-              className="flex items-center gap-1 px-3 py-2 rounded-lg transition-all"
+              className="btn btn-danger btn-sm flex items-center gap-1"
               style={{
                 border: `1px solid #FF6B6B`,
                 background: 'rgba(255,107,107,0.1)',
                 color: '#FF6B6B',
-                fontFamily: 'DM Sans, sans-serif',
-                fontSize: '12px',
-                fontWeight: 600,
               }}
             >
               <Trash2 className="w-3.5 h-3.5" />
@@ -571,7 +547,7 @@ export function OrderListProductTable({
           </div>
           <button
             onClick={onClearSelection}
-            className="w-8 h-8 rounded-lg flex items-center justify-center transition-all"
+            className="btn btn-ghost btn-sm w-8 h-8 flex items-center justify-center"
             style={{ background: 'rgba(255,255,255,0.06)', color: 'white' }}
           >
             <X className="w-4 h-4" />

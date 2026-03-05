@@ -148,7 +148,7 @@ export async function ProjectsGridComponent(props: ProjectsGridBlock) {
           <div className="text-center mt-12">
             <Link
               href={ctaButton.link || '/projecten'}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-light transition-colors"
+              className="btn btn-primary inline-flex items-center gap-2"
             >
               {ctaButton.text || 'Bekijk alle projecten'}
               <Icon name="ArrowRight" size={20} />

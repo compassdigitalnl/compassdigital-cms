@@ -104,7 +104,7 @@ export const ParticipantSelector: React.FC<ParticipantSelectorProps> = ({
                 <button
                   onClick={() => handleDecrement(category)}
                   disabled={!canDecrement}
-                  className="w-8 h-8 rounded-lg border-[1.5px] border-gray-200 bg-white flex items-center justify-center transition-all hover:border-teal-600 hover:bg-teal-50 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-gray-200 disabled:hover:bg-white"
+                  className="btn btn-outline-neutral btn-sm w-8 h-8 flex items-center justify-center"
                   aria-label={`Decrease ${category.label}`}
                 >
                   <Minus className="w-4 h-4 text-gray-700" />
@@ -117,7 +117,7 @@ export const ParticipantSelector: React.FC<ParticipantSelectorProps> = ({
                 <button
                   onClick={() => handleIncrement(category)}
                   disabled={!canIncrement}
-                  className="w-8 h-8 rounded-lg border-[1.5px] border-gray-200 bg-white flex items-center justify-center transition-all hover:border-teal-600 hover:bg-teal-50 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-gray-200 disabled:hover:bg-white"
+                  className="btn btn-outline-neutral btn-sm w-8 h-8 flex items-center justify-center"
                   aria-label={`Increase ${category.label}`}
                 >
                   <Plus className="w-4 h-4 text-gray-700" />

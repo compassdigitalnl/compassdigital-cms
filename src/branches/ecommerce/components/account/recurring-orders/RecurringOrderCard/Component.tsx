@@ -66,7 +66,7 @@ export function RecurringOrderCard({ order, onTogglePause, onDelete }: Recurring
       <div className="p-4 flex items-center gap-2 flex-wrap">
         <button
           onClick={() => onTogglePause(order.id, order.status)}
-          className="px-4 py-2 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition-colors text-sm flex items-center gap-2"
+          className="btn btn-sm btn-outline-neutral flex items-center gap-2"
         >
           {order.status === 'active' ? (
             <><Pause className="w-4 h-4" /> Pauzeren</>
@@ -76,7 +76,7 @@ export function RecurringOrderCard({ order, onTogglePause, onDelete }: Recurring
         </button>
         <button
           onClick={() => onDelete(order.id)}
-          className="px-4 py-2 bg-red-50 text-red-600 font-semibold rounded-lg hover:bg-red-100 transition-colors text-sm flex items-center gap-2"
+          className="btn btn-sm btn-danger flex items-center gap-2"
         >
           <Trash2 className="w-4 h-4" />
           Verwijderen

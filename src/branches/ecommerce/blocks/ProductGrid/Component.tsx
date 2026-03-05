@@ -239,7 +239,7 @@ export const ProductGrid: React.FC<ProductGridType> = async ({
 
                     {showAddToCart && inStock && (
                       <button
-                        className="w-11 h-11 bg-primary hover:bg-primary-light text-white rounded-xl flex items-center justify-center transition-colors shadow-md hover:shadow-lg"
+                        className="btn btn-primary w-11 h-11 flex items-center justify-center"
                         aria-label="Toevoegen aan winkelwagen"
                       >
                         <Icon name="Plus" size={20} />

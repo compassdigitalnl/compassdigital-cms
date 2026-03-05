@@ -158,6 +158,43 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
 
     // Effects
     '--transition-duration': themeData.enableAnimations ? '200ms' : '0ms',
+
+    // Button tokens
+    '--btn-font-weight': String(themeData.btnFontWeight || 700),
+    '--btn-border-radius': themeData.btnBorderRadius || '8px',
+    '--btn-border-width': themeData.btnBorderWidth || '1.5px',
+    '--btn-icon-gap': `${themeData.btnIconGap ?? 6}px`,
+    '--btn-transition': themeData.btnTransitionDuration || '0.2s',
+    '--btn-hover-y': themeData.btnHoverTranslateY || '-1px',
+    '--btn-disabled-opacity': String(themeData.btnDisabledOpacity ?? 0.5),
+    // Button sizes — SM
+    '--btn-sm-py': `${themeData.btnSmPaddingY ?? 5}px`,
+    '--btn-sm-px': `${themeData.btnSmPaddingX ?? 12}px`,
+    '--btn-sm-font': `${themeData.btnSmFontSize ?? 10}px`,
+    '--btn-sm-icon': `${themeData.btnSmIconSize ?? 12}px`,
+    // Button sizes — MD (default)
+    '--btn-md-py': `${themeData.btnMdPaddingY ?? 8}px`,
+    '--btn-md-px': `${themeData.btnMdPaddingX ?? 18}px`,
+    '--btn-md-font': `${themeData.btnMdFontSize ?? 12}px`,
+    '--btn-md-icon': `${themeData.btnMdIconSize ?? 14}px`,
+    // Button sizes — LG
+    '--btn-lg-py': `${themeData.btnLgPaddingY ?? 11}px`,
+    '--btn-lg-px': `${themeData.btnLgPaddingX ?? 26}px`,
+    '--btn-lg-font': `${themeData.btnLgFontSize ?? 14}px`,
+    '--btn-lg-icon': `${themeData.btnLgIconSize ?? 16}px`,
+    // Button variant colors (fall back to color tokens)
+    '--btn-primary-bg': themeData.btnPrimaryBg || 'var(--color-primary)',
+    '--btn-primary-text': themeData.btnPrimaryText || '#ffffff',
+    '--btn-primary-hover': themeData.btnPrimaryHoverBg || 'color-mix(in srgb, var(--btn-primary-bg) 85%, black)',
+    '--btn-secondary-bg': themeData.btnSecondaryBg || 'var(--color-secondary)',
+    '--btn-secondary-text': themeData.btnSecondaryText || '#ffffff',
+    '--btn-secondary-hover': themeData.btnSecondaryHoverBg || 'color-mix(in srgb, var(--btn-secondary-bg) 85%, black)',
+    '--btn-danger-bg': themeData.btnDangerBg || 'var(--color-error)',
+    '--btn-danger-text': themeData.btnDangerText || '#ffffff',
+    '--btn-danger-hover': themeData.btnDangerHoverBg || 'color-mix(in srgb, var(--btn-danger-bg) 85%, black)',
+    '--btn-success-bg': themeData.btnSuccessBg || 'var(--color-success)',
+    '--btn-success-text': themeData.btnSuccessText || '#ffffff',
+    '--btn-success-hover': themeData.btnSuccessHoverBg || 'color-mix(in srgb, var(--btn-success-bg) 85%, black)',
   } as React.CSSProperties
 
   return (
@@ -401,6 +438,154 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           .bg-gradient-primary { background: var(--gradient-primary) !important; }
           .bg-gradient-secondary { background: var(--gradient-secondary) !important; }
           .bg-gradient-hero { background: var(--gradient-hero) !important; }
+
+          /* ===================================================================
+             BUTTON DESIGN SYSTEM — Token-driven button styles
+             All buttons use --btn-* CSS variables from Theme global
+             =================================================================== */
+
+          /* Base button */
+          .btn {
+            padding: var(--btn-md-py) var(--btn-md-px);
+            border-radius: var(--btn-border-radius);
+            font-family: var(--font-body);
+            font-size: var(--btn-md-font);
+            font-weight: var(--btn-font-weight);
+            border: var(--btn-border-width) solid transparent;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--btn-icon-gap);
+            transition: all var(--btn-transition);
+            text-decoration: none;
+            white-space: nowrap;
+            line-height: 1.4;
+          }
+
+          .btn:hover {
+            transform: translateY(var(--btn-hover-y));
+          }
+
+          .btn:active {
+            transform: translateY(0);
+          }
+
+          .btn:disabled, .btn[disabled] {
+            opacity: var(--btn-disabled-opacity);
+            cursor: not-allowed;
+            pointer-events: none;
+          }
+
+          /* Button icon sizing */
+          .btn svg {
+            width: var(--btn-md-icon);
+            height: var(--btn-md-icon);
+            flex-shrink: 0;
+          }
+
+          /* ── Size variants ── */
+          .btn-sm {
+            padding: var(--btn-sm-py) var(--btn-sm-px);
+            font-size: var(--btn-sm-font);
+          }
+          .btn-sm svg {
+            width: var(--btn-sm-icon);
+            height: var(--btn-sm-icon);
+          }
+
+          .btn-lg {
+            padding: var(--btn-lg-py) var(--btn-lg-px);
+            font-size: var(--btn-lg-font);
+          }
+          .btn-lg svg {
+            width: var(--btn-lg-icon);
+            height: var(--btn-lg-icon);
+          }
+
+          /* ── Color variants ── */
+
+          /* Primary (main CTA) */
+          .btn-primary {
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+            border-color: transparent;
+          }
+          .btn-primary:hover {
+            background: var(--btn-primary-hover);
+          }
+
+          /* Secondary */
+          .btn-secondary {
+            background: var(--btn-secondary-bg);
+            color: var(--btn-secondary-text);
+            border-color: transparent;
+          }
+          .btn-secondary:hover {
+            background: var(--btn-secondary-hover);
+          }
+
+          /* Danger (destructive) */
+          .btn-danger {
+            background: var(--btn-danger-bg);
+            color: var(--btn-danger-text);
+            border-color: transparent;
+          }
+          .btn-danger:hover {
+            background: var(--btn-danger-hover);
+          }
+
+          /* Success (confirmation) */
+          .btn-success {
+            background: var(--btn-success-bg);
+            color: var(--btn-success-text);
+            border-color: transparent;
+          }
+          .btn-success:hover {
+            background: var(--btn-success-hover);
+          }
+
+          /* Outline Primary */
+          .btn-outline-primary {
+            background: transparent;
+            color: var(--btn-primary-bg);
+            border-color: var(--btn-primary-bg);
+          }
+          .btn-outline-primary:hover {
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+          }
+
+          /* Outline Neutral */
+          .btn-outline-neutral {
+            background: transparent;
+            color: var(--color-text-secondary);
+            border-color: var(--color-border);
+          }
+          .btn-outline-neutral:hover {
+            background: var(--color-grey-light);
+            border-color: var(--color-grey-dark);
+            color: var(--color-text-primary);
+          }
+
+          /* Ghost (link-style) */
+          .btn-ghost {
+            background: transparent;
+            border-color: transparent;
+            color: var(--btn-primary-bg);
+            padding-left: 0;
+            padding-right: 0;
+          }
+          .btn-ghost:hover {
+            text-decoration: underline;
+            transform: none;
+          }
+
+          /* Button group */
+          .btn-group {
+            display: inline-flex;
+            gap: 8px;
+          }
         `
       }} />
     </>

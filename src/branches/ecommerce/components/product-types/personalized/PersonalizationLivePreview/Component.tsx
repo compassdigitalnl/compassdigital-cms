@@ -69,7 +69,7 @@ export const PersonalizationLivePreview: React.FC<PersonalizationLivePreviewProp
             type="button"
             onClick={handleZoomOut}
             disabled={zoom <= 50}
-            className="w-9 h-9 flex items-center justify-center border-2 border-gray-300 text-gray-700 hover:border-teal-500 hover:text-teal-600 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn btn-outline-neutral btn-sm w-9 h-9 flex items-center justify-center"
             title="Zoom uit"
           >
             <ZoomOut className="w-4 h-4" strokeWidth={2.5} />
@@ -85,7 +85,7 @@ export const PersonalizationLivePreview: React.FC<PersonalizationLivePreviewProp
             type="button"
             onClick={handleZoomIn}
             disabled={zoom >= 200}
-            className="w-9 h-9 flex items-center justify-center border-2 border-gray-300 text-gray-700 hover:border-teal-500 hover:text-teal-600 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn btn-outline-neutral btn-sm w-9 h-9 flex items-center justify-center"
             title="Zoom in"
           >
             <ZoomIn className="w-4 h-4" strokeWidth={2.5} />
@@ -95,7 +95,7 @@ export const PersonalizationLivePreview: React.FC<PersonalizationLivePreviewProp
           <button
             type="button"
             onClick={handleRotate}
-            className="w-9 h-9 flex items-center justify-center border-2 border-gray-300 text-gray-700 hover:border-teal-500 hover:text-teal-600 rounded-md transition-colors"
+            className="btn btn-outline-neutral btn-sm w-9 h-9 flex items-center justify-center"
             title="Draai 90°"
           >
             <RotateCw className="w-4 h-4" strokeWidth={2.5} />
