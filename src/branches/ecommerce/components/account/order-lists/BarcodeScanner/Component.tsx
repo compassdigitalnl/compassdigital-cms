@@ -3,11 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Html5Qrcode } from 'html5-qrcode'
 import { X, Camera } from 'lucide-react'
-
-interface BarcodeScannerProps {
-  onScan: (barcode: string) => void
-  onClose: () => void
-}
+import type { BarcodeScannerProps } from './types'
 
 export default function BarcodeScanner({ onScan, onClose }: BarcodeScannerProps) {
   const scannerRef = useRef<Html5Qrcode | null>(null)

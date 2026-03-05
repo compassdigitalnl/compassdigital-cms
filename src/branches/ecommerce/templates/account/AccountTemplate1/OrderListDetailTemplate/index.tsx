@@ -12,7 +12,7 @@ import type { OrderListDetailTemplateProps } from './types'
 
 // Dynamic import to avoid SSR issues with camera access
 const BarcodeScanner = dynamic(
-  () => import('@/branches/ecommerce/components/features/ecommerce/BarcodeScanner'),
+  () => import('@/branches/ecommerce/components/account/order-lists/BarcodeScanner/Component'),
   { ssr: false },
 )
 
