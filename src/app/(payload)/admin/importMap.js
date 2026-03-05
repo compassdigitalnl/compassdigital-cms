@@ -37,6 +37,8 @@ import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0
 import { GrapesJSField as GrapesJSField_a3a300ca96561f5352891a72a620a7ea } from '@/branches/shared/components/GrapesEmailEditor/PayloadField'
 import { CampaignDashboard as CampaignDashboard_054e9621e4ded3e45a64e3a1b7e3b81c } from '@/branches/shared/collections/email-marketing/components/CampaignDashboard'
 import { NullField as NullField_c780cb95ec46e89f0b1678663c3eccc3 } from '@/fields/NullField'
+import { default as default_971468ac2d2d4a25a1bfb0b043e30b67 } from '@/branches/shared/components/admin/IconPickerField'
+import { ReindexButton as ReindexButton_06cc9c783e9ca0a5ab179f4d22b8b9ea } from '@/branches/shared/components/admin/ReindexButton'
 import { AdminLogo as AdminLogo_2c011273ec82b6bdd2c32c4619882e8b } from '@/branches/shared/components/admin/AdminLogo'
 import { BeforeDashboard as BeforeDashboard_370a0e4b6d4d7854fd06eb69c91906c3 } from '@/branches/shared/components/admin/BeforeDashboard'
 import { BeforeLogin as BeforeLogin_a48052c918f273f5b689a72a49236fc6 } from '@/branches/shared/components/admin/BeforeLogin'
@@ -84,6 +86,8 @@ export const importMap = {
   "@/branches/shared/components/GrapesEmailEditor/PayloadField#GrapesJSField": GrapesJSField_a3a300ca96561f5352891a72a620a7ea,
   "@/branches/shared/collections/email-marketing/components/CampaignDashboard#CampaignDashboard": CampaignDashboard_054e9621e4ded3e45a64e3a1b7e3b81c,
   "@/fields/NullField#NullField": NullField_c780cb95ec46e89f0b1678663c3eccc3,
+  "@/branches/shared/components/admin/IconPickerField#default": default_971468ac2d2d4a25a1bfb0b043e30b67,
+  "@/branches/shared/components/admin/ReindexButton#ReindexButton": ReindexButton_06cc9c783e9ca0a5ab179f4d22b8b9ea,
   "@/branches/shared/components/admin/AdminLogo#AdminLogo": AdminLogo_2c011273ec82b6bdd2c32c4619882e8b,
   "@/branches/shared/components/admin/BeforeDashboard#BeforeDashboard": BeforeDashboard_370a0e4b6d4d7854fd06eb69c91906c3,
   "@/branches/shared/components/admin/BeforeLogin#BeforeLogin": BeforeLogin_a48052c918f273f5b689a72a49236fc6,
