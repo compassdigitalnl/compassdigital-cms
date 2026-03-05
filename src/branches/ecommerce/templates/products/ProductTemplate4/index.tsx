@@ -46,6 +46,7 @@ import {
 
 interface ProductTemplate4Props {
   product: Product
+  parentGroupedProduct?: Product | null
 }
 
 export default function ProductTemplate4({ product }: ProductTemplate4Props) {

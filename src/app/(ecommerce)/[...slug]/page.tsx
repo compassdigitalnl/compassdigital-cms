@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { RenderBlocks } from '@/branches/shared/blocks/RenderBlocks'
-import { JsonLdSchema } from '@/branches/shared/components/seo/JsonLdSchema'
+import { JsonLdSchema } from '@/features/seo/components/JsonLdSchema'
 import { generateMeta } from '@/utilities/generateMeta'
 import type { Page, Product } from '@/payload-types'
 import ProductTemplate1 from '@/branches/ecommerce/templates/products/ProductTemplate1'
@@ -12,7 +12,7 @@ import ProductTemplate3 from '@/branches/ecommerce/templates/products/ProductTem
 import ProductTemplate4 from '@/branches/ecommerce/templates/products/ProductTemplate4'
 import ShopArchiveTemplate1 from '@/branches/ecommerce/templates/shop/ShopArchiveTemplate1'
 import { TrackRecentlyViewed } from '@/branches/ecommerce/components/shop/RecentlyViewed/TrackRecentlyViewed'
-import { Breadcrumbs } from '@/branches/shared/components/layout/breadcrumbs/Breadcrumbs'
+import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -77,19 +77,37 @@ export async function generateMetadata({
       limit: 1,
       where: { slug: { equals: lastSlug } },
       depth: 0,
-      select: { title: true, shortDescription: true, meta: true },
+      select: { title: true, shortDescription: true, meta: true, hideFromCatalog: true },
     })
 
     if (products.docs[0]) {
       const product = products.docs[0]
+      const meta = typeof product.meta === 'object' ? product.meta : null
+
+      // Determine canonical URL
+      let canonicalUrl = meta?.canonicalUrl || undefined
+      if (!canonicalUrl) {
+        // Auto-canonical: if this product is a child of a grouped product, point to parent
+        const parentGroup = await payload.find({
+          collection: 'products',
+          limit: 1,
+          where: {
+            productType: { equals: 'grouped' },
+            'childProducts.product': { equals: product.id },
+          },
+          depth: 0,
+          select: { slug: true },
+        })
+        if (parentGroup.docs[0]?.slug) {
+          const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''
+          canonicalUrl = `${baseUrl}/${parentGroup.docs[0].slug}`
+        }
+      }
+
       return {
-        title:
-          (typeof product.meta === 'object' && product.meta?.title) ||
-          `${product.title} | Shop`,
-        description:
-          (typeof product.meta === 'object' && product.meta?.description) ||
-          product.shortDescription ||
-          `${product.title}`,
+        title: meta?.title || `${product.title} | Shop`,
+        description: meta?.description || product.shortDescription || `${product.title}`,
+        ...(canonicalUrl ? { alternates: { canonical: canonicalUrl } } : {}),
       }
     }
   }
@@ -189,11 +207,31 @@ export default async function Page({
         }
       }
 
+      // Check if this product is a child of a grouped product
+      let parentGroupedProduct: Product | null = null
+      if (product.productType === 'simple') {
+        const parentGroup = await payload.find({
+          collection: 'products',
+          limit: 1,
+          where: {
+            productType: { equals: 'grouped' },
+            'childProducts.product': { equals: product.id },
+            status: { equals: 'published' },
+          },
+          depth: 2,
+        })
+        if (parentGroup.docs[0]) {
+          parentGroupedProduct = parentGroup.docs[0] as Product
+        }
+      }
+
       // Build breadcrumbs from product's DEEPEST category hierarchy
       let productBreadcrumbs: Array<{ label: string; href: string }> = []
-      if (product.categories && Array.isArray(product.categories)) {
+      // Use parent product's categories for breadcrumbs if this is a child
+      const breadcrumbSource = parentGroupedProduct || product
+      if (breadcrumbSource.categories && Array.isArray(breadcrumbSource.categories)) {
         let deepestChain: Array<{ id: number; name: string; slug: string }> = []
-        for (const catRef of product.categories) {
+        for (const catRef of breadcrumbSource.categories) {
           const catId = typeof catRef === 'object' && catRef !== null ? (catRef as any).id : catRef
           if (catId) {
             const ancestors = await getCategoryAncestors(payload, catId)
@@ -205,6 +243,14 @@ export default async function Page({
         if (deepestChain.length > 0) {
           productBreadcrumbs = buildCategoryBreadcrumbs(deepestChain)
         }
+      }
+
+      // If child of grouped product, add parent to breadcrumbs
+      if (parentGroupedProduct) {
+        productBreadcrumbs.push({
+          label: parentGroupedProduct.title,
+          href: `/${parentGroupedProduct.slug}`,
+        })
       }
 
       return (
@@ -222,7 +268,7 @@ export default async function Page({
             <Breadcrumbs items={productBreadcrumbs} currentPage={product.title} />
           </div>
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <ProductComponent product={product} />
+            <ProductComponent product={product} parentGroupedProduct={parentGroupedProduct} />
           </div>
         </div>
       )
@@ -246,12 +292,13 @@ export default async function Page({
     const ancestors = await getCategoryAncestors(payload, category.id)
     const categoryFullPath = buildCategoryUrl(ancestors)
 
-    // Fetch products in this category
+    // Fetch products in this category (exclude hidden from catalog)
     const { docs: categoryProducts, totalDocs, totalPages } = await payload.find({
       collection: 'products',
       where: {
         status: { equals: 'published' },
         categories: { contains: category.id },
+        hideFromCatalog: { not_equals: true },
       },
       depth: 1,
       limit: 24,

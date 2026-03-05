@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { meilisearchClient, INDEXES, isMeilisearchAvailable } from '@/lib/meilisearch/client'
+import { meilisearchClient, INDEXES, isMeilisearchAvailable } from '@/features/search/lib/meilisearch/client'
 
 /**
  * Shop Search API — Meilisearch-powered faceted product search
@@ -79,8 +79,9 @@ function parseSearchParams(searchParams: URLSearchParams): ShopSearchParams {
 function buildMeilisearchFilter(params: ShopSearchParams): string[] {
   const filters: string[] = []
 
-  // Only published products
+  // Only published products, exclude hidden from catalog
   filters.push('status = "published"')
+  filters.push('hideFromCatalog = false')
 
   // Category filter
   if (params.categoryIds.length > 0) {
