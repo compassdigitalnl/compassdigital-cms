@@ -326,6 +326,42 @@ export const Settings: GlobalConfig = {
                 description: 'Template voor merken overzicht- en detailpagina\'s',
               },
             }),
+            ...featureField('shop', {
+              name: 'defaultBranchesTemplate',
+              type: 'select',
+              label: 'Standaard Branches Template',
+              defaultValue: 'branchestemplate1',
+              options: [
+                { label: 'Branches Template 1 - Enterprise (Hero, zoeken, grid)', value: 'branchestemplate1' },
+              ],
+              admin: {
+                description: 'Template voor branches overzicht- en detailpagina\'s',
+              },
+            }),
+            ...featureField('shop', {
+              name: 'defaultLoginTemplate',
+              type: 'select',
+              label: 'Standaard Login/Registratie Template',
+              defaultValue: 'logintemplate1',
+              options: [
+                { label: 'Login Template 1 - Tabs (Login/Registreren/Gast)', value: 'logintemplate1' },
+              ],
+              admin: {
+                description: 'Template voor inlog- en registratiepagina\'s',
+              },
+            }),
+            ...featureField('shop', {
+              name: 'defaultRegisterTemplate',
+              type: 'select',
+              label: 'Standaard Klant Worden Template',
+              defaultValue: 'registertemplate1',
+              options: [
+                { label: 'Register Template 1 - Multi-step wizard (4 stappen)', value: 'registertemplate1' },
+              ],
+              admin: {
+                description: 'Template voor de "Klant worden" registratie wizard',
+              },
+            }),
             ...featureField('checkout', {
               name: 'checkoutFlow',
               type: 'select',
@@ -340,6 +376,18 @@ export const Settings: GlobalConfig = {
                 description: 'Bepaalt welke cart- en checkout templates samen worden gebruikt. Elke flow biedt een consistente ervaring van winkelwagen tot bevestiging.',
               },
             }),
+            {
+              name: 'defaultHeaderTemplate',
+              type: 'select',
+              label: 'Standaard Header Template',
+              defaultValue: 'headertemplate1',
+              options: [
+                { label: 'Header Template 1 - Enterprise (Volledig, mega menu, mobile drawer)', value: 'headertemplate1' },
+              ],
+              admin: {
+                description: 'Template voor de website header',
+              },
+            },
             {
               name: 'defaultMyAccountTemplate',
               type: 'select',
