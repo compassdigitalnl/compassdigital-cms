@@ -352,12 +352,20 @@ export const Products: CollectionConfig = {
                 {
                   name: 'price',
                   type: 'number',
-                  required: true,
                   min: 0,
                   label: 'Basis Prijs (excl. BTW)',
+                  validate: (value, { data }) => {
+                    const productType = (data as any)?.productType
+                    if (productType === 'grouped') return true
+                    if (value === null || value === undefined || value === '') {
+                      return 'Prijs is verplicht'
+                    }
+                    return true
+                  },
                   admin: {
                     step: 0.01,
                     width: '33%',
+                    description: 'Niet verplicht voor Grouped Products (prijs komt van sub-producten)',
                   },
                 },
                 {
