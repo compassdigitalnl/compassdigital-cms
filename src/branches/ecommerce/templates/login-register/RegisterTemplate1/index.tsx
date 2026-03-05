@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Headphones } from 'lucide-react'
 import { Tag, CreditCard, ClipboardList, Users } from 'lucide-react'
 import {
@@ -13,6 +14,7 @@ import {
   type TrustItem,
 } from '@/branches/ecommerce/components/registration'
 import { resolveIcon } from '@/branches/ecommerce/components/branches/iconMap'
+import { useAuth } from '@/providers/Auth'
 import { StepAccountType } from './StepAccountType'
 import { StepCompanyDetails } from './StepCompanyDetails'
 import { StepContactPassword } from './StepContactPassword'
@@ -105,6 +107,16 @@ export default function RegisterTemplate1({
   branches,
   freeShippingThreshold,
 }: RegisterTemplate1Props) {
+  const { user, status } = useAuth()
+  const router = useRouter()
+
+  // Redirect to /account/ if already logged in
+  useEffect(() => {
+    if (status === 'loggedIn' && user) {
+      router.replace('/account/')
+    }
+  }, [status, user, router])
+
   const [currentStep, setCurrentStep] = useState(defaultStep)
   const [data, setData] = useState<RegistrationData>(initialData)
 

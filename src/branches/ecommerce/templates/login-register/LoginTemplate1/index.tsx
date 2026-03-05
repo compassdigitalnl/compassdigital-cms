@@ -1,14 +1,16 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowRight, Tag, CreditCard, ClipboardList, Users, Headphones, ShieldCheck, CheckCircle } from 'lucide-react'
+import { ArrowRight, Tag, CreditCard, ClipboardList, Users, Headphones, ShieldCheck } from 'lucide-react'
 import {
   LoginForm,
   TrustBadges,
   type LoginFormData,
   type OAuthProvider,
 } from '@/branches/ecommerce/components/auth'
+import { useAuth } from '@/providers/Auth'
 import type { LoginTemplate1Props } from './types'
 
 const REGISTER_BENEFITS = [
@@ -20,6 +22,21 @@ const REGISTER_BENEFITS = [
 ]
 
 export default function LoginTemplate1({ defaultTab = 'login', siteConfig }: LoginTemplate1Props) {
+  const { user, status } = useAuth()
+  const router = useRouter()
+
+  // Redirect to /account/ if already logged in
+  useEffect(() => {
+    if (status === 'loggedIn' && user) {
+      router.replace('/account/')
+    }
+  }, [status, user, router])
+
+  // Show nothing while checking auth or redirecting
+  if (status === 'loggedIn' && user) {
+    return null
+  }
+
   const handleLogin = async (data: LoginFormData) => {
     // TODO: Implement login logic
     console.log('Login:', data)
