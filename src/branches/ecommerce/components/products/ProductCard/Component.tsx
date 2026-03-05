@@ -49,6 +49,8 @@ export function ProductCard({
   badges,
   variant = 'grid',
   onAddToCart,
+  onWishlistToggle,
+  onQuickView,
   href,
   currencySymbol = '€',
   locale = 'nl-NL',
