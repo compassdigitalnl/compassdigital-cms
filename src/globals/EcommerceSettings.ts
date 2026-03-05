@@ -275,6 +275,70 @@ export const EcommerceSettings: GlobalConfig = {
                 description: 'Nieuwe B2B accounts moeten eerst goedgekeurd worden door admin',
               },
             },
+            {
+              name: 'b2bBenefits',
+              type: 'array',
+              label: 'B2B Voordelen',
+              maxRows: 8,
+              admin: {
+                description: 'Voordelen op registratie- en checkout pagina\'s',
+              },
+              fields: [
+                {
+                  name: 'icon',
+                  type: 'text',
+                  label: 'Lucide icoon naam',
+                  admin: {
+                    placeholder: 'bijv. Tag, CreditCard, ClipboardList',
+                    description: 'Naam van een Lucide icoon (zie lucide.dev/icons)',
+                  },
+                },
+                {
+                  name: 'iconColor',
+                  type: 'text',
+                  label: 'Icoon kleur',
+                  admin: {
+                    placeholder: 'bijv. #00897B of var(--color-teal)',
+                  },
+                },
+                {
+                  name: 'iconBg',
+                  type: 'text',
+                  label: 'Icoon achtergrond',
+                  admin: {
+                    placeholder: 'bijv. rgba(0,137,123,0.12)',
+                  },
+                },
+                {
+                  name: 'title',
+                  type: 'text',
+                  label: 'Titel',
+                  required: true,
+                },
+                {
+                  name: 'description',
+                  type: 'text',
+                  label: 'Beschrijving',
+                },
+              ],
+            },
+            {
+              name: 'registrationTrustItems',
+              type: 'array',
+              label: 'Registratie Trust Items',
+              maxRows: 8,
+              admin: {
+                description: 'Vertrouwensindicatoren op registratiepagina',
+              },
+              fields: [
+                {
+                  name: 'text',
+                  type: 'text',
+                  label: 'Tekst',
+                  required: true,
+                },
+              ],
+            },
           ],
         }),
 

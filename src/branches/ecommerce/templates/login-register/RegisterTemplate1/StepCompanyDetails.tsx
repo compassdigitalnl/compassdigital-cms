@@ -2,8 +2,7 @@
 
 import React, { useState } from 'react'
 import {
-  Building2, Search, CheckCircle, Lock,
-  Stethoscope, Activity, Baby, Home, Package,
+  Building2, Search, CheckCircle, Lock, Package,
 } from 'lucide-react'
 import { FormInput } from '@/branches/ecommerce/components/auth'
 import {
@@ -11,6 +10,7 @@ import {
   StepNavigation,
   type BranchOption,
 } from '@/branches/ecommerce/components/registration'
+import { resolveIcon } from '@/branches/ecommerce/components/branches/iconMap'
 import type { RegistrationData } from './types'
 
 interface StepCompanyDetailsProps {
@@ -18,23 +18,25 @@ interface StepCompanyDetailsProps {
   onChange: (updates: Partial<RegistrationData>) => void
   onBack: () => void
   onNext: () => void
+  branches?: Array<{ id: string; name: string; icon?: string }>
 }
-
-const branchOptions: BranchOption[] = [
-  { id: 'huisarts', label: 'Huisarts', icon: Stethoscope },
-  { id: 'tandarts', label: 'Tandarts', icon: Activity },
-  { id: 'verloskunde', label: 'Verloskunde', icon: Baby },
-  { id: 'fysiotherapie', label: 'Fysiotherapie', icon: Activity },
-  { id: 'thuiszorg', label: 'Thuiszorg', icon: Home },
-  { id: 'anders', label: 'Anders', icon: Package },
-]
 
 export const StepCompanyDetails: React.FC<StepCompanyDetailsProps> = ({
   data,
   onChange,
   onBack,
   onNext,
+  branches,
 }) => {
+  // Convert CMS branches to BranchOption format
+  const branchOptions: BranchOption[] = branches
+    ? branches.map((b) => ({
+        id: b.id,
+        label: b.name,
+        icon: (b.icon ? resolveIcon(b.icon) : undefined) || Package,
+      }))
+    : []
+
   const [kvkLookedUp, setKvkLookedUp] = useState(false)
   const [kvkResult, setKvkResult] = useState<{ name: string; address: string } | null>(null)
 
@@ -43,13 +45,8 @@ export const StepCompanyDetails: React.FC<StepCompanyDetailsProps> = ({
     if (data.kvkNumber.length === 8) {
       setKvkLookedUp(true)
       setKvkResult({
-        name: 'Huisartsenpraktijk De Vries',
-        address: 'Breestraat 42, 1941 EK Beverwijk',
-      })
-      onChange({
-        companyName: 'Huisartsenpraktijk De Vries',
-        street: 'Breestraat 42',
-        postalCity: '1941 EK  Beverwijk',
+        name: 'Bedrijfsnaam via KVK',
+        address: 'Adres wordt opgehaald...',
       })
     }
   }
@@ -176,21 +173,23 @@ export const StepCompanyDetails: React.FC<StepCompanyDetailsProps> = ({
           label="Telefoon bedrijf"
           value={data.companyPhone}
           onChange={(e) => onChange({ companyPhone: e.target.value })}
-          placeholder="bijv. 0251-247233"
+          placeholder="bijv. 06-12345678"
         />
       </div>
 
-      {/* Branch selector */}
-      <div className="mb-4 mt-2">
-        <label className="mb-1.5 flex items-center gap-1 text-[13px] font-bold text-theme-navy">
-          Branche <span className="text-xs text-[#FF6B6B]">*</span>
-        </label>
-        <BranchSelector
-          options={branchOptions}
-          selected={data.branch}
-          onSelect={(id) => onChange({ branch: id })}
-        />
-      </div>
+      {/* Branch selector (only shown when CMS branches exist) */}
+      {branchOptions.length > 0 && (
+        <div className="mb-4 mt-2">
+          <label className="mb-1.5 flex items-center gap-1 text-[13px] font-bold text-theme-navy">
+            Branche <span className="text-xs text-[#FF6B6B]">*</span>
+          </label>
+          <BranchSelector
+            options={branchOptions}
+            selected={data.branch}
+            onSelect={(id) => onChange({ branch: id })}
+          />
+        </div>
+      )}
 
       {/* Referral */}
       <div className="mb-4 mt-4">

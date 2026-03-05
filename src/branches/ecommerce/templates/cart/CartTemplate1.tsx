@@ -29,9 +29,10 @@ import { CrossSellSection } from '@/branches/ecommerce/components/cart/CrossSell
 
 interface CartTemplate1Props {
   onCheckout?: () => void
+  contactPhone?: string
 }
 
-export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
+export default function CartTemplate1({ onCheckout, contactPhone }: CartTemplate1Props) {
   const { items, removeItem, updateQuantity, total, itemCount } = useCart()
   const { settings: ecomSettings } = useEcommerceSettings()
   const { displayPrice, showInclVAT } = usePriceMode()
@@ -223,7 +224,7 @@ export default function CartTemplate1({ onCheckout }: CartTemplate1Props) {
                   { icon: 'ShieldCheck', text: 'Veilig betalen via iDEAL, op rekening of creditcard' },
                   { icon: 'Truck', text: `Gratis verzending vanaf \u20AC${ecomSettings.freeShippingThreshold}` },
                   { icon: 'RotateCcw', text: '30 dagen retourrecht' },
-                  { icon: 'Headphones', text: 'Vragen? Bel 0251-247233' },
+                  ...(contactPhone ? [{ icon: 'Headphones', text: `Vragen? Bel ${contactPhone}` }] : []),
                 ]}
               />
             </div>

@@ -19,6 +19,7 @@ export default async function CartPage() {
   const payload = await getPayload({ config })
 
   let defaultTemplate = 'template1'
+  let contactPhone = ''
 
   try {
     const settings = await payload.findGlobal({
@@ -27,6 +28,7 @@ export default async function CartPage() {
     })
 
     const s = settings as any
+    contactPhone = s?.phone || ''
 
     // New: resolve via checkoutFlow
     if (s?.checkoutFlow && CHECKOUT_FLOWS[s.checkoutFlow]) {
@@ -40,5 +42,5 @@ export default async function CartPage() {
     console.error('⚠️ Error fetching cart template setting, using default:', error)
   }
 
-  return <CartPageClient defaultTemplate={defaultTemplate} />
+  return <CartPageClient defaultTemplate={defaultTemplate} contactPhone={contactPhone} />
 }

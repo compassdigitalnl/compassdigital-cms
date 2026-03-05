@@ -31,6 +31,7 @@ import * as migration_20260305_150000_add_header_template_setting from './202603
 import * as migration_20260305_160000_cleanup_header_layout_tab from './20260305_160000_cleanup_header_layout_tab';
 import * as migration_20260305_170000_branches_collection from './20260305_170000_branches_collection';
 import * as migration_20260305_180000_cleanup_header_theme_tab from './20260305_180000_cleanup_header_theme_tab';
+import * as migration_20260305_190000_ecommerce_b2b_benefits from './20260305_190000_ecommerce_b2b_benefits';
 
 export const migrations = [
   {
@@ -197,5 +198,10 @@ export const migrations = [
     up: migration_20260305_180000_cleanup_header_theme_tab.up,
     down: migration_20260305_180000_cleanup_header_theme_tab.down,
     name: '20260305_180000_cleanup_header_theme_tab',
+  },
+  {
+    up: migration_20260305_190000_ecommerce_b2b_benefits.up,
+    down: migration_20260305_190000_ecommerce_b2b_benefits.down,
+    name: '20260305_190000_ecommerce_b2b_benefits',
   },
 ];

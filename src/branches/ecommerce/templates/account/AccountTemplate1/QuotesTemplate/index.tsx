@@ -23,10 +23,13 @@ export default function QuotesTemplate({
   formData,
   onQuantityChange,
   onRemoveProduct,
+  onAddProduct,
   onFormChange,
   onSubmit,
   isSubmitting,
   isLoading,
+  contactPhone,
+  contactEmail,
 }: QuotesTemplateProps) {
   if (isLoading) return <AccountLoadingSkeleton variant="page" />
 
@@ -108,6 +111,7 @@ export default function QuotesTemplate({
               products={products}
               onQuantityChange={onQuantityChange}
               onRemove={onRemoveProduct}
+              onAddProduct={onAddProduct}
             />
           </div>
 
@@ -147,34 +151,36 @@ export default function QuotesTemplate({
           </div>
 
           {/* Phone help */}
-          <div
-            className="rounded-2xl p-6 text-center relative overflow-hidden"
-            style={{ background: 'linear-gradient(135deg, #0A1628, #121F33)' }}
-          >
+          {contactPhone && (
             <div
-              className="absolute -top-5 -right-5 w-24 h-24 rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(0,137,123,0.10), transparent 70%)' }}
-            />
-            <h4
-              className="text-base font-extrabold text-white mb-1.5 relative"
-              style={{ fontFamily: 'var(--font-heading, inherit)' }}
+              className="rounded-2xl p-6 text-center relative overflow-hidden"
+              style={{ background: 'linear-gradient(135deg, #0A1628, #121F33)' }}
             >
-              Liever telefonisch?
-            </h4>
-            <p className="text-xs leading-relaxed mb-3.5 relative" style={{ color: 'rgba(255,255,255,0.45)' }}>
-              Onze productspecialisten helpen u graag met een offerte op maat.
-            </p>
-            <a
-              href="tel:0251247233"
-              className="inline-flex items-center gap-1.5 text-sm font-bold relative transition-colors"
-              style={{ color: '#26A69A' }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = 'white')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = '#26A69A')}
-            >
-              <Phone className="w-4 h-4" />
-              0251&#x2011;247233
-            </a>
-          </div>
+              <div
+                className="absolute -top-5 -right-5 w-24 h-24 rounded-full pointer-events-none"
+                style={{ background: 'radial-gradient(circle, rgba(0,137,123,0.10), transparent 70%)' }}
+              />
+              <h4
+                className="text-base font-extrabold text-white mb-1.5 relative"
+                style={{ fontFamily: 'var(--font-heading, inherit)' }}
+              >
+                Liever telefonisch?
+              </h4>
+              <p className="text-xs leading-relaxed mb-3.5 relative" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                Onze productspecialisten helpen u graag met een offerte op maat.
+              </p>
+              <a
+                href={`tel:${contactPhone.replace(/[^+\d]/g, '')}`}
+                className="inline-flex items-center gap-1.5 text-sm font-bold relative transition-colors"
+                style={{ color: '#26A69A' }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'white')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '#26A69A')}
+              >
+                <Phone className="w-4 h-4" />
+                {contactPhone}
+              </a>
+            </div>
+          )}
         </aside>
       </div>
     </div>

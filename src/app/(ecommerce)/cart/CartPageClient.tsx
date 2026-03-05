@@ -8,9 +8,10 @@ import { ShoppingCart } from 'lucide-react'
 
 interface CartPageClientProps {
   defaultTemplate: string
+  contactPhone?: string
 }
 
-export default function CartPageClient({ defaultTemplate }: CartPageClientProps) {
+export default function CartPageClient({ defaultTemplate, contactPhone }: CartPageClientProps) {
   const { variant, isLoading, trackConversion } = useABTest('cart')
 
   // Loading state
@@ -36,7 +37,7 @@ export default function CartPageClient({ defaultTemplate }: CartPageClientProps)
   }
 
   // Default to template1
-  return <CartTemplate1 onCheckout={handleCheckout} />
+  return <CartTemplate1 onCheckout={handleCheckout} contactPhone={contactPhone} />
 }
 
 function CartSkeleton() {

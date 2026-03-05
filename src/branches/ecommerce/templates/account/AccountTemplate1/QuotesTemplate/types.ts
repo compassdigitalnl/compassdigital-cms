@@ -8,8 +8,11 @@ export interface QuotesTemplateProps {
   formData: QuoteFormData
   onQuantityChange: (id: string, quantity: number) => void
   onRemoveProduct: (id: string) => void
+  onAddProduct?: (product: QuoteProduct) => void
   onFormChange: (field: keyof QuoteFormData, value: string | boolean) => void
   onSubmit: () => void
   isSubmitting?: boolean
   isLoading?: boolean
+  contactPhone?: string
+  contactEmail?: string
 }

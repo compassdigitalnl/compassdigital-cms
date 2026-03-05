@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { Headphones } from 'lucide-react'
 import { Tag, CreditCard, ClipboardList, Users } from 'lucide-react'
 import {
@@ -12,26 +12,33 @@ import {
   type Benefit,
   type TrustItem,
 } from '@/branches/ecommerce/components/registration'
+import { resolveIcon } from '@/branches/ecommerce/components/branches/iconMap'
 import { StepAccountType } from './StepAccountType'
 import { StepCompanyDetails } from './StepCompanyDetails'
 import { StepContactPassword } from './StepContactPassword'
 import { StepVerification } from './StepVerification'
 import type { RegisterTemplate1Props, RegistrationData } from './types'
 
-const steps: Step[] = [
+const B2B_STEPS: Step[] = [
   { label: 'Account type', description: 'B2B of B2C' },
   { label: 'Bedrijfsgegevens', description: 'KVK & BTW' },
   { label: 'Contact & wachtwoord', description: 'Inloggegevens' },
   { label: 'Verificatie', description: 'E-mail bevestigen' },
 ]
 
-const benefits: Benefit[] = [
+const B2C_STEPS: Step[] = [
+  { label: 'Account type', description: 'B2B of B2C' },
+  { label: 'Contact & wachtwoord', description: 'Inloggegevens' },
+  { label: 'Verificatie', description: 'E-mail bevestigen' },
+]
+
+const DEFAULT_BENEFITS: Benefit[] = [
   {
     icon: Tag,
     iconColor: 'var(--color-teal, #00897B)',
     iconBg: 'rgba(0,137,123,0.12)',
     title: 'Exclusieve B2B prijzen',
-    description: 'Gemiddeld 15-25% voordeliger dan onze adviesprijzen',
+    description: 'Scherpe prijzen voor zakelijke klanten',
   },
   {
     icon: CreditCard,
@@ -63,11 +70,9 @@ const benefits: Benefit[] = [
   },
 ]
 
-const trustItems: TrustItem[] = [
-  { text: '30+ jaar ervaring in medische supplies' },
-  { text: '4.000+ professionele producten' },
-  { text: 'Gratis verzending vanaf \u20AC150' },
-  { text: 'ISO-gecertificeerd en CE-gemarkeerd' },
+const DEFAULT_TRUST_ITEMS: TrustItem[] = [
+  { text: 'Gratis verzending vanaf €150' },
+  { text: 'Veilig bestellen' },
   { text: 'AVG / GDPR compliant' },
 ]
 
@@ -92,9 +97,45 @@ const initialData: RegistrationData = {
   verificationSent: false,
 }
 
-export default function RegisterTemplate1({ defaultStep = 0 }: RegisterTemplate1Props) {
+export default function RegisterTemplate1({
+  defaultStep = 0,
+  siteConfig,
+  benefits: cmsBenefits,
+  trustItems: cmsTrustItems,
+  branches,
+  freeShippingThreshold,
+}: RegisterTemplate1Props) {
   const [currentStep, setCurrentStep] = useState(defaultStep)
   const [data, setData] = useState<RegistrationData>(initialData)
+
+  // Resolve CMS benefits (string icon names) to Benefit objects with LucideIcon
+  const benefits: Benefit[] = useMemo(() => {
+    if (!cmsBenefits) return DEFAULT_BENEFITS
+    return cmsBenefits.map((b) => ({
+      icon: resolveIcon(b.icon) || Tag,
+      iconColor: b.iconColor,
+      iconBg: b.iconBg,
+      title: b.title,
+      description: b.description,
+    }))
+  }, [cmsBenefits])
+
+  const trustItems: TrustItem[] = useMemo(() => {
+    if (!cmsTrustItems) return DEFAULT_TRUST_ITEMS
+    return cmsTrustItems
+  }, [cmsTrustItems])
+
+  // Determine steps based on account type (B2C skips company details)
+  const isB2C = data.accountType === 'b2c'
+  const steps = isB2C ? B2C_STEPS : B2B_STEPS
+
+  // Map logical step index to actual step for B2C flow
+  const getActualStep = useCallback((step: number) => {
+    if (!isB2C) return step
+    // B2C: step 0 = account type, step 1 = contact (skip company), step 2 = verification
+    if (step >= 1) return step + 1
+    return step
+  }, [isB2C])
 
   const updateData = useCallback((updates: Partial<RegistrationData>) => {
     setData((prev) => ({ ...prev, ...updates }))
@@ -102,7 +143,7 @@ export default function RegisterTemplate1({ defaultStep = 0 }: RegisterTemplate1
 
   const goNext = useCallback(() => {
     setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1))
-  }, [])
+  }, [steps.length])
 
   const goBack = useCallback(() => {
     setCurrentStep((prev) => Math.max(prev - 1, 0))
@@ -115,29 +156,12 @@ export default function RegisterTemplate1({ defaultStep = 0 }: RegisterTemplate1
     goNext()
   }
 
+  // Map current step index to the actual rendered component
+  const actualStep = getActualStep(currentStep)
+  const isLastVisibleStep = currentStep === steps.length - 1
+
   return (
     <div className="min-h-screen" style={{ background: 'var(--color-bg, #F5F7FA)' }}>
-      {/* Minimal header */}
-      <header
-        className="border-b bg-white py-5"
-        style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
-      >
-        <div className="mx-auto flex max-w-[1240px] items-center justify-between px-6">
-          <a href="/" className="flex items-center">
-            <span className="font-heading text-xl font-extrabold text-theme-navy">
-              plasti<em className="not-italic text-theme-teal-light">med</em>
-            </span>
-          </a>
-          <a
-            href="tel:0251247233"
-            className="flex items-center gap-1.5 text-sm text-theme-grey-dark no-underline hover:text-theme-teal"
-          >
-            <Headphones className="h-4 w-4 text-theme-teal" />
-            Hulp nodig? 0251&#8209;247233
-          </a>
-        </div>
-      </header>
-
       {/* Progress stepper */}
       <ProgressStepper steps={steps} currentStep={currentStep} />
 
@@ -145,7 +169,7 @@ export default function RegisterTemplate1({ defaultStep = 0 }: RegisterTemplate1
       <div className="mx-auto grid max-w-[1240px] items-start gap-8 px-6 py-10 lg:grid-cols-[1fr_380px]">
         {/* Form column */}
         <div>
-          {currentStep === 0 && (
+          {actualStep === 0 && (
             <StepAccountType
               selected={data.accountType}
               onSelect={(type) => updateData({ accountType: type })}
@@ -153,16 +177,17 @@ export default function RegisterTemplate1({ defaultStep = 0 }: RegisterTemplate1
             />
           )}
 
-          {currentStep === 1 && (
+          {actualStep === 1 && (
             <StepCompanyDetails
               data={data}
               onChange={updateData}
               onBack={goBack}
               onNext={goNext}
+              branches={branches}
             />
           )}
 
-          {currentStep === 2 && (
+          {actualStep === 2 && (
             <StepContactPassword
               data={data}
               onChange={updateData}
@@ -171,17 +196,20 @@ export default function RegisterTemplate1({ defaultStep = 0 }: RegisterTemplate1
             />
           )}
 
-          {currentStep === 3 && (
+          {actualStep === 3 && (
             <StepVerification email={data.email} />
           )}
         </div>
 
         {/* Sidebar */}
-        {currentStep < 3 && (
+        {!isLastVisibleStep && (
           <aside className="flex flex-col gap-4 lg:order-none -order-1">
             <BenefitsList benefits={benefits} />
             <TrustList items={trustItems} />
-            <HelpCTA />
+            <HelpCTA
+              phone={siteConfig?.phone || ''}
+              phoneLabel={siteConfig?.phoneFormatted || siteConfig?.phone || ''}
+            />
           </aside>
         )}
       </div>
