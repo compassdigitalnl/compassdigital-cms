@@ -9,7 +9,7 @@ import { SearchProvider } from '@/branches/shared/components/features/search/sea
 import { MiniCartProvider } from '@/branches/ecommerce/components/ui/MiniCart'
 import { ToastProvider } from '@/branches/shared/components/ui/ToastSystem'
 import { AddToCartToastProviderClient } from '@/branches/ecommerce/components/ui/AddToCartToast'
-import { HeaderClient } from '@/branches/shared/components/layout/header/Header/index.client'
+import { HeaderClient } from '@/branches/shared/components/layout/header/index.client'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { isFeatureEnabled, features as serverFeatures } from '@/lib/features'

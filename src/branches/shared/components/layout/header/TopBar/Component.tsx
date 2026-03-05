@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import type { Header, Theme1 } from '@/payload-types'
 import { getContainerMaxWidth } from '@/branches/shared/components/utilities/containerWidth'
 import {
   BadgeCheck,
@@ -23,6 +22,7 @@ import {
   Users,
   Globe,
 } from 'lucide-react'
+import type { TopBarProps } from './types'
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   BadgeCheck,
@@ -43,41 +43,33 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   Users,
 }
 
-type TopBarData = {
-  enabled?: boolean | null
-  backgroundColor?: string | null
-  textColor?: string | null
-  leftMessages?: any[]
-  rightLinks?: any[]
-}
-
-type Props = {
-  topBar: TopBarData
-  theme: Theme1 | null
-  header?: Header
-}
-
-export function TopBar({ topBar, theme, header }: Props) {
+export function TopBar({ topBar, theme, header }: TopBarProps) {
   if (!topBar.enabled) return null
 
   const bgColor = topBar.backgroundColor || theme?.navy || '#0A1628'
   const textColor = topBar.textColor || '#FFFFFF'
-  const containerClass = getContainerMaxWidth('default' as any) // Use default container width
+  const containerClass = getContainerMaxWidth('default' as any)
   const primaryColor = theme?.teal || '#26A69A'
 
-  // Language config from header global
   const enableLanguageSwitcher = (header as any)?.enableLanguageSwitcher === true
-  const languages = (header as any)?.languages as Array<{ code: string; label: string; flag?: string; isDefault?: boolean }> | undefined
+  const languages = (header as any)?.languages as
+    | Array<{ code: string; label: string; flag?: string; isDefault?: boolean }>
+    | undefined
 
   return (
     <div className="topbar" style={{ backgroundColor: bgColor }}>
-      <div className={`${containerClass} mx-auto px-4 h-9 flex items-center justify-between text-xs font-medium`}>
-        {/* Left Messages */}
-        <div className="flex items-center gap-6">
+      <div
+        className={`${containerClass} mx-auto px-4 h-9 flex items-center justify-between text-xs font-medium`}
+      >
+        {/* Left Messages — show first on mobile, all on desktop */}
+        <div className="flex items-center gap-6 min-w-0 overflow-hidden">
           {topBar.leftMessages?.map((message: any, index: number) => {
             const Icon = message.icon ? iconMap[message.icon] : null
             const content = (
-              <span className="flex items-center gap-1.5 whitespace-nowrap" style={{ color: textColor + '99' }}>
+              <span
+                className={`flex items-center gap-1.5 whitespace-nowrap ${index > 0 ? 'hidden md:flex' : 'flex'}`}
+                style={{ color: textColor + '99' }}
+              >
                 {Icon && <Icon className="w-3.5 h-3.5" style={{ color: primaryColor }} />}
                 {message.text}
               </span>
@@ -99,8 +91,8 @@ export function TopBar({ topBar, theme, header }: Props) {
           })}
         </div>
 
-        {/* Right: Links + B2B Toggle + Language Switcher */}
-        <div className="flex items-center gap-1">
+        {/* Right: Links + Language Switcher — hidden on mobile */}
+        <div className="hidden md:flex items-center gap-1">
           {topBar.rightLinks?.map((link: any, index: number) => (
             <div key={`link-${index}`} className="flex items-center">
               {index > 0 && (
@@ -119,12 +111,10 @@ export function TopBar({ topBar, theme, header }: Props) {
             </div>
           ))}
 
-          {/* Separator before toggles */}
           {enableLanguageSwitcher && (topBar.rightLinks?.length ?? 0) > 0 && (
             <div className="w-px h-3.5 mx-1.5" style={{ backgroundColor: textColor + '2A' }} />
           )}
 
-          {/* Language Switcher */}
           {enableLanguageSwitcher && languages && languages.length > 0 && (
             <LanguageSwitcher
               languages={languages}
@@ -162,7 +152,6 @@ function LanguageSwitcher({
     window.dispatchEvent(new CustomEvent('languageChange', { detail: { language: code } }))
   }
 
-  // Button group for 2-3 languages
   if (languages.length <= 3) {
     return (
       <div className="flex items-center gap-1">
@@ -185,7 +174,6 @@ function LanguageSwitcher({
     )
   }
 
-  // Dropdown for 4+ languages
   return (
     <div className="flex items-center gap-1">
       <Globe className="w-3.5 h-3.5" style={{ color: textColor + '80' }} />

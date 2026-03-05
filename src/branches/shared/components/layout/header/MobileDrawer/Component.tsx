@@ -3,30 +3,37 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import type { Header, Theme1, Setting } from '@/payload-types'
-import { X, ChevronRight, Phone, Mail, Globe } from 'lucide-react'
+import { X, ChevronRight, Phone, Mail, Globe, Search, Heart } from 'lucide-react'
 import { cn } from '@/utilities/cn'
 import { CMSLink } from '@/branches/shared/components/common/Link'
+import { MobileCategoryNav } from '../MobileCategoryNav'
+import type { MobileDrawerProps } from './types'
 
-type Props = {
-  isOpen: boolean
-  onClose: () => void
-  header: Header
-  navigation?: { mode: string; items?: any[]; specialItems?: any[]; ctaButton?: any } | null
-  theme: Theme1 | null
-  settings?: Setting | null
-}
-
-export function MobileDrawer({ isOpen, onClose, header, navigation, theme, settings }: Props) {
+export function MobileDrawer({
+  isOpen,
+  onClose,
+  header,
+  navigation,
+  theme,
+  settings,
+  onOpenSearch,
+}: MobileDrawerProps) {
   const primaryColor = (theme as any)?.primaryColor || '#00897B'
   const secondaryColor = (theme as any)?.secondaryColor || '#0A1628'
 
-  // B2B/Language config from header
   const enablePriceToggle = (header as any)?.enablePriceToggle === true
   const priceToggleConfig = (header as any)?.priceToggle
   const enableLanguageSwitcher = (header as any)?.enableLanguageSwitcher === true
-  const languages = (header as any)?.languages as Array<{ code: string; label: string; flag?: string; isDefault?: boolean }> | undefined
+  const languages = (header as any)?.languages as
+    | Array<{ code: string; label: string; flag?: string; isDefault?: boolean }>
+    | undefined
 
-  const [priceMode, setPriceMode] = useState<'b2c' | 'b2b'>(priceToggleConfig?.defaultMode || 'b2c')
+  const showCategories =
+    navigation?.mode === 'categories' || navigation?.mode === 'hybrid'
+
+  const [priceMode, setPriceMode] = useState<'b2c' | 'b2b'>(
+    priceToggleConfig?.defaultMode || 'b2c',
+  )
   const [currentLang, setCurrentLang] = useState(
     () => languages?.find((l) => l.isDefault)?.code || languages?.[0]?.code || 'NL',
   )
@@ -51,7 +58,6 @@ export function MobileDrawer({ isOpen, onClose, header, navigation, theme, setti
     window.dispatchEvent(new CustomEvent('languageChange', { detail: { language: code } }))
   }
 
-  // Prevent body scroll when drawer is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
@@ -72,7 +78,7 @@ export function MobileDrawer({ isOpen, onClose, header, navigation, theme, setti
       <div
         className={cn(
           'fixed inset-0 bg-black/40 backdrop-blur-sm z-[299] transition-opacity lg:hidden',
-          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none',
         )}
         onClick={onClose}
       />
@@ -81,12 +87,14 @@ export function MobileDrawer({ isOpen, onClose, header, navigation, theme, setti
       <div
         className={cn(
           'fixed top-0 left-0 bottom-0 w-80 max-w-[85vw] bg-white z-[300] flex flex-col transition-transform duration-300 ease-out lg:hidden shadow-2xl',
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+          isOpen ? 'translate-x-0' : '-translate-x-full',
         )}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-gray-200 flex-shrink-0">
-          {(header as any).logo && typeof (header as any).logo === 'object' && (header as any).logo.url ? (
+          {(header as any).logo &&
+          typeof (header as any).logo === 'object' &&
+          (header as any).logo.url ? (
             <img
               src={(header as any).logo.url}
               alt={(header as any).siteName || 'Logo'}
@@ -117,8 +125,34 @@ export function MobileDrawer({ isOpen, onClose, header, navigation, theme, setti
           </button>
         </div>
 
+        {/* Quick Actions: Search + Wishlist */}
+        <div className="flex items-center gap-2 px-5 py-3 border-b border-gray-100">
+          {onOpenSearch && (
+            <button
+              onClick={() => {
+                onClose()
+                setTimeout(() => onOpenSearch(), 150)
+              }}
+              className="flex-1 flex items-center gap-2 h-10 px-3 rounded-lg bg-gray-50 border border-gray-200 text-sm text-gray-500"
+            >
+              <Search className="w-4 h-4" />
+              Zoeken...
+            </button>
+          )}
+          <Link
+            href="/wishlist"
+            onClick={onClose}
+            className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
+          >
+            <Heart className="w-4 h-4" style={{ color: secondaryColor }} />
+          </Link>
+        </div>
+
         {/* Body */}
         <div className="flex-1 overflow-y-auto py-2">
+          {/* Category Navigation */}
+          {showCategories && <MobileCategoryNav onClose={onClose} />}
+
           {/* Special Items */}
           {specialItems.length > 0 && (
             <>
@@ -134,7 +168,7 @@ export function MobileDrawer({ isOpen, onClose, header, navigation, theme, setti
                     'flex items-center gap-3 px-5 py-3 text-base font-semibold transition-colors',
                     item.highlight
                       ? 'text-[#FF6B6B] hover:bg-red-50'
-                      : 'hover:bg-gray-50'
+                      : 'hover:bg-gray-50',
                   )}
                   style={{ color: item.highlight ? '#FF6B6B' : secondaryColor }}
                 >
@@ -156,7 +190,9 @@ export function MobileDrawer({ isOpen, onClose, header, navigation, theme, setti
                 <div key={item.id}>
                   <CMSLink
                     {...({} as any)}
-                    {...(item.type === 'page' ? { reference: item.page } : { url: item.url })}
+                    {...(item.type === 'page'
+                      ? { reference: item.page }
+                      : { url: item.url })}
                     onClick={onClose}
                     className="flex items-center gap-3 px-5 py-3 text-base font-semibold hover:bg-gray-50 transition-colors"
                     style={{ color: secondaryColor }}
@@ -170,7 +206,9 @@ export function MobileDrawer({ isOpen, onClose, header, navigation, theme, setti
                         <CMSLink
                           {...({} as any)}
                           key={child.id}
-                          {...(typeof child.page === 'object' && 'slug' in child.page ? { reference: child.page } : {})}
+                          {...(typeof child.page === 'object' && 'slug' in child.page
+                            ? { reference: child.page }
+                            : {})}
                           onClick={onClose}
                           className="flex items-center gap-3 pl-12 pr-5 py-2.5 text-sm font-medium hover:bg-gray-100 transition-colors text-gray-600"
                         >
@@ -196,7 +234,10 @@ export function MobileDrawer({ isOpen, onClose, header, navigation, theme, setti
               <span className="text-sm font-semibold" style={{ color: secondaryColor }}>
                 Prijsmodus
               </span>
-              <div className="flex items-center gap-1 text-xs font-bold rounded-md overflow-hidden border" style={{ borderColor: primaryColor }}>
+              <div
+                className="flex items-center gap-1 text-xs font-bold rounded-md overflow-hidden border"
+                style={{ borderColor: primaryColor }}
+              >
                 <span
                   className="px-2.5 py-1 transition-all"
                   style={{
@@ -222,7 +263,10 @@ export function MobileDrawer({ isOpen, onClose, header, navigation, theme, setti
           {/* Language Switcher */}
           {enableLanguageSwitcher && languages && languages.length > 0 && (
             <div className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-gray-50">
-              <span className="flex items-center gap-2 text-sm font-semibold" style={{ color: secondaryColor }}>
+              <span
+                className="flex items-center gap-2 text-sm font-semibold"
+                style={{ color: secondaryColor }}
+              >
                 <Globe className="w-4 h-4" style={{ color: primaryColor }} />
                 Taal
               </span>
@@ -233,7 +277,8 @@ export function MobileDrawer({ isOpen, onClose, header, navigation, theme, setti
                     onClick={() => handleLanguageChange(lang.code)}
                     className="px-2 py-1 rounded text-xs font-bold transition-all"
                     style={{
-                      backgroundColor: currentLang === lang.code ? primaryColor : 'transparent',
+                      backgroundColor:
+                        currentLang === lang.code ? primaryColor : 'transparent',
                       color: currentLang === lang.code ? 'white' : secondaryColor,
                       border: `1px solid ${currentLang === lang.code ? primaryColor : '#e5e7eb'}`,
                     }}

@@ -7,7 +7,7 @@ import { ThemeProvider } from '@/branches/shared/components/utilities/ThemeProvi
 import { SearchProvider } from '@/branches/shared/components/features/search/search/SearchProvider'
 import { MiniCartProvider } from '@/branches/ecommerce/components/ui/MiniCart'
 import { ToastProvider } from '@/branches/shared/components/ui/ToastSystem'
-import { HeaderClient } from '@/branches/shared/components/layout/header/Header/index.client'
+import { HeaderClient } from '@/branches/shared/components/layout/header/index.client'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { isFeatureEnabled } from '@/lib/features'

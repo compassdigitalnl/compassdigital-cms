@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import type { Header, Theme1 } from '@/payload-types'
 import { getContainerMaxWidth } from '@/branches/shared/components/utilities/containerWidth'
 import {
   BadgeCheck,
@@ -17,7 +16,7 @@ import {
   Megaphone,
   X,
 } from 'lucide-react'
-import { cn } from '@/utilities/cn'
+import type { AlertBarProps } from './types'
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   BadgeCheck,
@@ -32,44 +31,38 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   Megaphone,
 }
 
-type Props = {
-  alertBar: any
-  theme?: Theme1 | null
+const typeColors = {
+  info: { bg: '#EFF6FF', border: '#DBEAFE', text: '#1E40AF', icon: '#3B82F6' },
+  success: { bg: '#F0FDF4', border: '#DCFCE7', text: '#166534', icon: '#22C55E' },
+  warning: { bg: '#FFF8E1', border: '#FFECB3', text: '#F59E0B', icon: '#F59E0B' },
+  error: { bg: '#FFF0F0', border: '#FFDBDB', text: '#DC2626', icon: '#FF6B6B' },
+  promo: { bg: '#F5F3FF', border: '#E9D5FF', text: '#7C3AED', icon: '#8B5CF6' },
 }
 
-export function AlertBar({ alertBar, theme }: Props) {
+export function AlertBar({ alertBar, theme }: AlertBarProps) {
   const [isDismissed, setIsDismissed] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
   const containerClass = getContainerMaxWidth((theme as any)?.containerWidth)
 
   useEffect(() => {
-    // First mount - prevents hydration mismatch
     setIsMounted(true)
 
-    // Check if alert was dismissed
     const dismissed = localStorage.getItem('alertBar_dismissed')
     if (dismissed) {
       setIsDismissed(true)
       return
     }
 
-    // Check schedule
     if (alertBar.schedule?.useSchedule) {
       const now = new Date()
-      if (alertBar.schedule.startDate) {
-        const start = new Date(alertBar.schedule.startDate)
-        if (now < start) {
-          setIsVisible(false)
-          return
-        }
+      if (alertBar.schedule.startDate && now < new Date(alertBar.schedule.startDate)) {
+        setIsVisible(false)
+        return
       }
-      if (alertBar.schedule.endDate) {
-        const end = new Date(alertBar.schedule.endDate)
-        if (now > end) {
-          setIsVisible(false)
-          return
-        }
+      if (alertBar.schedule.endDate && now > new Date(alertBar.schedule.endDate)) {
+        setIsVisible(false)
+        return
       }
     }
 
@@ -83,47 +76,10 @@ export function AlertBar({ alertBar, theme }: Props) {
     }
   }
 
-  // Render nothing on server to prevent hydration mismatch
   if (!isMounted) return null
-
   if (!alertBar.enabled || isDismissed || !isVisible) return null
 
   const Icon = alertBar.icon ? iconMap[alertBar.icon] : null
-
-  // Type-based colors
-  const typeColors = {
-    info: {
-      bg: '#EFF6FF',
-      border: '#DBEAFE',
-      text: '#1E40AF',
-      icon: '#3B82F6',
-    },
-    success: {
-      bg: '#F0FDF4',
-      border: '#DCFCE7',
-      text: '#166534',
-      icon: '#22C55E',
-    },
-    warning: {
-      bg: '#FFF8E1',
-      border: '#FFECB3',
-      text: '#F59E0B',
-      icon: '#F59E0B',
-    },
-    error: {
-      bg: '#FFF0F0',
-      border: '#FFDBDB',
-      text: '#DC2626',
-      icon: '#FF6B6B',
-    },
-    promo: {
-      bg: '#F5F3FF',
-      border: '#E9D5FF',
-      text: '#7C3AED',
-      icon: '#8B5CF6',
-    },
-  }
-
   const alertType = (alertBar.type || 'info') as keyof typeof typeColors
   const colors = alertBar.customColors?.useCustomColors
     ? {
@@ -149,13 +105,13 @@ export function AlertBar({ alertBar, theme }: Props) {
         </p>
         {alertBar.link?.enabled && alertBar.link.label && alertBar.link.url && (
           <>
-            <span style={{ color: colors.text + '40' }}>•</span>
+            <span style={{ color: colors.text + '40' }}>&bull;</span>
             <Link
               href={alertBar.link.url}
               className="text-sm font-semibold hover:underline"
               style={{ color: colors.text }}
             >
-              {alertBar.link.label} →
+              {alertBar.link.label} &rarr;
             </Link>
           </>
         )}
