@@ -166,8 +166,8 @@ export const OrderLists: CollectionConfig = {
       name: 'items',
       type: 'array',
       label: 'Producten',
-      required: true,
-      minRows: 1,
+      required: false,
+      minRows: 0,
       fields: [
         {
           name: 'product',
