@@ -2,16 +2,7 @@
 import React from 'react'
 import type { ThemeProviderProps } from './types'
 
-/**
- * ThemeProvider Component
- *
- * Converts Payload Theme global settings into CSS variables
- * This makes the design system 100% driven by CMS data
- *
- * Framework principle: "Use design tokens" - payload-website-framework-b2b-b2c.md
- */
 export function ThemeProvider({ theme, children }: ThemeProviderProps) {
-  // Default theme fallback if global not configured yet
   const defaults = {
     primaryColor: '#00897B',
     primaryLight: '#26A69A',
@@ -28,7 +19,6 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
     textPrimary: '#0A1628',
     textSecondary: '#64748b',
     textMuted: '#94a3b8',
-    // Status colors
     successColor: '#00C853',
     successLight: '#E8F5E9',
     successDark: '#1B5E20',
@@ -41,160 +31,182 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
     infoColor: '#00897B',
     infoLight: 'rgba(0,137,123,0.12)',
     infoDark: '#004D40',
-    // Gradients
     primaryGradient: 'linear-gradient(135deg, #00897B 0%, #26A69A 100%)',
     secondaryGradient: 'linear-gradient(135deg, #0A1628 0%, #1a2847 100%)',
     heroGradient: 'linear-gradient(135deg, rgba(0,137,123,0.1) 0%, rgba(38,166,154,0.1) 100%)',
-    // Typography & Layout
     headingFont: 'Inter, system-ui, sans-serif',
     bodyFont: 'Inter, system-ui, sans-serif',
+    fontMono: "'JetBrains Mono', 'Courier New', monospace",
     fontScale: 'md',
-    borderRadius: 'lg',
     spacing: 'md',
     containerWidth: '7xl',
-    shadowSize: 'md',
     enableAnimations: true,
     customCSS: '',
+    // Type scale
+    heroSize: 36,
+    sectionSize: 24,
+    cardTitleSize: 18,
+    bodyLgSize: 15,
+    bodySize: 13,
+    smallSize: 12,
+    labelSize: 10,
+    microSize: 8,
+    // Individual radius
+    radiusSm: 8,
+    radiusMd: 12,
+    radiusLg: 16,
+    radiusXl: 20,
+    radiusFull: 9999,
+    // Individual shadows
+    shadowSm: '0 1px 3px rgba(10, 22, 40, 0.06)',
+    shadowMd: '0 4px 20px rgba(10, 22, 40, 0.08)',
+    shadowLg: '0 8px 40px rgba(10, 22, 40, 0.12)',
+    shadowXl: '0 20px 60px rgba(10, 22, 40, 0.16)',
+    // Z-index
+    zDropdown: 100,
+    zSticky: 200,
+    zOverlay: 300,
+    zModal: 400,
+    zToast: 500,
   }
 
-  // Merge theme data with defaults
-  const themeData = theme ? { ...defaults, ...theme } : defaults
+  const t: Record<string, any> = theme ? { ...defaults, ...theme } : defaults
 
-  // Map border radius values
-  const radiusMap = {
-    none: '0px',
-    sm: '2px',
-    md: '6px',
-    lg: '12px',
-    xl: '16px',
-    full: '9999px',
-  }
-
-  // Map container width values
-  const containerMap = {
+  const containerMap: Record<string, string> = {
     lg: '1024px',
     xl: '1280px',
     '2xl': '1536px',
     '7xl': '1792px',
   }
 
-  // Map shadow size values
-  const shadowMap = {
-    none: 'none',
-    sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-    md: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-    lg: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
-  }
-
-  // Map font scale values
-  const fontScaleMap = {
+  const fontScaleMap: Record<string, string> = {
     sm: '0.875',
     md: '1',
     lg: '1.125',
   }
 
-  // Map spacing scale values
-  const spacingMap = {
+  const spacingMap: Record<string, string> = {
     sm: '0.75',
     md: '1',
     lg: '1.25',
   }
 
   const cssVariables = {
-    // Primary colors with variants
-    '--color-primary': themeData.primaryColor,
-    '--color-primary-light': themeData.primaryLight,
-    '--color-primary-glow': themeData.primaryGlow,
+    // ─── Colors ───────────────────────────────────────
+    '--color-primary': t.primaryColor,
+    '--color-primary-light': t.primaryLight,
+    '--color-primary-glow': t.primaryGlow,
+    '--color-secondary': t.secondaryColor,
+    '--color-secondary-light': t.secondaryLight,
+    '--color-accent': t.accentColor,
+    '--color-background': t.backgroundColor,
+    '--color-surface': t.surfaceColor,
+    '--color-border': t.borderColor,
+    '--color-grey-light': t.greyLight,
+    '--color-grey-mid': t.greyMid,
+    '--color-grey-dark': t.greyDark,
+    '--color-text-primary': t.textPrimary,
+    '--color-text-secondary': t.textSecondary,
+    '--color-text-muted': t.textMuted,
 
-    // Secondary colors with variants
-    '--color-secondary': themeData.secondaryColor,
-    '--color-secondary-light': themeData.secondaryLight,
+    // ─── Status Colors ────────────────────────────────
+    '--color-success': t.successColor,
+    '--color-success-light': t.successLight,
+    '--color-success-dark': t.successDark,
+    '--color-warning': t.warningColor,
+    '--color-warning-light': t.warningLight,
+    '--color-warning-dark': t.warningDark,
+    '--color-error': t.errorColor,
+    '--color-error-light': t.errorLight,
+    '--color-error-dark': t.errorDark,
+    '--color-info': t.infoColor,
+    '--color-info-light': t.infoLight,
+    '--color-info-dark': t.infoDark,
 
-    // Accent and surface colors
-    '--color-accent': themeData.accentColor,
-    '--color-background': themeData.backgroundColor,
-    '--color-surface': themeData.surfaceColor,
-    '--color-border': themeData.borderColor,
+    // ─── Gradients ────────────────────────────────────
+    '--gradient-primary': t.primaryGradient,
+    '--gradient-secondary': t.secondaryGradient,
+    '--gradient-hero': t.heroGradient,
 
-    // Grey scale
-    '--color-grey-light': themeData.greyLight,
-    '--color-grey-mid': themeData.greyMid,
-    '--color-grey-dark': themeData.greyDark,
+    // ─── Typography ───────────────────────────────────
+    '--font-heading': t.headingFont,
+    '--font-body': t.bodyFont,
+    '--font-mono': t.fontMono,
+    '--font-scale': fontScaleMap[t.fontScale as string] || '1',
 
-    // Text colors
-    '--color-text-primary': themeData.textPrimary,
-    '--color-text-secondary': themeData.textSecondary,
-    '--color-text-muted': themeData.textMuted,
+    // ─── Type Scale ───────────────────────────────────
+    '--text-hero': `${t.heroSize}px`,
+    '--text-section': `${t.sectionSize}px`,
+    '--text-card-title': `${t.cardTitleSize}px`,
+    '--text-body-lg': `${t.bodyLgSize}px`,
+    '--text-body': `${t.bodySize}px`,
+    '--text-small': `${t.smallSize}px`,
+    '--text-label': `${t.labelSize}px`,
+    '--text-micro': `${t.microSize}px`,
 
-    // Semantic colors (status indicators) - now CMS-driven!
-    '--color-success': themeData.successColor,
-    '--color-success-light': themeData.successLight,
-    '--color-success-dark': themeData.successDark,
-    '--color-warning': themeData.warningColor,
-    '--color-warning-light': themeData.warningLight,
-    '--color-warning-dark': themeData.warningDark,
-    '--color-error': themeData.errorColor,
-    '--color-error-light': themeData.errorLight,
-    '--color-error-dark': themeData.errorDark,
-    '--color-info': themeData.infoColor,
-    '--color-info-light': themeData.infoLight,
-    '--color-info-dark': themeData.infoDark,
+    // ─── Border Radius ────────────────────────────────
+    '--r-sm': `${t.radiusSm}px`,
+    '--r-md': `${t.radiusMd}px`,
+    '--r-lg': `${t.radiusLg}px`,
+    '--r-xl': `${t.radiusXl}px`,
+    '--r-full': `${t.radiusFull}px`,
+    // Legacy single --border-radius (uses --r-md as default)
+    '--border-radius': `${t.radiusMd}px`,
 
-    // Gradients - CMS-driven!
-    '--gradient-primary': themeData.primaryGradient,
-    '--gradient-secondary': themeData.secondaryGradient,
-    '--gradient-hero': themeData.heroGradient,
+    // ─── Shadows ──────────────────────────────────────
+    '--sh-sm': t.shadowSm,
+    '--sh-md': t.shadowMd,
+    '--sh-lg': t.shadowLg,
+    '--sh-xl': t.shadowXl,
+    // Legacy single --shadow (uses --sh-md as default)
+    '--shadow': t.shadowMd,
 
-    // Typography
-    '--font-heading': themeData.headingFont,
-    '--font-body': themeData.bodyFont,
-    '--font-scale': fontScaleMap[themeData.fontScale as keyof typeof fontScaleMap] || '1',
+    // ─── Z-index ──────────────────────────────────────
+    '--z-dropdown': String(t.zDropdown),
+    '--z-sticky': String(t.zSticky),
+    '--z-overlay': String(t.zOverlay),
+    '--z-modal': String(t.zModal),
+    '--z-toast': String(t.zToast),
 
-    // Layout
-    '--border-radius': radiusMap[themeData.borderRadius as keyof typeof radiusMap] || '12px',
-    '--container-width': containerMap[themeData.containerWidth as keyof typeof containerMap] || '1792px',
-    '--shadow': shadowMap[themeData.shadowSize as keyof typeof shadowMap] || shadowMap.md,
-    '--spacing-scale': spacingMap[themeData.spacing as keyof typeof spacingMap] || '1',
+    // ─── Layout ───────────────────────────────────────
+    '--container-width': containerMap[t.containerWidth as string] || '1792px',
+    '--spacing-scale': spacingMap[t.spacing as string] || '1',
 
-    // Effects
-    '--transition-duration': themeData.enableAnimations ? '200ms' : '0ms',
+    // ─── Effects ──────────────────────────────────────
+    '--transition-duration': t.enableAnimations ? '200ms' : '0ms',
 
-    // Button tokens
-    '--btn-font-weight': String(themeData.btnFontWeight || 700),
-    '--btn-border-radius': themeData.btnBorderRadius || '8px',
-    '--btn-border-width': themeData.btnBorderWidth || '1.5px',
-    '--btn-icon-gap': `${themeData.btnIconGap ?? 6}px`,
-    '--btn-transition': themeData.btnTransitionDuration || '0.2s',
-    '--btn-hover-y': themeData.btnHoverTranslateY || '-1px',
-    '--btn-disabled-opacity': String(themeData.btnDisabledOpacity ?? 0.5),
-    // Button sizes — SM
-    '--btn-sm-py': `${themeData.btnSmPaddingY ?? 5}px`,
-    '--btn-sm-px': `${themeData.btnSmPaddingX ?? 12}px`,
-    '--btn-sm-font': `${themeData.btnSmFontSize ?? 10}px`,
-    '--btn-sm-icon': `${themeData.btnSmIconSize ?? 12}px`,
-    // Button sizes — MD (default)
-    '--btn-md-py': `${themeData.btnMdPaddingY ?? 8}px`,
-    '--btn-md-px': `${themeData.btnMdPaddingX ?? 18}px`,
-    '--btn-md-font': `${themeData.btnMdFontSize ?? 12}px`,
-    '--btn-md-icon': `${themeData.btnMdIconSize ?? 14}px`,
-    // Button sizes — LG
-    '--btn-lg-py': `${themeData.btnLgPaddingY ?? 11}px`,
-    '--btn-lg-px': `${themeData.btnLgPaddingX ?? 26}px`,
-    '--btn-lg-font': `${themeData.btnLgFontSize ?? 14}px`,
-    '--btn-lg-icon': `${themeData.btnLgIconSize ?? 16}px`,
-    // Button variant colors (fall back to color tokens)
-    '--btn-primary-bg': themeData.btnPrimaryBg || 'var(--color-primary)',
-    '--btn-primary-text': themeData.btnPrimaryText || '#ffffff',
-    '--btn-primary-hover': themeData.btnPrimaryHoverBg || 'color-mix(in srgb, var(--btn-primary-bg) 85%, black)',
-    '--btn-secondary-bg': themeData.btnSecondaryBg || 'var(--color-secondary)',
-    '--btn-secondary-text': themeData.btnSecondaryText || '#ffffff',
-    '--btn-secondary-hover': themeData.btnSecondaryHoverBg || 'color-mix(in srgb, var(--btn-secondary-bg) 85%, black)',
-    '--btn-danger-bg': themeData.btnDangerBg || 'var(--color-error)',
-    '--btn-danger-text': themeData.btnDangerText || '#ffffff',
-    '--btn-danger-hover': themeData.btnDangerHoverBg || 'color-mix(in srgb, var(--btn-danger-bg) 85%, black)',
-    '--btn-success-bg': themeData.btnSuccessBg || 'var(--color-success)',
-    '--btn-success-text': themeData.btnSuccessText || '#ffffff',
-    '--btn-success-hover': themeData.btnSuccessHoverBg || 'color-mix(in srgb, var(--btn-success-bg) 85%, black)',
+    // ─── Button tokens ────────────────────────────────
+    '--btn-font-weight': String(t.btnFontWeight || 700),
+    '--btn-border-radius': t.btnBorderRadius || '8px',
+    '--btn-border-width': t.btnBorderWidth || '1.5px',
+    '--btn-icon-gap': `${t.btnIconGap ?? 6}px`,
+    '--btn-transition': t.btnTransitionDuration || '0.2s',
+    '--btn-hover-y': t.btnHoverTranslateY || '-1px',
+    '--btn-disabled-opacity': String(t.btnDisabledOpacity ?? 0.5),
+    '--btn-sm-py': `${t.btnSmPaddingY ?? 5}px`,
+    '--btn-sm-px': `${t.btnSmPaddingX ?? 12}px`,
+    '--btn-sm-font': `${t.btnSmFontSize ?? 10}px`,
+    '--btn-sm-icon': `${t.btnSmIconSize ?? 12}px`,
+    '--btn-md-py': `${t.btnMdPaddingY ?? 8}px`,
+    '--btn-md-px': `${t.btnMdPaddingX ?? 18}px`,
+    '--btn-md-font': `${t.btnMdFontSize ?? 12}px`,
+    '--btn-md-icon': `${t.btnMdIconSize ?? 14}px`,
+    '--btn-lg-py': `${t.btnLgPaddingY ?? 11}px`,
+    '--btn-lg-px': `${t.btnLgPaddingX ?? 26}px`,
+    '--btn-lg-font': `${t.btnLgFontSize ?? 14}px`,
+    '--btn-lg-icon': `${t.btnLgIconSize ?? 16}px`,
+    '--btn-primary-bg': t.btnPrimaryBg || 'var(--color-primary)',
+    '--btn-primary-text': t.btnPrimaryText || '#ffffff',
+    '--btn-primary-hover': t.btnPrimaryHoverBg || 'color-mix(in srgb, var(--btn-primary-bg) 85%, black)',
+    '--btn-secondary-bg': t.btnSecondaryBg || 'var(--color-secondary)',
+    '--btn-secondary-text': t.btnSecondaryText || '#ffffff',
+    '--btn-secondary-hover': t.btnSecondaryHoverBg || 'color-mix(in srgb, var(--btn-secondary-bg) 85%, black)',
+    '--btn-danger-bg': t.btnDangerBg || 'var(--color-error)',
+    '--btn-danger-text': t.btnDangerText || '#ffffff',
+    '--btn-danger-hover': t.btnDangerHoverBg || 'color-mix(in srgb, var(--btn-danger-bg) 85%, black)',
+    '--btn-success-bg': t.btnSuccessBg || 'var(--color-success)',
+    '--btn-success-text': t.btnSuccessText || '#ffffff',
+    '--btn-success-hover': t.btnSuccessHoverBg || 'color-mix(in srgb, var(--btn-success-bg) 85%, black)',
   } as React.CSSProperties
 
   return (
@@ -206,13 +218,10 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
         {children}
       </div>
 
-      {/* Custom CSS from Theme global (advanced users) */}
-      {themeData.customCSS && (
-        <style dangerouslySetInnerHTML={{ __html
-: `:root { ${themeData.customCSS} }` }} />
+      {t.customCSS && (
+        <style dangerouslySetInnerHTML={{ __html: `:root { ${t.customCSS} }` }} />
       )}
 
-      {/* Global CSS to apply theme variables */}
       <style dangerouslySetInnerHTML={{
         __html: `
           .theme-provider {
@@ -222,7 +231,6 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
             font-family: var(--font-body);
           }
 
-          /* Apply theme to common elements */
           h1, h2, h3, h4, h5, h6 {
             font-family: var(--font-heading);
           }
@@ -233,14 +241,11 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           }
 
           button, .btn {
-            border-radius: var(--border-radius);
+            border-radius: var(--r-sm);
             transition-duration: var(--transition-duration);
           }
 
-          /* ===================================================================
-             CRITICAL: Override Tailwind .container with Theme settings
-             This makes container max-width CMS-driven instead of hardcoded
-             =================================================================== */
+          /* ── Container ── */
           .container {
             max-width: var(--container-width) !important;
             margin-left: auto !important;
@@ -256,76 +261,34 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
             }
           }
 
-          /* ===================================================================
-             Override hardcoded max-width utilities to use Theme containerWidth
-             =================================================================== */
           .max-w-7xl, .max-w-6xl, .max-w-5xl {
             max-width: var(--container-width);
           }
 
-          /* Keep smaller max-widths for specific use cases */
-          .max-w-4xl {
-            max-width: min(896px, var(--container-width)) !important;
-          }
+          .max-w-4xl { max-width: min(896px, var(--container-width)) !important; }
+          .max-w-3xl { max-width: min(768px, var(--container-width)) !important; }
+          .max-w-2xl { max-width: min(672px, var(--container-width)) !important; }
+          .max-w-xl { max-width: min(576px, var(--container-width)) !important; }
+          .max-w-lg { max-width: min(512px, var(--container-width)) !important; }
 
-          .max-w-3xl {
-            max-width: min(768px, var(--container-width)) !important;
-          }
-
-          .max-w-2xl {
-            max-width: min(672px, var(--container-width)) !important;
-          }
-
-          .max-w-xl {
-            max-width: min(576px, var(--container-width)) !important;
-          }
-
-          .max-w-lg {
-            max-width: min(512px, var(--container-width)) !important;
-          }
-
-          /* ===================================================================
-             ROUNDED UTILITIES - Use theme border radius
-             =================================================================== */
+          /* ── Border Radius Utilities ── */
           .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl {
-            border-radius: var(--border-radius) !important;
+            border-radius: var(--r-lg) !important;
           }
+          .rounded-sm { border-radius: var(--r-sm) !important; }
+          .rounded-md { border-radius: var(--r-md) !important; }
 
-          /* Keep smaller rounded utilities untouched for fine control */
-          .rounded-sm {
-            border-radius: max(2px, calc(var(--border-radius) * 0.2)) !important;
-          }
+          /* ── Shadow Utilities ── */
+          .shadow, .shadow-md { box-shadow: var(--sh-md) !important; }
+          .shadow-sm { box-shadow: var(--sh-sm) !important; }
+          .shadow-lg { box-shadow: var(--sh-lg) !important; }
+          .shadow-xl, .shadow-2xl { box-shadow: var(--sh-xl) !important; }
 
-          .rounded-md {
-            border-radius: max(4px, calc(var(--border-radius) * 0.4)) !important;
-          }
-
-          /* ===================================================================
-             SHADOW UTILITIES - Use theme shadow
-             =================================================================== */
-          .shadow, .shadow-md, .shadow-lg, .shadow-xl {
-            box-shadow: var(--shadow) !important;
-          }
-
-          .shadow-sm {
-            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
-          }
-
-          .shadow-2xl {
-            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25) !important;
-          }
-
-          /* ===================================================================
-             HOVER SHADOWS - Respects theme shadow
-             =================================================================== */
           .hover\\:shadow-xl:hover, .hover\\:shadow-lg:hover, .hover\\:shadow-md:hover {
-            box-shadow: var(--shadow) !important;
+            box-shadow: var(--sh-lg) !important;
           }
 
-          /* ===================================================================
-             FONT SCALE - Apply to headings and key text classes
-             Note: Only applies to headings to avoid breaking component layouts
-             =================================================================== */
+          /* ── Font Scale ── */
           .theme-provider h1 { font-size: calc(2.25rem * var(--font-scale)); line-height: 1.2; }
           .theme-provider h2 { font-size: calc(1.875rem * var(--font-scale)); line-height: 1.3; }
           .theme-provider h3 { font-size: calc(1.5rem * var(--font-scale)); line-height: 1.3; }
@@ -333,7 +296,6 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           .theme-provider h5 { font-size: calc(1.125rem * var(--font-scale)); line-height: 1.4; }
           .theme-provider h6 { font-size: calc(1rem * var(--font-scale)); line-height: 1.5; }
 
-          /* Apply font scale to specific text size utilities */
           .text-xl { font-size: calc(1.25rem * var(--font-scale)) !important; }
           .text-2xl { font-size: calc(1.5rem * var(--font-scale)) !important; }
           .text-3xl { font-size: calc(1.875rem * var(--font-scale)) !important; }
@@ -341,9 +303,7 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           .text-5xl { font-size: calc(3rem * var(--font-scale)) !important; }
           .text-6xl { font-size: calc(3.75rem * var(--font-scale)) !important; }
 
-          /* ===================================================================
-             SPACING SCALE - Apply to common section spacing
-             =================================================================== */
+          /* ── Spacing Scale ── */
           .py-12 {
             padding-top: calc(3rem * var(--spacing-scale)) !important;
             padding-bottom: calc(3rem * var(--spacing-scale)) !important;
@@ -357,18 +317,12 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
             padding-bottom: calc(5rem * var(--spacing-scale)) !important;
           }
 
-          /* ===================================================================
-             TRANSITIONS - Respect enableAnimations setting
-             Note: Only applies to interactive elements to avoid breaking animations
-             =================================================================== */
+          /* ── Transitions ── */
           a, button, .btn, .card, [class*="hover:"] {
             transition-duration: var(--transition-duration);
           }
 
-          /* ===================================================================
-             COLOR UTILITY CLASSES - Theme-aware colors
-             =================================================================== */
-          /* Primary colors */
+          /* ── Color Utilities ── */
           .bg-primary { background-color: var(--color-primary) !important; }
           .bg-primary-light { background-color: var(--color-primary-light) !important; }
           .bg-primary-glow { background-color: var(--color-primary-glow) !important; }
@@ -376,19 +330,16 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           .text-primary-light { color: var(--color-primary-light) !important; }
           .border-primary { border-color: var(--color-primary) !important; }
 
-          /* Secondary colors */
           .bg-secondary { background-color: var(--color-secondary) !important; }
           .bg-secondary-light { background-color: var(--color-secondary-light) !important; }
           .text-secondary-color { color: var(--color-secondary) !important; }
           .text-secondary-light { color: var(--color-secondary-light) !important; }
           .border-secondary { border-color: var(--color-secondary) !important; }
 
-          /* Surface & background */
           .bg-surface { background-color: var(--color-surface) !important; }
           .bg-background { background-color: var(--color-background) !important; }
           .border-color { border-color: var(--color-border) !important; }
 
-          /* Grey scale */
           .bg-grey-light { background-color: var(--color-grey-light) !important; }
           .bg-grey-mid { background-color: var(--color-grey-mid) !important; }
           .bg-grey-dark { background-color: var(--color-grey-dark) !important; }
@@ -396,13 +347,10 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           .text-grey-dark { color: var(--color-grey-dark) !important; }
           .border-grey { border-color: var(--color-border) !important; }
 
-          /* Text colors */
           .text-primary-text { color: var(--color-text-primary) !important; }
           .text-secondary-text { color: var(--color-text-secondary) !important; }
           .text-muted { color: var(--color-text-muted) !important; }
 
-          /* Semantic color utilities - All variants */
-          /* Success */
           .bg-success { background-color: var(--color-success) !important; }
           .bg-success-light { background-color: var(--color-success-light) !important; }
           .bg-success-dark { background-color: var(--color-success-dark) !important; }
@@ -410,7 +358,6 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           .text-success-dark { color: var(--color-success-dark) !important; }
           .border-success { border-color: var(--color-success) !important; }
 
-          /* Warning */
           .bg-warning { background-color: var(--color-warning) !important; }
           .bg-warning-light { background-color: var(--color-warning-light) !important; }
           .bg-warning-dark { background-color: var(--color-warning-dark) !important; }
@@ -418,7 +365,6 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           .text-warning-dark { color: var(--color-warning-dark) !important; }
           .border-warning { border-color: var(--color-warning) !important; }
 
-          /* Error */
           .bg-error { background-color: var(--color-error) !important; }
           .bg-error-light { background-color: var(--color-error-light) !important; }
           .bg-error-dark { background-color: var(--color-error-dark) !important; }
@@ -426,7 +372,6 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           .text-error-dark { color: var(--color-error-dark) !important; }
           .border-error { border-color: var(--color-error) !important; }
 
-          /* Info */
           .bg-info { background-color: var(--color-info) !important; }
           .bg-info-light { background-color: var(--color-info-light) !important; }
           .bg-info-dark { background-color: var(--color-info-dark) !important; }
@@ -434,17 +379,11 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
           .text-info-dark { color: var(--color-info-dark) !important; }
           .border-info { border-color: var(--color-info) !important; }
 
-          /* Gradient utilities */
           .bg-gradient-primary { background: var(--gradient-primary) !important; }
           .bg-gradient-secondary { background: var(--gradient-secondary) !important; }
           .bg-gradient-hero { background: var(--gradient-hero) !important; }
 
-          /* ===================================================================
-             BUTTON DESIGN SYSTEM — Token-driven button styles
-             All buttons use --btn-* CSS variables from Theme global
-             =================================================================== */
-
-          /* Base button */
+          /* ── Button Design System ── */
           .btn {
             padding: var(--btn-md-py) var(--btn-md-px);
             border-radius: var(--btn-border-radius);
@@ -463,129 +402,48 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
             line-height: 1.4;
           }
 
-          .btn:hover {
-            transform: translateY(var(--btn-hover-y));
-          }
-
-          .btn:active {
-            transform: translateY(0);
-          }
-
+          .btn:hover { transform: translateY(var(--btn-hover-y)); }
+          .btn:active { transform: translateY(0); }
           .btn:disabled, .btn[disabled] {
             opacity: var(--btn-disabled-opacity);
             cursor: not-allowed;
             pointer-events: none;
           }
 
-          /* Button icon sizing */
           .btn svg {
             width: var(--btn-md-icon);
             height: var(--btn-md-icon);
             flex-shrink: 0;
           }
 
-          /* ── Size variants ── */
-          .btn-sm {
-            padding: var(--btn-sm-py) var(--btn-sm-px);
-            font-size: var(--btn-sm-font);
-          }
-          .btn-sm svg {
-            width: var(--btn-sm-icon);
-            height: var(--btn-sm-icon);
-          }
+          .btn-sm { padding: var(--btn-sm-py) var(--btn-sm-px); font-size: var(--btn-sm-font); }
+          .btn-sm svg { width: var(--btn-sm-icon); height: var(--btn-sm-icon); }
 
-          .btn-lg {
-            padding: var(--btn-lg-py) var(--btn-lg-px);
-            font-size: var(--btn-lg-font);
-          }
-          .btn-lg svg {
-            width: var(--btn-lg-icon);
-            height: var(--btn-lg-icon);
-          }
+          .btn-lg { padding: var(--btn-lg-py) var(--btn-lg-px); font-size: var(--btn-lg-font); }
+          .btn-lg svg { width: var(--btn-lg-icon); height: var(--btn-lg-icon); }
 
-          /* ── Color variants ── */
+          .btn-primary { background: var(--btn-primary-bg); color: var(--btn-primary-text); border-color: transparent; }
+          .btn-primary:hover { background: var(--btn-primary-hover); }
 
-          /* Primary (main CTA) */
-          .btn-primary {
-            background: var(--btn-primary-bg);
-            color: var(--btn-primary-text);
-            border-color: transparent;
-          }
-          .btn-primary:hover {
-            background: var(--btn-primary-hover);
-          }
+          .btn-secondary { background: var(--btn-secondary-bg); color: var(--btn-secondary-text); border-color: transparent; }
+          .btn-secondary:hover { background: var(--btn-secondary-hover); }
 
-          /* Secondary */
-          .btn-secondary {
-            background: var(--btn-secondary-bg);
-            color: var(--btn-secondary-text);
-            border-color: transparent;
-          }
-          .btn-secondary:hover {
-            background: var(--btn-secondary-hover);
-          }
+          .btn-danger { background: var(--btn-danger-bg); color: var(--btn-danger-text); border-color: transparent; }
+          .btn-danger:hover { background: var(--btn-danger-hover); }
 
-          /* Danger (destructive) */
-          .btn-danger {
-            background: var(--btn-danger-bg);
-            color: var(--btn-danger-text);
-            border-color: transparent;
-          }
-          .btn-danger:hover {
-            background: var(--btn-danger-hover);
-          }
+          .btn-success { background: var(--btn-success-bg); color: var(--btn-success-text); border-color: transparent; }
+          .btn-success:hover { background: var(--btn-success-hover); }
 
-          /* Success (confirmation) */
-          .btn-success {
-            background: var(--btn-success-bg);
-            color: var(--btn-success-text);
-            border-color: transparent;
-          }
-          .btn-success:hover {
-            background: var(--btn-success-hover);
-          }
+          .btn-outline-primary { background: transparent; color: var(--btn-primary-bg); border-color: var(--btn-primary-bg); }
+          .btn-outline-primary:hover { background: var(--btn-primary-bg); color: var(--btn-primary-text); }
 
-          /* Outline Primary */
-          .btn-outline-primary {
-            background: transparent;
-            color: var(--btn-primary-bg);
-            border-color: var(--btn-primary-bg);
-          }
-          .btn-outline-primary:hover {
-            background: var(--btn-primary-bg);
-            color: var(--btn-primary-text);
-          }
+          .btn-outline-neutral { background: transparent; color: var(--color-text-secondary); border-color: var(--color-border); }
+          .btn-outline-neutral:hover { background: var(--color-grey-light); border-color: var(--color-grey-dark); color: var(--color-text-primary); }
 
-          /* Outline Neutral */
-          .btn-outline-neutral {
-            background: transparent;
-            color: var(--color-text-secondary);
-            border-color: var(--color-border);
-          }
-          .btn-outline-neutral:hover {
-            background: var(--color-grey-light);
-            border-color: var(--color-grey-dark);
-            color: var(--color-text-primary);
-          }
+          .btn-ghost { background: transparent; border-color: transparent; color: var(--btn-primary-bg); padding-left: 0; padding-right: 0; }
+          .btn-ghost:hover { text-decoration: underline; transform: none; }
 
-          /* Ghost (link-style) */
-          .btn-ghost {
-            background: transparent;
-            border-color: transparent;
-            color: var(--btn-primary-bg);
-            padding-left: 0;
-            padding-right: 0;
-          }
-          .btn-ghost:hover {
-            text-decoration: underline;
-            transform: none;
-          }
-
-          /* Button group */
-          .btn-group {
-            display: inline-flex;
-            gap: 8px;
-          }
+          .btn-group { display: inline-flex; gap: 8px; }
         `
       }} />
     </>

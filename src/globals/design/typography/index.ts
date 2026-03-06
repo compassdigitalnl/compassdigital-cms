@@ -1,42 +1,42 @@
-import { Tab } from 'payload'
+import type { Tab } from 'payload'
 
 export const Typography: Tab = {
-  label: 'Typography',
-  description: '3 font families + 8-step type scale',
+  label: 'Typografie',
+  description: 'Lettertypen en type schaal',
   fields: [
     {
       type: 'collapsible',
-      label: 'Font Families',
+      label: 'Lettertypen',
       admin: {
-        description: 'Three font stacks for different use cases',
+        description: 'Font families voor headings, body tekst en code',
         initCollapsed: false,
       },
       fields: [
         {
-          name: 'fontBody',
+          name: 'headingFont',
           type: 'text',
-          label: '--font (Body font)',
-          defaultValue: "'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif",
+          label: 'Heading Font',
+          defaultValue: 'Inter, system-ui, sans-serif',
           admin: {
-            description: 'Primary font for UI and body text. Default: Plus Jakarta Sans with DM Sans fallback.',
+            description: 'Font voor h1-h6 headings. Inclusief fallbacks.',
           },
         },
         {
-          name: 'fontDisplay',
+          name: 'bodyFont',
           type: 'text',
-          label: '--font-display (Display/Heading font)',
-          defaultValue: "'DM Serif Display', Georgia, serif",
+          label: 'Body Font',
+          defaultValue: 'Inter, system-ui, sans-serif',
           admin: {
-            description: 'Serif font for hero headings and editorial content. Adds elegance and contrast.',
+            description: 'Font voor body tekst, labels, UI elementen.',
           },
         },
         {
           name: 'fontMono',
           type: 'text',
-          label: '--font-mono (Monospace font)',
+          label: 'Monospace Font',
           defaultValue: "'JetBrains Mono', 'Courier New', monospace",
           admin: {
-            description: 'Monospace font for code, technical data, timestamps.',
+            description: 'Font voor code, technische data, timestamps.',
           },
         },
       ],
@@ -44,115 +44,94 @@ export const Typography: Tab = {
 
     {
       type: 'collapsible',
-      label: 'Type Scale',
+      label: 'Type Schaal',
       admin: {
-        description: '8-step type scale from micro (8px) to hero (36px)',
+        description: '8-staps type schaal van micro (8px) tot hero (36px)',
         initCollapsed: false,
       },
       fields: [
         {
-          name: 'heroSize',
-          type: 'number',
-          label: '--text-hero (Hero headings)',
-          defaultValue: 36,
-          min: 24,
-          max: 72,
-          admin: {
-            description: '36px — Largest text size. Used for hero section headings, major page titles.',
-          },
-        },
-        {
-          name: 'sectionSize',
-          type: 'number',
-          label: '--text-section (Section headings)',
-          defaultValue: 24,
-          min: 18,
-          max: 48,
-          admin: {
-            description: '24px — Section headings (H2). Major content blocks.',
-          },
-        },
-        {
-          name: 'cardTitleSize',
-          type: 'number',
-          label: '--text-card-title (Card titles, H3)',
-          defaultValue: 18,
-          min: 14,
-          max: 28,
-          admin: {
-            description: '18px — Card titles, smaller headings (H3), emphasized labels.',
-          },
-        },
-        {
-          name: 'bodyLgSize',
-          type: 'number',
-          label: '--text-body-lg (Large body text)',
-          defaultValue: 15,
-          min: 13,
-          max: 20,
-          admin: {
-            description: '15px — Large body text. Intro paragraphs, lead text.',
-          },
-        },
-        {
-          name: 'bodySize',
-          type: 'number',
-          label: '--text-body (Standard body text)',
-          defaultValue: 13,
-          min: 11,
-          max: 17,
-          admin: {
-            description: '13px — Standard body text. Most common reading size.',
-          },
-        },
-        {
-          name: 'smallSize',
-          type: 'number',
-          label: '--text-small (Small text)',
-          defaultValue: 12,
-          min: 10,
-          max: 15,
-          admin: {
-            description: '12px — Small text. Captions, metadata, secondary info.',
-          },
-        },
-        {
-          name: 'labelSize',
-          type: 'number',
-          label: '--text-label (Labels, tags)',
-          defaultValue: 10,
-          min: 8,
-          max: 13,
-          admin: {
-            description: '10px — Tiny labels, tags, badges, uppercase UI text.',
-          },
-        },
-        {
-          name: 'microSize',
-          type: 'number',
-          label: '--text-micro (Micro text)',
-          defaultValue: 8,
-          min: 7,
-          max: 11,
-          admin: {
-            description: '8px — Smallest text size. Rarely used. Tooltip text, fine print.',
-          },
-        },
-      ],
-    },
-
-    {
-      type: 'row',
-      fields: [
-        {
-          type: 'ui',
-          admin: {
-            components: {
-              Field: '@/fields/NullField#NullField',
+          type: 'row',
+          fields: [
+            {
+              name: 'heroSize',
+              type: 'number',
+              label: 'Hero (px)',
+              defaultValue: 36,
+              min: 24,
+              max: 72,
+              admin: { width: '25%', description: 'Hero headings, grote titels' },
             },
-            description: '💡 TIP: Font families should include fallbacks. Type scale values are in pixels and will be converted to CSS variables (--text-hero, etc.).',
-          },
-        } as any,
+            {
+              name: 'sectionSize',
+              type: 'number',
+              label: 'Section (px)',
+              defaultValue: 24,
+              min: 18,
+              max: 48,
+              admin: { width: '25%', description: 'Sectie headings (H2)' },
+            },
+            {
+              name: 'cardTitleSize',
+              type: 'number',
+              label: 'Card Title (px)',
+              defaultValue: 18,
+              min: 14,
+              max: 28,
+              admin: { width: '25%', description: 'Card titels, H3' },
+            },
+            {
+              name: 'bodyLgSize',
+              type: 'number',
+              label: 'Body Large (px)',
+              defaultValue: 15,
+              min: 13,
+              max: 20,
+              admin: { width: '25%', description: 'Intro tekst, lead text' },
+            },
+          ],
+        },
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'bodySize',
+              type: 'number',
+              label: 'Body (px)',
+              defaultValue: 13,
+              min: 11,
+              max: 17,
+              admin: { width: '25%', description: 'Standaard body tekst' },
+            },
+            {
+              name: 'smallSize',
+              type: 'number',
+              label: 'Small (px)',
+              defaultValue: 12,
+              min: 10,
+              max: 15,
+              admin: { width: '25%', description: 'Captions, metadata' },
+            },
+            {
+              name: 'labelSize',
+              type: 'number',
+              label: 'Label (px)',
+              defaultValue: 10,
+              min: 8,
+              max: 13,
+              admin: { width: '25%', description: 'Labels, tags, badges' },
+            },
+            {
+              name: 'microSize',
+              type: 'number',
+              label: 'Micro (px)',
+              defaultValue: 8,
+              min: 7,
+              max: 11,
+              admin: { width: '25%', description: 'Tooltips, fine print' },
+            },
+          ],
+        },
       ],
     },
   ],

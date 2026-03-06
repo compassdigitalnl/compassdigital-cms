@@ -1,291 +1,150 @@
-import { Tab } from 'payload'
+import type { Tab } from 'payload'
+
+const colorPickerField = '@/branches/shared/components/admin/fields/ColorPickerField#ColorPickerField'
+
+const hexValidate = (val: any) => {
+  if (!val) return true
+  if (!/^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$/i.test(val) && !val.startsWith('rgba'))
+    return 'Gebruik hex kleur (bijv. #00897B) of rgba()'
+  return true
+}
+
+const colorField = (
+  name: string,
+  label: string,
+  defaultValue: string,
+  description?: string,
+) => ({
+  name,
+  type: 'text' as const,
+  label,
+  defaultValue,
+  validate: hexValidate,
+  admin: {
+    description,
+    components: {
+      Field: colorPickerField,
+    },
+  },
+})
 
 export const Colors: Tab = {
-  label: 'Colors',
-  description: '16 core color tokens for the design system',
+  label: 'Kleuren',
+  description: 'Alle kleur tokens voor het design systeem',
   fields: [
+    // ─── Brand Colors ─────────────────────────────────────
     {
       type: 'collapsible',
-      label: 'Primary Colors',
+      label: 'Merkkleuren',
       admin: {
-        description: 'Navy (dark surfaces) and Teal (brand accent)',
+        description: 'Primaire, secundaire en accent kleuren',
+        initCollapsed: false,
       },
       fields: [
         {
-          name: 'navy',
-          type: 'text',
-          label: '--navy (Main dark background)',
-          defaultValue: '#0A1628',
-          admin: {
-            description: 'Deep navy used for dark surfaces, cards, headers. Provides strong contrast.',
-          },
-          validate: (val: any) => {
-            if (!val) return true // Optional
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color (e.g. #0A1628)'
-            }
-            return true
-          },
+          type: 'row',
+          fields: [
+            colorField('primaryColor', 'Primary', '#00897B', 'Hoofdkleur voor knoppen, links, actieve states'),
+            colorField('primaryLight', 'Primary Light', '#26A69A', 'Lichtere variant voor hover states'),
+            colorField('primaryGlow', 'Primary Glow', 'rgba(0,137,123,0.12)', 'Gloed/achtergrond tint'),
+          ],
         },
         {
-          name: 'navyLight',
-          type: 'text',
-          label: '--navy-light (Lighter navy shade)',
-          defaultValue: '#121F33',
-          admin: {
-            description: 'Slightly lighter navy for hover states on dark surfaces.',
-          },
-          validate: (val: any) => {
-            if (!val) return true
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color'
-            }
-            return true
-          },
+          type: 'row',
+          fields: [
+            colorField('secondaryColor', 'Secondary', '#0A1628', 'Donkere achtergronden, headers, footers'),
+            colorField('secondaryLight', 'Secondary Light', '#121F33', 'Lichtere variant van secondary'),
+          ],
         },
         {
-          name: 'teal',
-          type: 'text',
-          label: '--teal (Primary brand color)',
-          defaultValue: '#00897B',
-          admin: {
-            description: 'Primary teal accent. Used for buttons, links, active states.',
-          },
-          validate: (val: any) => {
-            if (!val) return true
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color'
-            }
-            return true
-          },
-        },
-        {
-          name: 'tealLight',
-          type: 'text',
-          label: '--teal-light (Light teal)',
-          defaultValue: '#26A69A',
-          admin: {
-            description: 'Lighter teal for hover states and secondary accents.',
-          },
-          validate: (val: any) => {
-            if (!val) return true
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color'
-            }
-            return true
-          },
-        },
-        {
-          name: 'tealDark',
-          type: 'text',
-          label: '--teal-dark (Dark teal)',
-          defaultValue: '#00695C',
-          admin: {
-            description: 'Darker teal for pressed states and depth.',
-          },
-          validate: (val: any) => {
-            if (!val) return true
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color'
-            }
-            return true
-          },
+          type: 'row',
+          fields: [
+            colorField('accentColor', 'Accent', '#8b5cf6', 'Accent kleur voor speciale elementen'),
+          ],
         },
       ],
     },
 
+    // ─── Background & Text ────────────────────────────────
     {
       type: 'collapsible',
-      label: 'Status Colors',
+      label: 'Achtergrond & Tekst',
       admin: {
-        description: 'Semantic colors for success, error, warning, info, and highlight states',
+        description: 'Pagina achtergrond, surfaces, randen, grijs schaal en tekstkleuren',
+        initCollapsed: false,
       },
       fields: [
         {
-          name: 'green',
-          type: 'text',
-          label: '--green (Success)',
-          defaultValue: '#00C853',
-          admin: {
-            description: 'Bright green for success messages, checkmarks, positive confirmations.',
-          },
-          validate: (val: any) => {
-            if (!val) return true
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color'
-            }
-            return true
-          },
+          type: 'row',
+          fields: [
+            colorField('backgroundColor', 'Achtergrond', '#F5F7FA', 'Pagina achtergrond'),
+            colorField('surfaceColor', 'Surface', '#ffffff', 'Cards, modals, panels'),
+            colorField('borderColor', 'Border', '#E8ECF1', 'Randen en scheidingslijnen'),
+          ],
         },
         {
-          name: 'coral',
-          type: 'text',
-          label: '--coral (Error/Danger)',
-          defaultValue: '#FF6B6B',
-          admin: {
-            description: 'Soft coral/red for errors, warnings, destructive actions.',
-          },
-          validate: (val: any) => {
-            if (!val) return true
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color'
-            }
-            return true
-          },
+          type: 'row',
+          fields: [
+            colorField('greyLight', 'Grey Light', '#F1F4F8', 'Lichtgrijs achtergronden'),
+            colorField('greyMid', 'Grey Mid', '#94A3B8', 'Muted tekst, iconen'),
+            colorField('greyDark', 'Grey Dark', '#64748B', 'Body tekst, labels'),
+          ],
         },
         {
-          name: 'amber',
-          type: 'text',
-          label: '--amber (Warning)',
-          defaultValue: '#F59E0B',
-          admin: {
-            description: 'Amber/orange for caution, pending states, important notices.',
-          },
-          validate: (val: any) => {
-            if (!val) return true
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color'
-            }
-            return true
-          },
-        },
-        {
-          name: 'blue',
-          type: 'text',
-          label: '--blue (Info)',
-          defaultValue: '#2196F3',
-          admin: {
-            description: 'Bright blue for informational messages, tips, neutral highlights.',
-          },
-          validate: (val: any) => {
-            if (!val) return true
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color'
-            }
-            return true
-          },
-        },
-        {
-          name: 'purple',
-          type: 'text',
-          label: '--purple (Highlight/Special)',
-          defaultValue: '#7C3AED',
-          admin: {
-            description: 'Purple for special features, premium content, unique elements.',
-          },
-          validate: (val: any) => {
-            if (!val) return true
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color'
-            }
-            return true
-          },
+          type: 'row',
+          fields: [
+            colorField('textPrimary', 'Tekst Primary', '#0A1628', 'Headings, belangrijke tekst'),
+            colorField('textSecondary', 'Tekst Secondary', '#64748b', 'Secundaire tekst'),
+            colorField('textMuted', 'Tekst Muted', '#94a3b8', 'Gedimde tekst, placeholders'),
+          ],
         },
       ],
     },
 
+    // ─── Status Colors ────────────────────────────────────
     {
       type: 'collapsible',
-      label: 'Neutral Colors',
+      label: 'Status kleuren',
       admin: {
-        description: 'Greys, backgrounds, and text colors for UI structure',
+        description: 'Succes, waarschuwing, fout en info kleuren (elk met light/dark variant)',
+        initCollapsed: true,
       },
       fields: [
+        // Success
         {
-          name: 'white',
-          type: 'text',
-          label: '--white (Pure white surfaces)',
-          defaultValue: '#FAFBFC',
-          admin: {
-            description: 'Off-white for cards, modals, clean backgrounds.',
-          },
-          validate: (val: any) => {
-            if (!val) return true
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color'
-            }
-            return true
-          },
+          type: 'row',
+          fields: [
+            colorField('successColor', 'Success', '#00C853', 'Succes meldingen'),
+            colorField('successLight', 'Success Light', '#E8F5E9', 'Succes achtergrond'),
+            colorField('successDark', 'Success Dark', '#1B5E20', 'Succes donker'),
+          ],
         },
+        // Warning
         {
-          name: 'bg',
-          type: 'text',
-          label: '--bg (Page background)',
-          defaultValue: '#F5F7FA',
-          admin: {
-            description: 'Light grey page background. Provides subtle contrast to white cards.',
-          },
-          validate: (val: any) => {
-            if (!val) return true
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color'
-            }
-            return true
-          },
+          type: 'row',
+          fields: [
+            colorField('warningColor', 'Warning', '#F59E0B', 'Waarschuwingen'),
+            colorField('warningLight', 'Warning Light', '#FFF8E1', 'Waarschuwing achtergrond'),
+            colorField('warningDark', 'Warning Dark', '#92400E', 'Waarschuwing donker'),
+          ],
         },
+        // Error
         {
-          name: 'grey',
-          type: 'text',
-          label: '--grey (Borders, dividers)',
-          defaultValue: '#E8ECF1',
-          admin: {
-            description: 'Light grey for borders, dividers, subtle lines.',
-          },
-          validate: (val: any) => {
-            if (!val) return true
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color'
-            }
-            return true
-          },
+          type: 'row',
+          fields: [
+            colorField('errorColor', 'Error', '#EF4444', 'Foutmeldingen'),
+            colorField('errorLight', 'Error Light', '#FFF0F0', 'Fout achtergrond'),
+            colorField('errorDark', 'Error Dark', '#991B1B', 'Fout donker'),
+          ],
         },
+        // Info
         {
-          name: 'greyMid',
-          type: 'text',
-          label: '--grey-mid (Muted text, icons)',
-          defaultValue: '#94A3B8',
-          admin: {
-            description: 'Medium grey for muted text, secondary labels, disabled states.',
-          },
-          validate: (val: any) => {
-            if (!val) return true
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color'
-            }
-            return true
-          },
-        },
-        {
-          name: 'greyDark',
-          type: 'text',
-          label: '--grey-dark (Body text)',
-          defaultValue: '#64748B',
-          admin: {
-            description: 'Dark grey for body text. Softer than pure black, easier on eyes.',
-          },
-          validate: (val: any) => {
-            if (!val) return true
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color'
-            }
-            return true
-          },
-        },
-        {
-          name: 'text',
-          type: 'text',
-          label: '--text (Headings, primary text)',
-          defaultValue: '#1E293B',
-          admin: {
-            description: 'Near-black for headings and high-emphasis text.',
-          },
-          validate: (val: any) => {
-            if (!val) return true
-            if (!/^#[0-9A-F]{6}$/i.test(val)) {
-              return 'Must be valid hex color'
-            }
-            return true
-          },
+          type: 'row',
+          fields: [
+            colorField('infoColor', 'Info', '#00897B', 'Informatie meldingen'),
+            colorField('infoLight', 'Info Light', 'rgba(0,137,123,0.12)', 'Info achtergrond'),
+            colorField('infoDark', 'Info Dark', '#004D40', 'Info donker'),
+          ],
         },
       ],
     },
