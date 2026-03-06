@@ -389,6 +389,7 @@ export class ProvisioningService {
 
     // AI APIs — needed if AI routes do SSG or early initialization
     if (process.env.OPENAI_API_KEY) platformEnv.OPENAI_API_KEY = process.env.OPENAI_API_KEY
+    if (process.env.GROQ_API_KEY) platformEnv.GROQ_API_KEY = process.env.GROQ_API_KEY
 
     // Email
     if (process.env.RESEND_API_KEY) platformEnv.RESEND_API_KEY = process.env.RESEND_API_KEY
@@ -413,7 +414,10 @@ export class ProvisioningService {
       SITE_NAME: input.siteData.siteName,
       PRIMARY_COLOR: input.siteData.primaryColor || '#3B82F6',
 
-      // Platform-level shared keys (Stripe, OpenAI, etc.)
+      // Chatbot (enabled by default for all tenants)
+      ENABLE_CHATBOT: 'true',
+
+      // Platform-level shared keys (Stripe, OpenAI, Groq, etc.)
       ...platformEnv,
 
       // Optional: user-provided overrides (applied last, highest priority)
