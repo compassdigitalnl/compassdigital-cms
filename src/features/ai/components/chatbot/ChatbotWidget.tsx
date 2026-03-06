@@ -213,20 +213,6 @@ export function ChatbotWidget({ settings }: ChatbotWidgetProps) {
                   )}
                 </div>
 
-                {/* Model & Cost Info (alleen voor assistant messages) */}
-                {msg.role === 'assistant' && msg.model && (
-                  <div className="chatbot-message-meta">
-                    <span className="chatbot-model">
-                      {msg.model.includes('groq') && '⚡ Groq'}
-                      {msg.model.includes('gpt-4') && '🤖 GPT-4'}
-                      {msg.model.includes('gpt-3.5') && '💡 GPT-3.5'}
-                      {msg.model.includes('ollama') && '🏠 Ollama'}
-                    </span>
-                    {msg.cost !== undefined && msg.cost > 0 && (
-                      <span className="chatbot-cost">€{msg.cost.toFixed(4)}</span>
-                    )}
-                  </div>
-                )}
               </div>
             ))}
 
