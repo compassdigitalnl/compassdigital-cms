@@ -5,12 +5,21 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
   ArrowLeft, CreditCard, CheckCircle, Loader2,
-  User, MapPin, Banknote, FileText, ChevronDown, ChevronUp,
-  BookOpen, ArrowRight,
+  BookOpen, ArrowRight, ChevronDown, ChevronUp, ShoppingBag,
 } from 'lucide-react'
+import { useAuth } from '@/providers/Auth'
+import { useEcommerceSettings } from '@/branches/ecommerce/hooks/useEcommerceSettings'
 import { CheckoutProgressStepper } from '@/branches/ecommerce/components/checkout/CheckoutProgressStepper'
+import { CheckoutAuthPanel } from '@/branches/ecommerce/components/checkout/CheckoutAuthPanel'
+import { AddressForm } from '@/branches/ecommerce/components/checkout/AddressForm'
+import { PaymentMethodCard } from '@/branches/ecommerce/components/checkout/PaymentMethodCard'
+import { TrustBadges } from '@/branches/ecommerce/components/auth/TrustBadges'
+import { TrustSignals } from '@/branches/shared/components/ui/TrustSignals'
 import { PricingPlanCard } from '@/branches/shared/components/ui/pricing/PricingPlanCard'
+import { LucideIcon } from '@/branches/ecommerce/components/ui/LucideIcon'
 import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
+import type { Address } from '@/branches/ecommerce/components/checkout/AddressForm/types'
+import type { GuestCheckoutFormData } from '@/branches/ecommerce/components/auth/GuestCheckoutForm'
 
 interface SubscriptionCheckoutClientProps {
   magazineName: string
@@ -19,33 +28,12 @@ interface SubscriptionCheckoutClientProps {
   selectedPlanId?: number | string
 }
 
-interface PersonalInfo {
-  firstName: string
-  lastName: string
-  email: string
-  phone: string
-  street: string
-  houseNumber: string
-  postalCode: string
-  city: string
-}
-
-const EMPTY_INFO: PersonalInfo = {
-  firstName: '', lastName: '', email: '', phone: '',
-  street: '', houseNumber: '', postalCode: '', city: '',
-}
-
-const PAYMENT_METHODS = [
-  { id: 'ideal', name: 'iDEAL', description: 'Betaal direct via je bank', icon: '🏦' },
-  { id: 'creditcard', name: 'Creditcard', description: 'Visa, Mastercard, Amex', icon: '💳' },
-  { id: 'banktransfer', name: 'Bankoverschrijving', description: 'Betaal binnen 14 dagen', icon: '📄' },
-]
-
 const SUB_STEPS = [
   { id: 1, label: 'Abonnement' },
   { id: 2, label: 'Gegevens' },
-  { id: 3, label: 'Betaling' },
-  { id: 4, label: 'Bevestiging' },
+  { id: 3, label: 'Adres' },
+  { id: 4, label: 'Betaling' },
+  { id: 5, label: 'Bevestiging' },
 ]
 
 export default function SubscriptionCheckoutClient({
@@ -55,22 +43,30 @@ export default function SubscriptionCheckoutClient({
   selectedPlanId: initialPlanId,
 }: SubscriptionCheckoutClientProps) {
   const router = useRouter()
+  const { user } = useAuth()
+  const { settings: ecomSettings } = useEcommerceSettings()
+  const cmsPaymentOptions = ecomSettings.paymentOptions
 
-  // Step management: 1=Plan, 2=Gegevens, 3=Betaling, 4=Bevestiging
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1)
+  // Step management: 1=Plan, 2=Contact, 3=Adres, 4=Betaling, 5=Bevestiging
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4 | 5>(1)
 
   // Step 1: Plan
   const [selectedId, setSelectedId] = useState<number | string | undefined>(
     initialPlanId || plans.find((p) => p.highlighted)?.id || plans[0]?.id,
   )
 
-  // Step 2: Personal info
-  const [info, setInfo] = useState<PersonalInfo>(EMPTY_INFO)
+  // Step 2: Contact
+  const [email, setEmail] = useState(user?.email || '')
+  const [isGuest, setIsGuest] = useState(!user)
+  const [guestData, setGuestData] = useState<GuestCheckoutFormData | null>(null)
 
-  // Step 3: Payment
-  const [paymentMethod, setPaymentMethod] = useState('')
+  // Step 3: Address
+  const [billingAddress, setBillingAddress] = useState<Address | null>(null)
 
-  // Step 4: Confirm
+  // Step 4: Payment
+  const [paymentMethod, setPaymentMethod] = useState<string>('')
+
+  // Step 5: Confirm
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [orderConfirmed, setOrderConfirmed] = useState(false)
@@ -84,25 +80,28 @@ export default function SubscriptionCheckoutClient({
   const formatPrice = (p: number) => `€ ${p.toFixed(2).replace('.', ',')}`
 
   // Validation
-  const isInfoComplete = !!(
-    info.firstName.trim() && info.lastName.trim() &&
-    info.email.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(info.email) &&
-    info.street.trim() && info.houseNumber.trim() &&
-    info.postalCode.trim() && info.city.trim()
-  )
+  const isAddressComplete = (addr: Address | null): boolean => {
+    if (!addr) return false
+    return !!(
+      addr.firstName?.trim() &&
+      addr.lastName?.trim() &&
+      addr.street?.trim() &&
+      addr.houseNumber?.trim() &&
+      addr.postalCode?.trim() &&
+      addr.city?.trim() &&
+      addr.country?.trim()
+    )
+  }
 
-  const canProceedFromStep1 = !!selectedId
-  const canProceedFromStep2 = isInfoComplete
-  const canProceedFromStep3 = !!paymentMethod
-  const canPlaceOrder = canProceedFromStep1 && canProceedFromStep2 && canProceedFromStep3
+  const canProceedToContact = !!selectedId
+  const canProceedToAddress = !!email
+  const canProceedToPayment = isAddressComplete(billingAddress)
+  const canProceedToConfirm = !!paymentMethod
+  const canPlaceOrder = canProceedToContact && canProceedToAddress && canProceedToPayment && canProceedToConfirm
 
   const handleSelectPlan = (plan: PricingPlan) => {
     setSelectedId(plan.id)
     setError(null)
-  }
-
-  const updateInfo = (field: keyof PersonalInfo, value: string) => {
-    setInfo((prev) => ({ ...prev, [field]: value }))
   }
 
   const handlePlaceOrder = async () => {
@@ -118,16 +117,16 @@ export default function SubscriptionCheckoutClient({
           magazineSlug,
           planId: selectedPlan.id,
           customer: {
-            firstName: info.firstName,
-            lastName: info.lastName,
-            email: info.email,
-            phone: info.phone,
+            firstName: billingAddress?.firstName || guestData?.firstName || '',
+            lastName: billingAddress?.lastName || guestData?.lastName || '',
+            email,
+            phone: guestData?.phone || '',
           },
           address: {
-            street: info.street,
-            houseNumber: info.houseNumber,
-            postalCode: info.postalCode,
-            city: info.city,
+            street: billingAddress?.street || '',
+            houseNumber: billingAddress?.houseNumber || '',
+            postalCode: billingAddress?.postalCode || '',
+            city: billingAddress?.city || '',
           },
           paymentMethod,
         }),
@@ -148,7 +147,7 @@ export default function SubscriptionCheckoutClient({
     }
   }
 
-  // ── Order Confirmed ──
+  // ── Order Confirmed (Step 5 success) ──
   if (orderConfirmed) {
     return (
       <div className="sub-page">
@@ -205,7 +204,7 @@ export default function SubscriptionCheckoutClient({
           currentStep={currentStep}
           steps={SUB_STEPS}
           onStepClick={(stepId) => {
-            if (stepId < currentStep) setCurrentStep(stepId as 1 | 2 | 3 | 4)
+            if (stepId < currentStep) setCurrentStep(stepId as 1 | 2 | 3 | 4 | 5)
           }}
         />
       </div>
@@ -232,11 +231,8 @@ export default function SubscriptionCheckoutClient({
 
             {/* ── STEP 1: Plan kiezen ── */}
             {currentStep === 1 && (
-              <div className="sub-card">
-                <h2 className="sub-card__title">
-                  <BookOpen size={20} />
-                  Kies je abonnement
-                </h2>
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h2 className="text-xl font-bold text-gray-900 mb-4">Kies je abonnement</h2>
                 <div className={`sub-plan-grid ${plans.length <= 2 ? 'sub-plan-grid--2' : 'sub-plan-grid--3'}`}>
                   {plans.map((plan) => (
                     <div
@@ -251,119 +247,209 @@ export default function SubscriptionCheckoutClient({
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
 
-                <div className="sub-nav sub-nav--end">
-                  <button
-                    type="button"
-                    onClick={() => canProceedFromStep1 && setCurrentStep(2)}
-                    disabled={!canProceedFromStep1}
-                    className="btn btn-primary btn-lg flex-1"
-                  >
-                    Ga door naar gegevens
+            {/* ── STEP 2: Contact — identical to CheckoutTemplate4 ── */}
+            {currentStep === 2 && (
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h2 className="text-xl font-bold text-gray-900 mb-4">Contact informatie</h2>
+
+                {user ? (
+                  <div className="space-y-4">
+                    <h2
+                      className="text-2xl mb-1"
+                      style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
+                    >
+                      Welkom terug{(user as any).firstName ? `, ${(user as any).firstName}` : ''}
+                    </h2>
+                    <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                      <div>
+                        <p className="text-sm font-semibold text-green-900">Ingelogd als</p>
+                        <p className="text-sm text-green-700">{user.email}</p>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => { setEmail(user.email); setIsGuest(false); setCurrentStep(3) }}
+                      className="btn btn-primary btn-lg w-full"
+                    >
+                      Ga door naar adres
+                    </button>
+
+                    <TrustBadges />
+                  </div>
+                ) : (
+                  <CheckoutAuthPanel
+                    defaultTab="login"
+                    enableGuestCheckout={ecomSettings.enableGuestCheckout}
+                    onAuthenticated={({ email: authEmail, isGuest: authIsGuest, guestData: authGuestData }) => {
+                      setEmail(authEmail)
+                      setIsGuest(authIsGuest)
+                      if (authGuestData) setGuestData(authGuestData)
+                      setCurrentStep(3)
+                    }}
+                  />
+                )}
+
+                <div className="flex gap-4 mt-6">
+                  <button type="button" onClick={() => setCurrentStep(1)} className="btn btn-outline-primary flex-1">
+                    Vorige stap
                   </button>
                 </div>
               </div>
             )}
 
-            {/* ── STEP 2: Gegevens ── */}
-            {currentStep === 2 && (
-              <div className="sub-card">
-                <h2 className="sub-card__title">
-                  <User size={20} />
-                  Je gegevens
-                </h2>
+            {/* ── STEP 3: Adres — identical to CheckoutTemplate4 ── */}
+            {currentStep === 3 && (
+              <div className="space-y-6">
+                <AddressForm
+                  title="Factuuradres"
+                  submitLabel={false}
+                  onChange={(address) => setBillingAddress(address as Address)}
+                />
 
-                <div className="sub-form-grid">
-                  <InputField label="Voornaam" value={info.firstName} onChange={(v) => updateInfo('firstName', v)} required />
-                  <InputField label="Achternaam" value={info.lastName} onChange={(v) => updateInfo('lastName', v)} required />
-                  <InputField label="E-mailadres" value={info.email} onChange={(v) => updateInfo('email', v)} type="email" required className="sub-col-span-2" />
-                  <InputField label="Telefoon" value={info.phone} onChange={(v) => updateInfo('phone', v)} type="tel" />
-                </div>
-
-                <h3 className="sub-card__subtitle">
-                  <MapPin size={16} />
-                  Bezorgadres
-                </h3>
-
-                <div className="sub-form-grid">
-                  <InputField label="Straat" value={info.street} onChange={(v) => updateInfo('street', v)} required />
-                  <InputField label="Huisnummer" value={info.houseNumber} onChange={(v) => updateInfo('houseNumber', v)} required />
-                  <InputField label="Postcode" value={info.postalCode} onChange={(v) => updateInfo('postalCode', v)} required />
-                  <InputField label="Plaats" value={info.city} onChange={(v) => updateInfo('city', v)} required />
-                </div>
-
-                <div className="sub-nav">
-                  <button type="button" onClick={() => setCurrentStep(1)} className="btn btn-outline-primary flex-1">
+                <div className="flex gap-4">
+                  <button type="button" onClick={() => setCurrentStep(2)} className="btn btn-outline-primary flex-1">
                     Vorige stap
                   </button>
-                  <button type="button" onClick={() => canProceedFromStep2 && setCurrentStep(3)} disabled={!canProceedFromStep2} className="btn btn-primary btn-lg flex-1">
+                  <button
+                    type="button"
+                    onClick={() => canProceedToPayment && setCurrentStep(4)}
+                    disabled={!canProceedToPayment}
+                    className="btn btn-primary btn-lg flex-1"
+                  >
                     Ga door naar betaling
                   </button>
                 </div>
               </div>
             )}
 
-            {/* ── STEP 3: Betaling ── */}
-            {currentStep === 3 && (
-              <div className="sub-card">
-                <h2 className="sub-card__title">
-                  <Banknote size={20} />
-                  Betaalmethode
-                </h2>
-
-                <div className="sub-payment-list">
-                  {PAYMENT_METHODS.map((method) => (
-                    <label
-                      key={method.id}
-                      className={`sub-payment-card ${paymentMethod === method.id ? 'sub-payment-card--selected' : ''}`}
-                      onClick={() => setPaymentMethod(method.id)}
-                    >
-                      <input type="radio" name="payment" value={method.id} checked={paymentMethod === method.id} onChange={() => setPaymentMethod(method.id)} className="sr-only" />
-                      <span className="sub-payment-icon">{method.icon}</span>
-                      <div className="sub-payment-info">
-                        <div className="sub-payment-name">{method.name}</div>
-                        <div className="sub-payment-desc">{method.description}</div>
-                      </div>
-                      <div className={`sub-radio ${paymentMethod === method.id ? 'sub-radio--checked' : ''}`}>
-                        {paymentMethod === method.id && <div className="sub-radio__dot" />}
-                      </div>
-                    </label>
-                  ))}
+            {/* ── STEP 4: Betaling — identical to CheckoutTemplate4 ── */}
+            {currentStep === 4 && (
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  {cmsPaymentOptions.length > 0 ? (
+                    cmsPaymentOptions.map((option) => {
+                      const logoUrl = typeof option.icon === 'object' && option.icon?.url
+                        ? option.icon.url
+                        : null
+                      const lucideIconName = option.lucideIcon || null
+                      return (
+                        <PaymentMethodCard
+                          key={option.id}
+                          method={{
+                            id: String(option.id),
+                            name: option.name,
+                            slug: option.slug,
+                            description: option.description || '',
+                            logo: logoUrl
+                              ? <img src={logoUrl} alt={option.name} style={{ width: 24, height: 24, objectFit: 'contain' }} />
+                              : lucideIconName
+                                ? <LucideIcon name={lucideIconName} size={22} color="var(--teal)" />
+                                : <CreditCard size={22} color="var(--teal)" />,
+                            isB2B: option.isB2B,
+                            fee: option.fee,
+                            badge: option.badge,
+                          }}
+                          selected={paymentMethod === option.slug}
+                          onSelect={() => setPaymentMethod(option.slug)}
+                        />
+                      )
+                    })
+                  ) : (
+                    <>
+                      <PaymentMethodCard
+                        method={{
+                          id: 'ideal',
+                          name: 'iDEAL',
+                          slug: 'ideal',
+                          description: 'Betaal direct via je bank',
+                          logo: '🏦',
+                        }}
+                        selected={paymentMethod === 'ideal'}
+                        onSelect={() => setPaymentMethod('ideal')}
+                      />
+                      <PaymentMethodCard
+                        method={{
+                          id: 'card',
+                          name: 'Creditcard',
+                          slug: 'creditcard',
+                          description: 'Visa, Mastercard, Amex',
+                          logo: <CreditCard className="w-6 h-6" />,
+                        }}
+                        selected={paymentMethod === 'creditcard'}
+                        onSelect={() => setPaymentMethod('creditcard')}
+                      />
+                      <PaymentMethodCard
+                        method={{
+                          id: 'invoice',
+                          name: 'Op rekening',
+                          slug: 'invoice',
+                          description: 'Betaal binnen 14 dagen',
+                          logo: '📄',
+                          isB2B: true,
+                        }}
+                        selected={paymentMethod === 'invoice'}
+                        onSelect={() => setPaymentMethod('invoice')}
+                      />
+                    </>
+                  )}
                 </div>
 
-                <div className="sub-nav">
-                  <button type="button" onClick={() => setCurrentStep(2)} className="btn btn-outline-primary flex-1">
+                <div className="flex gap-4">
+                  <button type="button" onClick={() => setCurrentStep(3)} className="btn btn-outline-primary flex-1">
                     Vorige stap
                   </button>
-                  <button type="button" onClick={() => canProceedFromStep3 && setCurrentStep(4)} disabled={!canProceedFromStep3} className="btn btn-primary btn-lg flex-1">
+                  <button
+                    type="button"
+                    onClick={() => canProceedToConfirm && setCurrentStep(5)}
+                    disabled={!canProceedToConfirm}
+                    className="btn btn-primary btn-lg flex-1"
+                  >
                     Ga door naar bevestiging
                   </button>
                 </div>
+
+                <TrustSignals variant="compact" />
               </div>
             )}
 
-            {/* ── STEP 4: Bevestiging ── */}
-            {currentStep === 4 && (
-              <div className="sub-card">
-                <h2 className="sub-card__title">
-                  <FileText size={20} />
-                  Controleer je bestelling
-                </h2>
+            {/* ── STEP 5: Bevestiging ── */}
+            {currentStep === 5 && (
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 space-y-6">
+                <h2 className="text-xl font-bold text-gray-900">Controleer je bestelling</h2>
 
-                <div className="sub-review">
+                <div className="border border-gray-200 rounded-xl bg-gray-50 divide-y divide-gray-200">
                   <ReviewRow label="Abonnement" value={`${magazineName} — ${selectedPlan?.name}`} onClick={() => setCurrentStep(1)} />
-                  <ReviewRow label="Naam" value={`${info.firstName} ${info.lastName}`} onClick={() => setCurrentStep(2)} />
-                  <ReviewRow label="E-mail" value={info.email} onClick={() => setCurrentStep(2)} />
-                  <ReviewRow label="Adres" value={`${info.street} ${info.houseNumber}, ${info.postalCode} ${info.city}`} onClick={() => setCurrentStep(2)} />
-                  <ReviewRow label="Betaalmethode" value={PAYMENT_METHODS.find((m) => m.id === paymentMethod)?.name || paymentMethod} onClick={() => setCurrentStep(3)} />
+                  <ReviewRow label="E-mail" value={email} onClick={() => setCurrentStep(2)} />
+                  {billingAddress && (
+                    <ReviewRow
+                      label="Adres"
+                      value={`${billingAddress.firstName} ${billingAddress.lastName}, ${billingAddress.street} ${billingAddress.houseNumber}, ${billingAddress.postalCode} ${billingAddress.city}`}
+                      onClick={() => setCurrentStep(3)}
+                    />
+                  )}
+                  <ReviewRow
+                    label="Betaalmethode"
+                    value={
+                      (cmsPaymentOptions.find((o) => o.slug === paymentMethod)?.name) ||
+                      (paymentMethod === 'ideal' ? 'iDEAL' : paymentMethod === 'creditcard' ? 'Creditcard' : paymentMethod === 'invoice' ? 'Op rekening' : paymentMethod)
+                    }
+                    onClick={() => setCurrentStep(4)}
+                  />
                 </div>
 
                 {error && (
-                  <div className="sub-error">{error}</div>
+                  <div className="p-3 rounded-lg text-sm" style={{ background: 'rgba(233,69,96,0.1)', border: '1px solid rgba(233,69,96,0.3)', color: 'var(--color-error-dark)' }}>
+                    {error}
+                  </div>
                 )}
 
-                <div className="sub-nav">
-                  <button type="button" onClick={() => setCurrentStep(3)} className="btn btn-outline-primary flex-1">
+                <div className="flex gap-4">
+                  <button type="button" onClick={() => setCurrentStep(4)} className="btn btn-outline-primary flex-1">
                     Vorige stap
                   </button>
                   <button
@@ -372,17 +458,9 @@ export default function SubscriptionCheckoutClient({
                     disabled={!canPlaceOrder || isSubmitting}
                     className="btn btn-primary btn-lg flex-1"
                   >
-                    {isSubmitting ? (
-                      <><Loader2 size={16} className="animate-spin" /> Bezig met verwerken...</>
-                    ) : (
-                      <>Bestelling plaatsen — {formatPrice(price)}</>
-                    )}
+                    {isSubmitting ? 'Bezig...' : `Bestelling plaatsen — ${formatPrice(price)}`}
                   </button>
                 </div>
-
-                <p className="sub-disclaimer">
-                  Door te bestellen ga je akkoord met de voorwaarden.
-                </p>
               </div>
             )}
           </div>
@@ -400,38 +478,63 @@ export default function SubscriptionCheckoutClient({
 
             {/* Sidebar content */}
             <div className={`sub-sidebar__content ${showMobileSummary ? 'sub-sidebar__content--open' : ''}`}>
+              {/* Order items card */}
+              <div className="sub-order-items">
+                <h3 className="sub-order-items__title">Je bestelling</h3>
+                <div className="sub-order-item">
+                  <div className="sub-order-item__thumb">
+                    <BookOpen size={20} />
+                  </div>
+                  <div className="sub-order-item__info">
+                    <p className="sub-order-item__name">{magazineName} — {selectedPlan?.name}</p>
+                    <p className="sub-order-item__qty">1x {formatPrice(price)}</p>
+                  </div>
+                  <span className="sub-order-item__total">{formatPrice(price)}</span>
+                </div>
+                <div className="sub-order-items__footer">
+                  <button type="button" onClick={() => setCurrentStep(1)} className="sub-order-items__edit">
+                    Abonnement wijzigen
+                  </button>
+                </div>
+              </div>
+
               {/* Summary card with navy header — identical to CheckoutTemplate4 */}
               <div className="sub-summary-card">
                 <div className="sub-summary-card__head">
                   <h3 className="sub-summary-card__title">Besteloverzicht</h3>
                 </div>
                 <div className="sub-summary-card__body">
-                  {/* Order line */}
                   <div className="sub-summary-row">
-                    <span className="sub-summary-label">{magazineName} — {selectedPlan?.name}</span>
+                    <span>Subtotaal</span>
                     <span className="sub-summary-value">{formatPrice(price)}</span>
+                  </div>
+                  <div className="sub-summary-row">
+                    <span>Verzendkosten</span>
+                    <span className="sub-summary-value sub-summary-value--green">Gratis</span>
+                  </div>
+
+                  <hr className="sub-summary-divider" />
+
+                  <div className="sub-summary-total">
+                    <span className="sub-summary-total__label">Totaal</span>
+                    <span className="sub-summary-total__value">{formatPrice(price)}</span>
                   </div>
 
                   {selectedPlan?.priceSuffix && (
                     <div className="sub-summary-note">{selectedPlan.priceSuffix}</div>
                   )}
 
-                  {/* Divider */}
-                  <hr className="sub-summary-divider" />
-
-                  {/* Total */}
-                  <div className="sub-summary-total">
-                    <span className="sub-summary-total__label">Totaal</span>
-                    <span className="sub-summary-total__value">{formatPrice(price)}</span>
-                  </div>
-
-                  {/* Trust signals */}
-                  <div className="sub-trust-list">
-                    <div className="sub-trust-item"><CheckCircle size={14} /> Direct actief na betaling</div>
-                    <div className="sub-trust-item"><CheckCircle size={14} /> 30 dagen geld-terug-garantie</div>
-                    <div className="sub-trust-item"><CheckCircle size={14} /> Veilig betalen</div>
-                    <div className="sub-trust-item"><CheckCircle size={14} /> Beveiligde verbinding (SSL)</div>
-                  </div>
+                  {/* CTA button in summary — Step 1 */}
+                  {currentStep === 1 && (
+                    <button
+                      type="button"
+                      onClick={() => canProceedToContact && setCurrentStep(2)}
+                      disabled={!canProceedToContact}
+                      className="btn btn-primary btn-lg w-full mt-4"
+                    >
+                      Naar bestellen
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -445,7 +548,6 @@ export default function SubscriptionCheckoutClient({
           background: var(--bg);
         }
 
-        /* Step bar — identical to t4-step-bar */
         .sub-step-bar {
           background: var(--white);
           border-bottom: 1px solid var(--grey);
@@ -517,41 +619,6 @@ export default function SubscriptionCheckoutClient({
           gap: var(--sp-6);
         }
 
-        /* Cards */
-        .sub-card {
-          background: var(--white);
-          border-radius: var(--r-lg);
-          border: 1px solid var(--grey);
-          padding: var(--sp-6);
-          box-shadow: var(--sh-sm);
-        }
-        .sub-card__title {
-          font-family: var(--font-display);
-          font-size: var(--text-card-title, 18px);
-          font-weight: 800;
-          color: var(--navy);
-          margin-bottom: var(--sp-4);
-          display: flex;
-          align-items: center;
-          gap: var(--sp-2);
-        }
-        .sub-card__title :global(svg) {
-          color: var(--color-primary);
-        }
-        .sub-card__subtitle {
-          font-family: var(--font-display);
-          font-size: var(--text-body-lg, 16px);
-          font-weight: 800;
-          color: var(--navy);
-          margin: var(--sp-6) 0 var(--sp-3);
-          display: flex;
-          align-items: center;
-          gap: var(--sp-2);
-        }
-        .sub-card__subtitle :global(svg) {
-          color: var(--color-primary);
-        }
-
         /* Plan grid */
         .sub-plan-grid {
           display: grid;
@@ -570,89 +637,6 @@ export default function SubscriptionCheckoutClient({
           background: var(--color-primary-glow);
         }
 
-        /* Form grid */
-        .sub-form-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: var(--sp-4);
-        }
-        .sub-form-grid :global(.sub-col-span-2) {
-          grid-column: span 2;
-        }
-
-        /* Payment cards */
-        .sub-payment-list {
-          display: flex;
-          flex-direction: column;
-          gap: var(--sp-3);
-        }
-        .sub-payment-card {
-          display: flex;
-          align-items: center;
-          gap: var(--sp-4);
-          padding: var(--sp-4);
-          border-radius: var(--r-lg);
-          border: 2px solid var(--grey);
-          cursor: pointer;
-          transition: all 0.15s;
-        }
-        .sub-payment-card:hover {
-          border-color: var(--color-primary);
-        }
-        .sub-payment-card--selected {
-          border-color: var(--color-primary);
-          background: var(--color-primary-glow);
-        }
-        .sub-payment-icon { font-size: 24px; }
-        .sub-payment-info { flex: 1; }
-        .sub-payment-name { font-size: var(--text-small); font-weight: 700; color: var(--navy); }
-        .sub-payment-desc { font-size: 12px; color: var(--grey-mid); }
-        .sub-radio {
-          width: 20px; height: 20px; border-radius: 50%;
-          border: 2px solid var(--grey);
-          display: flex; align-items: center; justify-content: center;
-          flex-shrink: 0;
-        }
-        .sub-radio--checked {
-          border-color: var(--color-primary);
-          background: var(--color-primary);
-        }
-        .sub-radio__dot { width: 8px; height: 8px; border-radius: 50%; background: white; }
-
-        /* Review */
-        .sub-review {
-          border: 1px solid var(--grey);
-          border-radius: var(--r-lg);
-          background: var(--bg);
-          margin-bottom: var(--sp-4);
-          overflow: hidden;
-        }
-
-        /* Error */
-        .sub-error {
-          background: var(--color-error-light, #FFEBEE);
-          color: var(--color-error, #D32F2F);
-          padding: var(--sp-3) var(--sp-4);
-          border-radius: var(--r-md, 8px);
-          font-size: var(--text-small);
-          margin-bottom: var(--sp-4);
-        }
-
-        /* Navigation */
-        .sub-nav {
-          display: flex;
-          gap: var(--sp-4);
-          margin-top: var(--sp-6);
-        }
-        .sub-nav--end { justify-content: flex-end; }
-
-        .sub-disclaimer {
-          text-align: center;
-          font-size: 12px;
-          color: var(--grey-mid);
-          margin-top: var(--sp-2);
-        }
-
         /* Sidebar — matches t4-sidebar */
         .sub-sidebar {
           position: sticky;
@@ -669,6 +653,77 @@ export default function SubscriptionCheckoutClient({
           display: flex;
           flex-direction: column;
           gap: var(--sp-4);
+        }
+
+        /* Order items card — matches t4-order-items */
+        .sub-order-items {
+          background: var(--white);
+          border-radius: var(--r-lg);
+          border: 1px solid var(--grey);
+          padding: var(--sp-6);
+          box-shadow: var(--sh-sm);
+        }
+        .sub-order-items__title {
+          font-family: var(--font-display);
+          font-size: var(--text-card-title);
+          color: var(--navy);
+          margin-bottom: var(--sp-4);
+        }
+        .sub-order-item {
+          display: flex;
+          align-items: center;
+          gap: var(--sp-3);
+        }
+        .sub-order-item__thumb {
+          width: 48px;
+          height: 48px;
+          border-radius: var(--r-sm);
+          background: var(--bg);
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--grey-mid);
+        }
+        .sub-order-item__info {
+          flex: 1;
+          min-width: 0;
+        }
+        .sub-order-item__name {
+          font-size: var(--text-small);
+          font-weight: 600;
+          color: var(--navy);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .sub-order-item__qty {
+          font-size: 12px;
+          color: var(--grey-mid);
+        }
+        .sub-order-item__total {
+          font-size: var(--text-small);
+          font-weight: 700;
+          color: var(--navy);
+          flex-shrink: 0;
+        }
+        .sub-order-items__footer {
+          margin-top: var(--sp-4);
+          padding-top: var(--sp-3);
+          border-top: 1px solid var(--grey);
+        }
+        .sub-order-items__footer :global(.sub-order-items__edit) {
+          font-size: var(--text-small);
+          color: var(--color-primary);
+          font-weight: 600;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 0;
+        }
+        .sub-order-items__footer :global(.sub-order-items__edit:hover) {
+          color: var(--color-primary-dark);
+          text-decoration: underline;
         }
 
         /* Summary card — matches t4-summary-card */
@@ -696,24 +751,25 @@ export default function SubscriptionCheckoutClient({
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: var(--sp-2) 0;
+          padding: 10px 0;
           font-size: 14px;
+          color: var(--grey-dark);
         }
-        .sub-summary-label { color: var(--grey-dark); }
         .sub-summary-value { font-weight: 600; color: var(--navy); }
+        .sub-summary-value--green { color: var(--green); }
         .sub-summary-note { font-size: 12px; color: var(--grey-mid); text-align: right; }
 
         .sub-summary-divider {
           border: none;
           border-top: 1px solid var(--grey);
-          margin: var(--sp-3) 0;
+          margin: 8px 0;
         }
 
         .sub-summary-total {
           display: flex;
           justify-content: space-between;
           align-items: baseline;
-          padding: var(--sp-3) 0;
+          padding: 14px 0 4px;
         }
         .sub-summary-total__label {
           font-size: 16px;
@@ -725,23 +781,6 @@ export default function SubscriptionCheckoutClient({
           font-size: 28px;
           font-weight: 800;
           color: var(--navy);
-        }
-
-        .sub-trust-list {
-          display: flex;
-          flex-direction: column;
-          gap: var(--sp-2);
-          margin-top: var(--sp-4);
-          padding-top: var(--sp-4);
-          border-top: 1px solid var(--grey);
-        }
-        .sub-trust-item {
-          display: flex;
-          align-items: center;
-          gap: var(--sp-2);
-          font-size: 12px;
-          font-weight: 600;
-          color: var(--green);
         }
 
         /* Responsive — matches t4 breakpoints */
@@ -784,20 +823,11 @@ export default function SubscriptionCheckoutClient({
           .sub-plan-grid--3 {
             grid-template-columns: 1fr;
           }
-          .sub-form-grid {
-            grid-template-columns: 1fr;
-          }
-          .sub-form-grid :global(.sub-col-span-2) {
-            grid-column: span 1;
-          }
         }
         @media (min-width: 640px) and (max-width: 900px) {
           .sub-plan-grid--2,
           .sub-plan-grid--3 {
             grid-template-columns: repeat(2, 1fr);
-          }
-          .sub-form-grid {
-            grid-template-columns: 1fr 1fr;
           }
         }
       `}</style>
@@ -805,56 +835,15 @@ export default function SubscriptionCheckoutClient({
   )
 }
 
-// ── Reusable form input ──
-function InputField({
-  label, value, onChange, type = 'text', required = false, className = '',
-}: {
-  label: string; value: string; onChange: (v: string) => void; type?: string; required?: boolean; className?: string
-}) {
-  return (
-    <div className={className}>
-      <label style={{ display: 'block', marginBottom: 4, fontSize: 12, fontWeight: 700, color: 'var(--grey-dark)' }}>
-        {label} {required && <span style={{ color: 'var(--color-error, #D32F2F)' }}>*</span>}
-      </label>
-      <input
-        type={type}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        required={required}
-        style={{
-          width: '100%',
-          height: 44,
-          borderRadius: 'var(--r-sm, 8px)',
-          border: '1px solid var(--grey)',
-          background: 'var(--white)',
-          padding: '0 14px',
-          fontSize: 14,
-          color: 'var(--navy)',
-          outline: 'none',
-          transition: 'border-color 0.15s',
-        }}
-        onFocus={(e) => { e.currentTarget.style.borderColor = 'var(--color-primary)' }}
-        onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--grey)' }}
-      />
-    </div>
-  )
-}
-
 // ── Review row with edit link ──
 function ReviewRow({ label, value, onClick }: { label: string; value: string; onClick: () => void }) {
   return (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: 'var(--sp-3, 12px) var(--sp-4, 16px)',
-      borderBottom: '1px solid var(--grey)',
-    }}>
+    <div className="flex items-center justify-between px-4 py-3">
       <div>
-        <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--grey-mid)' }}>{label}</div>
-        <div style={{ fontSize: 14, color: 'var(--navy)' }}>{value}</div>
+        <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">{label}</div>
+        <div className="text-sm text-gray-900">{value}</div>
       </div>
-      <button type="button" onClick={onClick} style={{ fontSize: 12, fontWeight: 700, color: 'var(--color-primary)', background: 'none', border: 'none', cursor: 'pointer' }}>
+      <button type="button" onClick={onClick} className="text-xs font-bold hover:underline" style={{ color: 'var(--color-primary)' }}>
         Wijzig
       </button>
     </div>

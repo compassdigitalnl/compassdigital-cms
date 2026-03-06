@@ -1,8 +1,20 @@
 import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
-import type { SummarySection } from '@/branches/shared/components/ui/checkout/OrderSummary/types'
-import type { TrustItem } from '@/branches/shared/components/ui/checkout/TrustList/types'
-import type { CheckoutStep } from '@/branches/shared/components/ui/checkout/CheckoutSteps/types'
 import type { BillingOption } from '@/branches/shared/components/ui/checkout/BillingPeriodSelector/types'
+
+export interface CheckoutStep {
+  label: string
+  status: 'done' | 'active' | 'pending'
+}
+
+export interface SummarySection {
+  label?: string
+  rows: { label: string; value: string }[]
+}
+
+export interface TrustItem {
+  icon: string
+  text: string
+}
 
 export interface SubscriptionCheckoutTemplate1Props {
   steps: CheckoutStep[]

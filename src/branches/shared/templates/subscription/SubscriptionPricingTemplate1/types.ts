@@ -1,7 +1,10 @@
 import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
 import type { FeatureCategory } from '@/branches/shared/components/ui/pricing/PricingFeatureTable/types'
 import type { FAQItem } from '@/branches/shared/components/ui/pricing/PricingFAQ/types'
-import type { TrustItem } from '@/branches/shared/components/ui/checkout/TrustList/types'
+export interface TrustItem {
+  icon: string
+  text: string
+}
 
 export interface SubscriptionPricingTemplate1Props {
   badge?: string

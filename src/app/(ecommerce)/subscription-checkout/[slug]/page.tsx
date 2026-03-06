@@ -4,7 +4,6 @@ import { isFeatureEnabled } from '@/lib/features'
 import { notFound, redirect } from 'next/navigation'
 import SubscriptionCheckoutClient from './SubscriptionCheckoutClient'
 import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
-import type { TrustItem } from '@/branches/shared/components/ui/checkout/TrustList/types'
 import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
@@ -46,12 +45,6 @@ function mapPlans(rawPlans: any[], magazineSlug: string): PricingPlan[] {
   }))
 }
 
-function mapTrustItems(rawItems: any[]): TrustItem[] {
-  return rawItems.map((t: any) => ({
-    icon: t.icon,
-    text: t.text,
-  }))
-}
 
 export async function generateMetadata({
   params,
@@ -106,8 +99,6 @@ export default async function SubscriptionCheckoutPage({
   const plans = mapPlans(magazine.plans || [], slug)
   if (plans.length === 0) redirect(`/magazines/${slug}`)
 
-  const trustItems = mapTrustItems(magazine.trustItems || [])
-
   // Pre-select plan if ?plan= param provided, otherwise highlighted or first
   const selectedPlan = selectedPlanParam
     ? plans.find((p) => String(p.id) === selectedPlanParam) || plans[0]
@@ -119,7 +110,6 @@ export default async function SubscriptionCheckoutPage({
       magazineSlug={slug}
       plans={plans}
       selectedPlanId={selectedPlan.id}
-      trustItems={trustItems}
     />
   )
 }

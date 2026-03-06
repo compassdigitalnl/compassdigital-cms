@@ -6,8 +6,12 @@ import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 import SubscriptionPricingTemplate1 from '@/branches/shared/templates/subscription/SubscriptionPricingTemplate1'
 import SubscriptionCheckoutTemplate1 from '@/branches/shared/templates/subscription/SubscriptionCheckoutTemplate1'
 import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
-import type { TrustItem } from '@/branches/shared/components/ui/checkout/TrustList/types'
 import type { Metadata } from 'next'
+
+interface TrustItem {
+  icon: string
+  text: string
+}
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
