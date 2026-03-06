@@ -76,6 +76,7 @@ export interface ClientFeatures {
 
   // === SPRINT 6 (top-level) ===
   subscriptions?: boolean
+  subscriptionManagement?: boolean
   subscriptionPages?: boolean
   giftVouchers?: boolean
   licenses?: boolean
@@ -263,6 +264,7 @@ export const features = {
 
   // === SPRINT 6 ===
   subscriptions: isFeatureEnabled('subscriptions'),
+  subscriptionManagement: isFeatureEnabled('subscription_management'),
   subscriptionPages: isFeatureEnabled('subscription_pages'),
   giftVouchers: isFeatureEnabled('gift_vouchers'),
   licenses: isFeatureEnabled('licenses'),
@@ -347,7 +349,7 @@ export const featureCategories = {
   ],
   b2b: ['b2b', 'customerGroups', 'groupPricing', 'barcodeScanner'],
   marketplace: ['vendors', 'vendorReviews', 'workshops'],
-  sprint6: ['subscriptions', 'subscriptionPages', 'giftVouchers', 'licenses', 'loyalty'],
+  sprint6: ['subscriptions', 'subscriptionManagement', 'subscriptionPages', 'giftVouchers', 'licenses', 'loyalty'],
   catalog: ['catalogBranches'],
   publishing: ['magazines'],
   content: ['blog', 'faq', 'testimonials', 'cases', 'partners', 'services', 'wishlists'],
@@ -430,6 +432,7 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
 
     // === SPRINT 6 ===
     subscriptions: 'ENABLE_SUBSCRIPTIONS',
+    subscriptionManagement: 'ENABLE_SUBSCRIPTION_MANAGEMENT',
     subscriptionPages: 'ENABLE_SUBSCRIPTION_PAGES',
     giftVouchers: 'ENABLE_GIFT_VOUCHERS',
     licenses: 'ENABLE_LICENSES',
@@ -529,10 +532,10 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     workshops: 'workshops',
 
     // === SPRINT 6 ===
-    'subscription-plans': 'subscriptions',
+    'subscription-plans': 'subscriptionManagement',
     'subscription-pages': 'subscriptionPages',
-    'user-subscriptions': 'subscriptions',
-    'payment-methods': 'subscriptions',
+    'user-subscriptions': 'subscriptionManagement',
+    'payment-methods': 'subscriptionManagement',
     'gift-vouchers': 'giftVouchers',
     licenses: 'licenses',
     'license-activations': 'licenses',

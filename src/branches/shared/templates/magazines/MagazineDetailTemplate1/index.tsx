@@ -4,7 +4,7 @@ import React from 'react'
 
 import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 import { MagazineHero } from '@/branches/ecommerce/components/magazines/MagazineHero/Component'
-import { PricingPlansGrid } from '@/branches/shared/ui/pricing/PricingPlansGrid'
+import { PricingPlansGrid } from '@/branches/shared/components/ui/pricing/PricingPlansGrid'
 import { MagazineUSPCards } from '@/branches/ecommerce/components/magazines/MagazineUSPCards/Component'
 import { MagazineStory } from '@/branches/ecommerce/components/magazines/MagazineStory/Component'
 import { MagazineIssueGrid } from '@/branches/ecommerce/components/magazines/MagazineIssueGrid/Component'

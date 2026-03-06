@@ -2,14 +2,14 @@
 
 import React, { useState } from 'react'
 import { CreditCard, Calendar, ShieldCheck } from 'lucide-react'
-import { CheckoutSteps } from '@/branches/shared/ui/checkout/CheckoutSteps'
-import { CheckoutCard } from '@/branches/shared/ui/checkout/CheckoutCard'
-import { OrderSummary } from '@/branches/shared/ui/checkout/OrderSummary'
-import { TrustList } from '@/branches/shared/ui/checkout/TrustList'
-import { TrustBanner } from '@/branches/shared/ui/checkout/TrustBanner'
-import { BillingPeriodSelector } from '@/branches/shared/ui/checkout/BillingPeriodSelector'
-import { PricingPlanCard } from '@/branches/shared/ui/pricing/PricingPlanCard'
-import type { PricingPlan } from '@/branches/shared/ui/pricing/PricingPlanCard/types'
+import { CheckoutSteps } from '@/branches/shared/components/ui/checkout/CheckoutSteps'
+import { CheckoutCard } from '@/branches/shared/components/ui/checkout/CheckoutCard'
+import { OrderSummary } from '@/branches/shared/components/ui/checkout/OrderSummary'
+import { TrustList } from '@/branches/shared/components/ui/checkout/TrustList'
+import { TrustBanner } from '@/branches/shared/components/ui/checkout/TrustBanner'
+import { BillingPeriodSelector } from '@/branches/shared/components/ui/checkout/BillingPeriodSelector'
+import { PricingPlanCard } from '@/branches/shared/components/ui/pricing/PricingPlanCard'
+import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
 import type { SubscriptionCheckoutTemplate1Props } from './types'
 
 export default function SubscriptionCheckoutTemplate1({

@@ -14,7 +14,7 @@ export const SubscriptionPlans: CollectionConfig = {
     group: 'Abonnementen',
     defaultColumns: ['name', 'price', 'billingInterval', 'active', 'updatedAt'],
     description: 'Available subscription plans and pricing tiers',
-    hidden: shouldHideCollection('subscriptions'),
+    hidden: shouldHideCollection('subscriptionManagement'),
   },
   access: {
     read: () => true, // Public catalog

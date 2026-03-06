@@ -1,7 +1,7 @@
-import type { PricingPlan } from '@/branches/shared/ui/pricing/PricingPlanCard/types'
-import type { FeatureCategory } from '@/branches/shared/ui/pricing/PricingFeatureTable/types'
-import type { FAQItem } from '@/branches/shared/ui/pricing/PricingFAQ/types'
-import type { TrustItem } from '@/branches/shared/ui/checkout/TrustList/types'
+import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
+import type { FeatureCategory } from '@/branches/shared/components/ui/pricing/PricingFeatureTable/types'
+import type { FAQItem } from '@/branches/shared/components/ui/pricing/PricingFAQ/types'
+import type { TrustItem } from '@/branches/shared/components/ui/checkout/TrustList/types'
 
 export interface SubscriptionPricingTemplate1Props {
   badge?: string

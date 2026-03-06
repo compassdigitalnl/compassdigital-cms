@@ -13,7 +13,7 @@ export const UserSubscriptions: CollectionConfig = {
     group: 'Abonnementen',
     defaultColumns: ['user', 'plan', 'status', 'currentPeriodEnd', 'updatedAt'],
     description: 'Active user subscriptions',
-    hidden: shouldHideCollection('subscriptions'),
+    hidden: shouldHideCollection('subscriptionManagement'),
   },
   access: {
     read: ({ req: { user } }) => {
