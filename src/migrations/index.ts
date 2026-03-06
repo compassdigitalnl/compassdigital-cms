@@ -5,6 +5,7 @@ import * as migration_20260305_220000_add_button_tokens from './20260305_220000_
 import * as migration_20260306_120000_add_subscription_pages from './20260306_120000_add_subscription_pages';
 import * as migration_20260306_130000_add_magazines from './20260306_130000_add_magazines';
 import * as migration_20260306_140000_expand_magazines_subscriptions from './20260306_140000_expand_magazines_subscriptions';
+import * as migration_20260306_170000_chatbot_avatar_image from './20260306_170000_chatbot_avatar_image';
 
 export const migrations = [
   {
@@ -41,5 +42,10 @@ export const migrations = [
     up: migration_20260306_140000_expand_magazines_subscriptions.up,
     down: migration_20260306_140000_expand_magazines_subscriptions.down,
     name: '20260306_140000_expand_magazines_subscriptions',
+  },
+  {
+    up: migration_20260306_170000_chatbot_avatar_image.up,
+    down: migration_20260306_170000_chatbot_avatar_image.down,
+    name: '20260306_170000_chatbot_avatar_image',
   },
 ];
