@@ -109,10 +109,20 @@ export default function OrderListDetailPage() {
 
       const mapped: OrderList = {
         ...data.doc,
-        items: data.doc.items?.map((item: any) => ({
-          ...item,
-          quantity: item.defaultQuantity || item.quantity || 1,
-        })) || [],
+        items: (data.doc.items || [])
+          .filter((item: any) => item.product && typeof item.product === 'object' && item.product.id)
+          .map((item: any) => ({
+            ...item,
+            quantity: item.defaultQuantity || item.quantity || 1,
+            product: {
+              ...item.product,
+              stockCount: item.product.stockCount ?? 0,
+              price: item.product.price ?? 0,
+              name: item.product.name || item.product.title || 'Onbekend product',
+              brand: item.product.brand || '',
+              sku: item.product.sku || '',
+            },
+          })),
       }
 
       setList(mapped)
