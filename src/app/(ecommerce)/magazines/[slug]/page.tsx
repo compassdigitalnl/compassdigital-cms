@@ -71,9 +71,29 @@ export default async function MagazineDetailPage({
       shopUrl: edition.shopUrl,
     }))
 
+  // Map plans for the pricing table
+  const mappedPlans = (magazine.plans || []).map((p: any) => ({
+    id: p.id,
+    name: p.name,
+    description: p.description,
+    highlighted: p.highlighted || false,
+    price: p.price,
+    period: p.period || 'yearly',
+    editions: p.editions,
+    features: (p.features || []).map((f: any) => ({
+      text: f.text,
+      included: f.included ?? true,
+    })),
+    externalUrl: p.externalUrl,
+  }))
+
+  const trustItems = (magazine.trustItems || []).map((t: any) => ({
+    icon: t.icon,
+    text: t.text,
+  }))
+
   // Build subscription CTA from the highlighted plan (or first plan)
-  const plans = magazine.plans || []
-  const highlightedPlan = plans.find((p: any) => p.highlighted) || plans[0]
+  const highlightedPlan = (magazine.plans || []).find((p: any) => p.highlighted) || (magazine.plans || [])[0]
   const subscriptionCTA = highlightedPlan
     ? {
         title: magazine.ctaTitle || 'Word abonnee',
@@ -105,6 +125,8 @@ export default async function MagazineDetailPage({
       stats={magazine.stats}
       uspCards={magazine.uspCards}
       recentIssues={recentIssues}
+      plans={mappedPlans}
+      trustItems={trustItems}
       testimonial={
         magazine.testimonial?.quote
           ? {

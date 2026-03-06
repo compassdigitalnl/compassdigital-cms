@@ -4,8 +4,9 @@ import React from 'react'
 
 import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 import { MagazineHero } from '@/branches/ecommerce/components/magazines/MagazineHero/Component'
-import { MagazineStory } from '@/branches/ecommerce/components/magazines/MagazineStory/Component'
+import { MagazinePricingPlans } from '@/branches/ecommerce/components/magazines/MagazinePricingPlans/Component'
 import { MagazineUSPCards } from '@/branches/ecommerce/components/magazines/MagazineUSPCards/Component'
+import { MagazineStory } from '@/branches/ecommerce/components/magazines/MagazineStory/Component'
 import { MagazineIssueGrid } from '@/branches/ecommerce/components/magazines/MagazineIssueGrid/Component'
 import { MagazineTestimonial } from '@/branches/ecommerce/components/magazines/MagazineTestimonial/Component'
 import { MagazineSubscriptionCTA } from '@/branches/ecommerce/components/magazines/MagazineSubscriptionCTA/Component'
@@ -23,8 +24,12 @@ export default function MagazineDetailTemplate1({
   uspCards,
   recentIssues,
   testimonial,
+  plans,
+  trustItems,
   subscriptionCTA,
 }: MagazineDetailTemplate1Props) {
+  const hasPlans = plans && plans.length > 0
+
   return (
     <div className="min-h-screen bg-theme-bg">
       {/* Breadcrumbs */}
@@ -46,13 +51,24 @@ export default function MagazineDetailTemplate1({
           className="mb-9"
         />
 
-        {/* Story / Description */}
-        <MagazineStory description={richDescription} className="mb-10" />
+        {/* Subscription Plans — PROMINENT, right after hero */}
+        {hasPlans && (
+          <MagazinePricingPlans
+            magazineName={name}
+            magazineSlug={slug}
+            plans={plans}
+            trustItems={trustItems}
+            className="mb-12"
+          />
+        )}
 
         {/* USP Cards */}
         {uspCards && uspCards.length > 0 && (
           <MagazineUSPCards cards={uspCards} className="mb-10" />
         )}
+
+        {/* Story / Description */}
+        <MagazineStory description={richDescription} className="mb-10" />
 
         {/* Recent Issues */}
         {recentIssues && recentIssues.length > 0 && (
@@ -76,7 +92,7 @@ export default function MagazineDetailTemplate1({
           />
         )}
 
-        {/* Subscription CTA */}
+        {/* Bottom CTA — still show for quick action even if plans above */}
         {subscriptionCTA && (
           <MagazineSubscriptionCTA
             title={subscriptionCTA.title}
