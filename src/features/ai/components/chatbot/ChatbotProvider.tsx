@@ -39,8 +39,31 @@ export async function ChatbotProvider() {
     const payload = await getPayload({ config })
     const settingsDoc = await payload.findGlobal({
       slug: 'chatbot-settings',
-      depth: 0,
+      depth: 1,
     })
+
+    // Map conversation flows from DB format
+    const conversationFlows = (settingsDoc.conversationFlows || []).map((flow: any) => ({
+      label: flow.label,
+      icon: flow.icon || undefined,
+      type: flow.type || 'direct',
+      directMessage: flow.directMessage || undefined,
+      inputLabel: flow.inputLabel || undefined,
+      inputPlaceholder: flow.inputPlaceholder || undefined,
+      contextPrefix: flow.contextPrefix || undefined,
+      subOptions: (flow.subOptions || []).map((sub: any) => ({
+        label: sub.label,
+        type: sub.type || 'direct',
+        directMessage: sub.directMessage || undefined,
+        inputLabel: sub.inputLabel || undefined,
+        inputPlaceholder: sub.inputPlaceholder || undefined,
+      })),
+    }))
+
+    // Resolve avatar image URL
+    const avatarImage = settingsDoc.avatarImage && typeof settingsDoc.avatarImage === 'object'
+      ? { url: (settingsDoc.avatarImage as any).url, alt: (settingsDoc.avatarImage as any).alt }
+      : null
 
     // Map Payload settings to component props
     const settings: ChatbotSettings = {
@@ -52,9 +75,11 @@ export async function ChatbotProvider() {
       position: settingsDoc.position || 'bottom-right',
       buttonColor: settingsDoc.buttonColor || '#0ea5e9',
       buttonIcon: settingsDoc.buttonIcon || 'chat',
-      welcomeMessage: settingsDoc.welcomeMessage || 'Hallo! Hoe kan ik je helpen?',
-      placeholder: settingsDoc.placeholder || 'Typ je vraag...',
-      suggestedQuestions: settingsDoc.suggestedQuestions || [],
+      avatarImage,
+      welcomeMessage: settingsDoc.welcomeMessage || 'Welkom! Waar kunnen we je mee helpen?',
+      placeholder: settingsDoc.placeholder || 'Stel je vraag...',
+      conversationFlows: conversationFlows.length > 0 ? conversationFlows : undefined,
+      suggestedQuestions: conversationFlows.length > 0 ? undefined : (settingsDoc.suggestedQuestions || []),
       systemPrompt: settingsDoc.systemPrompt || undefined,
       trainingContext: settingsDoc.trainingContext || undefined,
       knowledgeBaseIntegration: settingsDoc.knowledgeBaseIntegration ? {
