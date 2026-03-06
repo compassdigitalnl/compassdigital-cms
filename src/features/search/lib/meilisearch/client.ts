@@ -35,12 +35,12 @@ export const meilisearchClient = new MeiliSearch({
   apiKey: MEILISEARCH_MASTER_KEY,
 })
 
-// Index names
+// Index names — uses getters to ensure runtime env resolution (not build-time inlining)
 export const INDEXES = {
-  PRODUCTS: process.env.MEILISEARCH_PRODUCTS_INDEX || 'products',
-  BLOG_POSTS: process.env.MEILISEARCH_BLOG_INDEX || 'blog-posts',
-  PAGES: process.env.MEILISEARCH_PAGES_INDEX || 'pages',
-} as const
+  get PRODUCTS() { return process.env.MEILISEARCH_PRODUCTS_INDEX || 'products' },
+  get BLOG_POSTS() { return process.env.MEILISEARCH_BLOG_INDEX || 'blog-posts' },
+  get PAGES() { return process.env.MEILISEARCH_PAGES_INDEX || 'pages' },
+}
 
 /**
  * Get or create an index
