@@ -160,6 +160,28 @@ export class RAGChatbotService {
   }
 
   /**
+   * Extract search keywords from a natural language question
+   */
+  private extractSearchQuery(query: string): string {
+    // Remove common Dutch question patterns that pollute search
+    const stopPatterns = [
+      /^(heeft u|hebben jullie|heb je|verkopen jullie|verkoop je|bieden jullie|lever je|leveren jullie)\s*/i,
+      /^(ik zoek|ik ben op zoek naar|ik wil graag|ik heb.*nodig|kan ik|waar kan ik|waar vind ik)\s*/i,
+      /^(wat voor|welke|hoeveel kost|wat kost|wat is de prijs van)\s*/i,
+      /^(zijn er|is er|zit er|bestaan er)\s*/i,
+      /\?+$/,
+      /^(ook|nog|misschien|eventueel|graag)\s+/i,
+    ]
+
+    let cleaned = query.trim()
+    for (const pattern of stopPatterns) {
+      cleaned = cleaned.replace(pattern, '')
+    }
+
+    return cleaned.trim() || query.trim()
+  }
+
+  /**
    * Search knowledge base via Meilisearch
    */
   private async searchKnowledgeBase(
@@ -182,13 +204,16 @@ export class RAGChatbotService {
         pages: INDEXES.PAGES,
       }
 
+      // Clean the query to extract search keywords
+      const searchQuery = this.extractSearchQuery(query)
+
       const emptyResult = { hits: [] as any[] }
       const searchPromises = collections.map((col) => {
         const indexName = indexMap[col]
         if (!indexName) return Promise.resolve(emptyResult)
         return meilisearchClient
           .index(indexName)
-          .search(query, { limit: col === 'products' ? maxResults : 3 })
+          .search(searchQuery, { limit: col === 'products' ? maxResults : 3 })
           .catch(() => emptyResult)
       })
 
@@ -197,10 +222,15 @@ export class RAGChatbotService {
       // Flatten results with collection info
       const allHits: Array<{ hit: any; collection: string }> = []
       collections.forEach((col, i) => {
-        results[i].hits.forEach((hit: any) => {
+        const hits = results[i].hits
+        console.log(`[RAG] Index ${indexMap[col] || col}: ${hits.length} hits for "${searchQuery}" (from: "${query}")`)
+        hits.forEach((hit: any) => {
           allHits.push({ hit, collection: col })
         })
       })
+      if (allHits.length > 0) {
+        console.log(`[RAG] Top hits: ${allHits.slice(0, 3).map(h => `${h.hit.id}:${h.hit.title}`).join(', ')}`)
+      }
 
       if (allHits.length > 0) {
         const payload = await getPayload({ config })
