@@ -113,13 +113,18 @@ export default function OrderListDetailPage() {
           .filter((item: any) => item.product && typeof item.product === 'object' && item.product.id)
           .map((item: any) => {
             const p = item.product
+            // brand is a relationship → can be a populated object or a string/number ID
+            const brandName =
+              typeof p.brand === 'object' && p.brand !== null
+                ? p.brand.name || p.brand.title || ''
+                : p.brand || ''
             return {
               ...item,
               quantity: item.defaultQuantity || item.quantity || 1,
               product: {
                 id: p.id,
                 name: p.name || p.title || 'Onbekend product',
-                brand: p.brand || '',
+                brand: String(brandName),
                 sku: p.sku || '',
                 emoji: p.emoji || '📦',
                 price: p.price ?? 0,
