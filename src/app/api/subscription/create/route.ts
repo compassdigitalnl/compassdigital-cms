@@ -14,7 +14,7 @@ export const dynamic = 'force-dynamic'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { magazineSlug, planId } = body
+    const { magazineSlug, planId, customer, address, paymentMethod: payMethod } = body
 
     if (!magazineSlug || !planId) {
       return NextResponse.json(
@@ -85,18 +85,20 @@ export async function POST(request: NextRequest) {
       discount: 0,
       total: price,
       status: 'pending',
-      paymentMethod: 'ideal',
+      paymentMethod: payMethod || 'ideal',
       paymentStatus: 'pending',
       shippingAddress: {
-        firstName: 'Abonnement',
-        lastName: magazine.name,
-        street: 'Digitaal abonnement',
-        houseNumber: '-',
-        postalCode: '0000AA',
-        city: 'N.v.t.',
+        firstName: customer?.firstName || 'Abonnement',
+        lastName: customer?.lastName || magazine.name,
+        street: address?.street || 'Digitaal abonnement',
+        houseNumber: address?.houseNumber || '-',
+        postalCode: address?.postalCode || '0000AA',
+        city: address?.city || 'N.v.t.',
         country: 'Nederland',
       },
-      notes: `Abonnement: ${magazine.name} — ${plan.name} (${plan.period || 'n/a'})`,
+      ...(customer?.email ? { customerEmail: customer.email } : {}),
+      ...(customer?.phone ? { customerPhone: customer.phone } : {}),
+      notes: `Abonnement: ${magazine.name} — ${plan.name} (${plan.period || 'n/a'})${customer?.email ? ` | ${customer.email}` : ''}${customer?.phone ? ` | ${customer.phone}` : ''}`,
     }
 
     const order = await payload.create({
