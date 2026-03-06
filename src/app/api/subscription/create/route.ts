@@ -51,40 +51,57 @@ export async function POST(request: NextRequest) {
 
     const price = plan.price || 0
 
-    // Create the order — use overrideAccess to bypass required field validation
-    // for fields that don't apply to subscription orders (shipping address, product relationship)
+    // Find any product to satisfy the required relationship
+    // (subscription orders don't have a real product, but the field is required)
+    let placeholderProductId: number | null = null
+    try {
+      const { docs: products } = await payload.find({
+        collection: 'products',
+        limit: 1,
+        depth: 0,
+      })
+      if (products.length > 0) {
+        placeholderProductId = products[0].id
+      }
+    } catch {
+      // products collection might not exist
+    }
+
+    // Build order data
+    const orderData: Record<string, any> = {
+      items: [
+        {
+          ...(placeholderProductId ? { product: placeholderProductId } : {}),
+          title: `${magazine.name} — ${plan.name}`,
+          sku: `SUB-${magazineSlug}-${planId}`,
+          quantity: 1,
+          price,
+          subtotal: price,
+        },
+      ],
+      subtotal: price,
+      shippingCost: 0,
+      tax: 0,
+      discount: 0,
+      total: price,
+      status: 'pending',
+      paymentMethod: 'ideal',
+      paymentStatus: 'pending',
+      shippingAddress: {
+        firstName: 'Abonnement',
+        lastName: magazine.name,
+        street: 'Digitaal abonnement',
+        houseNumber: '-',
+        postalCode: '0000AA',
+        city: 'N.v.t.',
+        country: 'Nederland',
+      },
+      notes: `Abonnement: ${magazine.name} — ${plan.name} (${plan.period || 'n/a'})`,
+    }
+
     const order = await payload.create({
       collection: 'orders',
-      overrideAccess: true,
-      data: {
-        items: [
-          {
-            title: `${magazine.name} — ${plan.name}`,
-            sku: `SUB-${magazineSlug}-${planId}`,
-            quantity: 1,
-            price,
-            subtotal: price,
-          },
-        ],
-        subtotal: price,
-        shippingCost: 0,
-        tax: 0,
-        discount: 0,
-        total: price,
-        status: 'pending',
-        paymentMethod: 'ideal',
-        paymentStatus: 'pending',
-        shippingAddress: {
-          firstName: 'Abonnement',
-          lastName: magazine.name,
-          street: 'N.v.t.',
-          houseNumber: '-',
-          postalCode: '0000AA',
-          city: 'N.v.t.',
-          country: 'Nederland',
-        },
-        notes: `Abonnement: ${magazine.name} — ${plan.name} (${plan.period || 'n/a'})`,
-      },
+      data: orderData as any,
     })
 
     return NextResponse.json({
