@@ -55,6 +55,7 @@ import { PaymentMethods } from '@/branches/ecommerce/collections/checkout/Paymen
 import { StockReservations } from '@/branches/ecommerce/collections/shipping/StockReservations'
 // Subscriptions
 import { SubscriptionPlans } from '@/branches/ecommerce/collections/subscriptions/SubscriptionPlans'
+import { SubscriptionPages } from '@/branches/ecommerce/collections/subscriptions/SubscriptionPages'
 import { UserSubscriptions } from '@/branches/ecommerce/collections/subscriptions/UserSubscriptions'
 // Licenses
 import { Licenses } from '@/branches/ecommerce/collections/licenses/Licenses'
@@ -323,6 +324,7 @@ export default buildConfig({
 
     // Subscriptions (Sprint 6)
     _col(SubscriptionPlans),
+    _col(SubscriptionPages),
     _col(UserSubscriptions),
     _col(PaymentMethods),
 

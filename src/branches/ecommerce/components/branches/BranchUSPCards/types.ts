@@ -1,12 +1,3 @@
-export interface USPCard {
-  icon: string
-  iconColor: string
-  iconBg: string
-  title: string
-  description: string
-}
-
-export interface BranchUSPCardsProps {
-  cards: USPCard[]
-  className?: string
-}
+// Re-export shared types for backwards compatibility
+export type { USPCard } from '@/branches/shared/components/ui/USPCards/types'
+export type { USPCardsProps as BranchUSPCardsProps } from '@/branches/shared/components/ui/USPCards/types'

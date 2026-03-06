@@ -76,9 +76,13 @@ export interface ClientFeatures {
 
   // === SPRINT 6 (top-level) ===
   subscriptions?: boolean
+  subscriptionPages?: boolean
   giftVouchers?: boolean
   licenses?: boolean
   loyalty?: boolean
+
+  // === PUBLISHING ===
+  magazines?: boolean
 
   // === CONTENT ===
   blog?: boolean
@@ -256,9 +260,13 @@ export const features = {
 
   // === SPRINT 6 ===
   subscriptions: isFeatureEnabled('subscriptions'),
+  subscriptionPages: isFeatureEnabled('subscription_pages'),
   giftVouchers: isFeatureEnabled('gift_vouchers'),
   licenses: isFeatureEnabled('licenses'),
   loyalty: isFeatureEnabled('loyalty'),
+
+  // === PUBLISHING ===
+  magazines: isFeatureEnabled('magazines'),
 
   // === CONTENT ===
   blog: isFeatureEnabled('blog'),
@@ -333,7 +341,8 @@ export const featureCategories = {
   ],
   b2b: ['b2b', 'customerGroups', 'groupPricing', 'barcodeScanner'],
   marketplace: ['vendors', 'vendorReviews', 'workshops'],
-  sprint6: ['subscriptions', 'giftVouchers', 'licenses', 'loyalty'],
+  sprint6: ['subscriptions', 'subscriptionPages', 'giftVouchers', 'licenses', 'loyalty'],
+  publishing: ['magazines'],
   content: ['blog', 'faq', 'testimonials', 'cases', 'partners', 'services', 'wishlists'],
   advanced: ['multiLanguage', 'aiContent', 'search', 'newsletter', 'platform', 'authentication', 'chatbot', 'abTesting'],
   emailMarketing: ['emailMarketing', 'emailCampaigns', 'emailAutomation', 'emailFlows', 'emailGrapesEditor', 'emailDeliverability', 'emailAnalytics'],
@@ -414,9 +423,13 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
 
     // === SPRINT 6 ===
     subscriptions: 'ENABLE_SUBSCRIPTIONS',
+    subscriptionPages: 'ENABLE_SUBSCRIPTION_PAGES',
     giftVouchers: 'ENABLE_GIFT_VOUCHERS',
     licenses: 'ENABLE_LICENSES',
     loyalty: 'ENABLE_LOYALTY',
+
+    // === PUBLISHING ===
+    magazines: 'ENABLE_MAGAZINES',
 
     // === CONTENT ===
     blog: 'ENABLE_BLOG',
@@ -505,6 +518,7 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
 
     // === SPRINT 6 ===
     'subscription-plans': 'subscriptions',
+    'subscription-pages': 'subscriptionPages',
     'user-subscriptions': 'subscriptions',
     'payment-methods': 'subscriptions',
     'gift-vouchers': 'giftVouchers',

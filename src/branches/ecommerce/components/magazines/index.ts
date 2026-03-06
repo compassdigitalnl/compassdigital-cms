@@ -1,0 +1,18 @@
+export { MagazineHero } from './MagazineHero/Component'
+export { MagazineUSPCards } from './MagazineUSPCards/Component'
+export { MagazineIssueGrid } from './MagazineIssueGrid/Component'
+export { MagazineSubscriptionCTA } from './MagazineSubscriptionCTA/Component'
+export { MagazineTestimonial } from './MagazineTestimonial/Component'
+export { MagazineStory } from './MagazineStory/Component'
+export { MagazineCard } from './MagazineCard/Component'
+export { FeaturedMagazines } from './FeaturedMagazines/Component'
+
+// Types
+export type { MagazineHeroProps, MagazineStat } from './MagazineHero/types'
+export type { MagazineUSPCardsProps, MagazineUSPCard } from './MagazineUSPCards/types'
+export type { MagazineIssueGridProps, MagazineIssue } from './MagazineIssueGrid/types'
+export type { MagazineSubscriptionCTAProps } from './MagazineSubscriptionCTA/types'
+export type { MagazineTestimonialProps } from './MagazineTestimonial/types'
+export type { MagazineStoryProps } from './MagazineStory/types'
+export type { MagazineCardProps } from './MagazineCard/types'
+export type { FeaturedMagazinesProps } from './FeaturedMagazines/types'
