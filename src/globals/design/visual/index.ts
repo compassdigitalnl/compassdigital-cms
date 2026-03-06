@@ -1,8 +1,11 @@
 import type { Tab } from 'payload'
 
+const shadowPreviewField =
+  '@/branches/shared/components/admin/fields/ShadowPreviewField#ShadowPreviewField'
+
 export const Visual: Tab = {
   label: 'Visueel',
-  description: 'Layout, border radius, shadows, z-index en effecten',
+  description: 'Layout, border radius, shadows en effecten',
   fields: [
     // ─── Layout ───────────────────────────────────────────
     {
@@ -19,38 +22,47 @@ export const Visual: Tab = {
               defaultValue: '7xl',
               required: true,
               options: [
-                { label: '1024px (lg)', value: 'lg' },
-                { label: '1280px (xl)', value: 'xl' },
-                { label: '1536px (2xl)', value: '2xl' },
-                { label: '1792px (7xl)', value: '7xl' },
+                { label: '1024px (compact)', value: 'lg' },
+                { label: '1280px (normaal)', value: 'xl' },
+                { label: '1536px (breed)', value: '2xl' },
+                { label: '1792px (extra breed)', value: '7xl' },
               ],
               admin: { width: '33%' },
             },
             {
               name: 'fontScale',
               type: 'select',
-              label: 'Font Schaal',
+              label: 'Tekst Grootte',
               defaultValue: 'md',
               options: [
-                { label: 'Klein (0.875x)', value: 'sm' },
-                { label: 'Normaal (1x)', value: 'md' },
-                { label: 'Groot (1.125x)', value: 'lg' },
+                { label: 'Klein', value: 'sm' },
+                { label: 'Normaal', value: 'md' },
+                { label: 'Groot', value: 'lg' },
               ],
-              admin: { width: '33%', description: 'Globale schaalfactor voor tekst' },
+              admin: { width: '33%', description: 'Vergroot of verklein alle tekst' },
             },
             {
               name: 'spacing',
               type: 'select',
-              label: 'Spacing Schaal',
+              label: 'Witruimte',
               defaultValue: 'md',
               options: [
-                { label: 'Compact (0.75x)', value: 'sm' },
-                { label: 'Normaal (1x)', value: 'md' },
-                { label: 'Ruim (1.25x)', value: 'lg' },
+                { label: 'Compact', value: 'sm' },
+                { label: 'Normaal', value: 'md' },
+                { label: 'Ruim', value: 'lg' },
               ],
-              admin: { width: '33%', description: 'Globale schaalfactor voor ruimte' },
+              admin: { width: '33%', description: 'Meer of minder ruimte tussen elementen' },
             },
           ],
+        },
+        {
+          name: 'enableAnimations',
+          type: 'checkbox',
+          label: 'Animaties inschakelen',
+          defaultValue: true,
+          admin: {
+            description: 'Hover transities en animaties aan/uit',
+          },
         },
       ],
     },
@@ -58,7 +70,10 @@ export const Visual: Tab = {
     // ─── Border Radius ────────────────────────────────────
     {
       type: 'collapsible',
-      label: 'Border Radius',
+      label: 'Afgeronde hoeken',
+      admin: {
+        description: 'Hoe rond zijn de hoeken van knoppen, kaarten en panels?',
+      },
       fields: [
         {
           type: 'row',
@@ -66,42 +81,42 @@ export const Visual: Tab = {
             {
               name: 'radiusSm',
               type: 'number',
-              label: '--r-sm (Buttons, inputs)',
+              label: 'Klein (knoppen, inputs)',
               defaultValue: 8,
               required: true,
-              admin: { width: '20%', description: '8px' },
+              admin: { width: '20%' },
             },
             {
               name: 'radiusMd',
               type: 'number',
-              label: '--r-md (Cards, panels)',
+              label: 'Normaal (kaarten)',
               defaultValue: 12,
               required: true,
-              admin: { width: '20%', description: '12px' },
+              admin: { width: '20%' },
             },
             {
               name: 'radiusLg',
               type: 'number',
-              label: '--r-lg (Grote cards)',
+              label: 'Groot (hero cards)',
               defaultValue: 16,
               required: true,
-              admin: { width: '20%', description: '16px' },
+              admin: { width: '20%' },
             },
             {
               name: 'radiusXl',
               type: 'number',
-              label: '--r-xl (Overlay panels)',
+              label: 'Extra groot (panels)',
               defaultValue: 20,
               required: true,
-              admin: { width: '20%', description: '20px' },
+              admin: { width: '20%' },
             },
             {
               name: 'radiusFull',
               type: 'number',
-              label: '--r-full (Pills)',
+              label: 'Rond (pills, avatars)',
               defaultValue: 9999,
               required: true,
-              admin: { width: '20%', description: '9999px' },
+              admin: { width: '20%' },
             },
           ],
         },
@@ -111,48 +126,69 @@ export const Visual: Tab = {
     // ─── Box Shadows ──────────────────────────────────────
     {
       type: 'collapsible',
-      label: 'Box Shadows',
+      label: 'Schaduwen',
+      admin: {
+        description: 'Diepte-effect onder kaarten, knoppen en panels',
+      },
       fields: [
         {
           name: 'shadowSm',
           type: 'text',
-          label: '--sh-sm (Cards standaard)',
+          label: 'Licht (standaard kaarten)',
           defaultValue: '0 1px 3px rgba(10, 22, 40, 0.06)',
           required: true,
-          admin: { description: 'Subtiele schaduw voor standaard cards' },
+          admin: {
+            description: 'Subtiele schaduw voor standaard kaarten',
+            components: { Field: shadowPreviewField },
+          },
         },
         {
           name: 'shadowMd',
           type: 'text',
-          label: '--sh-md (Hover states)',
+          label: 'Medium (hover states)',
           defaultValue: '0 4px 20px rgba(10, 22, 40, 0.08)',
           required: true,
-          admin: { description: 'Medium schaduw voor hover states' },
+          admin: {
+            description: 'Medium schaduw voor hover states',
+            components: { Field: shadowPreviewField },
+          },
         },
         {
           name: 'shadowLg',
           type: 'text',
-          label: '--sh-lg (Modals)',
+          label: 'Sterk (modals, overlays)',
           defaultValue: '0 8px 40px rgba(10, 22, 40, 0.12)',
           required: true,
-          admin: { description: 'Grote schaduw voor modals en overlays' },
+          admin: {
+            description: 'Sterke schaduw voor modals en overlays',
+            components: { Field: shadowPreviewField },
+          },
         },
         {
           name: 'shadowXl',
           type: 'text',
-          label: '--sh-xl (Floating panels)',
+          label: 'Zwaar (floating panels)',
           defaultValue: '0 20px 60px rgba(10, 22, 40, 0.16)',
           required: true,
-          admin: { description: 'Extra grote schaduw voor mega menus' },
+          admin: {
+            description: 'Zware schaduw voor mega menus',
+            components: { Field: shadowPreviewField },
+          },
         },
       ],
     },
 
-    // ─── Z-index ──────────────────────────────────────────
+    // ─── Admin-only: Z-index & Custom CSS ─────────────────
     {
       type: 'collapsible',
-      label: 'Z-index',
-      admin: { initCollapsed: true },
+      label: 'Geavanceerd (alleen beheerder)',
+      admin: {
+        initCollapsed: true,
+        description: 'Z-index layering en custom CSS — alleen voor technisch beheer',
+        condition: (_data: any, _siblingData: any, { user }: any) => {
+          return user?.role === 'admin'
+        },
+      },
       fields: [
         {
           type: 'row',
@@ -163,7 +199,7 @@ export const Visual: Tab = {
               label: 'Dropdown',
               defaultValue: 100,
               required: true,
-              admin: { width: '20%', description: 'Dropdowns, tooltips' },
+              admin: { width: '20%' },
             },
             {
               name: 'zSticky',
@@ -171,7 +207,7 @@ export const Visual: Tab = {
               label: 'Sticky',
               defaultValue: 200,
               required: true,
-              admin: { width: '20%', description: 'Sticky headers' },
+              admin: { width: '20%' },
             },
             {
               name: 'zOverlay',
@@ -179,7 +215,7 @@ export const Visual: Tab = {
               label: 'Overlay',
               defaultValue: 300,
               required: true,
-              admin: { width: '20%', description: 'Search overlays' },
+              admin: { width: '20%' },
             },
             {
               name: 'zModal',
@@ -187,7 +223,7 @@ export const Visual: Tab = {
               label: 'Modal',
               defaultValue: 400,
               required: true,
-              admin: { width: '20%', description: 'Modals, drawers' },
+              admin: { width: '20%' },
             },
             {
               name: 'zToast',
@@ -195,34 +231,16 @@ export const Visual: Tab = {
               label: 'Toast',
               defaultValue: 500,
               required: true,
-              admin: { width: '20%', description: 'Notifications' },
+              admin: { width: '20%' },
             },
           ],
-        },
-      ],
-    },
-
-    // ─── Effects & Custom CSS ─────────────────────────────
-    {
-      type: 'collapsible',
-      label: 'Effecten & Custom CSS',
-      admin: { initCollapsed: true },
-      fields: [
-        {
-          name: 'enableAnimations',
-          type: 'checkbox',
-          label: 'Animaties inschakelen',
-          defaultValue: true,
-          admin: {
-            description: 'Hover transities en animaties aan/uit (0ms indien uit)',
-          },
         },
         {
           name: 'customCSS',
           type: 'textarea',
           label: 'Custom CSS',
           admin: {
-            description: 'Extra CSS variabelen of overrides (geavanceerd)',
+            description: 'Extra CSS variabelen of overrides',
             rows: 6,
           },
         },

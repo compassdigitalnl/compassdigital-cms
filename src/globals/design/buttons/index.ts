@@ -1,14 +1,17 @@
-import { Tab } from 'payload'
+import type { Tab } from 'payload'
+
+const colorPickerField =
+  '@/branches/shared/components/admin/fields/ColorPickerField#ColorPickerField'
 
 export const Buttons: Tab = {
-  label: 'Buttons',
-  description: 'Button design tokens — sizing, shape, and variant colors',
+  label: 'Knoppen',
+  description: 'Button design tokens — maten, vorm en kleuren',
   fields: [
     {
       type: 'collapsible',
-      label: 'Button Base',
+      label: 'Knop Basis',
       admin: {
-        description: 'Base properties applied to all buttons',
+        description: 'Basis eigenschappen voor alle knoppen',
       },
       fields: [
         {
@@ -81,9 +84,10 @@ export const Buttons: Tab = {
 
     {
       type: 'collapsible',
-      label: 'Button Sizes',
+      label: 'Knop Maten',
       admin: {
         description: '3 maten: Small (tabellen, compact), Medium (standaard), Large (hero CTAs)',
+        initCollapsed: true,
       },
       fields: [
         // Small
@@ -193,10 +197,10 @@ export const Buttons: Tab = {
 
     {
       type: 'collapsible',
-      label: 'Button Variant Colors',
+      label: 'Knop Kleuren',
       admin: {
-        description: 'Overschrijf kleuren per button variant. Leeg = gebruikt de standaard kleur tokens.',
-        initCollapsed: true,
+        description: 'Kleuren per knop variant. Leeg = gebruikt de standaard kleur tokens.',
+        initCollapsed: false,
       },
       fields: [
         // Primary CTA
@@ -206,21 +210,32 @@ export const Buttons: Tab = {
             {
               name: 'btnPrimaryBg',
               type: 'text',
-              label: 'Primary BG',
-              admin: { width: '33%', description: 'Standaard: --color-primary', placeholder: '#00897B' },
+              label: 'Primary Achtergrond',
+              admin: {
+                width: '33%',
+                description: 'Standaard: primary kleur',
+                components: { Field: colorPickerField },
+              },
             },
             {
               name: 'btnPrimaryText',
               type: 'text',
               label: 'Primary Tekst',
               defaultValue: '#ffffff',
-              admin: { width: '33%' },
+              admin: {
+                width: '33%',
+                components: { Field: colorPickerField },
+              },
             },
             {
               name: 'btnPrimaryHoverBg',
               type: 'text',
-              label: 'Primary Hover BG',
-              admin: { width: '33%', description: 'Standaard: donkerder variant', placeholder: '#00695C' },
+              label: 'Primary Hover',
+              admin: {
+                width: '33%',
+                description: 'Standaard: donkerder variant',
+                components: { Field: colorPickerField },
+              },
             },
           ],
         },
@@ -231,21 +246,31 @@ export const Buttons: Tab = {
             {
               name: 'btnSecondaryBg',
               type: 'text',
-              label: 'Secondary BG',
-              admin: { width: '33%', description: 'Standaard: --color-secondary', placeholder: '#0A1628' },
+              label: 'Secondary Achtergrond',
+              admin: {
+                width: '33%',
+                description: 'Standaard: secondary kleur',
+                components: { Field: colorPickerField },
+              },
             },
             {
               name: 'btnSecondaryText',
               type: 'text',
               label: 'Secondary Tekst',
               defaultValue: '#ffffff',
-              admin: { width: '33%' },
+              admin: {
+                width: '33%',
+                components: { Field: colorPickerField },
+              },
             },
             {
               name: 'btnSecondaryHoverBg',
               type: 'text',
-              label: 'Secondary Hover BG',
-              admin: { width: '33%', placeholder: '#121F33' },
+              label: 'Secondary Hover',
+              admin: {
+                width: '33%',
+                components: { Field: colorPickerField },
+              },
             },
           ],
         },
@@ -256,21 +281,31 @@ export const Buttons: Tab = {
             {
               name: 'btnDangerBg',
               type: 'text',
-              label: 'Danger BG',
-              admin: { width: '33%', description: 'Standaard: --color-error', placeholder: '#FF6B6B' },
+              label: 'Danger Achtergrond',
+              admin: {
+                width: '33%',
+                description: 'Standaard: error kleur',
+                components: { Field: colorPickerField },
+              },
             },
             {
               name: 'btnDangerText',
               type: 'text',
               label: 'Danger Tekst',
               defaultValue: '#ffffff',
-              admin: { width: '33%' },
+              admin: {
+                width: '33%',
+                components: { Field: colorPickerField },
+              },
             },
             {
               name: 'btnDangerHoverBg',
               type: 'text',
-              label: 'Danger Hover BG',
-              admin: { width: '33%', placeholder: '#E55555' },
+              label: 'Danger Hover',
+              admin: {
+                width: '33%',
+                components: { Field: colorPickerField },
+              },
             },
           ],
         },
@@ -281,21 +316,31 @@ export const Buttons: Tab = {
             {
               name: 'btnSuccessBg',
               type: 'text',
-              label: 'Success BG',
-              admin: { width: '33%', description: 'Standaard: --color-success', placeholder: '#00C853' },
+              label: 'Success Achtergrond',
+              admin: {
+                width: '33%',
+                description: 'Standaard: success kleur',
+                components: { Field: colorPickerField },
+              },
             },
             {
               name: 'btnSuccessText',
               type: 'text',
               label: 'Success Tekst',
               defaultValue: '#ffffff',
-              admin: { width: '33%' },
+              admin: {
+                width: '33%',
+                components: { Field: colorPickerField },
+              },
             },
             {
               name: 'btnSuccessHoverBg',
               type: 'text',
-              label: 'Success Hover BG',
-              admin: { width: '33%', placeholder: '#00A844' },
+              label: 'Success Hover',
+              admin: {
+                width: '33%',
+                components: { Field: colorPickerField },
+              },
             },
           ],
         },

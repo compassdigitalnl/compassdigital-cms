@@ -1,5 +1,8 @@
 import type { Tab } from 'payload'
 
+const fontSelectField =
+  '@/branches/shared/components/admin/fields/FontSelectField#FontSelectField'
+
 export const Typography: Tab = {
   label: 'Typografie',
   description: 'Lettertypen en type schaal',
@@ -8,7 +11,7 @@ export const Typography: Tab = {
       type: 'collapsible',
       label: 'Lettertypen',
       admin: {
-        description: 'Font families voor headings, body tekst en code',
+        description: 'Kies een lettertype uit de presets of voer een eigen font-family in',
         initCollapsed: false,
       },
       fields: [
@@ -18,7 +21,10 @@ export const Typography: Tab = {
           label: 'Heading Font',
           defaultValue: 'Inter, system-ui, sans-serif',
           admin: {
-            description: 'Font voor h1-h6 headings. Inclusief fallbacks.',
+            description: 'Lettertype voor alle headings (h1-h6)',
+            components: {
+              Field: fontSelectField,
+            },
           },
         },
         {
@@ -27,7 +33,10 @@ export const Typography: Tab = {
           label: 'Body Font',
           defaultValue: 'Inter, system-ui, sans-serif',
           admin: {
-            description: 'Font voor body tekst, labels, UI elementen.',
+            description: 'Lettertype voor body tekst, labels, UI elementen',
+            components: {
+              Field: fontSelectField,
+            },
           },
         },
         {
@@ -36,7 +45,7 @@ export const Typography: Tab = {
           label: 'Monospace Font',
           defaultValue: "'JetBrains Mono', 'Courier New', monospace",
           admin: {
-            description: 'Font voor code, technische data, timestamps.',
+            description: 'Lettertype voor code, technische data, timestamps. Meestal niet nodig om te wijzigen.',
           },
         },
       ],
@@ -47,7 +56,7 @@ export const Typography: Tab = {
       label: 'Type Schaal',
       admin: {
         description: '8-staps type schaal van micro (8px) tot hero (36px)',
-        initCollapsed: false,
+        initCollapsed: true,
       },
       fields: [
         {
