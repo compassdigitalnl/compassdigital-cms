@@ -52,7 +52,7 @@ export default function SubscriptionCheckoutClient({
     setError(null)
 
     try {
-      const res = await fetch('/api/subscription/create', {
+      const res = await fetch('/api/subscription/create/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

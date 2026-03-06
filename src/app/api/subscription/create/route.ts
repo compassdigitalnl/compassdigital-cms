@@ -2,7 +2,7 @@
  * POST /api/subscription/create
  *
  * Create a subscription order for a magazine plan.
- * Creates an order record in Payload CMS and returns orderId for confirmation.
+ * Creates an order record in Payload CMS orders collection.
  */
 
 import { NextRequest, NextResponse } from 'next/server'
@@ -51,13 +51,14 @@ export async function POST(request: NextRequest) {
 
     const price = plan.price || 0
 
-    // Create the order
+    // Create the order — use overrideAccess to bypass required field validation
+    // for fields that don't apply to subscription orders (shipping address, product relationship)
     const order = await payload.create({
       collection: 'orders',
+      overrideAccess: true,
       data: {
         items: [
           {
-            product: null as any,
             title: `${magazine.name} — ${plan.name}`,
             sku: `SUB-${magazineSlug}-${planId}`,
             quantity: 1,
@@ -71,7 +72,17 @@ export async function POST(request: NextRequest) {
         discount: 0,
         total: price,
         status: 'pending',
+        paymentMethod: 'ideal',
         paymentStatus: 'pending',
+        shippingAddress: {
+          firstName: 'Abonnement',
+          lastName: magazine.name,
+          street: 'N.v.t.',
+          houseNumber: '-',
+          postalCode: '0000AA',
+          city: 'N.v.t.',
+          country: 'Nederland',
+        },
         notes: `Abonnement: ${magazine.name} — ${plan.name} (${plan.period || 'n/a'})`,
       },
     })
