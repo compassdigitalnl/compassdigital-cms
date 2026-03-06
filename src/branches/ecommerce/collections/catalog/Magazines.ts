@@ -372,26 +372,10 @@ export const Magazines: CollectionConfig = {
             },
           ],
         },
-        // ── Tab 6: Abonnement CTA ──
+        // ── Tab 6: Abonnement ──
         {
           label: 'Abonnement',
           fields: [
-            {
-              name: 'subscriptionPrice',
-              type: 'text',
-              label: 'Abonnementsprijs',
-              admin: {
-                description: 'Weergaveprijs (bijv: "29,95 per kwartaal")',
-              },
-            },
-            {
-              name: 'subscriptionUrl',
-              type: 'text',
-              label: 'Abonnement URL',
-              admin: {
-                description: 'Link naar abonnementspagina (bijv: /abonneren/magazine-naam)',
-              },
-            },
             {
               name: 'ctaTitle',
               type: 'text',
@@ -404,6 +388,138 @@ export const Magazines: CollectionConfig = {
               name: 'ctaDescription',
               type: 'text',
               label: 'CTA Beschrijving',
+            },
+            {
+              name: 'plans',
+              type: 'array',
+              label: 'Abonnementsformules',
+              admin: {
+                description: 'Beschikbare abonnementen voor dit magazine',
+              },
+              fields: [
+                {
+                  name: 'name',
+                  type: 'text',
+                  required: true,
+                  label: 'Naam',
+                  admin: {
+                    description: 'Bijv: Jaarabonnement, Proefabonnement, Digitaal',
+                  },
+                },
+                {
+                  name: 'description',
+                  type: 'textarea',
+                  label: 'Beschrijving',
+                },
+                {
+                  name: 'highlighted',
+                  type: 'checkbox',
+                  label: 'Uitgelicht',
+                  defaultValue: false,
+                  admin: {
+                    description: 'Toon als "Meest gekozen" of aanbevolen plan',
+                  },
+                },
+                {
+                  name: 'price',
+                  type: 'number',
+                  required: true,
+                  label: 'Prijs',
+                  admin: {
+                    description: 'Prijs per periode',
+                  },
+                },
+                {
+                  name: 'period',
+                  type: 'select',
+                  label: 'Periode',
+                  defaultValue: 'yearly',
+                  options: [
+                    { label: 'Per maand', value: 'monthly' },
+                    { label: 'Per kwartaal', value: 'quarterly' },
+                    { label: 'Per halfjaar', value: 'biannual' },
+                    { label: 'Per jaar', value: 'yearly' },
+                    { label: 'Eenmalig', value: 'once' },
+                  ],
+                },
+                {
+                  name: 'editions',
+                  type: 'number',
+                  label: 'Aantal edities',
+                  admin: {
+                    description: 'Aantal edities dat je ontvangt (bijv: 4, 12)',
+                  },
+                },
+                {
+                  name: 'features',
+                  type: 'array',
+                  label: 'Kenmerken',
+                  admin: {
+                    description: 'Wat is inbegrepen bij dit abonnement',
+                  },
+                  fields: [
+                    {
+                      name: 'text',
+                      type: 'text',
+                      required: true,
+                      label: 'Kenmerk',
+                    },
+                    {
+                      name: 'included',
+                      type: 'checkbox',
+                      defaultValue: true,
+                      label: 'Inbegrepen',
+                    },
+                  ],
+                },
+                {
+                  name: 'externalUrl',
+                  type: 'text',
+                  label: 'Externe bestel-URL',
+                  admin: {
+                    description: 'Link naar extern bestelsysteem (optioneel)',
+                  },
+                },
+              ],
+            },
+            {
+              name: 'paymentProvider',
+              type: 'select',
+              label: 'Betaalprovider',
+              defaultValue: 'mollie',
+              options: [
+                { label: 'Mollie', value: 'mollie' },
+                { label: 'Stripe', value: 'stripe' },
+                { label: 'Extern', value: 'external' },
+              ],
+              admin: {
+                description: 'Betaalprovider voor abonnementen',
+              },
+            },
+            {
+              name: 'trustItems',
+              type: 'array',
+              label: 'Vertrouwenselementen',
+              maxRows: 4,
+              admin: {
+                description: 'Bijv: "Altijd opzegbaar", "Gratis verzending"',
+              },
+              fields: [
+                {
+                  name: 'icon',
+                  type: 'text',
+                  label: 'Icoon',
+                  admin: {
+                    description: 'Lucide icoon naam',
+                  },
+                },
+                {
+                  name: 'text',
+                  type: 'text',
+                  required: true,
+                  label: 'Tekst',
+                },
+              ],
             },
           ],
         },

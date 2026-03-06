@@ -4,6 +4,7 @@ import * as migration_20260305_200000_add_canonical_and_hide_from_catalog from '
 import * as migration_20260305_220000_add_button_tokens from './20260305_220000_add_button_tokens';
 import * as migration_20260306_120000_add_subscription_pages from './20260306_120000_add_subscription_pages';
 import * as migration_20260306_130000_add_magazines from './20260306_130000_add_magazines';
+import * as migration_20260306_140000_expand_magazines_subscriptions from './20260306_140000_expand_magazines_subscriptions';
 
 export const migrations = [
   {
@@ -35,5 +36,10 @@ export const migrations = [
     up: migration_20260306_130000_add_magazines.up,
     down: migration_20260306_130000_add_magazines.down,
     name: '20260306_130000_add_magazines',
+  },
+  {
+    up: migration_20260306_140000_expand_magazines_subscriptions.up,
+    down: migration_20260306_140000_expand_magazines_subscriptions.down,
+    name: '20260306_140000_expand_magazines_subscriptions',
   },
 ];
