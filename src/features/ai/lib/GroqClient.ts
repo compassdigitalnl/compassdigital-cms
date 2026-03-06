@@ -45,7 +45,7 @@ export interface ChatResponse {
  */
 export class GroqClient {
   private client: OpenAI
-  private defaultModel: string = 'llama3-70b-8192'
+  private defaultModel: string = 'llama-3.3-70b-versatile'
 
   constructor() {
     if (!process.env.GROQ_API_KEY) {
@@ -142,10 +142,10 @@ export class GroqClient {
    */
   getAvailableModels(): string[] {
     return [
-      'llama3-70b-8192', // Recommended (best quality)
-      'llama3-8b-8192', // Fast & efficient
+      'llama-3.3-70b-versatile', // Recommended (best quality, free)
+      'llama-3.1-8b-instant', // Fast & efficient
       'mixtral-8x7b-32768', // Good alternative
-      'gemma-7b-it', // Smaller model
+      'gemma2-9b-it', // Smaller model
     ]
   }
 }
