@@ -111,18 +111,24 @@ export default function OrderListDetailPage() {
         ...data.doc,
         items: (data.doc.items || [])
           .filter((item: any) => item.product && typeof item.product === 'object' && item.product.id)
-          .map((item: any) => ({
-            ...item,
-            quantity: item.defaultQuantity || item.quantity || 1,
-            product: {
-              ...item.product,
-              stockCount: item.product.stockCount ?? 0,
-              price: item.product.price ?? 0,
-              name: item.product.name || item.product.title || 'Onbekend product',
-              brand: item.product.brand || '',
-              sku: item.product.sku || '',
-            },
-          })),
+          .map((item: any) => {
+            const p = item.product
+            return {
+              ...item,
+              quantity: item.defaultQuantity || item.quantity || 1,
+              product: {
+                id: p.id,
+                name: p.name || p.title || 'Onbekend product',
+                brand: p.brand || '',
+                sku: p.sku || '',
+                emoji: p.emoji || '📦',
+                price: p.price ?? 0,
+                priceUnit: p.priceUnit || 'stuk',
+                size: p.size || '',
+                stockCount: p.stockCount ?? p.stock ?? 0,
+              },
+            }
+          }),
       }
 
       setList(mapped)
