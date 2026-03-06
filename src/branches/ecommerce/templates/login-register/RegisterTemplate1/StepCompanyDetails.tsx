@@ -10,7 +10,7 @@ import {
   StepNavigation,
   type BranchOption,
 } from '@/branches/ecommerce/components/registration'
-import { resolveIcon } from '@/branches/ecommerce/components/branches/iconMap'
+import { resolveIcon } from '@/branches/shared/components/branches/iconMap'
 import type { RegistrationData } from './types'
 
 interface StepCompanyDetailsProps {

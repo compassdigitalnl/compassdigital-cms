@@ -13,7 +13,7 @@ import {
   type Benefit,
   type TrustItem,
 } from '@/branches/ecommerce/components/registration'
-import { resolveIcon } from '@/branches/ecommerce/components/branches/iconMap'
+import { resolveIcon } from '@/branches/shared/components/branches/iconMap'
 import { useAuth } from '@/providers/Auth'
 import { StepAccountType } from './StepAccountType'
 import { StepCompanyDetails } from './StepCompanyDetails'
