@@ -1,8 +1,13 @@
 import type { MagazineStat } from '@/branches/shared/components/magazines/MagazineHero/types'
 import type { MagazineUSPCard } from '@/branches/shared/components/magazines/MagazineUSPCards/types'
 import type { MagazineIssue } from '@/branches/shared/components/magazines/MagazineIssueGrid/types'
-import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
-import type { TrustItem } from '@/branches/shared/components/ui/checkout/TrustList/types'
+import type { LucideIcon } from 'lucide-react'
+
+export interface ServiceLink {
+  icon: LucideIcon | string
+  label: string
+  href: string
+}
 
 export interface MagazineDetailTemplate1Props {
   name: string
@@ -22,8 +27,6 @@ export interface MagazineDetailTemplate1Props {
     authorRole: string
     rating?: number
   }
-  plans?: PricingPlan[]
-  trustItems?: TrustItem[]
   subscriptionCTA?: {
     title: string
     description?: string
@@ -32,4 +35,5 @@ export interface MagazineDetailTemplate1Props {
     buttonLabel?: string
     buttonHref?: string
   }
+  serviceLinks?: ServiceLink[]
 }

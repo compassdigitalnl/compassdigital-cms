@@ -45,13 +45,6 @@ export default async function MagazineDetailPage({
   const { slug } = await params
   const payload = await getPayload({ config })
 
-  // Read template setting
-  let _template = 'magazinedetailtemplate1'
-  try {
-    const settings = await payload.findGlobal({ slug: 'settings', depth: 0 }) as any
-    _template = settings?.defaultMagazineDetailTemplate || 'magazinedetailtemplate1'
-  } catch {}
-
   const { docs } = await payload.find({
     collection: 'magazines',
     where: { slug: { equals: slug } },
@@ -62,10 +55,8 @@ export default async function MagazineDetailPage({
   const magazine = docs[0] as any
   if (!magazine) notFound()
 
-  // Map logo URL
   const logoUrl = magazine.logo?.url || null
 
-  // Map editions to MagazineIssue format
   const recentIssues = (magazine.editions || [])
     .slice(0, 6)
     .map((edition: any) => ({
@@ -77,33 +68,6 @@ export default async function MagazineDetailPage({
       soldOut: edition.soldOut || false,
       shopUrl: edition.shopUrl,
     }))
-
-  const PERIOD_LABELS: Record<string, string> = {
-    monthly: '/maand', quarterly: '/kwartaal', biannual: '/halfjaar', yearly: '/jaar', once: ' eenmalig',
-  }
-
-  // Map plans to shared PricingPlan format
-  const mappedPlans = (magazine.plans || []).map((p: any) => ({
-    id: p.id,
-    name: p.name,
-    description: p.description,
-    highlighted: p.highlighted || false,
-    highlightLabel: p.highlighted ? 'Populairste keuze' : undefined,
-    price: p.price,
-    priceSuffix: PERIOD_LABELS[p.period] || '',
-    buttonLabel: `${p.name} bestellen`,
-    buttonVariant: p.highlighted ? 'fill' as const : 'outline' as const,
-    features: (p.features || []).map((f: any) => ({
-      text: f.text,
-      included: f.included ?? true,
-    })),
-    href: p.externalUrl || `/abonneren/${slug}`,
-  }))
-
-  const trustItems = (magazine.trustItems || []).map((t: any) => ({
-    icon: t.icon,
-    text: t.text,
-  }))
 
   // Build subscription CTA from the highlighted plan (or first plan)
   const highlightedPlan = (magazine.plans || []).find((p: any) => p.highlighted) || (magazine.plans || [])[0]
@@ -122,7 +86,7 @@ export default async function MagazineDetailPage({
                 ? 'eenmalig'
                 : '',
         buttonLabel: `${highlightedPlan.name} bestellen`,
-        buttonHref: `/abonneren/${slug}`,
+        buttonHref: `/subscription-checkout/${slug}`,
       }
     : undefined
 
@@ -138,8 +102,6 @@ export default async function MagazineDetailPage({
       stats={magazine.stats}
       uspCards={magazine.uspCards}
       recentIssues={recentIssues}
-      plans={mappedPlans}
-      trustItems={trustItems}
       testimonial={
         magazine.testimonial?.quote
           ? {

@@ -30,8 +30,17 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
     if (onSelect) onSelect(plan)
   }
 
-  const cardContent = (
-    <>
+  return (
+    <div
+      className={`
+        relative flex flex-col rounded-[20px] border-2 bg-[var(--color-surface,white)] p-7 transition-all duration-[250ms]
+        ${plan.highlighted
+          ? 'scale-[1.02] border-[var(--color-primary)] shadow-[var(--shadow-lg,0_16px_48px_rgba(10,22,40,0.12))]'
+          : 'border-[var(--color-border,#E8ECF1)] hover:-translate-y-1 hover:border-transparent hover:shadow-[var(--shadow-lg,0_16px_48px_rgba(10,22,40,0.12))]'
+        }
+        ${className}
+      `}
+    >
       {plan.highlighted && plan.highlightLabel && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark,#00695C)] px-4 py-1 text-[11px] font-extrabold text-white">
           <Star className="mr-1 inline h-3 w-3" />
@@ -102,44 +111,28 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
         </button>
       )}
 
-      {plan.features && plan.features.length > 0 && (
-        <div className="flex flex-1 flex-col gap-1.5">
-          {plan.features.map((f, i) => (
-            <div
-              key={i}
-              className={`flex items-start gap-1.5 text-[13px] leading-snug ${
-                f.included
-                  ? f.highlighted
-                    ? 'font-bold text-[var(--color-text-primary)]'
-                    : 'text-[var(--color-text-secondary)]'
-                  : 'text-[var(--color-text-muted)]'
-              }`}
-            >
-              {f.included ? (
-                <Check className="mt-0.5 h-[15px] w-[15px] flex-shrink-0 text-[var(--color-success,#00C853)]" />
-              ) : (
-                <X className="mt-0.5 h-[15px] w-[15px] flex-shrink-0 text-[var(--color-border,#E8ECF1)]" />
-              )}
-              {f.text}
-            </div>
-          ))}
-        </div>
-      )}
-    </>
-  )
-
-  return (
-    <div
-      className={`
-        relative flex flex-col rounded-[20px] border-2 bg-[var(--color-surface,white)] p-7 transition-all duration-[250ms]
-        ${plan.highlighted
-          ? 'scale-[1.02] border-[var(--color-primary)] shadow-[var(--shadow-lg,0_16px_48px_rgba(10,22,40,0.12))]'
-          : 'border-[var(--color-border,#E8ECF1)] hover:-translate-y-1 hover:border-transparent hover:shadow-[var(--shadow-lg,0_16px_48px_rgba(10,22,40,0.12))]'
-        }
-        ${className}
-      `}
-    >
-      {cardContent}
+      {/* Features — flex-1 pushes this to fill remaining space for equal height cards */}
+      <div className="flex flex-1 flex-col justify-end gap-1.5">
+        {plan.features && plan.features.length > 0 && plan.features.map((f, i) => (
+          <div
+            key={i}
+            className={`flex items-start gap-1.5 text-[13px] leading-snug ${
+              f.included
+                ? f.highlighted
+                  ? 'font-bold text-[var(--color-text-primary)]'
+                  : 'text-[var(--color-text-secondary)]'
+                : 'text-[var(--color-text-muted)]'
+            }`}
+          >
+            {f.included ? (
+              <Check className="mt-0.5 h-[15px] w-[15px] flex-shrink-0 text-[var(--color-success,#00C853)]" />
+            ) : (
+              <X className="mt-0.5 h-[15px] w-[15px] flex-shrink-0 text-[var(--color-border,#E8ECF1)]" />
+            )}
+            {f.text}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
