@@ -159,8 +159,8 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
               className={`
                 calendar-day aspect-square rounded-lg p-1 text-center transition-all relative
                 ${!date ? 'invisible' : ''}
-                ${isDisabled ? 'opacity-40 cursor-not-allowed' : 'hover:border-teal-600 hover:bg-teal-50 cursor-pointer'}
-                ${isSelected ? 'bg-teal-600 text-white border-teal-600' : 'bg-white border border-gray-200'}
+                ${isDisabled ? 'opacity-40 cursor-not-allowed' : 'hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-glow)] cursor-pointer'}
+                ${isSelected ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' : 'bg-white border border-gray-200'}
                 ${isWeekendDay && highlightWeekends && !isSelected ? 'bg-gray-50' : ''}
               `}
             >
@@ -170,7 +170,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
                     {date.getDate()}
                   </div>
                   {showPrices && dayInfo?.price && !isSelected && (
-                    <div className="text-[10px] font-semibold text-teal-600 mt-0.5">
+                    <div className="text-[10px] font-semibold text-[var(--color-primary)] mt-0.5">
                       €{dayInfo.price}
                     </div>
                   )}
@@ -187,7 +187,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
       {/* Legend */}
       <div className="calendar-legend mt-4 pt-4 border-t border-gray-100 flex flex-wrap gap-3 text-xs">
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded bg-teal-600" />
+          <div className="w-3 h-3 rounded bg-[var(--color-primary)]" />
           <span className="text-gray-600">Geselecteerd</span>
         </div>
         <div className="flex items-center gap-1.5">

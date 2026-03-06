@@ -14,11 +14,11 @@ export function RetourItemSelector({ items, onToggleItem, onSetQuantity, onNext,
             key={item.id}
             onClick={() => onToggleItem(item.id)}
             className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${
-              item.selected ? 'border-teal-700 bg-teal-50' : 'border-gray-200'
+              item.selected ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]' : 'border-gray-200'
             }`}
           >
             <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-              item.selected ? 'border-teal-700 bg-teal-700' : 'border-gray-300'
+              item.selected ? 'border-[var(--color-primary)] bg-[var(--color-primary)]' : 'border-gray-300'
             }`}>
               {item.selected && <CheckCircle2 className="w-4 h-4 text-white" />}
             </div>

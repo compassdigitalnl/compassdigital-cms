@@ -64,7 +64,7 @@ export function SuccessHero({
           text-align: center;
           position: relative;
           overflow: hidden;
-          box-shadow: 0 16px 48px rgba(0, 137, 123, 0.2);
+          box-shadow: 0 16px 48px var(--color-primary-glow);
         }
 
         /* Decorative glow (top-right) */

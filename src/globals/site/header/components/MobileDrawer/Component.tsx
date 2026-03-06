@@ -23,8 +23,8 @@ export function MobileDrawer({
   contactInfoOverride,
   showToggles = true,
 }: MobileDrawerProps) {
-  const primaryColor = (theme as any)?.primaryColor || '#00897B'
-  const secondaryColor = (theme as any)?.secondaryColor || '#0A1628'
+  const primaryColor = 'var(--color-primary)'
+  const secondaryColor = 'var(--color-secondary)'
 
   const enablePriceToggle = (header as any)?.enablePriceToggle === true
   const priceToggleConfig = (header as any)?.priceToggle
@@ -179,10 +179,10 @@ export function MobileDrawer({
                   className={cn(
                     'flex items-center gap-3 px-5 py-3 text-base font-semibold transition-colors',
                     item.highlight
-                      ? 'text-[#FF6B6B] hover:bg-red-50'
+                      ? 'text-[var(--color-error)] hover:bg-red-50'
                       : 'hover:bg-gray-50',
                   )}
-                  style={{ color: item.highlight ? '#FF6B6B' : secondaryColor }}
+                  style={{ color: item.highlight ? 'var(--color-error)' : secondaryColor }}
                 >
                   {item.label}
                   <ChevronRight className="w-4 h-4 ml-auto text-gray-400" />
@@ -292,7 +292,7 @@ export function MobileDrawer({
                       backgroundColor:
                         currentLang === lang.code ? primaryColor : 'transparent',
                       color: currentLang === lang.code ? 'white' : secondaryColor,
-                      border: `1px solid ${currentLang === lang.code ? primaryColor : '#e5e7eb'}`,
+                      border: `1px solid ${currentLang === lang.code ? primaryColor : 'var(--color-border)'}`,
                     }}
                   >
                     {lang.flag || lang.code}

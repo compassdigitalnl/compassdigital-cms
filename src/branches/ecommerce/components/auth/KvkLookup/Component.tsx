@@ -97,9 +97,9 @@ export function KvkLookup({ onResult, onClear, className = '' }: KvkLookupProps)
     <div className={className}>
       <label
         className="block text-[13px] font-bold mb-1.5"
-        style={{ color: 'var(--color-primary, #0A1628)' }}
+        style={{ color: 'var(--color-primary)' }}
       >
-        KVK-nummer <span style={{ color: '#FF6B6B' }}>*</span>
+        KVK-nummer <span style={{ color: 'var(--color-error)' }}>*</span>
       </label>
 
       <div className="flex gap-2">
@@ -112,9 +112,9 @@ export function KvkLookup({ onResult, onClear, className = '' }: KvkLookupProps)
           maxLength={8}
           className="flex-1 h-[46px] px-4 rounded-xl text-sm outline-none transition-all duration-200"
           style={{
-            border: `2px solid ${result ? 'var(--color-success, #00C853)' : error ? '#FF6B6B' : 'var(--color-border, #E8ECF1)'}`,
-            background: result ? 'var(--color-success-light, #E8F5E9)' : 'var(--color-background-secondary, #F1F4F8)',
-            color: 'var(--color-primary, #0A1628)',
+            border: `2px solid ${result ? 'var(--color-success)' : error ? 'var(--color-error)' : 'var(--color-border)'}`,
+            background: result ? 'var(--color-success-light)' : 'var(--color-background-secondary)',
+            color: 'var(--color-primary)',
             fontFamily: 'inherit',
           }}
         />
@@ -124,15 +124,15 @@ export function KvkLookup({ onResult, onClear, className = '' }: KvkLookupProps)
           disabled={isLoading || kvkNumber.length !== 8}
           className="px-5 h-[46px] rounded-xl text-white text-[13px] font-bold flex items-center gap-1.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
           style={{
-            background: 'var(--color-primary, #0A1628)',
+            background: 'var(--color-primary)',
             border: 'none',
             cursor: isLoading ? 'wait' : 'pointer',
           }}
           onMouseEnter={(e) => {
-            if (!isLoading) e.currentTarget.style.background = 'var(--color-primary-dark, #121F33)'
+            if (!isLoading) e.currentTarget.style.background = 'var(--color-primary-dark)'
           }}
           onMouseLeave={(e) => {
-            if (!isLoading) e.currentTarget.style.background = 'var(--color-primary, #0A1628)'
+            if (!isLoading) e.currentTarget.style.background = 'var(--color-primary)'
           }}
         >
           {isLoading ? (
@@ -146,7 +146,7 @@ export function KvkLookup({ onResult, onClear, className = '' }: KvkLookupProps)
 
       {/* Error */}
       {error && (
-        <div className="flex items-center gap-1.5 mt-2 text-xs" style={{ color: '#FF6B6B' }}>
+        <div className="flex items-center gap-1.5 mt-2 text-xs" style={{ color: 'var(--color-error)' }}>
           <AlertCircle className="w-3.5 h-3.5" />
           {error}
         </div>
@@ -157,7 +157,7 @@ export function KvkLookup({ onResult, onClear, className = '' }: KvkLookupProps)
         <div
           className="flex items-center gap-3 mt-2 p-3.5 rounded-xl"
           style={{
-            background: 'var(--color-success-light, #E8F5E9)',
+            background: 'var(--color-success-light)',
             border: '1px solid rgba(0,200,83,0.15)',
           }}
         >
@@ -165,13 +165,13 @@ export function KvkLookup({ onResult, onClear, className = '' }: KvkLookupProps)
             className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
             style={{ background: 'white' }}
           >
-            <CheckCircle className="w-[18px] h-[18px]" style={{ color: 'var(--color-success, #00C853)' }} />
+            <CheckCircle className="w-[18px] h-[18px]" style={{ color: 'var(--color-success)' }} />
           </div>
           <div>
-            <div className="text-sm font-bold" style={{ color: 'var(--color-primary, #0A1628)' }}>
+            <div className="text-sm font-bold" style={{ color: 'var(--color-primary)' }}>
               {result.companyName}
             </div>
-            <div className="text-xs" style={{ color: 'var(--color-text-secondary, #64748B)' }}>
+            <div className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
               {result.street} {result.houseNumber}, {result.postalCode} {result.city}
             </div>
           </div>

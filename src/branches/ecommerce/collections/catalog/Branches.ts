@@ -141,7 +141,7 @@ export const Branches: CollectionConfig = {
           type: 'text',
           label: 'Icoon Achtergrond',
           admin: {
-            description: 'CSS achtergrondkleur (bijv: rgba(0,137,123,0.12))',
+            description: 'CSS achtergrondkleur (bijv: var(--color-primary-glow))',
           },
         },
         {

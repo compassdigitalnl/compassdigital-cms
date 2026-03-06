@@ -17,7 +17,7 @@ export function AccountEmptyState({
         className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
         style={{ background: 'color-mix(in srgb, var(--color-primary) 10%, transparent)' }}
       >
-        <Icon className="w-8 h-8" style={{ color: 'var(--color-primary, #00897B)' }} />
+        <Icon className="w-8 h-8" style={{ color: 'var(--color-primary)' }} />
       </div>
       <h3 className="text-lg font-extrabold text-gray-900 mb-2">{title}</h3>
       {description && <p className="text-sm text-gray-500 mb-6 max-w-md mx-auto">{description}</p>}

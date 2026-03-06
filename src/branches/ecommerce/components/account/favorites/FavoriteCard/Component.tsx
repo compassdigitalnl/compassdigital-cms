@@ -35,7 +35,7 @@ export function FavoriteCard({ favorite, onRemove }: FavoriteCardProps) {
       </div>
 
       <div className="p-4">
-        <Link href={slug ? `/product/${slug}` : '#'} className="hover:text-teal-600 transition-colors">
+        <Link href={slug ? `/product/${slug}` : '#'} className="hover:text-[var(--color-primary)] transition-colors">
           <h3 className="font-bold text-sm mb-1 line-clamp-2">{title}</h3>
         </Link>
         {sku && <div className="text-xs text-gray-500 font-mono mb-3">{sku}</div>}

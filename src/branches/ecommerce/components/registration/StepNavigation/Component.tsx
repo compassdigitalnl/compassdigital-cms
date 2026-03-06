@@ -17,7 +17,7 @@ export const StepNavigation: React.FC<StepNavigationProps> = ({
   return (
     <div
       className={`mt-7 flex justify-between gap-3 border-t pt-6 ${className}`}
-      style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+      style={{ borderColor: 'var(--color-border)' }}
     >
       {showBack ? (
         <button
@@ -29,7 +29,7 @@ export const StepNavigation: React.FC<StepNavigationProps> = ({
             transition-all duration-200
             hover:border-theme-teal hover:text-theme-teal
           "
-          style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+          style={{ borderColor: 'var(--color-border)' }}
         >
           <ArrowLeft className="h-4 w-4" />
           {backLabel}
@@ -45,7 +45,7 @@ export const StepNavigation: React.FC<StepNavigationProps> = ({
         className="
           inline-flex items-center gap-[7px] rounded-xl border-none
           bg-theme-teal px-7 py-3.5 text-sm font-bold text-white
-          shadow-[0_4px_16px_rgba(0,137,123,0.3)]
+          shadow-[0_4px_16px_var(--color-primary-glow)]
           transition-all duration-200
           hover:-translate-y-px hover:bg-theme-teal-light
           disabled:opacity-60 disabled:pointer-events-none

@@ -8,7 +8,7 @@ const COLORS = {
   navy: '#0A1628',
   teal: '#00897B',
   tealLight: '#26A69A',
-  tealGlow: 'rgba(0,137,123,0.15)',
+  tealGlow: 'var(--color-primary-glow)',
   grey: '#E8ECF1',
   greyMid: '#94A3B8',
   green: '#00C853',

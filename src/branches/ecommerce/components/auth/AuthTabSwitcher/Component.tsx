@@ -90,8 +90,8 @@ export function AuthTabSwitcher({
       role="tablist"
       aria-label="Authentication options"
       style={{
-        background: 'var(--color-background, #FFFFFF)',
-        border: '1px solid var(--color-border, #E8ECF1)',
+        background: 'var(--color-background)',
+        border: '1px solid var(--color-border)',
         boxShadow: '0 1px 3px rgba(10,22,40,0.06)',
       }}
     >
@@ -119,7 +119,7 @@ export function AuthTabSwitcher({
               }
             `}
             style={{
-              background: isActive ? 'var(--color-primary, #0A1628)' : 'transparent',
+              background: isActive ? 'var(--color-primary)' : 'transparent',
               boxShadow: isActive ? '0 2px 8px rgba(10,38,71,0.2)' : 'none',
             }}
           >

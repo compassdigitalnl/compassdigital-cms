@@ -41,8 +41,8 @@ export default function SubscriptionsTemplate({
       <UsageMeters usage={subscription.usage} />
 
       {/* Upgrade Suggestion */}
-      <div className="bg-gradient-to-r from-teal-50 to-teal-100/50 border border-teal-200 rounded-lg p-4 mb-6 flex items-center gap-4">
-        <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center text-white flex-shrink-0">
+      <div className="bg-gradient-to-r from-[var(--color-primary-glow)] to-[var(--color-primary-glow)] border border-[var(--color-primary-light)] rounded-lg p-4 mb-6 flex items-center gap-4">
+        <div className="w-10 h-10 bg-[var(--color-primary-glow)]0 rounded-lg flex items-center justify-center text-white flex-shrink-0">
           <TrendingUp className="w-5 h-5" />
         </div>
         <div className="flex-1">
@@ -99,7 +99,7 @@ export default function SubscriptionsTemplate({
           <div
             className={`bg-white rounded-lg p-4 flex items-center gap-3 ${
               subscription.paymentMethod.isDefault
-                ? 'border-2 border-teal-500'
+                ? 'border-2 border-[var(--color-primary)]'
                 : 'border border-gray-200'
             }`}
           >
@@ -113,7 +113,7 @@ export default function SubscriptionsTemplate({
               <div className="text-xs text-gray-500">Verloopt 12/2027</div>
             </div>
             {subscription.paymentMethod.isDefault && (
-              <span className="px-2 py-0.5 bg-teal-100 text-teal-700 text-xs font-bold rounded">
+              <span className="px-2 py-0.5 bg-[var(--color-primary-glow)] text-[var(--color-primary)] text-xs font-bold rounded">
                 Standaard
               </span>
             )}

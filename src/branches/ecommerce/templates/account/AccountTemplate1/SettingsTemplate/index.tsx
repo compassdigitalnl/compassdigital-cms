@@ -44,8 +44,8 @@ export default function SettingsTemplate({
       {/* Profile Settings */}
       <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
         <div className="flex items-center gap-3 mb-4 lg:mb-5">
-          <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl flex items-center justify-center bg-teal-50">
-            <User className="w-5 h-5 lg:w-6 lg:h-6 text-teal-700" />
+          <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl flex items-center justify-center bg-[var(--color-primary-glow)]">
+            <User className="w-5 h-5 lg:w-6 lg:h-6 text-[var(--color-primary)]" />
           </div>
           <div>
             <h2 className="text-base lg:text-lg font-extrabold text-gray-900">Persoonlijke gegevens</h2>
@@ -91,8 +91,8 @@ export default function SettingsTemplate({
       {/* Company Settings */}
       <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
         <div className="flex items-center gap-3 mb-4 lg:mb-5">
-          <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl flex items-center justify-center bg-teal-50">
-            <Building2 className="w-5 h-5 lg:w-6 lg:h-6 text-teal-700" />
+          <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl flex items-center justify-center bg-[var(--color-primary-glow)]">
+            <Building2 className="w-5 h-5 lg:w-6 lg:h-6 text-[var(--color-primary)]" />
           </div>
           <div>
             <h2 className="text-base lg:text-lg font-extrabold text-gray-900">Bedrijfsgegevens</h2>
@@ -126,8 +126,8 @@ export default function SettingsTemplate({
       {/* Password Settings */}
       <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
         <div className="flex items-center gap-3 mb-4 lg:mb-5">
-          <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl flex items-center justify-center bg-teal-50">
-            <Lock className="w-5 h-5 lg:w-6 lg:h-6 text-teal-700" />
+          <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl flex items-center justify-center bg-[var(--color-primary-glow)]">
+            <Lock className="w-5 h-5 lg:w-6 lg:h-6 text-[var(--color-primary)]" />
           </div>
           <div>
             <h2 className="text-base lg:text-lg font-extrabold text-gray-900">Wachtwoord wijzigen</h2>
@@ -174,8 +174,8 @@ export default function SettingsTemplate({
       {/* Notifications */}
       <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
         <div className="flex items-center gap-3 mb-4 lg:mb-5">
-          <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl flex items-center justify-center bg-teal-50">
-            <Bell className="w-5 h-5 lg:w-6 lg:h-6 text-teal-700" />
+          <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl flex items-center justify-center bg-[var(--color-primary-glow)]">
+            <Bell className="w-5 h-5 lg:w-6 lg:h-6 text-[var(--color-primary)]" />
           </div>
           <div>
             <h2 className="text-base lg:text-lg font-extrabold text-gray-900">Notificaties</h2>

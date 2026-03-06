@@ -119,16 +119,16 @@ export function OAuthButtons({
                 focus:outline-none focus:ring-2 focus:ring-offset-2
               "
               style={{
-                background: 'var(--color-background, #FFFFFF)',
-                border: '1.5px solid var(--color-border, #E8ECF1)',
-                color: 'var(--color-primary, #0A1628)',
+                background: 'var(--color-background)',
+                border: '1.5px solid var(--color-border)',
+                color: 'var(--color-primary)',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'var(--color-text-secondary, #94A3B8)'
+                e.currentTarget.style.borderColor = 'var(--color-text-secondary)'
                 e.currentTarget.style.boxShadow = '0 1px 3px rgba(10,22,40,0.06)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'var(--color-border, #E8ECF1)'
+                e.currentTarget.style.borderColor = 'var(--color-border)'
                 e.currentTarget.style.boxShadow = 'none'
               }}
             >
@@ -143,17 +143,17 @@ export function OAuthButtons({
         <div
           className="flex items-center gap-4 mb-6 text-xs font-semibold uppercase tracking-wider"
           style={{
-            color: 'var(--color-text-secondary, #94A3B8)',
+            color: 'var(--color-text-secondary)',
           }}
         >
           <div
             className="flex-1 h-px"
-            style={{ background: 'var(--color-border, #E8ECF1)' }}
+            style={{ background: 'var(--color-border)' }}
           />
           <span>{dividerText}</span>
           <div
             className="flex-1 h-px"
-            style={{ background: 'var(--color-border, #E8ECF1)' }}
+            style={{ background: 'var(--color-border)' }}
           />
         </div>
       )}

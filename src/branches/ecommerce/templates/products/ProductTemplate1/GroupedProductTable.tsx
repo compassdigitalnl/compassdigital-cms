@@ -178,7 +178,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                     const checked = e.target.checked
                     setSelections((prev) => prev.map((s) => ({ ...s, selected: checked })))
                   }}
-                  className="w-4 h-4 text-teal-600 rounded focus:ring-teal-500"
+                  className="w-4 h-4 text-[var(--color-primary)] rounded focus:ring-[var(--color-primary)]"
                 />
               </th>
               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
@@ -236,7 +236,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                       checked={selection.selected}
                       onChange={() => toggleSelection(selection.product.id)}
                       disabled={!isInStock}
-                      className="w-4 h-4 text-teal-600 rounded focus:ring-teal-500 disabled:opacity-50"
+                      className="w-4 h-4 text-[var(--color-primary)] rounded focus:ring-[var(--color-primary)] disabled:opacity-50"
                     />
                   </td>
                   <td className="px-6 py-4">

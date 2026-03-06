@@ -56,7 +56,7 @@ export function AuthLayout({
       <div
         className="flex items-center justify-center px-10 py-10 lg:px-10 lg:py-16 max-lg:px-6 max-lg:py-6"
         style={{
-          background: 'var(--color-background, #F5F7FA)',
+          background: 'var(--color-background)',
         }}
       >
         <div className="w-full max-w-[440px]">{children}</div>

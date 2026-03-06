@@ -322,7 +322,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
                     background:
                       activeImageIndex === idx
                         ? 'var(--color-primary)'
-                        : 'var(--color-border, #E5E7EB)',
+                        : 'var(--color-border)',
                     border: 'none',
                     cursor: 'pointer',
                     transition: 'all 0.3s',

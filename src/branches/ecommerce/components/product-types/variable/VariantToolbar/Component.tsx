@@ -46,7 +46,7 @@ export const VariantToolbar: React.FC<VariantToolbarProps> = ({
 
         {/* Selected Count (if any) */}
         {hasSelection && (
-          <span className="ml-2 px-2 py-0.5 bg-teal-100 text-teal-700 rounded-full text-xs font-bold">
+          <span className="ml-2 px-2 py-0.5 bg-[var(--color-primary-glow)] text-[var(--color-primary)] rounded-full text-xs font-bold">
             {selectedCount} geselecteerd
           </span>
         )}

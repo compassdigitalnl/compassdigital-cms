@@ -46,14 +46,14 @@ export function GuestInfoBox({
     <div
       className={`rounded-xl p-5 mb-6 ${className}`}
       style={{
-        background: 'linear-gradient(135deg, rgba(0,137,123,0.04), rgba(10,38,71,0.02))',
-        border: '1px solid rgba(0,137,123,0.12)',
+        background: 'linear-gradient(135deg, var(--color-primary-glow), rgba(10,38,71,0.02))',
+        border: '1px solid var(--color-primary-glow)',
       }}
     >
       {/* Title */}
       <h4
         className="text-sm font-semibold mb-1.5 flex items-center gap-2"
-        style={{ color: 'var(--color-text-primary, #0A1628)' }}
+        style={{ color: 'var(--color-text-primary)' }}
       >
         {showIcon && <span>ℹ️</span>}
         {title}
@@ -63,7 +63,7 @@ export function GuestInfoBox({
       {description && (
         <p
           className="text-[13px] leading-relaxed mb-3.5"
-          style={{ color: 'var(--color-text-secondary, #64748B)' }}
+          style={{ color: 'var(--color-text-secondary)' }}
         >
           {description}
         </p>
@@ -76,11 +76,11 @@ export function GuestInfoBox({
             <div
               key={index}
               className="flex items-center gap-1.5 text-xs"
-              style={{ color: 'var(--color-text-secondary, #64748B)' }}
+              style={{ color: 'var(--color-text-secondary)' }}
             >
               <span
                 className="font-bold text-sm flex-shrink-0"
-                style={{ color: 'var(--color-primary, #00897B)' }}
+                style={{ color: 'var(--color-primary)' }}
               >
                 ✓
               </span>

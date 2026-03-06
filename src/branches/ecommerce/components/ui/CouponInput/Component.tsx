@@ -207,7 +207,7 @@ export function CouponInput({
         }
 
         .coupon-input__field:focus {
-          border-color: var(--color-primary, #0A1628);
+          border-color: var(--color-primary);
           box-shadow: 0 0 0 3px var(--color-primary-glow, rgba(10,22,40,0.12));
         }
 
@@ -235,8 +235,8 @@ export function CouponInput({
         }
 
         .coupon-input__btn:hover:not(:disabled) {
-          border-color: var(--color-primary, #0A1628);
-          color: var(--color-primary, #0A1628);
+          border-color: var(--color-primary);
+          color: var(--color-primary);
           background: var(--white);
         }
 
@@ -259,7 +259,7 @@ export function CouponInput({
           height: 16px;
           margin: -8px 0 0 -8px;
           border: 2px solid var(--grey);
-          border-top-color: var(--color-primary, #0A1628);
+          border-top-color: var(--color-primary);
           border-radius: 50%;
           animation: spin 0.6s linear infinite;
         }

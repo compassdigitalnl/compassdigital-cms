@@ -17,8 +17,8 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
   const navRef = useRef<HTMLElement>(null)
   const [navTop, setNavTop] = useState(0)
 
-  const primaryColor = theme?.teal || '#00897B'
-  const secondaryColor = theme?.navy || '#0A1628'
+  const primaryColor = 'var(--color-primary)'
+  const secondaryColor = 'var(--color-secondary)'
 
   const categoryNav = useCategoryNavigation()
 
@@ -193,10 +193,10 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
                 className={cn(
                   'flex items-center gap-2 px-4 text-sm font-semibold border-b-2 border-transparent transition-all',
                   item.highlight
-                    ? 'text-[#FF6B6B] hover:border-[#FF6B6B]'
+                    ? 'text-[var(--color-error)] hover:border-[var(--color-error)]'
                     : 'hover:border-[var(--color-primary)]',
                 )}
-                style={{ color: item.highlight ? '#FF6B6B' : 'var(--color-secondary)' }}
+                style={{ color: item.highlight ? 'var(--color-error)' : 'var(--color-secondary)' }}
               >
                 {item.icon && <Icon name={item.icon} size={16} />}
                 {item.label}

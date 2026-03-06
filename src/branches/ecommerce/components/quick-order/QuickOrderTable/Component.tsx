@@ -267,7 +267,7 @@ export function QuickOrderTable({
 
         .qot-bulk-add-btn:hover:not(:disabled) {
           transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(0, 137, 123, 0.4);
+          box-shadow: 0 6px 20px var(--color-primary-glow);
         }
 
         .qot-bulk-add-btn:focus-visible {

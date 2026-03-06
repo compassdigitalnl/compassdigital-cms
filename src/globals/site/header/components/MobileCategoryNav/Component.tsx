@@ -106,7 +106,7 @@ export function MobileCategoryNav({ onClose }: MobileCategoryNavProps) {
                 'flex items-center gap-3 w-full px-5 py-3 text-base font-semibold transition-colors text-left',
                 isExpanded ? 'bg-gray-50' : 'hover:bg-gray-50',
               )}
-              style={{ color: isExpanded ? 'var(--color-primary, #00897B)' : '#1e293b' }}
+              style={{ color: isExpanded ? 'var(--color-primary)' : 'var(--color-text-primary)' }}
             >
               <Package className="w-4 h-4 flex-shrink-0 text-gray-400" />
               {cat.name}
@@ -130,7 +130,7 @@ export function MobileCategoryNav({ onClose }: MobileCategoryNavProps) {
                   href={`/shop/${cat.slug}`}
                   onClick={onClose}
                   className="flex items-center gap-2 pl-12 pr-5 py-2.5 text-sm font-bold transition-colors"
-                  style={{ color: 'var(--color-primary, #00897B)' }}
+                  style={{ color: 'var(--color-primary)' }}
                 >
                   Alle {cat.name?.toLowerCase()}
                   <ChevronRight className="w-3.5 h-3.5 ml-auto" />
@@ -181,7 +181,7 @@ export function MobileCategoryNav({ onClose }: MobileCategoryNavProps) {
                             href={`/shop/${l2.slug}`}
                             onClick={onClose}
                             className="flex items-center gap-2 pl-16 pr-5 py-2 text-sm font-bold transition-colors"
-                            style={{ color: 'var(--color-primary, #00897B)' }}
+                            style={{ color: 'var(--color-primary)' }}
                           >
                             Alle {l2.name?.toLowerCase()}
                             <ChevronRight className="w-3 h-3" />
@@ -195,7 +195,7 @@ export function MobileCategoryNav({ onClose }: MobileCategoryNavProps) {
                           href={`/shop/${l2.slug}`}
                           onClick={onClose}
                           className="flex items-center gap-2 pl-16 pr-5 py-2 text-sm font-medium transition-colors"
-                          style={{ color: 'var(--color-primary, #00897B)' }}
+                          style={{ color: 'var(--color-primary)' }}
                         >
                           Bekijk {l2.name?.toLowerCase()}
                           <ChevronRight className="w-3 h-3" />
@@ -213,7 +213,7 @@ export function MobileCategoryNav({ onClose }: MobileCategoryNavProps) {
                 href={`/shop/${cat.slug}`}
                 onClick={onClose}
                 className="flex items-center gap-2 pl-12 pr-5 py-2.5 text-sm font-bold bg-gray-50 transition-colors"
-                style={{ color: 'var(--color-primary, #00897B)' }}
+                style={{ color: 'var(--color-primary)' }}
               >
                 Bekijk alle producten
                 <ChevronRight className="w-3.5 h-3.5" />

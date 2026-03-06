@@ -426,7 +426,7 @@ export function MiniCartFlyout({
         .mc-btn-checkout:hover {
           background: var(--teal-light);
           transform: translateY(-2px);
-          box-shadow: 0 8px 16px rgba(0, 137, 123, 0.2);
+          box-shadow: 0 8px 16px var(--color-primary-glow);
         }
 
         /* Mobile Responsive */

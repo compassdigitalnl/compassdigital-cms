@@ -10,10 +10,10 @@ import type { TopBarProps } from './types'
 export function TopBar({ topBar, theme, header }: TopBarProps) {
   if (!topBar.enabled) return null
 
-  const bgColor = topBar.backgroundColor || theme?.navy || '#0A1628'
+  const bgColor = topBar.backgroundColor || 'var(--color-secondary)'
   const textColor = topBar.textColor || '#FFFFFF'
   const containerClass = getContainerMaxWidth('default' as any)
-  const primaryColor = theme?.teal || '#26A69A'
+  const primaryColor = 'var(--color-primary)'
 
   const languages = (header as any)?.languages as
     | Array<{ code: string; label: string; flag?: string; isDefault?: boolean }>

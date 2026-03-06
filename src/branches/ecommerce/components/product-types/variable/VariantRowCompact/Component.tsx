@@ -92,8 +92,8 @@ export const VariantRowCompact: React.FC<VariantRowCompactProps> = ({
       className={`
         variant-row-compact
         grid gap-3 items-center rounded-lg border-2 transition-all duration-200 p-3
-        ${selected ? 'border-teal-600 bg-teal-50/20' : 'border-gray-300 bg-white'}
-        ${isHovered && !isOutOfStock ? 'shadow-md border-teal-500' : ''}
+        ${selected ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]/20' : 'border-gray-300 bg-white'}
+        ${isHovered && !isOutOfStock ? 'shadow-md border-[var(--color-primary)]' : ''}
         ${isOutOfStock ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
         ${className}
       `}
@@ -110,8 +110,8 @@ export const VariantRowCompact: React.FC<VariantRowCompactProps> = ({
         disabled={isOutOfStock}
         className={`
           w-6 h-6 rounded border-2 flex items-center justify-center transition-colors duration-200
-          ${selected ? 'bg-teal-600 border-teal-600' : 'bg-white border-gray-400'}
-          ${isOutOfStock ? 'cursor-not-allowed' : 'hover:border-teal-500'}
+          ${selected ? 'bg-[var(--color-primary)] border-[var(--color-primary)]' : 'bg-white border-gray-400'}
+          ${isOutOfStock ? 'cursor-not-allowed' : 'hover:border-[var(--color-primary)]'}
         `}
         aria-label={selected ? 'Deselecteer variant' : 'Selecteer variant'}
       >
@@ -187,7 +187,7 @@ export const VariantRowCompact: React.FC<VariantRowCompactProps> = ({
             disabled={quantity === 0}
             className={`
               w-9 h-9 flex items-center justify-center rounded-md border-2 transition-colors
-              ${quantity === 0 ? 'border-gray-300 text-gray-400 cursor-not-allowed' : 'border-gray-400 text-gray-700 hover:border-teal-500 hover:text-teal-600'}
+              ${quantity === 0 ? 'border-gray-300 text-gray-400 cursor-not-allowed' : 'border-gray-400 text-gray-700 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'}
             `}
             aria-label="Verminder hoeveelheid"
           >
@@ -209,7 +209,7 @@ export const VariantRowCompact: React.FC<VariantRowCompactProps> = ({
             }}
             min="0"
             max={variant.stock > 0 ? variant.stock : 999}
-            className="w-14 h-9 text-center text-[14px] font-mono font-bold text-gray-900 border-2 border-gray-400 rounded-md focus:outline-none focus:border-teal-500"
+            className="w-14 h-9 text-center text-[14px] font-mono font-bold text-gray-900 border-2 border-gray-400 rounded-md focus:outline-none focus:border-[var(--color-primary)]"
             aria-label="Hoeveelheid"
           />
 
@@ -220,7 +220,7 @@ export const VariantRowCompact: React.FC<VariantRowCompactProps> = ({
             disabled={variant.stock > 0 && quantity >= variant.stock}
             className={`
               w-9 h-9 flex items-center justify-center rounded-md border-2 transition-colors
-              ${variant.stock > 0 && quantity >= variant.stock ? 'border-gray-300 text-gray-400 cursor-not-allowed' : 'border-gray-400 text-gray-700 hover:border-teal-500 hover:text-teal-600'}
+              ${variant.stock > 0 && quantity >= variant.stock ? 'border-gray-300 text-gray-400 cursor-not-allowed' : 'border-gray-400 text-gray-700 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'}
             `}
             aria-label="Verhoog hoeveelheid"
           >
@@ -232,7 +232,7 @@ export const VariantRowCompact: React.FC<VariantRowCompactProps> = ({
       {/* Column 5: Total Price */}
       {quantity > 0 && (
         <div className="text-right">
-          <div className="text-[14px] font-mono font-bold text-teal-600">
+          <div className="text-[14px] font-mono font-bold text-[var(--color-primary)]">
             €{formatPriceStr(totalPrice)}
           </div>
           <div className="text-[11px] text-gray-500">

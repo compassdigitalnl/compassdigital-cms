@@ -111,12 +111,12 @@ export function MegaNav({
                     )}
                     style={
                       activeL1 === cat.id
-                        ? { backgroundColor: 'rgba(0,137,123,0.18)' }
+                        ? { backgroundColor: 'var(--color-primary-glow)' }
                         : {}
                     }
                     onMouseOver={(e: any) => {
                       if (activeL1 !== cat.id)
-                        e.currentTarget.style.backgroundColor = 'rgba(0,137,123,0.18)'
+                        e.currentTarget.style.backgroundColor = 'var(--color-primary-glow)'
                     }}
                     onMouseOut={(e: any) => {
                       if (activeL1 !== cat.id)
@@ -162,7 +162,7 @@ export function MegaNav({
                   >
                     <div
                       className="w-[34px] h-[34px] rounded-lg flex items-center justify-center"
-                      style={{ backgroundColor: `${primaryColor}20` }}
+                      style={{ backgroundColor: 'var(--color-primary-glow)' }}
                     >
                       <Package className="w-[17px] h-[17px]" style={{ color: primaryColor }} />
                     </div>
@@ -188,26 +188,26 @@ export function MegaNav({
                       )}
                       style={
                         activeL2 === cat.id
-                          ? { backgroundColor: `${primaryColor}12`, color: primaryColor }
+                          ? { backgroundColor: 'var(--color-primary-glow)', color: primaryColor }
                           : {}
                       }
                       onMouseOver={(e: any) => {
                         if (activeL2 !== cat.id) {
-                          e.currentTarget.style.backgroundColor = `${primaryColor}12`
+                          e.currentTarget.style.backgroundColor = 'var(--color-primary-glow)'
                           e.currentTarget.style.color = primaryColor
                         }
                       }}
                       onMouseOut={(e: any) => {
                         if (activeL2 !== cat.id) {
                           e.currentTarget.style.backgroundColor = 'transparent'
-                          e.currentTarget.style.color = '#374151'
+                          e.currentTarget.style.color = 'var(--color-text-primary)'
                         }
                       }}
                     >
                       <Tag
                         className="w-[17px] h-[17px] flex-shrink-0"
                         style={{
-                          color: activeL2 === cat.id ? primaryColor : '#9ca3af',
+                          color: activeL2 === cat.id ? primaryColor : 'var(--color-text-muted)',
                         }}
                       />
                       {cat.name}
@@ -258,14 +258,14 @@ export function MegaNav({
                         href={`/shop/${cat.slug}`}
                         onClick={onClose}
                         className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 transition-all rounded-lg"
-                        style={{ color: '#374151' }}
+                        style={{ color: 'var(--color-text-primary)' }}
                         onMouseEnter={(e: any) => {
-                          e.currentTarget.style.backgroundColor = `${primaryColor}12`
+                          e.currentTarget.style.backgroundColor = 'var(--color-primary-glow)'
                           e.currentTarget.style.color = primaryColor
                         }}
                         onMouseLeave={(e: any) => {
                           e.currentTarget.style.backgroundColor = 'transparent'
-                          e.currentTarget.style.color = '#374151'
+                          e.currentTarget.style.color = 'var(--color-text-primary)'
                         }}
                       >
                         <ChevronRight className="w-[17px] h-[17px] flex-shrink-0 text-gray-400" />

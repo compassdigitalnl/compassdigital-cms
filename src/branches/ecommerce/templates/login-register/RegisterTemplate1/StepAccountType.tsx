@@ -34,7 +34,7 @@ export const StepAccountType: React.FC<StepAccountTypeProps> = ({
   return (
     <div
       className="rounded-[20px] border bg-white p-9"
-      style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+      style={{ borderColor: 'var(--color-border)' }}
     >
       <div className="mb-1.5 flex items-center gap-2.5 font-heading text-[22px] font-extrabold text-theme-navy">
         <User className="h-[22px] w-[22px] text-theme-teal" />
@@ -58,11 +58,11 @@ export const StepAccountType: React.FC<StepAccountTypeProps> = ({
                 flex flex-col items-center gap-2.5 rounded-[14px] border-2 p-5
                 text-center transition-all duration-200 cursor-pointer
                 ${isActive
-                  ? 'border-theme-teal bg-[rgba(0,137,123,0.12)] shadow-[0_0_0_4px_rgba(0,137,123,0.12)]'
-                  : 'hover:border-theme-teal hover:bg-[rgba(0,137,123,0.12)]'
+                  ? 'border-theme-teal bg-[var(--color-primary-glow)] shadow-[0_0_0_4px_var(--color-primary-glow)]'
+                  : 'hover:border-theme-teal hover:bg-[var(--color-primary-glow)]'
                 }
               `}
-              style={!isActive ? { borderColor: 'var(--color-border, #E8ECF1)' } : undefined}
+              style={!isActive ? { borderColor: 'var(--color-border)' } : undefined}
             >
               <div
                 className={`flex h-12 w-12 items-center justify-center rounded-xl ${

@@ -84,7 +84,7 @@ export function ProductSelectionTable({
 
           .product-add-button:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.2);
+            box-shadow: 0 0 0 3px var(--color-primary-glow);
           }
 
           .product-selection-empty {
@@ -245,7 +245,7 @@ export function ProductSelectionTable({
 
         .product-add-button:focus {
           outline: none;
-          box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.2);
+          box-shadow: 0 0 0 3px var(--color-primary-glow);
         }
 
         /* Body (rows container) */
@@ -333,7 +333,7 @@ export function ProductSelectionTable({
 
         .product-qty-input:focus {
           border-color: var(--teal);
-          box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.12);
+          box-shadow: 0 0 0 3px var(--color-primary-glow);
         }
 
         /* Hide spinner arrows */

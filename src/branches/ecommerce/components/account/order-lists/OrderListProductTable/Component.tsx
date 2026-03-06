@@ -37,18 +37,18 @@ import type { OrderListProductTableProps, OrderListItem } from './types'
 // ============================================================================
 
 const COLORS = {
-  navy: '#0A1628',
-  teal: '#00897B',
-  tealLight: '#26A69A',
-  tealGlow: 'rgba(0,137,123,0.15)',
+  navy: 'var(--color-secondary)',
+  teal: 'var(--color-primary)',
+  tealLight: 'var(--color-primary-light)',
+  tealGlow: 'var(--color-primary-glow)',
   white: '#FAFBFC',
   grey: '#E8ECF1',
-  greyMid: '#94A3B8',
-  greyDark: '#64748B',
-  green: '#00C853',
-  coral: '#FF6B6B',
-  coralLight: '#FFF0F0',
-  amber: '#F59E0B',
+  greyMid: 'var(--color-grey-mid)',
+  greyDark: 'var(--color-grey-dark)',
+  green: 'var(--color-success)',
+  coral: 'var(--color-error)',
+  coralLight: 'var(--color-error-light)',
+  amber: 'var(--color-warning)',
   bg: '#F5F7FA',
 }
 
@@ -101,7 +101,7 @@ function SortableRow({
       className="transition-all"
       onMouseEnter={(e) => {
         if (!isSelected && !isDragging) {
-          e.currentTarget.style.background = 'rgba(0,137,123,0.015)'
+          e.currentTarget.style.background = 'var(--color-primary-glow)'
         }
       }}
       onMouseLeave={(e) => {
@@ -123,8 +123,8 @@ function SortableRow({
       <td style={{ padding: '14px 16px', borderBottom: idx < totalItems - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
         <div
           onClick={() => onSelectItem(item.id)}
-          className={`w-5 h-5 rounded-md border-2 flex items-center justify-center cursor-pointer transition-all hover:border-teal-700 ${
-            isSelected ? 'bg-teal-700 border-teal-700' : 'border-gray-300'
+          className={`w-5 h-5 rounded-md border-2 flex items-center justify-center cursor-pointer transition-all hover:border-[var(--color-primary)] ${
+            isSelected ? 'bg-[var(--color-primary)] border-[var(--color-primary)]' : 'border-gray-300'
           }`}
         >
           {isSelected && <span style={{ color: 'white', fontSize: '12px', fontWeight: 700 }}>✓</span>}
@@ -299,7 +299,7 @@ function MobileCard({ item, isSelected, onSelectItem, onQuantityChange, onDelete
         <div
           onClick={() => onSelectItem(item.id)}
           className={`w-5 h-5 rounded-md border-2 flex items-center justify-center cursor-pointer transition-all flex-shrink-0 ${
-            isSelected ? 'bg-teal-700 border-teal-700' : 'border-gray-300'
+            isSelected ? 'bg-[var(--color-primary)] border-[var(--color-primary)]' : 'border-gray-300'
           }`}
         >
           {isSelected && <span style={{ color: 'white', fontSize: '12px', fontWeight: 700 }}>✓</span>}
@@ -480,8 +480,8 @@ export function OrderListProductTable({
           style={{ background: COLORS.navy, color: 'white' }}
         >
           <div className="flex items-center gap-2" style={{ fontSize: '14px', fontWeight: 600 }}>
-            <CheckSquare className="w-4 h-4" style={{ color: '#26A69A' }} />
-            <strong style={{ color: '#26A69A' }}>{selectedItems.size}</strong> artikelen geselecteerd
+            <CheckSquare className="w-4 h-4" style={{ color: 'var(--color-primary-light)' }} />
+            <strong style={{ color: 'var(--color-primary-light)' }}>{selectedItems.size}</strong> artikelen geselecteerd
           </div>
           <div className="flex gap-2 ml-auto flex-wrap">
             <button
@@ -536,9 +536,9 @@ export function OrderListProductTable({
               onClick={() => onBulkAction('delete')}
               className="btn btn-danger btn-sm flex items-center gap-1"
               style={{
-                border: `1px solid #FF6B6B`,
+                border: `1px solid var(--color-error)`,
                 background: 'rgba(255,107,107,0.1)',
-                color: '#FF6B6B',
+                color: 'var(--color-error)',
               }}
             >
               <Trash2 className="w-3.5 h-3.5" />
@@ -569,11 +569,11 @@ export function OrderListProductTable({
             <div className="flex items-center gap-2">
               <div
                 onClick={onSelectAll}
-                className={`w-5 h-5 rounded-md border-2 flex items-center justify-center cursor-pointer transition-all hover:border-teal-700 ${
+                className={`w-5 h-5 rounded-md border-2 flex items-center justify-center cursor-pointer transition-all hover:border-[var(--color-primary)] ${
                   isAllSelected
-                    ? 'bg-teal-700 border-teal-700'
+                    ? 'bg-[var(--color-primary)] border-[var(--color-primary)]'
                     : isSomeSelected
-                      ? 'bg-teal-700 border-teal-700'
+                      ? 'bg-[var(--color-primary)] border-[var(--color-primary)]'
                       : 'border-gray-300'
                 }`}
               >
@@ -602,7 +602,7 @@ export function OrderListProductTable({
                 placeholder="Filter in lijst…"
                 value={tableFilter}
                 onChange={(e) => onTableFilterChange(e.target.value)}
-                className="pl-9 pr-3 py-2 rounded-lg transition-all focus:outline-none focus:border-teal-700"
+                className="pl-9 pr-3 py-2 rounded-lg transition-all focus:outline-none focus:border-[var(--color-primary)]"
                 style={{
                   border: `1.5px solid ${COLORS.grey}`,
                   fontFamily: 'DM Sans, sans-serif',
@@ -617,7 +617,7 @@ export function OrderListProductTable({
             <select
               value={sortBy}
               onChange={(e) => onSortChange(e.target.value)}
-              className="px-3 py-2 rounded-lg font-semibold cursor-pointer transition-all focus:outline-none focus:border-teal-700"
+              className="px-3 py-2 rounded-lg font-semibold cursor-pointer transition-all focus:outline-none focus:border-[var(--color-primary)]"
               style={{
                 border: `1.5px solid ${COLORS.grey}`,
                 fontFamily: 'DM Sans, sans-serif',

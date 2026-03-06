@@ -190,7 +190,7 @@ export function CookiePreferencesModal({
           left: 50%;
           transform: translate(-50%, -50%);
           z-index: calc(var(--z-modal) + 1);
-          background: var(--white);
+          background: var(--color-surface);
           border-radius: var(--radius-xl);
           box-shadow: var(--shadow-xl);
           width: 600px;
@@ -217,21 +217,21 @@ export function CookiePreferencesModal({
           align-items: center;
           justify-content: space-between;
           padding: var(--sp-6);
-          border-bottom: 1px solid var(--grey);
+          border-bottom: 1px solid var(--color-border);
         }
 
         .cb-pref-title {
-          font-family: var(--font-display);
+          font-family: var(--font-heading);
           font-size: 20px;
           font-weight: 800;
-          color: var(--navy);
+          color: var(--color-secondary);
           margin: 0;
         }
 
         .cb-pref-close {
           background: none;
           border: none;
-          color: var(--grey-mid);
+          color: var(--color-grey-mid);
           cursor: pointer;
           padding: var(--sp-2);
           border-radius: var(--radius-sm);
@@ -242,8 +242,8 @@ export function CookiePreferencesModal({
         }
 
         .cb-pref-close:hover {
-          background: var(--grey-light);
-          color: var(--navy);
+          background: var(--color-grey-light);
+          color: var(--color-secondary);
         }
 
         .cb-pref-body {
@@ -254,7 +254,7 @@ export function CookiePreferencesModal({
 
         .cb-pref-intro {
           font-size: 14px;
-          color: var(--grey-dark);
+          color: var(--color-grey-dark);
           line-height: 1.6;
           margin-bottom: var(--sp-5);
         }
@@ -268,9 +268,9 @@ export function CookiePreferencesModal({
 
         .cb-toggle-card {
           padding: var(--sp-4);
-          background: var(--grey-light);
+          background: var(--color-grey-light);
           border-radius: var(--radius-md);
-          border: 1px solid var(--grey);
+          border: 1px solid var(--color-border);
         }
 
         .cb-toggle-header {
@@ -287,23 +287,23 @@ export function CookiePreferencesModal({
         }
 
         .cb-toggle-icon {
-          color: var(--teal);
+          color: var(--color-primary);
         }
 
         .cb-toggle-name {
           font-size: 14px;
           font-weight: 700;
-          color: var(--navy);
+          color: var(--color-secondary);
         }
 
         .cb-toggle-req {
           font-size: 11px;
-          color: var(--grey-mid);
+          color: var(--color-grey-mid);
         }
 
         .cb-toggle-desc {
           font-size: 13px;
-          color: var(--grey-dark);
+          color: var(--color-grey-dark);
           line-height: 1.5;
           margin: 0;
         }
@@ -312,7 +312,7 @@ export function CookiePreferencesModal({
           width: 44px;
           height: 24px;
           border-radius: 100px;
-          background: var(--grey);
+          background: var(--color-border);
           cursor: pointer;
           position: relative;
           transition: background 0.2s;
@@ -321,7 +321,7 @@ export function CookiePreferencesModal({
         }
 
         .cb-switch.on {
-          background: var(--teal);
+          background: var(--color-primary);
         }
 
         .cb-switch-knob {
@@ -331,7 +331,7 @@ export function CookiePreferencesModal({
           width: 18px;
           height: 18px;
           border-radius: 50%;
-          background: var(--white);
+          background: var(--color-surface);
           transition: left 0.2s;
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
           display: block;
@@ -342,38 +342,38 @@ export function CookiePreferencesModal({
         }
 
         .cb-switch.locked {
-          background: var(--teal);
+          background: var(--color-primary);
           opacity: 0.6;
           cursor: default;
         }
 
         .cb-pref-footer {
           font-size: 13px;
-          color: var(--grey-mid);
+          color: var(--color-grey-mid);
           line-height: 1.5;
           margin: 0;
         }
 
         .cb-link {
-          color: var(--teal);
+          color: var(--color-primary);
           text-decoration: underline;
           text-underline-offset: 2px;
         }
 
         .cb-link:hover {
-          color: var(--teal-dark);
+          color: var(--color-primary);
         }
 
         .cb-pref-actions {
           padding: var(--sp-6);
-          border-top: 1px solid var(--grey);
+          border-top: 1px solid var(--color-border);
         }
 
         .cb-btn {
           width: 100%;
           height: 44px;
           border-radius: var(--radius-md);
-          font-family: var(--font);
+          font-family: var(--font-body);
           font-size: 14px;
           font-weight: 700;
           cursor: pointer;
@@ -382,12 +382,12 @@ export function CookiePreferencesModal({
         }
 
         .cb-btn.save {
-          background: var(--teal);
-          color: var(--white);
+          background: var(--color-primary);
+          color: var(--color-surface);
         }
 
         .cb-btn.save:hover {
-          background: var(--navy);
+          background: var(--color-secondary);
         }
 
         @media (max-width: 640px) {

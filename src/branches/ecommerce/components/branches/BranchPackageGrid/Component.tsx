@@ -32,7 +32,7 @@ export const BranchPackageGrid: React.FC<BranchPackageGridProps> = ({
                 hover:shadow-[0_8px_28px_rgba(0,0,0,0.06)]
                 ${pkg.featured ? 'border-theme-teal hover:border-theme-teal' : 'hover:border-theme-teal'}
               `}
-              style={!pkg.featured ? { borderColor: 'var(--color-border, #E8ECF1)' } : undefined}
+              style={!pkg.featured ? { borderColor: 'var(--color-border)' } : undefined}
             >
               {/* Featured badge */}
               {pkg.featured && pkg.featuredLabel && (
@@ -44,7 +44,7 @@ export const BranchPackageGrid: React.FC<BranchPackageGridProps> = ({
               {/* Header */}
               <div
                 className="border-b px-6 pb-4 pt-6"
-                style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+                style={{ borderColor: 'var(--color-border)' }}
               >
                 <div className="mb-1 font-heading text-lg font-extrabold text-theme-navy">
                   {pkg.name}
@@ -62,7 +62,7 @@ export const BranchPackageGrid: React.FC<BranchPackageGridProps> = ({
               <div className="flex-1 px-6 py-4">
                 {pkg.items.map((item, i) => (
                   <div key={i} className="flex items-center gap-2 py-1.5 text-sm text-theme-navy">
-                    <Check className="h-4 w-4 flex-shrink-0 text-[#00C853]" />
+                    <Check className="h-4 w-4 flex-shrink-0 text-[var(--color-success)]" />
                     {item.text}
                   </div>
                 ))}
@@ -81,7 +81,7 @@ export const BranchPackageGrid: React.FC<BranchPackageGridProps> = ({
                       : 'border-none bg-theme-teal text-white hover:bg-theme-navy'
                     }
                   `}
-                  style={pkg.buttonVariant === 'outline' ? { borderColor: 'var(--color-border, #E8ECF1)' } : undefined}
+                  style={pkg.buttonVariant === 'outline' ? { borderColor: 'var(--color-border)' } : undefined}
                 >
                   <BtnIcon className="h-[17px] w-[17px]" />
                   {pkg.buttonLabel || 'Bestellen'}

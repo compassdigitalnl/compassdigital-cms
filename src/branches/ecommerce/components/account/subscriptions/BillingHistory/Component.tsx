@@ -36,12 +36,12 @@ export function BillingHistory({ invoices }: BillingHistoryProps) {
       <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
         <div className="p-4 border-b border-gray-200 flex justify-between items-center">
           <h3 className="font-bold flex items-center gap-2">
-            <CreditCard className="w-4 h-4 text-teal-600" />
+            <CreditCard className="w-4 h-4 text-[var(--color-primary)]" />
             Recente facturen
           </h3>
           <Link
             href="/account/invoices/"
-            className="text-xs font-semibold text-teal-600 hover:underline"
+            className="text-xs font-semibold text-[var(--color-primary)] hover:underline"
           >
             Alles bekijken
           </Link>
@@ -78,7 +78,7 @@ export function BillingHistory({ invoices }: BillingHistoryProps) {
                   <td className="p-3 text-right">
                     <a
                       href="#"
-                      className="text-teal-600 font-semibold hover:underline inline-flex items-center gap-1"
+                      className="text-[var(--color-primary)] font-semibold hover:underline inline-flex items-center gap-1"
                     >
                       <Download className="w-3 h-3" />
                       <span>PDF</span>

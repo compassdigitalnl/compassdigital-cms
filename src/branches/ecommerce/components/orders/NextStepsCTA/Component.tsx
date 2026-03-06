@@ -150,11 +150,11 @@ export function NextStepsCTA({
         .next-step-button.primary {
           background: linear-gradient(135deg, var(--teal), var(--teal-light));
           color: white;
-          box-shadow: 0 4px 16px rgba(0, 137, 123, 0.3);
+          box-shadow: 0 4px 16px var(--color-primary-glow);
         }
 
         .next-step-button.primary:hover {
-          box-shadow: 0 8px 24px rgba(0, 137, 123, 0.4);
+          box-shadow: 0 8px 24px var(--color-primary-glow);
         }
 
         .next-step-button.primary :global(svg) {

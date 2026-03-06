@@ -4,7 +4,7 @@ import type { EarnPointsGridProps } from './types'
 import type { EarnWayColor } from '@/branches/ecommerce/templates/account/AccountTemplate1/LoyaltyTemplate/types'
 
 const bgColorMap: Record<EarnWayColor, string> = {
-  teal: 'rgba(0,137,123,0.1)',
+  teal: 'var(--color-primary-glow)',
   purple: 'rgba(124,58,237,0.1)',
   blue: 'rgba(33,150,243,0.1)',
   green: 'rgba(0,200,83,0.1)',
@@ -37,8 +37,8 @@ export function EarnPointsGrid({ earnWays }: EarnPointsGridProps) {
             <div
               className="inline-flex items-center gap-1 mt-2 px-2 py-0.5 rounded-full text-xs font-bold"
               style={{
-                background: 'rgba(0,137,123,0.1)',
-                color: 'var(--color-primary, #00897B)',
+                background: 'var(--color-primary-glow)',
+                color: 'var(--color-primary)',
               }}
             >
               <Star className="w-2.5 h-2.5" />

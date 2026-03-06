@@ -206,7 +206,7 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
           onClick={() => handleImageSwitch(index)}
           className={`aspect-square overflow-hidden rounded-lg border-2 transition-all duration-150 md:rounded-[10px] ${
             index === activeIndex
-              ? 'border-theme-teal shadow-[0_0_0_3px_rgba(0,137,123,0.12)]'
+              ? 'border-theme-teal shadow-[0_0_0_3px_var(--color-primary-glow)]'
               : 'border-transparent hover:border-theme-teal'
           }`}
           aria-label={`Afbeelding ${index + 1} van ${images.length}: ${img.alt}`}

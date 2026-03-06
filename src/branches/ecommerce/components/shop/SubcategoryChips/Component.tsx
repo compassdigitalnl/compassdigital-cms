@@ -64,8 +64,8 @@ export function SubcategoryChips({ chips, className = '' }: SubcategoryChipsProp
     <div
       className={`subcategory-chips ${className}`}
       style={{
-        background: 'var(--color-white, #FAFBFC)',
-        borderBottom: '1px solid var(--color-grey, #E8ECF1)',
+        background: 'var(--color-white)',
+        borderBottom: '1px solid var(--color-grey)',
         padding: '14px 20px',
       }}
     >
@@ -77,7 +77,7 @@ export function SubcategoryChips({ chips, className = '' }: SubcategoryChipsProp
           gap: '10px',
           overflowX: 'auto',
           scrollbarWidth: 'thin',
-          scrollbarColor: 'var(--color-grey, #E8ECF1) transparent',
+          scrollbarColor: 'var(--color-grey) transparent',
         }}
       >
         {chips.map((chip, index) => {
@@ -102,14 +102,14 @@ export function SubcategoryChips({ chips, className = '' }: SubcategoryChipsProp
 
           // Active state
           if (isActive) {
-            baseStyles.color = 'var(--color-teal, #00897B)'
-            baseStyles.background = 'var(--color-teal-glow, rgba(0, 137, 123, 0.12))'
-            baseStyles.borderColor = 'rgba(0, 137, 123, 0.2)'
+            baseStyles.color = 'var(--color-teal)'
+            baseStyles.background = 'var(--color-teal-glow, var(--color-primary-glow))'
+            baseStyles.borderColor = 'var(--color-primary-glow)'
           } else {
             // Inactive state
-            baseStyles.color = 'var(--color-navy, #0A1628)'
-            baseStyles.background = 'var(--color-bg, #F5F7FA)'
-            baseStyles.borderColor = 'var(--color-grey, #E8ECF1)'
+            baseStyles.color = 'var(--color-navy)'
+            baseStyles.background = 'var(--color-bg)'
+            baseStyles.borderColor = 'var(--color-grey)'
           }
 
           return (
@@ -120,25 +120,25 @@ export function SubcategoryChips({ chips, className = '' }: SubcategoryChipsProp
               style={baseStyles}
               onMouseEnter={(e) => {
                 if (isActive) {
-                  e.currentTarget.style.background = 'rgba(0, 137, 123, 0.18)'
-                  e.currentTarget.style.borderColor = 'rgba(0, 137, 123, 0.3)'
+                  e.currentTarget.style.background = 'var(--color-primary-glow)'
+                  e.currentTarget.style.borderColor = 'var(--color-primary-glow)'
                 } else {
-                  e.currentTarget.style.background = 'var(--color-grey-light, #F1F4F8)'
-                  e.currentTarget.style.borderColor = 'var(--color-grey-mid, #94A3B8)'
+                  e.currentTarget.style.background = 'var(--color-grey-light)'
+                  e.currentTarget.style.borderColor = 'var(--color-grey-mid)'
                 }
               }}
               onMouseLeave={(e) => {
                 if (isActive) {
-                  e.currentTarget.style.background = 'var(--color-teal-glow, rgba(0, 137, 123, 0.12))'
-                  e.currentTarget.style.borderColor = 'rgba(0, 137, 123, 0.2)'
+                  e.currentTarget.style.background = 'var(--color-teal-glow, var(--color-primary-glow))'
+                  e.currentTarget.style.borderColor = 'var(--color-primary-glow)'
                 } else {
-                  e.currentTarget.style.background = 'var(--color-bg, #F5F7FA)'
-                  e.currentTarget.style.borderColor = 'var(--color-grey, #E8ECF1)'
+                  e.currentTarget.style.background = 'var(--color-bg)'
+                  e.currentTarget.style.borderColor = 'var(--color-grey)'
                 }
               }}
               onFocus={(e) => {
                 e.currentTarget.style.outline = 'none'
-                e.currentTarget.style.boxShadow = '0 0 0 3px var(--color-teal-glow, rgba(0, 137, 123, 0.12))'
+                e.currentTarget.style.boxShadow = '0 0 0 3px var(--color-teal-glow, var(--color-primary-glow))'
               }}
               onBlur={(e) => {
                 e.currentTarget.style.boxShadow = 'none'
@@ -158,7 +158,7 @@ export function SubcategoryChips({ chips, className = '' }: SubcategoryChipsProp
                   className="subcategory-chip__count"
                   style={{
                     fontSize: '11px',
-                    color: 'var(--color-grey-mid, #94A3B8)',
+                    color: 'var(--color-grey-mid)',
                     fontWeight: 400,
                   }}
                 >
@@ -180,12 +180,12 @@ export function SubcategoryChips({ chips, className = '' }: SubcategoryChipsProp
         }
 
         .subcategory-chips__list::-webkit-scrollbar-thumb {
-          background: var(--color-grey, #E8ECF1);
+          background: var(--color-grey);
           border-radius: 3px;
         }
 
         .subcategory-chips__list::-webkit-scrollbar-thumb:hover {
-          background: var(--color-grey-mid, #94A3B8);
+          background: var(--color-grey-mid);
         }
       `}</style>
     </div>

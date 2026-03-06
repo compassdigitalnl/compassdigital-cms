@@ -306,7 +306,7 @@ export const EcommerceSettings: GlobalConfig = {
                   type: 'text',
                   label: 'Icoon achtergrond',
                   admin: {
-                    placeholder: 'bijv. rgba(0,137,123,0.12)',
+                    placeholder: 'bijv. var(--color-primary-glow)',
                   },
                 },
                 {

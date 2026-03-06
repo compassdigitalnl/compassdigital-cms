@@ -26,7 +26,7 @@ export function CheckoutSteps({
   return (
     <div
       className={`bg-white border-b ${className}`}
-      style={{ borderColor: 'var(--color-border, #e2e8f0)' }}
+      style={{ borderColor: 'var(--color-border)' }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
         <div className="flex items-center justify-center gap-0">
@@ -76,21 +76,21 @@ function StepItem({
   isClickable,
 }: StepItemProps) {
   const getColor = () => {
-    if (isCompleted) return 'var(--color-success, #16a34a)'
-    if (isActive) return 'var(--color-primary, #00897b)'
-    return 'var(--color-text-muted, #94a3b8)'
+    if (isCompleted) return 'var(--color-success)'
+    if (isActive) return 'var(--color-primary)'
+    return 'var(--color-text-muted)'
   }
 
   const getBgColor = () => {
-    if (isCompleted) return 'var(--color-success, #16a34a)'
-    if (isActive) return 'var(--color-primary, #00897b)'
+    if (isCompleted) return 'var(--color-success)'
+    if (isActive) return 'var(--color-primary)'
     return 'transparent'
   }
 
   const getBorderColor = () => {
-    if (isCompleted) return 'var(--color-success, #16a34a)'
-    if (isActive) return 'var(--color-primary, #00897b)'
-    return 'var(--color-border, #cbd5e1)'
+    if (isCompleted) return 'var(--color-success)'
+    if (isActive) return 'var(--color-primary)'
+    return 'var(--color-border)'
   }
 
   return (
@@ -124,8 +124,8 @@ function StepLine({ isCompleted }: { isCompleted: boolean }) {
       className="w-12 sm:w-16 h-0.5 mx-2 sm:mx-3 transition-colors"
       style={{
         background: isCompleted
-          ? 'var(--color-success, #16a34a)'
-          : 'var(--color-border, #e2e8f0)',
+          ? 'var(--color-success)'
+          : 'var(--color-border)',
       }}
     />
   )

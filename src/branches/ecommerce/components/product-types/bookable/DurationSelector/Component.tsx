@@ -47,7 +47,7 @@ export const DurationSelector: React.FC<DurationSelectorProps> = ({
     <div className={`duration-selector ${className}`}>
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
-        <Timer className="w-5 h-5 text-teal-600" />
+        <Timer className="w-5 h-5 text-[var(--color-primary)]" />
         <h3 className="text-base font-extrabold text-gray-900">
           Selecteer duur
         </h3>
@@ -64,7 +64,7 @@ export const DurationSelector: React.FC<DurationSelectorProps> = ({
               onClick={() => onOptionSelect(option.id)}
               className={`
                 duration-option relative p-4 rounded-xl border-[1.5px] transition-all text-left
-                ${isSelected ? 'bg-teal-600 border-teal-600 text-white shadow-md' : 'bg-white border-gray-200 hover:border-teal-600 hover:shadow-sm'}
+                ${isSelected ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white shadow-md' : 'bg-white border-gray-200 hover:border-[var(--color-primary)] hover:shadow-sm'}
               `}
             >
               {/* Popular badge */}
@@ -77,7 +77,7 @@ export const DurationSelector: React.FC<DurationSelectorProps> = ({
               {/* Selected checkmark */}
               {isSelected && (
                 <div className="absolute top-2 right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center">
-                  <Check className="w-4 h-4 text-teal-600" />
+                  <Check className="w-4 h-4 text-[var(--color-primary)]" />
                 </div>
               )}
 
@@ -99,7 +99,7 @@ export const DurationSelector: React.FC<DurationSelectorProps> = ({
               )}
 
               {/* Price */}
-              <div className={`text-lg font-bold font-mono ${isSelected ? 'text-white' : 'text-teal-600'}`}>
+              <div className={`text-lg font-bold font-mono ${isSelected ? 'text-white' : 'text-[var(--color-primary)]'}`}>
                 €{formatPriceStr(option.price)}
               </div>
             </button>

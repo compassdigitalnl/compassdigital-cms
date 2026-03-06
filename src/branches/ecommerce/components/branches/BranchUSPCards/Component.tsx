@@ -21,7 +21,7 @@ export const BranchUSPCards: React.FC<BranchUSPCardsProps> = ({
               transition-all duration-200
               hover:-translate-y-0.5 hover:border-theme-teal
             "
-            style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+            style={{ borderColor: 'var(--color-border)' }}
           >
             <div
               className="mx-auto mb-2.5 flex h-12 w-12 items-center justify-center rounded-xl"

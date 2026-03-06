@@ -49,7 +49,7 @@ export const StatsBlockComponent: React.FC<StatsBlock> = ({
           style={{
             background: backgroundColor === 'tealGradient'
               ? 'radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 60%)'
-              : 'radial-gradient(circle, rgba(0, 137, 123, 0.15), transparent 60%)',
+              : 'radial-gradient(circle, var(--color-primary-glow), transparent 60%)',
           }}
         />
       )}

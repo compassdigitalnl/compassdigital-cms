@@ -55,17 +55,17 @@ export function Breadcrumb({ items, variant = 'default', className = '' }: Bread
                     href={item.href}
                     className="px-2.5 py-1 rounded-full transition-colors"
                     style={{
-                      backgroundColor: 'var(--color-grey-light, #F1F4F8)',
-                      color: 'var(--color-grey-mid, #94A3B8)',
+                      backgroundColor: 'var(--color-grey-light)',
+                      color: 'var(--color-grey-mid)',
                       textDecoration: 'none',
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = 'var(--color-teal-glow, rgba(0, 137, 123, 0.12))'
-                      e.currentTarget.style.color = 'var(--color-teal, #00897B)'
+                      e.currentTarget.style.backgroundColor = 'var(--color-teal-glow, var(--color-primary-glow))'
+                      e.currentTarget.style.color = 'var(--color-teal)'
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'var(--color-grey-light, #F1F4F8)'
-                      e.currentTarget.style.color = 'var(--color-grey-mid, #94A3B8)'
+                      e.currentTarget.style.backgroundColor = 'var(--color-grey-light)'
+                      e.currentTarget.style.color = 'var(--color-grey-mid)'
                     }}
                   >
                     {item.label}
@@ -74,8 +74,8 @@ export function Breadcrumb({ items, variant = 'default', className = '' }: Bread
                   <span
                     className="px-2.5 py-1 rounded-full font-semibold"
                     style={{
-                      backgroundColor: 'var(--color-teal-glow, rgba(0, 137, 123, 0.12))',
-                      color: 'var(--color-teal, #00897B)',
+                      backgroundColor: 'var(--color-teal-glow, var(--color-primary-glow))',
+                      color: 'var(--color-teal)',
                     }}
                     aria-current="page"
                   >
@@ -84,7 +84,7 @@ export function Breadcrumb({ items, variant = 'default', className = '' }: Bread
                 )}
                 {!isLast && (
                   <span
-                    style={{ color: 'var(--color-grey, #E8ECF1)' }}
+                    style={{ color: 'var(--color-grey)' }}
                     aria-hidden="true"
                   >
                     ›
@@ -121,14 +121,14 @@ export function Breadcrumb({ items, variant = 'default', className = '' }: Bread
                     href={item.href}
                     className="flex items-center gap-1 transition-colors"
                     style={{
-                      color: 'var(--color-grey-mid, #94A3B8)',
+                      color: 'var(--color-grey-mid)',
                       textDecoration: 'none',
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.color = 'var(--color-teal, #00897B)'
+                      e.currentTarget.style.color = 'var(--color-teal)'
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.color = 'var(--color-grey-mid, #94A3B8)'
+                      e.currentTarget.style.color = 'var(--color-grey-mid)'
                     }}
                   >
                     {Icon && <Icon className="w-3.5 h-3.5" />}
@@ -138,14 +138,14 @@ export function Breadcrumb({ items, variant = 'default', className = '' }: Bread
                   <span
                     className="flex items-center gap-1 font-semibold"
                     style={{
-                      color: 'var(--color-navy, #0A1628)',
+                      color: 'var(--color-navy)',
                     }}
                     aria-current="page"
                   >
                     {Icon && (
                       <Icon
                         className="w-3.5 h-3.5"
-                        style={{ color: 'var(--color-teal, #00897B)' }}
+                        style={{ color: 'var(--color-teal)' }}
                       />
                     )}
                     {item.label}
@@ -153,7 +153,7 @@ export function Breadcrumb({ items, variant = 'default', className = '' }: Bread
                 )}
                 {!isLast && (
                   <span
-                    style={{ color: 'var(--color-grey, #E8ECF1)' }}
+                    style={{ color: 'var(--color-grey)' }}
                     aria-hidden="true"
                   >
                     ›
@@ -189,14 +189,14 @@ export function Breadcrumb({ items, variant = 'default', className = '' }: Bread
                   href={item.href}
                   className="transition-colors"
                   style={{
-                    color: 'var(--color-grey-mid, #94A3B8)',
+                    color: 'var(--color-grey-mid)',
                     textDecoration: 'none',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.color = 'var(--color-teal, #00897B)'
+                    e.currentTarget.style.color = 'var(--color-teal)'
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.color = 'var(--color-grey-mid, #94A3B8)'
+                    e.currentTarget.style.color = 'var(--color-grey-mid)'
                   }}
                 >
                   {item.label}
@@ -205,7 +205,7 @@ export function Breadcrumb({ items, variant = 'default', className = '' }: Bread
                 <span
                   className="font-semibold"
                   style={{
-                    color: 'var(--color-navy, #0A1628)',
+                    color: 'var(--color-navy)',
                   }}
                   aria-current="page"
                 >
@@ -215,7 +215,7 @@ export function Breadcrumb({ items, variant = 'default', className = '' }: Bread
               {!isLast && (
                 <ChevronRight
                   className="w-3.5 h-3.5"
-                  style={{ color: 'var(--color-grey, #E8ECF1)' }}
+                  style={{ color: 'var(--color-grey)' }}
                   aria-hidden="true"
                 />
               )}

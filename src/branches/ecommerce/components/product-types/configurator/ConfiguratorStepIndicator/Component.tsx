@@ -56,7 +56,7 @@ export const ConfiguratorStepIndicator: React.FC<ConfiguratorStepIndicatorProps>
                   className={`
                     btn relative w-12 h-12 flex items-center justify-center
                     ${stepState === 'completed' ? 'btn-primary' : ''}
-                    ${stepState === 'active' ? 'btn-primary ring-4 ring-teal-200' : ''}
+                    ${stepState === 'active' ? 'btn-primary ring-4 ring-[var(--color-primary-light)]' : ''}
                     ${stepState === 'pending' ? 'btn-outline-neutral' : ''}
                   `}
                   aria-label={`Stap ${step.stepNumber}: ${step.title}`}
@@ -75,7 +75,7 @@ export const ConfiguratorStepIndicator: React.FC<ConfiguratorStepIndicatorProps>
                 {/* Step Title (below circle) */}
                 <div className="mt-2 text-center max-w-[120px]">
                   <p
-                    className={`text-[13px] font-semibold ${stepState === 'active' ? 'text-teal-700' : 'text-gray-700'}`}
+                    className={`text-[13px] font-semibold ${stepState === 'active' ? 'text-[var(--color-primary)]' : 'text-gray-700'}`}
                   >
                     {step.title}
                   </p>
@@ -91,7 +91,7 @@ export const ConfiguratorStepIndicator: React.FC<ConfiguratorStepIndicatorProps>
               {!isLast && (
                 <div className="flex-1 h-0.5 bg-gray-300 mx-2 mb-12">
                   <div
-                    className={`h-full transition-all duration-300 ${completedSteps.includes(steps[index + 1].stepNumber) ? 'bg-teal-600 w-full' : 'bg-gray-300 w-0'}`}
+                    className={`h-full transition-all duration-300 ${completedSteps.includes(steps[index + 1].stepNumber) ? 'bg-[var(--color-primary)] w-full' : 'bg-gray-300 w-0'}`}
                   />
                 </div>
               )}
@@ -123,8 +123,8 @@ export const ConfiguratorStepIndicator: React.FC<ConfiguratorStepIndicatorProps>
                 <div
                   className={`
                     flex-shrink-0 w-10 h-10 rounded-full border-2 flex items-center justify-center
-                    ${stepState === 'completed' ? 'bg-teal-600 border-teal-600' : ''}
-                    ${stepState === 'active' ? 'bg-teal-600 border-teal-600' : ''}
+                    ${stepState === 'completed' ? 'bg-[var(--color-primary)] border-[var(--color-primary)]' : ''}
+                    ${stepState === 'active' ? 'bg-[var(--color-primary)] border-[var(--color-primary)]' : ''}
                     ${stepState === 'pending' ? 'bg-gray-200 border-gray-300' : ''}
                   `}
                 >
@@ -142,7 +142,7 @@ export const ConfiguratorStepIndicator: React.FC<ConfiguratorStepIndicatorProps>
                 {/* Step Info */}
                 <div className="flex-1 text-left">
                   <p
-                    className={`text-[14px] font-semibold ${stepState === 'active' ? 'text-teal-700' : 'text-gray-900'}`}
+                    className={`text-[14px] font-semibold ${stepState === 'active' ? 'text-[var(--color-primary)]' : 'text-gray-900'}`}
                   >
                     {step.title}
                   </p>
@@ -163,7 +163,7 @@ export const ConfiguratorStepIndicator: React.FC<ConfiguratorStepIndicatorProps>
               {!isLast && (
                 <div className="absolute left-8 top-[52px] w-0.5 h-4 bg-gray-300">
                   <div
-                    className={`w-full transition-all duration-300 ${completedSteps.includes(steps[index + 1].stepNumber) ? 'bg-teal-600 h-full' : 'bg-gray-300 h-0'}`}
+                    className={`w-full transition-all duration-300 ${completedSteps.includes(steps[index + 1].stepNumber) ? 'bg-[var(--color-primary)] h-full' : 'bg-gray-300 h-0'}`}
                   />
                 </div>
               )}

@@ -37,36 +37,36 @@ const B2C_STEPS: Step[] = [
 const DEFAULT_BENEFITS: Benefit[] = [
   {
     icon: Tag,
-    iconColor: 'var(--color-teal, #00897B)',
-    iconBg: 'rgba(0,137,123,0.12)',
+    iconColor: 'var(--color-teal)',
+    iconBg: 'var(--color-primary-glow)',
     title: 'Exclusieve B2B prijzen',
     description: 'Scherpe prijzen voor zakelijke klanten',
   },
   {
     icon: CreditCard,
-    iconColor: 'var(--color-blue, #2196F3)',
-    iconBg: 'var(--color-blue-light, #E3F2FD)',
+    iconColor: 'var(--color-blue)',
+    iconBg: 'var(--color-blue-light)',
     title: 'Betaal achteraf',
     description: '14 of 30 dagen betaaltermijn op factuur',
   },
   {
     icon: ClipboardList,
-    iconColor: 'var(--color-green, #00C853)',
-    iconBg: 'var(--color-green-light, #E8F5E9)',
+    iconColor: 'var(--color-green)',
+    iconBg: 'var(--color-green-light)',
     title: 'Bestellijsten & snel bestellen',
     description: 'Sla vaste bestellingen op en bestel met een klik',
   },
   {
     icon: Users,
-    iconColor: 'var(--color-amber, #F59E0B)',
-    iconBg: 'var(--color-amber-light, #FFF8E1)',
+    iconColor: 'var(--color-amber)',
+    iconBg: 'var(--color-amber-light)',
     title: 'Meerdere gebruikers',
     description: 'Voeg collega\'s toe met eigen inlog en rechten',
   },
   {
     icon: Headphones,
-    iconColor: 'var(--color-coral, #FF6B6B)',
-    iconBg: 'var(--color-coral-light, #FFF0F0)',
+    iconColor: 'var(--color-coral)',
+    iconBg: 'var(--color-coral-light)',
     title: 'Persoonlijke accountmanager',
     description: 'Direct contact voor advies en offertes',
   },
@@ -173,7 +173,7 @@ export default function RegisterTemplate1({
   const isLastVisibleStep = currentStep === steps.length - 1
 
   return (
-    <div className="min-h-screen" style={{ background: 'var(--color-bg, #F5F7FA)' }}>
+    <div className="min-h-screen" style={{ background: 'var(--color-bg)' }}>
       {/* Progress stepper */}
       <ProgressStepper steps={steps} currentStep={currentStep} />
 

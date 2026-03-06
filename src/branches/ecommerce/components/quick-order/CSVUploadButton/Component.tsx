@@ -181,7 +181,7 @@ export function CSVUploadButton({
 
         .csv-upload-button:hover:not(.disabled):not(.loading) {
           border-color: var(--teal);
-          background: rgba(0, 137, 123, 0.05);
+          background: var(--color-primary-glow);
           transform: translateY(-1px);
           box-shadow: 0 1px 3px rgba(10, 22, 40, 0.06);
         }

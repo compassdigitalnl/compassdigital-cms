@@ -85,8 +85,8 @@ export function LoginForm({
       <h2
         className="text-3xl mb-2"
         style={{
-          fontFamily: 'var(--font-heading, "DM Serif Display", serif)',
-          color: 'var(--color-primary, #0A1628)',
+          fontFamily: 'var(--font-heading)',
+          color: 'var(--color-primary)',
         }}
       >
         {title}
@@ -95,7 +95,7 @@ export function LoginForm({
       {/* Subtitle */}
       <p
         className="text-sm mb-7 leading-relaxed"
-        style={{ color: 'var(--color-text-secondary, #94A3B8)' }}
+        style={{ color: 'var(--color-text-secondary)' }}
       >
         {subtitle}
       </p>
@@ -112,7 +112,7 @@ export function LoginForm({
           style={{
             background: 'rgba(233,69,96,0.1)',
             border: '1px solid rgba(233,69,96,0.3)',
-            color: '#C62828',
+            color: 'var(--color-error-dark)',
           }}
         >
           {error}
@@ -153,7 +153,7 @@ export function LoginForm({
           {/* Remember Me Checkbox */}
           <label
             className="flex items-center gap-2 text-sm cursor-pointer"
-            style={{ color: 'var(--color-text-secondary, #94A3B8)' }}
+            style={{ color: 'var(--color-text-secondary)' }}
           >
             <input
               type="checkbox"
@@ -161,8 +161,8 @@ export function LoginForm({
               onChange={(e) => setRememberMe(e.target.checked)}
               className="w-4 h-4 rounded border-2 cursor-pointer"
               style={{
-                borderColor: 'var(--color-border, #E8ECF1)',
-                accentColor: 'var(--color-primary, #0A1628)',
+                borderColor: 'var(--color-border)',
+                accentColor: 'var(--color-primary)',
               }}
             />
             Onthoud mij
@@ -174,7 +174,7 @@ export function LoginForm({
               type="button"
               onClick={onForgotPassword}
               className="text-sm font-semibold hover:underline"
-              style={{ color: 'var(--color-primary, #0A1628)' }}
+              style={{ color: 'var(--color-primary)' }}
             >
               Wachtwoord vergeten?
             </button>
@@ -188,18 +188,18 @@ export function LoginForm({
           className="w-full py-3.5 px-4 rounded-lg text-white text-base font-bold transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           style={{
             background: isLoading
-              ? 'var(--color-text-secondary, #94A3B8)'
-              : 'var(--color-primary, #0A1628)',
+              ? 'var(--color-text-secondary)'
+              : 'var(--color-primary)',
             boxShadow: isLoading ? 'none' : '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
           }}
           onMouseEnter={(e) => {
             if (!isLoading) {
-              e.currentTarget.style.background = 'var(--color-primary-dark, #121F33)'
+              e.currentTarget.style.background = 'var(--color-primary-dark)'
             }
           }}
           onMouseLeave={(e) => {
             if (!isLoading) {
-              e.currentTarget.style.background = 'var(--color-primary, #0A1628)'
+              e.currentTarget.style.background = 'var(--color-primary)'
             }
           }}
         >
@@ -211,14 +211,14 @@ export function LoginForm({
       {onRegisterClick && (
         <p
           className="text-center mt-5 text-sm"
-          style={{ color: 'var(--color-text-secondary, #94A3B8)' }}
+          style={{ color: 'var(--color-text-secondary)' }}
         >
           Nog geen account?{' '}
           <button
             type="button"
             onClick={onRegisterClick}
             className="font-semibold hover:underline"
-            style={{ color: 'var(--color-primary, #0A1628)' }}
+            style={{ color: 'var(--color-primary)' }}
           >
             {registerLinkText}
           </button>

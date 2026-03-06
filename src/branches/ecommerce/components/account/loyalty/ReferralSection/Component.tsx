@@ -17,15 +17,15 @@ export function ReferralSection({
     <div
       className="rounded-xl p-5 lg:p-6"
       style={{
-        background: 'linear-gradient(135deg, rgba(0,137,123,0.08), rgba(0,137,123,0.03))',
-        border: '1.5px solid rgba(0,137,123,0.2)',
+        background: 'linear-gradient(135deg, var(--color-primary-glow), var(--color-primary-glow))',
+        border: '1.5px solid var(--color-primary-glow)',
       }}
     >
       {/* Header */}
       <div className="flex items-start gap-4 mb-4">
         <div
           className="w-12 h-12 rounded-xl flex items-center justify-center text-white flex-shrink-0"
-          style={{ background: 'var(--color-primary, #00897B)' }}
+          style={{ background: 'var(--color-primary)' }}
         >
           <Users className="w-6 h-6" />
         </div>
@@ -50,7 +50,7 @@ export function ReferralSection({
           onClick={onCopyCode}
           className="h-10 px-4 rounded-lg text-sm font-bold flex items-center gap-1.5 flex-shrink-0 transition-colors"
           style={{
-            background: copied ? '#00C853' : 'var(--color-primary, #00897B)',
+            background: copied ? 'var(--color-success)' : 'var(--color-primary)',
             color: 'white',
           }}
         >
@@ -64,14 +64,14 @@ export function ReferralSection({
         <div className="text-center p-2.5 bg-white rounded-xl">
           <div
             className="text-lg font-extrabold"
-            style={{ color: 'var(--color-primary, #00897B)' }}
+            style={{ color: 'var(--color-primary)' }}
           >
             {referralCount}
           </div>
           <div className="text-xs text-gray-500">Doorverwezen</div>
         </div>
         <div className="text-center p-2.5 bg-white rounded-xl">
-          <div className="text-lg font-extrabold" style={{ color: '#00C853' }}>
+          <div className="text-lg font-extrabold" style={{ color: 'var(--color-success)' }}>
             {referralPointsEarned.toLocaleString('nl-NL')}
           </div>
           <div className="text-xs text-gray-500">Punten verdiend</div>

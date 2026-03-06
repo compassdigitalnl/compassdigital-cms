@@ -120,7 +120,7 @@ export const BackInStockNotifier: React.FC<BackInStockNotifierProps> = ({
               bis-input flex-1 h-[42px] px-3.5 border-2 border-gray-200 rounded-lg
               text-sm text-navy-600 bg-gray-50 outline-none transition-all duration-200
               placeholder:text-gray-400
-              focus:border-teal-600 focus:bg-white focus:shadow-[0_0_0_4px_rgba(0,137,123,0.12)]
+              focus:border-[var(--color-primary)] focus:bg-white focus:shadow-[0_0_0_4px_var(--color-primary-glow)]
               disabled:opacity-50 disabled:cursor-not-allowed
             `}
             aria-label="E-mailadres voor voorraad notificatie"

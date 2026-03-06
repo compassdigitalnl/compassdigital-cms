@@ -36,7 +36,7 @@ export const SubscriptionFilterSidebar: React.FC<SubscriptionFilterSidebarProps>
     >
       {/* Header */}
       <h3 className="text-base font-extrabold mb-4 text-gray-900 flex items-center gap-2">
-        {TitleIcon && <TitleIcon className="w-4 h-4 text-teal-600" />}
+        {TitleIcon && <TitleIcon className="w-4 h-4 text-[var(--color-primary)]" />}
         {title}
       </h3>
 
@@ -61,7 +61,7 @@ export const SubscriptionFilterSidebar: React.FC<SubscriptionFilterSidebarProps>
                 type="checkbox"
                 checked={filter.checked}
                 onChange={(e) => onChange(sectionIndex, filter.id, e.target.checked)}
-                className="w-4 h-4 border-[1.5px] border-gray-200 rounded cursor-pointer accent-teal-600"
+                className="w-4 h-4 border-[1.5px] border-gray-200 rounded cursor-pointer accent-[var(--color-primary)]"
               />
               <span className="text-[13px] text-gray-900 flex-1 flex justify-between items-center">
                 {filter.label}

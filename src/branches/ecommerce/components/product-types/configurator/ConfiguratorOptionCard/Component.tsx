@@ -47,8 +47,8 @@ export const ConfiguratorOptionCard: React.FC<ConfiguratorOptionCardProps> = ({
       className={`
         configurator-option-card
         relative w-full rounded-lg border-2 transition-all duration-200 text-left overflow-hidden
-        ${isSelected ? 'border-teal-600 bg-teal-50/20 shadow-lg' : 'border-gray-300 bg-white'}
-        ${isHovered && !isSelected ? 'border-teal-400 shadow-md' : ''}
+        ${isSelected ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]/20 shadow-lg' : 'border-gray-300 bg-white'}
+        ${isHovered && !isSelected ? 'border-[var(--color-primary-light)] shadow-md' : ''}
         ${className}
       `}
       aria-pressed={isSelected}
@@ -66,7 +66,7 @@ export const ConfiguratorOptionCard: React.FC<ConfiguratorOptionCardProps> = ({
       {/* Selection Indicator (top-left) */}
       {isSelected && (
         <div className="absolute top-3 left-3 z-10">
-          <div className="w-6 h-6 bg-teal-600 rounded-full flex items-center justify-center shadow-md">
+          <div className="w-6 h-6 bg-[var(--color-primary)] rounded-full flex items-center justify-center shadow-md">
             <Check className="w-4 h-4 text-white" strokeWidth={3} />
           </div>
         </div>
@@ -105,7 +105,7 @@ export const ConfiguratorOptionCard: React.FC<ConfiguratorOptionCardProps> = ({
             {option.price === 0 ? (
               <p className="text-[14px] font-semibold text-green-600">Inbegrepen</p>
             ) : option.price > 0 ? (
-              <p className="text-[15px] font-mono font-bold text-teal-600">
+              <p className="text-[15px] font-mono font-bold text-[var(--color-primary)]">
                 +€{formatPriceStr(option.price)}
               </p>
             ) : (
@@ -119,7 +119,7 @@ export const ConfiguratorOptionCard: React.FC<ConfiguratorOptionCardProps> = ({
 
       {/* Selected Overlay */}
       {isSelected && (
-        <div className="absolute inset-0 border-2 border-teal-600 rounded-lg pointer-events-none" />
+        <div className="absolute inset-0 border-2 border-[var(--color-primary)] rounded-lg pointer-events-none" />
       )}
     </button>
   )

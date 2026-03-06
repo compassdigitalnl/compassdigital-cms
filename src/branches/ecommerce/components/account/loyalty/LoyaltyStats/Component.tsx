@@ -18,7 +18,7 @@ export function LoyaltyStats({ stats }: LoyaltyStatsProps) {
         label="Totaal besteed"
         subtitle="Cumulatief"
         iconBg="rgba(33,150,243,0.1)"
-        iconColor="var(--color-info, #2196F3)"
+        iconColor="var(--color-info)"
       />
       <AccountStatCard
         icon={Gift}
@@ -34,7 +34,7 @@ export function LoyaltyStats({ stats }: LoyaltyStatsProps) {
         label="Referrals"
         subtitle="Vrienden doorverwezen"
         iconBg="rgba(0,200,83,0.1)"
-        iconColor="var(--color-success, #00C853)"
+        iconColor="var(--color-success)"
       />
     </div>
   )

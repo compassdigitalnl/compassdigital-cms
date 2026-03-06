@@ -12,9 +12,9 @@ export const StepVerification: React.FC<StepVerificationProps> = ({ email }) => 
   return (
     <div
       className="rounded-[20px] border bg-white p-9 text-center"
-      style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+      style={{ borderColor: 'var(--color-border)' }}
     >
-      <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[rgba(0,137,123,0.12)]">
+      <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-primary-glow)]">
         <MailCheck className="h-8 w-8 text-theme-teal" />
       </div>
 
@@ -30,7 +30,7 @@ export const StepVerification: React.FC<StepVerificationProps> = ({ email }) => 
 
       <div
         className="mx-auto mb-6 max-w-sm rounded-xl border p-4 text-left text-sm text-theme-grey-dark"
-        style={{ borderColor: 'var(--color-border, #E8ECF1)', background: 'var(--color-grey-light, #F1F4F8)' }}
+        style={{ borderColor: 'var(--color-border)', background: 'var(--color-grey-light)' }}
       >
         <p className="mb-2 font-bold text-theme-navy">Geen e-mail ontvangen?</p>
         <ul className="list-inside list-disc space-y-1">
@@ -60,7 +60,7 @@ export const StepVerification: React.FC<StepVerificationProps> = ({ email }) => 
           className="
             inline-flex items-center gap-2 rounded-xl
             bg-theme-teal px-6 py-3 text-sm font-bold text-white
-            no-underline shadow-[0_4px_16px_rgba(0,137,123,0.3)]
+            no-underline shadow-[0_4px_16px_var(--color-primary-glow)]
             transition-all duration-200
             hover:-translate-y-px hover:bg-theme-teal-light
           "

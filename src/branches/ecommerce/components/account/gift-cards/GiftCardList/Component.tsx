@@ -32,12 +32,12 @@ function badgeBg(status: GiftCard['status']): string {
 }
 
 function fillColor(status: GiftCard['status']): string {
-  if (status === 'active') return 'bg-teal-600'
+  if (status === 'active') return 'bg-[var(--color-primary)]'
   return 'bg-gray-400'
 }
 
 function balanceColor(status: GiftCard['status']): string {
-  if (status === 'active') return 'text-teal-600'
+  if (status === 'active') return 'text-[var(--color-primary)]'
   return 'text-gray-700'
 }
 
@@ -64,7 +64,7 @@ function GiftCardCard({ card, onSend, onPrint }: { card: GiftCard; onSend: (id: 
   const opacity = isActive ? '' : 'opacity-60'
 
   return (
-    <div className={`bg-white border border-gray-200 rounded-[14px] p-4 flex gap-3 hover:border-teal-500 transition-colors ${opacity}`}>
+    <div className={`bg-white border border-gray-200 rounded-[14px] p-4 flex gap-3 hover:border-[var(--color-primary)] transition-colors ${opacity}`}>
       {/* Visual icon */}
       <div className="relative flex-shrink-0">
         <div className="w-[60px] h-[60px] rounded-xl bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center text-2xl">
@@ -168,7 +168,7 @@ export function GiftCardList({ giftCards, transactions, onSend, onPrint }: GiftC
       {/* Gift cards grid */}
       <div>
         <h2 className="flex items-center gap-2 text-base font-extrabold text-gray-900 mb-3">
-          <Wallet className="w-[17px] h-[17px] text-teal-600" />
+          <Wallet className="w-[17px] h-[17px] text-[var(--color-primary)]" />
           Mijn cadeaubonnen
         </h2>
 
@@ -190,7 +190,7 @@ export function GiftCardList({ giftCards, transactions, onSend, onPrint }: GiftC
         <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
           <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
             <h3 className="flex items-center gap-1.5 text-sm font-extrabold text-gray-900">
-              <List className="w-[15px] h-[15px] text-teal-600" />
+              <List className="w-[15px] h-[15px] text-[var(--color-primary)]" />
               Transactiehistorie
             </h3>
           </div>

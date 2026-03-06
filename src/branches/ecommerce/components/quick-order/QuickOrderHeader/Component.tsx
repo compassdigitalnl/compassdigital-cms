@@ -139,7 +139,7 @@ export function QuickOrderHeader({
 
         .qoh-btn.secondary:hover {
           border-color: var(--teal);
-          background: rgba(0, 137, 123, 0.04);
+          background: var(--color-primary-glow);
           transform: translateY(-1px);
           box-shadow: 0 1px 3px rgba(10, 22, 40, 0.06);
         }
@@ -161,7 +161,7 @@ export function QuickOrderHeader({
         }
 
         .qoh-btn.teal:hover {
-          background: rgba(0, 137, 123, 0.18);
+          background: var(--color-primary-glow);
           transform: translateY(-1px);
           box-shadow: 0 1px 3px rgba(10, 22, 40, 0.06);
         }

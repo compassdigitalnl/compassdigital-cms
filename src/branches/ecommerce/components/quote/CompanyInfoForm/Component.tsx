@@ -161,7 +161,7 @@ export function CompanyInfoForm({
           align-items: center;
           gap: 4px;
           padding: 4px 10px;
-          background: rgba(0, 137, 123, 0.08);
+          background: var(--color-primary-glow);
           border: 1px solid var(--teal);
           border-radius: 100px;
           font-family: var(--font-family-body);

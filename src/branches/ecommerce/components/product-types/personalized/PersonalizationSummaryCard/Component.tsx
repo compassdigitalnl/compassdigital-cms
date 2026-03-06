@@ -91,7 +91,7 @@ export const PersonalizationSummaryCard: React.FC<PersonalizationSummaryCardProp
                 {/* Left: Icon + Field Info */}
                 <div className="flex items-start gap-2 flex-1 min-w-0">
                   {/* Icon */}
-                  <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-teal-100 text-teal-600 rounded-md">
+                  <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-[var(--color-primary-glow)] text-[var(--color-primary)] rounded-md">
                     {getFieldIcon(option.fieldType)}
                   </div>
 
@@ -102,7 +102,7 @@ export const PersonalizationSummaryCard: React.FC<PersonalizationSummaryCardProp
                       {displayValue}
                     </p>
                     {option.priceModifier && option.priceModifier !== 0 && (
-                      <p className="text-[11px] text-teal-600 font-semibold mt-0.5">
+                      <p className="text-[11px] text-[var(--color-primary)] font-semibold mt-0.5">
                         {option.priceModifier > 0 ? '+' : ''}€{formatPriceStr(option.priceModifier)}
                       </p>
                     )}
@@ -137,7 +137,7 @@ export const PersonalizationSummaryCard: React.FC<PersonalizationSummaryCardProp
             <span className="text-[14px] font-semibold text-gray-900">
               Totale personalisatie kosten:
             </span>
-            <span className="text-[16px] font-mono font-bold text-teal-600">
+            <span className="text-[16px] font-mono font-bold text-[var(--color-primary)]">
               {totalCost > 0 ? '+' : ''}€{formatPriceStr(totalCost)}
             </span>
           </div>

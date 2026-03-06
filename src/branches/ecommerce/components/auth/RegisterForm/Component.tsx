@@ -146,8 +146,8 @@ export function RegisterForm({
       <h2
         className="text-3xl mb-2"
         style={{
-          fontFamily: 'var(--font-heading, "DM Serif Display", serif)',
-          color: 'var(--color-primary, #0A1628)',
+          fontFamily: 'var(--font-heading)',
+          color: 'var(--color-primary)',
         }}
       >
         {title}
@@ -156,7 +156,7 @@ export function RegisterForm({
       {/* Subtitle */}
       <p
         className="text-sm mb-7 leading-relaxed"
-        style={{ color: 'var(--color-text-secondary, #94A3B8)' }}
+        style={{ color: 'var(--color-text-secondary)' }}
       >
         {subtitle}
       </p>
@@ -176,7 +176,7 @@ export function RegisterForm({
           style={{
             background: 'rgba(233,69,96,0.1)',
             border: '1px solid rgba(233,69,96,0.3)',
-            color: '#C62828',
+            color: 'var(--color-error-dark)',
           }}
         >
           {error}
@@ -275,7 +275,7 @@ export function RegisterForm({
         <div className="mb-6">
           <label
             className="flex items-start gap-2 text-sm cursor-pointer"
-            style={{ color: 'var(--color-text, #64748B)' }}
+            style={{ color: 'var(--color-text)' }}
           >
             <input
               type="checkbox"
@@ -284,8 +284,8 @@ export function RegisterForm({
               required
               className="w-4 h-4 mt-0.5 rounded border-2 cursor-pointer flex-shrink-0"
               style={{
-                borderColor: 'var(--color-border, #E8ECF1)',
-                accentColor: 'var(--color-primary, #0A1628)',
+                borderColor: 'var(--color-border)',
+                accentColor: 'var(--color-primary)',
               }}
             />
             <span>
@@ -295,12 +295,12 @@ export function RegisterForm({
                   type="button"
                   onClick={onTermsClick}
                   className="font-semibold hover:underline"
-                  style={{ color: 'var(--color-primary, #0A1628)' }}
+                  style={{ color: 'var(--color-primary)' }}
                 >
                   algemene voorwaarden
                 </button>
               ) : (
-                <span className="font-semibold" style={{ color: 'var(--color-primary, #0A1628)' }}>
+                <span className="font-semibold" style={{ color: 'var(--color-primary)' }}>
                   algemene voorwaarden
                 </span>
               )}
@@ -315,18 +315,18 @@ export function RegisterForm({
           className="w-full py-3.5 px-4 rounded-lg text-white text-base font-bold transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           style={{
             background: isLoading
-              ? 'var(--color-text-secondary, #94A3B8)'
-              : 'var(--color-primary, #0A1628)',
-            boxShadow: isLoading ? 'none' : '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
+              ? 'var(--color-text-secondary)'
+              : 'var(--color-primary)',
+            boxShadow: isLoading ? 'none' : '0 4px 16px var(--color-primary-glow)',
           }}
           onMouseEnter={(e) => {
             if (!isLoading) {
-              e.currentTarget.style.background = 'var(--color-primary-dark, #121F33)'
+              e.currentTarget.style.background = 'var(--color-primary-dark)'
             }
           }}
           onMouseLeave={(e) => {
             if (!isLoading) {
-              e.currentTarget.style.background = 'var(--color-primary, #0A1628)'
+              e.currentTarget.style.background = 'var(--color-primary)'
             }
           }}
         >
@@ -338,14 +338,14 @@ export function RegisterForm({
       {onLoginClick && (
         <p
           className="text-center mt-4 text-sm"
-          style={{ color: 'var(--color-text-secondary, #94A3B8)' }}
+          style={{ color: 'var(--color-text-secondary)' }}
         >
           Al een account?{' '}
           <button
             type="button"
             onClick={onLoginClick}
             className="font-semibold hover:underline"
-            style={{ color: 'var(--color-primary, #0A1628)' }}
+            style={{ color: 'var(--color-primary)' }}
           >
             {loginLinkText}
           </button>

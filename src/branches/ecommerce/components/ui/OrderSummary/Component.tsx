@@ -170,7 +170,7 @@ export function OrderSummary({
         }
 
         .order-summary__header :global(svg) {
-          color: var(--color-primary, #0A1628);
+          color: var(--color-primary);
         }
 
         .order-summary__row {
@@ -254,28 +254,28 @@ export function OrderSummary({
         }
 
         .order-summary__btn--primary {
-          background: var(--color-primary, #0A1628);
+          background: var(--color-primary);
           color: white;
           box-shadow: 0 4px 20px var(--color-primary-glow, rgba(10,22,40,0.25));
         }
 
         .order-summary__btn--primary:hover {
-          background: var(--color-primary-dark, #121F33);
+          background: var(--color-primary-dark);
           box-shadow: 0 6px 28px var(--color-primary-glow, rgba(10,22,40,0.35));
           transform: translateY(-1px);
         }
 
         .order-summary__btn--secondary {
           background: var(--white);
-          color: var(--color-primary, #0A1628);
+          color: var(--color-primary);
           border: 1.5px solid var(--grey);
           padding: 14px;
           font-size: 14px;
         }
 
         .order-summary__btn--secondary:hover {
-          border-color: var(--color-primary, #0A1628);
-          color: var(--color-primary, #0A1628);
+          border-color: var(--color-primary);
+          color: var(--color-primary);
         }
 
         .order-summary__btn--secondary :global(svg) {

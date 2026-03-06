@@ -11,12 +11,12 @@ export function AddressCard({ address, onDelete, onSetDefault, onEdit }: Address
     <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-5 shadow-sm">
       <div className="flex items-start justify-between mb-3 lg:mb-4">
         <div className="flex items-center gap-2 flex-wrap">
-          <MapPin className="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0 text-teal-700" />
+          <MapPin className="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0 text-[var(--color-primary)]" />
           <span className="text-sm lg:text-base font-bold text-gray-900">
             {address.type === 'billing' ? 'Factuuradres' : 'Bezorgadres'}
           </span>
           {(address.isPrimary || address.isDefault) && (
-            <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-teal-50 text-teal-700">
+            <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-primary-glow)] text-[var(--color-primary)]">
               <Star className="w-3 h-3 fill-current" />
               Standaard
             </span>

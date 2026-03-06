@@ -62,7 +62,7 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
         <div
           className="absolute -top-8 -right-8 w-30 h-30 rounded-full pointer-events-none"
           style={{
-            background: 'radial-gradient(circle, rgba(0, 137, 123, 0.12), transparent 70%)',
+            background: 'radial-gradient(circle, var(--color-primary-glow), transparent 70%)',
           }}
         />
         <h3 className="font-heading text-lg font-extrabold text-white relative z-10">
@@ -75,7 +75,7 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
         {/* Date */}
         {summary.date && (
           <div className="flex items-start gap-3">
-            <Calendar className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
+            <Calendar className="w-5 h-5 text-[var(--color-primary)] flex-shrink-0 mt-0.5" />
             <div className="flex-1">
               <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Datum
@@ -98,7 +98,7 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
         {/* Time & Duration */}
         {summary.time && (
           <div className="flex items-start gap-3">
-            <Clock className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
+            <Clock className="w-5 h-5 text-[var(--color-primary)] flex-shrink-0 mt-0.5" />
             <div className="flex-1">
               <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Tijd
@@ -126,7 +126,7 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
         {/* Participants */}
         {summary.participants && summary.participants.length > 0 && (
           <div className="flex items-start gap-3">
-            <Users className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
+            <Users className="w-5 h-5 text-[var(--color-primary)] flex-shrink-0 mt-0.5" />
             <div className="flex-1">
               <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
                 Deelnemers
@@ -156,7 +156,7 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
         {/* Add-ons */}
         {summary.addOns && summary.addOns.length > 0 && (
           <div className="flex items-start gap-3">
-            <Package className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
+            <Package className="w-5 h-5 text-[var(--color-primary)] flex-shrink-0 mt-0.5" />
             <div className="flex-1">
               <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
                 Extra's

@@ -66,7 +66,7 @@ export function RecentOrders({ orders }: RecentOrdersProps) {
                   <div
                     key={idx}
                     className="flex items-center gap-2 px-2.5 lg:px-3 py-1.5 lg:py-2 rounded-lg flex-shrink-0"
-                    style={{ background: 'var(--color-surface, #F5F7FA)' }}
+                    style={{ background: 'var(--color-surface)' }}
                   >
                     <Package className="w-4 h-4 text-gray-400" />
                     <div className="hidden lg:block">

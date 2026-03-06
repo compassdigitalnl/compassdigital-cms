@@ -292,8 +292,8 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                     <h2
                       className="text-2xl mb-1"
                       style={{
-                        fontFamily: 'var(--font-heading, "DM Serif Display", serif)',
-                        color: 'var(--color-primary, #0A1628)',
+                        fontFamily: 'var(--font-heading)',
+                        color: 'var(--color-primary)',
                       }}
                     >
                       Welkom terug{(user as any).firstName ? `, ${(user as any).firstName}` : ''}
@@ -355,7 +355,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                       if (!e.target.checked) setShippingAddress(null)
                     }}
                     className="w-4 h-4 rounded"
-                    style={{ accentColor: 'var(--color-primary, #0A1628)' }}
+                    style={{ accentColor: 'var(--color-primary)' }}
                   />
                   <span className="text-sm font-medium text-gray-700">
                     Afleveradres wijkt af van factuuradres
@@ -834,12 +834,12 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
         }
         .t4-order-items__footer :global(.t4-order-items__edit) {
           font-size: var(--text-small);
-          color: var(--color-primary, #0A1628);
+          color: var(--color-primary);
           font-weight: 600;
           text-decoration: none;
         }
         .t4-order-items__footer :global(.t4-order-items__edit:hover) {
-          color: var(--color-primary-dark, #121F33);
+          color: var(--color-primary-dark);
           text-decoration: underline;
         }
 

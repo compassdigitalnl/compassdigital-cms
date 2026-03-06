@@ -13,7 +13,7 @@ export const BenefitsList: React.FC<BenefitsListProps> = ({
   return (
     <div
       className={`rounded-2xl border bg-white p-6 ${className}`}
-      style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+      style={{ borderColor: 'var(--color-border)' }}
     >
       <div className="mb-3.5 flex items-center gap-2 font-heading text-sm font-extrabold text-theme-navy">
         <TitleIcon className="h-4 w-4 text-theme-teal" />

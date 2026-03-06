@@ -8,8 +8,8 @@ function calculatePercentage(current: number, limit: number): number {
 
 function getBarColor(pct: number): string {
   if (pct >= 90) return 'bg-amber-400'
-  if (pct >= 75) return 'bg-teal-400'
-  return 'bg-teal-500'
+  if (pct >= 75) return 'bg-[var(--color-primary-light)]'
+  return 'bg-[var(--color-primary-glow)]0'
 }
 
 interface MeterProps {
@@ -34,7 +34,7 @@ function UsageMeter({ label, icon, current, limit, formatValue }: MeterProps) {
           {label}
         </div>
         <div
-          className={`text-xs font-mono font-bold ${isWarning ? 'text-amber-500' : 'text-teal-600'}`}
+          className={`text-xs font-mono font-bold ${isWarning ? 'text-amber-500' : 'text-[var(--color-primary)]'}`}
         >
           {pct}%
         </div>
@@ -57,27 +57,27 @@ export function UsageMeters({ usage }: UsageMetersProps) {
   return (
     <div className="mb-6">
       <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
-        <TrendingUp className="w-5 h-5 text-teal-600" />
+        <TrendingUp className="w-5 h-5 text-[var(--color-primary)]" />
         Gebruik
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <UsageMeter
           label="Gebruikers"
-          icon={<Users className="w-4 h-4 text-teal-600" />}
+          icon={<Users className="w-4 h-4 text-[var(--color-primary)]" />}
           current={usage.users.current}
           limit={usage.users.limit}
           formatValue={(n) => String(n)}
         />
         <UsageMeter
           label="Opslag"
-          icon={<HardDrive className="w-4 h-4 text-teal-600" />}
+          icon={<HardDrive className="w-4 h-4 text-[var(--color-primary)]" />}
           current={usage.storage.current}
           limit={usage.storage.limit}
           formatValue={(n) => `${n} GB`}
         />
         <UsageMeter
           label="API Calls"
-          icon={<Zap className="w-4 h-4 text-teal-600" />}
+          icon={<Zap className="w-4 h-4 text-[var(--color-primary)]" />}
           current={usage.apiCalls.current}
           limit={usage.apiCalls.limit}
           formatValue={(n) => n.toLocaleString('nl-NL')}

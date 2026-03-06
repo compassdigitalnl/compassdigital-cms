@@ -49,12 +49,12 @@ export function LegalLayout({
         <div className="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between">
           <Link href="/" className="flex items-center">
             <span className="text-xl font-extrabold text-navy-900">
-              plasti<span className="text-teal-600">med</span>
+              plasti<span className="text-[var(--color-primary)]">med</span>
             </span>
           </Link>
           <Link
             href="/"
-            className="flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-teal-600 transition-colors"
+            className="flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-[var(--color-primary)] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Terug naar winkel
@@ -105,8 +105,8 @@ export function LegalLayout({
                 href={`#${item.id}`}
                 className={`block px-2.5 py-1.5 text-xs rounded-lg mb-0.5 transition-all ${
                   activeSection === item.id
-                    ? 'bg-teal-50 text-teal-600 font-semibold'
-                    : 'text-gray-600 hover:bg-teal-50 hover:text-teal-600'
+                    ? 'bg-[var(--color-primary-glow)] text-[var(--color-primary)] font-semibold'
+                    : 'text-gray-600 hover:bg-[var(--color-primary-glow)] hover:text-[var(--color-primary)]'
                 }`}
               >
                 {item.label}

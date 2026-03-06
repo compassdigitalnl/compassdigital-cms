@@ -18,7 +18,7 @@ export const ProgressStepper: React.FC<ProgressStepperProps> = ({
   return (
     <div
       className={`flex items-center justify-center border-b bg-white py-6 ${className}`}
-      style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+      style={{ borderColor: 'var(--color-border)' }}
     >
       <div className="mx-auto flex max-w-[700px] items-center">
         {steps.map((step, index) => {
@@ -33,11 +33,11 @@ export const ProgressStepper: React.FC<ProgressStepperProps> = ({
                   className={`
                     flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full
                     text-sm font-bold transition-all duration-300
-                    ${status === 'done' ? 'bg-[#00C853] text-white' : ''}
-                    ${status === 'active' ? 'bg-theme-teal text-white shadow-[0_0_0_4px_rgba(0,137,123,0.12)]' : ''}
+                    ${status === 'done' ? 'bg-[var(--color-success)] text-white' : ''}
+                    ${status === 'active' ? 'bg-theme-teal text-white shadow-[0_0_0_4px_var(--color-primary-glow)]' : ''}
                     ${status === 'upcoming' ? 'border-2 text-theme-grey-mid' : ''}
                   `}
-                  style={status === 'upcoming' ? { borderColor: 'var(--color-border, #E8ECF1)' } : undefined}
+                  style={status === 'upcoming' ? { borderColor: 'var(--color-border)' } : undefined}
                 >
                   {status === 'done' ? (
                     <Check className="h-4 w-4" />
@@ -63,9 +63,9 @@ export const ProgressStepper: React.FC<ProgressStepperProps> = ({
               {index < steps.length - 1 && (
                 <div
                   className={`mx-2 h-0.5 w-12 flex-shrink-0 ${
-                    index < currentStep ? 'bg-[#00C853]' : ''
+                    index < currentStep ? 'bg-[var(--color-success)]' : ''
                   }`}
-                  style={index >= currentStep ? { background: 'var(--color-border, #E8ECF1)' } : undefined}
+                  style={index >= currentStep ? { background: 'var(--color-border)' } : undefined}
                 />
               )}
             </React.Fragment>

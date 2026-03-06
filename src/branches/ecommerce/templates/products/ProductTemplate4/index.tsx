@@ -525,7 +525,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
           {(product.badge || product.salePrice) && (
             <div className="absolute top-3 left-3 flex gap-1.5 z-10">
               {savingsPercent > 0 && (
-                <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#FF6B6B] text-white">
+                <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[var(--color-error)] text-white">
                   -{savingsPercent}%
                 </span>
               )}
@@ -608,7 +608,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
               {(product.badge || product.salePrice) && (
                 <div className="absolute top-4 left-4 flex gap-2 z-10">
                   {savingsPercent > 0 && (
-                    <span className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#FF6B6B] text-white">
+                    <span className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[var(--color-error)] text-white">
                       -{savingsPercent}%
                     </span>
                   )}
@@ -776,7 +776,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                         <span className="text-lg text-[var(--color-text-muted)] line-through font-normal">
                           €{formatPriceStr(oldPrice, product.taxClass as any)}
                         </span>
-                        <span className="text-[13px] font-bold text-[#FF6B6B] bg-[#FFF0F0] px-2.5 py-[3px] rounded-md">
+                        <span className="text-[13px] font-bold text-[var(--color-error)] bg-[var(--color-error-light)] px-2.5 py-[3px] rounded-md">
                           Bespaar {savingsPercent}%
                         </span>
                       </>
@@ -791,7 +791,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
 
               {/* Stock status - grouped products */}
               {isGrouped && groupedHasStock && (
-                <div className="flex items-center gap-2 text-sm text-[#2E7D32] font-medium mb-2">
+                <div className="flex items-center gap-2 text-sm text-[var(--color-success-dark)] font-medium mb-2">
                   <span className="w-2 h-2 bg-[var(--color-success)] rounded-full shrink-0" />
                   Op voorraad
                 </div>
@@ -836,16 +836,16 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
               <div className="flex items-center gap-2 px-4 py-3 bg-[var(--color-success-bg)] rounded-[10px] mb-5">
                 <span className="w-2 h-2 bg-[var(--color-success)] rounded-full shrink-0" />
                 <div>
-                  <div className="text-[13px] font-semibold text-[#2E7D32]">
+                  <div className="text-[13px] font-semibold text-[var(--color-success-dark)]">
                     Op voorraad — {(product.stock ?? 0)} stuks beschikbaar
                   </div>
                   {product.leadTime && (
-                    <div className="text-xs text-[#558B2F] font-normal">
+                    <div className="text-xs text-[var(--color-success-dark)] font-normal">
                       Levertijd: {product.leadTime}
                     </div>
                   )}
                 </div>
-                <Truck className="w-4 h-4 ml-auto text-[#2E7D32]" />
+                <Truck className="w-4 h-4 ml-auto text-[var(--color-success-dark)]" />
               </div>
             )}
 
@@ -1132,7 +1132,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                       <span className="text-base text-[var(--color-text-muted)] line-through font-normal">
                         €{formatPriceStr(oldPrice, product.taxClass as any)}
                       </span>
-                      <span className="text-[11px] font-bold text-[#FF6B6B] bg-[#FFF0F0] px-2 py-[3px] rounded">
+                      <span className="text-[11px] font-bold text-[var(--color-error)] bg-[var(--color-error-light)] px-2 py-[3px] rounded">
                         -{savingsPercent}%
                       </span>
                     </>
@@ -1147,7 +1147,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
 
             {/* Stock status - grouped products mobile */}
             {isGrouped && groupedHasStock && (
-              <div className="flex items-center gap-2 text-xs text-[#2E7D32] font-medium mb-2">
+              <div className="flex items-center gap-2 text-xs text-[var(--color-success-dark)] font-medium mb-2">
                 <span className="w-1.5 h-1.5 bg-[var(--color-success)] rounded-full shrink-0" />
                 Op voorraad
               </div>
@@ -1191,11 +1191,11 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
             <div className="flex items-center gap-2 p-3 bg-[var(--color-success-bg)] rounded-[10px] mb-4 text-[13px]">
               <span className="w-1.5 h-1.5 bg-[var(--color-success)] rounded-full shrink-0" />
               <div className="flex-1">
-                <div className="font-semibold text-[#2E7D32]">
+                <div className="font-semibold text-[var(--color-success-dark)]">
                   Op voorraad — {(product.stock ?? 0)} stuks
                 </div>
               </div>
-              <Truck className="w-4 h-4 text-[#2E7D32]" />
+              <Truck className="w-4 h-4 text-[var(--color-success-dark)]" />
             </div>
           )}
 

@@ -13,7 +13,7 @@ export const TrustList: React.FC<TrustListProps> = ({
   return (
     <div
       className={`rounded-2xl border bg-white p-6 ${className}`}
-      style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+      style={{ borderColor: 'var(--color-border)' }}
     >
       <div className="mb-3.5 flex items-center gap-2 font-heading text-sm font-extrabold text-theme-navy">
         <TitleIcon className="h-4 w-4 text-theme-teal" />
@@ -23,7 +23,7 @@ export const TrustList: React.FC<TrustListProps> = ({
       <div className="flex flex-col gap-2.5">
         {items.map((item, index) => (
           <div key={index} className="flex items-center gap-2 text-[13px] text-theme-navy">
-            <Check className="h-4 w-4 flex-shrink-0 text-[#00C853]" />
+            <Check className="h-4 w-4 flex-shrink-0 text-[var(--color-success)]" />
             {item.text}
           </div>
         ))}

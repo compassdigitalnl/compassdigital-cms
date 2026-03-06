@@ -113,7 +113,7 @@ function generateEditionEmail(product: any, siteUrl: string): string {
       background: #ffffff;
     }
     .header {
-      background: var(--color-primary, #018360);
+      background: var(--color-primary);
       padding: 30px 20px;
       text-align: center;
     }
@@ -139,7 +139,7 @@ function generateEditionEmail(product: any, siteUrl: string): string {
     }
     .product-info {
       background: #f8faf9;
-      border-left: 4px solid var(--color-primary, #018360);
+      border-left: 4px solid var(--color-primary);
       padding: 20px;
       margin: 30px 0;
       border-radius: 8px;
@@ -158,12 +158,12 @@ function generateEditionEmail(product: any, siteUrl: string): string {
     .price {
       font-size: 24px;
       font-weight: 700;
-      color: var(--color-primary, #018360);
+      color: var(--color-primary);
       margin: 20px 0;
     }
     .cta-button {
       display: inline-block;
-      background: var(--color-primary, #018360);
+      background: var(--color-primary);
       color: white !important;
       padding: 14px 32px;
       text-decoration: none;
@@ -188,7 +188,7 @@ function generateEditionEmail(product: any, siteUrl: string): string {
       margin: 5px 0;
     }
     .footer a {
-      color: var(--color-primary, #018360);
+      color: var(--color-primary);
       text-decoration: none;
     }
   </style>

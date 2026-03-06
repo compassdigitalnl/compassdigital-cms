@@ -425,7 +425,7 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
           width: 32px;
           height: 32px;
           border-radius: var(--r-sm);
-          background: rgba(0, 137, 123, 0.1);
+          background: var(--color-primary-glow);
           display: flex;
           align-items: center;
           justify-content: center;

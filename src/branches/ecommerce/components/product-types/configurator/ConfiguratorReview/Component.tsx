@@ -119,7 +119,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
                       )}
                       {selection.price !== 0 && (
                         <p
-                          className={`text-[14px] font-mono font-bold ${selection.price > 0 ? 'text-teal-600' : 'text-red-600'}`}
+                          className={`text-[14px] font-mono font-bold ${selection.price > 0 ? 'text-[var(--color-primary)]' : 'text-red-600'}`}
                         >
                           {selection.price > 0 ? '+' : ''}€{formatPriceStr(selection.price)}
                         </p>
@@ -138,9 +138,9 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
       </div>
 
       {/* Price Summary */}
-      <div className="border-2 border-teal-600 rounded-lg overflow-hidden mb-6">
-        <div className="px-4 py-3 bg-teal-50 border-b-2 border-teal-200">
-          <h3 className="text-[16px] font-bold text-teal-900">Prijs Overzicht</h3>
+      <div className="border-2 border-[var(--color-primary)] rounded-lg overflow-hidden mb-6">
+        <div className="px-4 py-3 bg-[var(--color-primary-glow)] border-b-2 border-[var(--color-primary-light)]">
+          <h3 className="text-[16px] font-bold text-[var(--color-primary)]">Prijs Overzicht</h3>
         </div>
         <div className="px-4 py-4 bg-white space-y-2">
           {/* Individual Step Prices */}
@@ -152,7 +152,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
               <div key={step.stepNumber} className="flex items-center justify-between">
                 <span className="text-[14px] text-gray-700">{step.title}:</span>
                 <span
-                  className={`text-[14px] font-mono font-semibold ${selection.price > 0 ? 'text-teal-600' : 'text-red-600'}`}
+                  className={`text-[14px] font-mono font-semibold ${selection.price > 0 ? 'text-[var(--color-primary)]' : 'text-red-600'}`}
                 >
                   {selection.price > 0 ? '+' : ''}€{formatPriceStr(selection.price)}
                 </span>
@@ -166,7 +166,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
           {/* Total */}
           <div className="flex items-center justify-between">
             <span className="text-[16px] font-bold text-gray-900">Totaal:</span>
-            <span className="text-[20px] font-mono font-bold text-teal-600">
+            <span className="text-[20px] font-mono font-bold text-[var(--color-primary)]">
               €{formatPriceStr(totalPrice)}
             </span>
           </div>

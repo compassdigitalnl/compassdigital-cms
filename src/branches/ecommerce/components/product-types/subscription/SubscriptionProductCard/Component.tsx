@@ -56,7 +56,7 @@ export const SubscriptionProductCard: React.FC<SubscriptionProductCardProps> = (
 
   return (
     <div
-      className={`product-card bg-white border-[1.5px] border-gray-200 rounded-[14px] p-5 transition-all hover:border-teal-600 hover:shadow-md hover:-translate-y-0.5 flex flex-col ${className}`}
+      className={`product-card bg-white border-[1.5px] border-gray-200 rounded-[14px] p-5 transition-all hover:border-[var(--color-primary)] hover:shadow-md hover:-translate-y-0.5 flex flex-col ${className}`}
     >
       {/* Badges */}
       {badges.length > 0 && (
@@ -125,7 +125,7 @@ export const SubscriptionProductCard: React.FC<SubscriptionProductCardProps> = (
         <ul className="space-y-1.5 mb-4 text-sm text-gray-700">
           {features.map((feature, index) => (
             <li key={index} className="flex items-start gap-2">
-              <span className="text-teal-600 mt-0.5">✓</span>
+              <span className="text-[var(--color-primary)] mt-0.5">✓</span>
               <span className="flex-1">{feature}</span>
             </li>
           ))}

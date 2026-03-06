@@ -146,7 +146,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
               value={formData.name}
               onChange={(e) => handleChange('name', e.target.value)}
               placeholder="Bijv. Thuis, Werk, etc."
-              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-teal-700 focus:border-transparent"
+              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
             />
           </div>
 
@@ -161,7 +161,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
               value={formData.company}
               onChange={(e) => handleChange('company', e.target.value)}
               placeholder="Uw bedrijfsnaam"
-              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-teal-700 focus:border-transparent"
+              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
             />
           </div>
 
@@ -178,7 +178,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
                 value={formData.street}
                 onChange={(e) => handleChange('street', e.target.value)}
                 placeholder="Straatnaam"
-                className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-teal-700 focus:border-transparent"
+                className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
               />
             </div>
             <div>
@@ -193,7 +193,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
                   value={formData.houseNumber}
                   onChange={(e) => handleChange('houseNumber', e.target.value)}
                   placeholder="123"
-                  className="w-20 px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-teal-700 focus:border-transparent"
+                  className="w-20 px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
                 />
                 <input
                   type="text"
@@ -201,7 +201,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
                   value={formData.houseNumberAddition}
                   onChange={(e) => handleChange('houseNumberAddition', e.target.value)}
                   placeholder="A"
-                  className="flex-1 px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-teal-700 focus:border-transparent"
+                  className="flex-1 px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
                 />
               </div>
             </div>
@@ -220,7 +220,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
                 value={formData.postalCode}
                 onChange={(e) => handleChange('postalCode', e.target.value)}
                 placeholder="1234 AB"
-                className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-teal-700 focus:border-transparent"
+                className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
               />
             </div>
             <div>
@@ -234,7 +234,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
                 value={formData.city}
                 onChange={(e) => handleChange('city', e.target.value)}
                 placeholder="Amsterdam"
-                className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-teal-700 focus:border-transparent"
+                className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
               />
             </div>
           </div>
@@ -249,7 +249,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
               required
               value={formData.country}
               onChange={(e) => handleChange('country', e.target.value)}
-              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-teal-700 focus:border-transparent"
+              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
             >
               <option value="Nederland">Nederland</option>
               <option value="België">België</option>
@@ -270,7 +270,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
               value={formData.phone}
               onChange={(e) => handleChange('phone', e.target.value)}
               placeholder="+31 6 12345678"
-              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-teal-700 focus:border-transparent"
+              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
             />
           </div>
 
@@ -281,7 +281,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
               id="isDefault"
               checked={formData.isDefault}
               onChange={(e) => handleChange('isDefault', e.target.checked)}
-              className="w-4 h-4 text-teal-700 border-gray-300 rounded focus:ring-teal-700"
+              className="w-4 h-4 text-[var(--color-primary)] border-gray-300 rounded focus:ring-[var(--color-primary)]"
             />
             <label htmlFor="isDefault" className="text-sm text-gray-700">
               Instellen als standaard adres

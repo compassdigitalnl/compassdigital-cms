@@ -305,7 +305,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
               disabled={product.stock.status === 'out_of_stock'}
               className="flex h-11 flex-1 items-center justify-center gap-2 rounded-[10px] bg-theme-teal text-sm font-bold text-white shadow-md transition-all hover:bg-theme-navy disabled:cursor-not-allowed disabled:bg-theme-grey-mid disabled:opacity-50"
               style={{
-                boxShadow: '0 4px 16px rgba(0, 137, 123, 0.3)',
+                boxShadow: '0 4px 16px var(--color-primary-glow)',
               }}
               aria-label={`Voeg ${quantity} ${quantity === 1 ? 'product' : 'producten'} toe aan winkelwagen`}
             >

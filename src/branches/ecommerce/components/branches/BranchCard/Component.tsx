@@ -29,7 +29,7 @@ export const BranchCard: React.FC<BranchCardProps> = ({
         hover:shadow-[0_8px_28px_rgba(0,0,0,0.05)]
         ${className}
       `}
-      style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+      style={{ borderColor: 'var(--color-border)' }}
       aria-label={`${name}${productCount !== undefined ? ` — ${productCount} producten` : ''}`}
     >
       {/* Image or icon */}

@@ -14,12 +14,12 @@ export const AddressItem: React.FC<AddressItemProps> = ({
   return (
     <div
       className={`p-4 border rounded-lg cursor-pointer transition-colors ${
-        isSelected ? 'border-teal-700 bg-teal-50' : 'border-gray-200 hover:border-gray-300'
+        isSelected ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]' : 'border-gray-200 hover:border-gray-300'
       } ${className}`}
       onClick={onClick}
     >
       <div className="flex items-start gap-3">
-        <MapPin className="w-5 h-5 text-teal-700 flex-shrink-0 mt-0.5" />
+        <MapPin className="w-5 h-5 text-[var(--color-primary)] flex-shrink-0 mt-0.5" />
         <div className="flex-1 min-w-0">
           <div className="text-sm font-semibold text-gray-900">{address?.name || 'Adres'}</div>
           {address?.street && (
@@ -34,7 +34,7 @@ export const AddressItem: React.FC<AddressItemProps> = ({
           )}
         </div>
         {isSelected && (
-          <div className="w-5 h-5 rounded-full bg-teal-700 flex items-center justify-center flex-shrink-0">
+          <div className="w-5 h-5 rounded-full bg-[var(--color-primary)] flex items-center justify-center flex-shrink-0">
             <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
               <path
                 fillRule="evenodd"

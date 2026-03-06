@@ -20,7 +20,7 @@ export const BrandSearchToolbar: React.FC<BrandSearchToolbarProps> = ({
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Zoek een merk…"
-          className="h-11 w-full rounded-xl border-2 border-[var(--grey,#E8ECF1)] bg-white pl-12 pr-4 text-sm text-theme-navy outline-none transition-all duration-200 placeholder:text-theme-grey-mid focus:border-theme-teal focus:shadow-[0_0_0_4px_rgba(0,137,123,0.12)]"
+          className="h-11 w-full rounded-xl border-2 border-[var(--grey,#E8ECF1)] bg-white pl-12 pr-4 text-sm text-theme-navy outline-none transition-all duration-200 placeholder:text-theme-grey-mid focus:border-theme-teal focus:shadow-[0_0_0_4px_var(--color-primary-glow)]"
           aria-label="Zoek een merk"
         />
       </div>

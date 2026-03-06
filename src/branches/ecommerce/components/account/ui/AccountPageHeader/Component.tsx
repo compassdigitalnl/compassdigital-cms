@@ -17,7 +17,7 @@ export function AccountPageHeader({
           <Link
             href={backHref}
             className="flex items-center gap-2 text-sm font-semibold mb-3 transition-colors"
-            style={{ color: 'var(--color-primary, #00897B)' }}
+            style={{ color: 'var(--color-primary)' }}
           >
             <ChevronLeft className="w-4 h-4" />
             {backLabel}

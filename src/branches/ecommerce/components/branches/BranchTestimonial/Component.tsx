@@ -15,7 +15,7 @@ export const BranchTestimonial: React.FC<BranchTestimonialProps> = ({
   return (
     <div
       className={`flex flex-col items-center gap-6 rounded-[20px] border bg-white p-9 text-center sm:flex-row sm:text-left md:px-10 ${className}`}
-      style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+      style={{ borderColor: 'var(--color-border)' }}
     >
       {/* Avatar */}
       <div className="flex h-[72px] w-[72px] flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-theme-teal to-theme-teal-light font-heading text-[28px] font-extrabold text-white">
@@ -29,7 +29,7 @@ export const BranchTestimonial: React.FC<BranchTestimonialProps> = ({
           {Array.from({ length: 5 }).map((_, i) => (
             <Star
               key={i}
-              className={`h-4 w-4 ${i < rating ? 'fill-[#F59E0B] text-[#F59E0B]' : 'text-theme-grey-mid'}`}
+              className={`h-4 w-4 ${i < rating ? 'fill-[var(--color-warning)] text-[var(--color-warning)]' : 'text-theme-grey-mid'}`}
             />
           ))}
         </div>

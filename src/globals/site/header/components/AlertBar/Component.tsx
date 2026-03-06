@@ -7,11 +7,11 @@ import { Icon } from '@/branches/shared/components/common/Icon'
 import type { AlertBarProps } from './types'
 
 const typeColors = {
-  info: { bg: '#EFF6FF', border: '#DBEAFE', text: '#1E40AF', icon: '#3B82F6' },
-  success: { bg: '#F0FDF4', border: '#DCFCE7', text: '#166534', icon: '#22C55E' },
-  warning: { bg: '#FFF8E1', border: '#FFECB3', text: '#F59E0B', icon: '#F59E0B' },
-  error: { bg: '#FFF0F0', border: '#FFDBDB', text: '#DC2626', icon: '#FF6B6B' },
-  promo: { bg: '#F5F3FF', border: '#E9D5FF', text: '#7C3AED', icon: '#8B5CF6' },
+  info: { bg: 'var(--color-info-light)', border: 'var(--color-info-light)', text: 'var(--color-info-dark)', icon: 'var(--color-info)' },
+  success: { bg: 'var(--color-success-light)', border: 'var(--color-success-light)', text: 'var(--color-success-dark)', icon: 'var(--color-success)' },
+  warning: { bg: 'var(--color-warning-light)', border: 'var(--color-warning-light)', text: 'var(--color-warning-dark)', icon: 'var(--color-warning)' },
+  error: { bg: 'var(--color-error-light)', border: 'var(--color-error-light)', text: 'var(--color-error-dark)', icon: 'var(--color-error)' },
+  promo: { bg: 'var(--color-promo-light)', border: 'var(--color-promo-light)', text: 'var(--color-promo-dark)', icon: 'var(--color-promo)' },
 }
 
 export function AlertBar({ alertBar, theme }: AlertBarProps) {

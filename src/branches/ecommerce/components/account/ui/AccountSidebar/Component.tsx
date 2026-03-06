@@ -28,7 +28,7 @@ export function AccountMobileNav({
       {/* Mobile Header */}
       <div
         className="lg:hidden sticky top-0 z-50 flex items-center justify-between px-4 py-4"
-        style={{ background: '#0A1628', borderBottom: '1px solid rgba(255,255,255,0.1)' }}
+        style={{ background: 'var(--color-secondary)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}
       >
         <Link href="/" className="flex items-center gap-2 text-white">
           <ChevronLeft className="w-5 h-5" />
@@ -60,7 +60,7 @@ export function AccountMobileNav({
                 <div
                   className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0"
                   style={{
-                    background: 'linear-gradient(135deg, #00897B 0%, #26A69A 100%)',
+                    background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%)',
                     color: 'white',
                     fontFamily: 'Plus Jakarta Sans, sans-serif',
                     fontWeight: 800,
@@ -74,7 +74,7 @@ export function AccountMobileNav({
                     className="font-bold truncate"
                     style={{
                       fontSize: '16px',
-                      color: '#0A1628',
+                      color: 'var(--color-secondary)',
                       fontFamily: 'Plus Jakarta Sans, sans-serif',
                     }}
                   >
@@ -83,13 +83,13 @@ export function AccountMobileNav({
                   {userCompany && (
                     <div
                       className="truncate"
-                      style={{ fontSize: '13px', color: '#94A3B8', marginTop: '2px' }}
+                      style={{ fontSize: '13px', color: 'var(--color-grey-mid)', marginTop: '2px' }}
                     >
                       {userCompany}
                     </div>
                   )}
                   {memberSinceDate && (
-                    <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '4px' }}>
+                    <div style={{ fontSize: '12px', color: 'var(--color-grey-mid)', marginTop: '4px' }}>
                       Klant sinds {memberSinceDate}
                     </div>
                   )}
@@ -109,19 +109,19 @@ export function AccountMobileNav({
                     onClick={onToggleMobileMenu}
                     className="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all"
                     style={{
-                      background: active ? 'rgba(0,137,123,0.1)' : 'rgba(255,255,255,0.05)',
-                      border: active ? '1.5px solid #00897B' : '1.5px solid transparent',
+                      background: active ? 'var(--color-primary-glow)' : 'rgba(255,255,255,0.05)',
+                      border: active ? '1.5px solid var(--color-primary)' : '1.5px solid transparent',
                     }}
                   >
                     <Icon
                       className="w-5 h-5 flex-shrink-0"
-                      style={{ color: active ? '#00897B' : '#94A3B8' }}
+                      style={{ color: active ? 'var(--color-primary)' : 'var(--color-grey-mid)' }}
                     />
                     <span
                       className="flex-1 font-semibold"
                       style={{
                         fontSize: '14px',
-                        color: active ? '#00897B' : '#FAFBFC',
+                        color: active ? 'var(--color-primary)' : '#FAFBFC',
                       }}
                     >
                       {item.name}
@@ -138,10 +138,10 @@ export function AccountMobileNav({
                   border: '1.5px solid transparent',
                 }}
               >
-                <LogOut className="w-5 h-5 flex-shrink-0" style={{ color: '#FF6B6B' }} />
+                <LogOut className="w-5 h-5 flex-shrink-0" style={{ color: 'var(--color-error)' }} />
                 <span
                   className="flex-1 text-left font-semibold"
-                  style={{ fontSize: '14px', color: '#FF6B6B' }}
+                  style={{ fontSize: '14px', color: 'var(--color-error)' }}
                 >
                   Uitloggen
                 </span>
@@ -172,7 +172,7 @@ export function AccountDesktopSidebar({
             <div
               className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0"
               style={{
-                background: 'linear-gradient(135deg, #00897B 0%, #26A69A 100%)',
+                background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%)',
                 color: 'white',
                 fontFamily: 'Plus Jakarta Sans, sans-serif',
                 fontWeight: 800,
@@ -186,7 +186,7 @@ export function AccountDesktopSidebar({
                 className="font-bold truncate"
                 style={{
                   fontSize: '15px',
-                  color: '#0A1628',
+                  color: 'var(--color-secondary)',
                   fontFamily: 'Plus Jakarta Sans, sans-serif',
                 }}
               >
@@ -195,7 +195,7 @@ export function AccountDesktopSidebar({
               {userCompany && (
                 <div
                   className="truncate"
-                  style={{ fontSize: '12px', color: '#94A3B8', marginTop: '2px' }}
+                  style={{ fontSize: '12px', color: 'var(--color-grey-mid)', marginTop: '2px' }}
                 >
                   {userCompany}
                 </div>
@@ -205,7 +205,7 @@ export function AccountDesktopSidebar({
           {memberSinceDate && (
             <div
               className="pt-3"
-              style={{ borderTop: '1px solid #E8ECF1', fontSize: '12px', color: '#94A3B8' }}
+              style={{ borderTop: '1px solid #E8ECF1', fontSize: '12px', color: 'var(--color-grey-mid)' }}
             >
               Klant sinds {memberSinceDate}
             </div>
@@ -224,8 +224,8 @@ export function AccountDesktopSidebar({
                   href={item.href}
                   className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all"
                   style={{
-                    background: active ? 'rgba(0,137,123,0.08)' : 'transparent',
-                    color: active ? '#00897B' : '#0A1628',
+                    background: active ? 'var(--color-primary-glow)' : 'transparent',
+                    color: active ? 'var(--color-primary)' : 'var(--color-secondary)',
                   }}
                 >
                   <Icon className="w-4.5 h-4.5 flex-shrink-0" />
@@ -241,7 +241,7 @@ export function AccountDesktopSidebar({
             <button
               onClick={onLogout}
               className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-red-50"
-              style={{ color: '#FF6B6B' }}
+              style={{ color: 'var(--color-error)' }}
             >
               <LogOut className="w-4.5 h-4.5 flex-shrink-0" />
               <span className="font-semibold" style={{ fontSize: '14px' }}>

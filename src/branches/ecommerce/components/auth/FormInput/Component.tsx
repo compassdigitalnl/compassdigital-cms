@@ -100,7 +100,7 @@ export function FormInput({
         <label
           htmlFor={inputId}
           className="block text-[13px] font-semibold mb-1.5"
-          style={{ color: 'var(--color-text-primary, #0A1628)' }}
+          style={{ color: 'var(--color-text-primary)' }}
         >
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
@@ -113,7 +113,7 @@ export function FormInput({
         {IconComponent && (
           <div
             className="absolute left-[14px] top-1/2 -translate-y-1/2 pointer-events-none"
-            style={{ color: 'var(--color-text-muted, #94A3B8)' }}
+            style={{ color: 'var(--color-text-muted)' }}
           >
             <IconComponent className="w-4 h-4" />
           </div>
@@ -146,15 +146,15 @@ export function FormInput({
             ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
           `}
           style={{
-            fontFamily: 'var(--font-body, system-ui)',
-            color: 'var(--color-text-primary, #0A1628)',
-            background: 'var(--color-surface, #FAFBFC)',
+            fontFamily: 'var(--font-body)',
+            color: 'var(--color-text-primary)',
+            background: 'var(--color-surface)',
             borderColor: error
               ? '#EF4444'
               : isFocused
-              ? 'var(--color-primary, #00897B)'
-              : 'var(--color-border, #E8ECF1)',
-            boxShadow: isFocused && !error ? '0 0 0 3px rgba(0, 137, 123, 0.1)' : 'none',
+              ? 'var(--color-primary)'
+              : 'var(--color-border)',
+            boxShadow: isFocused && !error ? '0 0 0 3px var(--color-primary-glow)' : 'none',
           }}
         />
 
@@ -164,7 +164,7 @@ export function FormInput({
             type="button"
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-[14px] top-1/2 -translate-y-1/2 transition-colors hover:opacity-70"
-            style={{ color: 'var(--color-text-muted, #94A3B8)' }}
+            style={{ color: 'var(--color-text-muted)' }}
             aria-label={showPassword ? 'Verberg wachtwoord' : 'Toon wachtwoord'}
           >
             {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -181,7 +181,7 @@ export function FormInput({
       {helperText && !error && (
         <p
           className="text-xs mt-1.5 font-medium"
-          style={{ color: 'var(--color-text-muted, #94A3B8)' }}
+          style={{ color: 'var(--color-text-muted)' }}
         >
           {helperText}
         </p>

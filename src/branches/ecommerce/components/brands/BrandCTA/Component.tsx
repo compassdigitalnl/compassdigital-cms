@@ -17,7 +17,7 @@ export const BrandCTA: React.FC<BrandCTAProps> = ({
       <div
         className="pointer-events-none absolute -top-[50px] right-[50px] h-[300px] w-[300px] rounded-full"
         style={{
-          background: 'radial-gradient(circle, rgba(0,137,123,0.06) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, var(--color-primary-glow) 0%, transparent 70%)',
         }}
       />
 

@@ -16,7 +16,7 @@ export function LoyaltyHero({ loyaltyData }: LoyaltyHeroProps) {
 
   return (
     <div className="rounded-2xl p-6 lg:p-7 mb-4 relative overflow-hidden text-white"
-      style={{ background: 'linear-gradient(135deg, var(--color-navy, #0A1628), #121F33)' }}
+      style={{ background: 'linear-gradient(135deg, var(--color-secondary), var(--color-secondary-light))' }}
     >
       {/* Decorative star watermark */}
       <div className="absolute right-10 top-2 text-8xl opacity-[0.04] select-none pointer-events-none">
@@ -78,7 +78,7 @@ export function LoyaltyHero({ loyaltyData }: LoyaltyHeroProps) {
             className="h-full rounded-full transition-all duration-700"
             style={{
               width: `${progressPercentage}%`,
-              background: 'linear-gradient(90deg, var(--color-primary, #00897B), #D4A843)',
+              background: 'linear-gradient(90deg, var(--color-primary), #D4A843)',
             }}
           />
         </div>

@@ -50,7 +50,7 @@ export const SubscriptionFilterToggle: React.FC<SubscriptionFilterToggleProps> =
       {/* Toggle Switch */}
       <div
         className={`toggle-switch relative w-14 h-7 rounded-full cursor-pointer transition-colors ${
-          isRightActive ? 'bg-teal-600' : 'bg-gray-200'
+          isRightActive ? 'bg-[var(--color-primary)]' : 'bg-gray-200'
         }`}
         onClick={() => onChange(isRightActive ? leftOption.id : rightOption.id)}
         tabIndex={0}

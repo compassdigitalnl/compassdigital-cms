@@ -95,7 +95,7 @@ export const MixMatchProductCard: React.FC<MixMatchProductCardProps> = ({
 
   const tagStyles = {
     popular: 'bg-amber-500 text-white',
-    new: 'bg-teal-600 text-white',
+    new: 'bg-[var(--color-primary)] text-white',
     vegan: 'bg-green-500 text-white',
     spicy: 'bg-red-400 text-white',
   }
@@ -121,8 +121,8 @@ export const MixMatchProductCard: React.FC<MixMatchProductCardProps> = ({
     <div
       className={`mm-product bg-white border-[1.5px] rounded-2xl overflow-hidden transition-all duration-150 relative cursor-pointer ${
         isSelected || quantity > 0
-          ? 'border-teal-600 shadow-[0_0_0_2px_rgba(0,137,123,0.12)]'
-          : 'border-gray-200 hover:border-teal-600'
+          ? 'border-[var(--color-primary)] shadow-[0_0_0_2px_var(--color-primary-glow)]'
+          : 'border-gray-200 hover:border-[var(--color-primary)]'
       } hover:-translate-y-0.5 hover:shadow-sm ${className}`}
       onClick={handleCardClick}
     >
@@ -144,7 +144,7 @@ export const MixMatchProductCard: React.FC<MixMatchProductCardProps> = ({
 
         {/* Checkmark */}
         {(isSelected || quantity > 0) && (
-          <div className="mmp-check absolute top-1.5 right-1.5 w-[26px] h-[26px] rounded-full bg-teal-600 flex items-center justify-center shadow-md shadow-teal-600/30">
+          <div className="mmp-check absolute top-1.5 right-1.5 w-[26px] h-[26px] rounded-full bg-[var(--color-primary)] flex items-center justify-center shadow-md shadow-[var(--color-primary-light)]">
             <Check className="w-3.5 h-3.5 text-white" />
           </div>
         )}

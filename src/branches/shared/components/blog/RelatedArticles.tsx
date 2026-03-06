@@ -28,14 +28,14 @@ export const RelatedArticles: React.FC<RelatedArticlesProps> = ({ posts, classNa
       case 'purple':
         return 'from-purple-50 to-purple-100'
       default:
-        return 'from-teal-50 to-teal-100'
+        return 'from-[var(--color-primary-glow)] to-[var(--color-primary-glow)]'
     }
   }
 
   return (
     <section className={`mt-12 pt-10 border-t border-gray-200 ${className}`}>
       <div className="flex items-center gap-3 mb-6">
-        <Icon name="BookOpen" size={22} className="text-teal-600" />
+        <Icon name="BookOpen" size={22} className="text-[var(--color-primary)]" />
         <h2 className="text-2xl font-extrabold text-gray-900">Gerelateerde artikelen</h2>
       </div>
 
@@ -64,10 +64,10 @@ export const RelatedArticles: React.FC<RelatedArticlesProps> = ({ posts, classNa
 
               {/* Content */}
               <div className="p-5 flex-1 flex flex-col">
-                <div className="text-xs font-bold uppercase tracking-wider text-teal-600 mb-1">
+                <div className="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)] mb-1">
                   {categoryName}
                 </div>
-                <h3 className="text-base font-extrabold text-gray-900 mb-2 line-clamp-2 group-hover:text-teal-600 transition-colors">
+                <h3 className="text-base font-extrabold text-gray-900 mb-2 line-clamp-2 group-hover:text-[var(--color-primary)] transition-colors">
                   {post.title}
                 </h3>
                 {post.excerpt && (

@@ -22,7 +22,7 @@ export const HelpCTA: React.FC<HelpCTAProps> = ({
       <div
         className="pointer-events-none absolute -right-5 -top-5 h-[100px] w-[100px] rounded-full"
         style={{
-          background: 'radial-gradient(circle, rgba(0,137,123,0.1), transparent 70%)',
+          background: 'radial-gradient(circle, var(--color-primary-glow), transparent 70%)',
         }}
       />
 

@@ -24,7 +24,7 @@ export const BranchCTA: React.FC<BranchCTAProps> = ({
       <div
         className="pointer-events-none absolute -right-5 -top-10 h-[250px] w-[250px] rounded-full"
         style={{
-          background: 'radial-gradient(circle, rgba(0,137,123,0.08), transparent 70%)',
+          background: 'radial-gradient(circle, var(--color-primary-glow), transparent 70%)',
         }}
       />
 
@@ -51,7 +51,7 @@ export const BranchCTA: React.FC<BranchCTAProps> = ({
                 inline-flex items-center gap-2 rounded-xl px-7 py-3.5
                 text-[15px] font-bold no-underline transition-all duration-200
                 ${button.variant === 'primary'
-                  ? 'border-none bg-theme-teal text-white shadow-[0_4px_16px_rgba(0,137,123,0.3)] hover:bg-theme-teal-light'
+                  ? 'border-none bg-theme-teal text-white shadow-[0_4px_16px_var(--color-primary-glow)] hover:bg-theme-teal-light'
                   : 'border-2 border-white/20 bg-transparent text-white hover:border-white hover:bg-white/5'
                 }
               `}

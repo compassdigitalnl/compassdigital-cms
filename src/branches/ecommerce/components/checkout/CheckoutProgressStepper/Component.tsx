@@ -162,7 +162,7 @@ export function CheckoutProgressStepper({
         .step.active .step-circle {
           background: var(--teal);
           color: white;
-          box-shadow: 0 4px 12px rgba(0, 137, 123, 0.4);
+          box-shadow: 0 4px 12px var(--color-primary-glow);
         }
 
         .step.active .step-label {

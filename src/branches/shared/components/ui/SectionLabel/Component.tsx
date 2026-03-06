@@ -14,7 +14,7 @@ export const SectionLabel: React.FC<SectionLabelProps> = ({ label, className = '
 
   return (
     <span
-      className={`text-xs font-bold uppercase tracking-[0.1em] text-teal-600 mb-3 block ${className}`}
+      className={`text-xs font-bold uppercase tracking-[0.1em] text-[var(--color-primary)] mb-3 block ${className}`}
     >
       {label}
     </span>

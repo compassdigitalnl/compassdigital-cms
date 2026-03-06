@@ -54,7 +54,7 @@ export default function BlogTemplate2({ post, prevPost, nextPost, category }: Bl
                 key={idx}
                 className="inline-block px-3 py-1 rounded-lg text-xs font-medium"
                 style={{
-                  background: 'var(--color-surface, #F3F4F6)',
+                  background: 'var(--color-surface)',
                   color: 'var(--color-text-muted)',
                 }}
               >

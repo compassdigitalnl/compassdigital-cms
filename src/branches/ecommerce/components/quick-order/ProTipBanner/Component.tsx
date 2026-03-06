@@ -71,8 +71,8 @@ export function ProTipBanner({
 
       <style jsx>{`
         .ptb {
-          background: rgba(0, 137, 123, 0.08);
-          border: 1px solid rgba(0, 137, 123, 0.2);
+          background: var(--color-primary-glow);
+          border: 1px solid var(--color-primary-glow);
           border-radius: var(--radius-lg);
           padding: var(--space-16) var(--space-20);
           display: flex;

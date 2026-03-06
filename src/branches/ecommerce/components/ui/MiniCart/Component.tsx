@@ -63,14 +63,14 @@ export function MiniCartProvider({
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--color-border,#e5e7eb)]">
               <div className="flex items-center gap-2">
-                <ShoppingCart className="w-5 h-5" style={{ color: 'var(--color-primary, #00897B)' }} />
+                <ShoppingCart className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
                 <h2 className="text-lg font-bold" style={{ color: 'var(--color-text-primary)' }}>
                   Winkelwagen
                 </h2>
                 {itemCount > 0 && (
                   <span
                     className="text-xs font-bold px-2 py-0.5 rounded-full text-white"
-                    style={{ backgroundColor: 'var(--color-primary, #00897B)' }}
+                    style={{ backgroundColor: 'var(--color-primary)' }}
                   >
                     {itemCount}
                   </span>
@@ -89,7 +89,7 @@ export function MiniCartProvider({
             <div className="flex-1 overflow-y-auto">
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center px-6">
-                  <ShoppingCart className="w-16 h-16 mb-4" style={{ color: 'var(--color-border, #e5e7eb)' }} />
+                  <ShoppingCart className="w-16 h-16 mb-4" style={{ color: 'var(--color-border)' }} />
                   <p className="text-base font-semibold mb-1" style={{ color: 'var(--color-text-primary)' }}>
                     Je winkelwagen is leeg
                   </p>
@@ -123,7 +123,7 @@ export function MiniCartProvider({
                               Art. {item.sku}
                             </div>
                           )}
-                          <div className="text-sm font-bold mt-1" style={{ color: 'var(--color-primary, #00897B)' }}>
+                          <div className="text-sm font-bold mt-1" style={{ color: 'var(--color-primary)' }}>
                             €{formatPriceStr(rawPrice, item.taxClass as any)}
                           </div>
 

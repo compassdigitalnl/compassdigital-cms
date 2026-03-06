@@ -52,7 +52,7 @@ export const SubscriptionProductRow: React.FC<SubscriptionProductRowProps> = ({
 
   return (
     <div
-      className={`product-row bg-white border-[1.5px] border-gray-200 rounded-[14px] p-4 px-5 transition-all hover:border-teal-600 hover:shadow-md hover:-translate-y-px grid items-center gap-x-5 gap-y-1.5 ${className}`}
+      className={`product-row bg-white border-[1.5px] border-gray-200 rounded-[14px] p-4 px-5 transition-all hover:border-[var(--color-primary)] hover:shadow-md hover:-translate-y-px grid items-center gap-x-5 gap-y-1.5 ${className}`}
       style={{
         gridTemplateColumns: '60px 1fr auto auto auto',
         gridTemplateRows: 'auto auto',

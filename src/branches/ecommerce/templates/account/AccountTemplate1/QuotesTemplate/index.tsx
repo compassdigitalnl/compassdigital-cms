@@ -48,17 +48,17 @@ export default function QuotesTemplate({
       {/* Hero banner */}
       <div
         className="rounded-2xl px-6 py-8 md:px-10 md:py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #0A1628, #121F33)' }}
+        style={{ background: 'linear-gradient(135deg, var(--color-secondary), var(--color-secondary-light))' }}
       >
         {/* Glow accent */}
         <div
           className="absolute top-0 right-16 w-48 h-48 rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(0,137,123,0.08), transparent 70%)' }}
+          style={{ background: 'radial-gradient(circle, var(--color-primary-glow), transparent 70%)' }}
         />
         <div className="relative">
           <h2
             className="text-xl md:text-2xl font-extrabold text-white mb-2"
-            style={{ fontFamily: 'var(--font-heading, inherit)' }}
+            style={{ fontFamily: 'var(--font-heading)' }}
           >
             Offerte op maat aanvragen
           </h2>
@@ -71,14 +71,14 @@ export default function QuotesTemplate({
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold"
             style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.60)' }}
           >
-            <Clock className="w-4 h-4" style={{ color: '#26A69A' }} />
+            <Clock className="w-4 h-4" style={{ color: 'var(--color-primary-light)' }} />
             Reactie binnen 24 uur
           </div>
           <div
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold"
             style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.60)' }}
           >
-            <Tag className="w-4 h-4" style={{ color: '#26A69A' }} />
+            <Tag className="w-4 h-4" style={{ color: 'var(--color-primary-light)' }} />
             Scherpe volumeprijzen
           </div>
         </div>
@@ -89,22 +89,22 @@ export default function QuotesTemplate({
         {/* Left column */}
         <div className="space-y-5">
           {/* Step 1: Products */}
-          <div className="bg-white border rounded-2xl p-6 md:p-7" style={{ borderColor: 'var(--color-border, #E8ECF1)' }}>
+          <div className="bg-white border rounded-2xl p-6 md:p-7" style={{ borderColor: 'var(--color-border)' }}>
             <div className="flex items-center gap-2 mb-1">
               <span
                 className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-extrabold text-white flex-shrink-0"
-                style={{ background: 'var(--color-primary, #00897B)' }}
+                style={{ background: 'var(--color-primary)' }}
               >
                 1
               </span>
               <h2
                 className="text-base font-extrabold"
-                style={{ color: 'var(--color-foreground, #0A1628)', fontFamily: 'var(--font-heading, inherit)' }}
+                style={{ color: 'var(--color-foreground)', fontFamily: 'var(--font-heading)' }}
               >
                 Producten toevoegen
               </h2>
             </div>
-            <p className="text-sm mb-5 ml-9" style={{ color: 'var(--color-muted-foreground, #64748B)' }}>
+            <p className="text-sm mb-5 ml-9" style={{ color: 'var(--color-muted-foreground)' }}>
               Zoek en voeg de gewenste producten toe met het aantal. U kunt ook een omschrijving typen als u het exacte product niet weet.
             </p>
             <QuoteProductTable
@@ -130,19 +130,19 @@ export default function QuotesTemplate({
           <QuoteSteps />
 
           {/* Why via quote */}
-          <div className="bg-white border rounded-2xl p-6" style={{ borderColor: 'var(--color-border, #E8ECF1)' }}>
+          <div className="bg-white border rounded-2xl p-6" style={{ borderColor: 'var(--color-border)' }}>
             <div className="flex items-center gap-2 mb-4">
-              <ShieldCheck className="w-4 h-4" style={{ color: 'var(--color-primary, #00897B)' }} />
+              <ShieldCheck className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
               <h3
                 className="text-sm font-extrabold"
-                style={{ color: 'var(--color-foreground, #0A1628)', fontFamily: 'var(--font-heading, inherit)' }}
+                style={{ color: 'var(--color-foreground)', fontFamily: 'var(--font-heading)' }}
               >
                 Waarom via offerte?
               </h3>
             </div>
             <ul className="space-y-2">
               {TRUST_ITEMS.map((item) => (
-                <li key={item} className="flex items-center gap-2 text-sm" style={{ color: 'var(--color-foreground, #0A1628)' }}>
+                <li key={item} className="flex items-center gap-2 text-sm" style={{ color: 'var(--color-foreground)' }}>
                   <Check className="w-4 h-4 flex-shrink-0 text-green-500" />
                   {item}
                 </li>
@@ -154,15 +154,15 @@ export default function QuotesTemplate({
           {contactPhone && (
             <div
               className="rounded-2xl p-6 text-center relative overflow-hidden"
-              style={{ background: 'linear-gradient(135deg, #0A1628, #121F33)' }}
+              style={{ background: 'linear-gradient(135deg, var(--color-secondary), var(--color-secondary-light))' }}
             >
               <div
                 className="absolute -top-5 -right-5 w-24 h-24 rounded-full pointer-events-none"
-                style={{ background: 'radial-gradient(circle, rgba(0,137,123,0.10), transparent 70%)' }}
+                style={{ background: 'radial-gradient(circle, var(--color-primary-glow), transparent 70%)' }}
               />
               <h4
                 className="text-base font-extrabold text-white mb-1.5 relative"
-                style={{ fontFamily: 'var(--font-heading, inherit)' }}
+                style={{ fontFamily: 'var(--font-heading)' }}
               >
                 Liever telefonisch?
               </h4>
@@ -172,9 +172,9 @@ export default function QuotesTemplate({
               <a
                 href={`tel:${contactPhone.replace(/[^+\d]/g, '')}`}
                 className="inline-flex items-center gap-1.5 text-sm font-bold relative transition-colors"
-                style={{ color: '#26A69A' }}
+                style={{ color: 'var(--color-primary-light)' }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = 'white')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#26A69A')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-primary-light)')}
               >
                 <Phone className="w-4 h-4" />
                 {contactPhone}

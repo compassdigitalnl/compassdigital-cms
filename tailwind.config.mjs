@@ -66,12 +66,8 @@ export default {
             DEFAULT: 'var(--color-secondary)',
             light: 'var(--color-secondary-light)',
           },
-          // Navy shorthands (CSS var driven)
-          navy: { DEFAULT: 'var(--navy)', light: 'var(--navy-light)' },
-          // Teal shorthands (CSS var driven)
-          teal: { DEFAULT: 'var(--teal)', light: 'var(--teal-light)', dark: 'var(--teal-dark)', glow: 'var(--teal-glow)' },
-          // Coral shorthands (CSS var driven)
-          coral: { DEFAULT: 'var(--coral)', light: 'var(--coral-light)' },
+          // Aliassen (eerste definitie — wordt overschreven door onderstaande)
+          // Bewust verwijderd: navy/teal/coral staan hieronder correct
           // Background
           bg: 'var(--bg)',
           // Accent color
@@ -98,26 +94,24 @@ export default {
           warning: 'var(--color-warning)',
           error: 'var(--color-error)',
           info: 'var(--color-info)',
-          // E-commerce component color aliassen (theme- prefix)
-          // CSS variabelen met fallbacks voor theme-aware styling
+          // Aliassen — mappen naar echte theme tokens
           navy: {
-            DEFAULT: 'var(--color-navy, #0A1628)',
-            light: 'var(--color-navy-light, #121F33)',
-            dark: 'var(--color-navy-dark, #0D2137)',
+            DEFAULT: 'var(--color-secondary)',
+            light: 'var(--color-secondary-light)',
           },
           teal: {
-            DEFAULT: 'var(--color-teal, #00897B)',
-            light: 'var(--color-teal-light, #26A69A)',
-            dark: 'var(--color-teal-dark, #00695C)',
-            glow: 'var(--color-teal-glow, rgba(0, 137, 123, 0.12))',
+            DEFAULT: 'var(--color-primary)',
+            light: 'var(--color-primary-light)',
+            dark: 'var(--color-primary)',
+            glow: 'var(--color-primary-glow)',
           },
           coral: {
-            DEFAULT: 'var(--color-coral, #FF6B6B)',
-            light: 'var(--color-coral-light, #FFF0F0)',
+            DEFAULT: 'var(--color-error)',
+            light: 'var(--color-error-light)',
           },
           amber: {
-            DEFAULT: 'var(--color-amber, #F59E0B)',
-            light: 'var(--color-amber-light, #FFF8E1)',
+            DEFAULT: 'var(--color-warning)',
+            light: 'var(--color-warning-light)',
           },
         },
 

@@ -87,7 +87,7 @@ export const PersonalizationColorPicker: React.FC<PersonalizationColorPickerProp
           {option.required && <span className="text-red-600 ml-1">*</span>}
         </span>
         {priceText && (
-          <span className="text-[13px] text-teal-600 font-semibold ml-2">{priceText}</span>
+          <span className="text-[13px] text-[var(--color-primary)] font-semibold ml-2">{priceText}</span>
         )}
       </label>
 
@@ -105,7 +105,7 @@ export const PersonalizationColorPicker: React.FC<PersonalizationColorPickerProp
               onClick={() => handlePresetColorSelect(color.value)}
               className={`
                 relative w-12 h-12 rounded-lg border-2 transition-all duration-200
-                ${isSelected ? 'border-teal-600 scale-110' : 'border-gray-300 hover:border-teal-400'}
+                ${isSelected ? 'border-[var(--color-primary)] scale-110' : 'border-gray-300 hover:border-[var(--color-primary-light)]'}
                 ${isLight ? 'border-gray-400' : ''}
               `}
               style={{ backgroundColor: color.value }}
@@ -147,7 +147,7 @@ export const PersonalizationColorPicker: React.FC<PersonalizationColorPickerProp
             onChange={handleCustomHexChange}
             placeholder="#000000"
             maxLength={7}
-            className="flex-1 px-3 py-2 text-[14px] font-mono border-2 border-gray-300 rounded-lg focus:outline-none focus:border-teal-500"
+            className="flex-1 px-3 py-2 text-[14px] font-mono border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[var(--color-primary)]"
           />
         </div>
         <p className="text-[11px] text-gray-500 mt-1">

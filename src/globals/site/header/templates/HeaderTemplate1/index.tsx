@@ -81,7 +81,7 @@ export default function HeaderTemplate1({
   })
 
   const headerStyle = {
-    borderColor: showShadow ? 'var(--color-border, #e5e7eb)' : 'transparent',
+    borderColor: showShadow ? 'var(--color-border)' : 'transparent',
   }
 
   return (
@@ -99,7 +99,7 @@ export default function HeaderTemplate1({
             {/* Mobile Toggle */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden w-[42px] h-[42px] rounded-[10px] bg-[var(--color-secondary,#0A1628)] text-white flex items-center justify-center hover:bg-[var(--color-primary,#00897B)] transition-colors"
+              className="lg:hidden w-[42px] h-[42px] rounded-[10px] bg-[var(--color-secondary)] text-white flex items-center justify-center hover:bg-[var(--color-primary)] transition-colors"
               aria-label="Open menu"
             >
               <Menu className="w-5 h-5" />
@@ -117,13 +117,13 @@ export default function HeaderTemplate1({
                   style={{ height: `${logoHeight}px` }}
                 />
               ) : siteNameOverride ? (
-                <span className="text-xl font-extrabold text-[var(--color-secondary,#0A1628)]">
+                <span className="text-xl font-extrabold text-[var(--color-secondary)]">
                   {siteNameOverride}
                 </span>
               ) : (
-                <span className="text-xl font-extrabold text-[var(--color-secondary,#0A1628)]">
+                <span className="text-xl font-extrabold text-[var(--color-secondary)]">
                   Site
-                  <span className="text-[var(--color-primary,#00897B)]">Forge</span>
+                  <span className="text-[var(--color-primary)]">Forge</span>
                 </span>
               )}
             </Link>
@@ -138,28 +138,28 @@ export default function HeaderTemplate1({
                   mapped.enablePriceToggle ? 'pr-[170px]' : 'pr-4',
                 )}
                 style={{
-                  backgroundColor: 'var(--color-surface, #f9fafb)',
-                  borderColor: 'var(--color-border, #e5e7eb)',
-                  color: 'var(--color-text-muted, #94a3b8)',
+                  backgroundColor: 'var(--color-surface)',
+                  borderColor: 'var(--color-border)',
+                  color: 'var(--color-text-muted)',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--color-primary, #00897B)'
+                  e.currentTarget.style.borderColor = 'var(--color-primary)'
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--color-border, #e5e7eb)'
+                  e.currentTarget.style.borderColor = 'var(--color-border)'
                 }}
                 onFocus={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--color-primary, #00897B)'
-                  e.currentTarget.style.boxShadow = '0 0 0 4px rgba(0, 137, 123, 0.1)'
+                  e.currentTarget.style.borderColor = 'var(--color-primary)'
+                  e.currentTarget.style.boxShadow = '0 0 0 4px var(--color-primary-glow)'
                 }}
                 onBlur={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--color-border, #e5e7eb)'
+                  e.currentTarget.style.borderColor = 'var(--color-border)'
                   e.currentTarget.style.boxShadow = 'none'
                 }}
               >
                 <Search
                   className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] pointer-events-none z-10"
-                  style={{ color: 'var(--color-text-muted, #94a3b8)' }}
+                  style={{ color: 'var(--color-text-muted)' }}
                 />
                 {searchPlaceholder}
 
@@ -168,8 +168,8 @@ export default function HeaderTemplate1({
                   <div
                     className="absolute right-[48px] top-1/2 -translate-y-1/2 hidden xl:flex items-center rounded-md border overflow-hidden"
                     style={{
-                      background: 'var(--color-surface, #F1F4F8)',
-                      borderColor: 'var(--color-border, #E8ECF1)',
+                      background: 'var(--color-surface)',
+                      borderColor: 'var(--color-border)',
                     }}
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -183,12 +183,12 @@ export default function HeaderTemplate1({
                       style={{
                         background:
                           priceMode === 'b2b'
-                            ? 'var(--color-primary, #00897B)'
+                            ? 'var(--color-primary)'
                             : 'transparent',
                         color:
                           priceMode === 'b2b'
                             ? 'white'
-                            : 'var(--color-text-muted, #94A3B8)',
+                            : 'var(--color-text-muted)',
                       }}
                     >
                       {mapped.priceToggle?.b2bLabel || 'B2B'}
@@ -203,12 +203,12 @@ export default function HeaderTemplate1({
                       style={{
                         background:
                           priceMode === 'b2c'
-                            ? 'var(--color-primary, #00897B)'
+                            ? 'var(--color-primary)'
                             : 'transparent',
                         color:
                           priceMode === 'b2c'
                             ? 'white'
-                            : 'var(--color-text-muted, #94A3B8)',
+                            : 'var(--color-text-muted)',
                       }}
                     >
                       {mapped.priceToggle?.b2cLabel || 'B2C'}
@@ -220,8 +220,8 @@ export default function HeaderTemplate1({
                 <div
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-semibold font-mono bg-white border rounded px-2 py-0.5 pointer-events-none hidden xl:block"
                   style={{
-                    color: 'var(--color-text-muted, #94a3b8)',
-                    borderColor: 'var(--color-border, #e5e7eb)',
+                    color: 'var(--color-text-muted)',
+                    borderColor: 'var(--color-border)',
                   }}
                 >
                   ⌘K
@@ -235,7 +235,7 @@ export default function HeaderTemplate1({
               {enableSearch && (
                 <button
                   onClick={openSearch}
-                  className="lg:hidden w-[42px] h-[42px] rounded-[10px] border border-transparent bg-gray-100 hover:border-[var(--color-primary,#00897B)] hover:bg-[var(--color-primary,#00897B)]/10 flex items-center justify-center transition-all"
+                  className="lg:hidden w-[42px] h-[42px] rounded-[10px] border border-transparent bg-gray-100 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 flex items-center justify-center transition-all"
                   aria-label="Zoeken"
                 >
                   <Search className="w-[19px] h-[19px]" />
@@ -251,7 +251,7 @@ export default function HeaderTemplate1({
                 >
                   <Phone
                     className="w-4 h-4"
-                    style={{ color: 'var(--color-primary, #00897B)' }}
+                    style={{ color: 'var(--color-primary)' }}
                   />
                   {settings.phone}
                 </a>
@@ -264,7 +264,7 @@ export default function HeaderTemplate1({
                   href={button.url || '#'}
                   className={cn(
                     'h-[42px] px-4 rounded-[10px] border border-transparent flex items-center justify-center gap-2 transition-all text-sm font-semibold',
-                    'bg-gray-100 hover:border-[var(--color-primary,#00897B)] hover:bg-[var(--color-primary,#00897B)]/10',
+                    'bg-gray-100 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/10',
                     button.showOnMobile === false && 'hidden lg:flex',
                   )}
                   title={button.label || undefined}
@@ -278,7 +278,7 @@ export default function HeaderTemplate1({
               {showWishlist && (
                 <Link
                   href="/wishlist"
-                  className="w-[42px] h-[42px] rounded-[10px] border border-transparent bg-gray-100 hover:border-[var(--color-primary,#00897B)] hover:bg-[var(--color-primary,#00897B)]/10 flex items-center justify-center transition-all"
+                  className="w-[42px] h-[42px] rounded-[10px] border border-transparent bg-gray-100 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 flex items-center justify-center transition-all"
                   title="Wishlist"
                 >
                   <Heart className="w-[19px] h-[19px]" />
@@ -289,7 +289,7 @@ export default function HeaderTemplate1({
               {showAccount && (
                 <Link
                   href="/account/"
-                  className="w-[42px] h-[42px] rounded-[10px] border border-transparent bg-gray-100 hover:border-[var(--color-primary,#00897B)] hover:bg-[var(--color-primary,#00897B)]/10 flex items-center justify-center transition-all"
+                  className="w-[42px] h-[42px] rounded-[10px] border border-transparent bg-gray-100 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 flex items-center justify-center transition-all"
                   title="Account"
                 >
                   <User className="w-[19px] h-[19px]" />
@@ -301,7 +301,7 @@ export default function HeaderTemplate1({
                 (showAccount || showWishlist || customButtons?.length) && (
                   <div
                     className="hidden lg:block w-px h-6 mx-1"
-                    style={{ backgroundColor: 'var(--color-border, #e5e7eb)' }}
+                    style={{ backgroundColor: 'var(--color-border)' }}
                   />
                 )}
 
@@ -311,20 +311,20 @@ export default function HeaderTemplate1({
                   onClick={openCart}
                   className="h-[42px] px-4 rounded-[10px] text-white border flex items-center gap-2 transition-all font-bold text-[13.5px] cursor-pointer"
                   style={{
-                    backgroundColor: 'var(--color-secondary, #0A1628)',
-                    borderColor: 'var(--color-secondary, #0A1628)',
+                    backgroundColor: 'var(--color-secondary)',
+                    borderColor: 'var(--color-secondary)',
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.backgroundColor =
-                      'var(--color-primary, #00897B)'
+                      'var(--color-primary)'
                     e.currentTarget.style.borderColor =
-                      'var(--color-primary, #00897B)'
+                      'var(--color-primary)'
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor =
-                      'var(--color-secondary, #0A1628)'
+                      'var(--color-secondary)'
                     e.currentTarget.style.borderColor =
-                      'var(--color-secondary, #0A1628)'
+                      'var(--color-secondary)'
                   }}
                 >
                   <ShoppingCart className="w-4 h-4" />

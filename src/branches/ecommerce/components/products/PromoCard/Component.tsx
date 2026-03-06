@@ -52,7 +52,7 @@ export const PromoCard: React.FC<PromoCardProps> = ({
     <>
       {/* Decorative Glow */}
       <div
-        className="absolute top-[-20px] right-[-20px] w-[120px] h-[120px] bg-[radial-gradient(circle,rgba(0,137,123,0.12),transparent_70%)] rounded-full pointer-events-none"
+        className="absolute top-[-20px] right-[-20px] w-[120px] h-[120px] bg-[radial-gradient(circle,var(--color-primary-glow),transparent_70%)] rounded-full pointer-events-none"
         aria-hidden="true"
       />
 
@@ -83,7 +83,7 @@ export const PromoCard: React.FC<PromoCardProps> = ({
       <div className="promo-card-info flex-1 relative">
         {/* Badge */}
         {product.badge && (
-          <div className="promo-card-badge inline-flex items-center gap-1 bg-teal-600/20 border border-teal-600/30 px-2 py-0.5 rounded-full text-[10px] font-bold text-teal-400 mb-1">
+          <div className="promo-card-badge inline-flex items-center gap-1 bg-[var(--color-primary)]/20 border border-[var(--color-primary-light)] px-2 py-0.5 rounded-full text-[10px] font-bold text-[var(--color-primary-light)] mb-1">
             {product.badge.icon && (
               <span className="w-[11px] h-[11px]" aria-hidden="true">
                 {product.badge.icon}
@@ -106,7 +106,7 @@ export const PromoCard: React.FC<PromoCardProps> = ({
         {/* Price */}
         <div
           className={`
-          promo-card-price font-['Plus_Jakarta_Sans'] font-extrabold text-teal-400 mt-0.5
+          promo-card-price font-['Plus_Jakarta_Sans'] font-extrabold text-[var(--color-primary-light)] mt-0.5
           ${isCompact ? 'text-sm' : 'text-base'}
         `}
         >

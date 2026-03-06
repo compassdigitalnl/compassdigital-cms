@@ -83,14 +83,14 @@ export function AuthBrandingPanel({
     <div
       className={`relative flex flex-col justify-center p-16 overflow-hidden min-h-[600px] ${className}`}
       style={{
-        background: 'linear-gradient(160deg, #0A1628 0%, #061A33 50%, #041526 100%)',
+        background: 'linear-gradient(160deg, var(--color-secondary) 0%, #061A33 50%, #041526 100%)',
       }}
     >
       {/* Decorative Orbs */}
       <div
         className="absolute -top-[20%] -right-[20%] w-[600px] h-[600px] rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(0,137,123,0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, var(--color-primary-glow) 0%, transparent 70%)',
         }}
       />
       <div
@@ -106,15 +106,15 @@ export function AuthBrandingPanel({
         <div
           className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-7"
           style={{
-            background: 'rgba(0,137,123,0.15)',
-            border: '1px solid rgba(0,137,123,0.25)',
-            color: '#26A69A',
+            background: 'var(--color-primary-glow)',
+            border: '1px solid var(--color-primary-glow)',
+            color: 'var(--color-primary-light)',
           }}
         >
           {/* Pulsing Dot */}
           <span
             className="w-1.5 h-1.5 rounded-full animate-pulse"
-            style={{ background: '#26A69A' }}
+            style={{ background: 'var(--color-primary-light)' }}
           />
           {badge}
         </div>
@@ -123,7 +123,7 @@ export function AuthBrandingPanel({
         <h1
           className="text-[42px] leading-tight mb-5"
           style={{
-            fontFamily: 'var(--font-heading, "DM Serif Display", serif)',
+            fontFamily: 'var(--font-heading)',
             color: 'white',
           }}
         >
@@ -153,8 +153,8 @@ export function AuthBrandingPanel({
                 <div
                   className="w-10 h-10 rounded-[10px] flex items-center justify-center text-lg flex-shrink-0"
                   style={{
-                    background: 'rgba(0,137,123,0.12)',
-                    border: '1px solid rgba(0,137,123,0.2)',
+                    background: 'var(--color-primary-glow)',
+                    border: '1px solid var(--color-primary-glow)',
                   }}
                 >
                   {feature.icon}
@@ -175,7 +175,7 @@ export function AuthBrandingPanel({
       {/* CSS for accent color in title */}
       <style jsx>{`
         .accent {
-          color: #26a69a;
+          color: var(--color-primary-light);
         }
       `}</style>
     </div>

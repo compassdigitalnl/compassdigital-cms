@@ -66,13 +66,13 @@ export default function LoginTemplate1({ defaultTab = 'login', siteConfig }: Log
   return (
     <div
       className="min-h-[calc(100vh-140px)] py-8 lg:py-12 px-4 sm:px-6"
-      style={{ background: 'var(--color-bg, #F5F7FA)' }}
+      style={{ background: 'var(--color-bg)' }}
     >
       <div className="mx-auto max-w-[1060px] grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
         {/* LEFT: Login form */}
         <div
           className="rounded-2xl border bg-white p-8 lg:p-10"
-          style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+          style={{ borderColor: 'var(--color-border)' }}
         >
           <LoginForm
             onSubmit={handleLogin}
@@ -86,20 +86,20 @@ export default function LoginTemplate1({ defaultTab = 'login', siteConfig }: Log
         {/* RIGHT: Register CTA */}
         <div
           className="rounded-2xl border bg-white p-8 lg:p-10"
-          style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+          style={{ borderColor: 'var(--color-border)' }}
         >
           <h2
             className="text-2xl lg:text-3xl mb-2"
             style={{
-              fontFamily: 'var(--font-heading, "DM Serif Display", serif)',
-              color: 'var(--color-foreground, #0A1628)',
+              fontFamily: 'var(--font-heading)',
+              color: 'var(--color-foreground)',
             }}
           >
             Nieuw hier?
           </h2>
           <p
             className="text-sm mb-6 leading-relaxed"
-            style={{ color: 'var(--color-muted-foreground, #94A3B8)' }}
+            style={{ color: 'var(--color-muted-foreground)' }}
           >
             {isB2B
               ? 'Maak een zakelijk account aan en profiteer direct van exclusieve voordelen.'
@@ -114,15 +114,15 @@ export default function LoginTemplate1({ defaultTab = 'login', siteConfig }: Log
                 <div key={benefit.title} className="flex items-center gap-3">
                   <div
                     className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[10px]"
-                    style={{ background: 'rgba(0,137,123,0.10)' }}
+                    style={{ background: 'var(--color-primary-glow)' }}
                   >
-                    <Icon className="h-[18px] w-[18px]" style={{ color: 'var(--color-primary, #00897B)' }} />
+                    <Icon className="h-[18px] w-[18px]" style={{ color: 'var(--color-primary)' }} />
                   </div>
                   <div>
-                    <div className="text-sm font-bold" style={{ color: 'var(--color-foreground, #0A1628)' }}>
+                    <div className="text-sm font-bold" style={{ color: 'var(--color-foreground)' }}>
                       {benefit.title}
                     </div>
-                    <div className="text-xs" style={{ color: 'var(--color-muted-foreground, #94A3B8)' }}>
+                    <div className="text-xs" style={{ color: 'var(--color-muted-foreground)' }}>
                       {benefit.description}
                     </div>
                   </div>
@@ -136,8 +136,8 @@ export default function LoginTemplate1({ defaultTab = 'login', siteConfig }: Log
             href="/klant-worden/"
             className="flex w-full items-center justify-center gap-2 rounded-lg py-3.5 px-4 text-white text-base font-bold no-underline transition-all duration-300 hover:-translate-y-0.5"
             style={{
-              background: 'var(--color-primary, #00897B)',
-              boxShadow: '0 4px 16px rgba(0,137,123,0.25)',
+              background: 'var(--color-primary)',
+              boxShadow: '0 4px 16px var(--color-primary-glow)',
             }}
           >
             {isB2B ? 'Zakelijk account aanmaken' : 'Account aanmaken'}
@@ -147,7 +147,7 @@ export default function LoginTemplate1({ defaultTab = 'login', siteConfig }: Log
           {/* Trust note */}
           <div
             className="flex items-center justify-center gap-1.5 mt-4 text-xs"
-            style={{ color: 'var(--color-muted-foreground, #94A3B8)' }}
+            style={{ color: 'var(--color-muted-foreground)' }}
           >
             <ShieldCheck className="w-3.5 h-3.5" />
             {isB2B ? 'Registratie is gratis en vrijblijvend' : 'Gratis en binnen 1 minuut aangemeld'}

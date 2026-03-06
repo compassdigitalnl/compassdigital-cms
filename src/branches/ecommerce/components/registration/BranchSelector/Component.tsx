@@ -25,11 +25,11 @@ export const BranchSelector: React.FC<BranchSelectorProps> = ({
               text-[13px] font-semibold text-theme-navy
               transition-all duration-150 cursor-pointer
               ${isActive
-                ? 'border-theme-teal bg-[rgba(0,137,123,0.12)]'
-                : 'hover:border-theme-teal hover:bg-[rgba(0,137,123,0.12)]'
+                ? 'border-theme-teal bg-[var(--color-primary-glow)]'
+                : 'hover:border-theme-teal hover:bg-[var(--color-primary-glow)]'
               }
             `}
-            style={!isActive ? { borderColor: 'var(--color-border, #E8ECF1)' } : undefined}
+            style={!isActive ? { borderColor: 'var(--color-border)' } : undefined}
           >
             <Icon className="h-6 w-6 text-theme-teal" />
             {option.label}

@@ -94,7 +94,7 @@ export const PersonalizationProductionTime: React.FC<PersonalizationProductionTi
           {personalizationDays > 0 && (
             <div className="flex items-center justify-between">
               <span className="text-[13px] text-gray-700">Personalisatie:</span>
-              <span className="text-[13px] font-semibold text-teal-600">
+              <span className="text-[13px] font-semibold text-[var(--color-primary)]">
                 +{personalizationDays} werkdag{personalizationDays !== 1 ? 'en' : ''}
               </span>
             </div>
@@ -119,22 +119,22 @@ export const PersonalizationProductionTime: React.FC<PersonalizationProductionTi
           {/* Total */}
           <div className="flex items-center justify-between">
             <span className="text-[14px] font-bold text-gray-900">Totale productietijd:</span>
-            <span className="text-[16px] font-mono font-bold text-teal-600">
+            <span className="text-[16px] font-mono font-bold text-[var(--color-primary)]">
               {totalProductionDays} werkdag{totalProductionDays !== 1 ? 'en' : ''}
             </span>
           </div>
         </div>
 
         {/* Estimated Delivery Date */}
-        <div className="p-3 bg-teal-50 rounded-lg border-2 border-teal-200">
+        <div className="p-3 bg-[var(--color-primary-glow)] rounded-lg border-2 border-[var(--color-primary-light)]">
           <div className="flex items-center gap-2 mb-1">
-            <Calendar className="w-5 h-5 text-teal-600" strokeWidth={2.5} />
-            <span className="text-[13px] font-semibold text-teal-900">Verwachte leverdatum:</span>
+            <Calendar className="w-5 h-5 text-[var(--color-primary)]" strokeWidth={2.5} />
+            <span className="text-[13px] font-semibold text-[var(--color-primary)]">Verwachte leverdatum:</span>
           </div>
-          <p className="text-[18px] font-bold text-teal-700 ml-7">
+          <p className="text-[18px] font-bold text-[var(--color-primary)] ml-7">
             {formatDate(deliveryDate)}
           </p>
-          <p className="text-[11px] text-teal-700 ml-7 mt-0.5">
+          <p className="text-[11px] text-[var(--color-primary)] ml-7 mt-0.5">
             (Indicatief, op basis van werkdagen)
           </p>
         </div>

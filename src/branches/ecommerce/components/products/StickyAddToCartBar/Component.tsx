@@ -149,8 +149,8 @@ export const StickyAddToCartBar: React.FC<StickyAddToCartBarProps> = ({
                   text-xs font-bold cursor-pointer transition-all duration-150
                   ${
                     currentVariantId === variant.id
-                      ? 'border-teal-600 bg-teal-50 text-teal-600'
-                      : 'border-gray-300 hover:border-teal-600'
+                      ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)] text-[var(--color-primary)]'
+                      : 'border-gray-300 hover:border-[var(--color-primary)]'
                   }
                   ${variant.available === false ? 'opacity-40 cursor-not-allowed' : ''}
                 `}

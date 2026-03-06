@@ -57,7 +57,7 @@ export const ParticipantSelector: React.FC<ParticipantSelectorProps> = ({
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Users className="w-5 h-5 text-teal-600" />
+          <Users className="w-5 h-5 text-[var(--color-primary)]" />
           <h3 className="text-base font-extrabold text-gray-900">
             Aantal deelnemers
           </h3>
@@ -93,7 +93,7 @@ export const ParticipantSelector: React.FC<ParticipantSelectorProps> = ({
                   </div>
                 )}
                 {showPrices && (
-                  <div className="text-xs font-semibold text-teal-600 mt-1">
+                  <div className="text-xs font-semibold text-[var(--color-primary)] mt-1">
                     €{formatPriceStr(category.price)} per persoon
                   </div>
                 )}

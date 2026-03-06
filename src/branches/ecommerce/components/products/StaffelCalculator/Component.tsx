@@ -238,7 +238,7 @@ export function StaffelCalculator({
 
         .staffel-tier.active {
           background: var(--teal-glow);
-          border-color: rgba(0, 137, 123, 0.15);
+          border-color: var(--color-primary-glow);
         }
 
         .tier-check {

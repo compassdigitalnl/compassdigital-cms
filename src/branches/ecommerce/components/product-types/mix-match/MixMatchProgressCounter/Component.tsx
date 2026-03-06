@@ -49,7 +49,7 @@ export const MixMatchProgressCounter: React.FC<MixMatchProgressCounterProps> = (
       <div className="bp-bar flex-1 h-2.5 bg-gray-100 rounded-full overflow-hidden sm:order-1 order-1">
         <div
           className={`bp-fill h-full rounded-full transition-all duration-300 ease-out ${
-            isComplete ? 'bg-green-500' : 'bg-teal-600'
+            isComplete ? 'bg-green-500' : 'bg-[var(--color-primary)]'
           }`}
           style={{ width: `${percentage}%` }}
         />
@@ -62,7 +62,7 @@ export const MixMatchProgressCounter: React.FC<MixMatchProgressCounterProps> = (
         } sm:text-left text-center`}
       >
         <em
-          className={`not-italic ${isComplete ? 'text-green-500' : 'text-teal-600'}`}
+          className={`not-italic ${isComplete ? 'text-green-500' : 'text-[var(--color-primary)]'}`}
         >
           {currentCount}
         </em>

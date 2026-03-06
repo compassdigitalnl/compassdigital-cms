@@ -34,7 +34,7 @@ export const CategoryHero: React.FC<CategoryHeroProps> = ({
       <div
         className="pointer-events-none absolute -right-[10%] -top-1/2 h-[400px] w-[400px] rounded-full"
         style={{
-          background: 'radial-gradient(circle, rgba(0, 137, 123, 0.08) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, var(--color-primary-glow) 0%, transparent 70%)',
         }}
       />
 

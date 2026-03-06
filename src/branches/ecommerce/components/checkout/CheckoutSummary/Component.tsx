@@ -35,12 +35,12 @@ export function CheckoutSummary({
         className="rounded-xl border overflow-hidden"
         style={{
           background: 'white',
-          borderColor: 'var(--color-border, #e2e8f0)',
+          borderColor: 'var(--color-border)',
           boxShadow: 'var(--shadow-lg, 0 8px 32px rgba(0,0,0,0.1))',
         }}
       >
         {/* Header */}
-        <div className="p-5" style={{ background: 'var(--color-secondary, #0a2647)' }}>
+        <div className="p-5" style={{ background: 'var(--color-secondary)' }}>
           <h3
             className="text-xl font-bold text-white"
             style={{ fontFamily: 'var(--font-heading)' }}
@@ -68,12 +68,12 @@ export function CheckoutSummary({
 
           {/* Items List */}
           {showItems && (
-            <div className="mt-3 space-y-3 pb-4 border-b" style={{ borderColor: 'var(--color-border, #e2e8f0)' }}>
+            <div className="mt-3 space-y-3 pb-4 border-b" style={{ borderColor: 'var(--color-border)' }}>
               {items.map((item) => (
                 <div key={item.id} className="flex gap-3">
                   <div
                     className="w-12 h-12 rounded-lg flex items-center justify-center text-xl flex-shrink-0"
-                    style={{ background: 'var(--color-surface, #f1f5f9)' }}
+                    style={{ background: 'var(--color-surface)' }}
                   >
                     📦
                   </div>
@@ -106,7 +106,7 @@ export function CheckoutSummary({
                       <button
                         onClick={onRemoveCoupon}
                         className="text-xs hover:underline"
-                        style={{ color: 'var(--color-error, #dc2626)' }}
+                        style={{ color: 'var(--color-error)' }}
                       >
                         &#10005;
                       </button>
@@ -114,20 +114,20 @@ export function CheckoutSummary({
                   </div>
                 }
                 value={`-\u20AC${formatPriceStr(discountAmount)}`}
-                valueColor="var(--color-success, #16a34a)"
+                valueColor="var(--color-success)"
               />
             )}
 
             <SummaryRow
               label="Verzendkosten"
               value={isFreeShipping ? 'Gratis' : `\u20AC${formatPriceStr(finalShippingCost)}`}
-              valueColor={isFreeShipping ? 'var(--color-success, #16a34a)' : undefined}
+              valueColor={isFreeShipping ? 'var(--color-success)' : undefined}
               bold={isFreeShipping}
             />
           </div>
 
           {/* Divider */}
-          <div className="h-px my-4" style={{ background: 'var(--color-border, #e2e8f0)' }} />
+          <div className="h-px my-4" style={{ background: 'var(--color-border)' }} />
 
           {/* Total */}
           <div className="flex justify-between items-baseline mb-2">
@@ -151,7 +151,7 @@ export function CheckoutSummary({
           {/* VAT label */}
           <p
             className="text-right text-xs mb-6"
-            style={{ color: 'var(--color-text-muted, #94a3b8)' }}
+            style={{ color: 'var(--color-text-muted)' }}
           >
             Prijzen {vatLabel}
           </p>
@@ -161,8 +161,8 @@ export function CheckoutSummary({
             <div
               className="p-3 rounded-lg mb-4 text-sm font-semibold text-center"
               style={{
-                background: 'var(--color-success-bg, #f0fdf4)',
-                color: 'var(--color-success, #16a34a)',
+                background: 'var(--color-success-bg)',
+                color: 'var(--color-success)',
               }}
             >
               Gratis verzending bereikt!
@@ -173,7 +173,7 @@ export function CheckoutSummary({
         {/* Footer: Payment Methods */}
         <div
           className="px-6 py-4 border-t"
-          style={{ borderColor: 'var(--color-border, #e2e8f0)' }}
+          style={{ borderColor: 'var(--color-border)' }}
         >
           <div className="flex flex-wrap justify-center gap-2">
             {['iDEAL', 'Visa', 'Mastercard', 'PayPal', 'Op rekening'].map((method) => (
@@ -181,8 +181,8 @@ export function CheckoutSummary({
                 key={method}
                 className="px-2.5 py-1 rounded text-xs font-bold"
                 style={{
-                  background: 'var(--color-surface, #f1f5f9)',
-                  color: 'var(--color-text-muted, #64748b)',
+                  background: 'var(--color-surface)',
+                  color: 'var(--color-text-muted)',
                 }}
               >
                 {method}
@@ -197,7 +197,7 @@ export function CheckoutSummary({
         className="mt-4 p-5 rounded-xl border"
         style={{
           background: 'white',
-          borderColor: 'var(--color-border, #e2e8f0)',
+          borderColor: 'var(--color-border)',
         }}
       >
         <div className="grid grid-cols-2 gap-3">
@@ -225,13 +225,13 @@ function SummaryRow({
   return (
     <div
       className="flex justify-between items-center text-sm"
-      style={{ color: 'var(--color-text-muted, #64748b)' }}
+      style={{ color: 'var(--color-text-muted)' }}
     >
       <span>{label}</span>
       <span
         className={bold ? 'font-bold' : 'font-semibold'}
         style={{
-          color: valueColor || 'var(--color-text-primary, #1e293b)',
+          color: valueColor || 'var(--color-text-primary)',
         }}
       >
         {value}
@@ -244,11 +244,11 @@ function TrustBadge({ icon, text }: { icon: string; text: string }) {
   return (
     <div
       className="flex items-center gap-2 text-xs font-semibold"
-      style={{ color: 'var(--color-text-muted, #64748b)' }}
+      style={{ color: 'var(--color-text-muted)' }}
     >
       <div
         className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-        style={{ background: 'var(--color-primary-bg, #e0f2f1)' }}
+        style={{ background: 'var(--color-primary-bg)' }}
       >
         <span className="text-sm">{icon}</span>
       </div>

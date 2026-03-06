@@ -89,9 +89,9 @@ export const VariantCardCompact: React.FC<VariantCardCompactProps> = ({
       className={`
         variant-card-compact
         relative rounded-lg border-2 transition-all duration-200
-        ${selected ? 'border-teal-600 bg-teal-50/20' : 'border-gray-300 bg-white'}
+        ${selected ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]/20' : 'border-gray-300 bg-white'}
         ${isHovered && !isOutOfStock ? 'shadow-lg -translate-y-0.5' : ''}
-        ${isOutOfStock ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer hover:border-teal-500'}
+        ${isOutOfStock ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer hover:border-[var(--color-primary)]'}
         p-3
         ${className}
       `}
@@ -106,8 +106,8 @@ export const VariantCardCompact: React.FC<VariantCardCompactProps> = ({
         className={`
           absolute top-2 left-2 w-[18px] h-[18px] rounded border-2 flex items-center justify-center
           transition-colors duration-200
-          ${selected ? 'bg-teal-600 border-teal-600' : 'bg-white border-gray-400'}
-          ${isOutOfStock ? 'cursor-not-allowed' : 'hover:border-teal-500'}
+          ${selected ? 'bg-[var(--color-primary)] border-[var(--color-primary)]' : 'bg-white border-gray-400'}
+          ${isOutOfStock ? 'cursor-not-allowed' : 'hover:border-[var(--color-primary)]'}
         `}
         aria-label={selected ? 'Deselecteer variant' : 'Selecteer variant'}
       >
@@ -163,7 +163,7 @@ export const VariantCardCompact: React.FC<VariantCardCompactProps> = ({
             disabled={quantity === 0}
             className={`
               w-10 h-11 flex items-center justify-center rounded-md border-2 transition-colors
-              ${quantity === 0 ? 'border-gray-300 text-gray-400 cursor-not-allowed' : 'border-gray-400 text-gray-700 hover:border-teal-500 hover:text-teal-600'}
+              ${quantity === 0 ? 'border-gray-300 text-gray-400 cursor-not-allowed' : 'border-gray-400 text-gray-700 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'}
             `}
             aria-label="Verminder hoeveelheid"
           >
@@ -185,7 +185,7 @@ export const VariantCardCompact: React.FC<VariantCardCompactProps> = ({
             }}
             min="0"
             max={variant.stock > 0 ? variant.stock : 999}
-            className="w-[60px] h-11 text-center text-[16px] font-mono font-bold text-gray-900 border-2 border-gray-400 rounded-md focus:outline-none focus:border-teal-500"
+            className="w-[60px] h-11 text-center text-[16px] font-mono font-bold text-gray-900 border-2 border-gray-400 rounded-md focus:outline-none focus:border-[var(--color-primary)]"
             aria-label="Hoeveelheid"
           />
 
@@ -196,7 +196,7 @@ export const VariantCardCompact: React.FC<VariantCardCompactProps> = ({
             disabled={variant.stock > 0 && quantity >= variant.stock}
             className={`
               w-10 h-11 flex items-center justify-center rounded-md border-2 transition-colors
-              ${variant.stock > 0 && quantity >= variant.stock ? 'border-gray-300 text-gray-400 cursor-not-allowed' : 'border-gray-400 text-gray-700 hover:border-teal-500 hover:text-teal-600'}
+              ${variant.stock > 0 && quantity >= variant.stock ? 'border-gray-300 text-gray-400 cursor-not-allowed' : 'border-gray-400 text-gray-700 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'}
             `}
             aria-label="Verhoog hoeveelheid"
           >

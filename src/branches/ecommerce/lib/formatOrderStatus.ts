@@ -8,20 +8,20 @@ export interface OrderStatusInfo {
 const statusMap: Record<string, OrderStatusInfo> = {
   pending: {
     label: 'In afwachting',
-    color: '#94A3B8',
+    color: 'var(--color-grey-mid)',
     bg: '#F5F7FA',
     border: '#E8ECF1',
   },
   paid: {
     label: 'Betaald',
-    color: '#00897B',
+    color: 'var(--color-primary)',
     bg: '#E0F2F1',
     border: '#80CBC4',
   },
   processing: {
     label: 'In behandeling',
-    color: '#F59E0B',
-    bg: '#FFF8E1',
+    color: 'var(--color-warning)',
+    bg: 'var(--color-warning-light)',
     border: '#FFE082',
   },
   shipped: {
@@ -32,13 +32,13 @@ const statusMap: Record<string, OrderStatusInfo> = {
   },
   delivered: {
     label: 'Afgeleverd',
-    color: '#00C853',
-    bg: '#E8F5E9',
+    color: 'var(--color-success)',
+    bg: 'var(--color-success-light)',
     border: '#A5D6A7',
   },
   cancelled: {
     label: 'Geannuleerd',
-    color: '#EF4444',
+    color: 'var(--color-error)',
     bg: '#FEF2F2',
     border: '#FECACA',
   },
@@ -60,19 +60,19 @@ export function formatOrderStatus(status: string): OrderStatusInfo {
 const paymentStatusMap: Record<string, OrderStatusInfo> = {
   pending: {
     label: 'In afwachting',
-    color: '#F59E0B',
-    bg: '#FFF8E1',
+    color: 'var(--color-warning)',
+    bg: 'var(--color-warning-light)',
     border: '#FFE082',
   },
   paid: {
     label: 'Betaald',
-    color: '#00C853',
-    bg: '#E8F5E9',
+    color: 'var(--color-success)',
+    bg: 'var(--color-success-light)',
     border: '#A5D6A7',
   },
   failed: {
     label: 'Mislukt',
-    color: '#EF4444',
+    color: 'var(--color-error)',
     bg: '#FEF2F2',
     border: '#FECACA',
   },

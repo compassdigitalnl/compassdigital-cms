@@ -11,7 +11,7 @@ export function CurrentPlanCard({ subscription }: CurrentPlanCardProps) {
       {/* Plan header */}
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
+          <div className="w-12 h-12 bg-[var(--color-primary-glow)] rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
             {plan.icon}
           </div>
           <div>

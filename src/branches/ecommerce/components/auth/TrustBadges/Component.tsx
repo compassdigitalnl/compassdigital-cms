@@ -55,7 +55,7 @@ export function TrustBadges({
         ${className}
       `}
       style={{
-        borderColor: 'var(--color-border, #E8ECF1)',
+        borderColor: 'var(--color-border)',
       }}
     >
       {badges.map((badge, index) => (
@@ -63,7 +63,7 @@ export function TrustBadges({
           key={index}
           className="flex items-center gap-1.5 text-[11px] font-semibold tracking-wide"
           style={{
-            color: 'var(--color-text-muted, #94A3B8)',
+            color: 'var(--color-text-muted)',
           }}
         >
           {/* Icon */}

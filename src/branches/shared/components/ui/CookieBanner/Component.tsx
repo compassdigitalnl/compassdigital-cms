@@ -285,8 +285,8 @@ export function CookieBanner({
           left: 50%;
           transform: translateX(-50%) translateY(120%);
           z-index: var(--z-modal);
-          background: var(--white);
-          border: 1px solid var(--grey);
+          background: var(--color-surface);
+          border: 1px solid var(--color-border);
           border-radius: 20px;
           box-shadow: var(--shadow-lg);
           width: 520px;
@@ -306,10 +306,10 @@ export function CookieBanner({
         }
 
         .cb-title {
-          font-family: var(--font-display);
+          font-family: var(--font-heading);
           font-size: 17px;
           font-weight: 800;
-          color: var(--navy);
+          color: var(--color-secondary);
           margin-bottom: 6px;
           display: flex;
           align-items: center;
@@ -322,13 +322,13 @@ export function CookieBanner({
 
         .cb-text {
           font-size: 14px;
-          color: var(--grey-dark);
+          color: var(--color-grey-dark);
           line-height: 1.5;
           margin-bottom: var(--sp-4);
         }
 
         .cb-link {
-          color: var(--teal);
+          color: var(--color-primary);
           text-decoration: underline;
           text-underline-offset: 2px;
           background: none;
@@ -340,7 +340,7 @@ export function CookieBanner({
         }
 
         .cb-link:hover {
-          color: var(--teal-dark);
+          color: var(--color-primary);
         }
 
         .cb-actions {
@@ -352,7 +352,7 @@ export function CookieBanner({
           flex: 1;
           height: 44px;
           border-radius: 10px;
-          font-family: var(--font);
+          font-family: var(--font-body);
           font-size: 14px;
           font-weight: 700;
           cursor: pointer;
@@ -361,23 +361,23 @@ export function CookieBanner({
         }
 
         .cb-btn.accept {
-          background: var(--teal);
-          color: var(--white);
+          background: var(--color-primary);
+          color: var(--color-surface);
         }
 
         .cb-btn.accept:hover {
-          background: var(--navy);
+          background: var(--color-secondary);
         }
 
         .cb-btn.essential {
-          background: var(--grey-light);
-          color: var(--navy);
-          border: 1.5px solid var(--grey);
+          background: var(--color-grey-light);
+          color: var(--color-secondary);
+          border: 1.5px solid var(--color-border);
         }
 
         .cb-btn.essential:hover {
-          border-color: var(--teal);
-          color: var(--teal);
+          border-color: var(--color-primary);
+          color: var(--color-primary);
         }
 
         @media (max-width: 640px) {

@@ -38,7 +38,7 @@ export const AddOnSelector: React.FC<AddOnSelectorProps> = ({
     <div className={`addon-selector ${className}`}>
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
-        <Package className="w-5 h-5 text-teal-600" />
+        <Package className="w-5 h-5 text-[var(--color-primary)]" />
         <h3 className="text-base font-extrabold text-gray-900">
           Extra opties
         </h3>
@@ -59,7 +59,7 @@ export const AddOnSelector: React.FC<AddOnSelectorProps> = ({
                 addon-item relative p-4 rounded-xl border-[1.5px] transition-all text-left
                 ${layout === 'list' ? 'flex items-center gap-3' : 'flex flex-col'}
                 ${isRequired ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
-                ${isSelected && !isRequired ? 'bg-teal-50 border-teal-600' : 'bg-white border-gray-200'}
+                ${isSelected && !isRequired ? 'bg-[var(--color-primary-glow)] border-[var(--color-primary)]' : 'bg-white border-gray-200'}
                 ${!isSelected && !isRequired ? 'hover:border-gray-300 hover:shadow-sm' : ''}
               `}
             >
@@ -67,7 +67,7 @@ export const AddOnSelector: React.FC<AddOnSelectorProps> = ({
               <div
                 className={`
                   w-5 h-5 rounded border-[1.5px] flex items-center justify-center flex-shrink-0 transition-colors
-                  ${isSelected ? 'bg-teal-600 border-teal-600' : 'bg-white border-gray-300'}
+                  ${isSelected ? 'bg-[var(--color-primary)] border-[var(--color-primary)]' : 'bg-white border-gray-300'}
                   ${isRequired ? 'opacity-50' : ''}
                 `}
               >
@@ -97,7 +97,7 @@ export const AddOnSelector: React.FC<AddOnSelectorProps> = ({
                 )}
 
                 {/* Price */}
-                <div className={`text-sm font-bold font-mono ${isSelected ? 'text-teal-600' : 'text-gray-700'}`}>
+                <div className={`text-sm font-bold font-mono ${isSelected ? 'text-[var(--color-primary)]' : 'text-gray-700'}`}>
                   {addOn.price === 0 ? 'Gratis' : `+€${formatPriceStr(addOn.price)}`}
                 </div>
               </div>

@@ -50,7 +50,7 @@ export const MixMatchHeader: React.FC<MixMatchHeaderProps> = ({
     return (
       <h1 className="mmh-title">
         {parts[0]}
-        <em className="text-teal-400 not-italic">{highlightedText}</em>
+        <em className="text-[var(--color-primary-light)] not-italic">{highlightedText}</em>
         {parts[1]}
       </h1>
     )
@@ -62,7 +62,7 @@ export const MixMatchHeader: React.FC<MixMatchHeaderProps> = ({
       <div
         className="absolute -top-20 -right-10 w-[400px] h-[400px] pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(0, 137, 123, 0.1), transparent 70%)',
+          background: 'radial-gradient(circle, var(--color-primary-glow), transparent 70%)',
           borderRadius: '50%',
         }}
       />
@@ -76,7 +76,7 @@ export const MixMatchHeader: React.FC<MixMatchHeaderProps> = ({
           {/* Left content */}
           <div className="mmh-left flex-1">
             {/* Badge */}
-            <div className="mmh-badge inline-flex items-center gap-1 bg-teal-500/10 border border-teal-500/20 px-3 py-1 rounded-full text-xs font-bold text-teal-400 mb-1.5">
+            <div className="mmh-badge inline-flex items-center gap-1 bg-[var(--color-primary-glow)]0/10 border border-[var(--color-primary)]/20 px-3 py-1 rounded-full text-xs font-bold text-[var(--color-primary-light)] mb-1.5">
               {badgeIcon}
               {badgeText}
             </div>
@@ -100,7 +100,7 @@ export const MixMatchHeader: React.FC<MixMatchHeaderProps> = ({
                     index < stats.length - 1 ? 'border-r border-white/5' : ''
                   }`}
                 >
-                  <div className="mmhs-num text-[28px] font-extrabold text-teal-400 leading-none mb-0.5">
+                  <div className="mmhs-num text-[28px] font-extrabold text-[var(--color-primary-light)] leading-none mb-0.5">
                     {stat.value}
                   </div>
                   <div className="mmhs-label text-[11px] text-white/30 whitespace-nowrap">
@@ -118,7 +118,7 @@ export const MixMatchHeader: React.FC<MixMatchHeaderProps> = ({
           background: linear-gradient(135deg, #0a1628, #121f33);
         }
         .mmh-title {
-          font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+          font-family: var(--font-heading);
           font-size: 30px;
           font-weight: 800;
           color: white;

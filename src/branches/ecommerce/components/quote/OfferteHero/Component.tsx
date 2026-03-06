@@ -73,7 +73,7 @@ export function OfferteHero({
           height: 400px;
           background: radial-gradient(
             circle,
-            rgba(0, 137, 123, 0.15) 0%,
+            var(--color-primary-glow) 0%,
             rgba(0, 137, 123, 0) 70%
           );
           pointer-events: none;

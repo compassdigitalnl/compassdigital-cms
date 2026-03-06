@@ -38,10 +38,10 @@ const iconMap: Record<string, React.ComponentType<{ className?: string; style?: 
 }
 
 const colorMap = {
-  teal: { bg: 'rgba(0,137,123,0.15)', color: '#00897B' },
+  teal: { bg: 'var(--color-primary-glow)', color: 'var(--color-primary)' },
   blue: { bg: '#E3F2FD', color: '#2196F3' },
-  amber: { bg: '#FFF8E1', color: '#F59E0B' },
-  green: { bg: '#E8F5E9', color: '#00C853' },
+  amber: { bg: 'var(--color-warning-light)', color: 'var(--color-warning)' },
+  green: { bg: 'var(--color-success-light)', color: 'var(--color-success)' },
 }
 
 function calculateListTotal(list: OrderList): number {
@@ -140,9 +140,9 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
         <div className="text-center">
           <div
             className="w-12 h-12 rounded-full border-4 border-t-transparent animate-spin mx-auto mb-4"
-            style={{ borderColor: '#00897B', borderTopColor: 'transparent' }}
+            style={{ borderColor: 'var(--color-primary)', borderTopColor: 'transparent' }}
           />
-          <p style={{ fontSize: '14px', color: '#94A3B8' }}>Bestellijsten laden...</p>
+          <p style={{ fontSize: '14px', color: 'var(--color-grey-mid)' }}>Bestellijsten laden...</p>
         </div>
       </div>
     )
@@ -152,9 +152,9 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
     return (
       <div
         className="rounded-2xl p-6 text-center"
-        style={{ background: '#FFF0F0', border: '1px solid #FF6B6B' }}
+        style={{ background: 'var(--color-error-light)', border: '1px solid var(--color-error)' }}
       >
-        <p style={{ fontSize: '14px', color: '#FF6B6B', fontWeight: 600 }}>
+        <p style={{ fontSize: '14px', color: 'var(--color-error)', fontWeight: 600 }}>
           Fout bij laden: {error}
         </p>
         <button
@@ -178,12 +178,12 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
               fontFamily: 'Plus Jakarta Sans, sans-serif',
               fontSize: '28px',
               fontWeight: 800,
-              color: '#0A1628',
+              color: 'var(--color-secondary)',
             }}
           >
-            <ClipboardList className="w-7 h-7" style={{ color: '#00897B' }} />
+            <ClipboardList className="w-7 h-7" style={{ color: 'var(--color-primary)' }} />
             Bestellijsten
-            <span style={{ fontSize: '16px', color: '#94A3B8', fontWeight: 500 }}>
+            <span style={{ fontSize: '16px', color: 'var(--color-grey-mid)', fontWeight: 500 }}>
               ({stats.activeLists})
             </span>
           </h1>
@@ -208,21 +208,21 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
       {/* Overview Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div className="rounded-2xl p-5 flex items-center gap-4" style={{ background: 'white', border: '1px solid #E8ECF1' }}>
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(0,137,123,0.15)' }}>
-            <ClipboardList className="w-5 h-5" style={{ color: '#00897B' }} />
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'var(--color-primary-glow)' }}>
+            <ClipboardList className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
           </div>
           <div>
-            <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '24px', fontWeight: 800, color: '#0A1628' }}>{stats.activeLists}</div>
-            <div style={{ fontSize: '13px', color: '#94A3B8' }}>Actieve lijsten</div>
+            <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '24px', fontWeight: 800, color: 'var(--color-secondary)' }}>{stats.activeLists}</div>
+            <div style={{ fontSize: '13px', color: 'var(--color-grey-mid)' }}>Actieve lijsten</div>
           </div>
         </div>
         <div className="rounded-2xl p-5 flex items-center gap-4" style={{ background: 'white', border: '1px solid #E8ECF1' }}>
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: '#E8F5E9' }}>
-            <Package className="w-5 h-5" style={{ color: '#00C853' }} />
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'var(--color-success-light)' }}>
+            <Package className="w-5 h-5" style={{ color: 'var(--color-success)' }} />
           </div>
           <div>
-            <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '24px', fontWeight: 800, color: '#0A1628' }}>{stats.totalProducts}</div>
-            <div style={{ fontSize: '13px', color: '#94A3B8' }}>Producten totaal</div>
+            <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '24px', fontWeight: 800, color: 'var(--color-secondary)' }}>{stats.totalProducts}</div>
+            <div style={{ fontSize: '13px', color: 'var(--color-grey-mid)' }}>Producten totaal</div>
           </div>
         </div>
         <div className="rounded-2xl p-5 flex items-center gap-4" style={{ background: 'white', border: '1px solid #E8ECF1' }}>
@@ -230,8 +230,8 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
             <Users className="w-5 h-5" style={{ color: '#2196F3' }} />
           </div>
           <div>
-            <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '24px', fontWeight: 800, color: '#0A1628' }}>{stats.sharedLists}</div>
-            <div style={{ fontSize: '13px', color: '#94A3B8' }}>Gedeelde lijsten</div>
+            <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '24px', fontWeight: 800, color: 'var(--color-secondary)' }}>{stats.sharedLists}</div>
+            <div style={{ fontSize: '13px', color: 'var(--color-grey-mid)' }}>Gedeelde lijsten</div>
           </div>
         </div>
       </div>
@@ -240,21 +240,21 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
       <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
         <div className="flex items-center gap-3 flex-1">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#94A3B8' }} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--color-grey-mid)' }} />
             <input
               type="text"
               placeholder="Zoek bestellijst…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 pr-4 py-2.5 rounded-xl transition-all focus:outline-none focus:border-teal-700"
+              className="pl-10 pr-4 py-2.5 rounded-xl transition-all focus:outline-none focus:border-[var(--color-primary)]"
               style={{ background: 'white', border: '1.5px solid #E8ECF1', fontFamily: 'DM Sans, sans-serif', fontSize: '13px', width: '240px' }}
             />
           </div>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-3.5 py-2.5 rounded-xl font-semibold cursor-pointer transition-all focus:outline-none focus:border-teal-700"
-            style={{ background: 'white', border: '1.5px solid #E8ECF1', fontFamily: 'DM Sans, sans-serif', fontSize: '13px', color: '#0A1628' }}
+            className="px-3.5 py-2.5 rounded-xl font-semibold cursor-pointer transition-all focus:outline-none focus:border-[var(--color-primary)]"
+            style={{ background: 'white', border: '1.5px solid #E8ECF1', fontFamily: 'DM Sans, sans-serif', fontSize: '13px', color: 'var(--color-secondary)' }}
           >
             <option value="updated">Laatste wijziging</option>
             <option value="name-asc">Naam A-Z</option>
@@ -267,16 +267,16 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
           <button
             onClick={() => setViewMode('grid')}
             className="w-9 h-9 flex items-center justify-center transition-all"
-            style={{ background: viewMode === 'grid' ? 'rgba(0,137,123,0.15)' : 'white', borderRight: '1px solid #E8ECF1' }}
+            style={{ background: viewMode === 'grid' ? 'var(--color-primary-glow)' : 'white', borderRight: '1px solid #E8ECF1' }}
           >
-            <Grid3x3 className="w-4 h-4" style={{ color: viewMode === 'grid' ? '#00897B' : '#94A3B8' }} />
+            <Grid3x3 className="w-4 h-4" style={{ color: viewMode === 'grid' ? 'var(--color-primary)' : 'var(--color-grey-mid)' }} />
           </button>
           <button
             onClick={() => setViewMode('list')}
             className="w-9 h-9 flex items-center justify-center transition-all"
-            style={{ background: viewMode === 'list' ? 'rgba(0,137,123,0.15)' : 'white' }}
+            style={{ background: viewMode === 'list' ? 'var(--color-primary-glow)' : 'white' }}
           >
-            <List className="w-4 h-4" style={{ color: viewMode === 'list' ? '#00897B' : '#94A3B8' }} />
+            <List className="w-4 h-4" style={{ color: viewMode === 'list' ? 'var(--color-primary)' : 'var(--color-grey-mid)' }} />
           </button>
         </div>
       </div>
@@ -294,23 +294,23 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
               href={`/account/lists/${list.id}`}
               className="block rounded-2xl p-6 transition-all hover:-translate-y-1"
               style={{ background: 'white', border: '1.5px solid #E8ECF1', boxShadow: 'none' }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(0,137,123,0.3)'; e.currentTarget.style.boxShadow = '0 8px 28px rgba(0,0,0,0.05)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--color-primary-glow)'; e.currentTarget.style.boxShadow = '0 8px 28px rgba(0,0,0,0.05)' }}
               onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#E8ECF1'; e.currentTarget.style.boxShadow = 'none' }}
             >
               <div className="flex items-start gap-3.5 mb-4">
                 {renderIcon(list.icon, list.color)}
                 <div className="flex-1 min-w-0">
-                  <div className="font-extrabold mb-0.5" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '17px', color: '#0A1628' }}>
+                  <div className="font-extrabold mb-0.5" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '17px', color: 'var(--color-secondary)' }}>
                     {list.name}
                   </div>
-                  <div className="flex gap-3 flex-wrap" style={{ fontSize: '13px', color: '#94A3B8' }}>
+                  <div className="flex gap-3 flex-wrap" style={{ fontSize: '13px', color: 'var(--color-grey-mid)' }}>
                     <span className="flex items-center gap-1"><Package className="w-3 h-3" />{list.itemCount} producten</span>
                     <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{formatRelativeTime(list.updatedAt)}</span>
                   </div>
                   {(list.isPinned || list.shareWith.length > 0) && (
                     <div className="flex gap-1.5 mt-1.5">
                       {list.isPinned && (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded" style={{ background: '#FFF8E1', color: '#F59E0B', fontSize: '11px', fontWeight: 600 }}>
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded" style={{ background: 'var(--color-warning-light)', color: 'var(--color-warning)', fontSize: '11px', fontWeight: 600 }}>
                           <Pin className="w-2.5 h-2.5" />Vastgepind
                         </span>
                       )}
@@ -325,10 +325,10 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
                 <div className="relative" ref={openDropdown === list.id ? dropdownRef : undefined}>
                   <button
                     onClick={(e) => { e.preventDefault(); setOpenDropdown(openDropdown === list.id ? null : list.id) }}
-                    className="w-8 h-8 rounded-lg flex items-center justify-center transition-all hover:border-teal-700 hover:bg-teal-50"
+                    className="w-8 h-8 rounded-lg flex items-center justify-center transition-all hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-glow)]"
                     style={{ background: 'white', border: '1px solid #E8ECF1' }}
                   >
-                    <MoreVertical className="w-4 h-4" style={{ color: '#94A3B8' }} />
+                    <MoreVertical className="w-4 h-4" style={{ color: 'var(--color-grey-mid)' }} />
                   </button>
                   {openDropdown === list.id && (
                     <div
@@ -338,32 +338,32 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
                       <button
                         onClick={(e) => { e.preventDefault(); setOpenDropdown(null); window.location.href = `/account/lists/${list.id}` }}
                         className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-gray-50"
-                        style={{ fontSize: '13px', color: '#0A1628' }}
+                        style={{ fontSize: '13px', color: 'var(--color-secondary)' }}
                       >
-                        <Eye className="w-4 h-4" style={{ color: '#94A3B8' }} />
+                        <Eye className="w-4 h-4" style={{ color: 'var(--color-grey-mid)' }} />
                         Bekijken
                       </button>
                       <button
                         onClick={(e) => { e.preventDefault(); setOpenDropdown(null); onDuplicateList?.(list.id) }}
                         className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-gray-50"
-                        style={{ fontSize: '13px', color: '#0A1628' }}
+                        style={{ fontSize: '13px', color: 'var(--color-secondary)' }}
                       >
-                        <Copy className="w-4 h-4" style={{ color: '#94A3B8' }} />
+                        <Copy className="w-4 h-4" style={{ color: 'var(--color-grey-mid)' }} />
                         Dupliceren
                       </button>
                       <button
                         onClick={(e) => { e.preventDefault(); setOpenDropdown(null); onTogglePin?.(list.id) }}
                         className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-gray-50"
-                        style={{ fontSize: '13px', color: '#0A1628' }}
+                        style={{ fontSize: '13px', color: 'var(--color-secondary)' }}
                       >
-                        <Pin className="w-4 h-4" style={{ color: '#94A3B8' }} />
+                        <Pin className="w-4 h-4" style={{ color: 'var(--color-grey-mid)' }} />
                         {list.isPinned ? 'Losmaken' : 'Vastpinnen'}
                       </button>
                       <div style={{ borderTop: '1px solid #E8ECF1', margin: '4px 0' }} />
                       <button
                         onClick={(e) => { e.preventDefault(); setOpenDropdown(null); onDeleteList?.(list.id) }}
                         className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-red-50"
-                        style={{ fontSize: '13px', color: '#FF6B6B' }}
+                        style={{ fontSize: '13px', color: 'var(--color-error)' }}
                       >
                         <Trash2 className="w-4 h-4" />
                         Verwijderen
@@ -380,16 +380,16 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
                   </div>
                 ))}
                 {remainingCount > 0 && (
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center font-bold" style={{ background: '#F5F7FA', border: '1px solid #E8ECF1', fontSize: '12px', color: '#94A3B8' }}>
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center font-bold" style={{ background: '#F5F7FA', border: '1px solid #E8ECF1', fontSize: '12px', color: 'var(--color-grey-mid)' }}>
                     +{remainingCount}
                   </div>
                 )}
               </div>
 
               <div className="flex items-center justify-between pt-4" style={{ borderTop: '1px solid #E8ECF1' }}>
-                <div style={{ fontSize: '13px', color: '#94A3B8' }}>
+                <div style={{ fontSize: '13px', color: 'var(--color-grey-mid)' }}>
                   Waarde:{' '}
-                  <strong style={{ color: '#0A1628', fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '16px', fontWeight: 800 }}>
+                  <strong style={{ color: 'var(--color-secondary)', fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '16px', fontWeight: 800 }}>
                     €{formatPriceStr(totalValue)}
                   </strong>
                 </div>
@@ -415,16 +415,16 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
         {/* New List Card */}
         <Link
           href="/account/lists/new/"
-          className="flex flex-col items-center justify-center rounded-2xl p-6 transition-all hover:border-teal-700 hover:bg-teal-50"
+          className="flex flex-col items-center justify-center rounded-2xl p-6 transition-all hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-glow)]"
           style={{ background: '#F5F7FA', border: '2px dashed #E8ECF1', minHeight: '200px' }}
         >
           <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-3" style={{ background: 'white', border: '1.5px solid #E8ECF1' }}>
-            <Plus className="w-6 h-6" style={{ color: '#00897B' }} />
+            <Plus className="w-6 h-6" style={{ color: 'var(--color-primary)' }} />
           </div>
-          <div className="font-bold mb-1" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '16px', color: '#0A1628' }}>
+          <div className="font-bold mb-1" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '16px', color: 'var(--color-secondary)' }}>
             Nieuwe bestellijst
           </div>
-          <div style={{ fontSize: '13px', color: '#94A3B8' }}>
+          <div style={{ fontSize: '13px', color: 'var(--color-grey-mid)' }}>
             Maak een lijst per afdeling, locatie of doel
           </div>
         </Link>
@@ -433,13 +433,13 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
       {/* Empty State */}
       {filteredAndSortedLists.length === 0 && !loading && (
         <div className="rounded-2xl p-12 text-center" style={{ background: 'white' }}>
-          <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ background: 'rgba(0,137,123,0.15)' }}>
-            <ClipboardList className="w-8 h-8" style={{ color: '#00897B' }} />
+          <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ background: 'var(--color-primary-glow)' }}>
+            <ClipboardList className="w-8 h-8" style={{ color: 'var(--color-primary)' }} />
           </div>
-          <h3 className="font-extrabold mb-2" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '18px', color: '#0A1628' }}>
+          <h3 className="font-extrabold mb-2" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '18px', color: 'var(--color-secondary)' }}>
             {searchQuery ? 'Geen bestellijsten gevonden' : 'Nog geen bestellijsten'}
           </h3>
-          <p className="mb-5" style={{ fontSize: '14px', color: '#94A3B8' }}>
+          <p className="mb-5" style={{ fontSize: '14px', color: 'var(--color-grey-mid)' }}>
             {searchQuery
               ? `Geen resultaten voor "${searchQuery}"`
               : 'Maak een bestellijst aan om producten te groeperen voor snelle herhaalbestellingen.'}

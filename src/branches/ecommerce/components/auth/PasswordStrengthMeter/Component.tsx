@@ -76,21 +76,21 @@ export function PasswordStrengthMeter({
         level: 'weak',
         label: 'ZWAK WACHTWOORD',
         width: '33%',
-        color: '#FF6B6B', // coral
+        color: 'var(--color-error)', // coral
       }
     } else if (score <= 4) {
       return {
         level: 'medium',
         label: 'GEMIDDELD WACHTWOORD',
         width: '66%',
-        color: '#F59E0B', // amber
+        color: 'var(--color-warning)', // amber
       }
     } else {
       return {
         level: 'strong',
         label: 'STERK WACHTWOORD',
         width: '100%',
-        color: 'var(--color-primary, #00897B)', // teal
+        color: 'var(--color-primary)', // teal
       }
     }
   }, [password, minLength])
@@ -127,7 +127,7 @@ export function PasswordStrengthMeter({
       {/* Progress Bar */}
       <div
         className="h-1 rounded-sm overflow-hidden mb-1"
-        style={{ background: 'var(--color-border, #E8ECF1)' }}
+        style={{ background: 'var(--color-border)' }}
       >
         <div
           className="h-full rounded-sm transition-all duration-300 ease-out"
@@ -159,7 +159,7 @@ export function PasswordStrengthMeter({
               <span
                 className={req.met ? 'text-green-600 font-medium' : ''}
                 style={{
-                  color: req.met ? undefined : 'var(--color-text-muted, #94A3B8)',
+                  color: req.met ? undefined : 'var(--color-text-muted)',
                 }}
               >
                 {req.label}

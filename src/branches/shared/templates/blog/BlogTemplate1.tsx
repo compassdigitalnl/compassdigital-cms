@@ -72,7 +72,7 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
         {/* ═══ MAIN CONTENT ═══ */}
         <main>
           {/* Hero Image/Emoji */}
-          <div className="relative w-full h-[360px] rounded-3xl bg-gradient-to-br from-teal-50 to-teal-100 flex items-center justify-center text-8xl mb-7 overflow-hidden">
+          <div className="relative w-full h-[360px] rounded-3xl bg-gradient-to-br from-[var(--color-primary-glow)] to-[var(--color-primary-glow)] flex items-center justify-center text-8xl mb-7 overflow-hidden">
             {/* Featured Tag Badge */}
             {featuredTag && (
               <div
@@ -91,7 +91,7 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
           {/* Meta Bar */}
           <div className="flex items-center gap-4 flex-wrap mb-6">
             {/* Category Badge */}
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold text-teal-600 bg-teal-50 border border-teal-100">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold text-[var(--color-primary)] bg-[var(--color-primary-glow)] border border-[var(--color-primary-glow)]">
               <Icon name="Tag" size={13} />
               {categoryName}
             </span>
@@ -151,7 +151,7 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
                   <Link
                     key={index}
                     href={`/blog?tag=${encodeURIComponent(tagItem.tag || '')}`}
-                    className="px-4 py-2 rounded-full text-xs font-semibold text-gray-600 bg-gray-100 border border-gray-200 hover:border-teal-500 hover:text-teal-600 hover:bg-teal-50 transition-all"
+                    className="px-4 py-2 rounded-full text-xs font-semibold text-gray-600 bg-gray-100 border border-gray-200 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-glow)] transition-all"
                   >
                     {tagItem.tag}
                   </Link>
@@ -189,7 +189,7 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
           {relatedProducts && relatedProducts.length > 0 && (
             <div className="bg-white border border-gray-200 rounded-2xl p-5">
               <div className="flex items-center gap-2 font-extrabold text-sm text-gray-900 mb-4">
-                <Icon name="Package" size={16} className="text-teal-600" />
+                <Icon name="Package" size={16} className="text-[var(--color-primary)]" />
                 Gerelateerde producten
               </div>
 
@@ -214,7 +214,7 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
                       {/* Product Info */}
                       <div className="flex-1 min-w-0">
                         {prod.brand && (
-                          <div className="text-xs font-bold uppercase tracking-wide text-teal-600">
+                          <div className="text-xs font-bold uppercase tracking-wide text-[var(--color-primary)]">
                             {typeof prod.brand === 'object' ? prod.brand.name : prod.brand}
                           </div>
                         )}
@@ -238,7 +238,7 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
 
           {/* CTA Card */}
           <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 text-center relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-teal-500/10 rounded-full blur-2xl" />
+            <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-primary-glow)]0/10 rounded-full blur-2xl" />
             <div className="relative z-10">
               <h4 className="text-lg font-extrabold text-white mb-2">Producten nodig?</h4>
               <p className="text-sm text-white/60 mb-4">

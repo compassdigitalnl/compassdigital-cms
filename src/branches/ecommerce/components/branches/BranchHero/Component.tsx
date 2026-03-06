@@ -23,7 +23,7 @@ export const BranchHero: React.FC<BranchHeroProps> = ({
       <div
         className="pointer-events-none absolute -top-[60px] right-[100px] h-[300px] w-[300px] rounded-full"
         style={{
-          background: 'radial-gradient(circle, rgba(0,137,123,0.08), transparent 70%)',
+          background: 'radial-gradient(circle, var(--color-primary-glow), transparent 70%)',
         }}
       />
 
@@ -31,7 +31,7 @@ export const BranchHero: React.FC<BranchHeroProps> = ({
         {/* Text section */}
         <div>
           {/* Badge */}
-          <div className="mb-3.5 inline-flex items-center gap-1.5 rounded-full border border-[rgba(0,137,123,0.25)] bg-[rgba(0,137,123,0.15)] px-3.5 py-1.5 text-xs font-bold text-theme-teal-light">
+          <div className="mb-3.5 inline-flex items-center gap-1.5 rounded-full border border-[var(--color-primary-glow)] bg-[var(--color-primary-glow)] px-3.5 py-1.5 text-xs font-bold text-theme-teal-light">
             <Building2 className="h-3.5 w-3.5" />
             {badge}
           </div>

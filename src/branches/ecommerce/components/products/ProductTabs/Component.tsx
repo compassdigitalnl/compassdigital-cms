@@ -230,7 +230,7 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
         .tabs-nav {
           display: flex;
           gap: 4px;
-          border-bottom: 2px solid var(--color-border, #E8ECF1);
+          border-bottom: 2px solid var(--color-border);
           padding-bottom: 0;
           overflow-x: auto;
           overflow-y: hidden;
@@ -247,8 +247,8 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
           padding: 10px 20px;
           font-size: 14px;
           font-weight: 700;
-          font-family: var(--font-heading, 'Plus Jakarta Sans', system-ui, sans-serif);
-          color: var(--color-text-muted, #94A3B8);
+          font-family: var(--font-heading);
+          color: var(--color-text-muted);
           background: none;
           border: none;
           border-bottom: 2px solid transparent;
@@ -259,23 +259,23 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
           position: relative;
         }
         .tab-btn:hover {
-          color: var(--color-text-primary, #0A1628);
+          color: var(--color-text-primary);
         }
         .tab-btn:focus {
           outline: none;
-          box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary, #00897B) 12%, transparent);
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 12%, transparent);
           border-radius: 8px 8px 0 0;
         }
         .tab-btn.active {
-          color: var(--color-primary, #00897B);
-          border-bottom-color: var(--color-primary, #00897B);
+          color: var(--color-primary);
+          border-bottom-color: var(--color-primary);
         }
 
         /* Tab Badge */
         .tab-badge {
           display: inline-block;
-          background: var(--color-background, #F1F4F8);
-          color: var(--color-text-muted, #94A3B8);
+          background: var(--color-background);
+          color: var(--color-text-muted);
           font-size: 11px;
           font-weight: 700;
           padding: 2px 6px;
@@ -284,15 +284,15 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
           transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .tab-btn.active .tab-badge {
-          background: color-mix(in srgb, var(--color-primary, #00897B) 12%, transparent);
-          color: var(--color-primary, #00897B);
+          background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+          color: var(--color-primary);
         }
 
         /* Tab Content Panel */
         .tab-panel {
           padding: 20px 0;
           font-size: 14px;
-          color: var(--color-text-primary, #0A1628);
+          color: var(--color-text-primary);
           line-height: 1.7;
           display: none;
         }
@@ -322,8 +322,8 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
         .tab-spinner {
           width: 32px;
           height: 32px;
-          border: 3px solid var(--color-background, #F1F4F8);
-          border-top-color: var(--color-primary, #00897B);
+          border: 3px solid var(--color-background);
+          border-top-color: var(--color-primary);
           border-radius: 50%;
           animation: pdTabsSpin 0.8s linear infinite;
         }
@@ -333,7 +333,7 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
 
         /* ── Accordion (Mobile) ── */
         .accordion-item {
-          border: 1px solid var(--color-border, #E8ECF1);
+          border: 1px solid var(--color-border);
           border-radius: 8px;
           margin-bottom: 8px;
           overflow: hidden;
@@ -343,22 +343,22 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
           align-items: center;
           justify-content: space-between;
           padding: 16px;
-          background: var(--color-surface, #FAFBFC);
+          background: var(--color-surface);
           border: none;
           width: 100%;
           cursor: pointer;
-          font-family: var(--font-heading, 'Plus Jakarta Sans', system-ui, sans-serif);
+          font-family: var(--font-heading);
           font-size: 14px;
           font-weight: 700;
-          color: var(--color-text-secondary, #64748B);
+          color: var(--color-text-secondary);
           transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .accordion-header:hover {
-          background: var(--color-background, #F1F4F8);
+          background: var(--color-background);
         }
         .accordion-header.active {
-          color: var(--color-primary, #00897B);
-          background: color-mix(in srgb, var(--color-primary, #00897B) 12%, transparent);
+          color: var(--color-primary);
+          background: color-mix(in srgb, var(--color-primary) 12%, transparent);
         }
 
         /* Mobile accordion: hide tab nav, show accordions */
@@ -384,20 +384,20 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
         }
         .tabs-section.pills .tab-btn {
           padding: 8px 16px;
-          background: var(--color-background, #F1F4F8);
-          border: 1px solid var(--color-border, #E8ECF1);
+          background: var(--color-background);
+          border: 1px solid var(--color-border);
           border-radius: 20px;
           margin-bottom: 0;
           font-size: 13px;
         }
         .tabs-section.pills .tab-btn:hover {
-          background: var(--color-surface, #FAFBFC);
-          border-color: var(--color-text-muted, #94A3B8);
+          background: var(--color-surface);
+          border-color: var(--color-text-muted);
         }
         .tabs-section.pills .tab-btn.active {
-          background: var(--color-primary, #00897B);
+          background: var(--color-primary);
           color: white;
-          border-color: var(--color-primary, #00897B);
+          border-color: var(--color-primary);
         }
         .tabs-section.pills .tab-badge {
           background: rgba(255, 255, 255, 0.2);
@@ -406,19 +406,19 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
 
         /* ── Variant: Boxed ── */
         .tabs-section.boxed {
-          background: var(--color-surface, #FAFBFC);
-          border: 1px solid var(--color-border, #E8ECF1);
+          background: var(--color-surface);
+          border: 1px solid var(--color-border);
           border-radius: 12px;
           padding: 24px;
         }
         .tabs-section.boxed .tabs-nav {
-          border-bottom: 1px solid var(--color-border, #E8ECF1);
+          border-bottom: 1px solid var(--color-border);
           padding-bottom: 8px;
           margin-bottom: 0;
         }
         .tabs-section.boxed .tab-panel {
           padding: 20px;
-          background: var(--color-background, #F1F4F8);
+          background: var(--color-background);
           border-radius: 8px;
           margin-top: 16px;
         }
@@ -455,19 +455,19 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
       <style jsx global>{`
         .tabs-section .tab-panel p {
           margin-bottom: 12px;
-          color: var(--color-text-primary, #0A1628);
+          color: var(--color-text-primary);
         }
         .tabs-section .tab-panel p:last-child {
           margin-bottom: 0;
         }
         .tabs-section .tab-panel .prose {
-          --tw-prose-body: var(--color-text-primary, #0A1628);
+          --tw-prose-body: var(--color-text-primary);
         }
         .tabs-section .tab-panel h3 {
-          font-family: var(--font-heading, 'Plus Jakarta Sans', system-ui, sans-serif);
+          font-family: var(--font-heading);
           font-size: 18px;
           font-weight: 700;
-          color: var(--color-text-primary, #0A1628);
+          color: var(--color-text-primary);
           margin: 24px 0 12px 0;
         }
         .tabs-section .tab-panel h3:first-child {
@@ -490,18 +490,18 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
           top: 8px;
           width: 6px;
           height: 6px;
-          background: var(--color-primary, #00897B);
+          background: var(--color-primary);
           border-radius: 50%;
         }
         .tabs-section .accordion-icon {
           width: 20px;
           height: 20px;
-          color: var(--color-text-muted, #94A3B8);
+          color: var(--color-text-muted);
           transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .tabs-section .accordion-header.active .accordion-icon {
           transform: rotate(180deg);
-          color: var(--color-primary, #00897B);
+          color: var(--color-primary);
         }
       `}</style>
     </div>

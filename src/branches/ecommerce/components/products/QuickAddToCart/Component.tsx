@@ -213,14 +213,14 @@ export function QuickAddToCart({
           font-weight: 600;
           cursor: pointer;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 2px 8px rgba(0, 137, 123, 0.3);
+          box-shadow: 0 2px 8px var(--color-primary-glow);
           white-space: nowrap;
         }
 
         .quick-add__button:hover:not(:disabled) {
           background: var(--teal-dark);
           transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(0, 137, 123, 0.4);
+          box-shadow: 0 4px 12px var(--color-primary-glow);
         }
 
         .quick-add__button:active:not(:disabled) {
@@ -353,7 +353,7 @@ export function QuickAddToCart({
           color: white;
           cursor: pointer;
           transition: all 0.2s;
-          box-shadow: 0 2px 6px rgba(0, 137, 123, 0.25);
+          box-shadow: 0 2px 6px var(--color-primary-glow);
         }
 
         .quick-add__add-btn:hover:not(:disabled) {

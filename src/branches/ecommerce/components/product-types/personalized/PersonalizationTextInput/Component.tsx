@@ -52,8 +52,8 @@ export const PersonalizationTextInput: React.FC<PersonalizationTextInputProps> =
           required={required}
           className={`
             w-full px-4 py-3 rounded-lg border-2 transition-colors
-            focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500
-            ${value ? 'border-teal-300 bg-teal-50/30' : 'border-gray-300 bg-white'}
+            focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]
+            ${value ? 'border-[var(--color-primary-light)] bg-[var(--color-primary-glow)]/30' : 'border-gray-300 bg-white'}
             ${remaining === 0 ? 'border-red-300' : ''}
             text-gray-900 placeholder:text-gray-400
           `}

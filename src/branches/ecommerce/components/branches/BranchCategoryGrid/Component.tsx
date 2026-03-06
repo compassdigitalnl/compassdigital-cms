@@ -36,7 +36,7 @@ export const BranchCategoryGrid: React.FC<BranchCategoryGridProps> = ({
                 hover:-translate-y-[3px] hover:border-theme-teal
                 hover:shadow-[0_8px_28px_rgba(0,0,0,0.05)]
               "
-              style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+              style={{ borderColor: 'var(--color-border)' }}
             >
               <div
                 className="flex h-14 w-14 items-center justify-center rounded-[14px]"

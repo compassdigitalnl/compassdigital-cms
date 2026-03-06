@@ -261,7 +261,7 @@ export const Themes: CollectionConfig = {
               label: 'Hero Gradiënt',
               admin: {
                 description: 'Subtiele overlay gradiënt voor hero sections (lage opacity)',
-                placeholder: 'linear-gradient(135deg, rgba(0,137,123,0.08) 0%, rgba(38,166,154,0.12) 100%)',
+                placeholder: 'linear-gradient(135deg, var(--color-primary-glow) 0%, rgba(38,166,154,0.12) 100%)',
                 rows: 2,
               },
             },

@@ -60,7 +60,7 @@ export const PersonalizationFontSelector: React.FC<PersonalizationFontSelectorPr
           {option.required && <span className="text-red-600 ml-1">*</span>}
         </span>
         {priceText && (
-          <span className="text-[13px] text-teal-600 font-semibold ml-2">{priceText}</span>
+          <span className="text-[13px] text-[var(--color-primary)] font-semibold ml-2">{priceText}</span>
         )}
       </label>
 
@@ -76,14 +76,14 @@ export const PersonalizationFontSelector: React.FC<PersonalizationFontSelectorPr
               onClick={() => onChange(font.value)}
               className={`
                 relative p-4 rounded-lg border-2 transition-all duration-200 text-left
-                ${isSelected ? 'border-teal-600 bg-teal-50/20' : 'border-gray-300 bg-white hover:border-teal-400'}
+                ${isSelected ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]/20' : 'border-gray-300 bg-white hover:border-[var(--color-primary-light)]'}
               `}
               aria-label={`Selecteer font ${font.label}`}
               aria-pressed={isSelected}
             >
               {/* Checkmark (top-right) */}
               {isSelected && (
-                <div className="absolute top-2 right-2 w-5 h-5 bg-teal-600 rounded-full flex items-center justify-center">
+                <div className="absolute top-2 right-2 w-5 h-5 bg-[var(--color-primary)] rounded-full flex items-center justify-center">
                   <Check className="w-3 h-3 text-white" strokeWidth={3} />
                 </div>
               )}

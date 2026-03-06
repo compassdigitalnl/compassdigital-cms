@@ -66,7 +66,7 @@ export function B2BNotice({
       style={{
         background: 'rgba(10, 38, 71, 0.03)',
         border: '1px solid rgba(10, 38, 71, 0.08)',
-        color: 'var(--color-text-secondary, #64748B)',
+        color: 'var(--color-text-secondary)',
       }}
     >
       {/* Icon */}
@@ -76,7 +76,7 @@ export function B2BNotice({
       <div>
         {parts.length > 1 ? (
           <>
-            <strong style={{ color: 'var(--color-text-primary, #0A1628)' }}>
+            <strong style={{ color: 'var(--color-text-primary)' }}>
               {boldPart}
             </strong>{' '}
             — {regularPart}

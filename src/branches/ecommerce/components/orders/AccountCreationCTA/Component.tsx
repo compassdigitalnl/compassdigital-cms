@@ -54,7 +54,7 @@ export function AccountCreationCTA({
           right: -30px;
           width: 140px;
           height: 140px;
-          background: radial-gradient(circle, rgba(0, 137, 123, 0.1), transparent 70%);
+          background: radial-gradient(circle, var(--color-primary-glow), transparent 70%);
           border-radius: 50%;
           pointer-events: none;
         }

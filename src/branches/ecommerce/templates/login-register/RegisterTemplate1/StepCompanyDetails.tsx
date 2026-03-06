@@ -54,7 +54,7 @@ export const StepCompanyDetails: React.FC<StepCompanyDetailsProps> = ({
   return (
     <div
       className="rounded-[20px] border bg-white p-9"
-      style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+      style={{ borderColor: 'var(--color-border)' }}
     >
       <div className="mb-1.5 flex items-center gap-2.5 font-heading text-[22px] font-extrabold text-theme-navy">
         <Building2 className="h-[22px] w-[22px] text-theme-teal" />
@@ -67,7 +67,7 @@ export const StepCompanyDetails: React.FC<StepCompanyDetailsProps> = ({
       {/* KVK Lookup */}
       <div className="mb-5">
         <label className="mb-1.5 flex items-center gap-1 text-[13px] font-bold text-theme-navy">
-          KVK-nummer <span className="text-xs text-[#FF6B6B]">*</span>
+          KVK-nummer <span className="text-xs text-[var(--color-error)]">*</span>
         </label>
         <div className="flex gap-2">
           <input
@@ -80,9 +80,9 @@ export const StepCompanyDetails: React.FC<StepCompanyDetailsProps> = ({
               text-[14.5px] text-theme-navy outline-none
               transition-all duration-200
               placeholder:text-theme-grey-mid
-              focus:border-theme-teal focus:bg-white focus:shadow-[0_0_0_4px_rgba(0,137,123,0.12)]
+              focus:border-theme-teal focus:bg-white focus:shadow-[0_0_0_4px_var(--color-primary-glow)]
             "
-            style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+            style={{ borderColor: 'var(--color-border)' }}
           />
           <button
             type="button"
@@ -99,11 +99,11 @@ export const StepCompanyDetails: React.FC<StepCompanyDetailsProps> = ({
         </div>
 
         {kvkResult && (
-          <div className="mt-2 flex items-center gap-3 rounded-xl border bg-[#E8F5E9] px-[18px] py-3.5"
+          <div className="mt-2 flex items-center gap-3 rounded-xl border bg-[var(--color-success-light)] px-[18px] py-3.5"
             style={{ borderColor: 'rgba(0,200,83,0.15)' }}
           >
             <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-white">
-              <CheckCircle className="h-[18px] w-[18px] text-[#00C853]" />
+              <CheckCircle className="h-[18px] w-[18px] text-[var(--color-success)]" />
             </div>
             <div>
               <div className="text-sm font-bold text-theme-navy">{kvkResult.name}</div>
@@ -151,7 +151,7 @@ export const StepCompanyDetails: React.FC<StepCompanyDetailsProps> = ({
       <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
           <label className="text-[13px] font-bold text-theme-navy">
-            Land <span className="text-xs text-[#FF6B6B]">*</span>
+            Land <span className="text-xs text-[var(--color-error)]">*</span>
           </label>
           <select
             value={data.country}
@@ -160,9 +160,9 @@ export const StepCompanyDetails: React.FC<StepCompanyDetailsProps> = ({
               h-[46px] appearance-none rounded-xl border-2 bg-theme-grey-light
               px-4 pr-10 text-[14.5px] text-theme-navy outline-none
               transition-all duration-200
-              focus:border-theme-teal focus:bg-white focus:shadow-[0_0_0_4px_rgba(0,137,123,0.12)]
+              focus:border-theme-teal focus:bg-white focus:shadow-[0_0_0_4px_var(--color-primary-glow)]
             "
-            style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+            style={{ borderColor: 'var(--color-border)' }}
           >
             <option value="NL">Nederland</option>
             <option value="BE">Belgie</option>
@@ -181,7 +181,7 @@ export const StepCompanyDetails: React.FC<StepCompanyDetailsProps> = ({
       {branchOptions.length > 0 && (
         <div className="mb-4 mt-2">
           <label className="mb-1.5 flex items-center gap-1 text-[13px] font-bold text-theme-navy">
-            Branche <span className="text-xs text-[#FF6B6B]">*</span>
+            Branche <span className="text-xs text-[var(--color-error)]">*</span>
           </label>
           <BranchSelector
             options={branchOptions}
@@ -203,9 +203,9 @@ export const StepCompanyDetails: React.FC<StepCompanyDetailsProps> = ({
             h-[46px] w-full appearance-none rounded-xl border-2 bg-theme-grey-light
             px-4 pr-10 text-[14.5px] text-theme-navy outline-none
             transition-all duration-200
-            focus:border-theme-teal focus:bg-white focus:shadow-[0_0_0_4px_rgba(0,137,123,0.12)]
+            focus:border-theme-teal focus:bg-white focus:shadow-[0_0_0_4px_var(--color-primary-glow)]
           "
-          style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+          style={{ borderColor: 'var(--color-border)' }}
         >
           <option value="">Maak een keuze...</option>
           <option value="google">Google</option>
@@ -228,7 +228,7 @@ export const StepCompanyDetails: React.FC<StepCompanyDetailsProps> = ({
               : ''
             }
           `}
-          style={!data.separateBillingAddress ? { borderColor: 'var(--color-border, #E8ECF1)' } : undefined}
+          style={!data.separateBillingAddress ? { borderColor: 'var(--color-border)' } : undefined}
         >
           {data.separateBillingAddress && (
             <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>

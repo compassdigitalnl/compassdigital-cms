@@ -53,7 +53,7 @@ export const CaseGridBlockComponent: React.FC<CasesBlock> = ({ heading, intro, c
                   <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
                     {caseItem.title}
                   </h3>
-                  <p className="text-sm mb-4" style={{ color: 'var(--color-primary, #3b82f6)' }}>
+                  <p className="text-sm mb-4" style={{ color: 'var(--color-primary)' }}>
                     {caseItem.client}
                   </p>
                   <p className="text-gray-700 mb-4 line-clamp-3">{caseItem.excerpt}</p>
@@ -65,7 +65,7 @@ export const CaseGridBlockComponent: React.FC<CasesBlock> = ({ heading, intro, c
                           key={index}
                           className="text-xs px-3 py-1 rounded-full"
                           style={{
-                            backgroundColor: 'var(--color-accent, #ec4899)',
+                            backgroundColor: 'var(--color-accent)',
                             color: 'white',
                           }}
                         >

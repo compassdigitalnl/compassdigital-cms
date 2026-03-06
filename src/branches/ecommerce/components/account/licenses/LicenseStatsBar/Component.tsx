@@ -25,13 +25,13 @@ export function LicenseStatsBar({
       value: actionRequired,
       label: 'Actie nodig',
       icon: AlertTriangle,
-      color: '#F59E0B',
+      color: 'var(--color-warning)',
     },
     {
       value: totalDownloads,
       label: 'Downloads',
       icon: Download,
-      color: '#00C853',
+      color: 'var(--color-success)',
     },
   ]
 

@@ -22,7 +22,7 @@ export const StepContactPassword: React.FC<StepContactPasswordProps> = ({
   return (
     <div
       className="rounded-[20px] border bg-white p-9"
-      style={{ borderColor: 'var(--color-border, #E8ECF1)' }}
+      style={{ borderColor: 'var(--color-border)' }}
     >
       <div className="mb-1.5 flex items-center gap-2.5 font-heading text-[22px] font-extrabold text-theme-navy">
         <UserCircle className="h-[22px] w-[22px] text-theme-teal" />
@@ -98,7 +98,7 @@ export const StepContactPassword: React.FC<StepContactPasswordProps> = ({
               : ''
             }
           `}
-          style={!data.acceptTerms ? { borderColor: 'var(--color-border, #E8ECF1)' } : undefined}
+          style={!data.acceptTerms ? { borderColor: 'var(--color-border)' } : undefined}
         >
           {data.acceptTerms && (
             <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>

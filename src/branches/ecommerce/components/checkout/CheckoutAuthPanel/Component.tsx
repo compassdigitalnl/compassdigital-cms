@@ -158,8 +158,8 @@ export function CheckoutAuthPanel({
                 flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold
                 transition-all duration-200 border-2
                 ${registerMode === 'b2c'
-                  ? 'border-[var(--color-primary,#0A1628)] bg-[rgba(10,22,40,0.05)] text-[var(--color-primary,#0A1628)]'
-                  : 'border-[var(--color-border,#E8ECF1)] text-[var(--color-text-secondary,#94A3B8)] hover:border-[var(--color-text-secondary,#94A3B8)]'
+                  ? 'border-[var(--color-primary)] bg-[rgba(10,22,40,0.05)] text-[var(--color-primary)]'
+                  : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:border-[var(--color-text-secondary)]'
                 }
               `}
             >
@@ -173,8 +173,8 @@ export function CheckoutAuthPanel({
                 flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold
                 transition-all duration-200 border-2
                 ${registerMode === 'b2b'
-                  ? 'border-[var(--color-primary,#0A1628)] bg-[rgba(10,22,40,0.05)] text-[var(--color-primary,#0A1628)]'
-                  : 'border-[var(--color-border,#E8ECF1)] text-[var(--color-text-secondary,#94A3B8)] hover:border-[var(--color-text-secondary,#94A3B8)]'
+                  ? 'border-[var(--color-primary)] bg-[rgba(10,22,40,0.05)] text-[var(--color-primary)]'
+                  : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:border-[var(--color-text-secondary)]'
                 }
               `}
             >
@@ -189,15 +189,15 @@ export function CheckoutAuthPanel({
               <h2
                 className="text-3xl mb-2"
                 style={{
-                  fontFamily: 'var(--font-heading, "DM Serif Display", serif)',
-                  color: 'var(--color-primary, #0A1628)',
+                  fontFamily: 'var(--font-heading)',
+                  color: 'var(--color-primary)',
                 }}
               >
                 Account aanmaken
               </h2>
               <p
                 className="text-sm mb-7 leading-relaxed"
-                style={{ color: 'var(--color-text-secondary, #94A3B8)' }}
+                style={{ color: 'var(--color-text-secondary)' }}
               >
                 Maak een account aan om uw bestellingen bij te houden en sneller af te rekenen.
               </p>
@@ -208,7 +208,7 @@ export function CheckoutAuthPanel({
                   style={{
                     background: 'rgba(233,69,96,0.1)',
                     border: '1px solid rgba(233,69,96,0.3)',
-                    color: '#C62828',
+                    color: 'var(--color-error-dark)',
                   }}
                 >
                   {b2cError}
@@ -263,9 +263,9 @@ export function CheckoutAuthPanel({
                   className="w-full py-3.5 px-4 rounded-lg text-white text-base font-bold transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   style={{
                     background: b2cLoading
-                      ? 'var(--color-text-secondary, #94A3B8)'
-                      : 'var(--color-primary, #0A1628)',
-                    boxShadow: b2cLoading ? 'none' : '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
+                      ? 'var(--color-text-secondary)'
+                      : 'var(--color-primary)',
+                    boxShadow: b2cLoading ? 'none' : '0 4px 16px var(--color-primary-glow)',
                   }}
                 >
                   {b2cLoading ? 'Account wordt aangemaakt...' : 'Account aanmaken'}
@@ -274,14 +274,14 @@ export function CheckoutAuthPanel({
 
               <p
                 className="text-center mt-4 text-sm"
-                style={{ color: 'var(--color-text-secondary, #94A3B8)' }}
+                style={{ color: 'var(--color-text-secondary)' }}
               >
                 Al een account?{' '}
                 <button
                   type="button"
                   onClick={() => setActiveTab('login')}
                   className="font-semibold hover:underline"
-                  style={{ color: 'var(--color-primary, #0A1628)' }}
+                  style={{ color: 'var(--color-primary)' }}
                 >
                   Log hier in
                 </button>
@@ -293,15 +293,15 @@ export function CheckoutAuthPanel({
               <h2
                 className="text-3xl mb-2"
                 style={{
-                  fontFamily: 'var(--font-heading, "DM Serif Display", serif)',
-                  color: 'var(--color-primary, #0A1628)',
+                  fontFamily: 'var(--font-heading)',
+                  color: 'var(--color-primary)',
                 }}
               >
                 Zakelijk account aanmaken
               </h2>
               <p
                 className="text-sm mb-7 leading-relaxed"
-                style={{ color: 'var(--color-text-secondary, #94A3B8)' }}
+                style={{ color: 'var(--color-text-secondary)' }}
               >
                 Vul uw KVK-nummer in voor automatische bedrijfsgegevens, of voer de gegevens handmatig in.
               </p>
@@ -312,7 +312,7 @@ export function CheckoutAuthPanel({
                   style={{
                     background: 'rgba(233,69,96,0.1)',
                     border: '1px solid rgba(233,69,96,0.3)',
-                    color: '#C62828',
+                    color: 'var(--color-error-dark)',
                   }}
                 >
                   {b2bError}
@@ -401,7 +401,7 @@ export function CheckoutAuthPanel({
                 <div className="mb-6">
                   <label
                     className="flex items-start gap-2 text-sm cursor-pointer"
-                    style={{ color: 'var(--color-text, #64748B)' }}
+                    style={{ color: 'var(--color-text)' }}
                   >
                     <input
                       type="checkbox"
@@ -410,13 +410,13 @@ export function CheckoutAuthPanel({
                       required
                       className="w-4 h-4 mt-0.5 rounded border-2 cursor-pointer flex-shrink-0"
                       style={{
-                        borderColor: 'var(--color-border, #E8ECF1)',
-                        accentColor: 'var(--color-primary, #0A1628)',
+                        borderColor: 'var(--color-border)',
+                        accentColor: 'var(--color-primary)',
                       }}
                     />
                     <span>
                       Ik ga akkoord met de{' '}
-                      <span className="font-semibold" style={{ color: 'var(--color-primary, #0A1628)' }}>
+                      <span className="font-semibold" style={{ color: 'var(--color-primary)' }}>
                         algemene voorwaarden
                       </span>
                     </span>
@@ -429,9 +429,9 @@ export function CheckoutAuthPanel({
                   className="w-full py-3.5 px-4 rounded-lg text-white text-base font-bold transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   style={{
                     background: b2bLoading
-                      ? 'var(--color-text-secondary, #94A3B8)'
-                      : 'var(--color-primary, #0A1628)',
-                    boxShadow: b2bLoading ? 'none' : '0 4px 16px var(--color-primary-glow, rgba(10,22,40,0.25))',
+                      ? 'var(--color-text-secondary)'
+                      : 'var(--color-primary)',
+                    boxShadow: b2bLoading ? 'none' : '0 4px 16px var(--color-primary-glow)',
                   }}
                 >
                   {b2bLoading ? 'Account wordt aangemaakt...' : 'Account aanvragen'}
@@ -440,14 +440,14 @@ export function CheckoutAuthPanel({
 
               <p
                 className="text-center mt-4 text-sm"
-                style={{ color: 'var(--color-text-secondary, #94A3B8)' }}
+                style={{ color: 'var(--color-text-secondary)' }}
               >
                 Al een account?{' '}
                 <button
                   type="button"
                   onClick={() => setActiveTab('login')}
                   className="font-semibold hover:underline"
-                  style={{ color: 'var(--color-primary, #0A1628)' }}
+                  style={{ color: 'var(--color-primary)' }}
                 >
                   Log hier in
                 </button>

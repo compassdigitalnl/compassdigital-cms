@@ -43,7 +43,7 @@ export const TimeSlotSelector: React.FC<TimeSlotSelectorProps> = ({
     <div className={`time-slot-selector ${className}`}>
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
-        <Clock className="w-5 h-5 text-teal-600" />
+        <Clock className="w-5 h-5 text-[var(--color-primary)]" />
         <h3 className="text-base font-extrabold text-gray-900">
           Selecteer tijdstip
         </h3>
@@ -65,8 +65,8 @@ export const TimeSlotSelector: React.FC<TimeSlotSelectorProps> = ({
                 time-slot relative p-3 rounded-lg border-[1.5px] transition-all text-left
                 ${layout === 'list' ? 'flex items-center justify-between' : 'flex flex-col'}
                 ${isDisabled ? 'opacity-40 cursor-not-allowed border-gray-200 bg-gray-50' : 'cursor-pointer'}
-                ${isSelected && !isDisabled ? 'bg-teal-600 border-teal-600 text-white' : ''}
-                ${!isSelected && !isDisabled ? 'bg-white border-gray-200 hover:border-teal-600 hover:bg-teal-50' : ''}
+                ${isSelected && !isDisabled ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white' : ''}
+                ${!isSelected && !isDisabled ? 'bg-white border-gray-200 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-glow)]' : ''}
               `}
             >
               {/* Almost full indicator */}
@@ -91,7 +91,7 @@ export const TimeSlotSelector: React.FC<TimeSlotSelectorProps> = ({
               {/* Price or spots left */}
               <div className={`flex items-center gap-2 ${layout === 'list' ? '' : 'mt-1'}`}>
                 {showPrices && slot.price && (
-                  <div className={`text-xs font-semibold font-mono ${isSelected ? 'text-white' : 'text-teal-600'}`}>
+                  <div className={`text-xs font-semibold font-mono ${isSelected ? 'text-white' : 'text-[var(--color-primary)]'}`}>
                     €{formatPriceStr(slot.price)}
                   </div>
                 )}

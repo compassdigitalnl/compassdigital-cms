@@ -85,7 +85,7 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({ className = ''
       style={{ top: '140px' }}
     >
       <div className="flex items-center gap-2 font-extrabold text-sm text-gray-900 mb-4">
-        <Icon name="List" size={16} className="text-teal-600" />
+        <Icon name="List" size={16} className="text-[var(--color-primary)]" />
         Inhoudsopgave
       </div>
 
@@ -98,8 +98,8 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({ className = ''
                 onClick={(e) => handleClick(e, heading.id)}
                 className={`flex items-start gap-2 py-2 px-3 rounded-lg text-sm transition-all border-l-2 ${
                   activeId === heading.id
-                    ? 'bg-teal-50 text-teal-700 font-bold border-teal-500'
-                    : 'text-gray-600 hover:bg-teal-50 hover:text-teal-600 border-transparent hover:border-teal-500'
+                    ? 'bg-[var(--color-primary-glow)] text-[var(--color-primary)] font-bold border-[var(--color-primary)]'
+                    : 'text-gray-600 hover:bg-[var(--color-primary-glow)] hover:text-[var(--color-primary)] border-transparent hover:border-[var(--color-primary)]'
                 } ${heading.level === 3 ? 'ml-4 text-xs' : ''}`}
                 style={{
                   textDecoration: 'none',
@@ -107,7 +107,7 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({ className = ''
               >
                 <span
                   className={`w-1 h-1 rounded-full flex-shrink-0 mt-1.5 ${
-                    activeId === heading.id ? 'bg-teal-600' : 'bg-gray-400'
+                    activeId === heading.id ? 'bg-[var(--color-primary)]' : 'bg-gray-400'
                   }`}
                 />
                 <span className="line-clamp-2">{heading.text}</span>

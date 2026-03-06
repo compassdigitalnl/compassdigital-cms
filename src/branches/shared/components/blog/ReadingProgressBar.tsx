@@ -51,10 +51,10 @@ export const ReadingProgressBar: React.FC<ReadingProgressBarProps> = ({ classNam
 
       {/* Progress bar with gradient */}
       <div
-        className="absolute top-0 left-0 h-full bg-gradient-to-r from-teal-500 via-teal-600 to-emerald-600 transition-all duration-150 ease-out"
+        className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary)] to-[var(--color-primary-light)] transition-all duration-150 ease-out"
         style={{
           width: `${progress}%`,
-          boxShadow: progress > 0 ? '0 0 10px rgba(0, 137, 123, 0.5)' : 'none',
+          boxShadow: progress > 0 ? '0 0 10px var(--color-primary-glow)' : 'none',
         }}
       />
     </div>

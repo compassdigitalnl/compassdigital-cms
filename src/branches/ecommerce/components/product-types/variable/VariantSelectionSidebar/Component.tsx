@@ -48,7 +48,7 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
       {/* Header */}
       <div className="p-4 border-b-2 border-gray-200 flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <ShoppingCart className="w-5 h-5 text-teal-600" strokeWidth={2.5} />
+          <ShoppingCart className="w-5 h-5 text-[var(--color-primary)]" strokeWidth={2.5} />
           <h3 className="text-lg font-bold text-gray-900">
             Geselecteerd
             {hasItems && (
@@ -151,7 +151,7 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
             {/* Total */}
             <div className="flex items-center justify-between pt-2 border-t border-gray-200">
               <span className="text-lg font-bold text-gray-900">Totaal</span>
-              <span className="text-xl font-mono font-extrabold text-teal-600">
+              <span className="text-xl font-mono font-extrabold text-[var(--color-primary)]">
                 €{formatPriceStr(total)}
               </span>
             </div>
@@ -174,12 +174,12 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
           {/* Trust Signals */}
           <div className="p-4 pt-0 space-y-2">
             <div className="flex items-center gap-2 text-xs text-gray-600">
-              <Truck className="w-4 h-4 text-teal-600" strokeWidth={2} />
+              <Truck className="w-4 h-4 text-[var(--color-primary)]" strokeWidth={2} />
               <span>Gratis verzending vanaf €60</span>
             </div>
             <div className="flex items-center gap-2 text-xs text-gray-600">
               <svg
-                className="w-4 h-4 text-teal-600"
+                className="w-4 h-4 text-[var(--color-primary)]"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

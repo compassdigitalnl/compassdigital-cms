@@ -41,23 +41,23 @@ const iconMap: Record<string, React.ComponentType<{ className?: string; style?: 
 }
 
 const colorMap = {
-  teal: { bg: 'rgba(0,137,123,0.15)', color: '#00897B' },
+  teal: { bg: 'var(--color-primary-glow)', color: 'var(--color-primary)' },
   blue: { bg: '#E3F2FD', color: '#2196F3' },
-  amber: { bg: '#FFF8E1', color: '#F59E0B' },
-  green: { bg: '#E8F5E9', color: '#00C853' },
+  amber: { bg: 'var(--color-warning-light)', color: 'var(--color-warning)' },
+  green: { bg: 'var(--color-success-light)', color: 'var(--color-success)' },
 }
 
 const COLORS = {
-  navy: '#0A1628',
-  teal: '#00897B',
-  tealLight: '#26A69A',
-  tealGlow: 'rgba(0,137,123,0.15)',
+  navy: 'var(--color-secondary)',
+  teal: 'var(--color-primary)',
+  tealLight: 'var(--color-primary-light)',
+  tealGlow: 'var(--color-primary-glow)',
   grey: '#E8ECF1',
-  greyMid: '#94A3B8',
-  green: '#00C853',
-  greenLight: '#E8F5E9',
-  amber: '#F59E0B',
-  amberLight: '#FFF8E1',
+  greyMid: 'var(--color-grey-mid)',
+  green: 'var(--color-success)',
+  greenLight: 'var(--color-success-light)',
+  amber: 'var(--color-warning)',
+  amberLight: 'var(--color-warning-light)',
   blue: '#2196F3',
   blueLight: '#E3F2FD',
 }

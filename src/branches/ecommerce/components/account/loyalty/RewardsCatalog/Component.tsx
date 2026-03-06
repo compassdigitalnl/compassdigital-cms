@@ -22,7 +22,7 @@ export function RewardsCatalog({ rewards, availablePoints, onRedeemReward }: Rew
               {/* Visual area */}
               <div
                 className="h-20 flex items-center justify-center text-4xl relative"
-                style={{ background: 'rgba(0,137,123,0.06)' }}
+                style={{ background: 'var(--color-primary-glow)' }}
               >
                 {reward.icon}
                 {/* Availability tag */}
@@ -30,8 +30,8 @@ export function RewardsCatalog({ rewards, availablePoints, onRedeemReward }: Rew
                   className="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[9px] font-bold"
                   style={
                     canAfford && !reward.locked
-                      ? { background: 'rgba(0,200,83,0.1)', color: '#00C853' }
-                      : { background: 'rgba(245,158,11,0.1)', color: '#F59E0B' }
+                      ? { background: 'rgba(0,200,83,0.1)', color: 'var(--color-success)' }
+                      : { background: 'rgba(245,158,11,0.1)', color: 'var(--color-warning)' }
                   }
                 >
                   {canAfford && !reward.locked
@@ -54,7 +54,7 @@ export function RewardsCatalog({ rewards, availablePoints, onRedeemReward }: Rew
                 <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
                   <div
                     className="flex items-center gap-1 text-sm font-extrabold"
-                    style={{ color: 'var(--color-primary, #00897B)' }}
+                    style={{ color: 'var(--color-primary)' }}
                   >
                     <Star className="w-3.5 h-3.5" />
                     {reward.pointsCost.toLocaleString('nl-NL')}
@@ -65,9 +65,9 @@ export function RewardsCatalog({ rewards, availablePoints, onRedeemReward }: Rew
                     className="h-8 px-3 rounded-md text-xs font-bold flex items-center gap-1 transition-colors"
                     style={
                       isLocked
-                        ? { background: '#E8ECF1', color: '#94A3B8', cursor: 'not-allowed' }
+                        ? { background: '#E8ECF1', color: 'var(--color-grey-mid)', cursor: 'not-allowed' }
                         : {
-                            background: 'var(--color-primary, #00897B)',
+                            background: 'var(--color-primary)',
                             color: 'white',
                             cursor: 'pointer',
                           }

@@ -143,7 +143,7 @@ export const PersonalizationImageUpload: React.FC<PersonalizationImageUploadProp
           {option.required && <span className="text-red-600 ml-1">*</span>}
         </span>
         {priceText && (
-          <span className="text-[13px] text-teal-600 font-semibold ml-2">{priceText}</span>
+          <span className="text-[13px] text-[var(--color-primary)] font-semibold ml-2">{priceText}</span>
         )}
       </label>
 
@@ -152,7 +152,7 @@ export const PersonalizationImageUpload: React.FC<PersonalizationImageUploadProp
         <div
           className={`
             relative border-2 border-dashed rounded-lg p-6 transition-all duration-200 cursor-pointer
-            ${isDragging ? 'border-teal-600 bg-teal-50' : 'border-gray-300 bg-gray-50 hover:border-teal-400 hover:bg-gray-100'}
+            ${isDragging ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]' : 'border-gray-300 bg-gray-50 hover:border-[var(--color-primary-light)] hover:bg-gray-100'}
           `}
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}

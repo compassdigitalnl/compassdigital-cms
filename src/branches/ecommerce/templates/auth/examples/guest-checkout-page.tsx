@@ -36,7 +36,7 @@ export default function CheckoutLoginPage() {
             {/* Back to Cart */}
             <Link
               href="/cart"
-              className="flex items-center gap-2 text-sm text-gray-600 hover:text-teal-600 transition-colors"
+              className="flex items-center gap-2 text-sm text-gray-600 hover:text-[var(--color-primary)] transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               Terug naar winkelwagen

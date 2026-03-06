@@ -58,7 +58,7 @@ export const MixMatchPricingCard: React.FC<MixMatchPricingCardProps> = ({
         <div
           className="absolute -top-8 -right-8 w-30 h-30 rounded-full pointer-events-none"
           style={{
-            background: 'radial-gradient(circle, rgba(0, 137, 123, 0.12), transparent 70%)',
+            background: 'radial-gradient(circle, var(--color-primary-glow), transparent 70%)',
           }}
         />
 
@@ -78,7 +78,7 @@ export const MixMatchPricingCard: React.FC<MixMatchPricingCardProps> = ({
                 key={index}
                 className={`bv-slot aspect-square rounded-lg border-[1.5px] flex items-center justify-center text-base transition-all ${
                   isFilled
-                    ? 'bg-teal-600/15 border-solid border-teal-600/30'
+                    ? 'bg-[var(--color-primary)]/15 border-solid border-[var(--color-primary-light)]'
                     : 'bg-white/5 border-dashed border-white/10 animate-pulse-subtle'
                 }`}
               >
@@ -159,7 +159,7 @@ export const MixMatchPricingCard: React.FC<MixMatchPricingCardProps> = ({
             border-color: rgba(255, 255, 255, 0.08);
           }
           50% {
-            border-color: rgba(0, 137, 123, 0.3);
+            border-color: var(--color-primary-glow);
           }
         }
         .animate-pulse-subtle {

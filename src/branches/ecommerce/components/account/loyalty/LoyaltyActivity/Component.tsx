@@ -14,14 +14,14 @@ function getTransactionIcon(type: TransactionType, isPositive: boolean) {
 }
 
 function getTransactionStyle(type: TransactionType, isPositive: boolean) {
-  if (type === 'earned_purchase') return { bg: 'rgba(0,200,83,0.1)', color: '#00C853' }
+  if (type === 'earned_purchase') return { bg: 'rgba(0,200,83,0.1)', color: 'var(--color-success)' }
   if (type === 'earned_review') return { bg: 'rgba(124,58,237,0.1)', color: '#7C3AED' }
   if (type === 'earned_referral') return { bg: 'rgba(33,150,243,0.1)', color: '#2196F3' }
-  if (type === 'earned_bonus') return { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }
-  if (type === 'spent_reward') return { bg: 'rgba(255,107,107,0.1)', color: '#FF6B6B' }
+  if (type === 'earned_bonus') return { bg: 'rgba(245,158,11,0.1)', color: 'var(--color-warning)' }
+  if (type === 'spent_reward') return { bg: 'rgba(255,107,107,0.1)', color: 'var(--color-error)' }
   return isPositive
-    ? { bg: 'rgba(0,200,83,0.1)', color: '#00C853' }
-    : { bg: 'rgba(255,107,107,0.1)', color: '#FF6B6B' }
+    ? { bg: 'rgba(0,200,83,0.1)', color: 'var(--color-success)' }
+    : { bg: 'rgba(255,107,107,0.1)', color: 'var(--color-error)' }
 }
 
 export function LoyaltyActivity({ transactions }: LoyaltyActivityProps) {
@@ -76,7 +76,7 @@ export function LoyaltyActivity({ transactions }: LoyaltyActivityProps) {
               {/* Points */}
               <div
                 className="font-mono font-bold text-xs tabular-nums"
-                style={{ color: isPositive ? '#00C853' : '#FF6B6B' }}
+                style={{ color: isPositive ? 'var(--color-success)' : 'var(--color-error)' }}
               >
                 {isPositive ? '+' : ''}
                 {tx.points}

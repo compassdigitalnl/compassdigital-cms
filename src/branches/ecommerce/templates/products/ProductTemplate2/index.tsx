@@ -227,7 +227,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
               aspectRatio: '1',
               background: 'var(--color-surface, white)',
               borderRadius: '12px',
-              border: '1px solid var(--color-border, #E5E7EB)',
+              border: '1px solid var(--color-border)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -291,7 +291,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                     background:
                       activeImageIndex === idx
                         ? 'var(--color-primary)'
-                        : 'var(--color-border, #E5E7EB)',
+                        : 'var(--color-border)',
                     border: 'none',
                     cursor: 'pointer',
                     transition: 'all 0.3s',
@@ -1096,7 +1096,7 @@ export default function ProductTemplate2({ product }: ProductTemplate2Props) {
                 aspectRatio: '1',
                 background: 'var(--color-surface, white)',
                 borderRadius: '16px',
-                border: '1px solid var(--color-border, #E5E7EB)',
+                border: '1px solid var(--color-border)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

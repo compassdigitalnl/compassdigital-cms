@@ -227,7 +227,7 @@ export function OrderItemsSummary({
         }
 
         .order-item:hover {
-          background: rgba(0, 137, 123, 0.02);
+          background: var(--color-primary-glow);
           margin-left: calc(var(--space-24) * -1);
           margin-right: calc(var(--space-24) * -1);
           padding-left: var(--space-24);

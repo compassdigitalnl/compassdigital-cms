@@ -7,7 +7,7 @@ import type { QuickAddSearchProps } from './types'
 const COLORS = {
   navy: '#0A1628',
   teal: '#00897B',
-  tealGlow: 'rgba(0,137,123,0.15)',
+  tealGlow: 'var(--color-primary-glow)',
   grey: '#E8ECF1',
   greyMid: '#94A3B8',
   bg: '#F5F7FA',
@@ -108,7 +108,7 @@ export function QuickAddSearch({
                   <div
                     key={product.id}
                     onClick={() => onAddProduct(product)}
-                    className="flex items-center gap-3.5 px-4 py-3 cursor-pointer transition-all hover:bg-teal-50"
+                    className="flex items-center gap-3.5 px-4 py-3 cursor-pointer transition-all hover:bg-[var(--color-primary-glow)]"
                     style={{
                       borderBottom: idx < results.length - 1 ? `1px solid ${COLORS.grey}` : 'none',
                     }}

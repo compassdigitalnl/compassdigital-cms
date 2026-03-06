@@ -85,12 +85,12 @@ export default function BarcodeScanner({ onScan, onClose }: BarcodeScannerProps)
         <div
           className="flex items-center justify-between p-4"
           style={{
-            background: '#0A1628',
+            background: 'var(--color-secondary)',
             color: 'white',
           }}
         >
           <div className="flex items-center gap-2">
-            <Camera className="w-5 h-5" style={{ color: '#00897B' }} />
+            <Camera className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
             <h3
               style={{
                 fontFamily: 'Plus Jakarta Sans, sans-serif',
@@ -114,9 +114,9 @@ export default function BarcodeScanner({ onScan, onClose }: BarcodeScannerProps)
           {error ? (
             <div
               className="rounded-xl p-6 text-center"
-              style={{ background: '#FFF0F0', border: '1px solid #FF6B6B' }}
+              style={{ background: 'var(--color-error-light)', border: '1px solid var(--color-error)' }}
             >
-              <p style={{ fontSize: '14px', color: '#FF6B6B', fontWeight: 600 }}>
+              <p style={{ fontSize: '14px', color: 'var(--color-error)', fontWeight: 600 }}>
                 {error}
               </p>
               <button
@@ -141,7 +141,7 @@ export default function BarcodeScanner({ onScan, onClose }: BarcodeScannerProps)
                 className="mt-4 text-center"
                 style={{
                   fontSize: '14px',
-                  color: '#94A3B8',
+                  color: 'var(--color-grey-mid)',
                 }}
               >
                 Houd de barcode voor de camera
