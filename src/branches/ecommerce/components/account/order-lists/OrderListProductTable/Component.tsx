@@ -247,7 +247,7 @@ function SortableRow({
             className="w-1.5 h-1.5 rounded-full"
             style={{ background: isLowStock ? COLORS.amber : COLORS.green }}
           />
-          {item.product.stockCount.toLocaleString('nl-NL')}
+          {(item.product.stockCount ?? 0).toLocaleString('nl-NL')}
         </div>
       </td>
       <td style={{ padding: '14px 16px', borderBottom: idx < totalItems - 1 ? `1px solid ${COLORS.grey}` : 'none' }}>
@@ -369,7 +369,7 @@ function MobileCard({ item, isSelected, onSelectItem, onQuantityChange, onDelete
               className="w-1.5 h-1.5 rounded-full"
               style={{ background: isLowStock ? COLORS.amber : COLORS.green }}
             />
-            {item.product.stockCount.toLocaleString('nl-NL')}
+            {(item.product.stockCount ?? 0).toLocaleString('nl-NL')}
           </div>
         </div>
         <div>
