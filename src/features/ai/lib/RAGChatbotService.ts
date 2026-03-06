@@ -10,6 +10,7 @@ import OpenAI from 'openai'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { isFeatureEnabled } from '@/lib/features'
+import { meilisearchClient, INDEXES } from '@/features/search/lib/meilisearch/client'
 
 export interface ChatbotMessage {
   role: 'user' | 'assistant'
@@ -165,7 +166,7 @@ export class RAGChatbotService {
     query: string,
     settings: ChatbotSettings,
   ): Promise<ChatbotContext[]> {
-    const maxResults = settings.knowledgeBaseIntegration?.maxResults || 3
+    const maxResults = settings.knowledgeBaseIntegration?.maxResults || 5
     const configuredCollections = settings.knowledgeBaseIntegration?.searchCollections
     const collections = configuredCollections && configuredCollections.length > 0
       ? configuredCollections
@@ -174,39 +175,38 @@ export class RAGChatbotService {
     const contexts: ChatbotContext[] = []
 
     try {
-      // Search via Meilisearch API endpoint
-      const searchUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/search?q=${encodeURIComponent(query)}&limit=${maxResults}`
+      // Search Meilisearch directly (avoids HTTP self-fetch issues)
+      const indexMap: Record<string, string> = {
+        products: INDEXES.PRODUCTS,
+        'blog-posts': INDEXES.BLOG_POSTS,
+        pages: INDEXES.PAGES,
+      }
 
-      const response = await fetch(searchUrl)
-      const data = await response.json()
+      const emptyResult = { hits: [] as any[] }
+      const searchPromises = collections.map((col) => {
+        const indexName = indexMap[col]
+        if (!indexName) return Promise.resolve(emptyResult)
+        return meilisearchClient
+          .index(indexName)
+          .search(query, { limit: col === 'products' ? maxResults : 3 })
+          .catch(() => emptyResult)
+      })
 
-      // Flatten multi-index response: /api/search?type=all returns { products: { hits }, blogPosts: { hits }, pages: { hits } }
-      const allHits: Array<{ id: any; title?: string; collection: string }> = []
-      if (data.products?.hits) {
-        allHits.push(...data.products.hits.map((h: any) => ({ ...h, collection: h.collection || 'products' })))
-      }
-      if (data.blogPosts?.hits) {
-        allHits.push(...data.blogPosts.hits.map((h: any) => ({ ...h, collection: h.collection || 'blog-posts' })))
-      }
-      if (data.pages?.hits) {
-        allHits.push(...data.pages.hits.map((h: any) => ({ ...h, collection: h.collection || 'pages' })))
-      }
-      // Fallback: if response has top-level hits (single-index search)
-      if (allHits.length === 0 && data.hits) {
-        allHits.push(...data.hits.map((h: any) => ({ ...h, collection: h.collection || 'blog-posts' })))
-      }
+      const results = await Promise.all(searchPromises)
+
+      // Flatten results with collection info
+      const allHits: Array<{ hit: any; collection: string }> = []
+      collections.forEach((col, i) => {
+        results[i].hits.forEach((hit: any) => {
+          allHits.push({ hit, collection: col })
+        })
+      })
 
       if (allHits.length > 0) {
         const payload = await getPayload({ config })
 
-        // Get full content for top results
-        for (const hit of allHits.slice(0, maxResults)) {
+        for (const { hit, collection } of allHits.slice(0, maxResults)) {
           try {
-            const collection = hit.collection
-
-            // Skip if not in allowed collections
-            if (!collections.includes(collection)) continue
-
             // Fetch full document (depth 1 for products to resolve brand/categories)
             const doc = await payload.findByID({
               collection: collection as any,
