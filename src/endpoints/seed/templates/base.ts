@@ -1,4 +1,5 @@
 import type { Payload } from 'payload'
+import { sql } from 'drizzle-orm'
 import type { SeedOptions } from '../seedOrchestrator'
 import { checkExistingContent } from '../seedOrchestrator'
 
@@ -175,215 +176,85 @@ export async function seedBase(
   }
 
   // ==========================================================================
-  // FORMS (Contact + Newsletter) — via Payload Form Builder
+  // FORMS (Contact + Newsletter + Quote) — via raw SQL
+  // (Payload's form builder plugin has a boolean→integer bug in the local API,
+  //  so we insert directly to ensure `required` is stored as integer correctly)
   // ==========================================================================
   payload.logger.info('   → Creating default forms...')
 
-  // Check if forms already exist
   const existingForms = await payload.find({ collection: 'forms', limit: 100 })
   const existingFormTitles = existingForms.docs.map((f: any) => f.title)
+  const db = (payload.db as any).drizzle
 
-  if (!existingFormTitles.includes('Contactformulier')) {
-    payload.logger.info('     → Creating contact form...')
-    await payload.create({
-      collection: 'forms',
-      data: {
-        title: 'Contactformulier',
-        submitButtonLabel: 'Versturen',
-        confirmationType: 'message',
-        confirmationMessage: {
-          root: {
-            type: 'root',
-            children: [
-              {
-                type: 'heading',
-                tag: 'h3',
-                children: [{ type: 'text', text: 'Bedankt voor uw bericht!' }],
-              },
-              {
-                type: 'paragraph',
-                children: [{ type: 'text', text: `Uw bericht is succesvol verzonden. We nemen zo snel mogelijk contact met u op.` }],
-              },
-            ],
-            direction: 'ltr',
-            format: '',
-            indent: 0,
-            version: 1,
-          },
-        },
-        fields: [
-          {
-            blockType: 'text',
-            name: 'naam',
-            label: 'Naam',
-            required: true,
-            width: 50,
-          },
-          {
-            blockType: 'email',
-            name: 'email',
-            label: 'E-mailadres',
-            required: true,
-            width: 50,
-          },
-          {
-            blockType: 'text',
-            name: 'telefoon',
-            label: 'Telefoonnummer',
-            required: false,
-            width: 50,
-          },
-          {
-            blockType: 'select',
-            name: 'onderwerp',
-            label: 'Onderwerp',
-            required: false,
-            width: 50,
-            options: [
-              { label: 'Algemene vraag', value: 'algemeen' },
-              { label: 'Bestelling', value: 'bestelling' },
-              { label: 'Retour / Ruiling', value: 'retour' },
-              { label: 'Factuur', value: 'factuur' },
-              { label: 'Klacht', value: 'klacht' },
-              { label: 'Overig', value: 'overig' },
-            ],
-          },
-          {
-            blockType: 'textarea',
-            name: 'bericht',
-            label: 'Uw bericht',
-            required: true,
-          },
-          {
-            blockType: 'checkbox',
-            name: 'privacy',
-            label: 'Ik ga akkoord met het privacybeleid',
-            required: true,
-          },
-        ],
-      } as any,
-    })
+  type FormField = { blockType: string; name: string; label: string; required: boolean }
+
+  const richText = (children: any[]) => JSON.stringify({
+    root: { type: 'root', children, direction: 'ltr', format: '', indent: 0, version: 1 },
+  })
+
+  async function seedForm(
+    title: string,
+    submitLabel: string,
+    confirmChildren: any[],
+    fields: FormField[],
+  ) {
+    if (existingFormTitles.includes(title)) return
+
+    payload.logger.info(`     → Creating ${title}...`)
+
+    // Insert form row
+    const formRows = await db.execute(sql`
+      INSERT INTO forms (title, submit_button_label, confirmation_type, confirmation_message, updated_at, created_at)
+      VALUES (${title}, ${submitLabel}, 'message', ${richText(confirmChildren)}::jsonb, NOW(), NOW())
+      RETURNING id
+    `)
+    const formId = formRows.rows[0].id
+
+    // Insert field blocks
+    for (let i = 0; i < fields.length; i++) {
+      const f = fields[i]
+      const order = i + 1
+      const id = Array.from({ length: 24 }, () => Math.floor(Math.random() * 16).toString(16)).join('')
+      const req = f.required ? 1 : 0
+
+      await db.execute(sql.raw(
+        `INSERT INTO forms_blocks_${f.blockType} (_order, _parent_id, _path, id, name, label, required)
+         VALUES (${order}, ${formId}, 'fields', '${id}', '${f.name}', '${f.label}', ${req})`
+      ))
+    }
+
     result.collections.forms = (result.collections.forms || 0) + 1
   }
 
-  if (!existingFormTitles.includes('Nieuwsbrief')) {
-    payload.logger.info('     → Creating newsletter form...')
-    await payload.create({
-      collection: 'forms',
-      data: {
-        title: 'Nieuwsbrief',
-        submitButtonLabel: 'Aanmelden',
-        confirmationType: 'message',
-        confirmationMessage: {
-          root: {
-            type: 'root',
-            children: [
-              {
-                type: 'paragraph',
-                children: [{ type: 'text', text: 'U bent succesvol aangemeld voor onze nieuwsbrief!' }],
-              },
-            ],
-            direction: 'ltr',
-            format: '',
-            indent: 0,
-            version: 1,
-          },
-        },
-        fields: [
-          {
-            blockType: 'text',
-            name: 'naam',
-            label: 'Naam',
-            required: false,
-            width: 50,
-          },
-          {
-            blockType: 'email',
-            name: 'email',
-            label: 'E-mailadres',
-            required: true,
-            width: 50,
-          },
-        ],
-      } as any,
-    })
-    result.collections.forms = (result.collections.forms || 0) + 1
-  }
+  await seedForm('Contactformulier', 'Versturen', [
+    { type: 'heading', tag: 'h3', children: [{ type: 'text', text: 'Bedankt voor uw bericht!' }] },
+    { type: 'paragraph', children: [{ type: 'text', text: 'Uw bericht is succesvol verzonden. We nemen zo snel mogelijk contact met u op.' }] },
+  ], [
+    { blockType: 'text', name: 'naam', label: 'Naam', required: true },
+    { blockType: 'email', name: 'email', label: 'E-mailadres', required: true },
+    { blockType: 'text', name: 'telefoon', label: 'Telefoonnummer', required: false },
+    { blockType: 'textarea', name: 'bericht', label: 'Uw bericht', required: true },
+    { blockType: 'checkbox', name: 'privacy', label: 'Ik ga akkoord met het privacybeleid', required: true },
+  ])
 
-  if (!existingFormTitles.includes('Offerte aanvragen')) {
-    payload.logger.info('     → Creating quote request form...')
-    await payload.create({
-      collection: 'forms',
-      data: {
-        title: 'Offerte aanvragen',
-        submitButtonLabel: 'Offerte aanvragen',
-        confirmationType: 'message',
-        confirmationMessage: {
-          root: {
-            type: 'root',
-            children: [
-              {
-                type: 'heading',
-                tag: 'h3',
-                children: [{ type: 'text', text: 'Bedankt voor uw aanvraag!' }],
-              },
-              {
-                type: 'paragraph',
-                children: [{ type: 'text', text: 'Wij nemen binnen 2 werkdagen contact met u op met een offerte op maat.' }],
-              },
-            ],
-            direction: 'ltr',
-            format: '',
-            indent: 0,
-            version: 1,
-          },
-        },
-        fields: [
-          {
-            blockType: 'text',
-            name: 'bedrijfsnaam',
-            label: 'Bedrijfsnaam',
-            required: true,
-            width: 50,
-          },
-          {
-            blockType: 'text',
-            name: 'contactpersoon',
-            label: 'Contactpersoon',
-            required: true,
-            width: 50,
-          },
-          {
-            blockType: 'email',
-            name: 'email',
-            label: 'E-mailadres',
-            required: true,
-            width: 50,
-          },
-          {
-            blockType: 'text',
-            name: 'telefoon',
-            label: 'Telefoonnummer',
-            required: true,
-            width: 50,
-          },
-          {
-            blockType: 'textarea',
-            name: 'omschrijving',
-            label: 'Omschrijving van uw aanvraag',
-            required: true,
-          },
-          {
-            blockType: 'checkbox',
-            name: 'privacy',
-            label: 'Ik ga akkoord met het privacybeleid',
-            required: true,
-          },
-        ],
-      } as any,
-    })
-    result.collections.forms = (result.collections.forms || 0) + 1
-  }
+  await seedForm('Nieuwsbrief', 'Aanmelden', [
+    { type: 'paragraph', children: [{ type: 'text', text: 'U bent succesvol aangemeld voor onze nieuwsbrief!' }] },
+  ], [
+    { blockType: 'text', name: 'naam', label: 'Naam', required: false },
+    { blockType: 'email', name: 'email', label: 'E-mailadres', required: true },
+  ])
+
+  await seedForm('Offerte aanvragen', 'Offerte aanvragen', [
+    { type: 'heading', tag: 'h3', children: [{ type: 'text', text: 'Bedankt voor uw aanvraag!' }] },
+    { type: 'paragraph', children: [{ type: 'text', text: 'Wij nemen binnen 2 werkdagen contact met u op met een offerte op maat.' }] },
+  ], [
+    { blockType: 'text', name: 'bedrijfsnaam', label: 'Bedrijfsnaam', required: true },
+    { blockType: 'text', name: 'contactpersoon', label: 'Contactpersoon', required: true },
+    { blockType: 'email', name: 'email', label: 'E-mailadres', required: true },
+    { blockType: 'text', name: 'telefoon', label: 'Telefoonnummer', required: true },
+    { blockType: 'textarea', name: 'omschrijving', label: 'Omschrijving van uw aanvraag', required: true },
+    { blockType: 'checkbox', name: 'privacy', label: 'Ik ga akkoord met het privacybeleid', required: true },
+  ])
 
   // ==========================================================================
   // HEADER GLOBAL
