@@ -207,11 +207,11 @@ export class RAGChatbotService {
             // Skip if not in allowed collections
             if (!collections.includes(collection)) continue
 
-            // Fetch full document
+            // Fetch full document (depth 1 for products to resolve brand/categories)
             const doc = await payload.findByID({
               collection: collection as any,
               id: hit.id,
-              depth: 0,
+              depth: collection === 'products' ? 1 : 0,
             })
 
             if (doc) {
@@ -244,6 +244,29 @@ export class RAGChatbotService {
     if (doc.title) {
       text += doc.title + '\n\n'
     }
+
+    // Product-specific fields
+    if (doc.sku) text += `Artikelnummer: ${doc.sku}\n`
+    if (doc.brand && typeof doc.brand === 'object') {
+      text += `Merk: ${doc.brand.title || doc.brand.name || ''}\n`
+    } else if (doc.brand) {
+      text += `Merk: ${doc.brand}\n`
+    }
+    if (doc.shortDescription) text += doc.shortDescription + '\n\n'
+    if (doc.price != null) text += `Prijs: €${doc.price}\n`
+    if (doc.effectivePrice != null && doc.effectivePrice !== doc.price) text += `Prijs vanaf: €${doc.effectivePrice}\n`
+    if (doc.stockStatus) text += `Voorraad: ${doc.stockStatus === 'in-stock' ? 'Op voorraad' : doc.stockStatus === 'on-backorder' ? 'Op bestelling' : 'Niet op voorraad'}\n`
+    if (doc.categories && Array.isArray(doc.categories)) {
+      const cats = doc.categories.map((c: any) => typeof c === 'object' ? c.title || c.name : c).filter(Boolean)
+      if (cats.length > 0) text += `Categorieën: ${cats.join(', ')}\n`
+    }
+    if (doc.specs && typeof doc.specs === 'object') {
+      const specEntries = Object.entries(doc.specs).filter(([, v]) => v)
+      if (specEntries.length > 0) {
+        text += 'Specificaties: ' + specEntries.map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(', ') : v}`).join(' | ') + '\n'
+      }
+    }
+    if (doc.slug) text += `Link: /${doc.slug}\n`
 
     // Add excerpt/description
     if (doc.excerpt) {
