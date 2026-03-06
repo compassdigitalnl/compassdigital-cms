@@ -52,11 +52,8 @@ export default function SubscriptionCheckoutTemplate1({
         {/* Steps */}
         <CheckoutSteps steps={steps} />
 
-        {/* 2-column layout: 1fr 380px */}
-        <div
-          className="grid items-start gap-7 pb-12"
-          style={{ gridTemplateColumns: '1fr 380px' }}
-        >
+        {/* 2-column layout — responsive */}
+        <div className="grid grid-cols-1 items-start gap-7 pb-12 lg:grid-cols-[1fr_380px]">
           {/* Left column */}
           <div className="flex flex-col gap-4">
             {/* Plan selector */}

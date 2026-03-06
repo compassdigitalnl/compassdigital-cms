@@ -176,19 +176,16 @@ export default function SubscriptionCheckoutClient({
           ]}
         />
 
-        {/* 2-column layout */}
-        <div
-          className="grid items-start gap-7 pb-12 max-lg:grid-cols-1"
-          style={{ gridTemplateColumns: '1fr 380px' }}
-        >
+        {/* 2-column layout — responsive: stacked on mobile, side-by-side on lg+ */}
+        <div className="grid grid-cols-1 items-start gap-7 pb-12 lg:grid-cols-[1fr_380px]">
           {/* Left column */}
           <div className="flex flex-col gap-4">
             <CheckoutCard title="Kies je abonnement" icon={CreditCard}>
               <div
                 className={`grid gap-3.5 ${
                   plans.length <= 2
-                    ? 'grid-cols-1 md:grid-cols-2'
-                    : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+                    ? 'grid-cols-1 sm:grid-cols-2'
+                    : 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3'
                 }`}
               >
                 {plans.map((plan) => (
@@ -218,7 +215,7 @@ export default function SubscriptionCheckoutClient({
 
           {/* Right column — Order summary */}
           <aside>
-            <div className="sticky top-[88px] overflow-hidden rounded-[18px] border-[1.5px] border-[var(--color-border,#E8ECF1)] bg-[var(--color-surface,white)] shadow-[var(--shadow-md,0_8px_24px_rgba(10,22,40,0.08))]">
+            <div className="overflow-hidden rounded-[18px] border-[1.5px] border-[var(--color-border,#E8ECF1)] bg-[var(--color-surface,white)] shadow-[var(--shadow-md,0_8px_24px_rgba(10,22,40,0.08))] lg:sticky lg:top-[88px]">
               {/* Header */}
               <div
                 className="px-[22px] py-5"
