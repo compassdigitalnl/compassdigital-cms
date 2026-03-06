@@ -71,20 +71,26 @@ export default async function MagazineDetailPage({
       shopUrl: edition.shopUrl,
     }))
 
-  // Map plans for the pricing table
+  const PERIOD_LABELS: Record<string, string> = {
+    monthly: '/maand', quarterly: '/kwartaal', biannual: '/halfjaar', yearly: '/jaar', once: ' eenmalig',
+  }
+
+  // Map plans to shared PricingPlan format
   const mappedPlans = (magazine.plans || []).map((p: any) => ({
     id: p.id,
     name: p.name,
     description: p.description,
     highlighted: p.highlighted || false,
+    highlightLabel: p.highlighted ? 'Populairste keuze' : undefined,
     price: p.price,
-    period: p.period || 'yearly',
-    editions: p.editions,
+    priceSuffix: PERIOD_LABELS[p.period] || '',
+    buttonLabel: `${p.name} bestellen`,
+    buttonVariant: p.highlighted ? 'fill' as const : 'outline' as const,
     features: (p.features || []).map((f: any) => ({
       text: f.text,
       included: f.included ?? true,
     })),
-    externalUrl: p.externalUrl,
+    href: p.externalUrl || `/abonneren/${slug}`,
   }))
 
   const trustItems = (magazine.trustItems || []).map((t: any) => ({

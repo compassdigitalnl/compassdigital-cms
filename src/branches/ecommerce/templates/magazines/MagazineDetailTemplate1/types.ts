@@ -1,7 +1,8 @@
 import type { MagazineStat } from '@/branches/ecommerce/components/magazines/MagazineHero/types'
 import type { MagazineUSPCard } from '@/branches/ecommerce/components/magazines/MagazineUSPCards/types'
 import type { MagazineIssue } from '@/branches/ecommerce/components/magazines/MagazineIssueGrid/types'
-import type { SubscriptionPlan, TrustItem } from '@/branches/ecommerce/components/magazines/MagazinePricingPlans/types'
+import type { PricingPlan } from '@/branches/shared/ui/pricing/PricingPlanCard/types'
+import type { TrustItem } from '@/branches/shared/ui/checkout/TrustList/types'
 
 export interface MagazineDetailTemplate1Props {
   name: string
@@ -21,7 +22,7 @@ export interface MagazineDetailTemplate1Props {
     authorRole: string
     rating?: number
   }
-  plans?: SubscriptionPlan[]
+  plans?: PricingPlan[]
   trustItems?: TrustItem[]
   subscriptionCTA?: {
     title: string

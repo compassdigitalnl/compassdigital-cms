@@ -4,7 +4,7 @@ import React from 'react'
 
 import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 import { MagazineHero } from '@/branches/ecommerce/components/magazines/MagazineHero/Component'
-import { MagazinePricingPlans } from '@/branches/ecommerce/components/magazines/MagazinePricingPlans/Component'
+import { PricingPlansGrid } from '@/branches/shared/ui/pricing/PricingPlansGrid'
 import { MagazineUSPCards } from '@/branches/ecommerce/components/magazines/MagazineUSPCards/Component'
 import { MagazineStory } from '@/branches/ecommerce/components/magazines/MagazineStory/Component'
 import { MagazineIssueGrid } from '@/branches/ecommerce/components/magazines/MagazineIssueGrid/Component'
@@ -53,13 +53,20 @@ export default function MagazineDetailTemplate1({
 
         {/* Subscription Plans — PROMINENT, right after hero */}
         {hasPlans && (
-          <MagazinePricingPlans
-            magazineName={name}
-            magazineSlug={slug}
-            plans={plans}
-            trustItems={trustItems}
-            className="mb-12"
-          />
+          <div className="mb-12">
+            <div className="mb-8 text-center">
+              <h2
+                className="font-heading text-[26px] font-extrabold text-[var(--color-text-primary)] md:text-[30px]"
+                style={{ letterSpacing: '-0.02em' }}
+              >
+                Word {name} abonnee
+              </h2>
+              <p className="mx-auto mt-2 max-w-lg text-base text-[var(--color-text-secondary)]">
+                Kies het abonnement dat bij je past en ontvang {name} thuis.
+              </p>
+            </div>
+            <PricingPlansGrid plans={plans} />
+          </div>
         )}
 
         {/* USP Cards */}
