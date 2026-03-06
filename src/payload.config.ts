@@ -47,6 +47,7 @@ import { ProductCategories } from '@/branches/ecommerce/collections/catalog/Prod
 import { Brands } from '@/branches/ecommerce/collections/catalog/Brands'
 import { Branches } from '@/branches/ecommerce/collections/catalog/Branches'
 import { RecentlyViewed } from '@/branches/ecommerce/collections/catalog/RecentlyViewed'
+import { Magazines } from '@/branches/ecommerce/collections/catalog/Magazines'
 // Customers
 import { CustomerGroups } from '@/branches/ecommerce/collections/customers/CustomerGroups'
 // Checkout & Payment
@@ -303,7 +304,10 @@ export default buildConfig({
     _col(Brands),
     _col(Branches),
     _col(RecentlyViewed),
-    _col(EditionNotifications), // Aboland Magazine Features
+    _col(EditionNotifications),
+
+    // Publishing
+    _col(Magazines),
 
     // Customer Management
     _col(Customers),

@@ -504,6 +504,7 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     products: 'shop',
     'product-categories': 'shop',
     branches: 'catalogBranches',
+    magazines: 'magazines',
     brands: 'brands',
     'recently-viewed': 'recentlyViewed',
     'edition-notifications': 'editionNotifications',

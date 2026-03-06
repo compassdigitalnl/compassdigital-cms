@@ -3,6 +3,7 @@ import * as migration_20260305_190000_add_product_type_tables from './20260305_1
 import * as migration_20260305_200000_add_canonical_and_hide_from_catalog from './20260305_200000_add_canonical_and_hide_from_catalog';
 import * as migration_20260305_220000_add_button_tokens from './20260305_220000_add_button_tokens';
 import * as migration_20260306_120000_add_subscription_pages from './20260306_120000_add_subscription_pages';
+import * as migration_20260306_130000_add_magazines from './20260306_130000_add_magazines';
 
 export const migrations = [
   {
@@ -29,5 +30,10 @@ export const migrations = [
     up: migration_20260306_120000_add_subscription_pages.up,
     down: migration_20260306_120000_add_subscription_pages.down,
     name: '20260306_120000_add_subscription_pages',
+  },
+  {
+    up: migration_20260306_130000_add_magazines.up,
+    down: migration_20260306_130000_add_magazines.down,
+    name: '20260306_130000_add_magazines',
   },
 ];
