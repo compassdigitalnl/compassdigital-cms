@@ -134,7 +134,7 @@ export const basicInfoTab: Tab = {
       label: 'Categorieen',
       admin: { position: 'sidebar' },
     },
-    ...featureField('shop', {
+    ...featureField('catalogBranches', {
       name: 'branches',
       type: 'relationship',
       relationTo: 'branches',

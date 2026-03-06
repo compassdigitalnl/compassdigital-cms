@@ -14,7 +14,7 @@ export const Branches: CollectionConfig = {
     group: 'E-commerce',
     defaultColumns: ['name', 'slug', 'featured', 'order', 'visible', 'updatedAt'],
     description: 'Branches zoals Huisartsen, Tandartsen, Fysiotherapie, etc.',
-    hidden: shouldHideCollection('shop'),
+    hidden: shouldHideCollection('catalogBranches'),
   },
   access: {
     read: () => true,

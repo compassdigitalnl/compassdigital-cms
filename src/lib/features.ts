@@ -81,6 +81,9 @@ export interface ClientFeatures {
   licenses?: boolean
   loyalty?: boolean
 
+  // === CATALOG ===
+  catalogBranches?: boolean
+
   // === PUBLISHING ===
   magazines?: boolean
 
@@ -265,6 +268,9 @@ export const features = {
   licenses: isFeatureEnabled('licenses'),
   loyalty: isFeatureEnabled('loyalty'),
 
+  // === CATALOG ===
+  catalogBranches: isFeatureEnabled('catalog_branches'),
+
   // === PUBLISHING ===
   magazines: isFeatureEnabled('magazines'),
 
@@ -342,6 +348,7 @@ export const featureCategories = {
   b2b: ['b2b', 'customerGroups', 'groupPricing', 'barcodeScanner'],
   marketplace: ['vendors', 'vendorReviews', 'workshops'],
   sprint6: ['subscriptions', 'subscriptionPages', 'giftVouchers', 'licenses', 'loyalty'],
+  catalog: ['catalogBranches'],
   publishing: ['magazines'],
   content: ['blog', 'faq', 'testimonials', 'cases', 'partners', 'services', 'wishlists'],
   advanced: ['multiLanguage', 'aiContent', 'search', 'newsletter', 'platform', 'authentication', 'chatbot', 'abTesting'],
@@ -428,6 +435,9 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     licenses: 'ENABLE_LICENSES',
     loyalty: 'ENABLE_LOYALTY',
 
+    // === CATALOG ===
+    catalogBranches: 'ENABLE_CATALOG_BRANCHES',
+
     // === PUBLISHING ===
     magazines: 'ENABLE_MAGAZINES',
 
@@ -493,6 +503,7 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     // === SHOP ===
     products: 'shop',
     'product-categories': 'shop',
+    branches: 'catalogBranches',
     brands: 'brands',
     'recently-viewed': 'recentlyViewed',
     'edition-notifications': 'editionNotifications',
