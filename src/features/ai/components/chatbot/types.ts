@@ -35,6 +35,10 @@ export interface ChatbotSettings {
   position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'
   buttonColor: string
   buttonIcon: 'chat' | 'robot' | 'lightbulb' | 'question'
+  avatarImage?: {
+    url: string
+    alt?: string
+  } | null
   welcomeMessage: string
   placeholder: string
   suggestedQuestions?: Array<{

@@ -114,7 +114,16 @@ export function ChatbotWidget({ settings }: ChatbotWidgetProps) {
             className="chatbot-header"
             style={{ backgroundColor: settings.buttonColor || '#0ea5e9' }}
           >
-            <h3>Chat Assistant</h3>
+            <div className="chatbot-header-info">
+              {settings.avatarImage?.url && (
+                <img
+                  src={settings.avatarImage.url}
+                  alt={settings.avatarImage.alt || 'Chat assistant'}
+                  className="chatbot-avatar"
+                />
+              )}
+              <h3>Chat Assistant</h3>
+            </div>
             <div className="chatbot-header-actions">
               {messages.length > 1 && (
                 <button
@@ -190,41 +199,85 @@ export function ChatbotWidget({ settings }: ChatbotWidgetProps) {
                 key={index}
                 className={`chatbot-message chatbot-message-${msg.role}`}
               >
-                <div className="chatbot-message-content">
-                  {msg.content}
-
-                  {/* Sources */}
-                  {msg.sources && msg.sources.length > 0 && (
-                    <div className="chatbot-sources">
-                      <p className="chatbot-sources-title">Bronnen:</p>
-                      <ul>
-                        {msg.sources.map((source, idx) => (
-                          <li key={idx}>
-                            <a href={source.url} target="_blank" rel="noopener noreferrer">
-                              {source.title}
-                            </a>
-                            {source.excerpt && (
-                              <p className="chatbot-source-excerpt">{source.excerpt}</p>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
+                {msg.role === 'assistant' && settings.avatarImage?.url ? (
+                  <div className="chatbot-message-row">
+                    <img
+                      src={settings.avatarImage.url}
+                      alt={settings.avatarImage.alt || 'Assistant'}
+                      className="chatbot-msg-avatar"
+                    />
+                    <div className="chatbot-message-content">
+                      {msg.content}
+                      {msg.sources && msg.sources.length > 0 && (
+                        <div className="chatbot-sources">
+                          <p className="chatbot-sources-title">Bronnen:</p>
+                          <ul>
+                            {msg.sources.map((source, idx) => (
+                              <li key={idx}>
+                                <a href={source.url} target="_blank" rel="noopener noreferrer">
+                                  {source.title}
+                                </a>
+                                {source.excerpt && (
+                                  <p className="chatbot-source-excerpt">{source.excerpt}</p>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-
+                  </div>
+                ) : (
+                  <div className="chatbot-message-content">
+                    {msg.content}
+                    {msg.sources && msg.sources.length > 0 && (
+                      <div className="chatbot-sources">
+                        <p className="chatbot-sources-title">Bronnen:</p>
+                        <ul>
+                          {msg.sources.map((source, idx) => (
+                            <li key={idx}>
+                              <a href={source.url} target="_blank" rel="noopener noreferrer">
+                                {source.title}
+                              </a>
+                              {source.excerpt && (
+                                <p className="chatbot-source-excerpt">{source.excerpt}</p>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
 
             {isLoading && (
               <div className="chatbot-message chatbot-message-assistant">
-                <div className="chatbot-message-content">
-                  <div className="chatbot-loading">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                {settings.avatarImage?.url ? (
+                  <div className="chatbot-message-row">
+                    <img
+                      src={settings.avatarImage.url}
+                      alt={settings.avatarImage.alt || 'Assistant'}
+                      className="chatbot-msg-avatar"
+                    />
+                    <div className="chatbot-message-content">
+                      <div className="chatbot-loading">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="chatbot-message-content">
+                    <div className="chatbot-loading">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 

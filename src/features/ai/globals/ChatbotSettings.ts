@@ -178,6 +178,16 @@ export const ChatbotSettings: GlobalConfig = {
               ],
             },
             {
+              name: 'avatarImage',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'Avatar Image',
+              admin: {
+                description:
+                  'Personal avatar shown in the chat header and next to assistant messages (recommended: square, min 100x100px)',
+              },
+            },
+            {
               name: 'welcomeMessage',
               type: 'textarea',
               label: 'Welcome Message',
