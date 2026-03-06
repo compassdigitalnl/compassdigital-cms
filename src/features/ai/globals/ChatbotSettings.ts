@@ -209,9 +209,10 @@ export const ChatbotSettings: GlobalConfig = {
             {
               name: 'suggestedQuestions',
               type: 'array',
-              label: 'Suggested Questions',
+              label: 'Suggested Questions (legacy)',
               admin: {
-                description: 'Quick-start questions shown to users',
+                description:
+                  'Simple suggested questions (used as fallback when no Conversation Flows are configured)',
               },
               fields: [
                 {
@@ -222,6 +223,178 @@ export const ChatbotSettings: GlobalConfig = {
                   admin: {
                     placeholder: 'Wat zijn jullie openingstijden?',
                   },
+                },
+              ],
+            },
+            {
+              name: 'conversationFlows',
+              type: 'array',
+              label: 'Conversation Flows',
+              admin: {
+                description:
+                  'Smart guided conversation flows. Users select a category, then sub-options, optionally enter details (e.g. order number), and the AI takes over with full context.',
+                initCollapsed: true,
+              },
+              labels: {
+                singular: 'Flow Category',
+                plural: 'Flow Categories',
+              },
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'label',
+                      type: 'text',
+                      required: true,
+                      label: 'Button Label',
+                      admin: {
+                        width: '50%',
+                        placeholder: 'Ik heb een vraag over mijn bestelling',
+                      },
+                    },
+                    {
+                      name: 'icon',
+                      type: 'select',
+                      label: 'Icon',
+                      admin: { width: '25%' },
+                      options: [
+                        { label: '🛍️ Shopping Bag', value: 'shopping-bag' },
+                        { label: '📦 Package', value: 'package' },
+                        { label: '🔍 Search', value: 'search' },
+                        { label: '🔧 Wrench', value: 'wrench' },
+                        { label: '💬 Message', value: 'message' },
+                        { label: '❤️ Heart', value: 'heart' },
+                        { label: '❓ Help', value: 'help' },
+                        { label: '🚚 Truck', value: 'truck' },
+                        { label: '🧾 Receipt', value: 'receipt' },
+                        { label: '⭐ Star', value: 'star' },
+                      ],
+                    },
+                    {
+                      name: 'type',
+                      type: 'select',
+                      required: true,
+                      label: 'Type',
+                      defaultValue: 'direct',
+                      admin: { width: '25%' },
+                      options: [
+                        { label: 'Direct (send message)', value: 'direct' },
+                        { label: 'Submenu (show sub-options)', value: 'submenu' },
+                        { label: 'Input (ask for details)', value: 'input' },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  name: 'contextPrefix',
+                  type: 'text',
+                  label: 'Context Prefix',
+                  admin: {
+                    description:
+                      'Prepended to the AI message for context (e.g. "Bestellingen:")',
+                    placeholder: 'Bestellingen:',
+                    condition: (_, siblingData) =>
+                      siblingData?.type === 'submenu' || siblingData?.type === 'input',
+                  },
+                },
+                {
+                  name: 'directMessage',
+                  type: 'text',
+                  label: 'Message to AI',
+                  admin: {
+                    description: 'Message sent to AI when clicked. Leave empty to use the label.',
+                    condition: (_, siblingData) => siblingData?.type === 'direct',
+                  },
+                },
+                {
+                  name: 'inputLabel',
+                  type: 'text',
+                  label: 'Input Label',
+                  admin: {
+                    description: 'Label shown above the input field',
+                    placeholder: 'Voer je ordernummer in',
+                    condition: (_, siblingData) => siblingData?.type === 'input',
+                  },
+                },
+                {
+                  name: 'inputPlaceholder',
+                  type: 'text',
+                  label: 'Input Placeholder',
+                  admin: {
+                    description: 'Placeholder text in the input field',
+                    placeholder: 'Bijv. ORD-12345',
+                    condition: (_, siblingData) => siblingData?.type === 'input',
+                  },
+                },
+                {
+                  name: 'subOptions',
+                  type: 'array',
+                  label: 'Sub-options',
+                  admin: {
+                    description: 'Follow-up options shown after selecting this category',
+                    condition: (_, siblingData) => siblingData?.type === 'submenu',
+                  },
+                  labels: {
+                    singular: 'Sub-option',
+                    plural: 'Sub-options',
+                  },
+                  fields: [
+                    {
+                      type: 'row',
+                      fields: [
+                        {
+                          name: 'label',
+                          type: 'text',
+                          required: true,
+                          label: 'Button Label',
+                          admin: {
+                            width: '50%',
+                            placeholder: 'Status van mijn bestelling',
+                          },
+                        },
+                        {
+                          name: 'type',
+                          type: 'select',
+                          required: true,
+                          label: 'Type',
+                          defaultValue: 'direct',
+                          admin: { width: '50%' },
+                          options: [
+                            { label: 'Direct (send message)', value: 'direct' },
+                            { label: 'Input (ask for details first)', value: 'input' },
+                          ],
+                        },
+                      ],
+                    },
+                    {
+                      name: 'directMessage',
+                      type: 'text',
+                      label: 'Message to AI',
+                      admin: {
+                        description: 'Leave empty to use the label as message.',
+                        condition: (_, siblingData) => siblingData?.type === 'direct',
+                      },
+                    },
+                    {
+                      name: 'inputLabel',
+                      type: 'text',
+                      label: 'Input Label',
+                      admin: {
+                        placeholder: 'Voer je ordernummer in (optioneel)',
+                        condition: (_, siblingData) => siblingData?.type === 'input',
+                      },
+                    },
+                    {
+                      name: 'inputPlaceholder',
+                      type: 'text',
+                      label: 'Input Placeholder',
+                      admin: {
+                        placeholder: 'Bijv. ORD-12345',
+                        condition: (_, siblingData) => siblingData?.type === 'input',
+                      },
+                    },
+                  ],
                 },
               ],
             },

@@ -26,6 +26,25 @@ export interface ChatbotUsage {
   totalTokens: number
 }
 
+export interface ConversationFlowSubOption {
+  label: string
+  type: 'direct' | 'input'
+  directMessage?: string
+  inputLabel?: string
+  inputPlaceholder?: string
+}
+
+export interface ConversationFlow {
+  label: string
+  icon?: 'shopping-bag' | 'package' | 'search' | 'wrench' | 'message' | 'heart' | 'help' | 'truck' | 'receipt' | 'star'
+  type: 'direct' | 'submenu' | 'input'
+  directMessage?: string
+  inputLabel?: string
+  inputPlaceholder?: string
+  contextPrefix?: string
+  subOptions?: ConversationFlowSubOption[]
+}
+
 export interface ChatbotSettings {
   enabled: boolean
   model: 'groq' | 'gpt-4' | 'gpt-3.5' | 'ollama' | 'hybrid'
@@ -44,6 +63,7 @@ export interface ChatbotSettings {
   suggestedQuestions?: Array<{
     question: string
   }>
+  conversationFlows?: ConversationFlow[]
   systemPrompt?: string
   trainingContext?: string
   knowledgeBaseIntegration?: {

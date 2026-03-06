@@ -5,6 +5,7 @@
  *
  * Floating chatbot with RAG (Retrieval Augmented Generation).
  * Features:
+ * - Guided conversation flows (multi-step intake)
  * - Knowledge base integration via Meilisearch
  * - Configurable position, colors, messages
  * - Source attribution
@@ -14,8 +15,39 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { useChatbot } from './useChatbot'
-import type { ChatbotMessage, ChatbotSettings } from './types'
+import type { ChatbotMessage, ChatbotSettings, ConversationFlow } from './types'
 import './ChatbotWidget.scss'
+
+const FLOW_ICONS: Record<string, string> = {
+  'shopping-bag': '\uD83D\uDECD\uFE0F',
+  package: '\uD83D\uDCE6',
+  search: '\uD83D\uDD0D',
+  wrench: '\uD83D\uDD27',
+  message: '\uD83D\uDCAC',
+  heart: '\u2764\uFE0F',
+  help: '\u2753',
+  truck: '\uD83D\uDE9A',
+  receipt: '\uD83E\uDDFE',
+  star: '\u2B50',
+}
+
+interface FlowState {
+  step: 'categories' | 'suboptions' | 'input'
+  flowIndex: number
+  subIndex: number
+  context: string
+  inputLabel: string
+  inputPlaceholder: string
+}
+
+const INITIAL_FLOW_STATE: FlowState = {
+  step: 'categories',
+  flowIndex: -1,
+  subIndex: -1,
+  context: '',
+  inputLabel: '',
+  inputPlaceholder: '',
+}
 
 interface ChatbotWidgetProps {
   settings: ChatbotSettings
@@ -24,6 +56,8 @@ interface ChatbotWidgetProps {
 export function ChatbotWidget({ settings }: ChatbotWidgetProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [message, setMessage] = useState('')
+  const [flowState, setFlowState] = useState<FlowState>(INITIAL_FLOW_STATE)
+  const [flowInput, setFlowInput] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const {
@@ -31,7 +65,7 @@ export function ChatbotWidget({ settings }: ChatbotWidgetProps) {
     isLoading,
     error,
     sendMessage,
-    resetConversation,
+    resetConversation: _resetConversation,
     isAvailable,
   } = useChatbot()
 
@@ -47,17 +81,82 @@ export function ChatbotWidget({ settings }: ChatbotWidgetProps) {
     return null
   }
 
+  const flows = settings.conversationFlows
+  const hasFlows = flows && flows.length > 0
+
+  const resetConversation = () => {
+    _resetConversation()
+    setFlowState(INITIAL_FLOW_STATE)
+    setFlowInput('')
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
     if (!message.trim() || isLoading) return
-
     await sendMessage(message)
     setMessage('')
   }
 
-  const handleSuggestedQuestion = async (question: string) => {
-    await sendMessage(question)
+  // Flow: user clicks a top-level category
+  const handleFlowCategory = async (flow: ConversationFlow, index: number) => {
+    if (flow.type === 'direct') {
+      const msg = flow.directMessage || flow.label
+      await sendMessage(msg)
+    } else if (flow.type === 'submenu') {
+      setFlowState({
+        ...INITIAL_FLOW_STATE,
+        step: 'suboptions',
+        flowIndex: index,
+        context: flow.contextPrefix || '',
+      })
+    } else if (flow.type === 'input') {
+      setFlowState({
+        ...INITIAL_FLOW_STATE,
+        step: 'input',
+        flowIndex: index,
+        context: flow.contextPrefix || flow.label,
+        inputLabel: flow.inputLabel || 'Voer details in',
+        inputPlaceholder: flow.inputPlaceholder || '',
+      })
+    }
+  }
+
+  // Flow: user clicks a sub-option
+  const handleSubOption = async (flowIndex: number, subIndex: number) => {
+    const flow = flows![flowIndex]
+    const sub = flow.subOptions![subIndex]
+    const prefix = flow.contextPrefix ? `${flow.contextPrefix} ` : ''
+
+    if (sub.type === 'direct') {
+      const msg = prefix + (sub.directMessage || sub.label)
+      await sendMessage(msg)
+    } else if (sub.type === 'input') {
+      setFlowState({
+        step: 'input',
+        flowIndex,
+        subIndex,
+        context: prefix + sub.label,
+        inputLabel: sub.inputLabel || 'Voer details in',
+        inputPlaceholder: sub.inputPlaceholder || '',
+      })
+    }
+  }
+
+  // Flow: user submits input (e.g. order number)
+  const handleFlowInputSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    let msg = flowState.context
+    if (flowInput.trim()) {
+      msg += ` (${flowInput.trim()})`
+    }
+    setFlowInput('')
+    await sendMessage(msg)
+  }
+
+  // Flow: user skips input
+  const handleFlowInputSkip = async () => {
+    await sendMessage(flowState.context)
+    setFlowInput('')
   }
 
   // Determine button position classes
@@ -67,11 +166,11 @@ export function ChatbotWidget({ settings }: ChatbotWidgetProps) {
   const ButtonIcon = () => {
     switch (settings.buttonIcon) {
       case 'robot':
-        return <span className="chatbot-icon">🤖</span>
+        return <span className="chatbot-icon">{'\uD83E\uDD16'}</span>
       case 'lightbulb':
-        return <span className="chatbot-icon">💡</span>
+        return <span className="chatbot-icon">{'\uD83D\uDCA1'}</span>
       case 'question':
-        return <span className="chatbot-icon">❓</span>
+        return <span className="chatbot-icon">{'\u2753'}</span>
       default:
         return (
           <svg
@@ -90,6 +189,171 @@ export function ChatbotWidget({ settings }: ChatbotWidgetProps) {
           </svg>
         )
     }
+  }
+
+  // Render message content with optional avatar
+  const renderMessageContent = (msg: ChatbotMessage) => {
+    const content = (
+      <div className="chatbot-message-content">
+        {msg.content}
+        {msg.sources && msg.sources.length > 0 && (
+          <div className="chatbot-sources">
+            <p className="chatbot-sources-title">Bronnen:</p>
+            <ul>
+              {msg.sources.map((source, idx) => (
+                <li key={idx}>
+                  <a href={source.url} target="_blank" rel="noopener noreferrer">
+                    {source.title}
+                  </a>
+                  {source.excerpt && (
+                    <p className="chatbot-source-excerpt">{source.excerpt}</p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    )
+
+    if (msg.role === 'assistant' && settings.avatarImage?.url) {
+      return (
+        <div className="chatbot-message-row">
+          <img
+            src={settings.avatarImage.url}
+            alt={settings.avatarImage.alt || 'Assistant'}
+            className="chatbot-msg-avatar"
+          />
+          {content}
+        </div>
+      )
+    }
+
+    return content
+  }
+
+  // Render welcome screen with flows or legacy suggested questions
+  const renderWelcome = () => {
+    // Flow: input collection step
+    if (hasFlows && flowState.step === 'input') {
+      return (
+        <div className="chatbot-welcome chatbot-flow-input">
+          <button
+            className="chatbot-flow-back"
+            onClick={() => {
+              setFlowInput('')
+              if (flowState.subIndex >= 0) {
+                setFlowState({ ...flowState, step: 'suboptions', subIndex: -1 })
+              } else {
+                setFlowState(INITIAL_FLOW_STATE)
+              }
+            }}
+          >
+            &larr; Terug
+          </button>
+          <p className="chatbot-flow-input-label">{flowState.inputLabel}</p>
+          <form onSubmit={handleFlowInputSubmit} className="chatbot-flow-input-form">
+            <input
+              type="text"
+              value={flowInput}
+              onChange={(e) => setFlowInput(e.target.value)}
+              placeholder={flowState.inputPlaceholder}
+              className="chatbot-input"
+              autoFocus
+            />
+            <button type="submit" className="chatbot-flow-submit" disabled={isLoading}>
+              Verstuur
+            </button>
+          </form>
+          <button
+            className="chatbot-flow-skip"
+            onClick={handleFlowInputSkip}
+            disabled={isLoading}
+          >
+            Overslaan
+          </button>
+        </div>
+      )
+    }
+
+    // Flow: sub-options step
+    if (hasFlows && flowState.step === 'suboptions' && flowState.flowIndex >= 0) {
+      const flow = flows![flowState.flowIndex]
+      const subs = flow.subOptions || []
+      return (
+        <div className="chatbot-welcome">
+          <button
+            className="chatbot-flow-back"
+            onClick={() => setFlowState(INITIAL_FLOW_STATE)}
+          >
+            &larr; Terug
+          </button>
+          <p className="chatbot-flow-subtitle">
+            {flow.label}
+          </p>
+          <div className="chatbot-flows">
+            {subs.map((sub, idx) => (
+              <button
+                key={idx}
+                className="chatbot-flow-btn"
+                onClick={() => handleSubOption(flowState.flowIndex, idx)}
+                disabled={isLoading}
+              >
+                {sub.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )
+    }
+
+    // Flow: top-level categories
+    if (hasFlows) {
+      return (
+        <div className="chatbot-welcome">
+          <p>{settings.welcomeMessage || 'Welkom! Waar kunnen we je mee helpen?'}</p>
+          <div className="chatbot-flows">
+            {flows!.map((flow, idx) => (
+              <button
+                key={idx}
+                className="chatbot-flow-btn"
+                onClick={() => handleFlowCategory(flow, idx)}
+                disabled={isLoading}
+              >
+                {flow.icon && (
+                  <span className="chatbot-flow-icon">
+                    {FLOW_ICONS[flow.icon] || ''}
+                  </span>
+                )}
+                {flow.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )
+    }
+
+    // Legacy: simple suggested questions
+    return (
+      <div className="chatbot-welcome">
+        <p>{settings.welcomeMessage || 'Hallo! Hoe kan ik je helpen?'}</p>
+        {settings.suggestedQuestions && settings.suggestedQuestions.length > 0 && (
+          <div className="chatbot-suggestions">
+            <p className="chatbot-suggestions-title">Veelgestelde vragen:</p>
+            {settings.suggestedQuestions.map((item, index) => (
+              <button
+                key={index}
+                onClick={() => sendMessage(item.question)}
+                className="chatbot-suggestion"
+                disabled={isLoading}
+              >
+                {item.question}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    )
   }
 
   return (
@@ -125,7 +389,7 @@ export function ChatbotWidget({ settings }: ChatbotWidgetProps) {
               <h3>Chat Assistant</h3>
             </div>
             <div className="chatbot-header-actions">
-              {messages.length > 1 && (
+              {messages.length > 0 && (
                 <button
                   onClick={resetConversation}
                   className="chatbot-reset"
@@ -171,84 +435,14 @@ export function ChatbotWidget({ settings }: ChatbotWidgetProps) {
 
           {/* Messages */}
           <div className="chatbot-messages">
-            {messages.length === 0 && (
-              <div className="chatbot-welcome">
-                <p>{settings.welcomeMessage || 'Hallo! Hoe kan ik je helpen?'}</p>
-
-                {/* Suggested Questions */}
-                {settings.suggestedQuestions && settings.suggestedQuestions.length > 0 && (
-                  <div className="chatbot-suggestions">
-                    <p className="chatbot-suggestions-title">Veelgestelde vragen:</p>
-                    {settings.suggestedQuestions.map((item, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleSuggestedQuestion(item.question)}
-                        className="chatbot-suggestion"
-                        disabled={isLoading}
-                      >
-                        {item.question}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
+            {messages.length === 0 && renderWelcome()}
 
             {messages.map((msg, index) => (
               <div
                 key={index}
                 className={`chatbot-message chatbot-message-${msg.role}`}
               >
-                {msg.role === 'assistant' && settings.avatarImage?.url ? (
-                  <div className="chatbot-message-row">
-                    <img
-                      src={settings.avatarImage.url}
-                      alt={settings.avatarImage.alt || 'Assistant'}
-                      className="chatbot-msg-avatar"
-                    />
-                    <div className="chatbot-message-content">
-                      {msg.content}
-                      {msg.sources && msg.sources.length > 0 && (
-                        <div className="chatbot-sources">
-                          <p className="chatbot-sources-title">Bronnen:</p>
-                          <ul>
-                            {msg.sources.map((source, idx) => (
-                              <li key={idx}>
-                                <a href={source.url} target="_blank" rel="noopener noreferrer">
-                                  {source.title}
-                                </a>
-                                {source.excerpt && (
-                                  <p className="chatbot-source-excerpt">{source.excerpt}</p>
-                                )}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="chatbot-message-content">
-                    {msg.content}
-                    {msg.sources && msg.sources.length > 0 && (
-                      <div className="chatbot-sources">
-                        <p className="chatbot-sources-title">Bronnen:</p>
-                        <ul>
-                          {msg.sources.map((source, idx) => (
-                            <li key={idx}>
-                              <a href={source.url} target="_blank" rel="noopener noreferrer">
-                                {source.title}
-                              </a>
-                              {source.excerpt && (
-                                <p className="chatbot-source-excerpt">{source.excerpt}</p>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                )}
+                {renderMessageContent(msg)}
               </div>
             ))}
 
@@ -283,7 +477,7 @@ export function ChatbotWidget({ settings }: ChatbotWidgetProps) {
 
             {error && (
               <div className="chatbot-error">
-                <p>❌ {error}</p>
+                <p>{error}</p>
               </div>
             )}
 
