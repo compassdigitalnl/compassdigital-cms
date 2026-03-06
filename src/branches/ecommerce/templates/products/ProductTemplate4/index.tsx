@@ -48,6 +48,8 @@ import {
 interface SidebarItem { id: string | number; title: string; slug?: string; image?: string; price?: number }
 
 function ProductSidebar({ product }: { product: Product }) {
+  const { addItem } = useCart()
+  const { showToast } = useAddToCartToast()
   const [autoSuggestions, setAutoSuggestions] = useState<SidebarItem[]>([])
 
   // Curated items (priority order): accessories → crossSells → relatedProducts
@@ -119,26 +121,33 @@ function ProductSidebar({ product }: { product: Product }) {
       </h3>
       <div className="flex flex-col gap-3">
         {items.slice(0, 6).map((item) => (
-          <Link
-            key={item.id}
-            href={`/${item.slug}`}
-            className="flex items-center gap-3 p-2.5 rounded-xl border border-transparent hover:border-[var(--color-border)] hover:bg-[var(--color-background)] transition-colors no-underline"
-          >
-            <div className="w-14 h-14 rounded-lg bg-[var(--color-background)] shrink-0 flex items-center justify-center overflow-hidden">
+          <div key={item.id} className="flex items-center gap-3 p-2.5 rounded-xl border border-transparent hover:border-[var(--color-border)] hover:bg-[var(--color-background)] transition-colors">
+            <Link href={`/${item.slug}`} className="w-14 h-14 rounded-lg bg-[var(--color-background)] shrink-0 flex items-center justify-center overflow-hidden">
               {item.image ? (
                 <img src={item.image} alt={item.title} className="w-full h-full object-contain" />
               ) : (
                 <Package className="w-6 h-6 text-[var(--color-text-muted)]" />
               )}
-            </div>
-            <div className="min-w-0 flex-1">
+            </Link>
+            <Link href={`/${item.slug}`} className="min-w-0 flex-1 no-underline">
               <div className="text-sm font-semibold text-[var(--color-text-primary)] line-clamp-2 leading-tight">{item.title}</div>
               {item.price != null && item.price > 0 && (
                 <div className="text-sm font-bold text-[var(--color-primary)] mt-0.5">€{item.price.toFixed(2).replace('.', ',')}</div>
               )}
-            </div>
-            <ArrowRight className="w-4 h-4 text-[var(--color-text-muted)] shrink-0" />
-          </Link>
+            </Link>
+            {item.price != null && item.price > 0 && (
+              <button
+                onClick={() => {
+                  addItem({ id: String(item.id), title: item.title, slug: item.slug || '', price: item.price!, unitPrice: item.price!, stock: 999, quantity: 1 })
+                  showToast({ id: String(item.id), name: item.title, image: item.image, quantity: 1, price: item.price! })
+                }}
+                className="btn btn-primary w-9 h-9 !p-0 shrink-0"
+                aria-label={`${item.title} toevoegen aan winkelwagen`}
+              >
+                <ShoppingCart className="w-4 h-4" />
+              </button>
+            )}
+          </div>
         ))}
       </div>
     </div>
