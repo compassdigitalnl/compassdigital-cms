@@ -17,6 +17,7 @@ const DEFAULT_REQUIRED_FIELDS: (keyof Address)[] = [
 const INITIAL_ADDRESS: Address = {
   firstName: '',
   lastName: '',
+  companyName: '',
   street: '',
   houseNumber: '',
   addition: '',
@@ -70,8 +71,8 @@ export function AddressForm({
   const validateField = (name: keyof Address, value: string, country?: string): string => {
     if (requiredFields.includes(name) && !value.trim()) {
       const labels: Record<keyof Address, string> = {
-        firstName: 'Voornaam', lastName: 'Achternaam', street: 'Straat',
-        houseNumber: 'Huisnummer', addition: 'Toevoeging',
+        firstName: 'Voornaam', lastName: 'Achternaam', companyName: 'Bedrijfsnaam',
+        street: 'Straat', houseNumber: 'Huisnummer', addition: 'Toevoeging',
         postalCode: 'Postcode', city: 'Plaats', country: 'Land',
       }
       return `${labels[name]} is verplicht`
@@ -275,6 +276,16 @@ export function AddressForm({
             onBlur={() => handleBlur('lastName')} placeholder="de Vries"
             required={requiredFields.includes('lastName')} aria-invalid={hasError('lastName') ? 'true' : 'false'} />
           {hasError('lastName') && <div className="error-message" role="alert"><AlertCircle size={14} />{errors.lastName}</div>}
+        </div>
+
+        {/* Bedrijfsnaam */}
+        <div className="form-group span-2">
+          <label className="form-label" htmlFor="companyName">
+            Bedrijfsnaam <span className="text-xs text-[var(--color-text-muted)]">(optioneel)</span>
+          </label>
+          <input id="companyName" className="form-input" type="text" value={formData.companyName || ''}
+            onChange={(e) => handleChange('companyName', e.target.value)}
+            placeholder="Optioneel — vul in bij zakelijke bestelling" />
         </div>
 
         {/* Land */}

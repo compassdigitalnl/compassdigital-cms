@@ -11,9 +11,10 @@ import {
   type OAuthProvider,
 } from '@/branches/ecommerce/components/auth'
 import { useAuth } from '@/providers/Auth'
+import { useFeatures } from '@/providers/Features'
 import type { LoginTemplate1Props } from './types'
 
-const REGISTER_BENEFITS = [
+const B2B_BENEFITS = [
   { icon: Tag, title: 'Exclusieve B2B prijzen', description: 'Scherpe prijzen voor zakelijke klanten' },
   { icon: CreditCard, title: 'Betaal achteraf', description: 'Betaaltermijn op factuur' },
   { icon: ClipboardList, title: 'Bestellijsten & snel bestellen', description: 'Sla vaste bestellingen op' },
@@ -21,9 +22,19 @@ const REGISTER_BENEFITS = [
   { icon: Headphones, title: 'Persoonlijk advies', description: 'Direct contact met uw accountmanager' },
 ]
 
+const B2C_BENEFITS = [
+  { icon: Tag, title: 'Exclusieve aanbiedingen', description: 'Ontvang persoonlijke kortingen' },
+  { icon: ClipboardList, title: 'Bestelgeschiedenis', description: 'Bekijk al uw eerdere bestellingen' },
+  { icon: CreditCard, title: 'Sneller afrekenen', description: 'Uw gegevens worden onthouden' },
+  { icon: Headphones, title: 'Klantenservice', description: 'Snelle hulp bij vragen' },
+]
+
 export default function LoginTemplate1({ defaultTab = 'login', siteConfig }: LoginTemplate1Props) {
   const { user, status } = useAuth()
   const router = useRouter()
+  const featureFlags = useFeatures()
+  const isB2B = featureFlags.b2b !== false // B2B is default unless explicitly disabled
+  const benefits = isB2B ? B2B_BENEFITS : B2C_BENEFITS
 
   // Redirect to /account/ if already logged in
   useEffect(() => {
@@ -90,12 +101,14 @@ export default function LoginTemplate1({ defaultTab = 'login', siteConfig }: Log
             className="text-sm mb-6 leading-relaxed"
             style={{ color: 'var(--color-muted-foreground, #94A3B8)' }}
           >
-            Maak een account aan en profiteer direct van exclusieve voordelen.
+            {isB2B
+              ? 'Maak een zakelijk account aan en profiteer direct van exclusieve voordelen.'
+              : 'Maak een account aan en profiteer direct van persoonlijke voordelen.'}
           </p>
 
           {/* Benefits */}
           <div className="flex flex-col gap-3 mb-8">
-            {REGISTER_BENEFITS.map((benefit) => {
+            {benefits.map((benefit) => {
               const Icon = benefit.icon
               return (
                 <div key={benefit.title} className="flex items-center gap-3">
@@ -127,7 +140,7 @@ export default function LoginTemplate1({ defaultTab = 'login', siteConfig }: Log
               boxShadow: '0 4px 16px rgba(0,137,123,0.25)',
             }}
           >
-            Klant worden
+            {isB2B ? 'Zakelijk account aanmaken' : 'Account aanmaken'}
             <ArrowRight className="w-4 h-4" />
           </Link>
 
@@ -137,7 +150,7 @@ export default function LoginTemplate1({ defaultTab = 'login', siteConfig }: Log
             style={{ color: 'var(--color-muted-foreground, #94A3B8)' }}
           >
             <ShieldCheck className="w-3.5 h-3.5" />
-            Registratie is gratis en vrijblijvend
+            {isB2B ? 'Registratie is gratis en vrijblijvend' : 'Gratis en binnen 1 minuut aangemeld'}
           </div>
         </div>
       </div>

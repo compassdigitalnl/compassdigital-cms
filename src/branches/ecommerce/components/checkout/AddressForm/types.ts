@@ -17,6 +17,11 @@ export interface Address {
   lastName: string
 
   /**
+   * Company name (optional, for both B2B and B2C)
+   */
+  companyName?: string
+
+  /**
    * Street name (without house number)
    */
   street: string
