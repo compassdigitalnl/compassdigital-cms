@@ -31,6 +31,13 @@ export default async function MagazinesPage() {
 
   const payload = await getPayload({ config })
 
+  // Read template setting
+  let _template = 'magazinearchivetemplate1'
+  try {
+    const settings = await payload.findGlobal({ slug: 'settings', depth: 0 }) as any
+    _template = settings?.defaultMagazineArchiveTemplate || 'magazinearchivetemplate1'
+  } catch {}
+
   const { docs: magazines } = await payload.find({
     collection: 'magazines',
     where: {
@@ -56,6 +63,9 @@ export default async function MagazinesPage() {
   )
 
   const totalIssueCount = allMagazines.reduce((sum: number, m: any) => sum + (m.issueCount || 0), 0)
+
+  // Template switching (future: add more templates here)
+  // const ArchiveComponent = template === 'magazinearchivetemplate2' ? ... : MagazineArchiveTemplate1
 
   return (
     <MagazineArchiveTemplate1

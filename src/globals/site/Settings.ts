@@ -400,6 +400,54 @@ export const Settings: GlobalConfig = {
                 description: 'Template voor mijn account pagina\'s',
               },
             },
+            ...featureField('magazines', {
+              name: 'defaultMagazineArchiveTemplate',
+              type: 'select',
+              label: 'Standaard Magazine Archief Template',
+              defaultValue: 'magazinearchivetemplate1',
+              options: [
+                { label: 'Magazine Archief Template 1 — Hero, featured, zoeken, grid', value: 'magazinearchivetemplate1' },
+              ],
+              admin: {
+                description: 'Template voor het magazines overzicht',
+              },
+            }),
+            ...featureField('magazines', {
+              name: 'defaultMagazineDetailTemplate',
+              type: 'select',
+              label: 'Standaard Magazine Detail Template',
+              defaultValue: 'magazinedetailtemplate1',
+              options: [
+                { label: 'Magazine Detail Template 1 — Hero, plannen, USPs, edities, testimonial', value: 'magazinedetailtemplate1' },
+              ],
+              admin: {
+                description: 'Template voor magazine detailpagina\'s',
+              },
+            }),
+            ...featureField('magazines', {
+              name: 'defaultSubscriptionPricingTemplate',
+              type: 'select',
+              label: 'Standaard Abonnement Pricing Template',
+              defaultValue: 'subscriptionpricingtemplate1',
+              options: [
+                { label: 'Pricing Template 1 — Plannen naast elkaar, FAQ, vergelijkingstabel', value: 'subscriptionpricingtemplate1' },
+              ],
+              admin: {
+                description: 'Template voor de abonnement-prijzenpagina (/abonneren/[slug])',
+              },
+            }),
+            ...featureField('magazines', {
+              name: 'defaultSubscriptionCheckoutTemplate',
+              type: 'select',
+              label: 'Standaard Abonnement Checkout Template',
+              defaultValue: 'subscriptioncheckouttemplate1',
+              options: [
+                { label: 'Checkout Template 1 — 2-kolom layout (plan kiezen + besteloverzicht)', value: 'subscriptioncheckouttemplate1' },
+              ],
+              admin: {
+                description: 'Template voor de abonnement checkout (/abonneren/[slug]?plan=...)',
+              },
+            }),
           ],
         },
 

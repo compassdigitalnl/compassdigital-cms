@@ -45,6 +45,13 @@ export default async function MagazineDetailPage({
   const { slug } = await params
   const payload = await getPayload({ config })
 
+  // Read template setting
+  let _template = 'magazinedetailtemplate1'
+  try {
+    const settings = await payload.findGlobal({ slug: 'settings', depth: 0 }) as any
+    _template = settings?.defaultMagazineDetailTemplate || 'magazinedetailtemplate1'
+  } catch {}
+
   const { docs } = await payload.find({
     collection: 'magazines',
     where: { slug: { equals: slug } },

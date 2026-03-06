@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react'
 import { Building2, Search } from 'lucide-react'
 
 import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
-import { BranchCard } from '@/branches/ecommerce/components/branches/BranchCard/Component'
+import { BranchCard } from '@/branches/shared/components/branches/BranchCard/Component'
 import type { BrancheArchiveTemplate1Props } from './types'
 
 export default function BrancheArchiveTemplate1({

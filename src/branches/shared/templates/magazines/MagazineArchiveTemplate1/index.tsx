@@ -4,8 +4,8 @@ import React, { useState, useMemo } from 'react'
 import { BookOpen, Search } from 'lucide-react'
 
 import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
-import { MagazineCard } from '@/branches/ecommerce/components/magazines/MagazineCard/Component'
-import { FeaturedMagazines } from '@/branches/ecommerce/components/magazines/FeaturedMagazines/Component'
+import { MagazineCard } from '@/branches/shared/components/magazines/MagazineCard/Component'
+import { FeaturedMagazines } from '@/branches/shared/components/magazines/FeaturedMagazines/Component'
 import type { MagazineArchiveTemplate1Props } from './types'
 
 export default function MagazineArchiveTemplate1({

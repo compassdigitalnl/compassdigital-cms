@@ -9,10 +9,10 @@ import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 import type { BreadcrumbItem } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 
 // Brand components
-import { BrandCard } from '@/branches/ecommerce/components/brands/BrandCard/Component'
-import { FeaturedBrands } from '@/branches/ecommerce/components/brands/FeaturedBrands/Component'
-import { AlphabetNav } from '@/branches/ecommerce/components/brands/AlphabetNav/Component'
-import { BrandSearchToolbar } from '@/branches/ecommerce/components/brands/BrandSearchToolbar/Component'
+import { BrandCard } from '@/branches/shared/components/brands/BrandCard/Component'
+import { FeaturedBrands } from '@/branches/shared/components/brands/FeaturedBrands/Component'
+import { AlphabetNav } from '@/branches/shared/components/brands/AlphabetNav/Component'
+import { BrandSearchToolbar } from '@/branches/shared/components/brands/BrandSearchToolbar/Component'
 
 // ============================================
 // TYPES

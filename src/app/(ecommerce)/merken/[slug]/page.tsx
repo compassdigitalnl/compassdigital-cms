@@ -2,7 +2,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import BrandDetailTemplate1 from '@/branches/ecommerce/templates/brands/BrandDetailTemplate1'
+import BrandDetailTemplate1 from '@/branches/shared/templates/brands/BrandDetailTemplate1'
 import type { Brand, Product, Media } from '@/payload-types'
 import type { Metadata } from 'next'
 
