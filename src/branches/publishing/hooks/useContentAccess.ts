@@ -12,7 +12,7 @@ import {
   checkContentAccess,
   userHasPremiumAccess,
   type ContentAccessResult,
-} from '@/branches/content/utils/checkContentAccess'
+} from '@/branches/publishing/utils/checkContentAccess'
 
 export interface UseContentAccessResult extends ContentAccessResult {
   isLoading: boolean

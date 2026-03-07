@@ -8,7 +8,7 @@
 
 import React from 'react'
 import type { BlogPost } from '@/payload-types'
-import { ArticleCard } from '@/branches/content/components/ArticleCard'
+import { ArticleCard } from '@/branches/publishing/components/ArticleCard'
 import { BookOpen } from 'lucide-react'
 
 export interface KnowledgeBaseGridProps {

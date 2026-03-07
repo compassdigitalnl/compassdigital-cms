@@ -188,7 +188,7 @@ export default function CheckoutTemplate2() {
                   </label>
                   <p className="text-xs" style={{ color: 'var(--grey-mid)' }}>
                     Heb je een account?{' '}
-                    <Link href="/login/" className="underline font-medium" style={{ color: 'var(--teal)' }}>
+                    <Link href="/inloggen/" className="underline font-medium" style={{ color: 'var(--teal)' }}>
                       Inloggen
                     </Link>
                   </p>

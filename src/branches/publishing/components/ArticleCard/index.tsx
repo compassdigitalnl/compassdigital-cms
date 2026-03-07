@@ -12,8 +12,8 @@ import Image from 'next/image'
 import { Clock, FileText, Video, Download, GraduationCap, BookOpen } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { BlogPost, Media } from '@/payload-types'
-import { PremiumBadge } from '@/branches/content/components/PremiumBadge'
-import { calculateReadingTime } from '@/branches/content/utils/calculateReadingTime'
+import { PremiumBadge } from '@/branches/publishing/components/PremiumBadge'
+import { calculateReadingTime } from '@/branches/publishing/utils/calculateReadingTime'
 
 export interface ArticleCardProps {
   /**

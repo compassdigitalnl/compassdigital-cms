@@ -564,7 +564,7 @@ export default function OverviewPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <a
-                href="/login/"
+                href="/inloggen/"
                 className="bg-orange-50 border-2 border-orange-200 hover:border-orange-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
@@ -572,7 +572,7 @@ export default function OverviewPage() {
                     <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
                       Login
                     </h3>
-                    <p className="text-sm text-gray-600">/login</p>
+                    <p className="text-sm text-gray-600">/inloggen</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -79,7 +79,7 @@ import { Customers } from '../packages/modules/accounts/collections/Customers'
 import { Addresses } from '../packages/modules/accounts/collections/Addresses'
 
 // Content Branch (1 collection — premium content)
-import { BlogPosts } from '@/branches/content/collections/BlogPosts'
+import { BlogPosts } from '@/branches/publishing/collections/BlogPosts'
 
 // Shared Collections (blog, marketing)
 import { BlogCategories } from '@/branches/shared/collections/BlogCategories'

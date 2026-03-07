@@ -153,6 +153,7 @@ export function getRouteFeatureMap(): Record<string, keyof ClientFeatures> {
     '/account': 'authentication',
     '/my-account': 'authentication',
     '/login': 'authentication',
+    '/inloggen': 'authentication',
     '/register': 'authentication',
   }
 }

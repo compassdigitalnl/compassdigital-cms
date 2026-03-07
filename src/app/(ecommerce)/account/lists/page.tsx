@@ -29,7 +29,7 @@ export default function OrderListsPage() {
 
       if (response.status === 401) {
         const currentPath = window.location.pathname
-        window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`
+        window.location.href = `/inloggen?redirect=${encodeURIComponent(currentPath)}`
         return
       }
 

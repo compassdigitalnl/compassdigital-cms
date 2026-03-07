@@ -261,7 +261,7 @@ export default function CheckoutTemplate1() {
                   <div className="space-y-4">
                     <div className="flex gap-3 mb-4">
                       <Link
-                        href="/login/"
+                        href="/inloggen/"
                         className="btn btn-primary"
                       >
                         Inloggen
@@ -270,7 +270,7 @@ export default function CheckoutTemplate1() {
                         of
                       </span>
                       <Link
-                        href="/register/"
+                        href="/inloggen?tab=register"
                         className="text-sm underline font-medium self-center"
                         style={{ color: 'var(--teal)' }}
                       >

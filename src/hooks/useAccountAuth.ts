@@ -16,7 +16,7 @@ export function useAccountAuth() {
   useEffect(() => {
     // Once auth has resolved and user is not logged in, redirect
     if (status === 'loggedOut') {
-      router.replace(`/login?redirect=${encodeURIComponent(pathname || '/account')}`)
+      router.replace(`/inloggen?redirect=${encodeURIComponent(pathname || '/account')}`)
     }
   }, [status, router, pathname])
 

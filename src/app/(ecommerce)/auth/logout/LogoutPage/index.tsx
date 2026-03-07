@@ -35,7 +35,7 @@ export const LogoutPage: React.FC = (props) => {
               {` to shop.`}
             </Fragment>
             {` To log back in, `}
-            <Link href="/login/">click here</Link>.
+            <Link href="/inloggen/">click here</Link>.
           </p>
         </div>
       )}

@@ -2,7 +2,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import MagazineDetailTemplate1 from '@/branches/shared/templates/magazines/MagazineDetailTemplate1'
+import MagazineDetailTemplate1 from '@/branches/publishing/templates/magazines/MagazineDetailTemplate1'
 import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'

@@ -3,13 +3,13 @@
 import React from 'react'
 
 import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
-import { MagazineHero } from '@/branches/shared/components/magazines/MagazineHero/Component'
-import { MagazineServiceLinks } from '@/branches/shared/components/magazines/MagazineServiceLinks/Component'
-import { MagazineUSPCards } from '@/branches/shared/components/magazines/MagazineUSPCards/Component'
-import { MagazineSubscriptionCTA } from '@/branches/shared/components/magazines/MagazineSubscriptionCTA/Component'
-import { MagazineIssueGrid } from '@/branches/shared/components/magazines/MagazineIssueGrid/Component'
-import { MagazineTestimonial } from '@/branches/shared/components/magazines/MagazineTestimonial/Component'
-import { MagazineStory } from '@/branches/shared/components/magazines/MagazineStory/Component'
+import { MagazineHero } from '@/branches/publishing/components/magazines/MagazineHero/Component'
+import { MagazineServiceLinks } from '@/branches/publishing/components/magazines/MagazineServiceLinks/Component'
+import { MagazineUSPCards } from '@/branches/publishing/components/magazines/MagazineUSPCards/Component'
+import { MagazineSubscriptionCTA } from '@/branches/publishing/components/magazines/MagazineSubscriptionCTA/Component'
+import { MagazineIssueGrid } from '@/branches/publishing/components/magazines/MagazineIssueGrid/Component'
+import { MagazineTestimonial } from '@/branches/publishing/components/magazines/MagazineTestimonial/Component'
+import { MagazineStory } from '@/branches/publishing/components/magazines/MagazineStory/Component'
 import type { MagazineDetailTemplate1Props } from './types'
 
 export default function MagazineDetailTemplate1({

@@ -26,7 +26,7 @@ const collectionRegistry: Record<string, () => Promise<any>> = {
   orders: () => import('@/branches/ecommerce/collections/orders/Orders'),
 
   // Blog (exist in platform)
-  'blog-posts': () => import('@/branches/content/collections/BlogPosts'),
+  'blog-posts': () => import('@/branches/publishing/collections/BlogPosts'),
 
   // Portfolio (exist in platform)
   cases: () => import('@/branches/shared/collections/Cases'),

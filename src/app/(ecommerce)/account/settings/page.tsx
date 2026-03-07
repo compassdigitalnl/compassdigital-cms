@@ -151,7 +151,7 @@ export default function SettingsPage() {
       })
       if (res.ok) {
         toast.success('Account verwijderd')
-        router.push('/login')
+        router.push('/inloggen')
       } else {
         toast.error('Er ging iets mis bij het verwijderen van je account')
       }

@@ -12,8 +12,8 @@ import {
   KnowledgeBaseHero,
   KnowledgeBaseFilters,
   KnowledgeBaseGrid,
-} from '@/branches/content/components/KnowledgeBase'
-import { calculateReadingTime } from '@/branches/content/utils/calculateReadingTime'
+} from '@/branches/publishing/components/KnowledgeBase'
+import { calculateReadingTime } from '@/branches/publishing/utils/calculateReadingTime'
 
 export default function KennisbankPage() {
   // State

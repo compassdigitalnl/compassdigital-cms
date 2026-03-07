@@ -1,6 +1,6 @@
-import type { MagazineStat } from '@/branches/shared/components/magazines/MagazineHero/types'
-import type { MagazineUSPCard } from '@/branches/shared/components/magazines/MagazineUSPCards/types'
-import type { MagazineIssue } from '@/branches/shared/components/magazines/MagazineIssueGrid/types'
+import type { MagazineStat } from '@/branches/publishing/components/magazines/MagazineHero/types'
+import type { MagazineUSPCard } from '@/branches/publishing/components/magazines/MagazineUSPCards/types'
+import type { MagazineIssue } from '@/branches/publishing/components/magazines/MagazineIssueGrid/types'
 import type { LucideIcon } from 'lucide-react'
 
 export interface ServiceLink {

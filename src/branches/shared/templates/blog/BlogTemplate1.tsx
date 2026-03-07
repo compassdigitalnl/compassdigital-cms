@@ -9,7 +9,7 @@ import { AuthorBox } from '@/branches/shared/components/blog/AuthorBox'
 import { RelatedArticles } from '@/branches/shared/components/blog/RelatedArticles'
 import { PrevNextNavigation } from '@/branches/shared/components/blog/PrevNextNavigation'
 import { ReadingProgressBar } from '@/branches/shared/components/blog/ReadingProgressBar'
-import { BlogPostWithPaywall } from '@/branches/content/components/BlogPostWithPaywall'
+import { BlogPostWithPaywall } from '@/branches/publishing/components/BlogPostWithPaywall'
 import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
 
 interface BlogTemplate1Props {

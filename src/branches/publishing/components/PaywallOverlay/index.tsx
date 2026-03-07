@@ -10,8 +10,8 @@ import React from 'react'
 import Link from 'next/link'
 import { Lock, Sparkles } from 'lucide-react'
 import { Button } from '@/branches/shared/components/ui/button'
-import { getAccessDenialMessage } from '@/branches/content/utils/checkContentAccess'
-import type { ContentAccessResult } from '@/branches/content/utils/checkContentAccess'
+import { getAccessDenialMessage } from '@/branches/publishing/utils/checkContentAccess'
+import type { ContentAccessResult } from '@/branches/publishing/utils/checkContentAccess'
 
 export interface PaywallOverlayProps {
   /**
@@ -62,10 +62,10 @@ export function PaywallOverlay({
   // Determine CTA based on reason
   const isNotLoggedIn = reason === 'not_logged_in'
   const ctaPrimary = isNotLoggedIn
-    ? { text: 'Inloggen', href: '/login' }
+    ? { text: 'Inloggen', href: '/inloggen' }
     : { text: 'Upgrade naar Pro', href: '/abonnementen' }
 
-  const ctaSecondary = isNotLoggedIn ? { text: 'Account aanmaken', href: '/register' } : null
+  const ctaSecondary = isNotLoggedIn ? { text: 'Account aanmaken', href: '/inloggen?tab=register' } : null
 
   if (variant === 'card') {
     return (

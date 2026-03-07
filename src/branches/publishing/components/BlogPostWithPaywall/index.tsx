@@ -9,9 +9,9 @@
 
 import React, { useMemo } from 'react'
 import type { BlogPost } from '@/payload-types'
-import { useContentAccess } from '@/branches/content/hooks/useContentAccess'
-import { PaywallOverlay } from '@/branches/content/components/PaywallOverlay'
-import { PremiumBadge } from '@/branches/content/components/PremiumBadge'
+import { useContentAccess } from '@/branches/publishing/hooks/useContentAccess'
+import { PaywallOverlay } from '@/branches/publishing/components/PaywallOverlay'
+import { PremiumBadge } from '@/branches/publishing/components/PremiumBadge'
 import { RenderBlogContent } from '@/branches/shared/components/blog/RenderBlogContent'
 
 export interface BlogPostWithPaywallProps {
