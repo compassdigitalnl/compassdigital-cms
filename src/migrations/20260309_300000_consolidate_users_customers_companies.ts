@@ -185,12 +185,16 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
   `)
 
   // ═══════════════════════════════════════════════════════════════
-  // STEP 9: Remove Payload internal rels for deleted collections
+  // STEP 9: Update Payload internal rels tables
   // ═══════════════════════════════════════════════════════════════
   await db.execute(sql`
     ALTER TABLE "payload_locked_documents_rels"
       DROP COLUMN IF EXISTS "customers_id",
-      DROP COLUMN IF EXISTS "company_accounts_id";
+      DROP COLUMN IF EXISTS "company_accounts_id",
+      ADD COLUMN IF NOT EXISTS "uptime_incidents_id" integer;
+    CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_uptime_incidents_id_idx"
+      ON "payload_locked_documents_rels" USING btree ("uptime_incidents_id");
+
     ALTER TABLE "payload_preferences_rels"
       DROP COLUMN IF EXISTS "customers_id",
       DROP COLUMN IF EXISTS "company_accounts_id";
