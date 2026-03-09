@@ -16,6 +16,8 @@ import * as migration_20260309_140000_b2b_company_accounts from './20260309_1400
 import * as migration_20260309_160000_b2b_approval_requests from './20260309_160000_b2b_approval_requests';
 import * as migration_20260309_180000_add_content_scheduling from './20260309_180000_add_content_scheduling';
 import * as migration_20260309_200000_add_uptime_incidents from './20260309_200000_add_uptime_incidents';
+import * as migration_20260309_220000_add_pgvector_embeddings from './20260309_220000_add_pgvector_embeddings';
+import * as migration_20260309_240000_add_customer_metrics from './20260309_240000_add_customer_metrics';
 
 export const migrations = [
   {
@@ -107,5 +109,15 @@ export const migrations = [
     up: migration_20260309_200000_add_uptime_incidents.up,
     down: migration_20260309_200000_add_uptime_incidents.down,
     name: '20260309_200000_add_uptime_incidents',
+  },
+  {
+    up: migration_20260309_220000_add_pgvector_embeddings.up,
+    down: migration_20260309_220000_add_pgvector_embeddings.down,
+    name: '20260309_220000_add_pgvector_embeddings',
+  },
+  {
+    up: migration_20260309_240000_add_customer_metrics.up,
+    down: migration_20260309_240000_add_customer_metrics.down,
+    name: '20260309_240000_add_customer_metrics',
   },
 ];
