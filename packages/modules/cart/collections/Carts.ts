@@ -356,7 +356,7 @@ export const Carts: CollectionConfig = {
             return doc
           }
 
-          const { reserveStock } = await import('@/branches/ecommerce/lib/stock/reservations')
+          const { reserveStock } = await import('@/branches/ecommerce/shared/lib/stock/reservations')
 
           if (doc.items && Array.isArray(doc.items)) {
             for (const item of doc.items) {
@@ -397,7 +397,7 @@ export const Carts: CollectionConfig = {
     afterDelete: [
       async ({ doc, req }) => {
         // Release all stock reservations when cart is deleted
-        const { releaseCartReservations } = await import('@/branches/ecommerce/lib/stock/reservations')
+        const { releaseCartReservations } = await import('@/branches/ecommerce/shared/lib/stock/reservations')
 
         try {
           const result = await releaseCartReservations(req.payload, doc.id)

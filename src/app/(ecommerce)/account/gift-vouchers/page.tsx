@@ -3,14 +3,14 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import GiftCardsTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/GiftCardsTemplate'
-import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import GiftCardsTemplate from '@/branches/ecommerce/b2c/templates/account/AccountTemplate1/GiftCardsTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
 import { toast } from '@/lib/toast'
 import type {
   GiftCard,
   GiftCardTransaction,
   GiftCardBalanceSummary,
-} from '@/branches/ecommerce/templates/account/AccountTemplate1/GiftCardsTemplate/types'
+} from '@/branches/ecommerce/b2c/templates/account/AccountTemplate1/GiftCardsTemplate/types'
 
 const EMPTY_BALANCE: GiftCardBalanceSummary = {
   totalBalance: 0,

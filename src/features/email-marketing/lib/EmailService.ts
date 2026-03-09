@@ -59,6 +59,11 @@ interface ReturnDoc {
   createdAt?: string
 }
 
+export interface EmailOptions {
+  trackingLink?: string | null
+  pdfAttachment?: { filename: string; content: Buffer }
+}
+
 export class EmailService {
   private resend: Resend | null = null
 
@@ -77,16 +82,18 @@ export class EmailService {
   }
 
   /**
-   * Send generic email
+   * Send generic email (with optional attachments)
    */
   async send({
     to,
     subject,
     html,
+    attachments,
   }: {
     to: string
     subject: string
     html: string
+    attachments?: Array<{ filename: string; content: Buffer }>
   }): Promise<{ success: boolean; error?: string; data?: any }> {
     if (!this.resend) {
       console.warn('Email service not configured - RESEND_API_KEY missing')
@@ -101,6 +108,7 @@ export class EmailService {
         to,
         subject,
         html,
+        ...(attachments?.length ? { attachments } : {}),
       })
 
       if (error) {
@@ -277,14 +285,15 @@ export class EmailService {
   /**
    * Send order confirmation email
    */
-  async sendOrderConfirmation(order: Order, customerEmail: string): Promise<{ success: boolean; error?: string }> {
+  async sendOrderConfirmation(order: Order, customerEmail: string, options?: EmailOptions): Promise<{ success: boolean; error?: string }> {
     const subject = `Bevestiging bestelling ${order.orderNumber || 'N/A'}`
-    const html = this.generateOrderConfirmationHTML(order)
+    const html = this.generateOrderConfirmationHTML(order, options?.trackingLink)
 
     return await this.send({
       to: customerEmail,
       subject,
       html,
+      attachments: options?.pdfAttachment ? [options.pdfAttachment] : undefined,
     })
   }
 
@@ -296,9 +305,10 @@ export class EmailService {
     customerEmail: string,
     trackingNumber: string,
     carrier?: string,
+    options?: EmailOptions,
   ): Promise<{ success: boolean; error?: string }> {
     const subject = `Je bestelling ${order.orderNumber || 'N/A'} is verzonden!`
-    const html = this.generateShippingConfirmationHTML(order, trackingNumber, carrier)
+    const html = this.generateShippingConfirmationHTML(order, trackingNumber, carrier, options?.trackingLink)
 
     return await this.send({
       to: customerEmail,
@@ -310,9 +320,9 @@ export class EmailService {
   /**
    * Send delivery confirmation email
    */
-  async sendDeliveryConfirmation(order: Order, customerEmail: string): Promise<{ success: boolean; error?: string }> {
+  async sendDeliveryConfirmation(order: Order, customerEmail: string, options?: EmailOptions): Promise<{ success: boolean; error?: string }> {
     const subject = `Je bestelling ${order.orderNumber || 'N/A'} is afgeleverd!`
-    const html = this.generateDeliveryConfirmationHTML(order)
+    const html = this.generateDeliveryConfirmationHTML(order, options?.trackingLink)
 
     return await this.send({
       to: customerEmail,
@@ -378,6 +388,34 @@ export class EmailService {
   }
 
   /**
+   * Send order cancellation email
+   */
+  async sendOrderCancellation(order: Order, customerEmail: string, options?: EmailOptions): Promise<{ success: boolean; error?: string }> {
+    const subject = `Bestelling ${order.orderNumber || 'N/A'} is geannuleerd`
+    const html = this.generateOrderCancellationHTML(order, options?.trackingLink)
+
+    return await this.send({
+      to: customerEmail,
+      subject,
+      html,
+    })
+  }
+
+  /**
+   * Send refund confirmation email
+   */
+  async sendRefundConfirmation(order: Order, customerEmail: string, options?: EmailOptions): Promise<{ success: boolean; error?: string }> {
+    const subject = `Terugbetaling voor bestelling ${order.orderNumber || 'N/A'}`
+    const html = this.generateRefundConfirmationHTML(order, options?.trackingLink)
+
+    return await this.send({
+      to: customerEmail,
+      subject,
+      html,
+    })
+  }
+
+  /**
    * Escape HTML to prevent XSS
    */
   private escapeHtml(text: string): string {
@@ -395,7 +433,18 @@ export class EmailService {
   // ORDER EMAIL TEMPLATE GENERATORS
   // ========================================
 
-  private generateOrderConfirmationHTML(order: Order): string {
+  private trackingButton(trackingLink?: string | null): string {
+    if (!trackingLink) return ''
+    return `
+    <div style="text-align: center; margin: 20px 0;">
+      <a href="${trackingLink}" style="display: inline-block; background: #667eea; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px;">
+        Volg je bestelling
+      </a>
+    </div>
+    `
+  }
+
+  private generateOrderConfirmationHTML(order: Order, trackingLink?: string | null): string {
     const items = (order.items || [])
       .map(
         (item) => `
@@ -498,6 +547,8 @@ export class EmailService {
       ${this.formatAddress(order.shippingAddress)}
     </div>
 
+    ${this.trackingButton(trackingLink)}
+
     <p style="color: #666; font-size: 14px; margin-top: 30px;">
       Je ontvangt een nieuwe e-mail zodra je bestelling is verzonden, inclusief Track & Trace informatie.
     </p>
@@ -513,7 +564,7 @@ export class EmailService {
     `
   }
 
-  private generateShippingConfirmationHTML(order: Order, trackingNumber: string, carrier?: string): string {
+  private generateShippingConfirmationHTML(order: Order, trackingNumber: string, carrier?: string, trackingLink?: string | null): string {
     return `
 <!DOCTYPE html>
 <html>
@@ -555,6 +606,8 @@ export class EmailService {
       ${this.formatAddress(order.shippingAddress)}
     </div>
 
+    ${this.trackingButton(trackingLink)}
+
     <p style="color: #666; font-size: 14px; margin-top: 30px;">
       Vragen over je bestelling? Neem gerust contact met ons op!
     </p>
@@ -570,7 +623,7 @@ export class EmailService {
     `
   }
 
-  private generateDeliveryConfirmationHTML(order: Order): string {
+  private generateDeliveryConfirmationHTML(order: Order, trackingLink?: string | null): string {
     return `
 <!DOCTYPE html>
 <html>
@@ -596,6 +649,8 @@ export class EmailService {
         🎉 <strong>Bedankt voor je bestelling!</strong> Veel plezier met je nieuwe producten.
       </p>
     </div>
+
+    ${this.trackingButton(trackingLink)}
 
     <p style="color: #666; font-size: 14px;">
       Tevreden met je bestelling? We horen graag je mening! Niet tevreden? Neem contact met ons op, dan helpen we je graag verder.
@@ -918,6 +973,121 @@ export class EmailService {
 
   <div style="text-align: center; padding: 20px; color: #999; font-size: 12px;">
     <p>© ${new Date().getFullYear()} ${process.env.COMPANY_NAME || 'SiteForge'}. Alle rechten voorbehouden.</p>
+  </div>
+
+</body>
+</html>
+    `
+  }
+
+  private generateOrderCancellationHTML(order: Order, trackingLink?: string | null): string {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bestelling geannuleerd</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+
+  <div style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">Bestelling geannuleerd</h1>
+  </div>
+
+  <div style="background: white; padding: 30px; border: 1px solid #eee; border-top: none; border-radius: 0 0 8px 8px;">
+
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      Je bestelling <strong>${order.orderNumber || 'N/A'}</strong> is geannuleerd.
+    </p>
+
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+      <h2 style="margin: 0 0 10px 0; font-size: 18px; color: #dc3545;">Bestelling ${order.orderNumber || 'N/A'}</h2>
+      <p style="margin: 0; color: #666;">Datum: ${this.formatDate(order.createdAt)}</p>
+      <p style="margin: 5px 0 0 0; color: #666;">Bedrag: ${this.formatCurrency(order.total || 0, order.currency)}</p>
+    </div>
+
+    <div style="background: #f8d7da; border-left: 4px solid #dc3545; padding: 20px; margin-bottom: 30px; border-radius: 4px;">
+      <p style="margin: 0; color: #721c24; font-size: 14px;">
+        Als je al hebt betaald, ontvang je het bedrag binnen 5-10 werkdagen terug op je rekening.
+      </p>
+    </div>
+
+    ${this.trackingButton(trackingLink)}
+
+    <p style="color: #666; font-size: 14px; margin-top: 30px;">
+      Vragen over de annulering? Neem gerust contact met ons op.
+    </p>
+
+  </div>
+
+  <div style="text-align: center; padding: 20px; color: #999; font-size: 12px;">
+    <p>&copy; ${new Date().getFullYear()} ${process.env.COMPANY_NAME || 'SiteForge'}. Alle rechten voorbehouden.</p>
+  </div>
+
+</body>
+</html>
+    `
+  }
+
+  private generateRefundConfirmationHTML(order: Order, trackingLink?: string | null): string {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terugbetaling bevestiging</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+
+  <div style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">Terugbetaling verwerkt</h1>
+  </div>
+
+  <div style="background: white; padding: 30px; border: 1px solid #eee; border-top: none; border-radius: 0 0 8px 8px;">
+
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      De terugbetaling voor bestelling <strong>${order.orderNumber || 'N/A'}</strong> is verwerkt.
+    </p>
+
+    <div style="background: #f5f3ff; padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
+      <h2 style="margin: 0 0 10px 0; font-size: 18px; color: #8B5CF6;">Terugbetaald bedrag</h2>
+      <div style="font-size: 28px; font-weight: bold; color: #8B5CF6;">
+        ${this.formatCurrency(order.total || 0, order.currency)}
+      </div>
+    </div>
+
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+      <h3 style="margin: 0 0 10px 0; font-size: 16px;">Details</h3>
+      <table style="width: 100%;">
+        <tr>
+          <td style="padding: 6px 0; color: #666;">Bestelnummer:</td>
+          <td style="padding: 6px 0; text-align: right; font-weight: bold;">${order.orderNumber || 'N/A'}</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px 0; color: #666;">Besteldatum:</td>
+          <td style="padding: 6px 0; text-align: right;">${this.formatDate(order.createdAt)}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="background: #e7f3ff; border-left: 4px solid #0066cc; padding: 20px; margin-bottom: 30px; border-radius: 4px;">
+      <p style="margin: 0; color: #0066cc; font-size: 14px;">
+        Het bedrag wordt binnen 5-10 werkdagen teruggestort op je oorspronkelijke betaalmethode.
+      </p>
+    </div>
+
+    ${this.trackingButton(trackingLink)}
+
+    <p style="color: #666; font-size: 14px; margin-top: 30px;">
+      Vragen over je terugbetaling? Neem gerust contact met ons op.
+    </p>
+
+  </div>
+
+  <div style="text-align: center; padding: 20px; color: #999; font-size: 12px;">
+    <p>&copy; ${new Date().getFullYear()} ${process.env.COMPANY_NAME || 'SiteForge'}. Alle rechten voorbehouden.</p>
   </div>
 
 </body>

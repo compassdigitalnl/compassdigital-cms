@@ -5,10 +5,10 @@ import { useParams, useRouter } from 'next/navigation'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import RetourTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/RetourTemplate'
-import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
-import type { RetourItem } from '@/branches/ecommerce/templates/account/AccountTemplate1/RetourTemplate/types'
-import { AccountLoadingSkeleton } from '@/branches/ecommerce/components/account/ui'
+import RetourTemplate from '@/branches/ecommerce/shared/templates/account/AccountTemplate1/RetourTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
+import type { RetourItem } from '@/branches/ecommerce/shared/templates/account/AccountTemplate1/RetourTemplate/types'
+import { AccountLoadingSkeleton } from '@/branches/ecommerce/shared/components/account/ui'
 
 export default function RetourPage() {
   if (!isFeatureEnabled('shop')) notFound()

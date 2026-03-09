@@ -8,18 +8,18 @@ import {
   BookOpen, ArrowRight, ChevronDown, ChevronUp, ShoppingBag,
 } from 'lucide-react'
 import { useAuth } from '@/providers/Auth'
-import { useEcommerceSettings } from '@/branches/ecommerce/hooks/useEcommerceSettings'
-import { CheckoutProgressStepper } from '@/branches/ecommerce/components/checkout/CheckoutProgressStepper'
-import { CheckoutAuthPanel } from '@/branches/ecommerce/components/checkout/CheckoutAuthPanel'
-import { AddressForm } from '@/branches/ecommerce/components/checkout/AddressForm'
-import { PaymentMethodCard } from '@/branches/ecommerce/components/checkout/PaymentMethodCard'
-import { TrustBadges } from '@/branches/ecommerce/components/auth/TrustBadges'
+import { useEcommerceSettings } from '@/branches/ecommerce/shared/hooks/useEcommerceSettings'
+import { CheckoutProgressStepper } from '@/branches/ecommerce/shared/components/checkout/CheckoutProgressStepper'
+import { CheckoutAuthPanel } from '@/branches/ecommerce/shared/components/checkout/CheckoutAuthPanel'
+import { AddressForm } from '@/branches/ecommerce/shared/components/checkout/AddressForm'
+import { PaymentMethodCard } from '@/branches/ecommerce/shared/components/checkout/PaymentMethodCard'
+import { TrustBadges } from '@/branches/ecommerce/shared/components/auth/TrustBadges'
 import { TrustSignals } from '@/branches/shared/components/ui/TrustSignals'
 import { PricingPlanCard } from '@/branches/shared/components/ui/pricing/PricingPlanCard'
-import { LucideIcon } from '@/branches/ecommerce/components/ui/LucideIcon'
+import { LucideIcon } from '@/branches/ecommerce/shared/components/ui/LucideIcon'
 import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
-import type { Address } from '@/branches/ecommerce/components/checkout/AddressForm/types'
-import type { GuestCheckoutFormData } from '@/branches/ecommerce/components/auth/GuestCheckoutForm'
+import type { Address } from '@/branches/ecommerce/shared/components/checkout/AddressForm/types'
+import type { GuestCheckoutFormData } from '@/branches/ecommerce/shared/components/auth/GuestCheckoutForm'
 
 interface SubscriptionCheckoutClientProps {
   magazineName: string

@@ -5,7 +5,7 @@ import { LivePreviewListener } from '@/branches/shared/components/utilities/Live
 import { Providers } from '@/providers'
 import { ThemeProvider } from '@/branches/shared/components/utilities/ThemeProvider'
 import { SearchProvider } from '@/features/search/components/SearchProvider'
-import { MiniCartProvider } from '@/branches/ecommerce/components/ui/MiniCart'
+import { MiniCartProvider } from '@/branches/ecommerce/shared/components/ui/MiniCart'
 import { ToastProvider } from '@/branches/shared/components/ui/ToastSystem'
 import { HeaderClient } from '@/globals/site/header/components/index.client'
 import { getPayload } from 'payload'

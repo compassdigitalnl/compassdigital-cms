@@ -5,12 +5,12 @@ import { useParams } from 'next/navigation'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import OrderDetailTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/OrderDetailTemplate'
-import { AccountLoadingSkeleton } from '@/branches/ecommerce/components/account/ui'
-import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
-import { useCart } from '@/branches/ecommerce/contexts/CartContext'
+import OrderDetailTemplate from '@/branches/ecommerce/shared/templates/account/AccountTemplate1/OrderDetailTemplate'
+import { AccountLoadingSkeleton } from '@/branches/ecommerce/shared/components/account/ui'
+import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
+import { useCart } from '@/branches/ecommerce/shared/contexts/CartContext'
 import { toast } from '@/lib/toast'
-import type { OrderDetail } from '@/branches/ecommerce/templates/account/AccountTemplate1/OrderDetailTemplate/types'
+import type { OrderDetail } from '@/branches/ecommerce/shared/templates/account/AccountTemplate1/OrderDetailTemplate/types'
 
 export default function OrderDetailPage() {
   if (!isFeatureEnabled('shop')) notFound()

@@ -7,7 +7,7 @@ import { headers as getHeaders } from 'next/headers'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
-import { CreateAccountForm } from '@/branches/ecommerce/components/auth/CreateAccountForm'
+import { CreateAccountForm } from '@/branches/ecommerce/shared/components/auth/CreateAccountForm'
 import { redirect } from 'next/navigation'
 
 export default async function CreateAccount() {

@@ -4,10 +4,10 @@ import React, { useState, useEffect } from 'react'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
-import DashboardTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/DashboardTemplate'
-import { AccountLoadingSkeleton } from '@/branches/ecommerce/components/account/ui'
-import type { DashboardStats, DashboardOrder, DashboardAddress } from '@/branches/ecommerce/templates/account/AccountTemplate1/DashboardTemplate/types'
+import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
+import DashboardTemplate from '@/branches/ecommerce/shared/templates/account/AccountTemplate1/DashboardTemplate'
+import { AccountLoadingSkeleton } from '@/branches/ecommerce/shared/components/account/ui'
+import type { DashboardStats, DashboardOrder, DashboardAddress } from '@/branches/ecommerce/shared/templates/account/AccountTemplate1/DashboardTemplate/types'
 
 export default function MyAccountPage() {
   if (!isFeatureEnabled('shop')) notFound()

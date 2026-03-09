@@ -20,10 +20,10 @@ const collectionRegistry: Record<string, () => Promise<any>> = {
   users: () => import('@/branches/shared/collections/Users'),
 
   // E-commerce (exist in platform)
-  products: () => import('@/branches/ecommerce/collections/Products'),
-  'product-categories': () => import('@/branches/ecommerce/collections/catalog/ProductCategories'),
-  'product-brands': () => import('@/branches/ecommerce/collections/catalog/Brands'),
-  orders: () => import('@/branches/ecommerce/collections/orders/Orders'),
+  products: () => import('@/branches/ecommerce/shared/collections/Products'),
+  'product-categories': () => import('@/branches/ecommerce/shared/collections/catalog/ProductCategories'),
+  'product-brands': () => import('@/branches/ecommerce/shared/collections/catalog/Brands'),
+  orders: () => import('@/branches/ecommerce/shared/collections/orders/Orders'),
 
   // Blog (exist in platform)
   'blog-posts': () => import('@/branches/publishing/collections/BlogPosts'),
@@ -50,11 +50,11 @@ const blockRegistry: Record<string, () => Promise<any>> = {
   faq: () => import('@/branches/shared/blocks/FAQ/config'),
 
   // E-commerce blocks (exist in platform)
-  'product-grid': () => import('@/branches/ecommerce/blocks/ProductGrid'),
-  'category-grid': () => import('@/branches/ecommerce/blocks/CategoryGrid'),
-  // 'search-bar': () => import('@/branches/ecommerce/blocks/SearchBar'), // TODO: Implement SearchBar block
-  'quick-order': () => import('@/branches/ecommerce/blocks/QuickOrder'),
-  // 'top-bar': () => import('@/branches/ecommerce/blocks/TopBar'), // TODO: Implement TopBar block
+  'product-grid': () => import('@/branches/ecommerce/shared/blocks/ProductGrid'),
+  'category-grid': () => import('@/branches/ecommerce/shared/blocks/CategoryGrid'),
+  // 'search-bar': () => import('@/branches/ecommerce/shared/blocks/SearchBar'), // TODO: Implement SearchBar block
+  'quick-order': () => import('@/branches/ecommerce/b2b/blocks/QuickOrder'),
+  // 'top-bar': () => import('@/branches/ecommerce/shared/blocks/TopBar'), // TODO: Implement TopBar block
 
   // Social proof (exist in platform)
   testimonials: () => import('@/branches/shared/blocks/Testimonials/config'),

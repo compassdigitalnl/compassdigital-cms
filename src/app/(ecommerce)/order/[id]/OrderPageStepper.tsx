@@ -1,7 +1,7 @@
 'use client'
 
-import { CheckoutProgressStepper } from '@/branches/ecommerce/components/checkout/CheckoutProgressStepper'
-import { UNIFIED_STEPS } from '@/branches/ecommerce/lib/checkoutFlows'
+import { CheckoutProgressStepper } from '@/branches/ecommerce/shared/components/checkout/CheckoutProgressStepper'
+import { UNIFIED_STEPS } from '@/branches/ecommerce/shared/lib/checkoutFlows'
 
 export function OrderPageStepper() {
   return (

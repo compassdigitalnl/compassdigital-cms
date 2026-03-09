@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import { AccountLoadingSkeleton } from '@/branches/ecommerce/components/account/ui'
-import SettingsTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/SettingsTemplate'
-import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import { AccountLoadingSkeleton } from '@/branches/ecommerce/shared/components/account/ui'
+import SettingsTemplate from '@/branches/ecommerce/shared/templates/account/AccountTemplate1/SettingsTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
 import { toast } from '@/lib/toast'
 
 export default function SettingsPage() {

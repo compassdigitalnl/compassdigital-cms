@@ -14,7 +14,7 @@ import {
   Package,
 } from 'lucide-react'
 import { isFeatureEnabled } from '@/lib/features'
-import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
 import { notFound } from 'next/navigation'
 
 const COLORS = {

@@ -4,12 +4,12 @@ import {
   OrderConfirmationTemplate1,
   type OrderConfirmationData,
   type SiteContactInfo,
-} from '@/branches/ecommerce/templates/orders/OrderConfirmationTemplate1'
-import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
-import type { TimelineStep } from '@/branches/ecommerce/components/orders/OrderTimeline'
-import type { OrderItem } from '@/branches/ecommerce/components/orders/OrderItemsSummary'
-import type { OrderAddress } from '@/branches/ecommerce/components/orders/OrderAddresses'
-import type { NextStepAction } from '@/branches/ecommerce/components/orders/NextStepsCTA'
+} from '@/branches/ecommerce/shared/templates/orders/OrderConfirmationTemplate1'
+import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
+import type { TimelineStep } from '@/branches/ecommerce/shared/components/orders/OrderTimeline'
+import type { OrderItem } from '@/branches/ecommerce/shared/components/orders/OrderItemsSummary'
+import type { OrderAddress } from '@/branches/ecommerce/shared/components/orders/OrderAddresses'
+import type { NextStepAction } from '@/branches/ecommerce/shared/components/orders/NextStepsCTA'
 
 interface OrderConfirmationProps {
   order: any // Order from Payload (typed as any for flexibility)

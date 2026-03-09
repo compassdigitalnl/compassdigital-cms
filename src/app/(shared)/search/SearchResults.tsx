@@ -3,7 +3,7 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Search, Package, ArrowRight, TrendingUp } from 'lucide-react'
-import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
+import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
 interface SearchHit {
   id: string

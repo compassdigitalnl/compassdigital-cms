@@ -32,11 +32,11 @@ import ComparisonBlockComponent from '@/branches/shared/blocks/Comparison/Compon
 import InfoBoxBlockComponent from '@/branches/shared/blocks/InfoBox/Component'
 
 // ─── ECOMMERCE BLOCKS (eager loaded, feature-gated at render time) ─
-import CategoryGrid from '@/branches/ecommerce/blocks/CategoryGrid/Component'
-import ProductGrid from '@/branches/ecommerce/blocks/ProductGrid/Component'
-import QuickOrderComponent from '@/branches/ecommerce/blocks/QuickOrder/Component'
-import ComparisonTableComponent from '@/branches/ecommerce/blocks/ComparisonTable/Component'
-import ProductEmbedComponent from '@/branches/ecommerce/blocks/ProductEmbed/Component'
+import CategoryGrid from '@/branches/ecommerce/shared/blocks/CategoryGrid/Component'
+import ProductGrid from '@/branches/ecommerce/shared/blocks/ProductGrid/Component'
+import QuickOrderComponent from '@/branches/ecommerce/b2b/blocks/QuickOrder/Component'
+import ComparisonTableComponent from '@/branches/ecommerce/shared/blocks/ComparisonTable/Component'
+import ProductEmbedComponent from '@/branches/ecommerce/shared/blocks/ProductEmbed/Component'
 
 const blockComponents: Record<string, React.FC<any>> = {
   // ─── SHARED (always available) ────────────────────────────────────

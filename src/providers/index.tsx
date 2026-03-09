@@ -4,7 +4,7 @@ import React from 'react'
 import { HeaderThemeProvider } from './HeaderTheme'
 import { ThemeProvider } from './Theme'
 import { SonnerProvider } from '@/providers/Sonner'
-import { CartProvider } from '@/branches/ecommerce/contexts/CartContext'
+import { CartProvider } from '@/branches/ecommerce/shared/contexts/CartContext'
 import { isFeatureEnabled } from '@/lib/features'
 
 // No-op CartProvider for sites without cart

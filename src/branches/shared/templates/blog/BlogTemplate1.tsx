@@ -10,7 +10,7 @@ import { RelatedArticles } from '@/branches/shared/components/blog/RelatedArticl
 import { PrevNextNavigation } from '@/branches/shared/components/blog/PrevNextNavigation'
 import { ReadingProgressBar } from '@/branches/shared/components/blog/ReadingProgressBar'
 import { BlogPostWithPaywall } from '@/branches/publishing/components/BlogPostWithPaywall'
-import { usePriceMode } from '@/branches/ecommerce/hooks/usePriceMode'
+import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
 interface BlogTemplate1Props {
   post: BlogPost

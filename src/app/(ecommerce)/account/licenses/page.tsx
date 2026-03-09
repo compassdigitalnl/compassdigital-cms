@@ -3,10 +3,10 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import LicensesTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/LicensesTemplate'
-import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import LicensesTemplate from '@/branches/ecommerce/b2b/templates/account/AccountTemplate1/LicensesTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
 import { toast } from '@/lib/toast'
-import type { LicenseItem, LicenseStats } from '@/branches/ecommerce/templates/account/AccountTemplate1/LicensesTemplate/types'
+import type { LicenseItem, LicenseStats } from '@/branches/ecommerce/b2b/templates/account/AccountTemplate1/LicensesTemplate/types'
 
 const EMPTY_STATS: LicenseStats = {
   activeLicenses: 0,

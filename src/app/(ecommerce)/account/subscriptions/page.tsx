@@ -4,13 +4,13 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import SubscriptionsTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/SubscriptionsTemplate'
-import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import SubscriptionsTemplate from '@/branches/ecommerce/shared/templates/account/AccountTemplate1/SubscriptionsTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
 import { toast } from '@/lib/toast'
 import type {
   Subscription,
   SubscriptionInvoice,
-} from '@/branches/ecommerce/templates/account/AccountTemplate1/SubscriptionsTemplate/types'
+} from '@/branches/ecommerce/shared/templates/account/AccountTemplate1/SubscriptionsTemplate/types'
 
 const EMPTY_SUBSCRIPTION: Subscription = {
   plan: {

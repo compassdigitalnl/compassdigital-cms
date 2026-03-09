@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { useFeatures } from '@/providers/Features'
-import { AccountTemplateProvider } from '@/branches/ecommerce/contexts/AccountTemplateContext'
-import { AccountMobileNav, AccountDesktopSidebar } from '@/branches/ecommerce/components/account/ui/AccountSidebar'
+import { AccountTemplateProvider } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
+import { AccountMobileNav, AccountDesktopSidebar } from '@/branches/ecommerce/shared/components/account/ui/AccountSidebar'
 import {
   LayoutDashboard,
   Package,
@@ -20,6 +20,7 @@ import {
   RefreshCw,
   Heart,
   Undo2,
+  FileCheck,
 } from 'lucide-react'
 
 export default function MyAccountLayout({ children }: { children: React.ReactNode }) {
@@ -46,6 +47,7 @@ export default function MyAccountLayout({ children }: { children: React.ReactNod
   const allNavigation = [
     { name: 'Dashboard', href: '/account', icon: LayoutDashboard, requiresFeature: null },
     { name: 'Bestellingen', href: '/account/orders', icon: Package, requiresFeature: 'checkout' as const },
+    { name: 'Offertes', href: '/account/quotes', icon: FileCheck, requiresFeature: 'checkout' as const },
     { name: 'Abonnementen', href: '/account/subscriptions', icon: CreditCard, requiresFeature: 'subscriptions' as const },
     { name: 'Licenties', href: '/account/licenses', icon: KeyRound, requiresFeature: 'licenses' as const },
     { name: 'Cadeaubonnen', href: '/account/gift-vouchers', icon: Gift, requiresFeature: 'giftVouchers' as const },

@@ -10,7 +10,7 @@ import { BranchCategoryGrid } from '@/branches/shared/components/branches/Branch
 import { BranchPackageGrid } from '@/branches/shared/components/branches/BranchPackageGrid/Component'
 import { BranchTestimonial } from '@/branches/shared/components/branches/BranchTestimonial/Component'
 import { BranchCTA } from '@/branches/shared/components/branches/BranchCTA/Component'
-import { ProductCard } from '@/branches/ecommerce/components/products/ProductCard/Component'
+import { ProductCard } from '@/branches/ecommerce/shared/components/products/ProductCard/Component'
 import type { BrancheDetailTemplate1Props } from './types'
 
 export default function BrancheDetailTemplate1({

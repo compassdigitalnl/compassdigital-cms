@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import type { Header as HeaderType, Theme1, Setting } from '@/payload-types'
 import { useSearch } from '@/features/search/components/SearchProvider'
-import { useMiniCart } from '@/branches/ecommerce/components/ui/MiniCart'
+import { useMiniCart } from '@/branches/ecommerce/shared/components/ui/MiniCart'
 import HeaderTemplate1 from '@/globals/site/header/templates/HeaderTemplate1'
 import type { MappedHeaderData } from '@/globals/site/header/templates/types'
 

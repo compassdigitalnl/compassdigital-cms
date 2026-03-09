@@ -3,7 +3,7 @@ import config from '@payload-config'
 import CartPageClient from './CartPageClient'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import { CHECKOUT_FLOWS, resolveFlowFromLegacy } from '@/branches/ecommerce/lib/checkoutFlows'
+import { CHECKOUT_FLOWS, resolveFlowFromLegacy } from '@/branches/ecommerce/shared/lib/checkoutFlows'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0

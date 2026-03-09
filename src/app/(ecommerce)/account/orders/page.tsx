@@ -4,9 +4,9 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import OrdersTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/OrdersTemplate'
-import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
-import type { OrderListItem } from '@/branches/ecommerce/templates/account/AccountTemplate1/OrdersTemplate/types'
+import OrdersTemplate from '@/branches/ecommerce/shared/templates/account/AccountTemplate1/OrdersTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
+import type { OrderListItem } from '@/branches/ecommerce/shared/templates/account/AccountTemplate1/OrdersTemplate/types'
 
 export default function OrdersPage() {
   if (!isFeatureEnabled('shop')) notFound()

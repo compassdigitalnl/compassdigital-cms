@@ -14,7 +14,7 @@ import { FAQ } from '@/branches/shared/blocks/FAQ/config'
 import { Testimonials as TestimonialsBlock } from '@/branches/shared/blocks/Testimonials/config'
 import { CasesBlock } from '@/branches/shared/blocks/CasesBlock'
 import { LogoBar } from '@/branches/shared/blocks/LogoBar/config'
-import { CategoryGrid } from '@/branches/ecommerce/blocks/CategoryGrid'
+import { CategoryGrid } from '@/branches/ecommerce/shared/blocks/CategoryGrid'
 import { Stats } from '@/branches/shared/blocks/Stats/config'
 import { Team } from '@/branches/shared/blocks/Team/config'
 // REMOVED: Old Services block - replaced by Features (B02) in Sprint 3
@@ -35,8 +35,8 @@ import { Comparison } from '@/branches/shared/blocks/Comparison/config'
 import { InfoBox } from '@/branches/shared/blocks/InfoBox/config'
 
 // E-commerce blocks
-import { ProductGrid } from '@/branches/ecommerce/blocks/ProductGrid'
-import { QuickOrder } from '@/branches/ecommerce/blocks/QuickOrder'
+import { ProductGrid } from '@/branches/ecommerce/shared/blocks/ProductGrid'
+import { QuickOrder } from '@/branches/ecommerce/shared/blocks/QuickOrder'
 
 // Construction blocks (conditional import)
 import { constructionBlocks } from '@/branches/construction/blocks'

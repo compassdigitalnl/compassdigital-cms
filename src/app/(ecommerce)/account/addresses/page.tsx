@@ -4,9 +4,9 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import { AccountLoadingSkeleton } from '@/branches/ecommerce/components/account/ui'
-import AddressesTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/AddressesTemplate'
-import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import { AccountLoadingSkeleton } from '@/branches/ecommerce/shared/components/account/ui'
+import AddressesTemplate from '@/branches/ecommerce/shared/templates/account/AccountTemplate1/AddressesTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
 
 const emptyFormData = {
   type: 'shipping',

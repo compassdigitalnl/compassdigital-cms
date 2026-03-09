@@ -6,12 +6,12 @@ import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 import { arrayMove } from '@dnd-kit/sortable'
 import { DragEndEvent } from '@dnd-kit/core'
-import OrderListDetailTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/OrderListDetailTemplate'
-import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
-import { useCart } from '@/branches/ecommerce/contexts/CartContext'
-import { useAddToCartToast } from '@/branches/ecommerce/components/ui/AddToCartToast'
+import OrderListDetailTemplate from '@/branches/ecommerce/b2b/templates/account/AccountTemplate1/OrderListDetailTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
+import { useCart } from '@/branches/ecommerce/shared/contexts/CartContext'
+import { useAddToCartToast } from '@/branches/ecommerce/shared/components/ui/AddToCartToast'
 import { toast } from '@/lib/toast'
-import type { OrderList, QuickAddProduct } from '@/branches/ecommerce/templates/account/AccountTemplate1/OrderListDetailTemplate/types'
+import type { OrderList, QuickAddProduct } from '@/branches/ecommerce/b2b/templates/account/AccountTemplate1/OrderListDetailTemplate/types'
 
 // ============================================================================
 // COLORS (for loading/error states)

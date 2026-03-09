@@ -4,11 +4,11 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import OrderListsTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/OrderListsTemplate'
-import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
-import { useCart } from '@/branches/ecommerce/contexts/CartContext'
+import OrderListsTemplate from '@/branches/ecommerce/b2b/templates/account/AccountTemplate1/OrderListsTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
+import { useCart } from '@/branches/ecommerce/shared/contexts/CartContext'
 import { toast } from '@/lib/toast'
-import type { OrderList } from '@/branches/ecommerce/templates/account/AccountTemplate1/OrderListsTemplate/types'
+import type { OrderList } from '@/branches/ecommerce/b2b/templates/account/AccountTemplate1/OrderListsTemplate/types'
 
 export default function OrderListsPage() {
   if (!isFeatureEnabled('shop')) notFound()

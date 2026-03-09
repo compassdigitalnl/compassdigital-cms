@@ -3,14 +3,14 @@
 import React, { useState, useEffect } from 'react'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import LoyaltyTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/LoyaltyTemplate'
-import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import LoyaltyTemplate from '@/branches/ecommerce/b2c/templates/account/AccountTemplate1/LoyaltyTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
 import { toast } from '@/lib/toast'
 import type {
   LoyaltyData,
   LoyaltyTransaction,
   LoyaltyReward,
-} from '@/branches/ecommerce/templates/account/AccountTemplate1/LoyaltyTemplate/types'
+} from '@/branches/ecommerce/b2c/templates/account/AccountTemplate1/LoyaltyTemplate/types'
 
 const EMPTY_LOYALTY: LoyaltyData = {
   availablePoints: 0,

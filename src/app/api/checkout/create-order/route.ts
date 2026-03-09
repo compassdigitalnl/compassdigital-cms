@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Cart, Product, Order } from '@/payload-types'
-import { checkStockAvailability, convertReservationToOrder } from '@/branches/ecommerce/lib/stock/reservations'
+import { checkStockAvailability, convertReservationToOrder } from '@/branches/ecommerce/shared/lib/stock/reservations'
 
 /**
  * POST /api/checkout/create-order

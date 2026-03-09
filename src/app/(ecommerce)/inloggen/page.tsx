@@ -2,7 +2,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import LoginTemplate1 from '@/branches/ecommerce/templates/login-register/LoginTemplate1'
+import LoginTemplate1 from '@/branches/ecommerce/shared/templates/login-register/LoginTemplate1'
 
 export const dynamic = 'force-dynamic'
 

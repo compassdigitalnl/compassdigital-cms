@@ -17,7 +17,7 @@ import { BrandCertifications } from '@/branches/shared/components/brands/BrandCe
 import { BrandCTA } from '@/branches/shared/components/brands/BrandCTA/Component'
 
 // Product components
-import { ProductCard } from '@/branches/ecommerce/components/products/ProductCard/Component'
+import { ProductCard } from '@/branches/ecommerce/shared/components/products/ProductCard/Component'
 
 // Types
 import type { BrandCategory } from '@/branches/shared/components/brands/BrandCategories/types'

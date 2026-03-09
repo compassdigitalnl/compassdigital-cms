@@ -4,8 +4,8 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
-import FavoritesTemplate from '@/branches/ecommerce/templates/account/AccountTemplate1/FavoritesTemplate'
-import { useAccountTemplate } from '@/branches/ecommerce/contexts/AccountTemplateContext'
+import FavoritesTemplate from '@/branches/ecommerce/b2c/templates/account/AccountTemplate1/FavoritesTemplate'
+import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
 
 export default function FavoritesPage() {
   if (!isFeatureEnabled('shop')) notFound()

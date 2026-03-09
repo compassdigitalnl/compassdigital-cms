@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 import configPromise from '@payload-config'
-import { buildCustomerOrderQuery } from '@/branches/ecommerce/lib/getCustomerForUser'
+import { buildCustomerOrderQuery } from '@/branches/ecommerce/shared/lib/getCustomerForUser'
 
 /**
  * GET /api/account/orders

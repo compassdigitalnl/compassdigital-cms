@@ -1,4 +1,4 @@
-import AuthTemplate from '@/branches/ecommerce/templates/auth/AuthTemplate'
+import AuthTemplate from '@/branches/ecommerce/shared/templates/auth/AuthTemplate'
 import { isFeatureEnabled } from '@/lib/features'
 import { notFound } from 'next/navigation'
 
