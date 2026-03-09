@@ -22,6 +22,7 @@ import * as migration_20260309_300000_consolidate_users_customers_companies from
 import * as migration_20260310_100000_add_promotions from './20260310_100000_add_promotions';
 import * as migration_20260310_120000_add_email_segments from './20260310_120000_add_email_segments';
 import * as migration_20260310_140000_add_push_subscriptions from './20260310_140000_add_push_subscriptions';
+import * as migration_20260310_160000_add_pwa_settings from './20260310_160000_add_pwa_settings';
 
 export const migrations = [
   {
@@ -143,5 +144,10 @@ export const migrations = [
     up: migration_20260310_140000_add_push_subscriptions.up,
     down: migration_20260310_140000_add_push_subscriptions.down,
     name: '20260310_140000_add_push_subscriptions',
+  },
+  {
+    up: migration_20260310_160000_add_pwa_settings.up,
+    down: migration_20260310_160000_add_pwa_settings.down,
+    name: '20260310_160000_add_pwa_settings',
   },
 ];
