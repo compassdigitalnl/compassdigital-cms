@@ -19,6 +19,8 @@ import * as migration_20260309_200000_add_uptime_incidents from './20260309_2000
 import * as migration_20260309_220000_add_pgvector_embeddings from './20260309_220000_add_pgvector_embeddings';
 import * as migration_20260309_240000_add_customer_metrics from './20260309_240000_add_customer_metrics';
 import * as migration_20260309_300000_consolidate_users_customers_companies from './20260309_300000_consolidate_users_customers_companies';
+import * as migration_20260310_100000_add_promotions from './20260310_100000_add_promotions';
+import * as migration_20260310_120000_add_email_segments from './20260310_120000_add_email_segments';
 
 export const migrations = [
   {
@@ -125,5 +127,15 @@ export const migrations = [
     up: migration_20260309_300000_consolidate_users_customers_companies.up,
     down: migration_20260309_300000_consolidate_users_customers_companies.down,
     name: '20260309_300000_consolidate_users_customers_companies',
+  },
+  {
+    up: migration_20260310_100000_add_promotions.up,
+    down: migration_20260310_100000_add_promotions.down,
+    name: '20260310_100000_add_promotions',
+  },
+  {
+    up: migration_20260310_120000_add_email_segments.up,
+    down: migration_20260310_120000_add_email_segments.down,
+    name: '20260310_120000_add_email_segments',
   },
 ];

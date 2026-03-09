@@ -1,0 +1,15 @@
+export const OPERATORS: Record<string, { label: string; requiresValue: boolean; requiresEndValue: boolean }> = {
+  equals: { label: 'is gelijk aan', requiresValue: true, requiresEndValue: false },
+  not_equals: { label: 'is niet gelijk aan', requiresValue: true, requiresEndValue: false },
+  contains: { label: 'bevat', requiresValue: true, requiresEndValue: false },
+  not_contains: { label: 'bevat niet', requiresValue: true, requiresEndValue: false },
+  gt: { label: 'is groter dan', requiresValue: true, requiresEndValue: false },
+  gte: { label: 'is groter of gelijk aan', requiresValue: true, requiresEndValue: false },
+  lt: { label: 'is kleiner dan', requiresValue: true, requiresEndValue: false },
+  lte: { label: 'is kleiner of gelijk aan', requiresValue: true, requiresEndValue: false },
+  between: { label: 'ligt tussen', requiresValue: true, requiresEndValue: true },
+  in: { label: 'is een van', requiresValue: true, requiresEndValue: false },
+  not_in: { label: 'is niet een van', requiresValue: true, requiresEndValue: false },
+  is_set: { label: 'is ingesteld', requiresValue: false, requiresEndValue: false },
+  is_not_set: { label: 'is niet ingesteld', requiresValue: false, requiresEndValue: false },
+}
