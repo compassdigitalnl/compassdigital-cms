@@ -150,7 +150,7 @@ export const Users: CollectionConfig = {
             {
               name: 'companyAccount',
               type: 'relationship',
-              relationTo: 'company-accounts',
+              relationTo: 'users',
               label: 'Bedrijfsaccount',
               admin: {
                 description: 'Koppel deze gebruiker aan een bedrijfsaccount',

@@ -58,8 +58,7 @@ import { StockReservations } from '@/branches/ecommerce/shared/collections/shipp
 import { SubscriptionPlans } from '@/branches/ecommerce/shared/collections/subscriptions/SubscriptionPlans'
 import { SubscriptionPages } from '@/branches/ecommerce/shared/collections/subscriptions/SubscriptionPages'
 import { UserSubscriptions } from '@/branches/ecommerce/shared/collections/subscriptions/UserSubscriptions'
-// Company Accounts (B2B - Fase 5)
-import { CompanyAccounts } from '@/branches/ecommerce/b2b/collections/company/CompanyAccounts'
+// B2B (CompanyInvites & ApprovalRequests — CompanyAccounts merged into Users)
 import { CompanyInvites } from '@/branches/ecommerce/b2b/collections/company/CompanyInvites'
 import { ApprovalRequests } from '@/branches/ecommerce/b2b/collections/approvals/ApprovalRequests'
 // Platform Monitoring
@@ -79,10 +78,9 @@ import { ABTestResults } from '@/branches/ecommerce/shared/collections/marketing
 import { DiscountCodes } from '@/branches/ecommerce/shared/collections/marketing/DiscountCodes'
 import { EditionNotifications } from '@/branches/ecommerce/shared/collections/marketing/EditionNotifications'
 import { GiftVouchers } from '@/branches/ecommerce/b2c/collections/marketing/GiftVouchers'
-// Customer & Cart
-import { Carts } from '../packages/modules/cart/collections/Carts'
-import { Customers } from '../packages/modules/accounts/collections/Customers'
-import { Addresses } from '../packages/modules/accounts/collections/Addresses'
+// Cart & Addresses
+import { Carts } from '@/branches/ecommerce/shared/collections/checkout/Carts'
+import { Addresses } from '@/branches/ecommerce/shared/collections/customers/Addresses'
 
 // Content Branch (1 collection — premium content)
 import { BlogPosts } from '@/branches/publishing/collections/BlogPosts'
@@ -315,8 +313,7 @@ export default buildConfig({
     // Publishing
     _col(Magazines),
 
-    // Customer Management
-    _col(Customers),
+    // Customer Management (Customers merged into Users)
     _col(CustomerGroups),
     _col(Addresses),
 
@@ -352,8 +349,7 @@ export default buildConfig({
     _col(LoyaltyTransactions),
     _col(LoyaltyRedemptions),
 
-    // Company Accounts & Approvals (B2B - Fase 5)
-    _col(CompanyAccounts),
+    // B2B Invites & Approvals (CompanyAccounts merged into Users)
     _col(CompanyInvites),
     _col(ApprovalRequests),
 

@@ -19,17 +19,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Niet ingelogd' }, { status: 401 })
     }
 
-    const companyRole = (user as any).companyRole
-    if (companyRole !== 'admin' && companyRole !== 'manager') {
+    const userData = user as any
+    const companyRole = userData.companyRole
+    if (companyRole !== 'owner' && companyRole !== 'admin' && companyRole !== 'manager') {
       return NextResponse.json({ error: 'Onvoldoende rechten' }, { status: 403 })
     }
 
-    const companyAccountId = (user as any).companyAccount
-    if (!companyAccountId) {
+    // Determine the company owner ID
+    const companyOwnerId = companyRole === 'owner' ? user.id : userData.companyOwner
+    if (!companyOwnerId) {
       return NextResponse.json({ error: 'Geen bedrijfsaccount gekoppeld' }, { status: 404 })
     }
+    const ownerId = typeof companyOwnerId === 'object' ? companyOwnerId.id : companyOwnerId
 
-    const companyId = typeof companyAccountId === 'object' ? companyAccountId.id : companyAccountId
     const body = await req.json()
     const { email, role, message } = body
 
@@ -42,7 +44,7 @@ export async function POST(req: NextRequest) {
       collection: 'users',
       where: {
         email: { equals: email },
-        companyAccount: { equals: companyId },
+        companyOwner: { equals: ownerId },
       },
       limit: 1,
     })
@@ -56,7 +58,7 @@ export async function POST(req: NextRequest) {
       collection: 'company-invites',
       where: {
         email: { equals: email },
-        company: { equals: companyId },
+        companyOwner: { equals: ownerId },
         status: { equals: 'pending' },
       },
       limit: 1,
@@ -74,7 +76,7 @@ export async function POST(req: NextRequest) {
     const invite = await payload.create({
       collection: 'company-invites',
       data: {
-        company: companyId,
+        companyOwner: ownerId,
         email,
         role,
         status: 'pending',
@@ -108,7 +110,7 @@ export async function DELETE(req: NextRequest) {
     }
 
     const companyRole = (user as any).companyRole
-    if (companyRole !== 'admin' && companyRole !== 'manager') {
+    if (companyRole !== 'owner' && companyRole !== 'admin' && companyRole !== 'manager') {
       return NextResponse.json({ error: 'Onvoldoende rechten' }, { status: 403 })
     }
 

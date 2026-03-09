@@ -24,35 +24,10 @@ export async function DELETE(request: NextRequest) {
         lastName: 'Account',
         email: `deleted-${user.id}@removed.local`,
         phone: '',
-        _status: 'draft', // Soft-disable
+        customerStatus: 'inactive',
+        addresses: [],
       } as any,
     })
-
-    // Also anonymize customer record if exists
-    try {
-      const { docs: customers } = await payload.find({
-        collection: 'customers',
-        where: { email: { equals: user.email } },
-        depth: 0,
-        limit: 1,
-      })
-
-      if (customers[0]) {
-        await payload.update({
-          collection: 'customers',
-          id: customers[0].id,
-          data: {
-            firstName: 'Verwijderd',
-            lastName: 'Account',
-            email: `deleted-${user.id}@removed.local`,
-            phone: '',
-            company: '',
-          } as any,
-        })
-      }
-    } catch {
-      // Customer anonymization is best-effort
-    }
 
     return NextResponse.json({ success: true })
   } catch (error: any) {

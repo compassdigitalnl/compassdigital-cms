@@ -537,7 +537,6 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
 
     // === B2B ===
     'customer-groups': 'customerGroups',
-    'company-accounts': 'companyAccounts',
     'company-invites': 'companyAccounts',
     'approval-requests': 'approvalWorkflow',
 

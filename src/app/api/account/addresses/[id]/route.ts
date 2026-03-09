@@ -21,25 +21,13 @@ export async function PUT(
     const { id } = await params
     const body = await request.json()
 
-    const { docs: customers } = await payload.find({
-      collection: 'customers',
-      where: { email: { equals: user.email } },
-      depth: 0,
-      limit: 1,
-    })
-
-    const customer = customers[0]
-    if (!customer) {
-      return NextResponse.json({ error: 'Customer not found' }, { status: 404 })
-    }
-
-    const addresses = ((customer.addresses || []) as any[]).map((addr: any) =>
+    const addresses = (((user as any).addresses || []) as any[]).map((addr: any) =>
       addr.id === id ? { ...addr, ...body } : addr,
     )
 
     await payload.update({
-      collection: 'customers',
-      id: customer.id,
+      collection: 'users',
+      id: user.id,
       data: { addresses },
     })
 
@@ -71,23 +59,13 @@ export async function DELETE(
 
     const { id } = await params
 
-    const { docs: customers } = await payload.find({
-      collection: 'customers',
-      where: { email: { equals: user.email } },
-      depth: 0,
-      limit: 1,
-    })
-
-    const customer = customers[0]
-    if (!customer) {
-      return NextResponse.json({ error: 'Customer not found' }, { status: 404 })
-    }
-
-    const addresses = ((customer.addresses || []) as any[]).filter((addr: any) => addr.id !== id)
+    const addresses = (((user as any).addresses || []) as any[]).filter(
+      (addr: any) => addr.id !== id,
+    )
 
     await payload.update({
-      collection: 'customers',
-      id: customer.id,
+      collection: 'users',
+      id: user.id,
       data: { addresses },
     })
 

@@ -215,11 +215,11 @@ export async function POST(request: NextRequest) {
     // 5. CREATE ORDER
     // ========================================
 
-    const customerId = typeof cart.customer === 'number'
-      ? cart.customer
-      : typeof cart.customer === 'string'
-        ? cart.customer
-        : cart.customer?.id
+    const customerId = typeof (cart as any).user === 'number'
+      ? (cart as any).user
+      : typeof (cart as any).user === 'string'
+        ? (cart as any).user
+        : (cart as any).user?.id
 
     // Shipping address (required)
     if (!shippingAddress) {

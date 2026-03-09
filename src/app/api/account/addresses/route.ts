@@ -4,7 +4,7 @@ import configPromise from '@payload-config'
 
 /**
  * GET /api/account/addresses
- * Fetch addresses for the current user from the customers collection
+ * Fetch addresses for the current user
  */
 export async function GET(request: NextRequest) {
   try {
@@ -15,18 +15,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Find customer by user email
-    const { docs: customers } = await payload.find({
-      collection: 'customers',
-      where: { email: { equals: user.email } },
-      depth: 0,
-      limit: 1,
-    })
+    const addresses = (user as any).addresses || []
 
-    const customer = customers[0]
-    const addresses = customer?.addresses || []
-
-    return NextResponse.json({ success: true, docs: addresses, customerId: customer?.id })
+    return NextResponse.json({ success: true, docs: addresses, userId: user.id })
   } catch (error: any) {
     console.error('Error fetching addresses:', error)
     return NextResponse.json(
@@ -38,7 +29,7 @@ export async function GET(request: NextRequest) {
 
 /**
  * POST /api/account/addresses
- * Add a new address to the current user's customer record
+ * Add a new address to the current user
  */
 export async function POST(request: NextRequest) {
   try {
@@ -51,20 +42,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json()
 
-    // Find customer
-    const { docs: customers } = await payload.find({
-      collection: 'customers',
-      where: { email: { equals: user.email } },
-      depth: 0,
-      limit: 1,
-    })
-
-    const customer = customers[0]
-    if (!customer) {
-      return NextResponse.json({ error: 'Customer not found' }, { status: 404 })
-    }
-
-    const addresses = (customer.addresses || []) as any[]
+    const addresses = ((user as any).addresses || []) as any[]
     const newAddress = {
       id: `addr_${Date.now()}`,
       ...body,
@@ -72,8 +50,8 @@ export async function POST(request: NextRequest) {
     }
 
     await payload.update({
-      collection: 'customers',
-      id: customer.id,
+      collection: 'users',
+      id: user.id,
       data: {
         addresses: [...addresses, newAddress],
       },

@@ -64,7 +64,6 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
-    customers: CustomerAuthOperations;
   };
   blocks: {};
   collections: {
@@ -83,7 +82,6 @@ export interface Config {
     'recently-viewed': RecentlyViewed;
     'edition-notifications': EditionNotification;
     magazines: Magazine;
-    customers: Customer;
     'customer-groups': CustomerGroup;
     addresses: Address;
     carts: Cart;
@@ -106,7 +104,6 @@ export interface Config {
     'loyalty-points': LoyaltyPoint;
     'loyalty-transactions': LoyaltyTransaction;
     'loyalty-redemptions': LoyaltyRedemption;
-    'company-accounts': CompanyAccount;
     'company-invites': CompanyInvite;
     'approval-requests': ApprovalRequest;
     quotes: Quote;
@@ -145,6 +142,7 @@ export interface Config {
     'client-requests': ClientRequest;
     clients: Client;
     deployments: Deployment;
+    'uptime-incidents': UptimeIncident;
     forms: Form;
     'form-submissions': FormSubmission;
     redirects: Redirect;
@@ -170,7 +168,6 @@ export interface Config {
     'recently-viewed': RecentlyViewedSelect<false> | RecentlyViewedSelect<true>;
     'edition-notifications': EditionNotificationsSelect<false> | EditionNotificationsSelect<true>;
     magazines: MagazinesSelect<false> | MagazinesSelect<true>;
-    customers: CustomersSelect<false> | CustomersSelect<true>;
     'customer-groups': CustomerGroupsSelect<false> | CustomerGroupsSelect<true>;
     addresses: AddressesSelect<false> | AddressesSelect<true>;
     carts: CartsSelect<false> | CartsSelect<true>;
@@ -193,7 +190,6 @@ export interface Config {
     'loyalty-points': LoyaltyPointsSelect<false> | LoyaltyPointsSelect<true>;
     'loyalty-transactions': LoyaltyTransactionsSelect<false> | LoyaltyTransactionsSelect<true>;
     'loyalty-redemptions': LoyaltyRedemptionsSelect<false> | LoyaltyRedemptionsSelect<true>;
-    'company-accounts': CompanyAccountsSelect<false> | CompanyAccountsSelect<true>;
     'company-invites': CompanyInvitesSelect<false> | CompanyInvitesSelect<true>;
     'approval-requests': ApprovalRequestsSelect<false> | ApprovalRequestsSelect<true>;
     quotes: QuotesSelect<false> | QuotesSelect<true>;
@@ -232,6 +228,7 @@ export interface Config {
     'client-requests': ClientRequestsSelect<false> | ClientRequestsSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
+    'uptime-incidents': UptimeIncidentsSelect<false> | UptimeIncidentsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
@@ -263,7 +260,7 @@ export interface Config {
     'chatbot-settings': ChatbotSettingsSelect<false> | ChatbotSettingsSelect<true>;
   };
   locale: null;
-  user: User | Customer;
+  user: User;
   jobs: {
     tasks: unknown;
     workflows: unknown;
@@ -287,52 +284,67 @@ export interface UserAuthOperations {
     password: string;
   };
 }
-export interface CustomerAuthOperations {
-  forgotPassword: {
-    email: string;
-    password: string;
-  };
-  login: {
-    email: string;
-    password: string;
-  };
-  registerFirstUser: {
-    email: string;
-    password: string;
-  };
-  unlock: {
-    email: string;
-    password: string;
-  };
-}
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
   id: number;
-  name: string;
   firstName?: string | null;
   lastName?: string | null;
+  name?: string | null;
   phone?: string | null;
+  dateOfBirth?: string | null;
+  roles?: ('super-admin' | 'admin' | 'editor')[] | null;
+  /**
+   * Bepaalt welke functies en collecties zichtbaar zijn voor deze klant
+   */
+  clientType?: ('website' | 'webshop') | null;
+  /**
+   * De client-omgeving die bij deze gebruiker hoort
+   */
+  client?: (number | null) | Client;
   /**
    * B2B accounts hebben toegang tot zakelijke functionaliteiten
    */
-  accountType?: ('individual' | 'b2b') | null;
+  accountType?: ('individual' | 'b2c' | 'b2b') | null;
+  /**
+   * Bepaalt pricing en permissions
+   */
+  customerGroup?: (number | null) | CustomerGroup;
+  /**
+   * B2B accounts kunnen goedkeuring vereisen
+   */
+  customerStatus?: ('pending' | 'active' | 'inactive' | 'blocked') | null;
+  /**
+   * Role ID voor custom pricing (bijv. "hospital", "clinic")
+   */
+  customPricingRole?: string | null;
+  /**
+   * Extra korting bovenop groepskorting
+   */
+  discount?: number | null;
+  /**
+   * Maximale openstaande facturen (B2B)
+   */
+  creditLimit?: number | null;
+  paymentTerms?: ('immediate' | '14' | '30' | '60' | '90') | null;
+  verified?: boolean | null;
+  /**
+   * Alleen zichtbaar voor admins
+   */
+  notes?: string | null;
   /**
    * Bedrijfsinformatie voor B2B klanten
    */
   company?: {
-    name: string;
+    name?: string | null;
     kvkNumber?: string | null;
     vatNumber?: string | null;
     /**
      * Email voor facturen (indien anders dan hoofdemail)
      */
     invoiceEmail?: string | null;
-    /**
-     * Branche/sector van het bedrijf
-     */
     branch?:
       | (
           | 'healthcare'
@@ -347,23 +359,85 @@ export interface User {
         )
       | null;
     website?: string | null;
+    status?: ('active' | 'inactive' | 'suspended') | null;
+    /**
+     * Laat leeg voor onbeperkt
+     */
+    monthlyBudget?: number | null;
+    /**
+     * Laat leeg voor onbeperkt
+     */
+    quarterlyBudget?: number | null;
+    /**
+     * Bestellingen boven dit bedrag vereisen goedkeuring. Laat leeg om uit te schakelen.
+     */
+    approvalThreshold?: number | null;
+    /**
+     * Bestellingen van gebruikers met deze rollen vereisen goedkeuring
+     */
+    approvalRoles?: ('buyer' | 'viewer')[] | null;
+    /**
+     * Maximaal openstaand bedrag op rekening
+     */
+    creditLimit?: number | null;
+    creditUsed?: number | null;
+    paymentTerms?: ('14' | '30' | '60') | null;
   };
+  /**
+   * Rol binnen het bedrijfsaccount
+   */
+  companyRole?: ('owner' | 'admin' | 'manager' | 'buyer' | 'finance' | 'viewer') | null;
+  /**
+   * De eigenaar van het bedrijfsaccount (voor teamleden)
+   */
+  companyOwner?: (number | null) | User;
+  /**
+   * Persoonlijke bestedingslimiet per maand
+   */
+  monthlyBudgetLimit?: number | null;
   /**
    * Verzend- en facturadressen
    */
   addresses?:
     | {
+        /**
+         * Bijv. "Thuis", "Werk", "Magazijn"
+         */
+        label?: string | null;
         type: 'shipping' | 'billing' | 'both';
+        companyName?: string | null;
         street: string;
         houseNumber: string;
         houseNumberAddition?: string | null;
         postalCode: string;
         city: string;
-        country?: string | null;
+        state?: string | null;
+        country?: ('NL' | 'BE' | 'DE' | 'FR' | 'GB' | 'OTHER') | null;
+        phone?: string | null;
+        deliveryInstructions?: string | null;
         isDefault?: boolean | null;
         id?: string | null;
       }[]
     | null;
+  language?: ('nl' | 'en' | 'de') | null;
+  currency?: ('EUR' | 'USD' | 'GBP') | null;
+  newsletter?: boolean | null;
+  marketingEmails?: boolean | null;
+  orderNotifications?: boolean | null;
+  /**
+   * Favoriete producten van deze gebruiker
+   */
+  favorites?:
+    | {
+        product: number | Product;
+        addedAt?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  totalOrders?: number | null;
+  totalSpent?: number | null;
+  averageOrderValue?: number | null;
+  lastOrderDate?: string | null;
   /**
    * 2FA kan worden in-/uitgeschakeld via het account instellingen menu
    */
@@ -379,25 +453,6 @@ export interface User {
     | boolean
     | null;
   twoFactorPendingSecret?: string | null;
-  roles?: ('super-admin' | 'admin' | 'editor')[] | null;
-  /**
-   * Bepaalt welke functies en collecties zichtbaar zijn voor deze klant
-   */
-  clientType?: ('website' | 'webshop') | null;
-  /**
-   * Favoriete producten van deze gebruiker
-   */
-  favorites?:
-    | {
-        product: number | Product;
-        addedAt?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * De client-omgeving die bij deze gebruiker hoort
-   */
-  client?: (number | null) | Client;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -416,6 +471,260 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
+}
+/**
+ * Klanten beheren en sites deployen
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients".
+ */
+export interface Client {
+  id: number;
+  /**
+   * Huidige status van de klantsite
+   */
+  status: 'pending' | 'provisioning' | 'deploying' | 'active' | 'failed' | 'suspended' | 'archived';
+  /**
+   * Huidig abonnement
+   */
+  plan?: ('free' | 'starter' | 'professional' | 'enterprise') | null;
+  /**
+   * Naam van de klant / het bedrijf
+   */
+  name: string;
+  /**
+   * Subdomain (bijv. "bakkerij-dejong") of volledige hostname (bijv. "plastimed01.compassdigital.nl")
+   */
+  domain: string;
+  contactEmail: string;
+  contactName?: string | null;
+  contactPhone?: string | null;
+  /**
+   * Basistemplate voor de klantsite
+   */
+  template: 'ecommerce' | 'blog' | 'b2b' | 'portfolio' | 'corporate';
+  /**
+   * Bepaal welke features actief zijn voor deze klant — bepaalt welke collections zichtbaar zijn en welke database tabellen aangemaakt worden
+   */
+  features?: {
+    /**
+     * Hoofdfeature - Schakelt producten, categorieën en merken in
+     */
+    shop?: boolean | null;
+    /**
+     * Staffelprijzen (bijv. 10+ stuks = korting)
+     */
+    volumePricing?: boolean | null;
+    compareProducts?: boolean | null;
+    /**
+     * Bestel direct via SKU/artikelnummer
+     */
+    quickOrder?: boolean | null;
+    brands?: boolean | null;
+    recentlyViewed?: boolean | null;
+    productReviews?: boolean | null;
+    cart?: boolean | null;
+    /**
+     * Kleine winkelwagen in header
+     */
+    miniCart?: boolean | null;
+    /**
+     * Toon voortgang tot gratis verzending
+     */
+    freeShippingBar?: boolean | null;
+    /**
+     * Hoofdfeature - Bestellingen plaatsen
+     */
+    checkout?: boolean | null;
+    /**
+     * Bestellen zonder account
+     */
+    guestCheckout?: boolean | null;
+    invoices?: boolean | null;
+    orderTracking?: boolean | null;
+    /**
+     * Hoofdfeature - Schakelt alle klantaccount functies in
+     */
+    myAccount?: boolean | null;
+    returns?: boolean | null;
+    /**
+     * Automatische herbestelling
+     */
+    recurringOrders?: boolean | null;
+    /**
+     * B2B snelbestelformulieren
+     */
+    orderLists?: boolean | null;
+    addresses?: boolean | null;
+    accountInvoices?: boolean | null;
+    notifications?: boolean | null;
+    /**
+     * Hoofdfeature - Schakelt alle B2B functies in
+     */
+    b2b?: boolean | null;
+    /**
+     * Verschillende prijzen per groep
+     */
+    customerGroups?: boolean | null;
+    groupPricing?: boolean | null;
+    /**
+     * Scan producten met mobiel
+     */
+    barcodeScanner?: boolean | null;
+    /**
+     * Hoofdfeature - Multi-vendor marketplace
+     */
+    vendors?: boolean | null;
+    vendorReviews?: boolean | null;
+    workshops?: boolean | null;
+    /**
+     * Recurring billing
+     */
+    subscriptions?: boolean | null;
+    giftVouchers?: boolean | null;
+    /**
+     * Software license management
+     */
+    licenses?: boolean | null;
+    /**
+     * Points, tiers, rewards
+     */
+    loyalty?: boolean | null;
+    blog?: boolean | null;
+    faq?: boolean | null;
+    testimonials?: boolean | null;
+    cases?: boolean | null;
+    partners?: boolean | null;
+    services?: boolean | null;
+    wishlists?: boolean | null;
+    multiLanguage?: boolean | null;
+    aiContent?: boolean | null;
+    search?: boolean | null;
+    newsletter?: boolean | null;
+    authentication?: boolean | null;
+  };
+  /**
+   * Automatisch ingevuld
+   */
+  deploymentUrl?: string | null;
+  /**
+   * Automatisch ingevuld
+   */
+  adminUrl?: string | null;
+  /**
+   * Automatisch ingevuld
+   */
+  deploymentProvider?: ('vercel' | 'ploi' | 'custom') | null;
+  lastDeployedAt?: string | null;
+  /**
+   * Ploi site ID
+   */
+  deploymentProviderId?: string | null;
+  lastDeploymentId?: string | null;
+  /**
+   * PostgreSQL connection string (versleuteld opgeslagen)
+   */
+  databaseUrl?: string | null;
+  /**
+   * Railway service ID voor de database
+   */
+  databaseProviderId?: string | null;
+  /**
+   * Toegewezen serverpoort (bijv. 3001). Automatisch ingevuld bij provisioning.
+   */
+  port?: number | null;
+  /**
+   * Automatisch ingevuld bij provisioning (contactEmail van de klant)
+   */
+  adminEmail?: string | null;
+  /**
+   * Eenmalig gegenereerd — vraag klant dit te wijzigen na eerste login
+   */
+  initialAdminPassword?: string | null;
+  /**
+   * Extra .env variabelen specifiek voor deze klant (bijv. eigen API keys)
+   */
+  customEnvironment?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Klantspecifieke platform-instellingen
+   */
+  customSettings?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  billingStatus?: ('active' | 'past_due' | 'cancelled' | 'trial') | null;
+  monthlyFee?: number | null;
+  nextBillingDate?: string | null;
+  paymentsEnabled?: boolean | null;
+  /**
+   * acct_... — automatisch ingevuld
+   */
+  stripeAccountId?: string | null;
+  stripeAccountStatus?: ('not_started' | 'pending' | 'enabled' | 'rejected' | 'restricted') | null;
+  paymentPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
+  customTransactionFee?: {
+    percentage?: number | null;
+    fixed?: number | null;
+  };
+  totalPaymentVolume?: number | null;
+  totalPaymentRevenue?: number | null;
+  lastPaymentAt?: string | null;
+  multiSafepayEnabled?: boolean | null;
+  multiSafepayAffiliateId?: string | null;
+  multiSafepayAccountStatus?: ('not_started' | 'pending' | 'active' | 'suspended' | 'rejected') | null;
+  multiSafepayPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
+  multiSafepayCustomRates?: {
+    idealFee?: number | null;
+    cardPercentage?: number | null;
+    cardFixed?: number | null;
+  };
+  multiSafepayTotalVolume?: number | null;
+  multiSafepayTotalRevenue?: number | null;
+  multiSafepayLastPaymentAt?: string | null;
+  lastHealthCheck?: string | null;
+  healthStatus?: ('healthy' | 'warning' | 'critical' | 'unknown') | null;
+  uptimePercentage?: number | null;
+  /**
+   * Alleen zichtbaar voor admins van CompassDigital — niet voor de klant
+   */
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customer-groups".
+ */
+export interface CustomerGroup {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string | null;
+  type: 'b2c' | 'b2b';
+  discount: number;
+  priority: number;
+  minOrderAmount?: number | null;
+  isDefault?: boolean | null;
+  canViewCatalog?: boolean | null;
+  canPlaceOrders?: boolean | null;
+  canRequestQuotes?: boolean | null;
+  canDownloadInvoices?: boolean | null;
+  canViewOrderHistory?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -501,6 +810,14 @@ export interface Product {
   featured?: boolean | null;
   condition?: ('new' | 'refurbished' | 'used') | null;
   warranty?: string | null;
+  /**
+   * Automatisch publiceren op dit tijdstip.
+   */
+  publishAt?: string | null;
+  /**
+   * Automatisch depubliceren op dit tijdstip.
+   */
+  unpublishAt?: string | null;
   releaseDate?: string | null;
   /**
    * Handmatige badge. Bij "Geen" wordt automatisch bepaald o.b.v. actieprijs, voorraad en populariteit.
@@ -1191,260 +1508,6 @@ export interface Branch {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "customer-groups".
- */
-export interface CustomerGroup {
-  id: number;
-  name: string;
-  slug: string;
-  description?: string | null;
-  type: 'b2c' | 'b2b';
-  discount: number;
-  priority: number;
-  minOrderAmount?: number | null;
-  isDefault?: boolean | null;
-  canViewCatalog?: boolean | null;
-  canPlaceOrders?: boolean | null;
-  canRequestQuotes?: boolean | null;
-  canDownloadInvoices?: boolean | null;
-  canViewOrderHistory?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Klanten beheren en sites deployen
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "clients".
- */
-export interface Client {
-  id: number;
-  /**
-   * Huidige status van de klantsite
-   */
-  status: 'pending' | 'provisioning' | 'deploying' | 'active' | 'failed' | 'suspended' | 'archived';
-  /**
-   * Huidig abonnement
-   */
-  plan?: ('free' | 'starter' | 'professional' | 'enterprise') | null;
-  /**
-   * Naam van de klant / het bedrijf
-   */
-  name: string;
-  /**
-   * Subdomain (bijv. "bakkerij-dejong") of volledige hostname (bijv. "plastimed01.compassdigital.nl")
-   */
-  domain: string;
-  contactEmail: string;
-  contactName?: string | null;
-  contactPhone?: string | null;
-  /**
-   * Basistemplate voor de klantsite
-   */
-  template: 'ecommerce' | 'blog' | 'b2b' | 'portfolio' | 'corporate';
-  /**
-   * Bepaal welke features actief zijn voor deze klant — bepaalt welke collections zichtbaar zijn en welke database tabellen aangemaakt worden
-   */
-  features?: {
-    /**
-     * Hoofdfeature - Schakelt producten, categorieën en merken in
-     */
-    shop?: boolean | null;
-    /**
-     * Staffelprijzen (bijv. 10+ stuks = korting)
-     */
-    volumePricing?: boolean | null;
-    compareProducts?: boolean | null;
-    /**
-     * Bestel direct via SKU/artikelnummer
-     */
-    quickOrder?: boolean | null;
-    brands?: boolean | null;
-    recentlyViewed?: boolean | null;
-    productReviews?: boolean | null;
-    cart?: boolean | null;
-    /**
-     * Kleine winkelwagen in header
-     */
-    miniCart?: boolean | null;
-    /**
-     * Toon voortgang tot gratis verzending
-     */
-    freeShippingBar?: boolean | null;
-    /**
-     * Hoofdfeature - Bestellingen plaatsen
-     */
-    checkout?: boolean | null;
-    /**
-     * Bestellen zonder account
-     */
-    guestCheckout?: boolean | null;
-    invoices?: boolean | null;
-    orderTracking?: boolean | null;
-    /**
-     * Hoofdfeature - Schakelt alle klantaccount functies in
-     */
-    myAccount?: boolean | null;
-    returns?: boolean | null;
-    /**
-     * Automatische herbestelling
-     */
-    recurringOrders?: boolean | null;
-    /**
-     * B2B snelbestelformulieren
-     */
-    orderLists?: boolean | null;
-    addresses?: boolean | null;
-    accountInvoices?: boolean | null;
-    notifications?: boolean | null;
-    /**
-     * Hoofdfeature - Schakelt alle B2B functies in
-     */
-    b2b?: boolean | null;
-    /**
-     * Verschillende prijzen per groep
-     */
-    customerGroups?: boolean | null;
-    groupPricing?: boolean | null;
-    /**
-     * Scan producten met mobiel
-     */
-    barcodeScanner?: boolean | null;
-    /**
-     * Hoofdfeature - Multi-vendor marketplace
-     */
-    vendors?: boolean | null;
-    vendorReviews?: boolean | null;
-    workshops?: boolean | null;
-    /**
-     * Recurring billing
-     */
-    subscriptions?: boolean | null;
-    giftVouchers?: boolean | null;
-    /**
-     * Software license management
-     */
-    licenses?: boolean | null;
-    /**
-     * Points, tiers, rewards
-     */
-    loyalty?: boolean | null;
-    blog?: boolean | null;
-    faq?: boolean | null;
-    testimonials?: boolean | null;
-    cases?: boolean | null;
-    partners?: boolean | null;
-    services?: boolean | null;
-    wishlists?: boolean | null;
-    multiLanguage?: boolean | null;
-    aiContent?: boolean | null;
-    search?: boolean | null;
-    newsletter?: boolean | null;
-    authentication?: boolean | null;
-  };
-  /**
-   * Automatisch ingevuld
-   */
-  deploymentUrl?: string | null;
-  /**
-   * Automatisch ingevuld
-   */
-  adminUrl?: string | null;
-  /**
-   * Automatisch ingevuld
-   */
-  deploymentProvider?: ('vercel' | 'ploi' | 'custom') | null;
-  lastDeployedAt?: string | null;
-  /**
-   * Ploi site ID
-   */
-  deploymentProviderId?: string | null;
-  lastDeploymentId?: string | null;
-  /**
-   * PostgreSQL connection string (versleuteld opgeslagen)
-   */
-  databaseUrl?: string | null;
-  /**
-   * Railway service ID voor de database
-   */
-  databaseProviderId?: string | null;
-  /**
-   * Toegewezen serverpoort (bijv. 3001). Automatisch ingevuld bij provisioning.
-   */
-  port?: number | null;
-  /**
-   * Automatisch ingevuld bij provisioning (contactEmail van de klant)
-   */
-  adminEmail?: string | null;
-  /**
-   * Eenmalig gegenereerd — vraag klant dit te wijzigen na eerste login
-   */
-  initialAdminPassword?: string | null;
-  /**
-   * Extra .env variabelen specifiek voor deze klant (bijv. eigen API keys)
-   */
-  customEnvironment?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  /**
-   * Klantspecifieke platform-instellingen
-   */
-  customSettings?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  billingStatus?: ('active' | 'past_due' | 'cancelled' | 'trial') | null;
-  monthlyFee?: number | null;
-  nextBillingDate?: string | null;
-  paymentsEnabled?: boolean | null;
-  /**
-   * acct_... — automatisch ingevuld
-   */
-  stripeAccountId?: string | null;
-  stripeAccountStatus?: ('not_started' | 'pending' | 'enabled' | 'rejected' | 'restricted') | null;
-  paymentPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
-  customTransactionFee?: {
-    percentage?: number | null;
-    fixed?: number | null;
-  };
-  totalPaymentVolume?: number | null;
-  totalPaymentRevenue?: number | null;
-  lastPaymentAt?: string | null;
-  multiSafepayEnabled?: boolean | null;
-  multiSafepayAffiliateId?: string | null;
-  multiSafepayAccountStatus?: ('not_started' | 'pending' | 'active' | 'suspended' | 'rejected') | null;
-  multiSafepayPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
-  multiSafepayCustomRates?: {
-    idealFee?: number | null;
-    cardPercentage?: number | null;
-    cardFixed?: number | null;
-  };
-  multiSafepayTotalVolume?: number | null;
-  multiSafepayTotalRevenue?: number | null;
-  multiSafepayLastPaymentAt?: string | null;
-  lastHealthCheck?: string | null;
-  healthStatus?: ('healthy' | 'warning' | 'critical' | 'unknown') | null;
-  uptimePercentage?: number | null;
-  /**
-   * Alleen zichtbaar voor admins van CompassDigital — niet voor de klant
-   */
-  notes?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
 export interface Page {
@@ -1457,6 +1520,14 @@ export interface Page {
   slug: string;
   status?: ('published' | 'draft') | null;
   publishedOn?: string | null;
+  /**
+   * Stel in wanneer deze pagina automatisch gepubliceerd wordt. Laat leeg voor handmatig publiceren.
+   */
+  publishAt?: string | null;
+  /**
+   * Stel in wanneer deze pagina automatisch wordt gedepubliceerd.
+   */
+  unpublishAt?: string | null;
   /**
    * Automatisch gegenereerd door de wizard. Laat leeg voor standaard kleuren.
    */
@@ -2808,6 +2879,14 @@ export interface BlogPost {
   enableComments?: boolean | null;
   publishedAt?: string | null;
   status?: ('published' | 'draft') | null;
+  /**
+   * Automatisch publiceren op dit tijdstip.
+   */
+  publishAt?: string | null;
+  /**
+   * Automatisch depubliceren op dit tijdstip.
+   */
+  unpublishAt?: string | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -4908,103 +4987,12 @@ export interface Magazine {
   createdAt: string;
 }
 /**
- * Klant accounts met B2B/B2C support
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "customers".
- */
-export interface Customer {
-  id: number;
-  firstName: string;
-  lastName: string;
-  /**
-   * Automatisch gegenereerd uit voor- en achternaam
-   */
-  name?: string | null;
-  phone?: string | null;
-  dateOfBirth?: string | null;
-  accountType: 'b2c' | 'b2b';
-  company?: string | null;
-  /**
-   * Voor B2B: BTW nummer (bijv. NL123456789B01)
-   */
-  vatNumber?: string | null;
-  chamberOfCommerce?: string | null;
-  /**
-   * Bepaalt pricing en permissions
-   */
-  customerGroup?: (number | null) | CustomerGroup;
-  /**
-   * Role ID voor custom pricing (bijv. "hospital", "clinic")
-   */
-  customPricingRole?: string | null;
-  /**
-   * Extra korting bovenop groepskorting
-   */
-  discount?: number | null;
-  /**
-   * Maximale openstaande facturen (B2B)
-   */
-  creditLimit?: number | null;
-  paymentTerms?: ('immediate' | '14' | '30' | '60' | '90') | null;
-  /**
-   * JSON array of customer addresses (TODO: create Addresses collection)
-   */
-  addresses?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  language?: ('nl' | 'en' | 'de') | null;
-  currency?: ('EUR' | 'USD' | 'GBP') | null;
-  newsletter?: boolean | null;
-  marketingEmails?: boolean | null;
-  orderNotifications?: boolean | null;
-  /**
-   * B2B accounts kunnen goedkeuring vereisen
-   */
-  status: 'pending' | 'active' | 'inactive' | 'blocked';
-  approvedBy?: (number | null) | User;
-  approvedAt?: string | null;
-  verified?: boolean | null;
-  /**
-   * Alleen zichtbaar voor admins
-   */
-  notes?: string | null;
-  totalOrders?: number | null;
-  totalSpent?: number | null;
-  averageOrderValue?: number | null;
-  lastOrderDate?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
-  collection: 'customers';
-}
-/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "addresses".
  */
 export interface Address {
   id: number;
-  customer: number | Customer;
+  user: number | User;
   /**
    * Bijvoorbeeld: "Thuis", "Werk", "Magazijn"
    */
@@ -5048,7 +5036,7 @@ export interface Cart {
   /**
    * Leeg voor gastbestellingen
    */
-  customer?: (number | null) | Customer;
+  user?: (number | null) | User;
   /**
    * Voor gastbestellingen en sessie tracking
    */
@@ -5903,50 +5891,14 @@ export interface LoyaltyRedemption {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "company-accounts".
- */
-export interface CompanyAccount {
-  id: number;
-  companyName: string;
-  /**
-   * 8 cijfers
-   */
-  kvkNumber?: string | null;
-  vatNumber?: string | null;
-  owner: number | User;
-  status?: ('active' | 'inactive' | 'suspended') | null;
-  /**
-   * Laat leeg voor onbeperkt
-   */
-  monthlyBudget?: number | null;
-  /**
-   * Laat leeg voor onbeperkt
-   */
-  quarterlyBudget?: number | null;
-  /**
-   * Bestellingen boven dit bedrag vereisen goedkeuring. Laat leeg om uit te schakelen.
-   */
-  approvalThreshold?: number | null;
-  /**
-   * Bestellingen van gebruikers met deze rollen vereisen goedkeuring
-   */
-  approvalRoles?: ('buyer' | 'viewer')[] | null;
-  /**
-   * Maximaal openstaand bedrag op rekening
-   */
-  creditLimit?: number | null;
-  creditUsed?: number | null;
-  paymentTerms?: ('14' | '30' | '60') | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "company-invites".
  */
 export interface CompanyInvite {
   id: number;
-  company: number | CompanyAccount;
+  /**
+   * De eigenaar van het B2B bedrijfsaccount
+   */
+  companyOwner: number | User;
   email: string;
   role: 'admin' | 'manager' | 'buyer' | 'finance' | 'viewer';
   status?: ('pending' | 'accepted' | 'expired' | 'revoked') | null;
@@ -5963,7 +5915,10 @@ export interface CompanyInvite {
  */
 export interface ApprovalRequest {
   id: number;
-  company: number | CompanyAccount;
+  /**
+   * De eigenaar van het B2B bedrijfsaccount
+   */
+  companyOwner: number | User;
   requestedBy: number | User;
   approver?: (number | null) | User;
   orderReference: string;
@@ -8608,6 +8563,27 @@ export interface Deployment {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "uptime-incidents".
+ */
+export interface UptimeIncident {
+  id: number;
+  clientId: string;
+  clientName: string;
+  deploymentUrl?: string | null;
+  status?: ('ongoing' | 'resolved') | null;
+  severity?: ('warning' | 'critical') | null;
+  startedAt?: string | null;
+  resolvedAt?: string | null;
+  durationMinutes?: number | null;
+  failureCount?: number | null;
+  lastError?: string | null;
+  lastStatusCode?: number | null;
+  alertSent?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
 export interface Form {
@@ -8884,10 +8860,6 @@ export interface PayloadLockedDocument {
         value: number | Magazine;
       } | null)
     | ({
-        relationTo: 'customers';
-        value: number | Customer;
-      } | null)
-    | ({
         relationTo: 'customer-groups';
         value: number | CustomerGroup;
       } | null)
@@ -8974,10 +8946,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'loyalty-redemptions';
         value: number | LoyaltyRedemption;
-      } | null)
-    | ({
-        relationTo: 'company-accounts';
-        value: number | CompanyAccount;
       } | null)
     | ({
         relationTo: 'company-invites';
@@ -9132,6 +9100,10 @@ export interface PayloadLockedDocument {
         value: number | Deployment;
       } | null)
     | ({
+        relationTo: 'uptime-incidents';
+        value: number | UptimeIncident;
+      } | null)
+    | ({
         relationTo: 'forms';
         value: number | Form;
       } | null)
@@ -9144,15 +9116,10 @@ export interface PayloadLockedDocument {
         value: number | Redirect;
       } | null);
   globalSlug?: string | null;
-  user:
-    | {
-        relationTo: 'users';
-        value: number | User;
-      }
-    | {
-        relationTo: 'customers';
-        value: number | Customer;
-      };
+  user: {
+    relationTo: 'users';
+    value: number | User;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -9162,15 +9129,10 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: number;
-  user:
-    | {
-        relationTo: 'users';
-        value: number | User;
-      }
-    | {
-        relationTo: 'customers';
-        value: number | Customer;
-      };
+  user: {
+    relationTo: 'users';
+    value: number | User;
+  };
   key?: string | null;
   value?:
     | {
@@ -9200,11 +9162,23 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  name?: T;
   firstName?: T;
   lastName?: T;
+  name?: T;
   phone?: T;
+  dateOfBirth?: T;
+  roles?: T;
+  clientType?: T;
+  client?: T;
   accountType?: T;
+  customerGroup?: T;
+  customerStatus?: T;
+  customPricingRole?: T;
+  discount?: T;
+  creditLimit?: T;
+  paymentTerms?: T;
+  verified?: T;
+  notes?: T;
   company?:
     | T
     | {
@@ -9214,26 +9188,41 @@ export interface UsersSelect<T extends boolean = true> {
         invoiceEmail?: T;
         branch?: T;
         website?: T;
+        status?: T;
+        monthlyBudget?: T;
+        quarterlyBudget?: T;
+        approvalThreshold?: T;
+        approvalRoles?: T;
+        creditLimit?: T;
+        creditUsed?: T;
+        paymentTerms?: T;
       };
+  companyRole?: T;
+  companyOwner?: T;
+  monthlyBudgetLimit?: T;
   addresses?:
     | T
     | {
+        label?: T;
         type?: T;
+        companyName?: T;
         street?: T;
         houseNumber?: T;
         houseNumberAddition?: T;
         postalCode?: T;
         city?: T;
+        state?: T;
         country?: T;
+        phone?: T;
+        deliveryInstructions?: T;
         isDefault?: T;
         id?: T;
       };
-  twoFactorEnabled?: T;
-  twoFactorSecret?: T;
-  twoFactorBackupCodes?: T;
-  twoFactorPendingSecret?: T;
-  roles?: T;
-  clientType?: T;
+  language?: T;
+  currency?: T;
+  newsletter?: T;
+  marketingEmails?: T;
+  orderNotifications?: T;
   favorites?:
     | T
     | {
@@ -9241,7 +9230,14 @@ export interface UsersSelect<T extends boolean = true> {
         addedAt?: T;
         id?: T;
       };
-  client?: T;
+  totalOrders?: T;
+  totalSpent?: T;
+  averageOrderValue?: T;
+  lastOrderDate?: T;
+  twoFactorEnabled?: T;
+  twoFactorSecret?: T;
+  twoFactorBackupCodes?: T;
+  twoFactorPendingSecret?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -9269,6 +9265,8 @@ export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   status?: T;
   publishedOn?: T;
+  publishAt?: T;
+  unpublishAt?: T;
   colorScheme?:
     | T
     | {
@@ -10233,6 +10231,8 @@ export interface ProductsSelect<T extends boolean = true> {
   featured?: T;
   condition?: T;
   warranty?: T;
+  publishAt?: T;
+  unpublishAt?: T;
   releaseDate?: T;
   badge?: T;
   price?: T;
@@ -10740,57 +10740,6 @@ export interface MagazinesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "customers_select".
- */
-export interface CustomersSelect<T extends boolean = true> {
-  firstName?: T;
-  lastName?: T;
-  name?: T;
-  phone?: T;
-  dateOfBirth?: T;
-  accountType?: T;
-  company?: T;
-  vatNumber?: T;
-  chamberOfCommerce?: T;
-  customerGroup?: T;
-  customPricingRole?: T;
-  discount?: T;
-  creditLimit?: T;
-  paymentTerms?: T;
-  addresses?: T;
-  language?: T;
-  currency?: T;
-  newsletter?: T;
-  marketingEmails?: T;
-  orderNotifications?: T;
-  status?: T;
-  approvedBy?: T;
-  approvedAt?: T;
-  verified?: T;
-  notes?: T;
-  totalOrders?: T;
-  totalSpent?: T;
-  averageOrderValue?: T;
-  lastOrderDate?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "customer-groups_select".
  */
 export interface CustomerGroupsSelect<T extends boolean = true> {
@@ -10815,7 +10764,7 @@ export interface CustomerGroupsSelect<T extends boolean = true> {
  * via the `definition` "addresses_select".
  */
 export interface AddressesSelect<T extends boolean = true> {
-  customer?: T;
+  user?: T;
   label?: T;
   type?: T;
   company?: T;
@@ -10843,7 +10792,7 @@ export interface AddressesSelect<T extends boolean = true> {
  * via the `definition` "carts_select".
  */
 export interface CartsSelect<T extends boolean = true> {
-  customer?: T;
+  user?: T;
   sessionId?: T;
   status?: T;
   items?:
@@ -11526,30 +11475,10 @@ export interface LoyaltyRedemptionsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "company-accounts_select".
- */
-export interface CompanyAccountsSelect<T extends boolean = true> {
-  companyName?: T;
-  kvkNumber?: T;
-  vatNumber?: T;
-  owner?: T;
-  status?: T;
-  monthlyBudget?: T;
-  quarterlyBudget?: T;
-  approvalThreshold?: T;
-  approvalRoles?: T;
-  creditLimit?: T;
-  creditUsed?: T;
-  paymentTerms?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "company-invites_select".
  */
 export interface CompanyInvitesSelect<T extends boolean = true> {
-  company?: T;
+  companyOwner?: T;
   email?: T;
   role?: T;
   status?: T;
@@ -11565,7 +11494,7 @@ export interface CompanyInvitesSelect<T extends boolean = true> {
  * via the `definition` "approval-requests_select".
  */
 export interface ApprovalRequestsSelect<T extends boolean = true> {
-  company?: T;
+  companyOwner?: T;
   requestedBy?: T;
   approver?: T;
   orderReference?: T;
@@ -11719,6 +11648,8 @@ export interface BlogPostsSelect<T extends boolean = true> {
   enableComments?: T;
   publishedAt?: T;
   status?: T;
+  publishAt?: T;
+  unpublishAt?: T;
   meta?:
     | T
     | {
@@ -13035,6 +12966,26 @@ export interface DeploymentsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "uptime-incidents_select".
+ */
+export interface UptimeIncidentsSelect<T extends boolean = true> {
+  clientId?: T;
+  clientName?: T;
+  deploymentUrl?: T;
+  status?: T;
+  severity?: T;
+  startedAt?: T;
+  resolvedAt?: T;
+  durationMinutes?: T;
+  failureCount?: T;
+  lastError?: T;
+  lastStatusCode?: T;
+  alertSent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms_select".
  */
 export interface FormsSelect<T extends boolean = true> {
@@ -13237,6 +13188,20 @@ export interface Setting {
   description?: string | null;
   kvkNumber?: string | null;
   vatNumber?: string | null;
+  /**
+   * Gebruikt voor ingeplande content en cron-jobs
+   */
+  timezone?:
+    | (
+        | 'Europe/Amsterdam'
+        | 'Europe/Brussels'
+        | 'Europe/London'
+        | 'Europe/Berlin'
+        | 'Europe/Paris'
+        | 'America/New_York'
+        | 'America/Los_Angeles'
+      )
+    | null;
   email: string;
   phone: string;
   /**
@@ -14962,6 +14927,7 @@ export interface SettingsSelect<T extends boolean = true> {
   description?: T;
   kvkNumber?: T;
   vatNumber?: T;
+  timezone?: T;
   email?: T;
   phone?: T;
   whatsapp?: T;

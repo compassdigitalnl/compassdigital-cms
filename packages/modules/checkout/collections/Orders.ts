@@ -94,7 +94,7 @@ export const Orders: CollectionConfig = {
             {
               name: 'customer',
               type: 'relationship',
-              relationTo: 'customers',
+              relationTo: 'users',
               label: 'Klant',
               admin: {
                 description: 'Leeg voor gastbestellingen',
@@ -540,7 +540,7 @@ export const Orders: CollectionConfig = {
         if (!customerEmail && doc.customer) {
           try {
             const customer = await req.payload.findByID({
-              collection: 'customers',
+              collection: 'users',
               id: typeof doc.customer === 'string' ? doc.customer : doc.customer.id,
             })
             customerEmail = customer.email

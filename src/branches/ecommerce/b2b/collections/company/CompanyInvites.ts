@@ -13,11 +13,14 @@ export const CompanyInvites: CollectionConfig = {
   },
   fields: [
     {
-      name: 'company',
+      name: 'companyOwner',
       type: 'relationship',
-      relationTo: 'company-accounts',
-      label: 'Bedrijf',
+      relationTo: 'users',
+      label: 'Bedrijfseigenaar',
       required: true,
+      admin: {
+        description: 'De eigenaar van het B2B bedrijfsaccount',
+      },
     },
     {
       name: 'email',

@@ -1,7 +1,6 @@
-import type { User, Customer } from '@/payload-types'
+import type { User } from '@/payload-types'
 
-export const checkRole = (allRoles: User['roles'] = [], user?: User | Customer | null): boolean => {
-  // Only User type has roles, not Customer
+export const checkRole = (allRoles: User['roles'] = [], user?: User | null): boolean => {
   if (!user || user.collection !== 'users') return false
 
   if (allRoles) {
@@ -16,23 +15,16 @@ export const checkRole = (allRoles: User['roles'] = [], user?: User | Customer |
 }
 
 /**
- * Type guard to check if a user is of type User (not Customer)
+ * Type guard to check if a user is of type User
  */
-export const isUser = (user: User | Customer | null | undefined): user is User => {
+export const isUser = (user: User | null | undefined): user is User => {
   return user?.collection === 'users'
-}
-
-/**
- * Type guard to check if a user is of type Customer (not User)
- */
-export const isCustomer = (user: User | Customer | null | undefined): user is Customer => {
-  return user?.collection === 'customers'
 }
 
 /**
  * Check if user has admin role
  */
-export const isAdmin = (user: User | Customer | null | undefined): boolean => {
+export const isAdmin = (user: User | null | undefined): boolean => {
   if (!isUser(user)) return false
   return checkRole(['admin'], user)
 }
@@ -40,7 +32,7 @@ export const isAdmin = (user: User | Customer | null | undefined): boolean => {
 /**
  * Check if user has editor role
  */
-export const isEditor = (user: User | Customer | null | undefined): boolean => {
+export const isEditor = (user: User | null | undefined): boolean => {
   if (!isUser(user)) return false
   return checkRole(['editor'], user)
 }
@@ -48,7 +40,7 @@ export const isEditor = (user: User | Customer | null | undefined): boolean => {
 /**
  * Check if user has admin or editor role
  */
-export const isAdminOrEditor = (user: User | Customer | null | undefined): boolean => {
+export const isAdminOrEditor = (user: User | null | undefined): boolean => {
   if (!isUser(user)) return false
   return checkRole(['admin', 'editor'], user)
 }
@@ -56,7 +48,7 @@ export const isAdminOrEditor = (user: User | Customer | null | undefined): boole
 /**
  * Check if user has super-admin role
  */
-export const isSuperAdmin = (user: User | Customer | null | undefined): boolean => {
+export const isSuperAdmin = (user: User | null | undefined): boolean => {
   if (!isUser(user)) return false
   return checkRole(['super-admin'], user)
 }
@@ -66,7 +58,7 @@ export const isSuperAdmin = (user: User | Customer | null | undefined): boolean 
  * Returns the client ID if user has a client, otherwise returns undefined
  * This helper handles the conditional 'client' field that only exists in platform mode
  */
-export const getUserClient = (user: User | Customer | null | undefined): number | string | undefined => {
+export const getUserClient = (user: User | null | undefined): number | string | undefined => {
   if (!isUser(user)) return undefined
   // Use type assertion since client field is conditionally added
   const userWithClient = user as User & { client?: number | string }

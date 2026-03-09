@@ -18,40 +18,47 @@ export async function GET() {
       return NextResponse.json({ error: 'Niet ingelogd' }, { status: 401 })
     }
 
-    const companyAccountId = (user as any).companyAccount
-    if (!companyAccountId) {
+    const userData = user as any
+    if (userData.accountType !== 'b2b') {
+      return NextResponse.json({ error: 'Geen B2B account' }, { status: 404 })
+    }
+
+    // Determine the company owner
+    const companyOwnerId = userData.companyRole === 'owner' ? user.id : userData.companyOwner
+    if (!companyOwnerId) {
       return NextResponse.json({ error: 'Geen bedrijfsaccount gekoppeld' }, { status: 404 })
     }
 
-    const companyId = typeof companyAccountId === 'object' ? companyAccountId.id : companyAccountId
-    const company = await payload.findByID({
-      collection: 'company-accounts',
-      id: companyId,
-    })
+    const ownerId = typeof companyOwnerId === 'object' ? companyOwnerId.id : companyOwnerId
 
-    const companyData = company as any
+    // Fetch company owner for budget data
+    const ownerDoc = ownerId === user.id ? userData : await payload.findByID({ collection: 'users', id: ownerId })
+    const company = (ownerDoc as any).company || {}
 
     // Build budget overview
-    // In a real implementation, monthlyUsed/quarterlyUsed would be calculated
-    // from actual order totals for the current period. For now, return 0.
     const budget = {
-      monthlyBudget: companyData.monthlyBudget || undefined,
-      quarterlyBudget: companyData.quarterlyBudget || undefined,
+      monthlyBudget: company.monthlyBudget || undefined,
+      quarterlyBudget: company.quarterlyBudget || undefined,
       monthlyUsed: 0,
       quarterlyUsed: 0,
-      creditLimit: companyData.creditLimit || undefined,
-      creditUsed: companyData.creditUsed || 0,
-      paymentTerms: companyData.paymentTerms || '30',
+      creditLimit: company.creditLimit || undefined,
+      creditUsed: company.creditUsed || 0,
+      paymentTerms: company.paymentTerms || '30',
     }
 
     // Get per-user budget info (only if admin/manager)
-    const companyRole = (user as any).companyRole || 'viewer'
+    const companyRole = userData.companyRole || 'viewer'
     let users: any[] = []
 
-    if (companyRole === 'admin' || companyRole === 'manager') {
+    if (companyRole === 'admin' || companyRole === 'manager' || companyRole === 'owner') {
       const teamUsers = await payload.find({
         collection: 'users',
-        where: { companyAccount: { equals: companyId } },
+        where: {
+          or: [
+            { id: { equals: ownerId } },
+            { companyOwner: { equals: ownerId } },
+          ],
+        },
         limit: 200,
         sort: 'name',
       })
@@ -62,7 +69,7 @@ export async function GET() {
         email: u.email,
         companyRole: u.companyRole || 'viewer',
         monthlyBudgetLimit: u.monthlyBudgetLimit || undefined,
-        monthlyUsed: 0, // Would be calculated from orders
+        monthlyUsed: 0,
       }))
     }
 

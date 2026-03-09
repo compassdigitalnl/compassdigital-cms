@@ -29,20 +29,19 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       return NextResponse.json({ error: 'Niet gevonden' }, { status: 404 })
     }
 
-    // Verify same company
-    const userCompanyId = (user as any).companyAccount
-    const userCid = typeof userCompanyId === 'object' ? userCompanyId?.id : userCompanyId
-    const docCompanyId = typeof (doc as any).company === 'object' ? (doc as any).company?.id : (doc as any).company
-    if (userCid !== docCompanyId) {
+    // Verify same company — check companyOwner matches user's company owner
+    const userData = user as any
+    const userOwnerId = userData.companyRole === 'owner' ? user.id : (typeof userData.companyOwner === 'object' ? userData.companyOwner?.id : userData.companyOwner)
+    const docOwnerId = typeof (doc as any).companyOwner === 'object' ? (doc as any).companyOwner?.id : (doc as any).companyOwner
+    if (userOwnerId !== docOwnerId) {
       return NextResponse.json({ error: 'Geen toegang' }, { status: 403 })
     }
 
-    // Get company budget info
+    // Get company budget info from owner
     let monthlyBudget = undefined
-    let monthlyUsed = 0
-    if (userCid) {
-      const company = await payload.findByID({ collection: 'company-accounts', id: userCid })
-      monthlyBudget = (company as any).monthlyBudget || undefined
+    if (userOwnerId) {
+      const ownerDoc = userOwnerId === user.id ? userData : await payload.findByID({ collection: 'users', id: userOwnerId })
+      monthlyBudget = (ownerDoc as any).company?.monthlyBudget || undefined
     }
 
     const requestedBy = (doc as any).requestedBy
@@ -73,7 +72,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       createdAt: doc.createdAt,
     }
 
-    return NextResponse.json({ request, monthlyBudget, monthlyUsed })
+    return NextResponse.json({ request, monthlyBudget, monthlyUsed: 0 })
   } catch (err) {
     console.error('GET /api/account/approvals/[id] error:', err)
     return NextResponse.json({ error: 'Interne fout' }, { status: 500 })
@@ -96,7 +95,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     }
 
     const companyRole = (user as any).companyRole
-    if (companyRole !== 'admin' && companyRole !== 'manager') {
+    if (companyRole !== 'owner' && companyRole !== 'admin' && companyRole !== 'manager') {
       return NextResponse.json({ error: 'Onvoldoende rechten' }, { status: 403 })
     }
 
@@ -110,10 +109,10 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
     // Verify same company
     const doc = await payload.findByID({ collection: 'approval-requests', id: Number(id) })
-    const userCompanyId = (user as any).companyAccount
-    const userCid = typeof userCompanyId === 'object' ? userCompanyId?.id : userCompanyId
-    const docCompanyId = typeof (doc as any).company === 'object' ? (doc as any).company?.id : (doc as any).company
-    if (userCid !== docCompanyId) {
+    const userData = user as any
+    const userOwnerId = userData.companyRole === 'owner' ? user.id : (typeof userData.companyOwner === 'object' ? userData.companyOwner?.id : userData.companyOwner)
+    const docOwnerId = typeof (doc as any).companyOwner === 'object' ? (doc as any).companyOwner?.id : (doc as any).companyOwner
+    if (userOwnerId !== docOwnerId) {
       return NextResponse.json({ error: 'Geen toegang' }, { status: 403 })
     }
 

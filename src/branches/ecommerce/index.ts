@@ -37,8 +37,9 @@ export { default as LicenseActivations } from './b2b/collections/licenses/Licens
 export { default as LoyaltyTiers } from './b2c/collections/loyalty/LoyaltyTiers'
 export { default as LoyaltyRewards } from './b2c/collections/loyalty/LoyaltyRewards'
 
-// Cart (external module)
-export { Carts } from '../../../packages/modules/cart/collections/Carts'
+// Cart & Addresses
+export { Carts } from './shared/collections/checkout/Carts'
+export { Addresses } from './shared/collections/customers/Addresses'
 
 // Export branch metadata
 export const branchMetadata = {

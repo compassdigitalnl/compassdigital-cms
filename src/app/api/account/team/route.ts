@@ -19,22 +19,32 @@ export async function GET() {
       return NextResponse.json({ error: 'Niet ingelogd' }, { status: 401 })
     }
 
-    const companyAccountId = (user as any).companyAccount
-    if (!companyAccountId) {
+    const userData = user as any
+    if (userData.accountType !== 'b2b') {
+      return NextResponse.json({ error: 'Geen B2B account' }, { status: 404 })
+    }
+
+    // Determine the company owner (either self if owner, or the companyOwner field)
+    const companyOwnerId = userData.companyRole === 'owner' ? user.id : userData.companyOwner
+    if (!companyOwnerId) {
       return NextResponse.json({ error: 'Geen bedrijfsaccount gekoppeld' }, { status: 404 })
     }
 
-    // Fetch company account
-    const companyId = typeof companyAccountId === 'object' ? companyAccountId.id : companyAccountId
-    const company = await payload.findByID({
-      collection: 'company-accounts',
-      id: companyId,
-    })
+    const ownerId = typeof companyOwnerId === 'object' ? companyOwnerId.id : companyOwnerId
 
-    // Fetch all users in this company
+    // Fetch company owner to get company details
+    const ownerDoc = ownerId === user.id ? userData : await payload.findByID({ collection: 'users', id: ownerId })
+    const company = (ownerDoc as any).company || {}
+
+    // Fetch all users in this company (owner + team members referencing this owner)
     const teamUsers = await payload.find({
       collection: 'users',
-      where: { companyAccount: { equals: companyId } },
+      where: {
+        or: [
+          { id: { equals: ownerId } },
+          { companyOwner: { equals: ownerId } },
+        ],
+      },
       limit: 200,
       sort: 'name',
     })
@@ -43,7 +53,7 @@ export async function GET() {
     const invites = await payload.find({
       collection: 'company-invites',
       where: {
-        company: { equals: companyId },
+        companyOwner: { equals: ownerId },
         status: { in: ['pending'] },
       },
       limit: 50,
@@ -56,7 +66,7 @@ export async function GET() {
       email: u.email,
       companyRole: u.companyRole || 'viewer',
       lastLogin: u.lastLogin || null,
-      status: u.status || 'active',
+      status: u.customerStatus || 'active',
       monthlyBudgetLimit: u.monthlyBudgetLimit || null,
     }))
 
@@ -72,11 +82,11 @@ export async function GET() {
 
     return NextResponse.json({
       company: {
-        id: company.id,
-        companyName: (company as any).companyName,
-        kvkNumber: (company as any).kvkNumber || null,
-        vatNumber: (company as any).vatNumber || null,
-        status: (company as any).status || 'active',
+        id: ownerId,
+        companyName: company.name || '',
+        kvkNumber: company.kvkNumber || null,
+        vatNumber: company.vatNumber || null,
+        status: company.status || 'active',
         memberCount: members.length,
       },
       members,
