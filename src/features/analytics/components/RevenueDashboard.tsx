@@ -53,7 +53,7 @@ function formatCount(value: number): string {
 }
 
 async function fetchJSON<T>(url: string): Promise<T> {
-  const res = await fetch(url)
+  const res = await fetch(url, { credentials: 'include' })
   if (!res.ok) throw new Error(`Fout bij ophalen: ${res.statusText}`)
   return res.json() as Promise<T>
 }
