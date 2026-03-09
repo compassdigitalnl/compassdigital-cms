@@ -83,7 +83,8 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
       created_at, updated_at)
     SELECT c.email, c.first_name, c.last_name,
       COALESCE(c.name, CONCAT(c.first_name, ' ', c.last_name)),
-      c.account_type, c.status, c.discount, c.credit_limit, c.payment_terms,
+      c.account_type::text::enum_users_account_type,
+      c.status, c.discount, c.credit_limit, c.payment_terms,
       c.notes, c.customer_group_id, c.total_orders, c.total_spent,
       c.average_order_value, c.created_at, c.updated_at
     FROM "customers" c

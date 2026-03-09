@@ -1,11 +1,13 @@
 'use client'
 
+import { Gutter } from '@payloadcms/ui'
 import { RevenueDashboard } from '../RevenueDashboard'
 
 export function AnalyticsView() {
   return (
-    <div className="analytics-admin-view" style={{ padding: '20px' }}>
+    <Gutter>
+      <h1 style={{ marginBottom: '1.5rem' }}>Analytics Dashboard</h1>
       <RevenueDashboard />
-    </div>
+    </Gutter>
   )
 }
