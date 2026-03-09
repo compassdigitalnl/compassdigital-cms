@@ -73,6 +73,20 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
   `)
 
   // ═══════════════════════════════════════════════════════════════
+  // STEP 2b: Create users_company_approval_roles subtable
+  // ═══════════════════════════════════════════════════════════════
+  await db.execute(sql`
+    CREATE TABLE IF NOT EXISTS "users_company_approval_roles" (
+      "id" serial PRIMARY KEY,
+      "order" integer NOT NULL,
+      "parent_id" integer NOT NULL REFERENCES "users"("id") ON DELETE CASCADE,
+      "value" varchar NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS "idx_users_company_approval_roles_parent"
+      ON "users_company_approval_roles" ("parent_id");
+  `)
+
+  // ═══════════════════════════════════════════════════════════════
   // STEPS 3-8: Data migration — wrapped in savepoints so missing
   // tables (customers, company_accounts, etc.) don't abort the TX
   // ═══════════════════════════════════════════════════════════════
