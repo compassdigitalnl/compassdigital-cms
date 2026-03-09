@@ -33,6 +33,11 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
     CREATE INDEX IF NOT EXISTS "promotions_status_idx" ON "promotions" USING btree ("status");
     CREATE INDEX IF NOT EXISTS "promotions_dates_idx" ON "promotions" USING btree ("start_date", "end_date");
     CREATE INDEX IF NOT EXISTS "promotions_slug_idx" ON "promotions" USING btree ("slug");
+
+    ALTER TABLE "payload_locked_documents_rels"
+      ADD COLUMN IF NOT EXISTS "promotions_id" integer;
+    CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_promotions_id_idx"
+      ON "payload_locked_documents_rels" USING btree ("promotions_id");
   `)
 }
 

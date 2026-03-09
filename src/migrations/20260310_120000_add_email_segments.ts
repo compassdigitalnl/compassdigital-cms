@@ -20,6 +20,11 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
     );
     CREATE INDEX IF NOT EXISTS "email_segments_slug_idx" ON "email_segments" USING btree ("slug");
     CREATE INDEX IF NOT EXISTS "email_segments_status_idx" ON "email_segments" USING btree ("status");
+
+    ALTER TABLE "payload_locked_documents_rels"
+      ADD COLUMN IF NOT EXISTS "email_segments_id" integer;
+    CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_email_segments_id_idx"
+      ON "payload_locked_documents_rels" USING btree ("email_segments_id");
   `)
 }
 

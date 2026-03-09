@@ -17,6 +17,11 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
     );
     CREATE INDEX IF NOT EXISTS "push_subscriptions_user_idx" ON "push_subscriptions" USING btree ("user_id");
     CREATE INDEX IF NOT EXISTS "push_subscriptions_active_idx" ON "push_subscriptions" USING btree ("active");
+
+    ALTER TABLE "payload_locked_documents_rels"
+      ADD COLUMN IF NOT EXISTS "push_subscriptions_id" integer;
+    CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_push_subscriptions_id_idx"
+      ON "payload_locked_documents_rels" USING btree ("push_subscriptions_id");
   `)
 }
 
