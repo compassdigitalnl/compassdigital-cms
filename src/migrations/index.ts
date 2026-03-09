@@ -14,6 +14,8 @@ import * as migration_20260309_060000_add_settings_template_columns from './2026
 import * as migration_20260309_120000_add_two_factor_auth from './20260309_120000_add_two_factor_auth';
 import * as migration_20260309_140000_b2b_company_accounts from './20260309_140000_b2b_company_accounts';
 import * as migration_20260309_160000_b2b_approval_requests from './20260309_160000_b2b_approval_requests';
+import * as migration_20260309_180000_add_content_scheduling from './20260309_180000_add_content_scheduling';
+import * as migration_20260309_200000_add_uptime_incidents from './20260309_200000_add_uptime_incidents';
 
 export const migrations = [
   {
@@ -95,5 +97,15 @@ export const migrations = [
     up: migration_20260309_160000_b2b_approval_requests.up,
     down: migration_20260309_160000_b2b_approval_requests.down,
     name: '20260309_160000_b2b_approval_requests',
+  },
+  {
+    up: migration_20260309_180000_add_content_scheduling.up,
+    down: migration_20260309_180000_add_content_scheduling.down,
+    name: '20260309_180000_add_content_scheduling',
+  },
+  {
+    up: migration_20260309_200000_add_uptime_incidents.up,
+    down: migration_20260309_200000_add_uptime_incidents.down,
+    name: '20260309_200000_add_uptime_incidents',
   },
 ];

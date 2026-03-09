@@ -126,6 +126,32 @@ export const Pages: CollectionConfig = {
         ],
       },
     },
+    {
+      name: 'publishAt',
+      type: 'date',
+      label: 'Inplannen: publiceren op',
+      admin: {
+        position: 'sidebar',
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+        description: 'Stel in wanneer deze pagina automatisch gepubliceerd wordt. Laat leeg voor handmatig publiceren.',
+        condition: (data) => data?.status === 'draft',
+      },
+    },
+    {
+      name: 'unpublishAt',
+      type: 'date',
+      label: 'Inplannen: depubliceren op',
+      admin: {
+        position: 'sidebar',
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+        description: 'Stel in wanneer deze pagina automatisch wordt gedepubliceerd.',
+        condition: (data) => data?.status === 'published',
+      },
+    },
 
     // ─── Kleurenschema (wizard-gegenereerd) ──────────
     {

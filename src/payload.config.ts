@@ -62,6 +62,8 @@ import { UserSubscriptions } from '@/branches/ecommerce/shared/collections/subsc
 import { CompanyAccounts } from '@/branches/ecommerce/b2b/collections/company/CompanyAccounts'
 import { CompanyInvites } from '@/branches/ecommerce/b2b/collections/company/CompanyInvites'
 import { ApprovalRequests } from '@/branches/ecommerce/b2b/collections/approvals/ApprovalRequests'
+// Platform Monitoring
+import { UptimeIncidents } from '@/features/platform/monitoring/collections/UptimeIncidents'
 // Licenses
 import { Licenses } from '@/branches/ecommerce/b2b/collections/licenses/Licenses'
 import { LicenseActivations } from '@/branches/ecommerce/b2b/collections/licenses/LicenseActivations'
@@ -426,7 +428,7 @@ export default buildConfig({
     // ═══════════════════════════════════════════════════════════════════════════
     // PLATFORM BRANCH - Multi-tenant Management (alleen op platform-instantie)
     // ═══════════════════════════════════════════════════════════════════════════
-    ...(_isPlatform ? [ClientRequests, Clients, Deployments] : []),
+    ...(_isPlatform ? [ClientRequests, Clients, Deployments, UptimeIncidents] : []),
   ].filter(Boolean) as any[],
 
   // ─── Globals ──────────────────────────────

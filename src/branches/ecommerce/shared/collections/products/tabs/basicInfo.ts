@@ -202,6 +202,33 @@ export const basicInfoTab: Tab = {
       type: 'row',
       fields: [
         {
+          name: 'publishAt',
+          type: 'date',
+          label: 'Inplannen: publiceren op',
+          admin: {
+            width: '50%',
+            date: { pickerAppearance: 'dayAndTime' },
+            description: 'Automatisch publiceren op dit tijdstip.',
+            condition: (data: any) => data?.status === 'draft',
+          },
+        },
+        {
+          name: 'unpublishAt',
+          type: 'date',
+          label: 'Inplannen: depubliceren op',
+          admin: {
+            width: '50%',
+            date: { pickerAppearance: 'dayAndTime' },
+            description: 'Automatisch depubliceren op dit tijdstip.',
+            condition: (data: any) => data?.status === 'published',
+          },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
           name: 'releaseDate',
           type: 'date',
           label: 'Release Datum',

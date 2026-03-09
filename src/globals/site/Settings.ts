@@ -67,6 +67,24 @@ export const Settings: GlobalConfig = {
                 placeholder: 'NL123456789B01',
               },
             },
+            {
+              name: 'timezone',
+              type: 'select',
+              label: 'Tijdzone',
+              defaultValue: 'Europe/Amsterdam',
+              options: [
+                { label: 'Amsterdam (CET/CEST)', value: 'Europe/Amsterdam' },
+                { label: 'Brussel (CET/CEST)', value: 'Europe/Brussels' },
+                { label: 'Londen (GMT/BST)', value: 'Europe/London' },
+                { label: 'Berlijn (CET/CEST)', value: 'Europe/Berlin' },
+                { label: 'Parijs (CET/CEST)', value: 'Europe/Paris' },
+                { label: 'New York (EST/EDT)', value: 'America/New_York' },
+                { label: 'Los Angeles (PST/PDT)', value: 'America/Los_Angeles' },
+              ],
+              admin: {
+                description: 'Gebruikt voor ingeplande content en cron-jobs',
+              },
+            },
           ],
         },
 

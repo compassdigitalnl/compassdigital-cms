@@ -143,42 +143,20 @@ export async function checkAllClientsHealth(): Promise<HealthCheckResult[]> {
 }
 
 /**
- * Calculate uptime percentage for client
+ * Calculate uptime percentage for client (uses uptime_checks table)
  */
 export async function calculateUptime(
   clientId: string,
   days: number = 30,
 ): Promise<number> {
   try {
-    // TODO: Implement uptime calculation
-    // This should:
-    // 1. Query health check history from database
-    // 2. Calculate percentage of successful checks
-    // 3. Return uptime percentage
-
-    /*
+    const { calculateUptimePercent } = await import(
+      '@/features/platform/monitoring/lib/uptime-checker'
+    )
+    const { getPayloadClient } = await import('@/lib/tenant/getPlatformPayload')
     const payload = await getPayloadClient()
-    const startDate = new Date()
-    startDate.setDate(startDate.getDate() - days)
-
-    const healthChecks = await payload.find({
-      collection: 'health-checks', // Need to create this collection
-      where: {
-        clientId: { equals: clientId },
-        timestamp: { greater_than: startDate.toISOString() }
-      },
-      limit: 10000
-    })
-
-    const totalChecks = healthChecks.totalDocs
-    const successfulChecks = healthChecks.docs.filter(
-      check => check.status === 'healthy'
-    ).length
-
-    return totalChecks > 0 ? (successfulChecks / totalChecks) * 100 : 0
-    */
-
-    return 99.9 // Mock for now
+    const drizzle = (payload.db as any).drizzle
+    return await calculateUptimePercent(drizzle, clientId, days)
   } catch (error) {
     console.error('[Monitoring] Error calculating uptime:', error)
     return 0
@@ -198,41 +176,64 @@ export async function getMonitoringDashboard(): Promise<{
   recentIncidents: any[]
 }> {
   try {
-    // TODO: Aggregate monitoring data
-    /*
+    const { getPayloadClient } = await import('@/lib/tenant/getPlatformPayload')
     const payload = await getPayloadClient()
+    const drizzle = (payload.db as any).drizzle
 
-    const [
+    // Count clients by health status
+    const clients = await payload.find({
+      collection: 'clients',
+      where: { status: { equals: 'active' } },
+      limit: 1000,
+    })
+
+    const docs = clients.docs as any[]
+    const totalClients = docs.length
+    const healthyClients = docs.filter((c) => c.healthStatus === 'healthy').length
+    const warningClients = docs.filter((c) => c.healthStatus === 'warning').length
+    const criticalClients = docs.filter((c) => c.healthStatus === 'critical').length
+
+    // Get recent incidents
+    const { getRecentIncidents } = await import(
+      '@/features/platform/monitoring/lib/incident-detector'
+    )
+    const recentIncidents = await getRecentIncidents(drizzle, 20)
+
+    // Calculate average response time from recent checks
+    const { sql } = await import('drizzle-orm')
+    const avgResult = await drizzle.execute(
+      sql.raw(`
+        SELECT AVG(response_time) as avg_rt
+        FROM uptime_checks
+        WHERE checked_at >= NOW() - INTERVAL '1 day'
+      `),
+    )
+    const averageResponseTime = Math.round(Number(avgResult?.rows?.[0]?.avg_rt) || 0)
+
+    // Average uptime
+    const uptimeResult = await drizzle.execute(
+      sql.raw(`
+        SELECT
+          COUNT(*) as total,
+          COUNT(*) FILTER (WHERE status != 'critical') as up
+        FROM uptime_checks
+        WHERE checked_at >= NOW() - INTERVAL '30 days'
+      `),
+    )
+    const uptimeRow = uptimeResult?.rows?.[0]
+    const averageUptime =
+      uptimeRow && Number(uptimeRow.total) > 0
+        ? Math.round((Number(uptimeRow.up) / Number(uptimeRow.total)) * 10000) / 100
+        : 100
+
+    return {
       totalClients,
       healthyClients,
       warningClients,
-      criticalClients
-    ] = await Promise.all([
-      payload.count({ collection: 'clients', where: { status: { equals: 'active' } } }),
-      payload.count({ collection: 'clients', where: { healthStatus: { equals: 'healthy' } } }),
-      payload.count({ collection: 'clients', where: { healthStatus: { equals: 'warning' } } }),
-      payload.count({ collection: 'clients', where: { healthStatus: { equals: 'critical' } } })
-    ])
-
-    return {
-      totalClients: totalClients.totalDocs,
-      healthyClients: healthyClients.totalDocs,
-      warningClients: warningClients.totalDocs,
-      criticalClients: criticalClients.totalDocs,
-      averageUptime: 99.5,
-      averageResponseTime: 250,
-      recentIncidents: []
-    }
-    */
-
-    return {
-      totalClients: 0,
-      healthyClients: 0,
-      warningClients: 0,
-      criticalClients: 0,
-      averageUptime: 0,
-      averageResponseTime: 0,
-      recentIncidents: [],
+      criticalClients,
+      averageUptime,
+      averageResponseTime,
+      recentIncidents,
     }
   } catch (error) {
     console.error('[Monitoring] Error getting dashboard data:', error)

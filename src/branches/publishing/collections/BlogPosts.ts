@@ -446,6 +446,32 @@ export const BlogPosts: CollectionConfig = {
         position: 'sidebar',
       },
     },
+    {
+      name: 'publishAt',
+      type: 'date',
+      label: 'Inplannen: publiceren op',
+      admin: {
+        position: 'sidebar',
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+        description: 'Automatisch publiceren op dit tijdstip.',
+        condition: (data) => data?.status === 'draft',
+      },
+    },
+    {
+      name: 'unpublishAt',
+      type: 'date',
+      label: 'Inplannen: depubliceren op',
+      admin: {
+        position: 'sidebar',
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+        description: 'Automatisch depubliceren op dit tijdstip.',
+        condition: (data) => data?.status === 'published',
+      },
+    },
   ],
   hooks: {
     beforeChange: [
