@@ -2,25 +2,33 @@ import { MigrateUpArgs, MigrateDownArgs } from '@payloadcms/db-postgres'
 import { sql } from 'drizzle-orm'
 
 export async function up({ db }: MigrateUpArgs): Promise<void> {
-  // Enable pgvector extension
-  await db.execute(sql`CREATE EXTENSION IF NOT EXISTS vector`)
+  // Try to enable pgvector extension — may not be available on all hosts
+  let hasVector = false
+  try {
+    await db.execute(sql`CREATE EXTENSION IF NOT EXISTS vector`)
+    hasVector = true
+  } catch {
+    console.warn('[Migration] pgvector extension not available — skipping vector columns. Semantic search will be disabled.')
+  }
 
-  // Embeddings table
-  await db.execute(sql`
-    CREATE TABLE IF NOT EXISTS "content_embeddings" (
-      "id" serial PRIMARY KEY,
-      "collection_type" varchar NOT NULL,
-      "doc_id" integer NOT NULL,
-      "embedding" vector(1536) NOT NULL,
-      "text_hash" varchar,
-      "metadata" jsonb,
-      "updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-      "created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-      UNIQUE("collection_type", "doc_id")
-    );
-    CREATE INDEX IF NOT EXISTS "embeddings_collection_idx" ON "content_embeddings" USING btree ("collection_type");
-    CREATE INDEX IF NOT EXISTS "embeddings_vector_idx" ON "content_embeddings" USING ivfflat ("embedding" vector_cosine_ops) WITH (lists = 100);
-  `)
+  // Embeddings table (only if pgvector is available)
+  if (hasVector) {
+    await db.execute(sql`
+      CREATE TABLE IF NOT EXISTS "content_embeddings" (
+        "id" serial PRIMARY KEY,
+        "collection_type" varchar NOT NULL,
+        "doc_id" integer NOT NULL,
+        "embedding" vector(1536) NOT NULL,
+        "text_hash" varchar,
+        "metadata" jsonb,
+        "updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+        "created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+        UNIQUE("collection_type", "doc_id")
+      );
+      CREATE INDEX IF NOT EXISTS "embeddings_collection_idx" ON "content_embeddings" USING btree ("collection_type");
+      CREATE INDEX IF NOT EXISTS "embeddings_vector_idx" ON "content_embeddings" USING ivfflat ("embedding" vector_cosine_ops) WITH (lists = 100);
+    `)
+  }
 
   // Search analytics table
   await db.execute(sql`
