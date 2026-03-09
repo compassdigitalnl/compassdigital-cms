@@ -212,6 +212,9 @@ export default buildConfig({
         '@/features/platform/components/ClientSwitcher#ClientSwitcher',
         '@/branches/shared/components/admin/HideCollections#HideCollections',
       ],
+      afterNavLinks: [
+        '@/features/analytics/components/admin/AnalyticsNavLinks#AnalyticsNavLinks',
+      ],
       graphics: {
         Logo: '@/branches/shared/components/admin/AdminLogo#AdminLogo',
         Icon: '@/branches/shared/components/admin/AdminLogo#AdminLogo',
