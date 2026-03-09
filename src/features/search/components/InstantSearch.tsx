@@ -1,8 +1,9 @@
 'use client'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import { Search, X, Package, BookOpen, FileText, TrendingUp } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { DidYouMean } from './DidYouMean'
 
 interface SearchHit {
   id: string
@@ -93,8 +94,19 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [searchConfig, setSearchConfig] = useState<SearchConfig>(DEFAULT_CONFIG)
   const [activeTab, setActiveTab] = useState(0)
+  const [suggestions, setSuggestions] = useState<string[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
+
+  // Log search click (fire-and-forget)
+  const logClick = useCallback((hitId: string | number, collection: string, position: number) => {
+    if (!query) return
+    fetch('/api/search/click', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, clickedId: hitId, clickedCollection: collection, clickedPosition: position }),
+    }).catch(() => {})
+  }, [query])
 
   // Fetch config on mount
   useEffect(() => {
@@ -136,10 +148,27 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
 
     const timeout = setTimeout(async () => {
       setLoading(true)
+      setSuggestions([])
       try {
         const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&type=all`)
         const data = await response.json()
         setResults(data)
+
+        // Generate "Bedoelde je?" suggestions on zero results
+        const totalHits = (data.products?.total || 0) + (data.blogPosts?.total || 0) + (data.pages?.total || 0)
+        if (totalHits === 0 && query.length >= 3) {
+          // Simple typo suggestions: try common letter swaps and removals
+          const q = query.toLowerCase()
+          const possibleSuggestions: string[] = []
+          // Remove double letters
+          const deduped = q.replace(/(.)\1+/g, '$1')
+          if (deduped !== q) possibleSuggestions.push(deduped)
+          // Remove last character
+          if (q.length > 3) possibleSuggestions.push(q.slice(0, -1))
+          // Remove first character
+          if (q.length > 3) possibleSuggestions.push(q.slice(1))
+          setSuggestions(possibleSuggestions.filter((s, i, arr) => s !== q && arr.indexOf(s) === i).slice(0, 3))
+        }
       } catch (error) {
         console.error('Search error:', error)
       } finally {
@@ -333,7 +362,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
     </>
   )
 
-  const renderHit = (hit: SearchHit, collection: string, isSelected: boolean) => {
+  const renderHit = (hit: SearchHit, collection: string, isSelected: boolean, position: number) => {
     const colors = SECTION_COLORS[collection] || SECTION_COLORS['products']
     const url = getHitUrl(hit, collection)
 
@@ -341,7 +370,10 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
       <Link
         key={`${collection}-${hit.id}`}
         href={url}
-        onClick={onClose}
+        onClick={() => {
+          logClick(hit.id, collection, position)
+          onClose()
+        }}
         className={`flex items-center gap-4 p-3 rounded-xl hover:${colors.bg} transition-colors ${
           isSelected ? colors.bg : ''
         }`}
@@ -374,7 +406,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
           {hits.map((hit: SearchHit, hitIdx: number) => {
             const currentGlobalIndex = startIndex + hitIdx
             const isSelected = currentGlobalIndex === selectedIndex
-            return renderHit(hit, section.collection, isSelected)
+            return renderHit(hit, section.collection, isSelected, currentGlobalIndex)
           })}
         </div>
       </div>
@@ -438,6 +470,15 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
                 <Package className="w-12 h-12 mx-auto mb-4 opacity-30" />
                 <p className="font-semibold mb-1">Geen resultaten gevonden</p>
                 <p className="text-sm">Probeer een andere zoekterm</p>
+                {suggestions.length > 0 && (
+                  <div className="mt-4">
+                    <DidYouMean
+                      query={query}
+                      suggestions={suggestions}
+                      onSuggestionClick={(s) => setQuery(s)}
+                    />
+                  </div>
+                )}
               </div>
             )}
 
