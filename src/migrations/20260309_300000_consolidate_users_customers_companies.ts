@@ -73,10 +73,24 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
   `)
 
   // ═══════════════════════════════════════════════════════════════
-  // STEP 3: Migrate data from customers → users (merge by email)
+  // STEPS 3-8: Data migration — wrapped in savepoints so missing
+  // tables (customers, company_accounts, etc.) don't abort the TX
   // ═══════════════════════════════════════════════════════════════
-  // First: insert customers that DON'T already exist as users
-  await db.execute(sql`
+
+  // Helper: run a query inside a savepoint, skip on error
+  const safeExec = async (label: string, query: ReturnType<typeof sql>) => {
+    try {
+      await db.execute(sql.raw(`SAVEPOINT ${label}`))
+      await db.execute(query)
+      await db.execute(sql.raw(`RELEASE SAVEPOINT ${label}`))
+    } catch (e: any) {
+      await db.execute(sql.raw(`ROLLBACK TO SAVEPOINT ${label}`))
+      console.warn(`[Migration] ${label} skipped: ${e.message?.split('\n')[0]}`)
+    }
+  }
+
+  // STEP 3a: Insert customers → users
+  await safeExec('step3a', sql`
     INSERT INTO "users" (email, first_name, last_name, name, account_type,
       customer_status, discount, credit_limit, payment_terms, notes,
       customer_group_id, total_orders, total_spent, average_order_value,
@@ -92,8 +106,8 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
       AND NOT EXISTS (SELECT 1 FROM "users" u WHERE LOWER(u.email) = LOWER(c.email))
   `)
 
-  // Second: update existing users with customer data (merge)
-  await db.execute(sql`
+  // STEP 3b: Merge customer data into existing users
+  await safeExec('step3b', sql`
     UPDATE "users" u SET
       customer_status = COALESCE(c.status, 'active'),
       discount = COALESCE(c.discount, 0),
@@ -107,10 +121,8 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
     WHERE LOWER(u.email) = LOWER(c.email)
   `)
 
-  // ═══════════════════════════════════════════════════════════════
-  // STEP 4: Migrate company data from company_accounts → users (owner)
-  // ═══════════════════════════════════════════════════════════════
-  await db.execute(sql`
+  // STEP 4a: Migrate company_accounts → users (owner)
+  await safeExec('step4a', sql`
     UPDATE "users" u SET
       company_status = COALESCE(ca.status, 'active'),
       company_monthly_budget = ca.monthly_budget,
@@ -124,8 +136,8 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
     WHERE ca.owner_id = u.id
   `)
 
-  // Set company_owner_id for team members
-  await db.execute(sql`
+  // STEP 4b: Set company_owner_id for team members
+  await safeExec('step4b', sql`
     UPDATE "users" u SET
       company_owner_id = u.company_account_id
     WHERE u.company_account_id IS NOT NULL
@@ -133,12 +145,9 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
       AND u.company_role != 'owner'
   `)
 
-  // ═══════════════════════════════════════════════════════════════
   // STEP 5: Update carts — customer_id → user_id
-  // ═══════════════════════════════════════════════════════════════
-  await db.execute(sql`
+  await safeExec('step5', sql`
     ALTER TABLE "carts" ADD COLUMN IF NOT EXISTS "user_id" integer;
-
     UPDATE "carts" cart SET user_id = u.id
     FROM "customers" c
     JOIN "users" u ON LOWER(u.email) = LOWER(c.email)
@@ -146,12 +155,9 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
       AND cart.user_id IS NULL;
   `)
 
-  // ═══════════════════════════════════════════════════════════════
   // STEP 6: Update addresses — customer_id → user_id
-  // ═══════════════════════════════════════════════════════════════
-  await db.execute(sql`
+  await safeExec('step6', sql`
     ALTER TABLE "addresses" ADD COLUMN IF NOT EXISTS "user_id" integer;
-
     UPDATE "addresses" a SET user_id = u.id
     FROM "customers" c
     JOIN "users" u ON LOWER(u.email) = LOWER(c.email)
@@ -159,26 +165,20 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
       AND a.user_id IS NULL;
   `)
 
-  // ═══════════════════════════════════════════════════════════════
-  // STEP 7: Update company_invites — company_id → company_owner_id
-  // ═══════════════════════════════════════════════════════════════
-  await db.execute(sql`
+  // STEP 7: Update company_invites
+  await safeExec('step7', sql`
     ALTER TABLE "company_invites"
       ADD COLUMN IF NOT EXISTS "company_owner_id" integer;
-
     UPDATE "company_invites" ci SET company_owner_id = ca.owner_id
     FROM "company_accounts" ca
     WHERE ci.company_id = ca.id
       AND ci.company_owner_id IS NULL;
   `)
 
-  // ═══════════════════════════════════════════════════════════════
-  // STEP 8: Update approval_requests — company_id → company_owner_id
-  // ═══════════════════════════════════════════════════════════════
-  await db.execute(sql`
+  // STEP 8: Update approval_requests
+  await safeExec('step8', sql`
     ALTER TABLE "approval_requests"
       ADD COLUMN IF NOT EXISTS "company_owner_id" integer;
-
     UPDATE "approval_requests" ar SET company_owner_id = ca.owner_id
     FROM "company_accounts" ca
     WHERE ar.company_id = ca.id
@@ -188,7 +188,7 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
   // ═══════════════════════════════════════════════════════════════
   // STEP 9: Update Payload internal rels tables
   // ═══════════════════════════════════════════════════════════════
-  await db.execute(sql`
+  await safeExec('step9', sql`
     ALTER TABLE "payload_locked_documents_rels"
       DROP COLUMN IF EXISTS "customers_id",
       DROP COLUMN IF EXISTS "company_accounts_id",
