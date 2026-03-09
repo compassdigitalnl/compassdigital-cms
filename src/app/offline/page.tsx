@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * Offline Fallback Page
  *
@@ -5,13 +7,8 @@
  * and no cached version is available.
  *
  * Uses only inline styles — CSS files may not be cached when offline.
- * Works without JavaScript (basic HTML/CSS).
  * All text in Dutch.
  */
-
-export const metadata = {
-  title: 'Je bent offline',
-}
 
 export default function OfflinePage() {
   return (
