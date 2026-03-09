@@ -76,6 +76,7 @@ import { LoyaltyTransactions } from '@/branches/ecommerce/b2c/collections/loyalt
 import { ABTests } from '@/branches/ecommerce/shared/collections/marketing/ABTests'
 import { ABTestResults } from '@/branches/ecommerce/shared/collections/marketing/ABTestResults'
 import { DiscountCodes } from '@/branches/ecommerce/shared/collections/marketing/DiscountCodes'
+import { Promotions } from '@/branches/ecommerce/shared/collections/marketing/Promotions'
 import { EditionNotifications } from '@/branches/ecommerce/shared/collections/marketing/EditionNotifications'
 import { GiftVouchers } from '@/branches/ecommerce/b2c/collections/marketing/GiftVouchers'
 // Cart & Addresses
@@ -148,6 +149,7 @@ import {
   EmailEvents,
   EmailApiKeys,
 } from '@/features/email-marketing/collections'
+import { EmailSegments } from '@/features/email-marketing/collections/EmailSegments'
 
 // Globals (Consolidated: 8 → 6 globals!)
 import { Footer } from '@/globals/site/footer/Footer'
@@ -213,6 +215,24 @@ export default buildConfig({
       graphics: {
         Logo: '@/branches/shared/components/admin/AdminLogo#AdminLogo',
         Icon: '@/branches/shared/components/admin/AdminLogo#AdminLogo',
+      },
+      views: {
+        analytics: {
+          Component: '@/features/analytics/components/admin/AnalyticsView#AnalyticsView',
+          path: '/analytics',
+          meta: {
+            title: 'Analytics',
+            description: 'Omzet, bestellingen, conversie en klantanalyse',
+          },
+        },
+        insights: {
+          Component: '@/features/analytics/components/admin/InsightsView#InsightsView',
+          path: '/insights',
+          meta: {
+            title: 'Klantinzichten',
+            description: 'RFM-analyse, segmentatie, CLV en churn-predictie',
+          },
+        },
       },
     },
     user: Users.slug,
@@ -320,6 +340,7 @@ export default buildConfig({
     // Cart & Checkout
     _col(Carts),
     _col(DiscountCodes),
+    _col(Promotions),
 
     // Order Management
     _col(Orders),
@@ -420,6 +441,7 @@ export default buildConfig({
     _col(AutomationFlows),
     _col(FlowInstances),
     _col(EmailEvents),
+    _col(EmailSegments),
 
     // ═══════════════════════════════════════════════════════════════════════════
     // PLATFORM BRANCH - Multi-tenant Management (alleen op platform-instantie)
