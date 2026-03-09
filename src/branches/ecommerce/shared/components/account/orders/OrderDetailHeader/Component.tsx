@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { RotateCcw, Download } from 'lucide-react'
 import { StatusBadge } from '@/branches/ecommerce/shared/components/account/ui'
-import { features } from '@/lib/features'
+import { features } from '@/lib/tenant/features'
 import type { OrderDetailHeaderProps } from './types'
 
 export function OrderDetailHeader({ order, onReorder, onDownloadInvoice }: OrderDetailHeaderProps) {

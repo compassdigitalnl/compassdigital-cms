@@ -59,7 +59,7 @@ export async function getOrCreateIndex(indexName: string) {
       console.log(`📋 Creating Meilisearch index: ${indexName}`)
       const task = await meilisearchClient.createIndex(indexName, { primaryKey: 'id' })
       // Wait for the index creation task to complete before returning
-      await meilisearchClient.waitForTask(task.taskUid)
+      await (meilisearchClient as any).waitForTask(task.taskUid)
       return meilisearchClient.index(indexName)
     }
     throw error

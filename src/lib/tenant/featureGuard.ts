@@ -6,7 +6,7 @@
  *
  * Usage:
  * ```tsx
- * import { requireFeature } from '@/lib/featureGuard'
+ * import { requireFeature } from '@/lib/tenant/featureGuard'
  *
  * export default async function VendorsPage() {
  *   // Return 404 if vendors feature is disabled

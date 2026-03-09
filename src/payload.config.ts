@@ -58,6 +58,10 @@ import { StockReservations } from '@/branches/ecommerce/shared/collections/shipp
 import { SubscriptionPlans } from '@/branches/ecommerce/shared/collections/subscriptions/SubscriptionPlans'
 import { SubscriptionPages } from '@/branches/ecommerce/shared/collections/subscriptions/SubscriptionPages'
 import { UserSubscriptions } from '@/branches/ecommerce/shared/collections/subscriptions/UserSubscriptions'
+// Company Accounts (B2B - Fase 5)
+import { CompanyAccounts } from '@/branches/ecommerce/b2b/collections/company/CompanyAccounts'
+import { CompanyInvites } from '@/branches/ecommerce/b2b/collections/company/CompanyInvites'
+import { ApprovalRequests } from '@/branches/ecommerce/b2b/collections/approvals/ApprovalRequests'
 // Licenses
 import { Licenses } from '@/branches/ecommerce/b2b/collections/licenses/Licenses'
 import { LicenseActivations } from '@/branches/ecommerce/b2b/collections/licenses/LicenseActivations'
@@ -132,7 +136,7 @@ import { Reservations } from '@/branches/horeca/collections/Reservations'
 import { Events } from '@/branches/horeca/collections/Events'
 
 // Email Marketing Feature (8 collections - Feature flagged)
-import { emailMarketingFeatures } from '@/lib/features'
+import { emailMarketingFeatures } from '@/lib/tenant/features'
 import {
   EmailSubscribers,
   EmailLists,
@@ -345,6 +349,11 @@ export default buildConfig({
     _col(LoyaltyPoints),
     _col(LoyaltyTransactions),
     _col(LoyaltyRedemptions),
+
+    // Company Accounts & Approvals (B2B - Fase 5)
+    _col(CompanyAccounts),
+    _col(CompanyInvites),
+    _col(ApprovalRequests),
 
     // Quotes (Sprint 10)
     _col(Quotes),

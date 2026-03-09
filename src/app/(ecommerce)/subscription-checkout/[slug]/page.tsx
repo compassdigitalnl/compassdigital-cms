@@ -1,6 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound, redirect } from 'next/navigation'
 import SubscriptionCheckoutClient from './SubscriptionCheckoutClient'
 import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'

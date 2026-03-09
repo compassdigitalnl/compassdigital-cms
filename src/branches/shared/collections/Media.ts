@@ -8,7 +8,7 @@ import {
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { checkRole } from '@/access/utilities'
-import { isClientDeployment } from '@/lib/isClientDeployment'
+import { isClientDeployment } from '@/lib/tenant/isClientDeployment'
 import { autoGenerateAltText } from '@/utilities/slugify'
 
 const filename = fileURLToPath(import.meta.url)

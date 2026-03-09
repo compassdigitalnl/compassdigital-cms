@@ -44,7 +44,7 @@ import { constructionBlocks } from '@/branches/construction/blocks'
 // Hooks
 import { revalidatePage, revalidateDelete } from './hooks/revalidatePage'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
-import { isClientDeployment } from '@/lib/isClientDeployment'
+import { isClientDeployment } from '@/lib/tenant/isClientDeployment'
 
 // Check for disabled collections to prevent invalid relationship errors
 const disabledCollections = new Set(

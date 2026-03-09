@@ -23,7 +23,7 @@ let PloiService: any
 
 async function getPloiService() {
   if (!PloiService) {
-    const module = await import('@/lib/ploi/PloiService')
+    const module = await import('@/lib/integrations/ploi/PloiService')
     PloiService = module.PloiService
   }
   return PloiService

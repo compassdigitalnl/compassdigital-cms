@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { requireFeature } from '@/lib/featureGuard'
-import { isFeatureEnabled } from '@/lib/features'
+import { requireFeature } from '@/lib/tenant/featureGuard'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 import {
   Search,

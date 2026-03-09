@@ -642,5 +642,5 @@ export function isBundleProduct(product: Product): boolean {
 }
 
 export function isMixMatchProduct(product: Product): boolean {
-  return product.productType === 'mixAndMatch'
+  return (product.productType as string) === 'mixAndMatch'
 }

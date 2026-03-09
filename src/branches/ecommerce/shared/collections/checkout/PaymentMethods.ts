@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
 
 export const PaymentMethods: CollectionConfig = {
   slug: 'payment-methods',

@@ -9,7 +9,7 @@ import { SubscriptionPricingTable } from '@/branches/ecommerce/shared/components
 import { RelatedProductsSection } from '@/branches/ecommerce/shared/components/RelatedProductsSection'
 import { RichText } from '@/branches/shared/components/common/RichText'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
-import { features } from '@/lib/features'
+import { features } from '@/lib/tenant/features'
 import type { Product } from '@/payload-types'
 import {
   ShoppingCart,
@@ -64,7 +64,7 @@ export default function ProductTemplate3({ product }: ProductTemplate3Props) {
   // Product type detection
   const isGrouped = product.productType === 'grouped'
   const isVariable = product.productType === 'variable'
-  const isSubscription = product.isSubscription === true && isVariable
+  const isSubscription = (product as any).isSubscription === true && isVariable
 
   const childProducts =
     isGrouped && product.childProducts

@@ -5,7 +5,7 @@ import type { Product } from '@/payload-types'
 import { Check, Gift, User, Zap } from 'lucide-react'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
-type VariantValue = NonNullable<NonNullable<Product['variantOptions']>[number]['values']>[number]
+type VariantValue = NonNullable<NonNullable<(Product & { variantOptions?: any[] })['variantOptions']>[number]['values']>[number]
 
 interface SubscriptionPricingTableProps {
   product: Product
@@ -18,8 +18,8 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
 
   // Get all subscription variants from variant options
   const subscriptionVariants: VariantValue[] = []
-  product.variantOptions?.forEach((option) => {
-    option.values?.forEach((value) => {
+  ;((product as any).variantOptions || []).forEach((option: any) => {
+    option.values?.forEach((value: any) => {
       if (value.subscriptionType) {
         subscriptionVariants.push(value)
       }

@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Package, ChevronRight } from 'lucide-react'
-import { features } from '@/lib/features'
+import { features } from '@/lib/tenant/features'
 import { StatusBadge } from '@/branches/ecommerce/shared/components/account/ui'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 import { formatOrderStatus } from '@/branches/ecommerce/shared/lib/formatOrderStatus'

@@ -10,7 +10,7 @@ import config from '@payload-config'
 import type { ConstructionProject } from '@/payload-types'
 import { ProjectCard } from '@/branches/construction/components'
 import type { Metadata } from 'next'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 
 export const metadata: Metadata = {

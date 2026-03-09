@@ -5,7 +5,7 @@ import type { Product } from '@/payload-types'
 import { Check } from 'lucide-react'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
-type VariantOption = NonNullable<Product['variantOptions']>[number]
+type VariantOption = NonNullable<(Product & { variantOptions?: any[] })['variantOptions']>[number]
 type VariantValue = NonNullable<VariantOption['values']>[number]
 
 interface VariantSelectorProps {
@@ -17,7 +17,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
   const [selections, setSelections] = useState<Record<string, VariantValue>>({})
   const { displayPrice, formatPriceStr } = usePriceMode()
 
-  const variantOptions = product.variantOptions || []
+  const variantOptions = (product as any).variantOptions || []
 
   // Calculate total price with modifiers (excl. VAT base)
   const calculateTotalPriceExcl = () => {
@@ -50,7 +50,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
 
   return (
     <div className="space-y-6">
-      {variantOptions.map((option) => {
+      {variantOptions.map((option: any) => {
         const currentSelection = selections[option.optionName || '']
 
         return (
@@ -67,7 +67,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
             {/* Color Swatches */}
             {option.displayType === 'colorSwatch' && (
               <div className="flex flex-wrap gap-2">
-                {option.values?.map((value) => (
+                {option.values?.map((value: any) => (
                   <button
                     key={value.value}
                     onClick={() => handleSelection(option.optionName || '', value)}
@@ -94,7 +94,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
             {/* Size Radio Buttons */}
             {option.displayType === 'sizeRadio' && (
               <div className="flex flex-wrap gap-2">
-                {option.values?.map((value) => (
+                {option.values?.map((value: any) => (
                   <button
                     key={value.value}
                     onClick={() => handleSelection(option.optionName || '', value)}
@@ -119,13 +119,13 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
               <select
                 value={currentSelection?.value || ''}
                 onChange={(e) => {
-                  const value = option.values?.find(v => v.value === e.target.value)
+                  const value = option.values?.find((v: any) => v.value === e.target.value)
                   if (value) handleSelection(option.optionName || '', value)
                 }}
                 className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">Selecteer {option.optionName}</option>
-                {option.values?.map((value) => (
+                {option.values?.map((value: any) => (
                   <option
                     key={value.value}
                     value={value.value}
@@ -142,7 +142,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
             {/* Image Radio */}
             {option.displayType === 'imageRadio' && (
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-                {option.values?.map((value) => {
+                {option.values?.map((value: any) => {
                   const imageUrl = typeof value.image === 'object' && value.image?.url ? value.image.url : null
 
                   return (
@@ -184,7 +184,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
             {/* Checkbox Add-ons */}
             {option.displayType === 'checkbox' && (
               <div className="space-y-2">
-                {option.values?.map((value) => (
+                {option.values?.map((value: any) => (
                   <label
                     key={value.value}
                     className={`
@@ -245,7 +245,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
       })}
 
       {/* Configuration Summary */}
-      {product.configuratorSettings?.showConfigSummary && Object.keys(selections).length > 0 && (
+      {(product as any).configuratorSettings?.showConfigSummary && Object.keys(selections).length > 0 && (
         <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
           <h3 className="text-sm font-semibold text-gray-900 mb-2">
             Uw configuratie:
@@ -262,7 +262,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
               </li>
             ))}
           </ul>
-          {product.configuratorSettings?.showPriceBreakdown && (
+          {(product as any).configuratorSettings?.showPriceBreakdown && (
             <div className="mt-3 pt-3 border-t border-gray-300">
               <div className="flex justify-between text-sm">
                 <span>Basisprijs:</span>

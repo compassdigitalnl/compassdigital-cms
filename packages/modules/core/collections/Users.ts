@@ -145,6 +145,47 @@ export const Users: CollectionConfig = {
           ],
         },
         {
+          label: 'B2B',
+          fields: [
+            {
+              name: 'companyAccount',
+              type: 'relationship',
+              relationTo: 'company-accounts',
+              label: 'Bedrijfsaccount',
+              admin: {
+                description: 'Koppel deze gebruiker aan een bedrijfsaccount',
+              },
+            },
+            {
+              name: 'companyRole',
+              type: 'select',
+              label: 'Bedrijfsrol',
+              defaultValue: 'viewer',
+              options: [
+                { label: 'Admin', value: 'admin' },
+                { label: 'Manager', value: 'manager' },
+                { label: 'Inkoper', value: 'buyer' },
+                { label: 'Financieel', value: 'finance' },
+                { label: 'Alleen-lezen', value: 'viewer' },
+              ],
+              admin: {
+                condition: (data) => Boolean(data?.companyAccount),
+                description: 'Rol binnen het bedrijfsaccount',
+              },
+            },
+            {
+              name: 'monthlyBudgetLimit',
+              type: 'number',
+              label: 'Maandelijks budgetlimiet (€)',
+              admin: {
+                condition: (data) => Boolean(data?.companyAccount),
+                description: 'Individueel maandbudget. Laat leeg voor bedrijfsstandaard.',
+                step: 1,
+              },
+            },
+          ],
+        },
+        {
           label: 'Metadata',
           fields: [
             {

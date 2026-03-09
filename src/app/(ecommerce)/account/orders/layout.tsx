@@ -1,4 +1,4 @@
-import { requireFeature } from '@/lib/featureGuard'
+import { requireFeature } from '@/lib/tenant/featureGuard'
 import { ReactNode } from 'react'
 
 export default function OrdersLayout({ children }: { children: ReactNode }) {

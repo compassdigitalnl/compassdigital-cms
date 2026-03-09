@@ -369,7 +369,7 @@ export default function ShopArchiveTemplate1({
           quantity: hit.stock ?? 0,
         },
         price: hit.effectivePrice ?? hit.price ?? 0,
-        unit: hit.unit || undefined,
+        unit: (hit as any).unit || undefined,
         slug: hit.slug || undefined,
       })
     },

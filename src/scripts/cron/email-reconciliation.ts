@@ -19,7 +19,7 @@ import 'dotenv/config'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { ReconciliationService } from '@/features/email-marketing/lib/reconciliation/ReconciliationService'
-import { emailMarketingFeatures } from '@/lib/features'
+import { emailMarketingFeatures } from '@/lib/tenant/features'
 
 async function main() {
   // Parse arguments

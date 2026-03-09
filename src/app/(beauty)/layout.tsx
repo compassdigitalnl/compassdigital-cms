@@ -10,7 +10,7 @@ import { ToastProvider } from '@/branches/shared/components/ui/ToastSystem'
 import { HeaderClient } from '@/globals/site/header/components/index.client'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import '../globals.css'
 
 export const dynamic = 'force-dynamic'

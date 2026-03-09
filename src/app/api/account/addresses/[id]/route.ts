@@ -33,7 +33,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 })
     }
 
-    const addresses = (customer.addresses || []).map((addr: any) =>
+    const addresses = ((customer.addresses || []) as any[]).map((addr: any) =>
       addr.id === id ? { ...addr, ...body } : addr,
     )
 
@@ -83,7 +83,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 })
     }
 
-    const addresses = (customer.addresses || []).filter((addr: any) => addr.id !== id)
+    const addresses = ((customer.addresses || []) as any[]).filter((addr: any) => addr.id !== id)
 
     await payload.update({
       collection: 'customers',

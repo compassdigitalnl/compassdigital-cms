@@ -1,5 +1,5 @@
 import type { Tab } from 'payload'
-import { featureTab } from '@/lib/featureFields'
+import { featureTab } from '@/lib/tenant/featureFields'
 
 export const subscriptionProductTabs: Tab[] = featureTab('subscriptions', {
   label: 'Subscription Product',

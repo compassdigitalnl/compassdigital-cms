@@ -1,6 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 import BrandDetailTemplate1 from '@/branches/shared/templates/brands/BrandDetailTemplate1'
 import type { Brand, Product, Media } from '@/payload-types'

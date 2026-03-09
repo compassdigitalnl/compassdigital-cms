@@ -7,7 +7,7 @@
 
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import { features } from '@/lib/features'
+import { features } from '@/lib/tenant/features'
 /** Shape expected by POST /api/platform/clients */
 interface ProvisioningRequest {
   clientName: string
@@ -32,7 +32,7 @@ export async function GET_Clients(request: NextRequest) {
   }
 
   try {
-    const { getPayloadClient } = await import('@/lib/getPlatformPayload')
+    const { getPayloadClient } = await import('@/lib/tenant/getPlatformPayload')
     const payload = await getPayloadClient()
 
     // Parse query parameters
@@ -109,7 +109,7 @@ export async function POST_Clients(request: NextRequest) {
 
     // Create client record in Payload
     console.log('[API] Creating client record:', body.clientName)
-    const { getPayloadClient } = await import('@/lib/getPlatformPayload')
+    const { getPayloadClient } = await import('@/lib/tenant/getPlatformPayload')
     const payload = await getPayloadClient()
 
     const newClient = await payload.create({
@@ -178,7 +178,7 @@ export async function GET_ClientById(clientId: string) {
   }
 
   try {
-    const { getPayloadClient } = await import('@/lib/getPlatformPayload')
+    const { getPayloadClient } = await import('@/lib/tenant/getPlatformPayload')
     const payload = await getPayloadClient()
 
     const client = await payload.findByID({
@@ -210,7 +210,7 @@ export async function PATCH_Client(clientId: string, request: NextRequest) {
   }
 
   try {
-    const { getPayloadClient } = await import('@/lib/getPlatformPayload')
+    const { getPayloadClient } = await import('@/lib/tenant/getPlatformPayload')
     const payload = await getPayloadClient()
     const updates = await request.json()
 
@@ -244,7 +244,7 @@ export async function DELETE_Client(clientId: string) {
   }
 
   try {
-    const { getPayloadClient } = await import('@/lib/getPlatformPayload')
+    const { getPayloadClient } = await import('@/lib/tenant/getPlatformPayload')
     const payload = await getPayloadClient()
 
     // Mark as archived before deleting (so webhooks/hooks know this is intentional)
@@ -354,7 +354,7 @@ export async function GET_ClientDeployments(clientId: string, request: NextReque
   }
 
   try {
-    const { getPayloadClient } = await import('@/lib/getPlatformPayload')
+    const { getPayloadClient } = await import('@/lib/tenant/getPlatformPayload')
     const payload = await getPayloadClient()
     const searchParams = request.nextUrl.searchParams
     const limit = parseInt(searchParams.get('limit') || '10')
@@ -409,7 +409,7 @@ export async function POST_RedeployClient(clientId: string) {
 
   try {
     // 1. Get client details
-    const { getPayloadClient } = await import('@/lib/getPlatformPayload')
+    const { getPayloadClient } = await import('@/lib/tenant/getPlatformPayload')
     const payload = await getPayloadClient()
 
     const client = await payload.findByID({
@@ -474,7 +474,7 @@ export async function GET_PlatformStats() {
   }
 
   try {
-    const { getPayloadClient } = await import('@/lib/getPlatformPayload')
+    const { getPayloadClient } = await import('@/lib/tenant/getPlatformPayload')
     const payload = await getPayloadClient()
 
     // Aggregate statistics

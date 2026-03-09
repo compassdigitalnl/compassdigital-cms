@@ -3,7 +3,7 @@ import config from '@payload-config'
 import CheckoutTemplate1 from '@/branches/ecommerce/shared/templates/checkout/CheckoutTemplate1'
 import CheckoutTemplate2 from '@/branches/ecommerce/shared/templates/checkout/CheckoutTemplate2'
 import CheckoutTemplate4 from '@/branches/ecommerce/shared/templates/checkout/CheckoutTemplate4'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 import { CHECKOUT_FLOWS, resolveFlowFromLegacy } from '@/branches/ecommerce/shared/lib/checkoutFlows'
 

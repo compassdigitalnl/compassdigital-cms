@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { features } from '@/lib/features'
+import { features } from '@/lib/tenant/features'
 import { DashboardStats, QuickActions, RecentOrders, OrderListsWidget, AddressesWidget } from '@/branches/ecommerce/shared/components/account/dashboard'
 import type { DashboardTemplateProps } from './types'
 

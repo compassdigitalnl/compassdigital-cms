@@ -85,14 +85,14 @@ export function registerLiveEcommerceBlocks(editor: any) {
           },
         ],
       },
-      init() {
+      init(this: any) {
         // Open picker on first add (when no product selected)
         this.on('change:attributes', this.handleAttrChange)
       },
-      handleAttrChange() {
+      handleAttrChange(this: any) {
         // Product ID changed
       },
-      setProductData(product: ProductData) {
+      setProductData(this: any, product: ProductData) {
         const html = generateProductCardHtml(product)
         this.components(html)
         this.addAttributes({ 'data-product-id': String(product.id) })
@@ -103,7 +103,7 @@ export function registerLiveEcommerceBlocks(editor: any) {
       events: {
         dblclick: 'onDblClick',
       },
-      onDblClick() {
+      onDblClick(this: any) {
         const model = this.model
         editor.runCommand('product-picker:open', {
           onSelect: (product: ProductData) => {
@@ -111,7 +111,7 @@ export function registerLiveEcommerceBlocks(editor: any) {
           },
         })
       },
-      onRender() {
+      onRender(this: any) {
         // If no product data, show placeholder
         const productId = this.model.getAttributes()['data-product-id']
         if (!productId) {

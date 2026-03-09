@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 import type { QuoteSummary } from '@/branches/ecommerce/b2b/components/account/quotes'
 import QuotesListTemplate from '@/branches/ecommerce/b2b/templates/account/AccountTemplate1/QuotesListTemplate'

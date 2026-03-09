@@ -1,6 +1,6 @@
 import React from 'react'
 import { Package, Truck, ClipboardList, Euro } from 'lucide-react'
-import { features } from '@/lib/features'
+import { features } from '@/lib/tenant/features'
 import { AccountStatCard } from '@/branches/ecommerce/shared/components/account/ui'
 import type { DashboardStatsProps } from './types'
 

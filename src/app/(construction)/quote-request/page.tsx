@@ -7,7 +7,7 @@
 
 import type { Metadata } from 'next'
 import { QuoteForm } from '@/branches/construction/components'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 
 export const metadata: Metadata = {

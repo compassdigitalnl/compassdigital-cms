@@ -252,7 +252,7 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
 
             {/* CTA Button */}
             {showCTA && (() => {
-              const ctaStyle = navigation.ctaButton?.style || 'primary'
+              const ctaStyle = (navigation.ctaButton as any)?.style || 'primary'
               const ctaClasses = ctaStyle === 'outline'
                 ? 'border-2 bg-transparent'
                 : ctaStyle === 'secondary'

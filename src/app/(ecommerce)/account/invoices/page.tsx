@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 import InvoicesTemplate from '@/branches/ecommerce/shared/templates/account/AccountTemplate1/InvoicesTemplate'
 import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'

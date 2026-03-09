@@ -1,7 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { isClientDeployment } from '@/lib/isClientDeployment'
-import { featureField } from '@/lib/featureFields'
+import { isClientDeployment } from '@/lib/tenant/isClientDeployment'
+import { featureField } from '@/lib/tenant/featureFields'
 
 /**
  * Header Global Configuration (v2 - Clean Slate)

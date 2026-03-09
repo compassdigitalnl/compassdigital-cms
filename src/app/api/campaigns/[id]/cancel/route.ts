@@ -9,7 +9,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { ListmonkClient } from '@/features/email-marketing/lib/listmonk/client'
-import { emailMarketingFeatures } from '@/lib/features'
+import { emailMarketingFeatures } from '@/lib/tenant/features'
 import { checkRole, isUser } from '@/access/utilities'
 
 export async function POST(

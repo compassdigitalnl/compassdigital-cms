@@ -9,7 +9,7 @@ import { emailMarketingWorker } from './emailMarketingWorker'
 import { automationWorker } from './automationWorker'
 import { flowWorker } from './flowWorker'
 import { reconciliationWorker } from './reconciliationWorker'
-import { emailMarketingFeatures } from '@/lib/features'
+import { emailMarketingFeatures } from '@/lib/tenant/features'
 
 const workers: any[] = []
 

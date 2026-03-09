@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { RotateCcw, FileText, MessageCircle } from 'lucide-react'
-import { features } from '@/lib/features'
+import { features } from '@/lib/tenant/features'
 
 export function QuickActions() {
   return (

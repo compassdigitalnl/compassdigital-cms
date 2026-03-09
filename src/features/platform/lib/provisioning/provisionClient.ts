@@ -100,7 +100,7 @@ export async function provisionClient(opts: ProvisionClientOptions): Promise<Pro
   const clientFeatures = (client as any).features || {}
 
   // Generate feature ENV variables from client.features
-  const { generateFeatureEnvVars } = await import('@/lib/features')
+  const { generateFeatureEnvVars } = await import('@/lib/tenant/features')
   const featureEnvVars = generateFeatureEnvVars(clientFeatures)
   Object.assign(customEnv, featureEnvVars)
 

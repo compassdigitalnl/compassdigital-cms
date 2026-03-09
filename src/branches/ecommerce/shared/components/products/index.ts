@@ -27,28 +27,6 @@ export type {
 export { StockIndicator } from './StockIndicator'
 export type { StockIndicatorProps, StockSize } from './StockIndicator'
 
-export { StaffelCalculator } from './StaffelCalculator'
-export type { StaffelCalculatorProps, VolumePriceTier } from './StaffelCalculator'
-
-export { ReviewWidget } from './ReviewWidget'
-export type {
-  ReviewWidgetProps,
-  Review,
-  ReviewSummary,
-  ReviewDistribution,
-  SortOption,
-} from './ReviewWidget'
-
-export { QuickViewModal } from './QuickViewModal'
-export type {
-  QuickViewModalProps,
-  QuickViewProduct,
-  ProductVariant,
-  ProductStock,
-} from './QuickViewModal'
-export type {
-  StockStatus as QuickViewStockStatus,
-} from './QuickViewModal'
 
 export { ProductGallery } from './ProductGallery'
 export type {
@@ -92,12 +70,3 @@ export type { BackInStockNotifierProps, BackInStockNotifierProduct } from './Bac
 export { ProductCompareBar } from './ProductCompareBar'
 export type { ProductCompareBarProps, CompareProduct } from './ProductCompareBar'
 
-export { PromoCard } from './PromoCard'
-export type { PromoCardProps, PromoCardProduct, PromoCardVariant } from './PromoCard'
-
-export { StaffelHintBanner } from './StaffelHintBanner'
-export type {
-  StaffelHintBannerProps,
-  StaffelHintTier,
-  StaffelHintVariant,
-} from './StaffelHintBanner'

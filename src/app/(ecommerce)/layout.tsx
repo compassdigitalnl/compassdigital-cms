@@ -12,7 +12,7 @@ import { AddToCartToastProviderClient } from '@/branches/ecommerce/shared/compon
 import { HeaderClient } from '@/globals/site/header/components/index.client'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { isFeatureEnabled, features as serverFeatures } from '@/lib/features'
+import { isFeatureEnabled, features as serverFeatures } from '@/lib/tenant/features'
 import { FeaturesProvider } from '@/providers/Features'
 import { ChatbotProvider } from '@/features/ai/components/chatbot/ChatbotProvider'
 import React from 'react'

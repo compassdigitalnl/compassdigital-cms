@@ -12,7 +12,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { ServiceCard, ProjectCard } from '@/branches/construction/components'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { serializeLexical } from '@/utilities/serializeLexical'
 
 interface ServiceDetailPageProps {

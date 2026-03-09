@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 import { toast } from '@/lib/toast'
 import QuoteDetailTemplate from '@/branches/ecommerce/b2b/templates/account/AccountTemplate1/QuoteDetailTemplate'

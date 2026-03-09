@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { Gift, ShoppingCart, Mail, Printer, Truck, Calendar, Heart, GraduationCap, PartyPopper } from 'lucide-react'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 
 export default function GiftVoucherPurchasePage() {

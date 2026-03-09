@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { publicAccess } from '@/access/publicAccess'
 import { checkRole } from '@/access/utilities'
-import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
 
 export const ConstructionReviews: CollectionConfig = {
   slug: 'construction-reviews',

@@ -53,7 +53,7 @@ const blockRegistry: Record<string, () => Promise<any>> = {
   'product-grid': () => import('@/branches/ecommerce/shared/blocks/ProductGrid'),
   'category-grid': () => import('@/branches/ecommerce/shared/blocks/CategoryGrid'),
   // 'search-bar': () => import('@/branches/ecommerce/shared/blocks/SearchBar'), // TODO: Implement SearchBar block
-  'quick-order': () => import('@/branches/ecommerce/b2b/blocks/QuickOrder'),
+  // 'quick-order': () => import('@/branches/ecommerce/b2b/blocks/QuickOrder'), // TODO: Implement QuickOrder block
   // 'top-bar': () => import('@/branches/ecommerce/shared/blocks/TopBar'), // TODO: Implement TopBar block
 
   // Social proof (exist in platform)

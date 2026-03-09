@@ -114,10 +114,10 @@ export function MobileDrawer({
             />
           ) : (header as any).siteName ? (
             <span className="text-lg font-extrabold" style={{ color: secondaryColor }}>
-              {header.siteNameAccent ? (
+              {(header as any).siteNameAccent ? (
                 <>
-                  {(header as any).siteName.replace(header.siteNameAccent, '')}
-                  <span style={{ color: primaryColor }}>{header.siteNameAccent}</span>
+                  {(header as any).siteName.replace((header as any).siteNameAccent, '')}
+                  <span style={{ color: primaryColor }}>{(header as any).siteNameAccent}</span>
                 </>
               ) : (
                 (header as any).siteName

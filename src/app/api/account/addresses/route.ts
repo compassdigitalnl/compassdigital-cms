@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 })
     }
 
-    const addresses = customer.addresses || []
+    const addresses = (customer.addresses || []) as any[]
     const newAddress = {
       id: `addr_${Date.now()}`,
       ...body,

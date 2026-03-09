@@ -8,7 +8,7 @@ import { QuoteCard } from '@/branches/ecommerce/b2b/components/account/quotes'
 import type { QuotesListTemplateProps } from './types'
 
 export default function QuotesListTemplate({ quotes, isLoading }: QuotesListTemplateProps) {
-  if (isLoading) return <AccountLoadingSkeleton variant="list" />
+  if (isLoading) return <AccountLoadingSkeleton variant={"list" as any} />
 
   return (
     <div className="space-y-6">

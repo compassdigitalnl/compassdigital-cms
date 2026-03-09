@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { featureField } from '@/lib/featureFields'
+import { featureField } from '@/lib/tenant/featureFields'
 
 export const Notifications: CollectionConfig = {
   slug: 'notifications',

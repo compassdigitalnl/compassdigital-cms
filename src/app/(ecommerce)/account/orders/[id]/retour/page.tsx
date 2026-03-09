@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 import RetourTemplate from '@/branches/ecommerce/shared/templates/account/AccountTemplate1/RetourTemplate'
 import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'

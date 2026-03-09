@@ -6,7 +6,7 @@
 import type { GeneratedPage, WizardState } from './types'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { imageService } from '@/lib/images/ImageService'
+import { imageService } from '@/lib/integrations/images/ImageService'
 import { IconService } from './IconService'
 import { LexicalHelpers } from './LexicalHelpers'
 import { CollectionService } from './CollectionService'

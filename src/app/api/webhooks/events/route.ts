@@ -22,7 +22,7 @@ import config from '@payload-config'
 import { processEvent } from '@/features/email-marketing/lib/automation/engine'
 import { isValidEventType } from '@/features/email-marketing/lib/automation/types'
 import type { EventPayload } from '@/features/email-marketing/lib/automation/types'
-import { emailMarketingFeatures } from '@/lib/features'
+import { emailMarketingFeatures } from '@/lib/tenant/features'
 import { applyWebhookRateLimit, recordWebhookResult } from '@/features/email-marketing/lib/webhooks/RateLimiter'
 import { verifyWebhookSignature } from '@/features/email-marketing/lib/webhooks/SignatureVerifier'
 

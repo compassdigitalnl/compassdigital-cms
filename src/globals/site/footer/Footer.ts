@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { isClientDeployment } from '@/lib/isClientDeployment'
+import { isClientDeployment } from '@/lib/tenant/isClientDeployment'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',

@@ -20,6 +20,7 @@ interface GrapesJSEditor {
   getHtml: () => string
   getCss: () => string
   getJs: () => string
+  getWrapper: () => any
   setComponents: (components: any) => void
   setStyle: (style: any) => void
   getProjectData: () => any
@@ -28,6 +29,7 @@ interface GrapesJSEditor {
   off: (event: string, callback: (...args: any[]) => void) => void
   runCommand: (command: string, options?: any) => any
   destroy: () => void
+  BlockManager: any
   Canvas: any
   Panels: any
   Commands: any
@@ -86,7 +88,7 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
   useEffect(() => {
     if (!containerRef.current) return
 
-    let editor: GrapesJSEditor | null = null
+    let editor: GrapesJSEditor = null as unknown as GrapesJSEditor
 
     ;(async () => {
       try {

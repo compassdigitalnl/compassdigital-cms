@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 import RecurringOrdersTemplate from '@/branches/ecommerce/b2b/templates/account/AccountTemplate1/RecurringOrdersTemplate'
 import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'

@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
 import { indexProduct, deleteProductFromIndex } from '@/features/search/lib/meilisearch/indexProducts'
 import { notifyEditionSubscribers } from '../../hooks/notifyEditionSubscribers'
 
@@ -55,7 +55,7 @@ export const Products: CollectionConfig = {
           const { sql } = await import('drizzle-orm')
           if (doc.productType === 'simple' && !doc.meta?.canonicalUrl) {
             // Simple product saved — check if it belongs to a grouped parent
-            const parentResult: any = await req.payload.db.drizzle.execute(
+            const parentResult: any = await (req.payload.db as any).drizzle.execute(
               sql`SELECT p.slug FROM products p
                   INNER JOIN products_child_products cp ON cp._parent_id = p.id
                   WHERE cp.product_id = ${doc.id}
@@ -67,7 +67,7 @@ export const Products: CollectionConfig = {
             if (parentSlug) {
               const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''
               const canonicalUrl = `${baseUrl}/${parentSlug}`
-              await req.payload.db.drizzle.execute(
+              await (req.payload.db as any).drizzle.execute(
                 sql`UPDATE products SET meta_canonical_url = ${canonicalUrl} WHERE id = ${doc.id}`
               )
             }
@@ -75,7 +75,7 @@ export const Products: CollectionConfig = {
             // Grouped product saved — auto-fill canonical for all its children
             const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''
             const canonicalUrl = `${baseUrl}/${doc.slug}`
-            await req.payload.db.drizzle.execute(
+            await (req.payload.db as any).drizzle.execute(
               sql`UPDATE products SET meta_canonical_url = ${canonicalUrl}
                   WHERE id IN (SELECT product_id FROM products_child_products WHERE _parent_id = ${doc.id})
                     AND (meta_canonical_url IS NULL OR meta_canonical_url = '')`

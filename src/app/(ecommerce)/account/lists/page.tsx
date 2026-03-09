@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 import OrderListsTemplate from '@/branches/ecommerce/b2b/templates/account/AccountTemplate1/OrderListsTemplate'
 import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'

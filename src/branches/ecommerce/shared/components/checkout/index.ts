@@ -16,8 +16,6 @@ export type { CheckoutProgressStepperProps, CheckoutStep, StepState } from './Ch
 export { AddressForm } from './AddressForm'
 export type { AddressFormProps, Address, SavedAddress, ValidationErrors } from './AddressForm'
 
-export { PONumberInput } from './PONumberInput'
-export type { PONumberInputProps, PONumberVariant, IconPosition } from './PONumberInput'
 
 export { CheckoutAuthPanel } from './CheckoutAuthPanel'
 export type { CheckoutAuthPanelProps } from './CheckoutAuthPanel'

@@ -7,7 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { RAGChatbotService, type ChatbotMessage } from '@/features/ai/lib/RAGChatbotService'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'

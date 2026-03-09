@@ -1,7 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { isClientDeployment } from '@/lib/isClientDeployment'
-import { featureTab } from '@/lib/featureFields'
+import { isClientDeployment } from '@/lib/tenant/isClientDeployment'
+import { featureTab } from '@/lib/tenant/featureFields'
 
 export const EcommerceSettings: GlobalConfig = {
   slug: 'e-commerce-settings',

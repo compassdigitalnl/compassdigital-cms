@@ -162,7 +162,7 @@ export function useProductFilters({
           if (filter.values.length === 2) {
             const min = parseFloat(filter.values[0])
             const max = parseFloat(filter.values[1])
-            result = result.filter(p => p.price >= min && p.price <= max)
+            result = result.filter(p => (p.price ?? 0) >= min && (p.price ?? 0) <= max)
           }
           break
       }
@@ -171,11 +171,11 @@ export function useProductFilters({
     // Apply sorting
     switch (sortBy) {
       case 'price-asc':
-        result.sort((a, b) => a.price - b.price)
+        result.sort((a, b) => (a.price ?? 0) - (b.price ?? 0))
         break
 
       case 'price-desc':
-        result.sort((a, b) => b.price - a.price)
+        result.sort((a, b) => (b.price ?? 0) - (a.price ?? 0))
         break
 
       case 'newest':

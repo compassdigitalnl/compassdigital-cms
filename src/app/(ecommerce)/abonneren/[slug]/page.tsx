@@ -1,6 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 import SubscriptionPricingTemplate1 from '@/branches/publishing/templates/subscription/SubscriptionPricingTemplate1'

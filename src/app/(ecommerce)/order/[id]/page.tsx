@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { OrderConfirmation } from './OrderConfirmation'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'

@@ -7,7 +7,7 @@
 
 import React from 'react'
 import type { CollectionConfig } from 'payload'
-import { emailMarketingFeatures, isFeatureEnabled } from '@/lib/features'
+import { emailMarketingFeatures, isFeatureEnabled } from '@/lib/tenant/features'
 import { isAdmin, checkRole, isUser, isSuperAdmin, getUserClient, isAdminOrEditor } from '@/access/utilities'
 
 const isPlatformMode = isFeatureEnabled('platform')

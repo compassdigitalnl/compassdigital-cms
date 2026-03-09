@@ -9,7 +9,7 @@ import { GroqClient, type ChatMessage } from './GroqClient'
 import OpenAI from 'openai'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { meilisearchClient, INDEXES } from '@/features/search/lib/meilisearch/client'
 
 export interface ChatbotMessage {

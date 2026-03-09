@@ -1,5 +1,5 @@
 import type { Field, Tab } from 'payload'
-import { features } from '@/lib/features'
+import { features } from '@/lib/tenant/features'
 
 /**
  * Single "Type Configuratie" tab that conditionally shows the right fields

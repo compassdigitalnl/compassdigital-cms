@@ -11,6 +11,9 @@ import * as migration_20260308_120000_add_email_notification_settings from './20
 import * as migration_20260308_140000_add_abandoned_cart_and_carrier_settings from './20260308_140000_add_abandoned_cart_and_carrier_settings';
 import * as migration_20260308_160000_extend_quotes_for_conversion from './20260308_160000_extend_quotes_for_conversion';
 import * as migration_20260309_060000_add_settings_template_columns from './20260309_060000_add_settings_template_columns';
+import * as migration_20260309_120000_add_two_factor_auth from './20260309_120000_add_two_factor_auth';
+import * as migration_20260309_140000_b2b_company_accounts from './20260309_140000_b2b_company_accounts';
+import * as migration_20260309_160000_b2b_approval_requests from './20260309_160000_b2b_approval_requests';
 
 export const migrations = [
   {
@@ -77,5 +80,20 @@ export const migrations = [
     up: migration_20260309_060000_add_settings_template_columns.up,
     down: migration_20260309_060000_add_settings_template_columns.down,
     name: '20260309_060000_add_settings_template_columns',
+  },
+  {
+    up: migration_20260309_120000_add_two_factor_auth.up,
+    down: migration_20260309_120000_add_two_factor_auth.down,
+    name: '20260309_120000_add_two_factor_auth',
+  },
+  {
+    up: migration_20260309_140000_b2b_company_accounts.up,
+    down: migration_20260309_140000_b2b_company_accounts.down,
+    name: '20260309_140000_b2b_company_accounts',
+  },
+  {
+    up: migration_20260309_160000_b2b_approval_requests.up,
+    down: migration_20260309_160000_b2b_approval_requests.down,
+    name: '20260309_160000_b2b_approval_requests',
   },
 ];

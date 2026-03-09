@@ -6,7 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { MultiSafepayConnectService } from '@/lib/multisafepay/MultiSafepayConnectService'
+import { MultiSafepayConnectService } from '@/lib/payments/multisafepay/MultiSafepayConnectService'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 

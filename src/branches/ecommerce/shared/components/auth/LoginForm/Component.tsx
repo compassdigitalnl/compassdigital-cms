@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { FormInput } from '../FormInput'
 import { OAuthButtons } from '../OAuthButtons'
 import type { OAuthProvider } from '../OAuthButtons'
+import { TwoFactorInput } from '../TwoFactorInput'
 
 /**
  * LoginForm - Complete login form with OAuth and email/password
@@ -64,6 +65,8 @@ export function LoginForm({
   const [rememberMe, setRememberMe] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [show2FA, setShow2FA] = useState(false)
+  const [pendingEmail, setPendingEmail] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -71,12 +74,75 @@ export function LoginForm({
     setIsLoading(true)
 
     try {
+      // Check if user has 2FA enabled
+      const checkRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/2fa/check`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      const checkData = await checkRes.json()
+
+      if (checkData.twoFactorRequired) {
+        // First verify password is correct via normal login
+        const loginRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+          credentials: 'include',
+        })
+
+        if (!loginRes.ok) {
+          throw new Error('Onjuist e-mailadres of wachtwoord')
+        }
+
+        // Password is correct — now logout the partial session and show 2FA
+        await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/logout`, {
+          method: 'POST',
+          credentials: 'include',
+        })
+
+        setPendingEmail(email)
+        setShow2FA(true)
+        return
+      }
+
+      // No 2FA — normal login
       await onSubmit({ email, password, rememberMe })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Er is een fout opgetreden bij het inloggen.')
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handle2FASubmit = async (code: string, isBackupCode: boolean) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/2fa/validate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ email: pendingEmail, code, isBackupCode }),
+    })
+
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error)
+
+    // 2FA validated — trigger the normal login callback to update auth state
+    // The validate endpoint already set the cookie, so we just call onSubmit
+    // to let the parent handle the post-login redirect
+    window.location.reload()
+  }
+
+  // ── 2FA Step ──
+  if (show2FA) {
+    return (
+      <div className={className}>
+        <TwoFactorInput
+          email={pendingEmail}
+          onSubmit={handle2FASubmit}
+          onCancel={() => { setShow2FA(false); setPendingEmail('') }}
+        />
+      </div>
+    )
   }
 
   return (

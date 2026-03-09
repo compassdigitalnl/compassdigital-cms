@@ -22,7 +22,7 @@ import { BackInStockNotifier } from '@/branches/ecommerce/shared/components/prod
 import { ProductTabs } from '@/branches/ecommerce/shared/components/products/ProductTabs'
 import { useEcommerceSettings } from '@/branches/ecommerce/shared/hooks/useEcommerceSettings'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
-import { features } from '@/lib/features'
+import { features } from '@/lib/tenant/features'
 import { getGroupedMinPrice } from '@/branches/ecommerce/shared/lib/shop/utils'
 import type { Product } from '@/payload-types'
 import {
@@ -203,8 +203,8 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
   // Product type detection
   const isGrouped = product.productType === 'grouped'
   const isVariable = product.productType === 'variable'
-  const isSubscription = product.isSubscription === true && isVariable
-  const isMixMatch = product.productType === 'mixAndMatch'
+  const isSubscription = (product as any).isSubscription === true && isVariable
+  const isMixMatch = (product.productType as string) === 'mixAndMatch'
 
   const childProducts =
     isGrouped && product.childProducts
@@ -823,15 +823,16 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                 <div className="mt-4">
                   <StaffelCalculator
                     productName={product.title}
+                    basePrice={product.price ?? 0}
                     tiers={volumeTiers.map((tier: any) => ({
-                      minQty: tier.minQuantity,
-                      maxQty: tier.maxQuantity || undefined,
+                      min: tier.minQuantity,
+                      max: tier.maxQuantity || Infinity,
                       price: tier.discountPrice || (product.price ?? 0) * (1 - (tier.discountPercentage || 0) / 100),
-                      savePercentage: tier.discountPercentage || undefined,
+                      discount: tier.discountPercentage || 0,
                     }))}
-                    initialQuantity={quantity}
+                    initialQty={quantity}
                     unit="stuks"
-                    onQuantityChange={(newQty: number) => {
+                    onQtyChange={(newQty: number) => {
                       setQuantity(newQty)
                     }}
                   />
@@ -1178,15 +1179,16 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
               <div className="mt-3">
                 <StaffelCalculator
                   productName={product.title}
+                  basePrice={product.price ?? 0}
                   tiers={volumeTiers.map((tier: any) => ({
-                    minQty: tier.minQuantity,
-                    maxQty: tier.maxQuantity || undefined,
+                    min: tier.minQuantity,
+                    max: tier.maxQuantity || Infinity,
                     price: tier.discountPrice || (product.price ?? 0) * (1 - (tier.discountPercentage || 0) / 100),
-                    savePercentage: tier.discountPercentage || undefined,
+                    discount: tier.discountPercentage || 0,
                   }))}
-                  initialQuantity={quantity}
+                  initialQty={quantity}
                   unit="stuks"
-                  onQuantityChange={(newQty: number) => {
+                  onQtyChange={(newQty: number) => {
                     setQuantity(newQty)
                   }}
                 />

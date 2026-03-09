@@ -1,4 +1,4 @@
-import { features } from '@/lib/features'
+import { features } from '@/lib/tenant/features'
 
 // simple, grouped, variable are always available (base types)
 // All other types require their respective feature flag

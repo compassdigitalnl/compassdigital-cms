@@ -144,7 +144,7 @@ export function CartLineItem({
               min={1}
               max={product.stockStatus === 'on-backorder' ? 999 : (product.stockQuantity || 999)}
               size="md"
-              disabled={product.stockStatus === 'out-of-stock' && product.stockStatus !== 'on-backorder'}
+              disabled={product.stockStatus === 'out-of-stock' && (product.stockStatus as string) !== 'on-backorder'}
               ariaLabel={`Aantal voor ${product.title}`}
             />
           </div>

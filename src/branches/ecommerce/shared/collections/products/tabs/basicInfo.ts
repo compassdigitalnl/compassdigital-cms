@@ -5,8 +5,8 @@ import {
   FixedToolbarFeature,
   InlineToolbarFeature,
 } from '@payloadcms/richtext-lexical'
-import { featureField } from '@/lib/featureFields'
-import { features } from '@/lib/features'
+import { featureField } from '@/lib/tenant/featureFields'
+import { features } from '@/lib/tenant/features'
 import { productTypeOptions } from '../productTypeOptions'
 
 export const basicInfoTab: Tab = {

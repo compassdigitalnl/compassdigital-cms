@@ -67,6 +67,10 @@ export interface ClientFeatures {
   customerGroups?: boolean
   groupPricing?: boolean
   barcodeScanner?: boolean
+  companyAccounts?: boolean
+  approvalWorkflow?: boolean
+  budgetLimits?: boolean
+  creditLimit?: boolean
 
   // === MARKETPLACE (top-level) ===
   vendors?: boolean
@@ -256,6 +260,10 @@ export const features = {
   customerGroups: isFeatureEnabled('customer_groups'),
   groupPricing: isFeatureEnabled('group_pricing'),
   barcodeScanner: isFeatureEnabled('barcode_scanner'),
+  companyAccounts: isFeatureEnabled('company_accounts'),
+  approvalWorkflow: isFeatureEnabled('approval_workflow'),
+  budgetLimits: isFeatureEnabled('budget_limits'),
+  creditLimit: isFeatureEnabled('credit_limit'),
 
   // === MARKETPLACE ===
   vendors: isFeatureEnabled('vendors'),
@@ -347,7 +355,7 @@ export const featureCategories = {
     'accountInvoices',
     'notifications',
   ],
-  b2b: ['b2b', 'customerGroups', 'groupPricing', 'barcodeScanner'],
+  b2b: ['b2b', 'customerGroups', 'groupPricing', 'barcodeScanner', 'companyAccounts', 'approvalWorkflow', 'budgetLimits', 'creditLimit'],
   marketplace: ['vendors', 'vendorReviews', 'workshops'],
   sprint6: ['subscriptions', 'subscriptionManagement', 'subscriptionPages', 'giftVouchers', 'licenses', 'loyalty'],
   catalog: ['catalogBranches'],
@@ -424,6 +432,10 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     customerGroups: 'ENABLE_CUSTOMER_GROUPS',
     groupPricing: 'ENABLE_GROUP_PRICING',
     barcodeScanner: 'ENABLE_BARCODE_SCANNER',
+    companyAccounts: 'ENABLE_COMPANY_ACCOUNTS',
+    approvalWorkflow: 'ENABLE_APPROVAL_WORKFLOW',
+    budgetLimits: 'ENABLE_BUDGET_LIMITS',
+    creditLimit: 'ENABLE_CREDIT_LIMIT',
 
     // === MARKETPLACE ===
     vendors: 'ENABLE_VENDORS',
@@ -525,6 +537,9 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
 
     // === B2B ===
     'customer-groups': 'customerGroups',
+    'company-accounts': 'companyAccounts',
+    'company-invites': 'companyAccounts',
+    'approval-requests': 'approvalWorkflow',
 
     // === MARKETPLACE ===
     vendors: 'vendors',

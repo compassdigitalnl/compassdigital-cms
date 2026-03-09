@@ -13,7 +13,7 @@ import {
   Building2,
   Package,
 } from 'lucide-react'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { useAccountTemplate } from '@/branches/ecommerce/shared/contexts/AccountTemplateContext'
 import { notFound } from 'next/navigation'
 

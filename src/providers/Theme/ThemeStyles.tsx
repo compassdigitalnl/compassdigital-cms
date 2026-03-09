@@ -1,7 +1,5 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import type { Theme1 } from '@/payload-types'
-
 /**
  * ThemeStyles Server Component
  *
@@ -11,7 +9,7 @@ import type { Theme1 } from '@/payload-types'
  * Usage: Include in root layout <head>
  */
 export async function ThemeStyles() {
-  let theme: Theme1 | null = null
+  let theme: Record<string, any> | null = null
 
   try {
     const payload = await getPayload({ config: configPromise })
@@ -19,7 +17,7 @@ export async function ThemeStyles() {
     // Fetch theme global
     theme = (await payload.findGlobal({
       slug: 'theme',
-    })) as Theme1
+    })) as Record<string, any>
   } catch (error) {
     console.error('[ThemeStyles] Failed to fetch theme:', error)
     // Continue with fallback values

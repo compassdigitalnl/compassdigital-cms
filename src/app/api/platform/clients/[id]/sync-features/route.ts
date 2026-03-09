@@ -17,7 +17,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { checkRole } from '@/access/utilities'
-import { generateFeatureEnvVars } from '@/lib/features'
+import { generateFeatureEnvVars } from '@/lib/tenant/features'
 import { PloiAdapter } from '@/features/platform/lib/provisioning/adapters/PloiAdapter'
 
 export async function POST(
@@ -80,7 +80,7 @@ export async function POST(
     const siteId = parts.length > 1 ? parseInt(parts[1]) : parseInt(deploymentProviderId)
 
     // Get current ENV vars (we'll merge with feature vars)
-    const { PloiService } = await import('@/lib/ploi/PloiService')
+    const { PloiService } = await import('@/lib/integrations/ploi/PloiService')
     const ploiService = new PloiService({ apiToken: ploiToken })
 
     const envResponse = await ploiService.getEnvironment(ploiServerId, siteId)

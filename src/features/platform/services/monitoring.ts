@@ -87,7 +87,7 @@ export async function checkClientHealth(client: {
  */
 export async function checkAllClientsHealth(): Promise<HealthCheckResult[]> {
   try {
-    const { getPayloadClient } = await import('@/lib/getPlatformPayload')
+    const { getPayloadClient } = await import('@/lib/tenant/getPlatformPayload')
     const payload = await getPayloadClient()
 
     // Get all active clients from Payload

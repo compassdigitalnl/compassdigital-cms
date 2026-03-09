@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import type { Page } from '@/payload-types'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 
 // ─── ALL BLOCKS (eager loaded for SSR compatibility) ──────────────
 // Note: React.lazy() is NOT compatible with Server Components in Next.js App Router.

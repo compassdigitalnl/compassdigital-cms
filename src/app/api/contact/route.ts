@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { emailService } from '@/features/email-marketing/lib/EmailService'
-import { verifyRecaptchaToken, isRecaptchaConfigured } from '@/lib/recaptcha/verify'
+import { verifyRecaptchaToken, isRecaptchaConfigured } from '@/lib/integrations/recaptcha/verify'
 
 type ContactFormData = {
   name: string

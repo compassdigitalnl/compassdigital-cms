@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { shouldHideCollection } from '@/lib/shouldHideCollection'
-import { featureFields } from '@/lib/featureFields'
+import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
+import { featureFields } from '@/lib/tenant/featureFields'
 import { autoGenerateSlug } from '@/utilities/slugify'
 import { autoFillSEO, autoSetPublishedDate, autoSetAuthor } from '@/features/seo/lib/seoAutoFill'
 import {

@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const completedDate = order.shipping?.deliveredAt ? new Date(order.shipping.deliveredAt) : null
+    const completedDate = (order as any).shipping?.deliveredAt ? new Date((order as any).shipping.deliveredAt) : null
     if (!completedDate) {
       return NextResponse.json(
         { error: 'Deze bestelling is nog niet afgeleverd' },
@@ -147,18 +147,18 @@ export async function POST(request: NextRequest) {
 
         return {
           product: productId,
-          title: orderItem.productSnapshot?.name || productData?.title || 'Onbekend product',
-          sku: orderItem.productSnapshot?.sku || productData?.sku || undefined,
+          title: (orderItem as any).productSnapshot?.name || productData?.title || 'Onbekend product',
+          sku: (orderItem as any).productSnapshot?.sku || productData?.sku || undefined,
           brand: brandName,
-          unitPrice: orderItem.unitPrice,
+          unitPrice: (orderItem as any).unitPrice,
           quantityOrdered: orderItem.quantity,
           quantityReturning: orderItem.quantity,
-          returnValue: orderItem.totalPrice || orderItem.unitPrice * orderItem.quantity,
+          returnValue: (orderItem as any).totalPrice || (orderItem as any).unitPrice * orderItem.quantity,
         }
       }) || []
 
     // Calculate refund amount (order total minus shipping, or use order subtotal)
-    const refundAmount = order.subtotal || order.total - (order.shippingTotal || 0)
+    const refundAmount = order.subtotal || order.total - ((order as any).shippingCost || 0)
 
     // Create the return
     const newReturn = await (payload.create as any)({

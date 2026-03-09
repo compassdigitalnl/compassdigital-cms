@@ -465,7 +465,7 @@ export class ProvisioningService {
     const serverIp = domainConfig.serverIp
 
     // Create/update Cloudflare A record
-    const { createCloudflareService } = await import('@/lib/cloudflare/CloudflareService')
+    const { createCloudflareService } = await import('@/lib/integrations/cloudflare/CloudflareService')
     const cloudflare = createCloudflareService()
 
     const record = await cloudflare.createOrUpdateARecord(
@@ -500,7 +500,7 @@ export class ProvisioningService {
       return
     }
 
-    const { createCloudflareService } = await import('@/lib/cloudflare/CloudflareService')
+    const { createCloudflareService } = await import('@/lib/integrations/cloudflare/CloudflareService')
     const cloudflare = createCloudflareService()
 
     const MAX_WAIT_MS = 10 * 60 * 1000 // 10 minutes
@@ -549,7 +549,7 @@ export class ProvisioningService {
       const { serverId, siteId } = this.parsePloiProjectId(projectId)
 
       // We need to call Ploi's certificate endpoint directly
-      const PloiServiceModule = await import('@/lib/ploi/PloiService')
+      const PloiServiceModule = await import('@/lib/integrations/ploi/PloiService')
       const PloiServiceClass = PloiServiceModule.PloiService
 
       const ploiService = new PloiServiceClass({

@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { slugField } from 'payload'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
-import { shouldHideCollection } from '@/lib/shouldHideCollection'
+import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
 
 /**
  * BeautyServices Collection

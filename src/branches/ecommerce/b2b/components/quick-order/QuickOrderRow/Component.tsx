@@ -3,7 +3,7 @@
 import React, { useRef, useEffect } from 'react'
 import { Trash2, TrendingDown } from 'lucide-react'
 import type { QuickOrderRowProps } from './types'
-import { usePriceMode } from '../../../hooks/usePriceMode'
+import { usePriceMode } from '../../../../hooks/usePriceMode'
 
 /**
  * QuickOrderRow Component

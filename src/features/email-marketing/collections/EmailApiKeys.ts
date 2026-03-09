@@ -6,7 +6,7 @@
  */
 
 import type { CollectionConfig } from 'payload'
-import { emailMarketingFeatures, isFeatureEnabled } from '@/lib/features'
+import { emailMarketingFeatures, isFeatureEnabled } from '@/lib/tenant/features'
 import crypto from 'crypto'
 import { isAdmin, checkRole, isUser, isSuperAdmin, getUserClient } from '@/access/utilities'
 

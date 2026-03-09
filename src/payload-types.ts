@@ -79,12 +79,15 @@ export interface Config {
     products: Product;
     'product-categories': ProductCategory;
     brands: Brand;
+    branches: Branch;
     'recently-viewed': RecentlyViewed;
     'edition-notifications': EditionNotification;
+    magazines: Magazine;
     customers: Customer;
     'customer-groups': CustomerGroup;
     addresses: Address;
     carts: Cart;
+    'discount-codes': DiscountCode;
     orders: Order;
     orderLists: OrderList;
     'recurring-orders': RecurringOrder;
@@ -92,6 +95,7 @@ export interface Config {
     returns: Return;
     'stock-reservations': StockReservation;
     'subscription-plans': SubscriptionPlan;
+    'subscription-pages': SubscriptionPage;
     'user-subscriptions': UserSubscription;
     'payment-methods': PaymentMethod;
     'gift-vouchers': GiftVoucher;
@@ -102,6 +106,10 @@ export interface Config {
     'loyalty-points': LoyaltyPoint;
     'loyalty-transactions': LoyaltyTransaction;
     'loyalty-redemptions': LoyaltyRedemption;
+    'company-accounts': CompanyAccount;
+    'company-invites': CompanyInvite;
+    'approval-requests': ApprovalRequest;
+    quotes: Quote;
     'ab-tests': AbTest;
     'ab-test-results': AbTestResult;
     'blog-posts': BlogPost;
@@ -158,12 +166,15 @@ export interface Config {
     products: ProductsSelect<false> | ProductsSelect<true>;
     'product-categories': ProductCategoriesSelect<false> | ProductCategoriesSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
+    branches: BranchesSelect<false> | BranchesSelect<true>;
     'recently-viewed': RecentlyViewedSelect<false> | RecentlyViewedSelect<true>;
     'edition-notifications': EditionNotificationsSelect<false> | EditionNotificationsSelect<true>;
+    magazines: MagazinesSelect<false> | MagazinesSelect<true>;
     customers: CustomersSelect<false> | CustomersSelect<true>;
     'customer-groups': CustomerGroupsSelect<false> | CustomerGroupsSelect<true>;
     addresses: AddressesSelect<false> | AddressesSelect<true>;
     carts: CartsSelect<false> | CartsSelect<true>;
+    'discount-codes': DiscountCodesSelect<false> | DiscountCodesSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     orderLists: OrderListsSelect<false> | OrderListsSelect<true>;
     'recurring-orders': RecurringOrdersSelect<false> | RecurringOrdersSelect<true>;
@@ -171,6 +182,7 @@ export interface Config {
     returns: ReturnsSelect<false> | ReturnsSelect<true>;
     'stock-reservations': StockReservationsSelect<false> | StockReservationsSelect<true>;
     'subscription-plans': SubscriptionPlansSelect<false> | SubscriptionPlansSelect<true>;
+    'subscription-pages': SubscriptionPagesSelect<false> | SubscriptionPagesSelect<true>;
     'user-subscriptions': UserSubscriptionsSelect<false> | UserSubscriptionsSelect<true>;
     'payment-methods': PaymentMethodsSelect<false> | PaymentMethodsSelect<true>;
     'gift-vouchers': GiftVouchersSelect<false> | GiftVouchersSelect<true>;
@@ -181,6 +193,10 @@ export interface Config {
     'loyalty-points': LoyaltyPointsSelect<false> | LoyaltyPointsSelect<true>;
     'loyalty-transactions': LoyaltyTransactionsSelect<false> | LoyaltyTransactionsSelect<true>;
     'loyalty-redemptions': LoyaltyRedemptionsSelect<false> | LoyaltyRedemptionsSelect<true>;
+    'company-accounts': CompanyAccountsSelect<false> | CompanyAccountsSelect<true>;
+    'company-invites': CompanyInvitesSelect<false> | CompanyInvitesSelect<true>;
+    'approval-requests': ApprovalRequestsSelect<false> | ApprovalRequestsSelect<true>;
+    quotes: QuotesSelect<false> | QuotesSelect<true>;
     'ab-tests': AbTestsSelect<false> | AbTestsSelect<true>;
     'ab-test-results': AbTestResultsSelect<false> | AbTestResultsSelect<true>;
     'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
@@ -230,6 +246,7 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     settings: Setting;
+    'e-commerce-settings': ECommerceSetting;
     theme: Theme1;
     header: Header;
     footer: Footer;
@@ -238,6 +255,7 @@ export interface Config {
   };
   globalsSelect: {
     settings: SettingsSelect<false> | SettingsSelect<true>;
+    'e-commerce-settings': ECommerceSettingsSelect<false> | ECommerceSettingsSelect<true>;
     theme: ThemeSelect<false> | ThemeSelect<true>;
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
@@ -346,6 +364,21 @@ export interface User {
         id?: string | null;
       }[]
     | null;
+  /**
+   * 2FA kan worden in-/uitgeschakeld via het account instellingen menu
+   */
+  twoFactorEnabled?: boolean | null;
+  twoFactorSecret?: string | null;
+  twoFactorBackupCodes?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  twoFactorPendingSecret?: string | null;
   roles?: ('super-admin' | 'admin' | 'editor')[] | null;
   /**
    * Bepaalt welke functies en collecties zichtbaar zijn voor deze klant
@@ -361,6 +394,10 @@ export interface User {
         id?: string | null;
       }[]
     | null;
+  /**
+   * De client-omgeving die bij deze gebruiker hoort
+   */
+  client?: (number | null) | Client;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -388,21 +425,25 @@ export interface Product {
   id: number;
   title: string;
   /**
-   * Auto-gegenereerd uit productnaam
+   * Laat leeg voor automatische generatie o.b.v. productnaam. Vul in om handmatig te overrulen.
    */
-  slug: string;
+  slug?: string | null;
   /**
-   * Bijv. "WINELIFE" — Voor editie-notificaties. Alle producten met dezelfde naam worden als edities van hetzelfde blad behandeld.
+   * Bijv. "WINELIFE" — Voor editie-notificaties. Alle producten met dezelfde naam worden als edities van dezelfde publicatie behandeld.
    */
   magazineTitle?: string | null;
   /**
-   * Simple = normaal, Grouped = multi-select, Variable = configureerbaar, Mix&Match = bundel builder
+   * Simple = normaal, Grouped = multi-select, Variable = configureerbaar
    */
-  productType: 'simple' | 'grouped' | 'variable' | 'mixAndMatch';
-  /**
-   * Toont een prijstabel i.p.v. standaard variant selector (alleen voor Variable producten)
-   */
-  isSubscription?: boolean | null;
+  productType:
+    | 'simple'
+    | 'grouped'
+    | 'variable'
+    | 'bundle'
+    | 'bookable'
+    | 'configurator'
+    | 'personalized'
+    | 'subscription';
   sku?: string | null;
   /**
    * European Article Number (13 cijfers)
@@ -441,6 +482,10 @@ export interface Product {
   manufacturer?: string | null;
   categories?: (number | ProductCategory)[] | null;
   /**
+   * Selecteer branches waar dit product bij hoort
+   */
+  branches?: (number | Branch)[] | null;
+  /**
    * Voor zoeken en filtering
    */
   tags?:
@@ -458,16 +503,19 @@ export interface Product {
   warranty?: string | null;
   releaseDate?: string | null;
   /**
-   * Badge op productkaart
+   * Handmatige badge. Bij "Geen" wordt automatisch bepaald o.b.v. actieprijs, voorraad en populariteit.
    */
-  badge?: ('none' | 'new' | 'sale' | 'popular' | 'sold-out') | null;
-  price: number;
+  badge?: ('none' | 'new' | 'sale' | 'popular' | 'bestseller' | 'sold-out') | null;
+  /**
+   * Niet verplicht voor Grouped/Bundle Products (prijs komt van sub-producten)
+   */
+  price?: number | null;
   /**
    * Tijdelijke korting
    */
   salePrice?: number | null;
   /**
-   * Voor "Was €X, nu €Y"
+   * Voor "Was X, nu Y"
    */
   compareAtPrice?: number | null;
   /**
@@ -498,7 +546,7 @@ export interface Product {
       }[]
     | null;
   /**
-   * Bijv: 1-9 stuks €10, 10-49 stuks €9, 50+ stuks €8
+   * Bijv: 1-9 stuks 10, 10-49 stuks 9, 50+ stuks 8
    */
   volumePricing?:
     | {
@@ -562,7 +610,7 @@ export interface Product {
    */
   downloads?: (number | Media)[] | null;
   /**
-   * Alleen zichtbaar als Product Type = Grouped. Elk sub-product is een zelfstandig Simple product met eigen SKU, EAN, prijs en voorraad.
+   * Elk sub-product is een zelfstandig Simple product met eigen SKU, EAN, prijs en voorraad.
    */
   childProducts?:
     | {
@@ -575,6 +623,171 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
+  bundleConfig?: {
+    /**
+     * Producten in dit bundelpakket
+     */
+    bundleItems: {
+      product: number | Product;
+      quantity: number;
+      required?: boolean | null;
+      discount?: number | null;
+      sortOrder?: number | null;
+      id?: string | null;
+    }[];
+    /**
+     * Optioneel: korting bij meerdere bundels
+     */
+    bundleDiscountTiers?:
+      | {
+          minQuantity: number;
+          discountPercentage: number;
+          label?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Toon hoeveel klant bespaart t.o.v. losse aankoop
+     */
+    showBundleSavings?: boolean | null;
+  };
+  bookableConfig?: {
+    /**
+     * Beschikbare duur voor deze boeking
+     */
+    durationOptions?:
+      | {
+          duration: number;
+          label: string;
+          price: number;
+          popular?: boolean | null;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    timeSlots?:
+      | {
+          time: string;
+          available?: boolean | null;
+          spotsLeft?: number | null;
+          priceOverride?: number | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Bijv. Volwassene, Kind, Senior
+     */
+    participantCategories?:
+      | {
+          label: string;
+          price: number;
+          minCount?: number | null;
+          maxCount?: number | null;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    addOns?:
+      | {
+          label: string;
+          price: number;
+          required?: boolean | null;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    totalCapacity?: number | null;
+    bufferTime?: number | null;
+    showPricesOnCalendar?: boolean | null;
+  };
+  configuratorConfig?: {
+    /**
+     * Definieer de stappen die de klant doorloopt
+     */
+    configuratorSteps: {
+      title: string;
+      required?: boolean | null;
+      description?: string | null;
+      options: {
+        name: string;
+        price: number;
+        recommended?: boolean | null;
+        description?: string | null;
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[];
+      id?: string | null;
+    }[];
+  };
+  personalizationConfig?: {
+    /**
+     * Definieer welke personalisaties de klant kan doen
+     */
+    personalizationOptions: {
+      fieldName: string;
+      fieldType: 'text' | 'font' | 'color' | 'image';
+      required?: boolean | null;
+      priceModifier?: number | null;
+      maxLength?: number | null;
+      productionTimeAdded?: number | null;
+      placeholder?: string | null;
+      id?: string | null;
+    }[];
+    baseProductionDays?: number | null;
+    rushAvailable?: boolean | null;
+    rushFee?: number | null;
+    /**
+     * Laat leeg voor standaard lettertypes
+     */
+    availableFonts?:
+      | {
+          fontName: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Laat leeg voor standaard kleurenpalet
+     */
+    presetColors?:
+      | {
+          colorName: string;
+          colorCode: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  subscriptionConfig?: {
+    /**
+     * De beschikbare abonnementsvormen
+     */
+    subscriptionPlans: {
+      name: string;
+      interval: 'day' | 'week' | 'month' | 'quarter' | 'year';
+      price: number;
+      discountPercentage?: number | null;
+      editionCount?: number | null;
+      autoRenew?: boolean | null;
+      popular?: boolean | null;
+      /**
+       * Opsomming voordelen bij dit plan
+       */
+      features?:
+        | {
+            feature: string;
+            id?: string | null;
+          }[]
+        | null;
+      id?: string | null;
+    }[];
+    trialDays?: number | null;
+    minSubscriptionLength?: number | null;
+    maxSubscriptionLength?: number | null;
+    /**
+     * Voorwaarden voor opzegging van het abonnement
+     */
+    cancellationPolicy?: string | null;
+    subscriptionType?: ('recurring' | 'personal' | 'gift' | 'trial') | null;
+  };
   /**
    * Minimale afname per order
    */
@@ -602,17 +815,21 @@ export interface Product {
   contractPricing?: boolean | null;
   meta?: {
     /**
-     * Max 60 karakters. Standaard = product naam
+     * Max 60 karakters. Laat leeg = productnaam wordt gebruikt.
      */
     title?: string | null;
     /**
-     * Max 160 karakters
+     * Max 160 karakters. Laat leeg = korte beschrijving wordt gebruikt.
      */
     description?: string | null;
     /**
-     * Standaard = eerste product afbeelding
+     * Laat leeg = eerste productafbeelding wordt gebruikt.
      */
     image?: (number | null) | Media;
+    /**
+     * Optioneel. Verwijs zoekmachines naar een andere URL als de primaire bron. Voor child-producten van een grouped product wordt dit automatisch ingesteld op het parent product als dit veld leeg is.
+     */
+    canonicalUrl?: string | null;
     /**
      * SEO keywords voor dit product
      */
@@ -623,6 +840,10 @@ export interface Product {
         }[]
       | null;
   };
+  /**
+   * Verbergt dit product uit de shop-overzichten en zoekresultaten. De productpagina blijft bereikbaar via directe link.
+   */
+  hideFromCatalog?: boolean | null;
   /**
    * Groepeer specificaties logisch (bijv: Technische Specificaties, Afmetingen, Materialen)
    */
@@ -659,118 +880,6 @@ export interface Product {
    * Optionele accessoires en toebehoren
    */
   accessories?: (number | Product)[] | null;
-  /**
-   * Definieer de configuratie-opties (kleur, maat, materiaal, etc.)
-   */
-  variantOptions?:
-    | {
-        /**
-         * bijv. "Kleur", "Maat", "Zooltype", "Materiaal"
-         */
-        optionName: string;
-        /**
-         * Hoe de optie wordt weergegeven in de product configurator
-         */
-        displayType: 'colorSwatch' | 'sizeRadio' | 'dropdown' | 'imageRadio' | 'checkbox' | 'textInput';
-        /**
-         * De beschikbare keuzes voor deze optie
-         */
-        values: {
-          /**
-           * Weergavenaam (bijv. "Midnight Black", "Maat 42")
-           */
-          label: string;
-          /**
-           * Interne waarde (bijv. "black", "42")
-           */
-          value: string;
-          /**
-           * Extra kosten voor deze optie (bijv. +10 voor premium materiaal)
-           */
-          priceModifier?: number | null;
-          /**
-           * Beschikbare voorraad voor deze variant
-           */
-          stockLevel?: number | null;
-          /**
-           * Hex kleurcode voor color swatches (bijv. #FF0000)
-           */
-          colorCode?: string | null;
-          /**
-           * Voor image selection of thumbnail preview
-           */
-          image?: (number | null) | Media;
-          /**
-           * Voor abonnementsproducten — Type abonnement
-           */
-          subscriptionType?: ('personal' | 'gift' | 'trial') | null;
-          /**
-           * Voor abonnementsproducten — Looptijd in aantal edities
-           */
-          issues?: number | null;
-          /**
-           * Voor abonnementsproducten — Korting t.o.v. losse verkoop
-           */
-          discountPercentage?: number | null;
-          /**
-           * Voor abonnementsproducten — Wordt abonnement automatisch verlengd?
-           */
-          autoRenew?: boolean | null;
-          id?: string | null;
-        }[];
-        id?: string | null;
-      }[]
-    | null;
-  configuratorSettings?: {
-    /**
-     * Toon overzicht van geselecteerde opties
-     */
-    showConfigSummary?: boolean | null;
-    /**
-     * Toon gedetailleerde prijsopbouw met modifiers
-     */
-    showPriceBreakdown?: boolean | null;
-  };
-  mixMatchConfig?: {
-    /**
-     * Verschillende box groottes die klanten kunnen kiezen
-     */
-    boxSizes: {
-      /**
-       * bijv. "Small", "Medium", "Large", "Family"
-       */
-      name: string;
-      /**
-       * Hoeveel items in deze box (bijv. 4, 6, 10)
-       */
-      itemCount: number;
-      /**
-       * Vaste prijs voor volle box
-       */
-      price: number;
-      /**
-       * bijv. "Perfect voor 1 persoon", "Ideaal voor lunch + snack"
-       */
-      description?: string | null;
-      id?: string | null;
-    }[];
-    /**
-     * Producten die gekozen kunnen worden voor de box
-     */
-    availableProducts: (number | Product)[];
-    /**
-     * Korting die wordt toegepast wanneer box vol is
-     */
-    discountPercentage?: number | null;
-    /**
-     * Toon hoeveel items nog geselecteerd moeten worden
-     */
-    showProgressBar?: boolean | null;
-    /**
-     * Laat klanten filteren op productcategorieën
-     */
-    showCategoryFilters?: boolean | null;
-  };
   updatedAt: string;
   createdAt: string;
 }
@@ -791,11 +900,23 @@ export interface Brand {
    */
   slug: string;
   /**
+   * Selecteer de fabrikant als dit een productlijn/submerk is
+   */
+  parent?: (number | null) | Brand;
+  /**
+   * 0 = fabrikant, 1 = productlijn
+   */
+  level: number;
+  /**
+   * Bijv: Officiële partner, Premium merk, etc.
+   */
+  tagline?: string | null;
+  /**
    * Merklogo (voorkeur: SVG of PNG met transparante achtergrond)
    */
   logo?: (number | null) | Media;
   /**
-   * Optionele beschrijving over het merk
+   * Merkverhaal en beschrijving
    */
   description?: {
     root: {
@@ -817,6 +938,19 @@ export interface Brand {
    */
   website?: string | null;
   /**
+   * Bijv: ISO 13485, CE Markering, OEKO-TEX
+   */
+  certifications?:
+    | {
+        name: string;
+        /**
+         * Lucide icoon naam (bijv: shield-check, award)
+         */
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * Featured merken worden getoond in de LogoBar op de homepage
    */
   featured?: boolean | null;
@@ -824,6 +958,10 @@ export interface Brand {
    * Sorteer volgorde (lager = eerder getoond)
    */
   order?: number | null;
+  /**
+   * Tonen in merkenoverzicht
+   */
+  visible?: boolean | null;
   meta?: {
     /**
      * SEO titel voor de merkpagina
@@ -887,6 +1025,24 @@ export interface ProductCategory {
    */
   slug: string;
   description?: string | null;
+  /**
+   * Rich text content die onder de producten op de categoriepagina verschijnt
+   */
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   parent?: (number | null) | ProductCategory;
   image?: (number | null) | Media;
   level?: number | null;
@@ -919,6 +1075,121 @@ export interface ProductCategory {
   createdAt: string;
 }
 /**
+ * Branches zoals Huisartsen, Tandartsen, Fysiotherapie, etc.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "branches".
+ */
+export interface Branch {
+  id: number;
+  /**
+   * Bijv: Huisartsen, Tandartsen, Fysiotherapie
+   */
+  name: string;
+  /**
+   * Automatisch gegenereerd uit de naam
+   */
+  slug: string;
+  /**
+   * Lucide icoon naam (bijv: Stethoscope, HeartPulse)
+   */
+  icon?: string | null;
+  /**
+   * Label boven de titel (standaard: "Branche")
+   */
+  badge?: string | null;
+  /**
+   * Hoofdtitel op de branche-detailpagina
+   */
+  title?: string | null;
+  /**
+   * Korte beschrijving van de branche
+   */
+  description?: string | null;
+  /**
+   * Afbeelding voor het branche-overzicht
+   */
+  image?: (number | null) | Media;
+  /**
+   * Hero statistieken (bijv: "1.240 Producten")
+   */
+  stats?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Unique Selling Points voor deze branche
+   */
+  uspCards?:
+    | {
+        /**
+         * Lucide icoon naam (bijv: Tag, Truck)
+         */
+        icon?: string | null;
+        /**
+         * CSS kleur (bijv: #00897B)
+         */
+        iconColor?: string | null;
+        /**
+         * CSS achtergrondkleur (bijv: var(--color-primary-glow))
+         */
+        iconBg?: string | null;
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  testimonial?: {
+    /**
+     * Bijv: JV
+     */
+    initials?: string | null;
+    quote?: string | null;
+    authorName?: string | null;
+    authorRole?: string | null;
+    /**
+     * 1-5 sterren
+     */
+    rating?: number | null;
+  };
+  /**
+   * Call-to-action titel onderaan de pagina
+   */
+  ctaTitle?: string | null;
+  /**
+   * Call-to-action beschrijving
+   */
+  ctaDescription?: string | null;
+  /**
+   * Toon als uitgelichte branche
+   */
+  featured?: boolean | null;
+  /**
+   * Sorteer volgorde (lager = eerder getoond)
+   */
+  order?: number | null;
+  /**
+   * Tonen in branche-overzicht
+   */
+  visible?: boolean | null;
+  meta?: {
+    /**
+     * SEO titel voor de branchepagina
+     */
+    title?: string | null;
+    /**
+     * Korte beschrijving voor zoekmachines (max 160 tekens)
+     */
+    description?: string | null;
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "customer-groups".
  */
@@ -937,6 +1208,238 @@ export interface CustomerGroup {
   canRequestQuotes?: boolean | null;
   canDownloadInvoices?: boolean | null;
   canViewOrderHistory?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Klanten beheren en sites deployen
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients".
+ */
+export interface Client {
+  id: number;
+  /**
+   * Huidige status van de klantsite
+   */
+  status: 'pending' | 'provisioning' | 'deploying' | 'active' | 'failed' | 'suspended' | 'archived';
+  /**
+   * Huidig abonnement
+   */
+  plan?: ('free' | 'starter' | 'professional' | 'enterprise') | null;
+  /**
+   * Naam van de klant / het bedrijf
+   */
+  name: string;
+  /**
+   * Subdomain (bijv. "bakkerij-dejong") of volledige hostname (bijv. "plastimed01.compassdigital.nl")
+   */
+  domain: string;
+  contactEmail: string;
+  contactName?: string | null;
+  contactPhone?: string | null;
+  /**
+   * Basistemplate voor de klantsite
+   */
+  template: 'ecommerce' | 'blog' | 'b2b' | 'portfolio' | 'corporate';
+  /**
+   * Bepaal welke features actief zijn voor deze klant — bepaalt welke collections zichtbaar zijn en welke database tabellen aangemaakt worden
+   */
+  features?: {
+    /**
+     * Hoofdfeature - Schakelt producten, categorieën en merken in
+     */
+    shop?: boolean | null;
+    /**
+     * Staffelprijzen (bijv. 10+ stuks = korting)
+     */
+    volumePricing?: boolean | null;
+    compareProducts?: boolean | null;
+    /**
+     * Bestel direct via SKU/artikelnummer
+     */
+    quickOrder?: boolean | null;
+    brands?: boolean | null;
+    recentlyViewed?: boolean | null;
+    productReviews?: boolean | null;
+    cart?: boolean | null;
+    /**
+     * Kleine winkelwagen in header
+     */
+    miniCart?: boolean | null;
+    /**
+     * Toon voortgang tot gratis verzending
+     */
+    freeShippingBar?: boolean | null;
+    /**
+     * Hoofdfeature - Bestellingen plaatsen
+     */
+    checkout?: boolean | null;
+    /**
+     * Bestellen zonder account
+     */
+    guestCheckout?: boolean | null;
+    invoices?: boolean | null;
+    orderTracking?: boolean | null;
+    /**
+     * Hoofdfeature - Schakelt alle klantaccount functies in
+     */
+    myAccount?: boolean | null;
+    returns?: boolean | null;
+    /**
+     * Automatische herbestelling
+     */
+    recurringOrders?: boolean | null;
+    /**
+     * B2B snelbestelformulieren
+     */
+    orderLists?: boolean | null;
+    addresses?: boolean | null;
+    accountInvoices?: boolean | null;
+    notifications?: boolean | null;
+    /**
+     * Hoofdfeature - Schakelt alle B2B functies in
+     */
+    b2b?: boolean | null;
+    /**
+     * Verschillende prijzen per groep
+     */
+    customerGroups?: boolean | null;
+    groupPricing?: boolean | null;
+    /**
+     * Scan producten met mobiel
+     */
+    barcodeScanner?: boolean | null;
+    /**
+     * Hoofdfeature - Multi-vendor marketplace
+     */
+    vendors?: boolean | null;
+    vendorReviews?: boolean | null;
+    workshops?: boolean | null;
+    /**
+     * Recurring billing
+     */
+    subscriptions?: boolean | null;
+    giftVouchers?: boolean | null;
+    /**
+     * Software license management
+     */
+    licenses?: boolean | null;
+    /**
+     * Points, tiers, rewards
+     */
+    loyalty?: boolean | null;
+    blog?: boolean | null;
+    faq?: boolean | null;
+    testimonials?: boolean | null;
+    cases?: boolean | null;
+    partners?: boolean | null;
+    services?: boolean | null;
+    wishlists?: boolean | null;
+    multiLanguage?: boolean | null;
+    aiContent?: boolean | null;
+    search?: boolean | null;
+    newsletter?: boolean | null;
+    authentication?: boolean | null;
+  };
+  /**
+   * Automatisch ingevuld
+   */
+  deploymentUrl?: string | null;
+  /**
+   * Automatisch ingevuld
+   */
+  adminUrl?: string | null;
+  /**
+   * Automatisch ingevuld
+   */
+  deploymentProvider?: ('vercel' | 'ploi' | 'custom') | null;
+  lastDeployedAt?: string | null;
+  /**
+   * Ploi site ID
+   */
+  deploymentProviderId?: string | null;
+  lastDeploymentId?: string | null;
+  /**
+   * PostgreSQL connection string (versleuteld opgeslagen)
+   */
+  databaseUrl?: string | null;
+  /**
+   * Railway service ID voor de database
+   */
+  databaseProviderId?: string | null;
+  /**
+   * Toegewezen serverpoort (bijv. 3001). Automatisch ingevuld bij provisioning.
+   */
+  port?: number | null;
+  /**
+   * Automatisch ingevuld bij provisioning (contactEmail van de klant)
+   */
+  adminEmail?: string | null;
+  /**
+   * Eenmalig gegenereerd — vraag klant dit te wijzigen na eerste login
+   */
+  initialAdminPassword?: string | null;
+  /**
+   * Extra .env variabelen specifiek voor deze klant (bijv. eigen API keys)
+   */
+  customEnvironment?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Klantspecifieke platform-instellingen
+   */
+  customSettings?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  billingStatus?: ('active' | 'past_due' | 'cancelled' | 'trial') | null;
+  monthlyFee?: number | null;
+  nextBillingDate?: string | null;
+  paymentsEnabled?: boolean | null;
+  /**
+   * acct_... — automatisch ingevuld
+   */
+  stripeAccountId?: string | null;
+  stripeAccountStatus?: ('not_started' | 'pending' | 'enabled' | 'rejected' | 'restricted') | null;
+  paymentPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
+  customTransactionFee?: {
+    percentage?: number | null;
+    fixed?: number | null;
+  };
+  totalPaymentVolume?: number | null;
+  totalPaymentRevenue?: number | null;
+  lastPaymentAt?: string | null;
+  multiSafepayEnabled?: boolean | null;
+  multiSafepayAffiliateId?: string | null;
+  multiSafepayAccountStatus?: ('not_started' | 'pending' | 'active' | 'suspended' | 'rejected') | null;
+  multiSafepayPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
+  multiSafepayCustomRates?: {
+    idealFee?: number | null;
+    cardPercentage?: number | null;
+    cardFixed?: number | null;
+  };
+  multiSafepayTotalVolume?: number | null;
+  multiSafepayTotalRevenue?: number | null;
+  multiSafepayLastPaymentAt?: string | null;
+  lastHealthCheck?: string | null;
+  healthStatus?: ('healthy' | 'warning' | 'critical' | 'unknown') | null;
+  uptimePercentage?: number | null;
+  /**
+   * Alleen zichtbaar voor admins van CompassDigital — niet voor de klant
+   */
+  notes?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -3493,62 +3996,72 @@ export interface Notification {
   createdAt: string;
 }
 /**
- * Klantbestellingen met volledige workflow
+ * Klantbestellingen en order management
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "orders".
  */
 export interface Order {
   id: number;
+  /**
+   * Automatisch gegenereerd
+   */
   orderNumber: string;
-  status:
-    | 'pending'
-    | 'paid'
-    | 'processing'
-    | 'shipped'
-    | 'delivered'
-    | 'completed'
-    | 'cancelled'
-    | 'refunded'
-    | 'quote';
   /**
-   * Leeg voor gastbestellingen
+   * Leeg bij gastbestellingen
    */
-  customer?: (number | null) | Customer;
+  customer?: (number | null) | User;
   /**
-   * Voor gastbestellingen
+   * E-mailadres van gast (alleen bij gastbestellingen)
    */
-  customerEmail?: string | null;
+  guestEmail?: string | null;
+  /**
+   * Volledige naam van gast
+   */
+  guestName?: string | null;
+  /**
+   * Telefoonnummer van gast
+   */
+  guestPhone?: string | null;
   items: {
     product: number | Product;
     /**
-     * Product details op moment van bestelling
+     * Productnaam op moment van bestelling
      */
-    productSnapshot?: {
-      name?: string | null;
-      sku?: string | null;
-      image?: string | null;
-    };
-    variantId?: string | null;
+    title: string;
+    /**
+     * SKU op moment van bestelling
+     */
+    sku?: string | null;
+    /**
+     * EAN op moment van bestelling
+     */
+    ean?: string | null;
+    /**
+     * ID van grouped parent product (indien van toepassing)
+     */
+    parentProductId?: string | null;
+    /**
+     * Naam van grouped parent product (indien van toepassing)
+     */
+    parentProductTitle?: string | null;
     quantity: number;
-    unitPrice: number;
-    discount?: number | null;
-    totalPrice?: number | null;
-    notes?: string | null;
+    /**
+     * Prijs op moment van bestelling
+     */
+    price: number;
+    subtotal?: number | null;
     id?: string | null;
   }[];
-  billingAddress: {
-    firstName: string;
-    lastName: string;
-    company?: string | null;
-    street: string;
-    houseNumber: string;
-    addition?: string | null;
-    postalCode: string;
-    city: string;
-    country: string;
-    phone?: string | null;
-  };
+  subtotal: number;
+  shippingCost?: number | null;
+  tax?: number | null;
+  discount?: number | null;
+  total: number;
+  /**
+   * E-mailadres voor orderbevestiging en notificaties
+   */
+  customerEmail?: string | null;
   shippingAddress: {
     firstName: string;
     lastName: string;
@@ -3558,128 +4071,104 @@ export interface Order {
     addition?: string | null;
     postalCode: string;
     city: string;
-    country: string;
+    country?: string | null;
     phone?: string | null;
   };
-  payment: {
-    method: 'ideal' | 'creditcard' | 'banktransfer' | 'paypal' | 'mollie' | 'invoice';
-    status?: ('pending' | 'paid' | 'failed' | 'refunded') | null;
-    transactionId?: string | null;
-    paidAt?: string | null;
+  billingAddress?: {
+    sameAsShipping?: boolean | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    company?: string | null;
+    street?: string | null;
+    houseNumber?: string | null;
+    addition?: string | null;
+    postalCode?: string | null;
+    city?: string | null;
+    country?: string | null;
+    phone?: string | null;
+    /**
+     * Kamer van Koophandel nummer
+     */
+    kvk?: string | null;
+    /**
+     * BTW-identificatienummer
+     */
+    vatNumber?: string | null;
   };
-  shipping: {
-    method: 'standard' | 'express' | 'pickup';
-    cost?: number | null;
-    trackingNumber?: string | null;
-    carrier?: string | null;
-    shippedAt?: string | null;
-    deliveredAt?: string | null;
-  };
-  subtotal: number;
-  discountTotal?: number | null;
-  shippingTotal?: number | null;
-  taxTotal?: number | null;
-  total: number;
-  currency?: ('EUR' | 'USD' | 'GBP') | null;
-  customerNotes?: string | null;
+  status: 'pending' | 'paid' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded';
+  paymentMethod: 'ideal' | 'invoice' | 'creditcard' | 'banktransfer';
+  paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded';
   /**
-   * Alleen zichtbaar voor admins
+   * Verzendpartner voor deze bestelling
    */
-  internalNotes?: string | null;
-  tags?: string[] | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Klant accounts met B2B/B2C support
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "customers".
- */
-export interface Customer {
-  id: number;
-  firstName: string;
-  lastName: string;
+  shippingProvider?: ('postnl' | 'dhl' | 'dpd' | 'ups' | 'transmission' | 'own' | 'pickup') | null;
   /**
-   * Automatisch gegenereerd uit voor- en achternaam
+   * Verzend tracking nummer
    */
-  name?: string | null;
-  phone?: string | null;
-  dateOfBirth?: string | null;
-  accountType: 'b2c' | 'b2b';
-  company?: string | null;
+  trackingCode?: string | null;
   /**
-   * Voor B2B: BTW nummer (bijv. NL123456789B01)
+   * Directe link naar tracking pagina
    */
-  vatNumber?: string | null;
-  chamberOfCommerce?: string | null;
+  trackingUrl?: string | null;
   /**
-   * Bepaalt pricing en permissions
+   * Gekozen verzendmethode
    */
-  customerGroup?: (number | null) | CustomerGroup;
+  shippingMethod?: ('standard' | 'express' | 'same_day' | 'pickup') | null;
   /**
-   * Role ID voor custom pricing (bijv. "hospital", "clinic")
+   * Geschatte leverdatum (bijv. "Verwacht vandaag")
    */
-  customPricingRole?: string | null;
+  expectedDeliveryDate?: string | null;
   /**
-   * Extra korting bovenop groepskorting
+   * Datum waarop bestelling is afgeleverd
    */
-  discount?: number | null;
+  actualDeliveryDate?: string | null;
   /**
-   * Maximale openstaande facturen (B2B)
+   * Chronologische events voor order tracking (automatisch + handmatig)
    */
-  creditLimit?: number | null;
-  paymentTerms?: ('immediate' | '14' | '30' | '60' | '90') | null;
-  /**
-   * JSON array of customer addresses (TODO: create Addresses collection)
-   */
-  addresses?:
+  timeline?:
     | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  language?: ('nl' | 'en' | 'de') | null;
-  currency?: ('EUR' | 'USD' | 'GBP') | null;
-  newsletter?: boolean | null;
-  marketingEmails?: boolean | null;
-  orderNotifications?: boolean | null;
-  /**
-   * B2B accounts kunnen goedkeuring vereisen
-   */
-  status: 'pending' | 'active' | 'inactive' | 'blocked';
-  approvedBy?: (number | null) | User;
-  approvedAt?: string | null;
-  verified?: boolean | null;
-  /**
-   * Alleen zichtbaar voor admins
-   */
-  notes?: string | null;
-  totalOrders?: number | null;
-  totalSpent?: number | null;
-  averageOrderValue?: number | null;
-  lastOrderDate?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
+        event:
+          | 'order_placed'
+          | 'payment_received'
+          | 'processing'
+          | 'invoice_generated'
+          | 'shipped'
+          | 'in_transit'
+          | 'delivered'
+          | 'cancelled'
+          | 'return_requested'
+          | 'refunded'
+          | 'note_added';
+        /**
+         * Optioneel: custom titel (bijv. "Pakket onderweg naar sorteercentrum")
+         */
+        title?: string | null;
+        /**
+         * Extra details over dit event
+         */
+        description?: string | null;
+        timestamp: string;
+        /**
+         * Optioneel: fysieke locatie (bijv. "Distributiecentrum Utrecht")
+         */
+        location?: string | null;
+        id?: string | null;
       }[]
     | null;
-  password?: string | null;
-  collection: 'customers';
+  /**
+   * Interne notities of klant opmerkingen
+   */
+  notes?: string | null;
+  /**
+   * Gegenereerde factuur
+   */
+  invoicePDF?: (number | null) | Media;
+  /**
+   * Gekoppeld factuurnummer (bijv. F-2026-0187)
+   */
+  invoiceNumber?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Facturen en betalingsadministratie
@@ -4194,6 +4683,322 @@ export interface EditionNotification {
   createdAt: string;
 }
 /**
+ * Magazinetitels en hun edities, abonnementen en content
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "magazines".
+ */
+export interface Magazine {
+  id: number;
+  /**
+   * Naam van het magazine
+   */
+  name: string;
+  /**
+   * Automatisch gegenereerd uit de naam
+   */
+  slug: string;
+  /**
+   * Korte slagzin onder de titel
+   */
+  tagline?: string | null;
+  /**
+   * Uitgebreide beschrijving / verhaal van het magazine
+   */
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  frequency?: ('weekly' | 'biweekly' | 'monthly' | 'bimonthly' | 'quarterly' | 'biannual' | 'yearly') | null;
+  /**
+   * Internationaal serienummer (optioneel)
+   */
+  issn?: string | null;
+  /**
+   * Magazinelogo (voorkeur: SVG of PNG met transparante achtergrond)
+   */
+  logo?: (number | null) | Media;
+  /**
+   * Huidige coverafbeelding (voor overzichtspagina)
+   */
+  cover?: (number | null) | Media;
+  /**
+   * Achtergrondafbeelding voor de hero-sectie op de detailpagina
+   */
+  heroImage?: (number | null) | Media;
+  /**
+   * Label boven de titel in de hero (standaard: "Magazine")
+   */
+  badge?: string | null;
+  /**
+   * Hoofdtitel op de detailpagina (standaard: magazinenaam)
+   */
+  heroTitle?: string | null;
+  /**
+   * Hero statistieken (bijv: "12 Edities per jaar")
+   */
+  stats?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Alle uitgaves van dit magazine
+   */
+  editions?:
+    | {
+        /**
+         * Bijv: Zomer 2026, Nr. 45
+         */
+        title: string;
+        /**
+         * Bijv: Nr. 45
+         */
+        issueNumber?: string | null;
+        year?: number | null;
+        cover?: (number | null) | Media;
+        /**
+         * Losse verkoopprijs
+         */
+        price?: number | null;
+        publishDate?: string | null;
+        soldOut?: boolean | null;
+        /**
+         * Korte beschrijving van deze editie
+         */
+        description?: string | null;
+        /**
+         * Link naar de productpagina in de webshop (optioneel)
+         */
+        shopUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Unique Selling Points voor dit magazine
+   */
+  uspCards?:
+    | {
+        /**
+         * Lucide icoon naam (bijv: BookOpen, Award)
+         */
+        icon?: string | null;
+        /**
+         * CSS kleur (bijv: #00897B)
+         */
+        iconColor?: string | null;
+        /**
+         * CSS achtergrondkleur
+         */
+        iconBg?: string | null;
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  testimonial?: {
+    initials?: string | null;
+    quote?: string | null;
+    authorName?: string | null;
+    authorRole?: string | null;
+    /**
+     * 1-5 sterren
+     */
+    rating?: number | null;
+  };
+  /**
+   * Call-to-action titel (bijv: "Word abonnee")
+   */
+  ctaTitle?: string | null;
+  ctaDescription?: string | null;
+  /**
+   * Beschikbare abonnementen voor dit magazine
+   */
+  plans?:
+    | {
+        /**
+         * Bijv: Jaarabonnement, Proefabonnement, Digitaal
+         */
+        name: string;
+        description?: string | null;
+        /**
+         * Toon als "Meest gekozen" of aanbevolen plan
+         */
+        highlighted?: boolean | null;
+        /**
+         * Prijs per periode
+         */
+        price: number;
+        period?: ('monthly' | 'quarterly' | 'biannual' | 'yearly' | 'once') | null;
+        /**
+         * Aantal edities dat je ontvangt (bijv: 4, 12)
+         */
+        editions?: number | null;
+        /**
+         * Wat is inbegrepen bij dit abonnement
+         */
+        features?:
+          | {
+              text: string;
+              included?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Link naar extern bestelsysteem (optioneel)
+         */
+        externalUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Betaalprovider voor abonnementen
+   */
+  paymentProvider?: ('mollie' | 'stripe' | 'external') | null;
+  /**
+   * Bijv: "Altijd opzegbaar", "Gratis verzending"
+   */
+  trustItems?:
+    | {
+        /**
+         * Lucide icoon naam
+         */
+        icon?: string | null;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  meta?: {
+    /**
+     * SEO titel voor de magazinepagina
+     */
+    title?: string | null;
+    /**
+     * Korte beschrijving voor zoekmachines (max 160 tekens)
+     */
+    description?: string | null;
+    image?: (number | null) | Media;
+  };
+  /**
+   * Toon als uitgelicht magazine
+   */
+  featured?: boolean | null;
+  /**
+   * Sorteer volgorde (lager = eerder getoond)
+   */
+  order?: number | null;
+  /**
+   * Tonen in magazine-overzicht
+   */
+  visible?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Klant accounts met B2B/B2C support
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customers".
+ */
+export interface Customer {
+  id: number;
+  firstName: string;
+  lastName: string;
+  /**
+   * Automatisch gegenereerd uit voor- en achternaam
+   */
+  name?: string | null;
+  phone?: string | null;
+  dateOfBirth?: string | null;
+  accountType: 'b2c' | 'b2b';
+  company?: string | null;
+  /**
+   * Voor B2B: BTW nummer (bijv. NL123456789B01)
+   */
+  vatNumber?: string | null;
+  chamberOfCommerce?: string | null;
+  /**
+   * Bepaalt pricing en permissions
+   */
+  customerGroup?: (number | null) | CustomerGroup;
+  /**
+   * Role ID voor custom pricing (bijv. "hospital", "clinic")
+   */
+  customPricingRole?: string | null;
+  /**
+   * Extra korting bovenop groepskorting
+   */
+  discount?: number | null;
+  /**
+   * Maximale openstaande facturen (B2B)
+   */
+  creditLimit?: number | null;
+  paymentTerms?: ('immediate' | '14' | '30' | '60' | '90') | null;
+  /**
+   * JSON array of customer addresses (TODO: create Addresses collection)
+   */
+  addresses?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  language?: ('nl' | 'en' | 'de') | null;
+  currency?: ('EUR' | 'USD' | 'GBP') | null;
+  newsletter?: boolean | null;
+  marketingEmails?: boolean | null;
+  orderNotifications?: boolean | null;
+  /**
+   * B2B accounts kunnen goedkeuring vereisen
+   */
+  status: 'pending' | 'active' | 'inactive' | 'blocked';
+  approvedBy?: (number | null) | User;
+  approvedAt?: string | null;
+  verified?: boolean | null;
+  /**
+   * Alleen zichtbaar voor admins
+   */
+  notes?: string | null;
+  totalOrders?: number | null;
+  totalSpent?: number | null;
+  averageOrderValue?: number | null;
+  lastOrderDate?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+  collection: 'customers';
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "addresses".
  */
@@ -4307,6 +5112,51 @@ export interface Cart {
   createdAt: string;
 }
 /**
+ * Beheer kortingscodes voor promoties en acties
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "discount-codes".
+ */
+export interface DiscountCode {
+  id: number;
+  /**
+   * Unieke kortingscode (wordt automatisch omgezet naar hoofdletters)
+   */
+  code: string;
+  type: 'percentage' | 'fixed-amount' | 'free-shipping';
+  /**
+   * Percentage (bijv. 25) of bedrag in euro's (bijv. 10.00)
+   */
+  value: number;
+  /**
+   * Minimale bestelwaarde om de code te gebruiken (optioneel)
+   */
+  minOrderAmount?: number | null;
+  /**
+   * Maximaal aantal keer te gebruiken (leeg = onbeperkt)
+   */
+  maxUses?: number | null;
+  /**
+   * Aantal keer gebruikt
+   */
+  usedCount?: number | null;
+  /**
+   * Geldig vanaf (optioneel)
+   */
+  validFrom?: string | null;
+  /**
+   * Geldig tot (optioneel)
+   */
+  validUntil?: string | null;
+  status?: ('active' | 'expired' | 'disabled') | null;
+  /**
+   * Interne notitie (niet zichtbaar voor klanten)
+   */
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Opgeslagen bestellijsten voor snelle herbestellingen
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4340,18 +5190,20 @@ export interface OrderList {
    * Deze lijst wordt voorgeselecteerd bij quick order
    */
   isDefault?: boolean | null;
-  items: {
-    product: number | Product;
-    /**
-     * Hoeveel van dit product normaal besteld wordt
-     */
-    defaultQuantity: number;
-    /**
-     * Persoonlijke notities over dit product
-     */
-    notes?: string | null;
-    id?: string | null;
-  }[];
+  items?:
+    | {
+        product: number | Product;
+        /**
+         * Hoeveel van dit product normaal besteld wordt
+         */
+        defaultQuantity: number;
+        /**
+         * Persoonlijke notities over dit product
+         */
+        notes?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Automatisch berekend
    */
@@ -4484,6 +5336,149 @@ export interface SubscriptionPlan {
    * Stripe integration
    */
   stripePriceId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Dedicated landingspagina's voor abonnementen met eigen checkout flow (los van de webshop)
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-pages".
+ */
+export interface SubscriptionPage {
+  id: number;
+  /**
+   * Interne naam voor deze abonnementspagina
+   */
+  name: string;
+  /**
+   * Wordt gebruikt in de URL: /abonneren/[slug]
+   */
+  slug: string;
+  /**
+   * Optioneel: koppel aan een merk of magazine titel
+   */
+  brand?: (number | null) | Brand;
+  /**
+   * Hoofdtitel op de landingspagina (bijv. "Kies je abonnement")
+   */
+  headline?: string | null;
+  /**
+   * Korte beschrijving onder de koptekst
+   */
+  subheadline?: string | null;
+  heroImage?: (number | null) | Media;
+  /**
+   * Pagina is zichtbaar voor bezoekers
+   */
+  active?: boolean | null;
+  /**
+   * De plannen die op deze pagina vergeleken worden
+   */
+  plans?:
+    | {
+        /**
+         * Bijv. "Basis", "Premium", "Compleet"
+         */
+        title: string;
+        /**
+         * Korte omschrijving onder de titel
+         */
+        subtitle?: string | null;
+        /**
+         * Toon als "Meest gekozen" of vergelijkbaar
+         */
+        highlighted?: boolean | null;
+        /**
+         * Bijv. "Meest gekozen", "Best deal"
+         */
+        highlightLabel?: string | null;
+        billingOptions?:
+          | {
+              period: 'monthly' | 'quarterly' | 'biannual' | 'yearly';
+              /**
+               * Prijs per periode (in euro)
+               */
+              price: number;
+              /**
+               * Doorgestreepte prijs (optioneel)
+               */
+              comparePrice?: number | null;
+              id?: string | null;
+            }[]
+          | null;
+        features?:
+          | {
+              text: string;
+              included?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
+        ctaLabel?: string | null;
+        sortOrder?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optionele extra's die de klant bij het abonnement kan kiezen
+   */
+  addOns?:
+    | {
+        name: string;
+        description?: string | null;
+        /**
+         * Prijs per periode (in euro)
+         */
+        price: number;
+        /**
+         * Lucide icoon naam (bijv. gift, book-open)
+         */
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Configureer of klanten meerdere seats/licenties kunnen bestellen
+   */
+  seats?: {
+    enabled?: boolean | null;
+    label?: string | null;
+    minSeats?: number | null;
+    maxSeats?: number | null;
+    /**
+     * Meerprijs per extra seat bovenop de basisprijs
+     */
+    pricePerSeat?: number | null;
+  };
+  checkoutTitle?: string | null;
+  paymentProvider?: ('mollie' | 'stripe' | 'external') | null;
+  /**
+   * Redirect URL voor externe betaalprovider
+   */
+  externalCheckoutUrl?: string | null;
+  /**
+   * Bijv. "14 dagen bedenktijd", "Veilig betalen"
+   */
+  trustItems?:
+    | {
+        /**
+         * Lucide icoon naam
+         */
+        icon?: string | null;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  successMessage?: string | null;
+  /**
+   * Optionele URL om naar door te sturen na succesvolle betaling
+   */
+  successRedirectUrl?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -4907,6 +5902,154 @@ export interface LoyaltyRedemption {
   createdAt: string;
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "company-accounts".
+ */
+export interface CompanyAccount {
+  id: number;
+  companyName: string;
+  /**
+   * 8 cijfers
+   */
+  kvkNumber?: string | null;
+  vatNumber?: string | null;
+  owner: number | User;
+  status?: ('active' | 'inactive' | 'suspended') | null;
+  /**
+   * Laat leeg voor onbeperkt
+   */
+  monthlyBudget?: number | null;
+  /**
+   * Laat leeg voor onbeperkt
+   */
+  quarterlyBudget?: number | null;
+  /**
+   * Bestellingen boven dit bedrag vereisen goedkeuring. Laat leeg om uit te schakelen.
+   */
+  approvalThreshold?: number | null;
+  /**
+   * Bestellingen van gebruikers met deze rollen vereisen goedkeuring
+   */
+  approvalRoles?: ('buyer' | 'viewer')[] | null;
+  /**
+   * Maximaal openstaand bedrag op rekening
+   */
+  creditLimit?: number | null;
+  creditUsed?: number | null;
+  paymentTerms?: ('14' | '30' | '60') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "company-invites".
+ */
+export interface CompanyInvite {
+  id: number;
+  company: number | CompanyAccount;
+  email: string;
+  role: 'admin' | 'manager' | 'buyer' | 'finance' | 'viewer';
+  status?: ('pending' | 'accepted' | 'expired' | 'revoked') | null;
+  token: string;
+  expiresAt: string;
+  invitedBy?: (number | null) | User;
+  message?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "approval-requests".
+ */
+export interface ApprovalRequest {
+  id: number;
+  company: number | CompanyAccount;
+  requestedBy: number | User;
+  approver?: (number | null) | User;
+  orderReference: string;
+  status?: ('pending' | 'approved' | 'rejected' | 'expired') | null;
+  totalAmount: number;
+  reason?: ('threshold' | 'budget' | 'manual') | null;
+  items?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  shippingAddress?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  note?: string | null;
+  reviewNote?: string | null;
+  reviewedAt?: string | null;
+  expiresAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quotes".
+ */
+export interface Quote {
+  id: number;
+  quoteNumber?: string | null;
+  user: number | User;
+  status?: ('new' | 'processing' | 'quoted' | 'accepted' | 'rejected' | 'expired') | null;
+  products?:
+    | {
+        name: string;
+        sku?: string | null;
+        quantity: number;
+        /**
+         * Prijs per stuk in de offerte (excl. BTW). Vul in bij het uitbrengen van de offerte.
+         */
+        quotedUnitPrice?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  companyName?: string | null;
+  kvkNumber?: string | null;
+  contactPerson?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  sector?: string | null;
+  desiredDeliveryDate?: string | null;
+  deliveryFrequency?: ('Eenmalig' | 'Wekelijks' | 'Maandelijks' | 'Kwartaal') | null;
+  notes?: string | null;
+  wantsConsultation?: boolean | null;
+  /**
+   * Totale offerteprijs excl. BTW. Wordt berekend uit stuksprijzen als die zijn ingevuld.
+   */
+  quotedPrice?: number | null;
+  /**
+   * Verloopdatum van de offerte
+   */
+  validUntil?: string | null;
+  /**
+   * Alleen zichtbaar voor admin (niet voor klant)
+   */
+  internalNotes?: string | null;
+  /**
+   * Automatisch ingevuld wanneer klant de offerte accepteert
+   */
+  convertedToOrder?: (number | null) | Order;
+  acceptedAt?: string | null;
+  rejectedAt?: string | null;
+  rejectionReason?: string | null;
+  submittedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * A/B testing experiments voor multi-variant testing
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4992,238 +6135,6 @@ export interface AbTest {
   client?: (number | null) | Client;
   /**
    * Internal notes, learnings, observations
-   */
-  notes?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Klanten beheren en sites deployen
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "clients".
- */
-export interface Client {
-  id: number;
-  /**
-   * Huidige status van de klantsite
-   */
-  status: 'pending' | 'provisioning' | 'deploying' | 'active' | 'failed' | 'suspended' | 'archived';
-  /**
-   * Huidig abonnement
-   */
-  plan?: ('free' | 'starter' | 'professional' | 'enterprise') | null;
-  /**
-   * Naam van de klant / het bedrijf
-   */
-  name: string;
-  /**
-   * Subdomain (bijv. "bakkerij-dejong") of volledige hostname (bijv. "plastimed01.compassdigital.nl")
-   */
-  domain: string;
-  contactEmail: string;
-  contactName?: string | null;
-  contactPhone?: string | null;
-  /**
-   * Basistemplate voor de klantsite
-   */
-  template: 'ecommerce' | 'blog' | 'b2b' | 'portfolio' | 'corporate';
-  /**
-   * Bepaal welke features actief zijn voor deze klant — bepaalt welke collections zichtbaar zijn en welke database tabellen aangemaakt worden
-   */
-  features?: {
-    /**
-     * Hoofdfeature - Schakelt producten, categorieën en merken in
-     */
-    shop?: boolean | null;
-    /**
-     * Staffelprijzen (bijv. 10+ stuks = korting)
-     */
-    volumePricing?: boolean | null;
-    compareProducts?: boolean | null;
-    /**
-     * Bestel direct via SKU/artikelnummer
-     */
-    quickOrder?: boolean | null;
-    brands?: boolean | null;
-    recentlyViewed?: boolean | null;
-    productReviews?: boolean | null;
-    cart?: boolean | null;
-    /**
-     * Kleine winkelwagen in header
-     */
-    miniCart?: boolean | null;
-    /**
-     * Toon voortgang tot gratis verzending
-     */
-    freeShippingBar?: boolean | null;
-    /**
-     * Hoofdfeature - Bestellingen plaatsen
-     */
-    checkout?: boolean | null;
-    /**
-     * Bestellen zonder account
-     */
-    guestCheckout?: boolean | null;
-    invoices?: boolean | null;
-    orderTracking?: boolean | null;
-    /**
-     * Hoofdfeature - Schakelt alle klantaccount functies in
-     */
-    myAccount?: boolean | null;
-    returns?: boolean | null;
-    /**
-     * Automatische herbestelling
-     */
-    recurringOrders?: boolean | null;
-    /**
-     * B2B snelbestelformulieren
-     */
-    orderLists?: boolean | null;
-    addresses?: boolean | null;
-    accountInvoices?: boolean | null;
-    notifications?: boolean | null;
-    /**
-     * Hoofdfeature - Schakelt alle B2B functies in
-     */
-    b2b?: boolean | null;
-    /**
-     * Verschillende prijzen per groep
-     */
-    customerGroups?: boolean | null;
-    groupPricing?: boolean | null;
-    /**
-     * Scan producten met mobiel
-     */
-    barcodeScanner?: boolean | null;
-    /**
-     * Hoofdfeature - Multi-vendor marketplace
-     */
-    vendors?: boolean | null;
-    vendorReviews?: boolean | null;
-    workshops?: boolean | null;
-    /**
-     * Recurring billing
-     */
-    subscriptions?: boolean | null;
-    giftVouchers?: boolean | null;
-    /**
-     * Software license management
-     */
-    licenses?: boolean | null;
-    /**
-     * Points, tiers, rewards
-     */
-    loyalty?: boolean | null;
-    blog?: boolean | null;
-    faq?: boolean | null;
-    testimonials?: boolean | null;
-    cases?: boolean | null;
-    partners?: boolean | null;
-    services?: boolean | null;
-    wishlists?: boolean | null;
-    multiLanguage?: boolean | null;
-    aiContent?: boolean | null;
-    search?: boolean | null;
-    newsletter?: boolean | null;
-    authentication?: boolean | null;
-  };
-  /**
-   * Automatisch ingevuld
-   */
-  deploymentUrl?: string | null;
-  /**
-   * Automatisch ingevuld
-   */
-  adminUrl?: string | null;
-  /**
-   * Automatisch ingevuld
-   */
-  deploymentProvider?: ('vercel' | 'ploi' | 'custom') | null;
-  lastDeployedAt?: string | null;
-  /**
-   * Ploi site ID
-   */
-  deploymentProviderId?: string | null;
-  lastDeploymentId?: string | null;
-  /**
-   * PostgreSQL connection string (versleuteld opgeslagen)
-   */
-  databaseUrl?: string | null;
-  /**
-   * Railway service ID voor de database
-   */
-  databaseProviderId?: string | null;
-  /**
-   * Toegewezen serverpoort (bijv. 3001). Automatisch ingevuld bij provisioning.
-   */
-  port?: number | null;
-  /**
-   * Automatisch ingevuld bij provisioning (contactEmail van de klant)
-   */
-  adminEmail?: string | null;
-  /**
-   * Eenmalig gegenereerd — vraag klant dit te wijzigen na eerste login
-   */
-  initialAdminPassword?: string | null;
-  /**
-   * Extra .env variabelen specifiek voor deze klant (bijv. eigen API keys)
-   */
-  customEnvironment?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  /**
-   * Klantspecifieke platform-instellingen
-   */
-  customSettings?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  billingStatus?: ('active' | 'past_due' | 'cancelled' | 'trial') | null;
-  monthlyFee?: number | null;
-  nextBillingDate?: string | null;
-  paymentsEnabled?: boolean | null;
-  /**
-   * acct_... — automatisch ingevuld
-   */
-  stripeAccountId?: string | null;
-  stripeAccountStatus?: ('not_started' | 'pending' | 'enabled' | 'rejected' | 'restricted') | null;
-  paymentPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
-  customTransactionFee?: {
-    percentage?: number | null;
-    fixed?: number | null;
-  };
-  totalPaymentVolume?: number | null;
-  totalPaymentRevenue?: number | null;
-  lastPaymentAt?: string | null;
-  multiSafepayEnabled?: boolean | null;
-  multiSafepayAffiliateId?: string | null;
-  multiSafepayAccountStatus?: ('not_started' | 'pending' | 'active' | 'suspended' | 'rejected') | null;
-  multiSafepayPricingTier?: ('standard' | 'professional' | 'enterprise' | 'custom') | null;
-  multiSafepayCustomRates?: {
-    idealFee?: number | null;
-    cardPercentage?: number | null;
-    cardFixed?: number | null;
-  };
-  multiSafepayTotalVolume?: number | null;
-  multiSafepayTotalRevenue?: number | null;
-  multiSafepayLastPaymentAt?: string | null;
-  lastHealthCheck?: string | null;
-  healthStatus?: ('healthy' | 'warning' | 'critical' | 'unknown') | null;
-  uptimePercentage?: number | null;
-  /**
-   * Alleen zichtbaar voor admins van CompassDigital — niet voor de klant
    */
   notes?: string | null;
   updatedAt: string;
@@ -6416,7 +7327,7 @@ export interface Event {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Manage email marketing subscribers synced with Listmonk
+ * Beheer e-mail abonnees en nieuwsbrieflijsten
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "email-subscribers".
@@ -6424,20 +7335,20 @@ export interface Event {
 export interface EmailSubscriber {
   id: number;
   /**
-   * Subscriber email address
+   * E-mailadres van de abonnee
    */
   email: string;
   /**
-   * Subscriber full name
+   * Volledige naam van de abonnee
    */
   name: string;
   /**
-   * Subscriber status in Listmonk
+   * Status van de abonnee
    */
   status: 'enabled' | 'disabled' | 'blocklisted';
   tenant?: (number | null) | Client;
   /**
-   * Email lists this subscriber is part of
+   * E-maillijsten waar deze abonnee bij hoort
    */
   lists?: (number | EmailList)[] | null;
   /**
@@ -6454,20 +7365,20 @@ export interface EmailSubscriber {
     | null;
   preferences?: {
     /**
-     * Subscriber opted in for marketing emails
+     * Abonnee ontvangt marketing e-mails
      */
     marketingEmails?: boolean | null;
     /**
-     * Subscriber opted in for product updates
+     * Abonnee ontvangt product updates
      */
     productUpdates?: boolean | null;
     /**
-     * Subscriber opted in for newsletter
+     * Abonnee ontvangt de nieuwsbrief
      */
     newsletter?: boolean | null;
   };
   /**
-   * How this subscriber was added
+   * Hoe is deze abonnee toegevoegd?
    */
   source?: ('manual' | 'website' | 'import' | 'api' | 'checkout') | null;
   /**
@@ -6487,7 +7398,7 @@ export interface EmailSubscriber {
    */
   syncError?: string | null;
   /**
-   * Tags for organizing subscribers
+   * Labels voor het organiseren van abonnees
    */
   tags?:
     | {
@@ -6499,7 +7410,7 @@ export interface EmailSubscriber {
   createdAt: string;
 }
 /**
- * Manage email lists for segmenting subscribers
+ * Beheer e-maillijsten en doelgroepen
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "email-lists".
@@ -6507,45 +7418,45 @@ export interface EmailSubscriber {
 export interface EmailList {
   id: number;
   /**
-   * List name (e.g., "Newsletter Subscribers", "VIP Customers")
+   * Naam van de lijst (bijv. "Nieuwsbrief abonnees", "VIP Klanten")
    */
   name: string;
   /**
-   * What is this list for?
+   * Waarvoor wordt deze lijst gebruikt?
    */
   description?: string | null;
   /**
-   * Public lists allow self-subscription, private lists are admin-managed
+   * Openbare lijsten staan zelf-aanmelding toe, privélijsten worden beheerd door admins
    */
   type: 'public' | 'private';
   /**
-   * Double opt-in requires email confirmation, single opt-in is immediate
+   * Dubbele aanmelding vereist e-mailbevestiging, enkele aanmelding is direct
    */
   optin: 'single' | 'double';
   tenant?: (number | null) | Client;
   /**
-   * Number of subscribers in this list
+   * Aantal abonnees in deze lijst
    */
   subscriberCount?: number | null;
   /**
-   * Settings for public subscription forms
+   * Instellingen voor openbare aanmeldformulieren
    */
   subscriptionSettings?: {
     /**
-     * Send welcome email on subscription
+     * Stuur een welkomstmail bij aanmelding
      */
     welcomeEmail?: boolean | null;
     /**
-     * Template for welcome email
+     * Template voor de welkomstmail
      */
     welcomeEmailTemplate?: (number | null) | EmailTemplate;
     /**
-     * URL to redirect after subscription
+     * URL om naar door te sturen na aanmelding
      */
     confirmationPage?: string | null;
   };
   /**
-   * Tags for organizing lists
+   * Labels voor het organiseren van lijsten
    */
   tags?:
     | {
@@ -6554,7 +7465,7 @@ export interface EmailList {
       }[]
     | null;
   /**
-   * List category for organization
+   * Categorie voor het organiseren van lijsten
    */
   category?: ('newsletter' | 'marketing' | 'transactional' | 'updates' | 'customers' | 'other') | null;
   /**
@@ -6574,14 +7485,14 @@ export interface EmailList {
    */
   syncError?: string | null;
   /**
-   * Active lists can receive campaigns, inactive lists are archived
+   * Inactieve lijsten ontvangen geen e-mails
    */
   isActive?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
- * Create and manage email templates with visual editor
+ * Maak en beheer e-mail templates
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "email-templates".
@@ -6589,35 +7500,35 @@ export interface EmailList {
 export interface EmailTemplate {
   id: number;
   /**
-   * Template name (e.g., "Welcome Email", "Product Launch")
+   * Naam van het template (bijv. "Welkomstmail", "Product lancering")
    */
   name: string;
   /**
-   * What is this template used for?
+   * Waarvoor wordt dit template gebruikt?
    */
   description?: string | null;
   /**
-   * Campaign templates are for bulk emails, transactional are for automated emails
+   * Campagne templates zijn voor bulk e-mails, transactionele voor geautomatiseerde e-mails
    */
   type: 'campaign' | 'transactional';
   /**
-   * Use this as the default template for this type
+   * Gebruik als standaard voor dit type
    */
   isDefault?: boolean | null;
   /**
-   * Default subject line (can be overridden in campaigns)
+   * Kan worden overschreven in campagnes
    */
   defaultSubject?: string | null;
   /**
-   * Email preheader text (preview text shown in inbox)
+   * Tekst die zichtbaar is in de inbox preview
    */
   preheader?: string | null;
   /**
-   * Use visual editor (GrapesJS) or raw HTML
+   * Gebruik de visuele editor (GrapesJS) of platte HTML
    */
   useVisualEditor?: boolean | null;
   /**
-   * Visual email template editor
+   * Visuele e-mail template editor
    */
   grapesData?:
     | {
@@ -6629,32 +7540,32 @@ export interface EmailTemplate {
     | boolean
     | null;
   /**
-   * HTML content (auto-generated from visual editor or manually written)
+   * HTML code van de e-mail (handmatig bewerken als je geen visuele editor gebruikt)
    */
-  html: string;
+  html?: string | null;
   /**
-   * Template variables that can be replaced in campaigns
+   * Variabelen die kunnen worden vervangen in campagnes
    */
   variables?: {
     /**
-     * Define custom variables (e.g., {{company_name}}, {{product_name}})
+     * Definieer eigen variabelen (bijv. {{bedrijfsnaam}}, {{productnaam}})
      */
     list?:
       | {
           /**
-           * Variable name (without {{ }})
+           * Variabele naam (zonder {{ }})
            */
           name: string;
           /**
-           * Human-readable label
+           * Leesbaar label
            */
           label: string;
           /**
-           * Default value if not provided
+           * Standaard waarde indien niet opgegeven
            */
           defaultValue?: string | null;
           /**
-           * Is this variable required?
+           * Is deze variabele verplicht?
            */
           required?: boolean | null;
           id?: string | null;
@@ -6667,11 +7578,11 @@ export interface EmailTemplate {
   };
   tenant?: (number | null) | Client;
   /**
-   * Template category for organization
+   * Categorie voor het organiseren van templates
    */
   category?: ('welcome' | 'newsletter' | 'promotional' | 'transactional' | 'notification' | 'other') | null;
   /**
-   * Tags for organizing templates
+   * Labels voor het organiseren van templates
    */
   tags?:
     | {
@@ -6680,11 +7591,11 @@ export interface EmailTemplate {
       }[]
     | null;
   /**
-   * Settings for testing this template
+   * Instellingen voor het testen van deze template
    */
   testSettings?: {
     /**
-     * Email addresses for test sends
+     * E-mailadressen voor test verzendingen
      */
     testRecipients?:
       | {
@@ -6693,7 +7604,7 @@ export interface EmailTemplate {
         }[]
       | null;
     /**
-     * Last time this template was tested
+     * Laatste keer dat dit template is getest
      */
     lastTestedAt?: string | null;
   };
@@ -6714,7 +7625,7 @@ export interface EmailTemplate {
    */
   syncError?: string | null;
   /**
-   * Active templates can be used in campaigns
+   * Alleen actieve templates kunnen in campagnes worden gebruikt
    */
   isActive?: boolean | null;
   updatedAt: string;
@@ -6852,7 +7763,7 @@ export interface EmailApiKey {
   createdAt: string;
 }
 /**
- * Create and manage email marketing campaigns
+ * Maak en verstuur e-mail campagnes
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "email-campaigns".
@@ -6860,39 +7771,39 @@ export interface EmailApiKey {
 export interface EmailCampaign {
   id: number;
   /**
-   * Internal campaign name (not shown to subscribers)
+   * Interne campagnenaam (niet zichtbaar voor abonnees)
    */
   name: string;
   /**
-   * Email subject line
+   * Onderwerpregel van de e-mail
    */
   subject: string;
   /**
-   * Preview text shown in inbox
+   * Voorbeeldtekst zichtbaar in de inbox
    */
   preheader?: string | null;
   /**
-   * Sender name (e.g., "John from Acme Inc")
+   * Naam van de afzender (bijv. "Jan van Plastimed")
    */
   fromName?: string | null;
   /**
-   * Sender email (leave empty to use default from SMTP config)
+   * E-mailadres van de afzender (leeg = standaard SMTP)
    */
   fromEmail?: string | null;
   /**
-   * Reply-to email address (optional)
+   * E-mailadres voor antwoorden (optioneel)
    */
   replyTo?: string | null;
   /**
-   * Use existing template or create custom HTML
+   * Gebruik een bestaande template of eigen HTML
    */
   contentType: 'template' | 'custom';
   /**
-   * Select template to use
+   * Selecteer een template
    */
   template?: (number | null) | EmailTemplate;
   /**
-   * Variables to replace in template (e.g., {"product_name": "Pro Plan"})
+   * Variables to replace in template
    */
   templateVariables?:
     | {
@@ -6904,15 +7815,15 @@ export interface EmailCampaign {
     | boolean
     | null;
   /**
-   * Custom HTML content
+   * Eigen HTML inhoud
    */
   html?: string | null;
   /**
-   * Which email lists to send this campaign to
+   * Naar welke e-maillijsten wordt deze campagne verstuurd?
    */
   lists: (number | EmailList)[];
   /**
-   * Exclude subscribers from these lists (optional)
+   * Abonnees op deze lijsten worden uitgesloten (optioneel)
    */
   excludeLists?: (number | EmailList)[] | null;
   /**
@@ -6929,73 +7840,73 @@ export interface EmailCampaign {
     query?: string | null;
   };
   /**
-   * When to send this campaign (leave empty for draft)
+   * Wanneer moet deze campagne verstuurd worden? (leeg = concept)
    */
   scheduledFor?: string | null;
   /**
-   * Timezone for scheduled send
+   * Tijdzone voor het inplannen
    */
   timezone?: ('Europe/Amsterdam' | 'America/New_York' | 'America/Los_Angeles' | 'UTC') | null;
   /**
-   * Campaign status
+   * Status van de campagne
    */
   status: 'draft' | 'scheduled' | 'running' | 'paused' | 'finished' | 'cancelled';
   /**
-   * When campaign started sending
+   * Wanneer is de campagne gestart met verzenden
    */
   startedAt?: string | null;
   /**
-   * When campaign finished sending
+   * Wanneer is de campagne klaar met verzenden
    */
   completedAt?: string | null;
   /**
-   * Campaign performance statistics
+   * Prestaties van de campagne
    */
   stats?: {
     /**
-     * Total emails sent
+     * Totaal aantal verstuurde e-mails
      */
     sent?: number | null;
     /**
-     * Successfully delivered
+     * Succesvol afgeleverd
      */
     delivered?: number | null;
     /**
-     * Bounced emails
+     * Niet-afgeleverde e-mails
      */
     bounced?: number | null;
     /**
-     * Unique opens
+     * Unieke opens
      */
     opened?: number | null;
     /**
-     * Unique clicks
+     * Unieke kliks
      */
     clicked?: number | null;
     /**
-     * Open rate (%)
+     * Open ratio (%)
      */
     openRate?: number | null;
     /**
-     * Click rate (%)
+     * Klik ratio (%)
      */
     clickRate?: number | null;
     /**
-     * Bounce rate (%)
+     * Bounce ratio (%)
      */
     bounceRate?: number | null;
     /**
-     * Unsubscribes from this campaign
+     * Uitschrijvingen door deze campagne
      */
     unsubscribed?: number | null;
   };
   tenant?: (number | null) | Client;
   /**
-   * Campaign category
+   * Categorie van de campagne
    */
   category?: ('newsletter' | 'promotional' | 'product_update' | 'announcement' | 'other') | null;
   /**
-   * Tags for organizing campaigns
+   * Labels voor het organiseren van campagnes
    */
   tags?:
     | {
@@ -7052,7 +7963,7 @@ export interface EmailCampaign {
   createdAt: string;
 }
 /**
- * Create event-driven automation rules for email campaigns
+ * Maak automatische acties op basis van klantgedrag
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "automation-rules".
@@ -7060,20 +7971,20 @@ export interface EmailCampaign {
 export interface AutomationRule {
   id: number;
   /**
-   * Internal name for this automation rule
+   * Interne naam voor deze automatiseringsregel
    */
   name: string;
   /**
-   * Describe what this automation does
+   * Beschrijf wat deze automatisering doet
    */
   description?: string | null;
   /**
-   * Only active rules will process events
+   * Alleen actieve regels verwerken events
    */
   status: 'draft' | 'active' | 'paused';
   trigger: {
     /**
-     * Which event triggers this automation?
+     * Welk event triggert deze automatisering?
      */
     eventType:
       | 'user.signup'
@@ -7094,12 +8005,12 @@ export interface AutomationRule {
       | 'campaign.completed'
       | 'custom.event';
     /**
-     * Custom event name (when event type is "custom.event")
+     * Naam van het aangepaste event
      */
     customEventName?: string | null;
   };
   /**
-   * Optional: Add conditions to filter when this automation runs
+   * Optioneel: voeg voorwaarden toe wanneer deze regel actief is
    */
   conditions?:
     | {
@@ -7126,7 +8037,7 @@ export interface AutomationRule {
       }[]
     | null;
   /**
-   * Actions to perform when this rule is triggered
+   * Wat moet er gebeuren als deze regel wordt getriggerd?
    */
   actions: {
     type: 'send_email' | 'add_to_list' | 'remove_from_list' | 'add_tag' | 'remove_tag' | 'wait' | 'webhook';
@@ -7158,18 +8069,18 @@ export interface AutomationRule {
   }[];
   timing?: {
     /**
-     * Add a delay before executing this rule?
+     * Voeg een vertraging toe voordat deze regel wordt uitgevoerd
      */
     delayEnabled?: boolean | null;
     delay?: {
       /**
-       * Delay duration
+       * Duur van de vertraging
        */
       value: number;
       unit: 'minutes' | 'hours' | 'days' | 'weeks';
     };
     /**
-     * Max times this rule can trigger per user (leave empty for unlimited)
+     * Max aantal keer dat deze regel per gebruiker kan triggeren (leeg = onbeperkt)
      */
     maxExecutions?: number | null;
   };
@@ -7203,7 +8114,7 @@ export interface AutomationRule {
   createdAt: string;
 }
 /**
- * Multi-step automation workflows with state tracking
+ * Maak automatische e-mail reeksen (bijv. welkomstmail serie)
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "automation-flows".
@@ -7211,23 +8122,23 @@ export interface AutomationRule {
 export interface AutomationFlow {
   id: number;
   /**
-   * Flow name (e.g., "Welcome Sequence", "Onboarding Flow")
+   * Naam van de flow (bijv. "Welkomst reeks", "Onboarding")
    */
   name: string;
   /**
-   * Describe what this flow does
+   * Beschrijf wat deze flow doet
    */
   description?: string | null;
   /**
-   * Only active flows will accept new entries
+   * Alleen actieve flows accepteren nieuwe instappen
    */
   status: 'draft' | 'active' | 'paused';
   /**
-   * What triggers users to enter this flow?
+   * Wat start deze flow?
    */
   entryTrigger: {
     /**
-     * Which event starts this flow?
+     * Welk event start deze flow?
      */
     eventType:
       | 'user.signup'
@@ -7238,12 +8149,12 @@ export interface AutomationFlow {
       | 'email.clicked'
       | 'custom.event';
     /**
-     * Custom event name (when event type is "custom.event")
+     * Naam van het aangepaste event
      */
     customEventName?: string | null;
   };
   /**
-   * Optional: Add conditions to filter who can enter this flow
+   * Optioneel: voeg voorwaarden toe wie deze flow mag starten
    */
   entryConditions?:
     | {
@@ -7257,7 +8168,7 @@ export interface AutomationFlow {
       }[]
     | null;
   /**
-   * Flow steps (executed in sequence)
+   * De stappen in deze flow (worden op volgorde uitgevoerd)
    */
   steps: {
     /**
@@ -7320,7 +8231,7 @@ export interface AutomationFlow {
     id?: string | null;
   }[];
   /**
-   * Optional: Conditions that will exit users from this flow early
+   * Optioneel: wanneer wordt een abonnee uit deze flow gehaald?
    */
   exitConditions?:
     | {
@@ -7356,11 +8267,11 @@ export interface AutomationFlow {
   };
   settings?: {
     /**
-     * Allow users to re-enter this flow after completion?
+     * Mogen gebruikers deze flow opnieuw doorlopen na voltooiing?
      */
     allowReentry?: boolean | null;
     /**
-     * Max times a user can enter this flow (leave empty for unlimited)
+     * Max aantal keer dat een abonnee deze flow kan doorlopen (leeg = onbeperkt)
      */
     maxEntriesPerUser?: number | null;
   };
@@ -7957,12 +8868,20 @@ export interface PayloadLockedDocument {
         value: number | Brand;
       } | null)
     | ({
+        relationTo: 'branches';
+        value: number | Branch;
+      } | null)
+    | ({
         relationTo: 'recently-viewed';
         value: number | RecentlyViewed;
       } | null)
     | ({
         relationTo: 'edition-notifications';
         value: number | EditionNotification;
+      } | null)
+    | ({
+        relationTo: 'magazines';
+        value: number | Magazine;
       } | null)
     | ({
         relationTo: 'customers';
@@ -7979,6 +8898,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'carts';
         value: number | Cart;
+      } | null)
+    | ({
+        relationTo: 'discount-codes';
+        value: number | DiscountCode;
       } | null)
     | ({
         relationTo: 'orders';
@@ -8007,6 +8930,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'subscription-plans';
         value: number | SubscriptionPlan;
+      } | null)
+    | ({
+        relationTo: 'subscription-pages';
+        value: number | SubscriptionPage;
       } | null)
     | ({
         relationTo: 'user-subscriptions';
@@ -8047,6 +8974,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'loyalty-redemptions';
         value: number | LoyaltyRedemption;
+      } | null)
+    | ({
+        relationTo: 'company-accounts';
+        value: number | CompanyAccount;
+      } | null)
+    | ({
+        relationTo: 'company-invites';
+        value: number | CompanyInvite;
+      } | null)
+    | ({
+        relationTo: 'approval-requests';
+        value: number | ApprovalRequest;
+      } | null)
+    | ({
+        relationTo: 'quotes';
+        value: number | Quote;
       } | null)
     | ({
         relationTo: 'ab-tests';
@@ -8285,6 +9228,10 @@ export interface UsersSelect<T extends boolean = true> {
         isDefault?: T;
         id?: T;
       };
+  twoFactorEnabled?: T;
+  twoFactorSecret?: T;
+  twoFactorBackupCodes?: T;
+  twoFactorPendingSecret?: T;
   roles?: T;
   clientType?: T;
   favorites?:
@@ -8294,6 +9241,7 @@ export interface UsersSelect<T extends boolean = true> {
         addedAt?: T;
         id?: T;
       };
+  client?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -9266,7 +10214,6 @@ export interface ProductsSelect<T extends boolean = true> {
   slug?: T;
   magazineTitle?: T;
   productType?: T;
-  isSubscription?: T;
   sku?: T;
   ean?: T;
   mpn?: T;
@@ -9275,6 +10222,7 @@ export interface ProductsSelect<T extends boolean = true> {
   brand?: T;
   manufacturer?: T;
   categories?: T;
+  branches?: T;
   tags?:
     | T
     | {
@@ -9341,6 +10289,155 @@ export interface ProductsSelect<T extends boolean = true> {
         isDefault?: T;
         id?: T;
       };
+  bundleConfig?:
+    | T
+    | {
+        bundleItems?:
+          | T
+          | {
+              product?: T;
+              quantity?: T;
+              required?: T;
+              discount?: T;
+              sortOrder?: T;
+              id?: T;
+            };
+        bundleDiscountTiers?:
+          | T
+          | {
+              minQuantity?: T;
+              discountPercentage?: T;
+              label?: T;
+              id?: T;
+            };
+        showBundleSavings?: T;
+      };
+  bookableConfig?:
+    | T
+    | {
+        durationOptions?:
+          | T
+          | {
+              duration?: T;
+              label?: T;
+              price?: T;
+              popular?: T;
+              description?: T;
+              id?: T;
+            };
+        timeSlots?:
+          | T
+          | {
+              time?: T;
+              available?: T;
+              spotsLeft?: T;
+              priceOverride?: T;
+              id?: T;
+            };
+        participantCategories?:
+          | T
+          | {
+              label?: T;
+              price?: T;
+              minCount?: T;
+              maxCount?: T;
+              description?: T;
+              id?: T;
+            };
+        addOns?:
+          | T
+          | {
+              label?: T;
+              price?: T;
+              required?: T;
+              description?: T;
+              id?: T;
+            };
+        totalCapacity?: T;
+        bufferTime?: T;
+        showPricesOnCalendar?: T;
+      };
+  configuratorConfig?:
+    | T
+    | {
+        configuratorSteps?:
+          | T
+          | {
+              title?: T;
+              required?: T;
+              description?: T;
+              options?:
+                | T
+                | {
+                    name?: T;
+                    price?: T;
+                    recommended?: T;
+                    description?: T;
+                    image?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+      };
+  personalizationConfig?:
+    | T
+    | {
+        personalizationOptions?:
+          | T
+          | {
+              fieldName?: T;
+              fieldType?: T;
+              required?: T;
+              priceModifier?: T;
+              maxLength?: T;
+              productionTimeAdded?: T;
+              placeholder?: T;
+              id?: T;
+            };
+        baseProductionDays?: T;
+        rushAvailable?: T;
+        rushFee?: T;
+        availableFonts?:
+          | T
+          | {
+              fontName?: T;
+              id?: T;
+            };
+        presetColors?:
+          | T
+          | {
+              colorName?: T;
+              colorCode?: T;
+              id?: T;
+            };
+      };
+  subscriptionConfig?:
+    | T
+    | {
+        subscriptionPlans?:
+          | T
+          | {
+              name?: T;
+              interval?: T;
+              price?: T;
+              discountPercentage?: T;
+              editionCount?: T;
+              autoRenew?: T;
+              popular?: T;
+              features?:
+                | T
+                | {
+                    feature?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        trialDays?: T;
+        minSubscriptionLength?: T;
+        maxSubscriptionLength?: T;
+        cancellationPolicy?: T;
+        subscriptionType?: T;
+      };
   minOrderQuantity?: T;
   maxOrderQuantity?: T;
   orderMultiple?: T;
@@ -9354,6 +10451,7 @@ export interface ProductsSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         image?: T;
+        canonicalUrl?: T;
         keywords?:
           | T
           | {
@@ -9361,6 +10459,7 @@ export interface ProductsSelect<T extends boolean = true> {
               id?: T;
             };
       };
+  hideFromCatalog?: T;
   specifications?:
     | T
     | {
@@ -9379,51 +10478,6 @@ export interface ProductsSelect<T extends boolean = true> {
   crossSells?: T;
   upSells?: T;
   accessories?: T;
-  variantOptions?:
-    | T
-    | {
-        optionName?: T;
-        displayType?: T;
-        values?:
-          | T
-          | {
-              label?: T;
-              value?: T;
-              priceModifier?: T;
-              stockLevel?: T;
-              colorCode?: T;
-              image?: T;
-              subscriptionType?: T;
-              issues?: T;
-              discountPercentage?: T;
-              autoRenew?: T;
-              id?: T;
-            };
-        id?: T;
-      };
-  configuratorSettings?:
-    | T
-    | {
-        showConfigSummary?: T;
-        showPriceBreakdown?: T;
-      };
-  mixMatchConfig?:
-    | T
-    | {
-        boxSizes?:
-          | T
-          | {
-              name?: T;
-              itemCount?: T;
-              price?: T;
-              description?: T;
-              id?: T;
-            };
-        availableProducts?: T;
-        discountPercentage?: T;
-        showProgressBar?: T;
-        showCategoryFilters?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -9435,6 +10489,7 @@ export interface ProductCategoriesSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   description?: T;
+  content?: T;
   parent?: T;
   image?: T;
   level?: T;
@@ -9463,11 +10518,75 @@ export interface ProductCategoriesSelect<T extends boolean = true> {
 export interface BrandsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
+  parent?: T;
+  level?: T;
+  tagline?: T;
   logo?: T;
   description?: T;
   website?: T;
+  certifications?:
+    | T
+    | {
+        name?: T;
+        icon?: T;
+        id?: T;
+      };
   featured?: T;
   order?: T;
+  visible?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "branches_select".
+ */
+export interface BranchesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  icon?: T;
+  badge?: T;
+  title?: T;
+  description?: T;
+  image?: T;
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  uspCards?:
+    | T
+    | {
+        icon?: T;
+        iconColor?: T;
+        iconBg?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  testimonial?:
+    | T
+    | {
+        initials?: T;
+        quote?: T;
+        authorName?: T;
+        authorRole?: T;
+        rating?: T;
+      };
+  ctaTitle?: T;
+  ctaDescription?: T;
+  featured?: T;
+  order?: T;
+  visible?: T;
   meta?:
     | T
     | {
@@ -9518,6 +10637,104 @@ export interface EditionNotificationsSelect<T extends boolean = true> {
   product?: T;
   active?: T;
   lastNotified?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "magazines_select".
+ */
+export interface MagazinesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  tagline?: T;
+  description?: T;
+  frequency?: T;
+  issn?: T;
+  logo?: T;
+  cover?: T;
+  heroImage?: T;
+  badge?: T;
+  heroTitle?: T;
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  editions?:
+    | T
+    | {
+        title?: T;
+        issueNumber?: T;
+        year?: T;
+        cover?: T;
+        price?: T;
+        publishDate?: T;
+        soldOut?: T;
+        description?: T;
+        shopUrl?: T;
+        id?: T;
+      };
+  uspCards?:
+    | T
+    | {
+        icon?: T;
+        iconColor?: T;
+        iconBg?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  testimonial?:
+    | T
+    | {
+        initials?: T;
+        quote?: T;
+        authorName?: T;
+        authorRole?: T;
+        rating?: T;
+      };
+  ctaTitle?: T;
+  ctaDescription?: T;
+  plans?:
+    | T
+    | {
+        name?: T;
+        description?: T;
+        highlighted?: T;
+        price?: T;
+        period?: T;
+        editions?: T;
+        features?:
+          | T
+          | {
+              text?: T;
+              included?: T;
+              id?: T;
+            };
+        externalUrl?: T;
+        id?: T;
+      };
+  paymentProvider?: T;
+  trustItems?:
+    | T
+    | {
+        icon?: T;
+        text?: T;
+        id?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  featured?: T;
+  order?: T;
+  visible?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -9669,46 +10886,52 @@ export interface CartsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "discount-codes_select".
+ */
+export interface DiscountCodesSelect<T extends boolean = true> {
+  code?: T;
+  type?: T;
+  value?: T;
+  minOrderAmount?: T;
+  maxUses?: T;
+  usedCount?: T;
+  validFrom?: T;
+  validUntil?: T;
+  status?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "orders_select".
  */
 export interface OrdersSelect<T extends boolean = true> {
   orderNumber?: T;
-  status?: T;
   customer?: T;
-  customerEmail?: T;
+  guestEmail?: T;
+  guestName?: T;
+  guestPhone?: T;
   items?:
     | T
     | {
         product?: T;
-        productSnapshot?:
-          | T
-          | {
-              name?: T;
-              sku?: T;
-              image?: T;
-            };
-        variantId?: T;
+        title?: T;
+        sku?: T;
+        ean?: T;
+        parentProductId?: T;
+        parentProductTitle?: T;
         quantity?: T;
-        unitPrice?: T;
-        discount?: T;
-        totalPrice?: T;
-        notes?: T;
+        price?: T;
+        subtotal?: T;
         id?: T;
       };
-  billingAddress?:
-    | T
-    | {
-        firstName?: T;
-        lastName?: T;
-        company?: T;
-        street?: T;
-        houseNumber?: T;
-        addition?: T;
-        postalCode?: T;
-        city?: T;
-        country?: T;
-        phone?: T;
-      };
+  subtotal?: T;
+  shippingCost?: T;
+  tax?: T;
+  discount?: T;
+  total?: T;
+  customerEmail?: T;
   shippingAddress?:
     | T
     | {
@@ -9723,33 +10946,45 @@ export interface OrdersSelect<T extends boolean = true> {
         country?: T;
         phone?: T;
       };
-  payment?:
+  billingAddress?:
     | T
     | {
-        method?: T;
-        status?: T;
-        transactionId?: T;
-        paidAt?: T;
+        sameAsShipping?: T;
+        firstName?: T;
+        lastName?: T;
+        company?: T;
+        street?: T;
+        houseNumber?: T;
+        addition?: T;
+        postalCode?: T;
+        city?: T;
+        country?: T;
+        phone?: T;
+        kvk?: T;
+        vatNumber?: T;
       };
-  shipping?:
+  status?: T;
+  paymentMethod?: T;
+  paymentStatus?: T;
+  shippingProvider?: T;
+  trackingCode?: T;
+  trackingUrl?: T;
+  shippingMethod?: T;
+  expectedDeliveryDate?: T;
+  actualDeliveryDate?: T;
+  timeline?:
     | T
     | {
-        method?: T;
-        cost?: T;
-        trackingNumber?: T;
-        carrier?: T;
-        shippedAt?: T;
-        deliveredAt?: T;
+        event?: T;
+        title?: T;
+        description?: T;
+        timestamp?: T;
+        location?: T;
+        id?: T;
       };
-  subtotal?: T;
-  discountTotal?: T;
-  shippingTotal?: T;
-  taxTotal?: T;
-  total?: T;
-  currency?: T;
-  customerNotes?: T;
-  internalNotes?: T;
-  tags?: T;
+  notes?: T;
+  invoicePDF?: T;
+  invoiceNumber?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -9984,6 +11219,84 @@ export interface SubscriptionPlansSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-pages_select".
+ */
+export interface SubscriptionPagesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  brand?: T;
+  headline?: T;
+  subheadline?: T;
+  heroImage?: T;
+  active?: T;
+  plans?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        highlighted?: T;
+        highlightLabel?: T;
+        billingOptions?:
+          | T
+          | {
+              period?: T;
+              price?: T;
+              comparePrice?: T;
+              id?: T;
+            };
+        features?:
+          | T
+          | {
+              text?: T;
+              included?: T;
+              id?: T;
+            };
+        ctaLabel?: T;
+        sortOrder?: T;
+        id?: T;
+      };
+  addOns?:
+    | T
+    | {
+        name?: T;
+        description?: T;
+        price?: T;
+        icon?: T;
+        id?: T;
+      };
+  seats?:
+    | T
+    | {
+        enabled?: T;
+        label?: T;
+        minSeats?: T;
+        maxSeats?: T;
+        pricePerSeat?: T;
+      };
+  checkoutTitle?: T;
+  paymentProvider?: T;
+  externalCheckoutUrl?: T;
+  trustItems?:
+    | T
+    | {
+        icon?: T;
+        text?: T;
+        id?: T;
+      };
+  successMessage?: T;
+  successRedirectUrl?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "user-subscriptions_select".
  */
 export interface UserSubscriptionsSelect<T extends boolean = true> {
@@ -10208,6 +11521,101 @@ export interface LoyaltyRedemptionsSelect<T extends boolean = true> {
   expiresAt?: T;
   code?: T;
   usedInOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "company-accounts_select".
+ */
+export interface CompanyAccountsSelect<T extends boolean = true> {
+  companyName?: T;
+  kvkNumber?: T;
+  vatNumber?: T;
+  owner?: T;
+  status?: T;
+  monthlyBudget?: T;
+  quarterlyBudget?: T;
+  approvalThreshold?: T;
+  approvalRoles?: T;
+  creditLimit?: T;
+  creditUsed?: T;
+  paymentTerms?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "company-invites_select".
+ */
+export interface CompanyInvitesSelect<T extends boolean = true> {
+  company?: T;
+  email?: T;
+  role?: T;
+  status?: T;
+  token?: T;
+  expiresAt?: T;
+  invitedBy?: T;
+  message?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "approval-requests_select".
+ */
+export interface ApprovalRequestsSelect<T extends boolean = true> {
+  company?: T;
+  requestedBy?: T;
+  approver?: T;
+  orderReference?: T;
+  status?: T;
+  totalAmount?: T;
+  reason?: T;
+  items?: T;
+  shippingAddress?: T;
+  note?: T;
+  reviewNote?: T;
+  reviewedAt?: T;
+  expiresAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quotes_select".
+ */
+export interface QuotesSelect<T extends boolean = true> {
+  quoteNumber?: T;
+  user?: T;
+  status?: T;
+  products?:
+    | T
+    | {
+        name?: T;
+        sku?: T;
+        quantity?: T;
+        quotedUnitPrice?: T;
+        id?: T;
+      };
+  companyName?: T;
+  kvkNumber?: T;
+  contactPerson?: T;
+  email?: T;
+  phone?: T;
+  sector?: T;
+  desiredDeliveryDate?: T;
+  deliveryFrequency?: T;
+  notes?: T;
+  wantsConsultation?: T;
+  quotedPrice?: T;
+  validUntil?: T;
+  internalNotes?: T;
+  convertedToOrder?: T;
+  acceptedAt?: T;
+  rejectedAt?: T;
+  rejectionReason?: T;
+  submittedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -11874,95 +13282,49 @@ export interface Setting {
    */
   defaultShopArchiveTemplate?: 'shoparchivetemplate1' | null;
   /**
-   * Template voor winkelwagen pagina (A/B testing beschikbaar)
+   * Template voor merken overzicht- en detailpagina's
    */
-  defaultCartTemplate?: ('template1' | 'template2' | 'template4') | null;
+  defaultBrandsTemplate?: 'brandstemplate1' | null;
   /**
-   * Kies tussen one-step (snel, simpel) of multi-step (overzichtelijk, B2B)
+   * Template voor branches overzicht- en detailpagina's
    */
-  defaultCheckoutTemplate?: ('checkouttemplate2' | 'template4' | 'checkouttemplate1') | null;
+  defaultBranchesTemplate?: 'branchestemplate1' | null;
+  /**
+   * Template voor inlog- en registratiepagina's
+   */
+  defaultLoginTemplate?: 'logintemplate1' | null;
+  /**
+   * Template voor de "Klant worden" registratie wizard
+   */
+  defaultRegisterTemplate?: 'registertemplate1' | null;
+  /**
+   * Bepaalt welke cart- en checkout templates samen worden gebruikt. Elke flow biedt een consistente ervaring van winkelwagen tot bevestiging.
+   */
+  checkoutFlow?: ('premium' | 'efficient' | 'classic') | null;
+  /**
+   * Template voor de website header
+   */
+  defaultHeaderTemplate?: 'headertemplate1' | null;
   /**
    * Template voor mijn account pagina's
    */
-  defaultMyAccountTemplate?: 'myaccounttemplate1' | null;
+  defaultMyAccountTemplate?: 'enterprise' | null;
   /**
-   * Configureer de volgorde en zichtbaarheid van filters op de shop pagina. Sleep items om de volgorde te wijzigen.
+   * Template voor het magazines overzicht
    */
-  shopFilterOrder?:
-    | {
-        filterId: 'brands' | 'materials' | 'sizes' | 'colors' | 'stock' | 'price';
-        enabled?: boolean | null;
-        /**
-         * Laat leeg om de standaard naam te gebruiken
-         */
-        displayName?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  defaultMagazineArchiveTemplate?: 'magazinearchivetemplate1' | null;
   /**
-   * Bestellingen boven dit bedrag krijgen gratis verzending
+   * Template voor magazine detailpagina's
    */
-  freeShippingThreshold: number;
-  shippingCost: number;
+  defaultMagazineDetailTemplate?: 'magazinedetailtemplate1' | null;
   /**
-   * Wordt getoond op productpagina's
+   * Template voor de abonnement-prijzenpagina (/abonneren/[slug])
    */
-  deliveryTime: string;
-  deliveryDays?: {
-    monday?: boolean | null;
-    tuesday?: boolean | null;
-    wednesday?: boolean | null;
-    thursday?: boolean | null;
-    friday?: boolean | null;
-    saturday?: boolean | null;
-    sunday?: boolean | null;
-  };
+  defaultSubscriptionPricingTemplate?: 'subscriptionpricingtemplate1' | null;
   /**
-   * Hoeveel dagen heeft klant om product te retourneren
+   * Template voor de abonnement checkout (/abonneren/[slug]?plan=...)
    */
-  returnDays: number;
-  /**
-   * Volledige retourbeleid tekst
-   */
-  returnPolicy?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * Optioneel - laat leeg voor geen minimum
-   */
-  minimumOrderAmount?: number | null;
-  /**
-   * Voor B2B: prijzen excl. BTW, voor B2C: incl. BTW
-   */
-  showPricesExclVAT?: boolean | null;
-  /**
-   * Standaard BTW percentage (NL: 21%)
-   */
-  vatPercentage?: number | null;
-  /**
-   * B2B mode: klanten moeten ingelogd zijn om te bestellen
-   */
-  requireAccountForPurchase?: boolean | null;
-  /**
-   * Sta eenmalige bestellingen toe zonder account (vereist requireAccountForPurchase = false)
-   */
-  enableGuestCheckout?: boolean | null;
-  /**
-   * Nieuwe B2B accounts moeten eerst goedgekeurd worden door admin
-   */
-  requireB2BApproval?: boolean | null;
+  defaultSubscriptionCheckoutTemplate?: 'subscriptioncheckouttemplate1' | null;
   /**
    * Bijv: ISO, CE, Thuiswinkel Waarborg badges
    */
@@ -11976,26 +13338,6 @@ export interface Setting {
     trustSource?: string | null;
     yearsInBusiness?: number | null;
     customersServed?: number | null;
-  };
-  features?: {
-    /**
-     * Bulkbestelling op basis van artikelnummers
-     */
-    enableQuickOrder?: boolean | null;
-    /**
-     * Klanten kunnen favorieten lijsten maken
-     */
-    enableOrderLists?: boolean | null;
-    /**
-     * Klanten kunnen producten reviewen
-     */
-    enableReviews?: boolean | null;
-    enableWishlist?: boolean | null;
-    /**
-     * Klanten krijgen bericht als product weer op voorraad is
-     */
-    enableStockNotifications?: boolean | null;
-    enableLiveChat?: boolean | null;
   };
   /**
    * Primaire logo voor de website
@@ -12032,6 +13374,35 @@ export interface Setting {
    * Voor social sharing (1200x630px aanbevolen)
    */
   defaultOGImage?: (number | null) | Media;
+  /**
+   * SEO instellingen voor overzichtspagina's (shop, merken, branches)
+   */
+  archiveSeo?: {
+    /**
+     * SEO titel voor /shop
+     */
+    shopTitle?: string | null;
+    /**
+     * SEO beschrijving voor /shop
+     */
+    shopDescription?: string | null;
+    /**
+     * SEO titel voor /merken
+     */
+    brandsTitle?: string | null;
+    /**
+     * SEO beschrijving voor /merken
+     */
+    brandsDescription?: string | null;
+    /**
+     * SEO titel voor /branches
+     */
+    branchesTitle?: string | null;
+    /**
+     * SEO beschrijving voor /branches
+     */
+    branchesDescription?: string | null;
+  };
   /**
    * Voor LocalBusiness schema.org markup
    */
@@ -12087,7 +13458,357 @@ export interface Setting {
   createdAt?: string | null;
 }
 /**
- * Compass Design System — 54 design tokens across 5 categories (Colors, Typography, Spacing, Gradients, Visual)
+ * Alle e-commerce instellingen: verzending, betaling, B2B en features
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "e-commerce-settings".
+ */
+export interface ECommerceSetting {
+  id: number;
+  /**
+   * Configureer de volgorde en zichtbaarheid van filters op de shop pagina. Sleep items om de volgorde te wijzigen.
+   */
+  shopFilterOrder?:
+    | {
+        filterId:
+          | 'manufacturers'
+          | 'productLines'
+          | 'stock'
+          | 'price'
+          | 'spec_afmeting'
+          | 'spec_afwerking_borststuk'
+          | 'spec_aantal_laags'
+          | 'spec_aantal_stuks'
+          | 'spec_diameter'
+          | 'spec_filter'
+          | 'spec_gauge'
+          | 'spec_inhoud'
+          | 'spec_kenmerken'
+          | 'spec_kleur'
+          | 'spec_kleur_band'
+          | 'spec_kleur_borststuk'
+          | 'spec_kleur_handschoen'
+          | 'spec_kleur_handvat'
+          | 'spec_kleur_kraan'
+          | 'spec_kleur_lijm'
+          | 'spec_kleur_muts'
+          | 'spec_kleur_slang'
+          | 'spec_kleur_tape'
+          | 'spec_kleur_vaatteugel'
+          | 'spec_kleur_verband'
+          | 'spec_kleur_zitvlak'
+          | 'spec_lengte'
+          | 'spec_maat'
+          | 'spec_materiaal'
+          | 'spec_naaldlengte'
+          | 'spec_schaalverdeling'
+          | 'spec_steriel'
+          | 'spec_substantie'
+          | 'spec_uitvoering'
+          | 'spec_verpakkingseenheid'
+          | 'spec_volume';
+        enabled?: boolean | null;
+        /**
+         * Laat leeg om de standaard naam te gebruiken
+         */
+        displayName?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Bestellingen boven dit bedrag krijgen gratis verzending
+   */
+  freeShippingThreshold: number;
+  shippingCost: number;
+  /**
+   * Wordt getoond op productpagina's
+   */
+  deliveryTime: string;
+  deliveryDays?: {
+    monday?: boolean | null;
+    tuesday?: boolean | null;
+    wednesday?: boolean | null;
+    thursday?: boolean | null;
+    friday?: boolean | null;
+    saturday?: boolean | null;
+    sunday?: boolean | null;
+  };
+  /**
+   * Hoeveel dagen heeft klant om product te retourneren
+   */
+  returnDays: number;
+  /**
+   * Volledige retourbeleid tekst
+   */
+  returnPolicy?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  features?: {
+    /**
+     * Bulkbestelling op basis van artikelnummers
+     */
+    enableQuickOrder?: boolean | null;
+    /**
+     * Klanten kunnen favorieten lijsten maken
+     */
+    enableOrderLists?: boolean | null;
+    /**
+     * Klanten kunnen producten reviewen
+     */
+    enableReviews?: boolean | null;
+    enableWishlist?: boolean | null;
+    /**
+     * Klanten krijgen bericht als product weer op voorraad is
+     */
+    enableStockNotifications?: boolean | null;
+  };
+  /**
+   * Optioneel - laat leeg voor geen minimum
+   */
+  minimumOrderAmount?: number | null;
+  /**
+   * Voor B2B: prijzen excl. BTW, voor B2C: incl. BTW
+   */
+  showPricesExclVAT?: boolean | null;
+  /**
+   * Standaard BTW percentage (NL: 21%)
+   */
+  vatPercentage?: number | null;
+  /**
+   * B2B mode: klanten moeten ingelogd zijn om te bestellen
+   */
+  requireAccountForPurchase?: boolean | null;
+  /**
+   * Sta eenmalige bestellingen toe zonder account (vereist requireAccountForPurchase = false)
+   */
+  enableGuestCheckout?: boolean | null;
+  /**
+   * Nieuwe B2B accounts moeten eerst goedgekeurd worden door admin
+   */
+  requireB2BApproval?: boolean | null;
+  /**
+   * Voordelen op registratie- en checkout pagina's
+   */
+  b2bBenefits?:
+    | {
+        /**
+         * Naam van een Lucide icoon (zie lucide.dev/icons)
+         */
+        icon?: string | null;
+        iconColor?: string | null;
+        iconBg?: string | null;
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Vertrouwensindicatoren op registratiepagina
+   */
+  registrationTrustItems?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  emailNotifications?: {
+    /**
+     * De gegenereerde factuur-PDF wordt als bijlage meegestuurd met de orderbevestigings-e-mail
+     */
+    enableInvoiceAttachment?: boolean | null;
+    /**
+     * Voeg een "Volg je bestelling" knop toe aan alle transactionele e-mails (linkt naar /track)
+     */
+    enableTrackingLink?: boolean | null;
+    /**
+     * Activeer de publieke tracking pagina waar klanten zonder account hun bestelling kunnen volgen met ordernummer + e-mail
+     */
+    enablePublicTracking?: boolean | null;
+  };
+  abandonedCart?: {
+    /**
+     * Detecteert inactieve winkelwagens en triggert automatische herinneringsmails via het automation systeem (Listmonk)
+     */
+    enabled?: boolean | null;
+    /**
+     * Na hoeveel uur inactiviteit wordt een winkelwagen als "verlaten" gemarkeerd (1-168 uur)
+     */
+    timeoutHours?: number | null;
+  };
+  carrierIntegration?: {
+    /**
+     * Selecteer je verzendsoftware voor automatische T&T updates
+     */
+    provider?: ('none' | 'sendcloud' | 'myparcel') | null;
+    /**
+     * API key van je carrier provider
+     */
+    apiKey?: string | null;
+    /**
+     * API secret van je carrier provider
+     */
+    apiSecret?: string | null;
+    /**
+     * Secret voor webhook signature verificatie. Stel de webhook URL in op: {jouw-domein}/api/webhooks/carrier
+     */
+    webhookSecret?: string | null;
+    /**
+     * Kopieer deze URL naar de webhook-instellingen van je carrier provider
+     */
+    webhookUrl?: string | null;
+  };
+  /**
+   * Configureer de beschikbare verzendmethoden in de checkout
+   */
+  shippingMethods?:
+    | {
+        /**
+         * Bijv: Standaard verzending, Express, Ophalen in winkel
+         */
+        name: string;
+        /**
+         * Unieke identifier (bijv: standard, express, pickup)
+         */
+        slug: string;
+        /**
+         * Optionele toelichting zichtbaar in de checkout
+         */
+        description?: string | null;
+        /**
+         * Kies een Lucide icoon voor deze verzendmethode
+         */
+        icon?:
+          | (
+              | 'truck'
+              | 'zap'
+              | 'package'
+              | 'clock'
+              | 'send'
+              | 'store'
+              | 'map-pin'
+              | 'mail'
+              | 'globe'
+              | 'box'
+              | 'star'
+              | 'shield-check'
+            )
+          | null;
+        /**
+         * Verzendkosten in euro (0 = gratis)
+         */
+        price: number;
+        /**
+         * Gratis verzending bij bestellingen boven dit bedrag (leeg = nooit gratis)
+         */
+        freeThreshold?: number | null;
+        estimatedDays?: number | null;
+        /**
+         * Bijv: 2-3 werkdagen, Volgende werkdag
+         */
+        deliveryTime?: string | null;
+        /**
+         * In welke landen is deze verzendmethode beschikbaar?
+         */
+        countries?: ('NL' | 'BE' | 'DE' | 'FR' | 'UK')[] | null;
+        /**
+         * Alleen actieve methoden worden in de checkout getoond
+         */
+        isActive?: boolean | null;
+        /**
+         * Lagere waarde = eerder getoond
+         */
+        sortOrder?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Configureer de beschikbare betaalmethoden
+   */
+  paymentOptions?:
+    | {
+        /**
+         * Bijv: iDEAL, Creditcard, Op rekening
+         */
+        name: string;
+        /**
+         * Unieke identifier (bijv: ideal, creditcard, invoice)
+         */
+        slug: string;
+        /**
+         * Korte uitleg zichtbaar in de checkout
+         */
+        description?: string | null;
+        /**
+         * Upload een SVG/PNG logo. Heeft voorrang op het Lucide icoon.
+         */
+        icon?: (number | null) | Media;
+        /**
+         * Wordt gebruikt als er geen logo is geüpload
+         */
+        lucideIcon?:
+          | (
+              | 'credit-card'
+              | 'landmark'
+              | 'building'
+              | 'banknote'
+              | 'wallet'
+              | 'receipt'
+              | 'hand-coins'
+              | 'circle-dollar-sign'
+              | 'shield-check'
+              | 'globe'
+              | 'mail'
+              | 'package'
+              | 'shopping-cart'
+              | 'arrow-right-left'
+              | 'badge-check'
+              | 'send'
+            )
+          | null;
+        /**
+         * Welke payment provider verwerkt deze methode?
+         */
+        provider?: ('mollie' | 'stripe' | 'multisafepay' | 'manual') | null;
+        /**
+         * Optioneel: bijv. "€0.29 per transactie"
+         */
+        fee?: string | null;
+        /**
+         * Optioneel label: bijv. "Populair", "Aanbevolen"
+         */
+        badge?: string | null;
+        /**
+         * Alleen tonen voor zakelijke klanten
+         */
+        isB2B?: boolean | null;
+        /**
+         * Alleen actieve opties worden in de checkout getoond
+         */
+        isActive?: boolean | null;
+        /**
+         * Lagere waarde = eerder getoond
+         */
+        sortOrder?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Compass Design System — design tokens (Kleuren, Typografie, Knoppen, Gradienten, Visueel)
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "theme".
@@ -12095,225 +13816,301 @@ export interface Setting {
 export interface Theme1 {
   id: number;
   /**
-   * Deep navy used for dark surfaces, cards, headers. Provides strong contrast.
+   * Hoofdkleur voor knoppen, links, actieve states
    */
-  navy?: string | null;
+  primaryColor?: string | null;
   /**
-   * Slightly lighter navy for hover states on dark surfaces.
+   * Lichtere variant voor hover states
    */
-  navyLight?: string | null;
+  primaryLight?: string | null;
   /**
-   * Primary teal accent. Used for buttons, links, active states.
+   * Gloed/achtergrond tint
    */
-  teal?: string | null;
+  primaryGlow?: string | null;
   /**
-   * Lighter teal for hover states and secondary accents.
+   * Donkere achtergronden, headers, footers
    */
-  tealLight?: string | null;
+  secondaryColor?: string | null;
   /**
-   * Darker teal for pressed states and depth.
+   * Lichtere variant van secondary
    */
-  tealDark?: string | null;
+  secondaryLight?: string | null;
   /**
-   * Bright green for success messages, checkmarks, positive confirmations.
+   * Accent kleur voor speciale elementen
    */
-  green?: string | null;
+  accentColor?: string | null;
   /**
-   * Soft coral/red for errors, warnings, destructive actions.
+   * Pagina achtergrond
    */
-  coral?: string | null;
+  backgroundColor?: string | null;
   /**
-   * Amber/orange for caution, pending states, important notices.
+   * Cards, modals, panels
    */
-  amber?: string | null;
+  surfaceColor?: string | null;
   /**
-   * Bright blue for informational messages, tips, neutral highlights.
+   * Randen en scheidingslijnen
    */
-  blue?: string | null;
+  borderColor?: string | null;
   /**
-   * Purple for special features, premium content, unique elements.
+   * Lichtgrijs achtergronden
    */
-  purple?: string | null;
+  greyLight?: string | null;
   /**
-   * Off-white for cards, modals, clean backgrounds.
-   */
-  white?: string | null;
-  /**
-   * Light grey page background. Provides subtle contrast to white cards.
-   */
-  bg?: string | null;
-  /**
-   * Light grey for borders, dividers, subtle lines.
-   */
-  grey?: string | null;
-  /**
-   * Medium grey for muted text, secondary labels, disabled states.
+   * Muted tekst, iconen
    */
   greyMid?: string | null;
   /**
-   * Dark grey for body text. Softer than pure black, easier on eyes.
+   * Body tekst, labels
    */
   greyDark?: string | null;
   /**
-   * Near-black for headings and high-emphasis text.
+   * Headings, belangrijke tekst
    */
-  text?: string | null;
+  textPrimary?: string | null;
   /**
-   * Primary font for UI and body text. Default: Plus Jakarta Sans with DM Sans fallback.
+   * Secundaire tekst
    */
-  fontBody?: string | null;
+  textSecondary?: string | null;
   /**
-   * Serif font for hero headings and editorial content. Adds elegance and contrast.
+   * Gedimde tekst, placeholders
    */
-  fontDisplay?: string | null;
+  textMuted?: string | null;
   /**
-   * Monospace font for code, technical data, timestamps.
+   * Succes meldingen
+   */
+  successColor?: string | null;
+  /**
+   * Succes achtergrond
+   */
+  successLight?: string | null;
+  /**
+   * Succes donker
+   */
+  successDark?: string | null;
+  /**
+   * Waarschuwingen
+   */
+  warningColor?: string | null;
+  /**
+   * Waarschuwing achtergrond
+   */
+  warningLight?: string | null;
+  /**
+   * Waarschuwing donker
+   */
+  warningDark?: string | null;
+  /**
+   * Foutmeldingen
+   */
+  errorColor?: string | null;
+  /**
+   * Fout achtergrond
+   */
+  errorLight?: string | null;
+  /**
+   * Fout donker
+   */
+  errorDark?: string | null;
+  /**
+   * Informatie meldingen
+   */
+  infoColor?: string | null;
+  /**
+   * Info achtergrond
+   */
+  infoLight?: string | null;
+  /**
+   * Info donker
+   */
+  infoDark?: string | null;
+  /**
+   * Lettertype voor alle headings (h1-h6)
+   */
+  headingFont?: string | null;
+  /**
+   * Lettertype voor body tekst, labels, UI elementen
+   */
+  bodyFont?: string | null;
+  /**
+   * Lettertype voor code, technische data, timestamps. Meestal niet nodig om te wijzigen.
    */
   fontMono?: string | null;
   /**
-   * 36px — Largest text size. Used for hero section headings, major page titles.
+   * Hero headings, grote titels
    */
   heroSize?: number | null;
   /**
-   * 24px — Section headings (H2). Major content blocks.
+   * Sectie headings (H2)
    */
   sectionSize?: number | null;
   /**
-   * 18px — Card titles, smaller headings (H3), emphasized labels.
+   * Card titels, H3
    */
   cardTitleSize?: number | null;
   /**
-   * 15px — Large body text. Intro paragraphs, lead text.
+   * Intro tekst, lead text
    */
   bodyLgSize?: number | null;
   /**
-   * 13px — Standard body text. Most common reading size.
+   * Standaard body tekst
    */
   bodySize?: number | null;
   /**
-   * 12px — Small text. Captions, metadata, secondary info.
+   * Captions, metadata
    */
   smallSize?: number | null;
   /**
-   * 10px — Tiny labels, tags, badges, uppercase UI text.
+   * Labels, tags, badges
    */
   labelSize?: number | null;
   /**
-   * 8px — Smallest text size. Rarely used. Tooltip text, fine print.
+   * Tooltips, fine print
    */
   microSize?: number | null;
   /**
-   * 4px — Smallest spacing unit. Used for very tight layouts, icon padding.
+   * 700 = Bold
    */
-  sp1: number;
+  btnFontWeight?: number | null;
   /**
-   * 8px — Extra small gaps. Button padding, tag spacing.
+   * bijv. 8px, 12px, 9999px (pill)
    */
-  sp2: number;
+  btnBorderRadius?: string | null;
   /**
-   * 12px — Small spacing. Input padding, compact card spacing.
+   * Voor outline varianten
    */
-  sp3: number;
+  btnBorderWidth?: string | null;
   /**
-   * 16px — The core spacing unit. Most common gap between elements. DO NOT CHANGE.
+   * Ruimte tussen icon en tekst
    */
-  sp4: number;
+  btnIconGap?: number | null;
   /**
-   * 24px — Medium spacing. Card padding, section gaps.
+   * Hover animatie snelheid
    */
-  sp6: number;
+  btnTransitionDuration?: string | null;
   /**
-   * 32px — Large spacing. Major section padding, container gaps.
+   * Hover lift effect. 0 = uit.
    */
-  sp8: number;
+  btnHoverTranslateY?: string | null;
+  btnDisabledOpacity?: number | null;
+  btnSmPaddingY?: number | null;
+  btnSmPaddingX?: number | null;
+  btnSmFontSize?: number | null;
+  btnSmIconSize?: number | null;
+  btnMdPaddingY?: number | null;
+  btnMdPaddingX?: number | null;
+  btnMdFontSize?: number | null;
+  btnMdIconSize?: number | null;
+  btnLgPaddingY?: number | null;
+  btnLgPaddingX?: number | null;
+  btnLgFontSize?: number | null;
+  btnLgIconSize?: number | null;
   /**
-   * 48px — Extra large spacing. Hero section padding, major layout gaps.
+   * Hoofdkleur voor knoppen (teal)
    */
-  sp12: number;
+  btnPrimaryBg?: string | null;
   /**
-   * 64px — XXL spacing. Large hero sections, significant visual breaks.
+   * Tekst op primary knoppen
    */
-  sp16: number;
+  btnPrimaryText?: string | null;
   /**
-   * 80px — Maximum spacing unit. Rarely used, for extreme layouts.
+   * Donkerder bij hover
    */
-  sp20: number;
+  btnPrimaryHoverBg?: string | null;
   /**
-   * Main gradient for buttons, CTAs, and interactive elements
+   * Donkere knop (navy)
+   */
+  btnSecondaryBg?: string | null;
+  /**
+   * Tekst op secondary knoppen
+   */
+  btnSecondaryText?: string | null;
+  /**
+   * Lichter bij hover
+   */
+  btnSecondaryHoverBg?: string | null;
+  /**
+   * Verwijder/annuleer acties (rood)
+   */
+  btnDangerBg?: string | null;
+  /**
+   * Tekst op danger knoppen
+   */
+  btnDangerText?: string | null;
+  /**
+   * Donkerder rood bij hover
+   */
+  btnDangerHoverBg?: string | null;
+  /**
+   * Bevestig acties (groen)
+   */
+  btnSuccessBg?: string | null;
+  /**
+   * Tekst op success knoppen
+   */
+  btnSuccessText?: string | null;
+  /**
+   * Donkerder groen bij hover
+   */
+  btnSuccessHoverBg?: string | null;
+  /**
+   * Hoofd gradient voor knoppen, CTAs en interactieve elementen
    */
   primaryGradient?: string | null;
   /**
-   * Dark gradient for sections, footers, and navigation
+   * Donker gradient voor secties, footers en navigatie
    */
   secondaryGradient?: string | null;
   /**
-   * Subtle overlay gradient for hero sections (low opacity)
+   * Subtiel overlay gradient voor hero secties (lage transparantie)
    */
   heroGradient?: string | null;
   /**
-   * Optional gradient for special promotions, badges, or campaigns
+   * Optioneel gradient voor acties, badges of campagnes
    */
   accentGradient?: string | null;
-  /**
-   * Maximum width of the page content container. Applied to .container and .max-w-* classes.
-   */
   containerWidth: 'lg' | 'xl' | '2xl' | '7xl';
   /**
-   * 8px — buttons, inputs, small cards
+   * Vergroot of verklein alle tekst
    */
+  fontScale?: ('sm' | 'md' | 'lg') | null;
+  /**
+   * Meer of minder ruimte tussen elementen
+   */
+  spacing?: ('sm' | 'md' | 'lg') | null;
+  /**
+   * Hover transities en animaties aan/uit
+   */
+  enableAnimations?: boolean | null;
   radiusSm: number;
-  /**
-   * 12px — cards, modals, panels (most common)
-   */
   radiusMd: number;
-  /**
-   * 16px — large cards, hero sections
-   */
   radiusLg: number;
-  /**
-   * 20px — overlay panels (search, modals)
-   */
   radiusXl: number;
-  /**
-   * 9999px — perfect circles (pills, avatars, badges)
-   */
   radiusFull: number;
   /**
-   * Subtle elevation for default cards
+   * Subtiele schaduw voor standaard kaarten
    */
   shadowSm: string;
   /**
-   * Medium elevation for hover states
+   * Medium schaduw voor hover states
    */
   shadowMd: string;
   /**
-   * Large elevation for modals and overlays
+   * Sterke schaduw voor modals en overlays
    */
   shadowLg: string;
   /**
-   * Extra large elevation for floating elements
+   * Zware schaduw voor mega menus
    */
   shadowXl: string;
-  /**
-   * 100 — sort menus, filter dropdowns, tooltips
-   */
   zDropdown: number;
-  /**
-   * 200 — main navigation, sticky elements
-   */
   zSticky: number;
-  /**
-   * 300 — InstantSearch overlay, backdrops
-   */
   zOverlay: number;
-  /**
-   * 400 — QuickView modal, MiniCart flyout
-   */
   zModal: number;
-  /**
-   * 500 — AddToCart toast, system notifications (topmost layer)
-   */
   zToast: number;
+  /**
+   * Extra CSS variabelen of overrides
+   */
+  customCSS?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -12326,27 +14123,7 @@ export interface Theme1 {
 export interface Header {
   id: number;
   /**
-   * Mega Nav: Topbar + Header + Navigatie balk (ideaal voor webshops). Single Row: Alles op 1 rij (compacte sites). Minimal: Alleen logo en acties (landing pages).
-   */
-  layoutType: 'mega-nav' | 'single-row' | 'minimal';
-  /**
-   * Topbar met USP berichten, links, taalwisselaar en prijs toggle. Configureer in "Topbar" tab.
-   */
-  showTopbar?: boolean | null;
-  /**
-   * Alert bar met belangrijke mededelingen. Configureer in "Alert Bar" tab.
-   */
-  showAlertBar?: boolean | null;
-  /**
-   * Hoofdnavigatie menu. Configureer in "Navigatie" tab. Niet beschikbaar bij Minimal layout.
-   */
-  showNavigation?: boolean | null;
-  /**
-   * Zoekbalk in header. Op mobile wordt dit een search icon met overlay. Configureer in "Zoeken" tab.
-   */
-  showSearchBar?: boolean | null;
-  /**
-   * Let op: Als "Toon Topbar" uitstaat in Layout tab, wordt de topbar niet getoond, zelfs als deze hier aanstaat.
+   * Schakel de topbar in of uit. De topbar toont USP berichten, links en taalwisselaar.
    */
   topbarEnabled?: boolean | null;
   /**
@@ -12362,23 +14139,7 @@ export interface Header {
    */
   topbarMessages?:
     | {
-        /**
-         * Lucide icon naam
-         */
-        icon?:
-          | (
-              | ''
-              | 'BadgeCheck'
-              | 'Truck'
-              | 'Shield'
-              | 'Award'
-              | 'Zap'
-              | 'CreditCard'
-              | 'Lock'
-              | 'RefreshCw'
-              | 'CheckCircle'
-            )
-          | null;
+        icon?: string | null;
         text: string;
         link?: string | null;
         id?: string | null;
@@ -12391,16 +14152,12 @@ export interface Header {
     | {
         label: string;
         link: string;
-        icon?: ('' | 'Phone' | 'Mail' | 'MapPin' | 'Clock' | 'Users') | null;
+        icon?: string | null;
         id?: string | null;
       }[]
     | null;
   /**
-   * Taalwisselaar in topbar (rechts). Bij 2-3 talen: button group. Bij 4+ talen: dropdown.
-   */
-  enableLanguageSwitcher?: boolean | null;
-  /**
-   * Configureer beschikbare talen. Eerste taal met isDefault=true wordt standaard.
+   * Configureer beschikbare talen. Als er talen zijn ingesteld, wordt automatisch een taalwisselaar getoond. Eerste taal met isDefault=true wordt standaard.
    */
   languages?:
     | {
@@ -12421,16 +14178,7 @@ export interface Header {
       }[]
     | null;
   /**
-   * Prijs wisselaar in topbar (rechts). Gebruikers kunnen schakelen tussen particuliere en zakelijke prijzen.
-   */
-  enablePriceToggle?: boolean | null;
-  priceToggle?: {
-    defaultMode?: ('b2c' | 'b2b') | null;
-    b2cLabel?: string | null;
-    b2bLabel?: string | null;
-  };
-  /**
-   * Toon een alert bar bovenaan alle pagina's (boven topbar). Let op: Als "Toon Alert Bar" uitstaat in Layout tab, wordt deze niet getoond.
+   * Toon een alert bar bovenaan alle pagina's (boven topbar) met een belangrijke mededeling.
    */
   alertBarEnabled?: boolean | null;
   /**
@@ -12441,67 +14189,11 @@ export interface Header {
    * Type bepaalt de kleur (tenzij custom colors ingeschakeld)
    */
   alertBarType?: ('info' | 'success' | 'warning' | 'error' | 'promo') | null;
-  /**
-   * Lucide icon naam
-   */
-  alertBarIcon?:
-    | (
-        | ''
-        | 'Info'
-        | 'CheckCircle'
-        | 'AlertCircle'
-        | 'XCircle'
-        | 'Gift'
-        | 'Zap'
-        | 'Bell'
-        | 'Megaphone'
-        | 'Award'
-        | 'Truck'
-      )
-    | null;
-  alertBarLink?: {
-    enabled?: boolean | null;
-    /**
-     * Bijvoorbeeld: "Bekijk aanbiedingen"
-     */
-    label?: string | null;
-    /**
-     * Interne (/shop) of externe URL
-     */
-    url?: string | null;
-  };
+  alertBarIcon?: string | null;
   /**
    * Gebruikers kunnen de alert sluiten (wordt opgeslagen in localStorage)
    */
   alertBarDismissible?: boolean | null;
-  /**
-   * Automatisch tonen/verbergen op basis van datums
-   */
-  alertBarSchedule?: {
-    useSchedule?: boolean | null;
-    /**
-     * Alert wordt getoond vanaf deze datum
-     */
-    startDate?: string | null;
-    /**
-     * Alert wordt verborgen na deze datum
-     */
-    endDate?: string | null;
-  };
-  /**
-   * Overschrijf standaard kleuren voor dit type
-   */
-  alertBarCustomColors?: {
-    useCustomColors?: boolean | null;
-    /**
-     * CSS var of hex code (bijv. var(--color-info) of #0A1628)
-     */
-    backgroundColor?: string | null;
-    /**
-     * CSS var of hex code
-     */
-    textColor?: string | null;
-  };
   /**
    * Upload het site logo. Laat leeg om het logo uit Site Settings te gebruiken. PNG/SVG aanbevolen.
    */
@@ -12519,13 +14211,9 @@ export interface Header {
    */
   siteName?: string | null;
   /**
-   * Optioneel: Dit deel wordt in de primary kleur getoond (bijv. "med" in "plastimed"). Laat leeg als je geen accent wilt.
+   * Schakel de hoofdnavigatie in of uit.
    */
-  siteNameAccent?: string | null;
-  /**
-   * Op mobile (<768px) logo tonen? Uit voor extra ruimte voor andere elementen.
-   */
-  showLogoOnMobile?: boolean | null;
+  navigationEnabled?: boolean | null;
   /**
    * Handmatig: Je beheert alle items zelf. Categorie-gedreven: Automatisch uit Products categorieën (ideaal voor webshops). Hybride: Beste van beide werelden.
    */
@@ -12539,10 +14227,6 @@ export interface Header {
      */
     showCategoryIcons?: boolean | null;
     /**
-     * Toon aantal producten per subcategorie in het mega menu
-     */
-    showProductCount?: boolean | null;
-    /**
      * Bepaalt hoeveel content er in het mega menu wordt getoond
      */
     megaMenuStyle: 'subcategories' | 'with-products' | 'full';
@@ -12550,10 +14234,6 @@ export interface Header {
      * Maximaal aantal categorieën in de navigatiebalk (1-12). Te veel items passen niet op het scherm.
      */
     maxCategories?: number | null;
-    /**
-     * Aantal populaire producten per categorie (alleen bij stijl "with-products" of "full")
-     */
-    maxProductsInMega?: number | null;
   };
   /**
    * Extra items zoals "Aanbiedingen", "Nieuw", etc. Deze verschijnen altijd in de navigatie, ongeacht de modus.
@@ -12561,13 +14241,12 @@ export interface Header {
   specialNavItems?:
     | {
         label: string;
-        icon?: ('' | 'Flame' | 'Star' | 'Gift' | 'Sparkles' | 'Package' | 'Tag' | 'Zap') | null;
+        icon?: string | null;
         url: string;
         /**
          * Toont in accent kleur (bijv. coral/teal) voor extra aandacht
          */
         highlight?: boolean | null;
-        position?: ('start' | 'end') | null;
         id?: string | null;
       }[]
     | null;
@@ -12577,21 +14256,7 @@ export interface Header {
   manualNavItems?:
     | {
         label: string;
-        icon?:
-          | (
-              | ''
-              | 'Home'
-              | 'Package'
-              | 'Building2'
-              | 'Users'
-              | 'Award'
-              | 'FileText'
-              | 'ShoppingCart'
-              | 'Mail'
-              | 'Phone'
-              | 'Info'
-            )
-          | null;
+        icon?: string | null;
         type?: ('page' | 'external' | 'mega') | null;
         page?: (number | null) | Page;
         url?: string | null;
@@ -12636,33 +14301,23 @@ export interface Header {
     style?: ('primary' | 'secondary' | 'outline') | null;
   };
   /**
-   * Let op: Als "Toon Zoekbalk" uitstaat in Layout tab, wordt de zoekbalk niet getoond, zelfs als deze hier aanstaat.
+   * Schakel de zoekfunctie in de header in of uit.
    */
   searchEnabled?: boolean | null;
   searchPlaceholder?: string | null;
-  /**
-   * Toon deze hint in de zoekbalk (bijv. ⌘K op Mac, Ctrl+K op Windows). De shortcut moet in frontend code geïmplementeerd worden.
-   */
-  searchKeyboardShortcut?: string | null;
-  /**
-   * Op mobile: altijd overlay. Op desktop: overlay optioneel (als uit: inline search dropdown).
-   */
-  enableSearchOverlay?: boolean | null;
   /**
    * Autocomplete suggesties tijdens het typen
    */
   enableSearchSuggestions?: boolean | null;
   /**
-   * Quick links die onder de zoekbalk verschijnen wanneer deze focus heeft (bijv. "Alle producten", "Nieuw", "Sale")
+   * Prijs wisselaar in de zoekbalk (rechts). Gebruikers kunnen schakelen tussen particuliere en zakelijke prijzen.
    */
-  searchCategories?:
-    | {
-        label: string;
-        url: string;
-        icon?: ('' | 'Package' | 'Sparkles' | 'Flame' | 'Star' | 'Tag') | null;
-        id?: string | null;
-      }[]
-    | null;
+  enablePriceToggle?: boolean | null;
+  priceToggle?: {
+    defaultMode?: ('b2c' | 'b2b') | null;
+    b2cLabel?: string | null;
+    b2bLabel?: string | null;
+  };
   /**
    * Toon telefoon knop met nummer uit Shop Settings. Op mobile: click-to-call link.
    */
@@ -12688,32 +14343,12 @@ export interface Header {
          * Voor accessibility (screen readers)
          */
         label: string;
-        /**
-         * Lucide icon naam
-         */
-        icon:
-          | 'Search'
-          | 'ShoppingCart'
-          | 'User'
-          | 'Heart'
-          | 'Scale'
-          | 'Clipboard'
-          | 'Phone'
-          | 'Mail'
-          | 'MapPin'
-          | 'Download'
-          | 'Bell'
-          | 'Settings';
+        icon: string;
         url: string;
-        /**
-         * Toon een count badge (bijv. aantal items). Badge waarde moet via JavaScript geüpdatet worden.
-         */
-        showBadge?: boolean | null;
         /**
          * Toon deze knop ook op mobile (<768px)? Ruimte is beperkt!
          */
         showOnMobile?: boolean | null;
-        style?: ('default' | 'primary' | 'secondary') | null;
         id?: string | null;
       }[]
     | null;
@@ -12721,10 +14356,6 @@ export interface Header {
    * Breedte van de mobile drawer in pixels. 320px = standaard (100% op kleine phones), 360-400px = breed.
    */
   mobileDrawerWidth?: number | null;
-  /**
-   * Van welke kant schuift de mobile drawer in?
-   */
-  mobileDrawerPosition?: ('left' | 'right') | null;
   /**
    * Toon telefoon en email onderaan de mobile drawer (uit Shop Settings).
    */
@@ -12741,34 +14372,6 @@ export interface Header {
    */
   showMobileToggles?: boolean | null;
   /**
-   * Bij welke breedte (px) schakelt de header naar mobile modus? 768px = standaard (tablet), 1024px = alleen phone.
-   */
-  mobileBreakpoint?: number | null;
-  /**
-   * AANBEVOLEN: Gebruik kleuren uit Theme Global (var(--color-*)). Als uit: gebruik custom hex codes hieronder.
-   */
-  useThemeColors?: boolean | null;
-  /**
-   * Achtergrondkleur van de hoofdheader. Gebruik CSS variabele (var(--color-white)) of hex code (#FFFFFF).
-   */
-  headerBgColor?: string | null;
-  /**
-   * Achtergrondkleur van de navigatiebalk (alleen bij mega-nav layout). Gebruik var(--color-primary) aanbevolen.
-   */
-  navBgColor?: string | null;
-  /**
-   * Tekstkleur in de navigatiebalk. Gebruik var(--color-white) aanbevolen.
-   */
-  navTextColor?: string | null;
-  /**
-   * Optioneel: Andere achtergrondkleur als header sticky wordt. Laat leeg om zelfde kleur te gebruiken.
-   */
-  stickyHeaderBg?: string | null;
-  /**
-   * Toon schaduw onder header wanneer sticky (scroll)
-   */
-  stickyHeaderShadow?: boolean | null;
-  /**
    * Header blijft bovenaan vast zitten bij scrollen. Aanbevolen voor betere navigatie.
    */
   stickyHeader?: boolean | null;
@@ -12780,18 +14383,6 @@ export interface Header {
    * Verberg de topbar automatisch bij scrollen om ruimte te besparen. Topbar verschijnt weer bij terugscrollen.
    */
   hideTopbarOnScroll?: boolean | null;
-  /**
-   * Smooth animations voor dropdowns, mobile drawer, sticky header, etc. Zet uit voor betere performance op langzame devices.
-   */
-  enableAnimations?: boolean | null;
-  /**
-   * Vertraging voordat dropdown menu opent bij hover (in milliseconden). 150ms = standaard, 0ms = instant.
-   */
-  dropdownOpenDelay?: number | null;
-  /**
-   * Vertraging voordat dropdown menu sluit na mouse-out (in milliseconden). 300ms = standaard (tijd om terug te bewegen).
-   */
-  dropdownCloseDelay?: number | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -13099,6 +14690,23 @@ export interface MeilisearchSetting {
      */
     debounceMs?: number | null;
   };
+  /**
+   * Hoe de zoekresultaat-secties worden weergegeven in de overlay
+   */
+  instantSearchLayout?: ('stacked' | 'tabs') | null;
+  /**
+   * Stel in welke secties in de instant search verschijnen en hoe ze worden weergegeven
+   */
+  instantSearchSections?:
+    | {
+        collection: 'products' | 'blog-posts' | 'pages';
+        enabled?: boolean | null;
+        label?: string | null;
+        icon?: ('package' | 'book-open' | 'file-text') | null;
+        maxResults?: number | null;
+        id?: string | null;
+      }[]
+    | null;
   pagination?: {
     /**
      * Maximum search results to return
@@ -13158,6 +14766,10 @@ export interface ChatbotSetting {
   buttonColor?: string | null;
   buttonIcon?: ('chat' | 'robot' | 'lightbulb' | 'question') | null;
   /**
+   * Personal avatar shown in the chat header and next to assistant messages (recommended: square, min 100x100px)
+   */
+  avatarImage?: (number | null) | Media;
+  /**
    * First message shown when chatbot opens
    */
   welcomeMessage?: string | null;
@@ -13166,11 +14778,67 @@ export interface ChatbotSetting {
    */
   placeholder?: string | null;
   /**
-   * Quick-start questions shown to users
+   * Simple suggested questions (used as fallback when no Conversation Flows are configured)
    */
   suggestedQuestions?:
     | {
         question: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Smart guided conversation flows. Users select a category, then sub-options, optionally enter details (e.g. order number), and the AI takes over with full context.
+   */
+  conversationFlows?:
+    | {
+        label: string;
+        icon?:
+          | (
+              | 'shopping-bag'
+              | 'package'
+              | 'search'
+              | 'wrench'
+              | 'message'
+              | 'heart'
+              | 'help'
+              | 'truck'
+              | 'receipt'
+              | 'star'
+            )
+          | null;
+        type: 'direct' | 'submenu' | 'input';
+        /**
+         * Prepended to the AI message for context (e.g. "Bestellingen:")
+         */
+        contextPrefix?: string | null;
+        /**
+         * Message sent to AI when clicked. Leave empty to use the label.
+         */
+        directMessage?: string | null;
+        /**
+         * Label shown above the input field
+         */
+        inputLabel?: string | null;
+        /**
+         * Placeholder text in the input field
+         */
+        inputPlaceholder?: string | null;
+        /**
+         * Follow-up options shown after selecting this category
+         */
+        subOptions?:
+          | {
+              label: string;
+              type: 'direct' | 'input';
+              /**
+               * Leave empty to use the label as message.
+               */
+              directMessage?: string | null;
+              inputLabel?: string | null;
+              inputPlaceholder?: string | null;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
@@ -13325,39 +14993,17 @@ export interface SettingsSelect<T extends boolean = true> {
   defaultProductTemplate?: T;
   defaultBlogTemplate?: T;
   defaultShopArchiveTemplate?: T;
-  defaultCartTemplate?: T;
-  defaultCheckoutTemplate?: T;
+  defaultBrandsTemplate?: T;
+  defaultBranchesTemplate?: T;
+  defaultLoginTemplate?: T;
+  defaultRegisterTemplate?: T;
+  checkoutFlow?: T;
+  defaultHeaderTemplate?: T;
   defaultMyAccountTemplate?: T;
-  shopFilterOrder?:
-    | T
-    | {
-        filterId?: T;
-        enabled?: T;
-        displayName?: T;
-        id?: T;
-      };
-  freeShippingThreshold?: T;
-  shippingCost?: T;
-  deliveryTime?: T;
-  deliveryDays?:
-    | T
-    | {
-        monday?: T;
-        tuesday?: T;
-        wednesday?: T;
-        thursday?: T;
-        friday?: T;
-        saturday?: T;
-        sunday?: T;
-      };
-  returnDays?: T;
-  returnPolicy?: T;
-  minimumOrderAmount?: T;
-  showPricesExclVAT?: T;
-  vatPercentage?: T;
-  requireAccountForPurchase?: T;
-  enableGuestCheckout?: T;
-  requireB2BApproval?: T;
+  defaultMagazineArchiveTemplate?: T;
+  defaultMagazineDetailTemplate?: T;
+  defaultSubscriptionPricingTemplate?: T;
+  defaultSubscriptionCheckoutTemplate?: T;
   certifications?: T;
   paymentMethods?: T;
   trustIndicators?:
@@ -13367,16 +15013,6 @@ export interface SettingsSelect<T extends boolean = true> {
         trustSource?: T;
         yearsInBusiness?: T;
         customersServed?: T;
-      };
-  features?:
-    | T
-    | {
-        enableQuickOrder?: T;
-        enableOrderLists?: T;
-        enableReviews?: T;
-        enableWishlist?: T;
-        enableStockNotifications?: T;
-        enableLiveChat?: T;
       };
   logo?: T;
   logoWhite?: T;
@@ -13389,6 +15025,16 @@ export interface SettingsSelect<T extends boolean = true> {
   googleSiteVerification?: T;
   defaultMetaDescription?: T;
   defaultOGImage?: T;
+  archiveSeo?:
+    | T
+    | {
+        shopTitle?: T;
+        shopDescription?: T;
+        brandsTitle?: T;
+        brandsDescription?: T;
+        branchesTitle?: T;
+        branchesDescription?: T;
+      };
   businessCategory?: T;
   geo?:
     | T
@@ -13418,27 +15064,156 @@ export interface SettingsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "e-commerce-settings_select".
+ */
+export interface ECommerceSettingsSelect<T extends boolean = true> {
+  shopFilterOrder?:
+    | T
+    | {
+        filterId?: T;
+        enabled?: T;
+        displayName?: T;
+        id?: T;
+      };
+  freeShippingThreshold?: T;
+  shippingCost?: T;
+  deliveryTime?: T;
+  deliveryDays?:
+    | T
+    | {
+        monday?: T;
+        tuesday?: T;
+        wednesday?: T;
+        thursday?: T;
+        friday?: T;
+        saturday?: T;
+        sunday?: T;
+      };
+  returnDays?: T;
+  returnPolicy?: T;
+  features?:
+    | T
+    | {
+        enableQuickOrder?: T;
+        enableOrderLists?: T;
+        enableReviews?: T;
+        enableWishlist?: T;
+        enableStockNotifications?: T;
+      };
+  minimumOrderAmount?: T;
+  showPricesExclVAT?: T;
+  vatPercentage?: T;
+  requireAccountForPurchase?: T;
+  enableGuestCheckout?: T;
+  requireB2BApproval?: T;
+  b2bBenefits?:
+    | T
+    | {
+        icon?: T;
+        iconColor?: T;
+        iconBg?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  registrationTrustItems?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  emailNotifications?:
+    | T
+    | {
+        enableInvoiceAttachment?: T;
+        enableTrackingLink?: T;
+        enablePublicTracking?: T;
+      };
+  abandonedCart?:
+    | T
+    | {
+        enabled?: T;
+        timeoutHours?: T;
+      };
+  carrierIntegration?:
+    | T
+    | {
+        provider?: T;
+        apiKey?: T;
+        apiSecret?: T;
+        webhookSecret?: T;
+        webhookUrl?: T;
+      };
+  shippingMethods?:
+    | T
+    | {
+        name?: T;
+        slug?: T;
+        description?: T;
+        icon?: T;
+        price?: T;
+        freeThreshold?: T;
+        estimatedDays?: T;
+        deliveryTime?: T;
+        countries?: T;
+        isActive?: T;
+        sortOrder?: T;
+        id?: T;
+      };
+  paymentOptions?:
+    | T
+    | {
+        name?: T;
+        slug?: T;
+        description?: T;
+        icon?: T;
+        lucideIcon?: T;
+        provider?: T;
+        fee?: T;
+        badge?: T;
+        isB2B?: T;
+        isActive?: T;
+        sortOrder?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "theme_select".
  */
 export interface ThemeSelect<T extends boolean = true> {
-  navy?: T;
-  navyLight?: T;
-  teal?: T;
-  tealLight?: T;
-  tealDark?: T;
-  green?: T;
-  coral?: T;
-  amber?: T;
-  blue?: T;
-  purple?: T;
-  white?: T;
-  bg?: T;
-  grey?: T;
+  primaryColor?: T;
+  primaryLight?: T;
+  primaryGlow?: T;
+  secondaryColor?: T;
+  secondaryLight?: T;
+  accentColor?: T;
+  backgroundColor?: T;
+  surfaceColor?: T;
+  borderColor?: T;
+  greyLight?: T;
   greyMid?: T;
   greyDark?: T;
-  text?: T;
-  fontBody?: T;
-  fontDisplay?: T;
+  textPrimary?: T;
+  textSecondary?: T;
+  textMuted?: T;
+  successColor?: T;
+  successLight?: T;
+  successDark?: T;
+  warningColor?: T;
+  warningLight?: T;
+  warningDark?: T;
+  errorColor?: T;
+  errorLight?: T;
+  errorDark?: T;
+  infoColor?: T;
+  infoLight?: T;
+  infoDark?: T;
+  headingFont?: T;
+  bodyFont?: T;
   fontMono?: T;
   heroSize?: T;
   sectionSize?: T;
@@ -13448,20 +15223,45 @@ export interface ThemeSelect<T extends boolean = true> {
   smallSize?: T;
   labelSize?: T;
   microSize?: T;
-  sp1?: T;
-  sp2?: T;
-  sp3?: T;
-  sp4?: T;
-  sp6?: T;
-  sp8?: T;
-  sp12?: T;
-  sp16?: T;
-  sp20?: T;
+  btnFontWeight?: T;
+  btnBorderRadius?: T;
+  btnBorderWidth?: T;
+  btnIconGap?: T;
+  btnTransitionDuration?: T;
+  btnHoverTranslateY?: T;
+  btnDisabledOpacity?: T;
+  btnSmPaddingY?: T;
+  btnSmPaddingX?: T;
+  btnSmFontSize?: T;
+  btnSmIconSize?: T;
+  btnMdPaddingY?: T;
+  btnMdPaddingX?: T;
+  btnMdFontSize?: T;
+  btnMdIconSize?: T;
+  btnLgPaddingY?: T;
+  btnLgPaddingX?: T;
+  btnLgFontSize?: T;
+  btnLgIconSize?: T;
+  btnPrimaryBg?: T;
+  btnPrimaryText?: T;
+  btnPrimaryHoverBg?: T;
+  btnSecondaryBg?: T;
+  btnSecondaryText?: T;
+  btnSecondaryHoverBg?: T;
+  btnDangerBg?: T;
+  btnDangerText?: T;
+  btnDangerHoverBg?: T;
+  btnSuccessBg?: T;
+  btnSuccessText?: T;
+  btnSuccessHoverBg?: T;
   primaryGradient?: T;
   secondaryGradient?: T;
   heroGradient?: T;
   accentGradient?: T;
   containerWidth?: T;
+  fontScale?: T;
+  spacing?: T;
+  enableAnimations?: T;
   radiusSm?: T;
   radiusMd?: T;
   radiusLg?: T;
@@ -13476,6 +15276,7 @@ export interface ThemeSelect<T extends boolean = true> {
   zOverlay?: T;
   zModal?: T;
   zToast?: T;
+  customCSS?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -13485,11 +15286,6 @@ export interface ThemeSelect<T extends boolean = true> {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
-  layoutType?: T;
-  showTopbar?: T;
-  showAlertBar?: T;
-  showNavigation?: T;
-  showSearchBar?: T;
   topbarEnabled?: T;
   topbarBgColor?: T;
   topbarTextColor?: T;
@@ -13509,7 +15305,6 @@ export interface HeaderSelect<T extends boolean = true> {
         icon?: T;
         id?: T;
       };
-  enableLanguageSwitcher?: T;
   languages?:
     | T
     | {
@@ -13519,55 +15314,23 @@ export interface HeaderSelect<T extends boolean = true> {
         isDefault?: T;
         id?: T;
       };
-  enablePriceToggle?: T;
-  priceToggle?:
-    | T
-    | {
-        defaultMode?: T;
-        b2cLabel?: T;
-        b2bLabel?: T;
-      };
   alertBarEnabled?: T;
   alertBarMessage?: T;
   alertBarType?: T;
   alertBarIcon?: T;
-  alertBarLink?:
-    | T
-    | {
-        enabled?: T;
-        label?: T;
-        url?: T;
-      };
   alertBarDismissible?: T;
-  alertBarSchedule?:
-    | T
-    | {
-        useSchedule?: T;
-        startDate?: T;
-        endDate?: T;
-      };
-  alertBarCustomColors?:
-    | T
-    | {
-        useCustomColors?: T;
-        backgroundColor?: T;
-        textColor?: T;
-      };
   logo?: T;
   logoHeight?: T;
   logoUrl?: T;
   siteName?: T;
-  siteNameAccent?: T;
-  showLogoOnMobile?: T;
+  navigationEnabled?: T;
   navigationMode?: T;
   categoryNavigation?:
     | T
     | {
         showCategoryIcons?: T;
-        showProductCount?: T;
         megaMenuStyle?: T;
         maxCategories?: T;
-        maxProductsInMega?: T;
       };
   specialNavItems?:
     | T
@@ -13576,7 +15339,6 @@ export interface HeaderSelect<T extends boolean = true> {
         icon?: T;
         url?: T;
         highlight?: T;
-        position?: T;
         id?: T;
       };
   manualNavItems?:
@@ -13621,16 +15383,14 @@ export interface HeaderSelect<T extends boolean = true> {
       };
   searchEnabled?: T;
   searchPlaceholder?: T;
-  searchKeyboardShortcut?: T;
-  enableSearchOverlay?: T;
   enableSearchSuggestions?: T;
-  searchCategories?:
+  enablePriceToggle?: T;
+  priceToggle?:
     | T
     | {
-        label?: T;
-        url?: T;
-        icon?: T;
-        id?: T;
+        defaultMode?: T;
+        b2cLabel?: T;
+        b2bLabel?: T;
       };
   showPhoneButton?: T;
   showCartButton?: T;
@@ -13642,13 +15402,10 @@ export interface HeaderSelect<T extends boolean = true> {
         label?: T;
         icon?: T;
         url?: T;
-        showBadge?: T;
         showOnMobile?: T;
-        style?: T;
         id?: T;
       };
   mobileDrawerWidth?: T;
-  mobileDrawerPosition?: T;
   showMobileContactInfo?: T;
   mobileContactInfo?:
     | T
@@ -13657,19 +15414,9 @@ export interface HeaderSelect<T extends boolean = true> {
         email?: T;
       };
   showMobileToggles?: T;
-  mobileBreakpoint?: T;
-  useThemeColors?: T;
-  headerBgColor?: T;
-  navBgColor?: T;
-  navTextColor?: T;
-  stickyHeaderBg?: T;
-  stickyHeaderShadow?: T;
   stickyHeader?: T;
   stickyBehavior?: T;
   hideTopbarOnScroll?: T;
-  enableAnimations?: T;
-  dropdownOpenDelay?: T;
-  dropdownCloseDelay?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -13863,6 +15610,17 @@ export interface MeilisearchSettingsSelect<T extends boolean = true> {
         batchSize?: T;
         debounceMs?: T;
       };
+  instantSearchLayout?: T;
+  instantSearchSections?:
+    | T
+    | {
+        collection?: T;
+        enabled?: T;
+        label?: T;
+        icon?: T;
+        maxResults?: T;
+        id?: T;
+      };
   pagination?:
     | T
     | {
@@ -13896,12 +15654,35 @@ export interface ChatbotSettingsSelect<T extends boolean = true> {
   position?: T;
   buttonColor?: T;
   buttonIcon?: T;
+  avatarImage?: T;
   welcomeMessage?: T;
   placeholder?: T;
   suggestedQuestions?:
     | T
     | {
         question?: T;
+        id?: T;
+      };
+  conversationFlows?:
+    | T
+    | {
+        label?: T;
+        icon?: T;
+        type?: T;
+        contextPrefix?: T;
+        directMessage?: T;
+        inputLabel?: T;
+        inputPlaceholder?: T;
+        subOptions?:
+          | T
+          | {
+              label?: T;
+              type?: T;
+              directMessage?: T;
+              inputLabel?: T;
+              inputPlaceholder?: T;
+              id?: T;
+            };
         id?: T;
       };
   systemPrompt?: T;

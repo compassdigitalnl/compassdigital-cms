@@ -5,7 +5,7 @@ import { HeaderThemeProvider } from './HeaderTheme'
 import { ThemeProvider } from './Theme'
 import { SonnerProvider } from '@/providers/Sonner'
 import { CartProvider } from '@/branches/ecommerce/shared/contexts/CartContext'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 
 // No-op CartProvider for sites without cart
 function CartProviderWrapper({ children }: { children: React.ReactNode }) {

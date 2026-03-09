@@ -1,7 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import CartPageClient from './CartPageClient'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 import { CHECKOUT_FLOWS, resolveFlowFromLegacy } from '@/branches/ecommerce/shared/lib/checkoutFlows'
 

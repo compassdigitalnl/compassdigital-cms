@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { lookupPostcode } from '@/lib/postcode/client'
+import { lookupPostcode } from '@/lib/integrations/postcode/client'
 
 /**
  * GET /api/postcode-lookup?postal=1234AB&number=10

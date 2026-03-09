@@ -1,6 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 import MagazineDetailTemplate1 from '@/branches/publishing/templates/magazines/MagazineDetailTemplate1'
 import type { Metadata } from 'next'

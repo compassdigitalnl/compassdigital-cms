@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { lookupKVK, isKVKLookupAvailable, getKVKMode } from '@/lib/kvk/client'
+import { lookupKVK, isKVKLookupAvailable, getKVKMode } from '@/lib/integrations/kvk/client'
 
 /**
  * GET /api/kvk/lookup?kvk=12345678

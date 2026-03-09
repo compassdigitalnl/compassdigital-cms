@@ -5,8 +5,8 @@ import { adminOnlyFieldAccess } from '@/access/adminOnlyFieldAccess'
 import { publicAccess } from '@/access/publicAccess'
 import { adminOrSelf } from '@/access/adminOrSelf'
 import { checkRole } from '@/access/utilities'
-import { isClientDeployment } from '@/lib/isClientDeployment'
-import { featureField, featureFields } from '@/lib/featureFields'
+import { isClientDeployment } from '@/lib/tenant/isClientDeployment'
+import { featureField, featureFields } from '@/lib/tenant/featureFields'
 
 import { ensureFirstUserIsAdmin } from './hooks/ensureFirstUserIsAdmin'
 
@@ -216,6 +216,53 @@ export const Users: CollectionConfig = {
           defaultValue: false,
         },
       ],
+    },
+    // ── Two-Factor Authentication ──
+    {
+      name: 'twoFactorEnabled',
+      type: 'checkbox',
+      label: 'Tweefactorauthenticatie (2FA)',
+      defaultValue: false,
+      admin: {
+        readOnly: true,
+        description: '2FA kan worden in-/uitgeschakeld via het account instellingen menu',
+      },
+    },
+    {
+      name: 'twoFactorSecret',
+      type: 'text',
+      label: '2FA Secret',
+      admin: {
+        hidden: true,
+      },
+      access: {
+        read: () => false,
+        update: () => false,
+      },
+    },
+    {
+      name: 'twoFactorBackupCodes',
+      type: 'json',
+      label: '2FA Backup Codes',
+      admin: {
+        hidden: true,
+      },
+      access: {
+        read: () => false,
+        update: () => false,
+      },
+    },
+    {
+      name: 'twoFactorPendingSecret',
+      type: 'text',
+      label: '2FA Pending Secret',
+      admin: {
+        hidden: true,
+      },
+      access: {
+        read: () => false,
+        update: () => false,
+      },
     },
     {
       name: 'roles',

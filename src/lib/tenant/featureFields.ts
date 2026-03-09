@@ -12,7 +12,7 @@
  *
  * Usage Examples:
  * ```typescript
- * import { featureField, featureFields, featureTab, subFeatureFields } from '@/lib/featureFields'
+ * import { featureField, featureFields, featureTab, subFeatureFields } from '@/lib/tenant/featureFields'
  *
  * // Single field gating:
  * fields: [

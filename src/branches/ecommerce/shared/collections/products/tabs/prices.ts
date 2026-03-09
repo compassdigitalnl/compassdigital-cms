@@ -1,5 +1,5 @@
 import type { Tab } from 'payload'
-import { featureFields, subFeatureFields } from '@/lib/featureFields'
+import { featureFields, subFeatureFields } from '@/lib/tenant/featureFields'
 
 export const pricesTab: Tab = {
   label: 'Prijzen',

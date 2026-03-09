@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react'
 import { useAccountAuth } from '@/hooks/useAccountAuth'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 import { AccountLoadingSkeleton } from '@/branches/ecommerce/shared/components/account/ui'
 import AddressesTemplate from '@/branches/ecommerce/shared/templates/account/AccountTemplate1/AddressesTemplate'

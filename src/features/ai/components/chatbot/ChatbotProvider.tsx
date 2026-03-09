@@ -24,7 +24,7 @@
 import React from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { isFeatureEnabled } from '@/lib/features'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 import { ChatbotWidget } from './ChatbotWidget'
 import type { ChatbotSettings } from './types'
 

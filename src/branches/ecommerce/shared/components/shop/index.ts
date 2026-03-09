@@ -12,5 +12,4 @@
 
 export * from './CategoryHero'
 export * from './SubcategoryChips'
-export * from './BulkActionBar'
 export * from './SearchQueryHeader'

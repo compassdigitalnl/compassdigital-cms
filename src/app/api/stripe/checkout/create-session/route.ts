@@ -6,7 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { StripeConnectService } from '@/lib/stripe/StripeConnectService'
+import { StripeConnectService } from '@/lib/payments/stripe/StripeConnectService'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 

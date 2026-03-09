@@ -14,7 +14,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { getMetricsCollector } from '@/features/email-marketing/lib/monitoring/MetricsCollector'
 import { requireApiKey } from '@/features/email-marketing/lib/api-auth/validateApiKey'
-import { emailMarketingFeatures } from '@/lib/features'
+import { emailMarketingFeatures } from '@/lib/tenant/features'
 
 export async function GET(request: NextRequest) {
   try {

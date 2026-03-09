@@ -10,7 +10,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Queue } from 'bullmq'
 import { redisConfig } from '@/lib/queue/redis'
-import { emailMarketingFeatures } from '@/lib/features'
+import { emailMarketingFeatures } from '@/lib/tenant/features'
 import { checkRole, isUser } from '@/access/utilities'
 
 export async function POST(

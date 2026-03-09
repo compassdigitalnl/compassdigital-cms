@@ -90,7 +90,7 @@ export async function generateMetadata({
         // Auto-canonical: if this product is a child of a grouped product, point to parent
         // Use raw SQL via drizzle since Payload's array.relationship filter is unreliable
         try {
-          const parentResult: any = await payload.db.drizzle.execute(
+          const parentResult: any = await (payload.db as any).drizzle.execute(
             (await import('drizzle-orm')).sql`
               SELECT p.slug FROM products p
               INNER JOIN products_child_products cp ON cp._parent_id = p.id
@@ -219,7 +219,7 @@ export default async function Page({
         try {
           // Find parent via join table (Payload's array.relationship filter is unreliable)
           const { sql } = await import('drizzle-orm')
-          const parentResult: any = await payload.db.drizzle.execute(
+          const parentResult: any = await (payload.db as any).drizzle.execute(
             sql`SELECT p.id FROM products p
                 INNER JOIN products_child_products cp ON cp._parent_id = p.id
                 WHERE cp.product_id = ${product.id}
@@ -278,7 +278,7 @@ export default async function Page({
               id: String(product.id),
               title: product.title,
               slug: product.slug || lastSlug,
-              price: product.price,
+              price: product.price ?? 0,
               image: productImageUrl,
             }}
           />
