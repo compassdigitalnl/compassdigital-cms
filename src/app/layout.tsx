@@ -4,6 +4,11 @@ import { GeistMono } from 'geist/font/mono'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { ThemeStyles } from '@/providers/Theme/ThemeStyles'
 import { GoogleAnalytics } from '@/features/analytics/components/GoogleAnalytics'
+import { PWAHead } from '@/features/pwa/components/PWAHead'
+import { ServiceWorkerRegistration } from '@/features/pwa/components/ServiceWorkerRegistration'
+import { OfflineFallback } from '@/features/pwa/components/OfflineFallback'
+import { InstallPrompt } from '@/features/pwa/components/InstallPrompt'
+import { PushPermissionBanner } from '@/features/pwa/components/PushPermissionBanner'
 
 // Force dynamic rendering to avoid database queries during build
 export const dynamic = 'force-dynamic'
@@ -34,9 +39,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
         <GoogleAnalytics />
+        <PWAHead />
       </head>
       <body className="antialiased">
         {children}
+        <ServiceWorkerRegistration />
+        <OfflineFallback />
+        <InstallPrompt />
+        <PushPermissionBanner />
       </body>
     </html>
   )

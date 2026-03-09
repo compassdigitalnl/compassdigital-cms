@@ -160,6 +160,9 @@ import { Settings } from '@/globals/site/Settings'
 import { EcommerceSettings } from '@/branches/ecommerce/shared/collections/ecommerce-settings'
 import { Theme } from '@/globals/design/Theme'
 
+// PWA Feature (Push Notifications)
+import { PushSubscriptions } from '@/features/pwa/collections/PushSubscriptions'
+
 // Plugins
 import { plugins } from './plugins'
 
@@ -318,6 +321,7 @@ export default buildConfig({
     _col(Partners),
     _col(ServicesCollection),
     _col(Notifications),
+    _col(PushSubscriptions),
     _col(Themes),
     // FormSubmissions is provided by formBuilderPlugin
 
