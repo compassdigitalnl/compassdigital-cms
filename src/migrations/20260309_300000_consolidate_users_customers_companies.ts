@@ -43,6 +43,18 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
   `)
 
   // ═══════════════════════════════════════════════════════════════
+  // STEP 1b: Add new fields to users_addresses subtable
+  // ═══════════════════════════════════════════════════════════════
+  await db.execute(sql`
+    ALTER TABLE "users_addresses"
+      ADD COLUMN IF NOT EXISTS "label" varchar,
+      ADD COLUMN IF NOT EXISTS "company_name" varchar,
+      ADD COLUMN IF NOT EXISTS "state" varchar,
+      ADD COLUMN IF NOT EXISTS "phone" varchar,
+      ADD COLUMN IF NOT EXISTS "delivery_instructions" varchar;
+  `)
+
+  // ═══════════════════════════════════════════════════════════════
   // STEP 2: Add company budget/credit fields to users table
   // (some already exist from b2b_company_accounts migration)
   // ═══════════════════════════════════════════════════════════════
