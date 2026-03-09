@@ -129,6 +129,9 @@ export interface ClientFeatures {
   emailDeliverability?: boolean
   emailAnalytics?: boolean
 
+  // === PWA ===
+  pushNotifications?: boolean
+
   // Legacy - keeping for backwards compatibility
   productReviews?: boolean
 }
@@ -320,6 +323,9 @@ export const features = {
   emailDeliverability: isFeatureEnabled('email_deliverability'),
   emailAnalytics: isFeatureEnabled('email_analytics'),
 
+  // === PWA ===
+  pushNotifications: isFeatureEnabled('push_notifications'),
+
   // Legacy
   productReviews: isFeatureEnabled('product_reviews'),
 } as const
@@ -492,6 +498,9 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     emailDeliverability: 'ENABLE_EMAIL_DELIVERABILITY',
     emailAnalytics: 'ENABLE_EMAIL_ANALYTICS',
 
+    // === PWA ===
+    pushNotifications: 'ENABLE_PUSH_NOTIFICATIONS',
+
     // Legacy
     productReviews: 'ENABLE_PRODUCT_REVIEWS',
   }
@@ -584,6 +593,9 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     // === A/B TESTING ===
     'ab-tests': 'abTesting',
     'ab-test-results': 'abTesting',
+
+    // === PWA ===
+    'push-subscriptions': 'pushNotifications',
   }
 }
 
