@@ -7,8 +7,6 @@ import { GoogleAnalytics } from '@/features/analytics/components/GoogleAnalytics
 import { PWAHead } from '@/features/pwa/components/PWAHead'
 import { ServiceWorkerRegistration } from '@/features/pwa/components/ServiceWorkerRegistration'
 import { OfflineFallback } from '@/features/pwa/components/OfflineFallback'
-import { InstallPrompt } from '@/features/pwa/components/InstallPrompt'
-import { PushPermissionBanner } from '@/features/pwa/components/PushPermissionBanner'
 
 // Force dynamic rendering to avoid database queries during build
 export const dynamic = 'force-dynamic'
@@ -45,8 +43,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {children}
         <ServiceWorkerRegistration />
         <OfflineFallback />
-        <InstallPrompt />
-        <PushPermissionBanner />
       </body>
     </html>
   )

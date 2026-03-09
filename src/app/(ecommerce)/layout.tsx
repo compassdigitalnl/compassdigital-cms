@@ -15,6 +15,8 @@ import configPromise from '@payload-config'
 import { isFeatureEnabled, features as serverFeatures } from '@/lib/tenant/features'
 import { FeaturesProvider } from '@/providers/Features'
 import { ChatbotProvider } from '@/features/ai/components/chatbot/ChatbotProvider'
+import { InstallPrompt } from '@/features/pwa/components/InstallPrompt'
+import { PushPermissionBanner } from '@/features/pwa/components/PushPermissionBanner'
 import React from 'react'
 import '../globals.css'
 
@@ -88,6 +90,10 @@ export default async function EcommerceLayout({ children }: { children: ReactNod
 
                 {/* Chatbot (CMS-driven, feature-flagged) */}
                 <ChatbotProvider />
+
+                {/* PWA banners — alleen als ingeschakeld in Settings */}
+                {(settingsGlobal as any)?.pwaInstallPrompt && <InstallPrompt />}
+                {(settingsGlobal as any)?.pwaPushNotifications && <PushPermissionBanner />}
               </AddToCartToastProviderClient>
             </MiniCartProvider>
           </ToastProvider>

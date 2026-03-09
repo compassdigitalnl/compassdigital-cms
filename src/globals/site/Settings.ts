@@ -593,7 +593,33 @@ export const Settings: GlobalConfig = {
           ],
         },
 
-        // ─── TAB 8: TRACKING ──────────────────────────────────────
+        // ─── TAB 8: PWA & MELDINGEN ──────────────────────────────
+        {
+          label: 'PWA & Meldingen',
+          description: 'Progressive Web App en push notificatie instellingen',
+          fields: [
+            {
+              name: 'pwaInstallPrompt',
+              type: 'checkbox',
+              label: 'Installatie-banner tonen',
+              defaultValue: false,
+              admin: {
+                description: 'Toon "Voeg toe aan startscherm" banner aan bezoekers',
+              },
+            },
+            {
+              name: 'pwaPushNotifications',
+              type: 'checkbox',
+              label: 'Push notificaties aanbieden',
+              defaultValue: false,
+              admin: {
+                description: 'Vraag bezoekers of ze push meldingen willen ontvangen',
+              },
+            },
+          ],
+        },
+
+        // ─── TAB 9: TRACKING ──────────────────────────────────────
         {
           label: 'Tracking',
           description: 'Analytics en tracking codes (alleen admin)',
