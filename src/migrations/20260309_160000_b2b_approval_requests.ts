@@ -26,6 +26,14 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
     CREATE INDEX IF NOT EXISTS "approval_requests_status_idx" ON "approval_requests" USING btree ("status");
     CREATE INDEX IF NOT EXISTS "approval_requests_created_at_idx" ON "approval_requests" USING btree ("created_at");
   `)
+
+  // ─── Payload internal rels tables: add FK column for new collection ───
+  await db.execute(sql`
+    ALTER TABLE "payload_locked_documents_rels"
+      ADD COLUMN IF NOT EXISTS "approval_requests_id" integer;
+    ALTER TABLE "payload_preferences_rels"
+      ADD COLUMN IF NOT EXISTS "approval_requests_id" integer;
+  `)
 }
 
 export async function down({ db }: MigrateDownArgs): Promise<void> {

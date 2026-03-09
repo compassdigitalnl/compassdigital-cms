@@ -69,6 +69,16 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
     ALTER TABLE "users"
       ADD COLUMN IF NOT EXISTS "monthly_budget_limit" numeric;
   `)
+
+  // ─── Payload internal rels tables: add FK columns for new collections ───
+  await db.execute(sql`
+    ALTER TABLE "payload_locked_documents_rels"
+      ADD COLUMN IF NOT EXISTS "company_accounts_id" integer,
+      ADD COLUMN IF NOT EXISTS "company_invites_id" integer;
+    ALTER TABLE "payload_preferences_rels"
+      ADD COLUMN IF NOT EXISTS "company_accounts_id" integer,
+      ADD COLUMN IF NOT EXISTS "company_invites_id" integer;
+  `)
 }
 
 export async function down({ db }: MigrateDownArgs): Promise<void> {
