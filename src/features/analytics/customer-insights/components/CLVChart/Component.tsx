@@ -6,6 +6,15 @@ const formatCurrency = (value: number) =>
   new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(value)
 
 export function CLVChart({ customers }: CLVChartProps) {
+  if (!Array.isArray(customers) || customers.length === 0) {
+    return (
+      <div className="rounded-lg bg-white p-6 shadow-sm">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900">Top 10 klantwaarde (CLV)</h3>
+        <p className="py-8 text-center text-gray-400">Geen klantgegevens beschikbaar</p>
+      </div>
+    )
+  }
+
   const maxValue = Math.max(...customers.map((c) => Math.max(c.clvHistorical, c.clvPredicted)), 1)
 
   return (

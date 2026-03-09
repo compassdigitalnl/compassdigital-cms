@@ -72,6 +72,17 @@ export function CustomerMetrics({ data, loading }: CustomerMetricsProps) {
     )
   }
 
+  if (!data || data.length === 0) {
+    return (
+      <div className="rounded-lg border border-gray-200 bg-white p-5">
+        <h3 className="text-base font-semibold text-gray-900 mb-4">Klanten: nieuw vs terugkerend</h3>
+        <div className="flex h-64 items-center justify-center text-gray-400">
+          Geen klantdata beschikbaar voor deze periode
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="rounded-lg border border-gray-200 bg-white p-5">
       <h3 className="text-base font-semibold text-gray-900 mb-4">Klanten: nieuw vs terugkerend</h3>

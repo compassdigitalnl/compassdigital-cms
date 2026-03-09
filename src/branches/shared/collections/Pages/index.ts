@@ -77,7 +77,7 @@ export const Pages: CollectionConfig = {
     read: () => true, // Publiek leesbaar (frontend)
     create: ({ req: { user } }) => checkRole(['admin', 'editor'], user), // Klant mag pagina's aanmaken
     update: ({ req: { user } }) => checkRole(['admin', 'editor'], user), // Admin + editor kunnen bewerken
-    delete: ({ req: { user } }) => checkRole(['admin', 'editor'], user), // Klant mag eigen pagina's verwijderen
+    delete: ({ req: { user } }) => checkRole(['admin'], user), // Alleen admin mag verwijderen
   },
   versions: {
     drafts: {

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { checkRole } from '@/access/utilities'
 
 export const CompanyInvites: CollectionConfig = {
   slug: 'company-invites',
@@ -10,6 +11,12 @@ export const CompanyInvites: CollectionConfig = {
     useAsTitle: 'email',
     defaultColumns: ['email', 'role', 'company', 'status', 'createdAt'],
     group: 'B2B',
+  },
+  access: {
+    read: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
+    create: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
+    update: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
+    delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   fields: [
     {

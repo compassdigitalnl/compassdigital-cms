@@ -16,7 +16,7 @@ export const Cases: CollectionConfig = {
     read: () => true, // Publiek leesbaar
     create: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
     update: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
-    delete: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
+    delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   fields: [
     {

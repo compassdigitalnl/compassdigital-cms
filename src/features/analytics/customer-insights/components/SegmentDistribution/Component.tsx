@@ -7,6 +7,15 @@ const formatCurrency = (value: number) =>
   new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(value)
 
 export function SegmentDistribution({ segments }: SegmentDistributionProps) {
+  if (!Array.isArray(segments) || segments.length === 0) {
+    return (
+      <div className="rounded-lg bg-white p-6 shadow-sm">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900">Klantsegmenten</h3>
+        <p className="py-8 text-center text-gray-400">Geen segmentdata beschikbaar</p>
+      </div>
+    )
+  }
+
   const maxPercentage = Math.max(...segments.map((s) => s.percentage), 1)
 
   return (

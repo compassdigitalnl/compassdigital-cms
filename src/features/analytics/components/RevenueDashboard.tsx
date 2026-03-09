@@ -28,15 +28,37 @@ interface TopProduct {
   revenue: number
 }
 
+interface TopProductsResponse {
+  products: { title: string; sku: string; totalQuantity: number; totalRevenue: number; orderCount: number }[]
+}
+
 interface FunnelStep {
   label: string
   count: number
+}
+
+interface FunnelResponse {
+  funnel: {
+    totalRegisteredUsers: number
+    newUsersInPeriod: number
+    totalOrders: number
+    completedOrders: number
+    cancelledOrders: number
+    uniqueCustomers: number
+    checkoutCompletionRate: number
+    cancellationRate: number
+  }
 }
 
 interface CustomerDataPoint {
   period: string
   newCustomers: number
   returningCustomers: number
+}
+
+interface CustomersResponse {
+  summary: { newCustomers: number; returningCustomers: number }
+  timeline: { date: string; newCustomers: number }[]
 }
 
 function formatEUR(value: number): string {
@@ -73,17 +95,52 @@ export function RevenueDashboard() {
     setError(null)
 
     try {
-      const [revenue, products, funnels, customers] = await Promise.all([
+      const [revenue, productsRes, funnelsRes, customersRes] = await Promise.all([
         fetchJSON<RevenueData>(`/api/analytics/revenue?period=${selectedPeriod}`),
-        fetchJSON<TopProduct[]>(`/api/analytics/top-products?period=${selectedPeriod}`),
-        fetchJSON<FunnelStep[]>(`/api/analytics/funnels?period=${selectedPeriod}`),
-        fetchJSON<CustomerDataPoint[]>(`/api/analytics/customers?period=${selectedPeriod}`),
+        fetchJSON<TopProductsResponse>(`/api/analytics/top-products?period=${selectedPeriod}`),
+        fetchJSON<FunnelResponse>(`/api/analytics/funnels?period=${selectedPeriod}`),
+        fetchJSON<CustomersResponse>(`/api/analytics/customers?period=${selectedPeriod}`),
       ])
 
       setRevenueData(revenue)
-      setTopProducts(products)
-      setFunnelData(funnels)
-      setCustomerData(customers)
+
+      // Transform nested API responses to flat arrays for components
+      const productsList = Array.isArray(productsRes) ? productsRes : (productsRes.products || [])
+      setTopProducts(productsList.map((p: any, i: number) => ({
+        rank: i + 1,
+        name: p.title || p.name || '',
+        sku: p.sku || '',
+        quantity: p.totalQuantity || p.quantity || 0,
+        revenue: p.totalRevenue || p.revenue || 0,
+      })))
+
+      // Transform funnel object to FunnelStep array
+      const funnel = (funnelsRes as any).funnel || funnelsRes
+      if (funnel && !Array.isArray(funnel)) {
+        setFunnelData([
+          { label: 'Geregistreerd', count: funnel.totalRegisteredUsers || 0 },
+          { label: 'Nieuw (periode)', count: funnel.newUsersInPeriod || 0 },
+          { label: 'Bestellingen', count: funnel.totalOrders || 0 },
+          { label: 'Afgerond', count: funnel.completedOrders || 0 },
+          { label: 'Unieke klanten', count: funnel.uniqueCustomers || 0 },
+        ])
+      } else {
+        setFunnelData(Array.isArray(funnel) ? funnel : [])
+      }
+
+      // Transform customer timeline to CustomerDataPoint array
+      const timeline = (customersRes as any).timeline
+      if (Array.isArray(timeline)) {
+        setCustomerData(timeline.map((t: any) => ({
+          period: t.date || '',
+          newCustomers: t.newCustomers || 0,
+          returningCustomers: 0,
+        })))
+      } else if (Array.isArray(customersRes)) {
+        setCustomerData(customersRes)
+      } else {
+        setCustomerData([])
+      }
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Er ging iets mis bij het laden van de data'
       setError(message)
