@@ -289,7 +289,7 @@ export const features = {
 
   // === CONTENT ===
   blog: isFeatureEnabled('blog'),
-  faq: isFeatureEnabled('faq'),
+  // faq: removed — use FAQ block on pages instead
   testimonials: isFeatureEnabled('testimonials'),
   cases: isFeatureEnabled('cases'),
   partners: isFeatureEnabled('partners'),
@@ -365,7 +365,7 @@ export const featureCategories = {
   sprint6: ['subscriptions', 'subscriptionManagement', 'subscriptionPages', 'giftVouchers', 'licenses', 'loyalty'],
   catalog: ['catalogBranches'],
   publishing: ['magazines'],
-  content: ['blog', 'faq', 'testimonials', 'cases', 'partners', 'services', 'wishlists'],
+  content: ['blog', 'testimonials', 'cases', 'partners', 'services', 'wishlists'],
   advanced: ['multiLanguage', 'aiContent', 'search', 'newsletter', 'platform', 'authentication', 'chatbot', 'abTesting'],
   emailMarketing: ['emailMarketing', 'emailCampaigns', 'emailAutomation', 'emailFlows', 'emailGrapesEditor', 'emailDeliverability', 'emailAnalytics'],
 } as const
@@ -567,7 +567,7 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
 
     // === CONTENT ===
     'blog-posts': 'blog',
-    faqs: 'faq',
+    // faqs: removed
     testimonials: 'testimonials',
     cases: 'cases',
     partners: 'partners',

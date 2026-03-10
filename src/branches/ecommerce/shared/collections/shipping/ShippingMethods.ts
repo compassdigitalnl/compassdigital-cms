@@ -10,7 +10,7 @@ export const ShippingMethods: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'Bestellingen',
+    group: 'Webshop',
     defaultColumns: ['name', 'price', 'deliveryTime', 'isActive', 'sortOrder'],
     description: 'Verzendopties voor de checkout (bijv. Standaard, Express, Ophalen)',
     hidden: shouldHideCollection('checkout'),

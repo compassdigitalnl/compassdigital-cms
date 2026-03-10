@@ -10,7 +10,7 @@ export const CheckoutPaymentOptions: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'Bestellingen',
+    group: 'Webshop',
     defaultColumns: ['name', 'provider', 'isActive', 'sortOrder'],
     description: 'Beschikbare betaalmethoden in de checkout (bijv. iDEAL, Creditcard, Op rekening)',
     hidden: shouldHideCollection('checkout'),

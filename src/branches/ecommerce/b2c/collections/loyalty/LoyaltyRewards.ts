@@ -10,7 +10,7 @@ export const LoyaltyRewards: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'Loyaliteit',
+    group: 'Webshop',
     defaultColumns: ['name', 'pointsCost', 'type', 'active', 'updatedAt'],
     description: 'Rewards that users can redeem with points',
     hidden: shouldHideCollection('loyalty'),

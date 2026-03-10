@@ -415,12 +415,6 @@ const EditorDashboard: React.FC<DashboardProps> = ({ userName }) => {
             label="Reviews"
             description="Klantreviews beheren"
           />
-          <QuickAction
-            href="/admin/collections/faqs/"
-            icon="❓"
-            label="FAQ"
-            description="Veelgestelde vragen beheren"
-          />
           {isEnabled('cases') && (
             <QuickAction
               href="/admin/collections/cases/"

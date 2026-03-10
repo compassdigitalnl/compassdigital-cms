@@ -12,7 +12,7 @@ export const Orders: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'orderNumber',
-    group: 'Bestellingen',
+    group: 'Webshop',
     defaultColumns: ['orderNumber', 'customer', 'total', 'status', 'createdAt'],
     description: 'Klantbestellingen en order management',
     hidden: shouldHideCollection('checkout'),

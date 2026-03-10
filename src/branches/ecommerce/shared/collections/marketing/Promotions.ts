@@ -19,7 +19,7 @@ export const Promotions: CollectionConfig = {
     plural: 'Promoties & Kortingscodes',
   },
   admin: {
-    group: 'Webshop',
+    group: 'Marketing',
     hidden: shouldHideCollection('promotions'),
     useAsTitle: 'title',
     defaultColumns: ['title', 'promotionMode', 'type', 'value', 'status', 'code', 'startDate', 'endDate'],

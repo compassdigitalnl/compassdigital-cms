@@ -86,7 +86,7 @@ import { BlogPosts } from '@/branches/publishing/collections/BlogPosts'
 // Shared Collections (blog, marketing)
 import { BlogCategories } from '@/branches/shared/collections/BlogCategories'
 import { Cases } from '@/branches/shared/collections/Cases'
-import { FAQs } from '@/branches/shared/collections/FAQs'
+// FAQs collection removed — use FAQ block on pages instead
 import { Testimonials } from '@/branches/shared/collections/Testimonials'
 
 // Marketplace Branch (3 collections)
@@ -385,7 +385,6 @@ export default buildConfig({
     // ═══════════════════════════════════════════════════════════════════════════
     _col(BlogPosts),
     _col(BlogCategories),
-    _col(FAQs),
     _col(Cases),
     _col(Testimonials),
 

@@ -16,7 +16,7 @@ export const LoyaltyTransactions: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'description',
-    group: 'Loyaliteit',
+    group: 'Webshop',
     defaultColumns: ['user', 'type', 'points', 'description', 'redemptionStatus', 'createdAt'],
     description: 'Punten verdienen, besteden en beloningen inwisselen',
     hidden: shouldHideCollection('loyalty'),

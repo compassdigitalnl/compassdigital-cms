@@ -26,6 +26,7 @@ import * as migration_20260310_160000_add_pwa_settings from './20260310_160000_a
 import * as migration_20260310_180000_merge_loyalty_collections from './20260310_180000_merge_loyalty_collections';
 import * as migration_20260310_190000_merge_discountcodes_into_promotions from './20260310_190000_merge_discountcodes_into_promotions';
 import * as migration_20260310_200000_remove_addresses_collection from './20260310_200000_remove_addresses_collection';
+import * as migration_20260310_210000_remove_faqs_collection from './20260310_210000_remove_faqs_collection';
 
 export const migrations = [
   {
@@ -167,5 +168,10 @@ export const migrations = [
     up: migration_20260310_200000_remove_addresses_collection.up,
     down: migration_20260310_200000_remove_addresses_collection.down,
     name: '20260310_200000_remove_addresses_collection',
+  },
+  {
+    up: migration_20260310_210000_remove_faqs_collection.up,
+    down: migration_20260310_210000_remove_faqs_collection.down,
+    name: '20260310_210000_remove_faqs_collection',
   },
 ];

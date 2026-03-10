@@ -10,7 +10,7 @@ export const GiftVouchers: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'code',
-    group: 'Producten',
+    group: 'Webshop',
     defaultColumns: ['code', 'recipientEmail', 'amount', 'balance', 'status', 'updatedAt'],
     description: 'Gift vouchers / cadeaubonnen',
     hidden: shouldHideCollection('giftVouchers'),
