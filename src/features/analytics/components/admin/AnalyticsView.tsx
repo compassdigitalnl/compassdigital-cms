@@ -15,8 +15,13 @@ export async function AnalyticsView({ initPageResult, params, searchParams }: an
       visibleEntities={initPageResult.visibleEntities}
     >
       <Gutter>
-        <h1 style={{ marginBottom: '1.5rem' }}>Analytics Dashboard</h1>
-        <RevenueDashboard />
+        <div style={{ paddingTop: '1rem', paddingBottom: '2rem' }}>
+          <div style={{ marginBottom: '1.5rem' }}>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1a1a2e', margin: 0 }}>Analytics Dashboard</h1>
+            <p style={{ fontSize: '0.8rem', color: '#6b7280', marginTop: '0.25rem' }}>Omzet, bestellingen, conversie en klantanalyse</p>
+          </div>
+          <RevenueDashboard />
+        </div>
       </Gutter>
     </DefaultTemplate>
   )

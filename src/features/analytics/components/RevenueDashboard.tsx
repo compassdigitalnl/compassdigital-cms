@@ -104,7 +104,6 @@ export function RevenueDashboard() {
 
       setRevenueData(revenue)
 
-      // Transform nested API responses to flat arrays for components
       const productsList = Array.isArray(productsRes) ? productsRes : (productsRes.products || [])
       setTopProducts(productsList.map((p: any, i: number) => ({
         rank: i + 1,
@@ -114,7 +113,6 @@ export function RevenueDashboard() {
         revenue: p.totalRevenue || p.revenue || 0,
       })))
 
-      // Transform funnel object to FunnelStep array
       const funnel = (funnelsRes as any).funnel || funnelsRes
       if (funnel && !Array.isArray(funnel)) {
         setFunnelData([
@@ -128,7 +126,6 @@ export function RevenueDashboard() {
         setFunnelData(Array.isArray(funnel) ? funnel : [])
       }
 
-      // Transform customer timeline to CustomerDataPoint array
       const timeline = (customersRes as any).timeline
       if (Array.isArray(timeline)) {
         setCustomerData(timeline.map((t: any) => ({
@@ -158,19 +155,19 @@ export function RevenueDashboard() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Period Selector */}
-      <div className="flex items-center justify-between flex-wrap gap-4">
+    <div>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
         <PeriodSelector value={period} onChange={handlePeriodChange} />
         {error && (
-          <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 px-4 py-2 rounded-lg">
-            <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8125rem', color: '#dc2626', background: '#fef2f2', padding: '0.5rem 1rem', borderRadius: '0.5rem' }}>
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             {error}
             <button
               onClick={() => loadData(period)}
-              className="ml-2 underline hover:no-underline"
+              style={{ marginLeft: '0.5rem', textDecoration: 'underline', background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', fontSize: '0.8125rem' }}
             >
               Opnieuw proberen
             </button>
@@ -179,7 +176,7 @@ export function RevenueDashboard() {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
         <StatCard
           title="Omzet"
           value={revenueData ? formatEUR(revenueData.totalRevenue) : '€ 0'}
@@ -213,7 +210,7 @@ export function RevenueDashboard() {
       />
 
       {/* Two Column: Products + Customer Metrics */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
         <TopProductsTable data={topProducts} loading={loading} />
         <CustomerMetrics data={customerData} loading={loading} />
       </div>

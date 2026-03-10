@@ -22,6 +22,14 @@ interface RevenueChartProps {
 
 const TEAL = '#00897B'
 
+const cardStyle: React.CSSProperties = {
+  background: '#fff',
+  borderRadius: '0.75rem',
+  padding: '1.5rem',
+  border: '1px solid #e5e7eb',
+  marginBottom: '1.5rem',
+}
+
 function formatEUR(value: number): string {
   return new Intl.NumberFormat('nl-NL', {
     style: 'currency',
@@ -52,15 +60,15 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload?.length) return null
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white px-4 py-3 shadow-lg">
-      <p className="text-sm text-gray-500">
+    <div style={{ borderRadius: '0.5rem', border: '1px solid #e5e7eb', background: '#fff', padding: '0.75rem 1rem', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+      <p style={{ fontSize: '0.8125rem', color: '#6b7280' }}>
         {label ? new Intl.DateTimeFormat('nl-NL', {
           weekday: 'long',
           day: 'numeric',
           month: 'long',
         }).format(new Date(label)) : ''}
       </p>
-      <p className="mt-1 text-lg font-semibold text-gray-900">
+      <p style={{ marginTop: '0.25rem', fontSize: '1.125rem', fontWeight: 600, color: '#1a1a2e' }}>
         {formatEUR(payload[0].value)}
       </p>
     </div>
@@ -70,18 +78,18 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
 export function RevenueChart({ data, loading }: RevenueChartProps) {
   if (loading) {
     return (
-      <div className="rounded-lg border border-gray-200 bg-white p-5">
-        <div className="h-5 w-32 bg-gray-200 rounded mb-4 animate-pulse" />
-        <div className="h-64 bg-gray-100 rounded animate-pulse" />
+      <div style={cardStyle}>
+        <div style={{ height: '1.25rem', width: '8rem', background: '#e5e7eb', borderRadius: '0.25rem', marginBottom: '1rem' }} />
+        <div style={{ height: '220px', background: '#f3f4f6', borderRadius: '0.5rem' }} />
       </div>
     )
   }
 
   if (!data || data.length === 0) {
     return (
-      <div className="rounded-lg border border-gray-200 bg-white p-5">
-        <h3 className="text-base font-semibold text-gray-900 mb-4">Omzet per dag</h3>
-        <div className="flex h-64 items-center justify-center text-gray-400">
+      <div style={cardStyle}>
+        <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#1a1a2e', marginBottom: '1rem' }}>Omzet per dag</h3>
+        <div style={{ display: 'flex', height: '220px', alignItems: 'center', justifyContent: 'center', color: '#9ca3af' }}>
           Geen omzetdata beschikbaar voor deze periode
         </div>
       </div>
@@ -89,9 +97,9 @@ export function RevenueChart({ data, loading }: RevenueChartProps) {
   }
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-5">
-      <h3 className="text-base font-semibold text-gray-900 mb-4">Omzet per dag</h3>
-      <div className="h-72">
+    <div style={cardStyle}>
+      <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#1a1a2e', marginBottom: '1rem' }}>Omzet per dag</h3>
+      <div style={{ height: '260px' }}>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 4, right: 4, left: 4, bottom: 0 }}>
             <defs>

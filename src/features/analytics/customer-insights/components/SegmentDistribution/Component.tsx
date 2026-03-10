@@ -6,12 +6,20 @@ import type { SegmentDistributionProps } from './types'
 const formatCurrency = (value: number) =>
   new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(value)
 
+const cardStyle: React.CSSProperties = {
+  background: '#fff',
+  borderRadius: '0.75rem',
+  padding: '1.5rem',
+  border: '1px solid #e5e7eb',
+  marginBottom: '1.5rem',
+}
+
 export function SegmentDistribution({ segments }: SegmentDistributionProps) {
   if (!Array.isArray(segments) || segments.length === 0) {
     return (
-      <div className="rounded-lg bg-white p-6 shadow-sm">
-        <h3 className="mb-4 text-lg font-semibold text-gray-900">Klantsegmenten</h3>
-        <p className="py-8 text-center text-gray-400">Geen segmentdata beschikbaar</p>
+      <div style={cardStyle}>
+        <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#1a1a2e', marginBottom: '1rem' }}>Klantsegmenten</h3>
+        <p style={{ padding: '2rem 0', textAlign: 'center', color: '#9ca3af' }}>Geen segmentdata beschikbaar</p>
       </div>
     )
   }
@@ -19,39 +27,44 @@ export function SegmentDistribution({ segments }: SegmentDistributionProps) {
   const maxPercentage = Math.max(...segments.map((s) => s.percentage), 1)
 
   return (
-    <div className="rounded-lg bg-white p-6 shadow-sm">
-      <h3 className="mb-4 text-lg font-semibold text-gray-900">Klantsegmenten</h3>
-      <div className="space-y-3">
+    <div style={cardStyle}>
+      <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#1a1a2e', marginBottom: '1rem' }}>Klantsegmenten</h3>
+      <div>
         {segments.map((seg) => {
           const config = SEGMENT_CONFIG[seg.segment]
           return (
-            <div key={seg.segment} className="flex items-center gap-3">
-              <span className="w-6 text-center text-lg" title={config.description}>
+            <div key={seg.segment} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.5rem 0' }}>
+              <div style={{ width: '2rem', textAlign: 'center', fontSize: '1.125rem' }} title={config.description}>
                 {config.icon}
-              </span>
-              <div className="w-32 shrink-0">
-                <p className="text-sm font-medium text-gray-700">{config.label}</p>
-                <p className="text-xs text-gray-500">{seg.count} klanten</p>
               </div>
-              <div className="flex-1">
-                <div className="h-6 w-full rounded-full bg-gray-100">
-                  <div
-                    className="flex h-6 items-center rounded-full px-2 text-xs font-medium text-white transition-all duration-500"
-                    style={{
-                      width: `${Math.max(2, (seg.percentage / maxPercentage) * 100)}%`,
-                      backgroundColor: config.color,
-                    }}
-                  >
+              <div style={{ width: '8rem', flexShrink: 0 }}>
+                <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#374151' }}>{config.label}</div>
+                <div style={{ fontSize: '0.6875rem', color: '#9ca3af' }}>{seg.count} klanten</div>
+              </div>
+              <div style={{ flex: 1, height: '1.5rem', background: '#f3f4f6', borderRadius: '999px', overflow: 'hidden' }}>
+                <div
+                  style={{
+                    height: '100%',
+                    borderRadius: '999px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    paddingLeft: '0.5rem',
+                    width: `${Math.max(2, (seg.percentage / maxPercentage) * 100)}%`,
+                    backgroundColor: config.color,
+                    transition: 'width 0.5s',
+                  }}
+                >
+                  <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#fff', whiteSpace: 'nowrap' }}>
                     {seg.percentage > 5 ? `${seg.percentage}%` : ''}
-                  </div>
+                  </span>
                 </div>
               </div>
-              <div className="w-20 shrink-0 text-right text-xs text-gray-500">
+              <div style={{ width: '3rem', flexShrink: 0, textAlign: 'right', fontSize: '0.75rem', fontWeight: 600, color: '#4b5563' }}>
                 {seg.percentage}%
               </div>
-              <div className="w-28 shrink-0 text-right">
-                <p className="text-sm font-medium text-gray-700">{formatCurrency(seg.totalRevenue)}</p>
-                <p className="text-xs text-gray-400">Gem. CLV: {formatCurrency(seg.avgClv)}</p>
+              <div style={{ width: '7rem', flexShrink: 0, textAlign: 'right' }}>
+                <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#374151' }}>{formatCurrency(seg.totalRevenue)}</div>
+                <div style={{ fontSize: '0.625rem', color: '#9ca3af' }}>CLV: {formatCurrency(seg.avgClv)}</div>
               </div>
             </div>
           )

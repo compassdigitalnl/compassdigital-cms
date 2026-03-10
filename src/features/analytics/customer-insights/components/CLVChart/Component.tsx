@@ -5,12 +5,19 @@ import type { CLVChartProps } from './types'
 const formatCurrency = (value: number) =>
   new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(value)
 
+const cardStyle: React.CSSProperties = {
+  background: '#fff',
+  borderRadius: '0.75rem',
+  padding: '1.5rem',
+  border: '1px solid #e5e7eb',
+}
+
 export function CLVChart({ customers }: CLVChartProps) {
   if (!Array.isArray(customers) || customers.length === 0) {
     return (
-      <div className="rounded-lg bg-white p-6 shadow-sm">
-        <h3 className="mb-4 text-lg font-semibold text-gray-900">Top 10 klantwaarde (CLV)</h3>
-        <p className="py-8 text-center text-gray-400">Geen klantgegevens beschikbaar</p>
+      <div style={cardStyle}>
+        <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#1a1a2e', marginBottom: '1rem' }}>Top 10 klantwaarde (CLV)</h3>
+        <p style={{ padding: '2rem 0', textAlign: 'center', color: '#9ca3af' }}>Geen klantgegevens beschikbaar</p>
       </div>
     )
   }
@@ -18,47 +25,49 @@ export function CLVChart({ customers }: CLVChartProps) {
   const maxValue = Math.max(...customers.map((c) => Math.max(c.clvHistorical, c.clvPredicted)), 1)
 
   return (
-    <div className="rounded-lg bg-white p-6 shadow-sm">
-      <h3 className="mb-4 text-lg font-semibold text-gray-900">Top 10 klantwaarde (CLV)</h3>
-      <div className="mb-3 flex items-center gap-4 text-xs text-gray-500">
-        <span className="flex items-center gap-1">
-          <span className="inline-block h-3 w-3 rounded bg-blue-500" /> Historisch
-        </span>
-        <span className="flex items-center gap-1">
-          <span className="inline-block h-3 w-3 rounded bg-purple-400" /> Voorspeld
-        </span>
-      </div>
-      <div className="space-y-3">
-        {customers.length === 0 ? (
-          <p className="py-8 text-center text-gray-400">Geen klantgegevens beschikbaar</p>
-        ) : (
-          customers.map((customer) => (
-            <div key={customer.userId} className="space-y-1">
-              <div className="flex items-center justify-between text-sm">
-                <span className="font-medium text-gray-700">
-                  {customer.name || customer.email || `Klant #${customer.userId}`}
-                </span>
-                <span className="text-xs text-gray-500">
-                  {formatCurrency(customer.clvPredicted)}
-                </span>
-              </div>
-              {/* Historical bar */}
-              <div className="h-4 w-full rounded bg-gray-100">
-                <div
-                  className="h-4 rounded bg-blue-500 transition-all duration-500"
-                  style={{ width: `${(customer.clvHistorical / maxValue) * 100}%` }}
-                />
-              </div>
-              {/* Predicted bar */}
-              <div className="h-4 w-full rounded bg-gray-100">
-                <div
-                  className="h-4 rounded bg-purple-400 transition-all duration-500"
-                  style={{ width: `${(customer.clvPredicted / maxValue) * 100}%` }}
-                />
-              </div>
+    <div style={cardStyle}>
+      <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#1a1a2e', marginBottom: '1rem' }}>Top 10 klantwaarde (CLV)</h3>
+      <div>
+        {customers.map((customer) => (
+          <div key={customer.userId} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+            <div style={{ width: '7rem', flexShrink: 0, fontSize: '0.75rem', fontWeight: 500, color: '#4b5563', textAlign: 'right', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {customer.name || customer.email || `Klant #${customer.userId}`}
             </div>
-          ))
-        )}
+            <div style={{ flex: 1, display: 'flex', gap: '0.125rem' }}>
+              <div
+                style={{
+                  height: '1.25rem',
+                  borderRadius: '0.25rem',
+                  minWidth: '2px',
+                  background: '#3b82f6',
+                  width: `${(customer.clvHistorical / maxValue) * 100}%`,
+                  transition: 'width 0.5s',
+                }}
+              />
+              <div
+                style={{
+                  height: '1.25rem',
+                  borderRadius: '0.25rem',
+                  minWidth: '2px',
+                  background: '#93c5fd',
+                  width: `${(customer.clvPredicted / maxValue) * 100 - (customer.clvHistorical / maxValue) * 100}%`,
+                  transition: 'width 0.5s',
+                }}
+              />
+            </div>
+            <div style={{ width: '4.5rem', flexShrink: 0, fontSize: '0.6875rem', fontWeight: 600, color: '#374151', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
+              {formatCurrency(customer.clvPredicted)}
+            </div>
+          </div>
+        ))}
+        <div style={{ display: 'flex', gap: '1rem', marginTop: '0.75rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.6875rem', color: '#6b7280' }}>
+            <span style={{ display: 'inline-block', width: '0.625rem', height: '0.625rem', borderRadius: '0.125rem', background: '#3b82f6' }} /> Historisch
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.6875rem', color: '#6b7280' }}>
+            <span style={{ display: 'inline-block', width: '0.625rem', height: '0.625rem', borderRadius: '0.125rem', background: '#93c5fd' }} /> Voorspeld
+          </div>
+        </div>
       </div>
     </div>
   )

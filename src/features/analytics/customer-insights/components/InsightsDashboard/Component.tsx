@@ -38,19 +38,22 @@ export function InsightsDashboard({ className }: InsightsDashboardProps) {
 
   if (loading) {
     return (
-      <div className={`space-y-6 ${className || ''}`}>
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-900">Klantinzichten</h2>
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+          <div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1a1a2e' }}>Klantinzichten</div>
+            <div style={{ fontSize: '0.8rem', color: '#6b7280', marginTop: '0.25rem' }}>RFM-analyse, segmentatie, CLV en churn-predictie</div>
+          </div>
         </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-24 animate-pulse rounded-lg bg-gray-100" />
+            <div key={i} style={{ height: '6rem', background: '#f3f4f6', borderRadius: '0.75rem' }} />
           ))}
         </div>
-        <div className="h-64 animate-pulse rounded-lg bg-gray-100" />
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <div className="h-80 animate-pulse rounded-lg bg-gray-100" />
-          <div className="h-80 animate-pulse rounded-lg bg-gray-100" />
+        <div style={{ height: '16rem', background: '#f3f4f6', borderRadius: '0.75rem', marginBottom: '1.5rem' }} />
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          <div style={{ height: '20rem', background: '#f3f4f6', borderRadius: '0.75rem' }} />
+          <div style={{ height: '20rem', background: '#f3f4f6', borderRadius: '0.75rem' }} />
         </div>
       </div>
     )
@@ -58,18 +61,21 @@ export function InsightsDashboard({ className }: InsightsDashboardProps) {
 
   if (error) {
     return (
-      <div className={`${className || ''}`}>
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-900">Klantinzichten</h2>
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+          <div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1a1a2e' }}>Klantinzichten</div>
+            <div style={{ fontSize: '0.8rem', color: '#6b7280', marginTop: '0.25rem' }}>RFM-analyse, segmentatie, CLV en churn-predictie</div>
+          </div>
           <button
             onClick={fetchData}
-            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            style={{ padding: '0.5rem 1rem', borderRadius: '0.5rem', border: 'none', background: '#7c3aed', color: '#fff', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer' }}
           >
             Opnieuw laden
           </button>
         </div>
-        <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-4">
-          <p className="text-sm text-red-800">Fout bij laden van klantinzichten: {error}</p>
+        <div style={{ borderRadius: '0.75rem', border: '1px solid #fecaca', background: '#fef2f2', padding: '1rem' }}>
+          <p style={{ fontSize: '0.8125rem', color: '#991b1b' }}>Fout bij laden van klantinzichten: {error}</p>
         </div>
       </div>
     )
@@ -78,13 +84,26 @@ export function InsightsDashboard({ className }: InsightsDashboardProps) {
   if (!data) return null
 
   return (
-    <div className={`space-y-6 ${className || ''}`}>
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Klantinzichten</h2>
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+        <div>
+          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1a1a2e' }}>Klantinzichten</div>
+          <div style={{ fontSize: '0.8rem', color: '#6b7280', marginTop: '0.25rem' }}>RFM-analyse, segmentatie, CLV en churn-predictie</div>
+        </div>
         <button
           onClick={fetchData}
           disabled={loading}
-          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+          style={{
+            padding: '0.5rem 1rem',
+            borderRadius: '0.5rem',
+            border: 'none',
+            background: '#7c3aed',
+            color: '#fff',
+            fontSize: '0.8125rem',
+            fontWeight: 600,
+            cursor: 'pointer',
+            opacity: loading ? 0.5 : 1,
+          }}
         >
           Vernieuwen
         </button>
@@ -99,7 +118,7 @@ export function InsightsDashboard({ className }: InsightsDashboardProps) {
 
       <SegmentDistribution segments={data.segments} />
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
         <CLVChart customers={data.topClv} />
         <RFMHeatmap customers={data.topChurnRisk} />
       </div>

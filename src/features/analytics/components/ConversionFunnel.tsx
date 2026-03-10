@@ -11,10 +11,10 @@ interface ConversionFunnelProps {
 }
 
 const FUNNEL_COLORS = [
-  '#1A237E', // navy
+  '#1A237E',
   '#283593',
   '#00695C',
-  '#00897B', // teal
+  '#00897B',
   '#26A69A',
 ]
 
@@ -30,18 +30,23 @@ function formatCount(value: number): string {
   return new Intl.NumberFormat('nl-NL').format(value)
 }
 
+const cardStyle: React.CSSProperties = {
+  background: '#fff',
+  borderRadius: '0.75rem',
+  padding: '1.5rem',
+  border: '1px solid #e5e7eb',
+}
+
 export function ConversionFunnel({ data, loading }: ConversionFunnelProps) {
   const steps = data.length > 0 ? data : DEFAULT_STEPS
 
   if (loading) {
     return (
-      <div className="rounded-lg border border-gray-200 bg-white p-5">
-        <div className="h-5 w-40 bg-gray-200 rounded mb-6 animate-pulse" />
-        <div className="space-y-3">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="h-12 bg-gray-100 rounded animate-pulse" style={{ width: `${100 - i * 15}%` }} />
-          ))}
-        </div>
+      <div style={cardStyle}>
+        <div style={{ height: '1.25rem', width: '10rem', background: '#e5e7eb', borderRadius: '0.25rem', marginBottom: '1.5rem' }} />
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} style={{ height: '2.5rem', background: '#f3f4f6', borderRadius: '0.375rem', marginBottom: '0.5rem', width: `${100 - i * 15}%` }} />
+        ))}
       </div>
     )
   }
@@ -49,9 +54,9 @@ export function ConversionFunnel({ data, loading }: ConversionFunnelProps) {
   const maxCount = steps[0]?.count || 1
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-5">
-      <h3 className="text-base font-semibold text-gray-900 mb-6">Conversie funnel</h3>
-      <div className="space-y-2">
+    <div style={cardStyle}>
+      <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#1a1a2e', marginBottom: '1.5rem' }}>Conversie funnel</h3>
+      <div>
         {steps.map((step, index) => {
           const widthPercent = maxCount > 0 ? Math.max((step.count / maxCount) * 100, 12) : 12
           const prevCount = index > 0 ? steps[index - 1].count : step.count
@@ -60,29 +65,34 @@ export function ConversionFunnel({ data, loading }: ConversionFunnelProps) {
           const color = FUNNEL_COLORS[index % FUNNEL_COLORS.length]
 
           return (
-            <div key={step.label} className="flex items-center gap-4">
-              <div className="w-28 shrink-0 text-right">
-                <span className="text-sm font-medium text-gray-700">{step.label}</span>
+            <div key={step.label} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+              <div style={{ width: '7rem', flexShrink: 0, textAlign: 'right', fontSize: '0.8125rem', fontWeight: 500, color: '#4b5563' }}>
+                {step.label}
               </div>
-              <div className="flex-1 relative">
+              <div style={{ flex: 1 }}>
                 <div
-                  className="h-10 rounded-md flex items-center px-3 transition-all duration-300"
-                  style={{ width: `${widthPercent}%`, backgroundColor: color }}
+                  style={{
+                    height: '2.5rem',
+                    borderRadius: '0.375rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    paddingLeft: '0.75rem',
+                    width: `${widthPercent}%`,
+                    backgroundColor: color,
+                    transition: 'width 0.4s',
+                  }}
                 >
-                  <span className="text-sm font-bold text-white whitespace-nowrap">
+                  <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#fff', whiteSpace: 'nowrap' }}>
                     {formatCount(step.count)}
                   </span>
                 </div>
               </div>
-              <div className="w-32 shrink-0 text-sm text-gray-500">
+              <div style={{ width: '8rem', flexShrink: 0, fontSize: '0.75rem' }}>
                 {index > 0 && (
-                  <span className="flex items-center gap-2">
-                    <span className="font-medium text-gray-700">
-                      {conversionRate.toFixed(1)}%
-                    </span>
-                    <span className="text-red-400 text-xs">
-                      -{dropOff.toFixed(1)}%
-                    </span>
+                  <span>
+                    <span style={{ fontWeight: 600, color: '#1a1a2e' }}>{conversionRate.toFixed(1)}%</span>
+                    {' '}
+                    <span style={{ color: '#ef4444', fontSize: '0.6875rem' }}>-{dropOff.toFixed(1)}%</span>
                   </span>
                 )}
               </div>

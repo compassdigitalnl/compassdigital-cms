@@ -15,11 +15,9 @@ export async function InsightsView({ initPageResult, params, searchParams }: any
       visibleEntities={initPageResult.visibleEntities}
     >
       <Gutter>
-        <h1 style={{ marginBottom: '0.5rem' }}>Klantinzichten</h1>
-        <p style={{ marginBottom: '1.5rem', opacity: 0.6 }}>
-          RFM-analyse, segmentatie, CLV en churn-predictie
-        </p>
-        <InsightsDashboard />
+        <div style={{ paddingTop: '1rem', paddingBottom: '2rem' }}>
+          <InsightsDashboard />
+        </div>
       </Gutter>
     </DefaultTemplate>
   )
