@@ -38,9 +38,13 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
   `)
 
   // ── Subscription enum (interval select) ──
+  // Note: ALTER TYPE does not support IF EXISTS in PostgreSQL
   await db.execute(sql`
-    ALTER TYPE IF EXISTS enum_products_subscription_config_subscription_plans_interval
-    RENAME TO prod_sub_plan_interval;
+    DO $$ BEGIN
+      ALTER TYPE enum_products_subscription_config_subscription_plans_interval
+      RENAME TO prod_sub_plan_interval;
+    EXCEPTION WHEN undefined_object THEN null;
+    END $$;
   `)
 }
 
@@ -67,7 +71,10 @@ export async function down({ db }: MigrateDownArgs): Promise<void> {
 
   // ── Subscription enum ──
   await db.execute(sql`
-    ALTER TYPE IF EXISTS prod_sub_plan_interval
-    RENAME TO enum_products_subscription_config_subscription_plans_interval;
+    DO $$ BEGIN
+      ALTER TYPE prod_sub_plan_interval
+      RENAME TO enum_products_subscription_config_subscription_plans_interval;
+    EXCEPTION WHEN undefined_object THEN null;
+    END $$;
   `)
 }
