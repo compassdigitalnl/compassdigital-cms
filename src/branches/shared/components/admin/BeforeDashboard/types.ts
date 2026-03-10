@@ -12,6 +12,7 @@ export interface StatCardProps {
   label: string
   icon: string
   color: 'blue' | 'green' | 'orange' | 'purple'
+  change?: number
 }
 
 export interface DashboardProps {

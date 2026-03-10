@@ -1,9 +1,20 @@
 'use client'
 
 import { useAuth } from '@payloadcms/ui'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './index.scss'
 import type { QuickActionProps, StatCardProps, DashboardProps } from './types'
+
+// ─────────────────────────────────────────────────────────────
+// Helpers
+// ─────────────────────────────────────────────────────────────
+const formatEUR = (v: number) =>
+  new Intl.NumberFormat('nl-NL', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(v)
 
 // ─────────────────────────────────────────────────────────────
 // Quick Action Card
@@ -25,26 +36,117 @@ const QuickAction: React.FC<QuickActionProps> = ({
     <span className="cd-quick-action__icon">{icon}</span>
     <span className="cd-quick-action__label">{label}</span>
     <span className="cd-quick-action__desc">{description}</span>
-    <span className="cd-quick-action__arrow">→</span>
+    <span className="cd-quick-action__arrow">&rarr;</span>
   </a>
 )
 
 // ─────────────────────────────────────────────────────────────
 // Stat Card
 // ─────────────────────────────────────────────────────────────
-const StatCard: React.FC<StatCardProps> = ({ value, label, icon, color }) => (
+const StatCard: React.FC<StatCardProps> = ({ value, label, icon, color, change }) => (
   <div className={`cd-stat cd-stat--${color}`}>
     <span className="cd-stat__icon">{icon}</span>
     <span className="cd-stat__value">{value}</span>
-    <span className="cd-stat__label">{label}</span>
+    <span className="cd-stat__label">
+      {label}
+      {change !== undefined && change !== 0 && (
+        <span
+          className={`cd-stat__change ${change > 0 ? 'cd-stat__change--up' : 'cd-stat__change--down'}`}
+        >
+          {change > 0 ? '+' : ''}
+          {change}%
+        </span>
+      )}
+    </span>
   </div>
 )
+
+// ─────────────────────────────────────────────────────────────
+// Hook: fetch collection count
+// ─────────────────────────────────────────────────────────────
+function useCollectionCount(slug: string): number | null {
+  const [count, setCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    fetch(`/api/${slug}?limit=0&depth=0`, { credentials: 'include' })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.totalDocs !== undefined) setCount(data.totalDocs)
+      })
+      .catch(() => {})
+  }, [slug])
+
+  return count
+}
+
+// ─────────────────────────────────────────────────────────────
+// Analytics Mini Widget
+// ─────────────────────────────────────────────────────────────
+const AnalyticsMini: React.FC = () => {
+  const [stats, setStats] = useState<{
+    totals: { revenue: number; orderCount: number; aov: number }
+    comparison: {
+      revenue: { change: number }
+      orderCount: { change: number }
+      aov: { change: number }
+    }
+  } | null>(null)
+
+  useEffect(() => {
+    fetch('/api/analytics/revenue?period=30d', { credentials: 'include' })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.totals) setStats(data)
+      })
+      .catch(() => {})
+  }, [])
+
+  if (!stats) return null
+
+  return (
+    <div className="cd-section">
+      <div className="cd-section__header">
+        <h2 className="cd-section__title cd-section__title--inline">Afgelopen 30 dagen</h2>
+        <a href="/admin/analytics" className="cd-section__link">
+          Bekijk details &rarr;
+        </a>
+      </div>
+      <div className="cd-stats-row">
+        <StatCard
+          value={formatEUR(stats.totals.revenue)}
+          label="Omzet"
+          icon="💰"
+          color="green"
+          change={stats.comparison?.revenue?.change}
+        />
+        <StatCard
+          value={String(stats.totals.orderCount)}
+          label="Bestellingen"
+          icon="📦"
+          color="blue"
+          change={stats.comparison?.orderCount?.change}
+        />
+        <StatCard
+          value={formatEUR(stats.totals.aov)}
+          label="Gem. bestelbedrag"
+          icon="📊"
+          color="orange"
+          change={stats.comparison?.aov?.change}
+        />
+      </div>
+    </div>
+  )
+}
 
 // ─────────────────────────────────────────────────────────────
 // Admin Dashboard
 // ─────────────────────────────────────────────────────────────
 const AdminDashboard: React.FC<DashboardProps> = ({ userName }) => {
   const firstName = userName?.split(' ')[0] || 'Admin'
+  const clientCount = useCollectionCount('clients')
+  const pageCount = useCollectionCount('pages')
+  const formCount = useCollectionCount('form-submissions')
+  const mediaCount = useCollectionCount('media')
 
   return (
     <div className="cd-dashboard">
@@ -60,12 +162,32 @@ const AdminDashboard: React.FC<DashboardProps> = ({ userName }) => {
         <div className="cd-hero__badge">CD</div>
       </div>
 
-      {/* Stats row */}
+      {/* Stats row — real data */}
       <div className="cd-stats-row">
-        <StatCard value="—" label="Actieve klanten" icon="🏢" color="blue" />
-        <StatCard value="—" label="Deployments" icon="🚀" color="green" />
-        <StatCard value="—" label="Form inzendingen" icon="📬" color="orange" />
-        <StatCard value="—" label="Media bestanden" icon="🖼️" color="purple" />
+        <StatCard
+          value={clientCount !== null ? String(clientCount) : '...'}
+          label="Actieve klanten"
+          icon="🏢"
+          color="blue"
+        />
+        <StatCard
+          value={pageCount !== null ? String(pageCount) : '...'}
+          label="Pagina's"
+          icon="📄"
+          color="green"
+        />
+        <StatCard
+          value={formCount !== null ? String(formCount) : '...'}
+          label="Form inzendingen"
+          icon="📬"
+          color="orange"
+        />
+        <StatCard
+          value={mediaCount !== null ? String(mediaCount) : '...'}
+          label="Media bestanden"
+          icon="🖼️"
+          color="purple"
+        />
       </div>
 
       {/* Platform acties */}
@@ -178,16 +300,19 @@ const EditorDashboard: React.FC<DashboardProps> = ({ userName }) => {
       <div className="cd-hero cd-hero--editor">
         <div className="cd-hero__content">
           <p className="cd-hero__eyebrow">Mijn website</p>
-          <h1 className="cd-hero__title">Hoi {firstName}! 👋</h1>
+          <h1 className="cd-hero__title">Hoi {firstName}!</h1>
           <p className="cd-hero__subtitle">
             Alles wat je nodig hebt om jouw website te beheren staat hier. Kies hieronder waar je
             mee aan de slag wil.
           </p>
         </div>
         <a href="/" className="cd-hero__cta" target="_blank" rel="noopener noreferrer">
-          Bekijk mijn site →
+          Bekijk mijn site &rarr;
         </a>
       </div>
+
+      {/* Analytics mini (ecommerce only) */}
+      {ecommerceEnabled && <AnalyticsMini />}
 
       {/* Meest gebruikt */}
       <div className="cd-section">
@@ -400,7 +525,7 @@ export const BeforeDashboard: React.FC = () => {
   // Check if this is a client/tenant deployment
   const isClientDeployment = !!(
     process.env.NEXT_PUBLIC_CLIENT_ID ||
-    typeof window !== 'undefined' && (window as any).__CLIENT_DEPLOYMENT__
+    (typeof window !== 'undefined' && (window as any).__CLIENT_DEPLOYMENT__)
   )
 
   // In client deployments, always show tenant UI (even for admins)
