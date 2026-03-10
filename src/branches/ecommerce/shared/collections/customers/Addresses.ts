@@ -15,6 +15,7 @@ export const Addresses: CollectionConfig = {
     useAsTitle: 'label',
     defaultColumns: ['label', 'user', 'type', 'city', 'country'],
     group: 'E-commerce',
+    hidden: true, // User data — viewable via user profile, not directly in sidebar
   },
   access: {
     read: ({ req: { user } }) => {

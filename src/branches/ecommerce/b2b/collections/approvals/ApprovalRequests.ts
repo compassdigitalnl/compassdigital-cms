@@ -11,6 +11,7 @@ export const ApprovalRequests: CollectionConfig = {
     useAsTitle: 'orderReference',
     defaultColumns: ['orderReference', 'requestedBy', 'status', 'totalAmount', 'createdAt'],
     group: 'B2B',
+    hidden: true, // Workflow data — managed via notificaties/dashboard, not directly
   },
   access: {
     read: ({ req: { user } }) => checkRole(['admin', 'editor'], user),

@@ -12,6 +12,7 @@ export const PushSubscriptions: CollectionConfig = {
     useAsTitle: 'endpoint',
     defaultColumns: ['user', 'endpoint', 'active', 'lastUsed', 'createdAt'],
     description: 'Push notificatie abonnementen van gebruikers (Web Push API)',
+    hidden: true, // System data — auto-managed by PWA service
   },
   access: {
     // Only admins can read/list subscriptions

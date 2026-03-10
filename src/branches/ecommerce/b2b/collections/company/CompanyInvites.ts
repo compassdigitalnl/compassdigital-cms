@@ -11,6 +11,7 @@ export const CompanyInvites: CollectionConfig = {
     useAsTitle: 'email',
     defaultColumns: ['email', 'role', 'company', 'status', 'createdAt'],
     group: 'B2B',
+    hidden: true, // Workflow data — managed via B2B team flow, not directly
   },
   access: {
     read: ({ req: { user } }) => checkRole(['admin', 'editor'], user),

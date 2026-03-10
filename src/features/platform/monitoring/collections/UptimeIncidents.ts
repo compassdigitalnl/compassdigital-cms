@@ -11,6 +11,7 @@ export const UptimeIncidents: CollectionConfig = {
     useAsTitle: 'clientName',
     group: 'Platform',
     defaultColumns: ['clientName', 'status', 'severity', 'startedAt', 'resolvedAt', 'durationMinutes'],
+    hidden: true, // Monitoring data — auto-generated, viewable via dashboard
   },
   access: {
     read: ({ req: { user } }) => checkRole(['admin'], user),
