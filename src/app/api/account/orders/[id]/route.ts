@@ -37,10 +37,11 @@ export async function GET(
     }
 
     return NextResponse.json({ success: true, doc: order })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error fetching order:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch order', message: error.message },
+      { error: 'Failed to fetch order', message },
       { status: 500 },
     )
   }

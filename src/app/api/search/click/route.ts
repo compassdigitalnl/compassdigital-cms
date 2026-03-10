@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     })
 
     return NextResponse.json({ success: true })
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Non-critical — don't fail loudly
     return NextResponse.json({ success: false })
   }

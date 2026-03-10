@@ -161,13 +161,14 @@ async function provisionClientSite(
     })
 
     return provisioningResult
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Provisioning] Error:', error)
+    const message = error instanceof Error ? error.message : String(error)
 
     // Send error to client via SSE
     await sendProgress(sseConnectionId, {
       type: 'error',
-      error: error.message || 'Provisioning failed',
+      error: message || 'Provisioning failed',
     })
 
     throw error
@@ -222,10 +223,11 @@ export async function POST(request: NextRequest) {
       message: 'Provisioning started',
       sseConnectionId: body.sseConnectionId,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Provisioning API] Error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Failed to start provisioning' },
+      { error: message || 'Failed to start provisioning' },
       { status: 500 },
     )
   }
@@ -264,8 +266,9 @@ export async function GET(request: NextRequest) {
         lastDeployedAt: client.lastDeployedAt,
       },
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Provisioning Status] Error:', error)
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    const message = error instanceof Error ? error.message : String(error)
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

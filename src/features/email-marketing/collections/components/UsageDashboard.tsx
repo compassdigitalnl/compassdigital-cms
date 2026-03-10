@@ -86,9 +86,10 @@ export const UsageDashboard: React.FC = () => {
 
       const result = await response.json()
       setData(result)
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err)
       console.error('[UsageDashboard] Error fetching usage:', err)
-      setError(err.message || 'Failed to load usage data')
+      setError(message || 'Failed to load usage data')
     } finally {
       setLoading(false)
     }

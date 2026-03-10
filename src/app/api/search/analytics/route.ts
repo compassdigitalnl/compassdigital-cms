@@ -37,8 +37,9 @@ export async function GET(request: NextRequest) {
       topQueries,
       zeroResultQueries,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Search Analytics] Error:', error)
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    const message = error instanceof Error ? error.message : String(error)
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }

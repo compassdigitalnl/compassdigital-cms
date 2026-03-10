@@ -77,10 +77,11 @@ export async function GET(request: NextRequest) {
         totalDownloads,
       },
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error fetching licenses:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch licenses', message: error.message },
+      { error: 'Failed to fetch licenses', message },
       { status: 500 },
     )
   }

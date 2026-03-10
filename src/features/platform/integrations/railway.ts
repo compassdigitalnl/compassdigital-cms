@@ -79,7 +79,7 @@ export async function createRailwayDatabase(data: {
 
     // Check for authentication errors specifically
     if (projectData.errors) {
-      const authError = projectData.errors.find((err: any) =>
+      const authError = projectData.errors.find((err: { message?: string }) =>
         err.message?.toLowerCase().includes('not authorized') ||
         err.message?.toLowerCase().includes('unauthorized') ||
         err.message?.toLowerCase().includes('authentication')
@@ -128,7 +128,7 @@ export async function createRailwayDatabase(data: {
     const serviceData = await serviceRes.json()
 
     if (serviceData.errors) {
-      const authError = serviceData.errors.find((err: any) =>
+      const authError = serviceData.errors.find((err: { message?: string }) =>
         err.message?.toLowerCase().includes('not authorized') ||
         err.message?.toLowerCase().includes('unauthorized')
       )
@@ -175,7 +175,7 @@ export async function createRailwayDatabase(data: {
 
     const envData = await envRes.json()
     const environments = envData.data?.project?.environments?.edges || []
-    const productionEnv = environments.find((e: any) => e.node.name === 'production') || environments[0]
+    const productionEnv = environments.find((e: { node: { id: string; name: string } }) => e.node.name === 'production') || environments[0]
     const environmentId = productionEnv?.node?.id
 
     if (!environmentId) {
@@ -249,13 +249,14 @@ export async function createRailwayDatabase(data: {
       url: dbUrl,
       id: service.id,
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Railway] Error provisioning database:', error)
 
     // If Railway project/service creation fails entirely, try the shared fallback
     const platformUrl = process.env.PLATFORM_DATABASE_URL
     if (platformUrl) {
-      console.warn('[Railway] Falling back to shared PostgreSQL after error:', error.message)
+      const errMessage = error instanceof Error ? error.message : String(error)
+      console.warn('[Railway] Falling back to shared PostgreSQL after error:', errMessage)
       return await createSharedDatabase({ name: data.name, domain: data.domain })
     }
 
@@ -356,7 +357,7 @@ export async function deleteRailwayDatabase(serviceId: string): Promise<void> {
     })
 
     console.log(`[Railway] Service deleted successfully`)
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Railway] Error deleting database:', error)
     throw error
   }

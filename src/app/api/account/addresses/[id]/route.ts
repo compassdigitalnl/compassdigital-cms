@@ -32,10 +32,11 @@ export async function PUT(
     })
 
     return NextResponse.json({ success: true })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error updating address:', error)
     return NextResponse.json(
-      { error: 'Failed to update address', message: error.message },
+      { error: 'Failed to update address', message },
       { status: 500 },
     )
   }
@@ -70,10 +71,11 @@ export async function DELETE(
     })
 
     return NextResponse.json({ success: true })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error deleting address:', error)
     return NextResponse.json(
-      { error: 'Failed to delete address', message: error.message },
+      { error: 'Failed to delete address', message },
       { status: 500 },
     )
   }

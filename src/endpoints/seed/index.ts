@@ -9,45 +9,116 @@ import { imageHatData } from './image-hat'
 import { imageTshirtBlackData } from './image-tshirt-black'
 import { imageTshirtWhiteData } from './image-tshirt-white'
 import { imageHero1Data } from './image-hero-1'
-import { Address } from '@/payload-types'
-// NOTE: Transaction and VariantOption types don't exist (variable products feature not implemented yet)
-// import { Transaction, VariantOption } from '@/payload-types'
-type Transaction = any
-type VariantOption = any
 
-const collections: CollectionSlug[] = [
+// =============================================================================
+// Seed-specific types
+// Legacy collections from original Payload ecommerce template (not in current schema).
+// These are kept for forward-compatibility when variable products feature is implemented.
+// =============================================================================
+
+/** Legacy collection slugs that don't exist in the current schema */
+type LegacyCollectionSlug = 'variants' | 'variantOptions' | 'variantTypes' | 'transactions'
+
+/** Union of real + legacy slugs used in this seed file */
+type SeedCollectionSlug = CollectionSlug | LegacyCollectionSlug
+
+/** Generic record type for seed data that doesn't match strict collection schemas */
+type SeedData = Record<string, unknown>
+
+/** Address shape used in the seed (matches original Payload ecommerce template, not current schema) */
+interface SeedAddress {
+  title?: string
+  firstName?: string
+  lastName?: string
+  phone?: string
+  company?: string
+  addressLine1?: string
+  addressLine2?: string
+  city?: string
+  state?: string
+  postalCode?: string
+  country?: string
+}
+
+/** Variant option shape used in the seed */
+interface SeedVariantOption {
+  label: string
+  value: string
+  variantType?: string | number
+}
+
+/** Stripe payment info shape */
+interface SeedStripeInfo {
+  customerID?: string
+  paymentIntentID?: string
+}
+
+/** Transaction shape used in the seed */
+interface SeedTransaction {
+  billingAddress?: SeedAddress
+  currency?: string
+  customer?: string | number
+  paymentMethod?: string
+  stripe?: SeedStripeInfo
+  status?: string
+}
+
+/** Navigation item shape used in the seed for header/footer globals */
+interface SeedNavItem {
+  link: {
+    type: string
+    label: string
+    url: string
+    newTab?: boolean
+  }
+}
+
+/** Cart/order item shape used in the seed */
+interface SeedLineItem {
+  product: number | string
+  variant?: number | string
+  quantity: number
+}
+
+/** Gallery image entry with optional variant option */
+interface SeedGalleryImage {
+  image: SeedData
+  variantOption?: SeedData
+}
+
+const collections: SeedCollectionSlug[] = [
   'product-categories',
   'media',
   'pages',
   'products',
   'forms',
   'form-submissions',
-  'variants' as any,
-  'variantOptions' as any,
-  'variantTypes' as any,
+  'variants',
+  'variantOptions',
+  'variantTypes',
   'carts',
-  'transactions' as any,
+  'transactions',
   'addresses',
   'orders',
 ]
 
 const categories = ['Accessories', 'T-Shirts', 'Hats']
 
-const sizeVariantOptions = [
-  { label: 'Small', value: 'small' } as any,
-  { label: 'Medium', value: 'medium' } as any,
-  { label: 'Large', value: 'large' } as any,
-  { label: 'X Large', value: 'xlarge' } as any,
+const sizeVariantOptions: SeedVariantOption[] = [
+  { label: 'Small', value: 'small' },
+  { label: 'Medium', value: 'medium' },
+  { label: 'Large', value: 'large' },
+  { label: 'X Large', value: 'xlarge' },
 ]
 
-const colorVariantOptions = [
-  { label: 'Black', value: 'black' } as any,
-  { label: 'White', value: 'white' } as any,
+const colorVariantOptions: SeedVariantOption[] = [
+  { label: 'Black', value: 'black' },
+  { label: 'White', value: 'white' },
 ]
 
 const globals: GlobalSlug[] = ['header', 'footer']
 
-const baseAddressUSData: Transaction['billingAddress'] = {
+const baseAddressUSData: SeedAddress = {
   title: 'Dr.',
   firstName: 'Otto',
   lastName: 'Octavius',
@@ -61,7 +132,7 @@ const baseAddressUSData: Transaction['billingAddress'] = {
   country: 'US',
 }
 
-const baseAddressUKData: Transaction['billingAddress'] = {
+const baseAddressUKData: SeedAddress = {
   title: 'Mr.',
   firstName: 'Oliver',
   lastName: 'Twist',
@@ -98,19 +169,20 @@ export const seed = async ({
         slug: global,
         data: {
           navItems: [],
-        } as any,
+        } as SeedData,
         depth: 0,
         context: {
           disableRevalidate: true,
-        } as any,
+        } as Record<string, unknown>,
       }),
     ),
   )
 
   for (const collection of collections) {
-    await payload.db.deleteMany({ collection, req, where: {} })
-    if (payload.collections[collection].config.versions) {
-      await payload.db.deleteVersions({ collection, req, where: {} })
+    const slug = collection as CollectionSlug
+    await payload.db.deleteMany({ collection: slug, req, where: {} })
+    if (payload.collections[slug]?.config.versions) {
+      await payload.db.deleteVersions({ collection: slug, req, where: {} })
     }
   }
 
@@ -122,8 +194,8 @@ export const seed = async ({
     where: {
       email: {
         equals: 'customer@example.com',
-      } as any,
-    } as any,
+      },
+    },
   })
 
   payload.logger.info(`— Seeding media...`)
@@ -161,7 +233,7 @@ export const seed = async ({
         email: 'customer@example.com',
         password: 'password',
         roles: ['customer'],
-      } as any,
+      } as SeedData,
     }),
     payload.create({
       collection: 'media',
@@ -189,7 +261,7 @@ export const seed = async ({
         data: {
           title: category,
           slug: category,
-        } as any,
+        } as SeedData,
       }),
     ),
   ])
@@ -197,44 +269,44 @@ export const seed = async ({
   payload.logger.info(`— Seeding variant types and options...`)
 
   const sizeVariantType = await payload.create({
-    collection: 'variantTypes' as any as any,
+    collection: 'variantTypes' as CollectionSlug,
     data: {
       name: 'size',
       label: 'Size',
-    } as any,
+    } as SeedData,
   })
 
-  const sizeVariantOptionsResults: VariantOption[] = []
+  const sizeVariantOptionsResults: SeedVariantOption[] = []
 
   for (const option of sizeVariantOptions) {
     const result = await payload.create({
-      collection: 'variantOptions' as any as any,
+      collection: 'variantOptions' as CollectionSlug,
       data: {
         ...option,
         variantType: sizeVariantType.id,
-      } as any,
+      } as SeedData,
     })
-    sizeVariantOptionsResults.push(result)
+    sizeVariantOptionsResults.push(result as unknown as SeedVariantOption)
   }
 
   const [small, medium, large, xlarge] = sizeVariantOptionsResults
 
   const colorVariantType = await payload.create({
-    collection: 'variantTypes' as any as any,
+    collection: 'variantTypes' as CollectionSlug,
     data: {
       name: 'color',
       label: 'Color',
-    } as any,
+    } as SeedData,
   })
 
   const [black, white] = await Promise.all(
     colorVariantOptions.map((option) => {
       return payload.create({
-        collection: 'variantOptions' as any as any,
+        collection: 'variantOptions' as CollectionSlug,
         data: {
           ...option,
           variantType: colorVariantType.id,
-        } as any,
+        } as SeedData,
       })
     }),
   )
@@ -258,8 +330,8 @@ export const seed = async ({
     depth: 0,
     data: productTshirtData({
       galleryImages: [
-        { image: imageTshirtBlack, variantOption: black } as any,
-        { image: imageTshirtWhite, variantOption: white } as any,
+        { image: imageTshirtBlack, variantOption: black } as SeedGalleryImage,
+        { image: imageTshirtWhite, variantOption: white } as SeedGalleryImage,
       ],
       metaImage: imageTshirtBlack,
       contentImage: imageHero,
@@ -283,7 +355,7 @@ export const seed = async ({
   ] = await Promise.all(
     [small, medium, large, xlarge].map((variantOption) =>
       payload.create({
-        collection: 'variants' as any as any,
+        collection: 'variants' as CollectionSlug,
         depth: 0,
         data: productTshirtVariant({
           product: productTshirt,
@@ -296,7 +368,7 @@ export const seed = async ({
   await Promise.all(
     [small, medium, large, xlarge].map((variantOption) =>
       payload.create({
-        collection: 'variants' as any as any,
+        collection: 'variants' as CollectionSlug,
         depth: 0,
         data: productTshirtVariant({
           product: productTshirt,
@@ -341,24 +413,24 @@ export const seed = async ({
     collection: 'addresses',
     depth: 0,
     data: {
-      ...(baseAddressUSData as Address),
+      ...baseAddressUSData,
       customer: customer.id,
-    } as any,
+    } as SeedData,
   })
 
   const customerUKAddress = await payload.create({
     collection: 'addresses',
     depth: 0,
     data: {
-      ...(baseAddressUKData as Address),
+      ...baseAddressUKData,
       customer: customer.id,
-    } as any,
+    } as SeedData,
   })
 
   payload.logger.info(`— Seeding transactions...`)
 
   const pendingTransaction = await payload.create({
-    collection: 'transactions' as any,
+    collection: 'transactions' as CollectionSlug,
     data: {
       currency: 'USD',
       customer: customer.id,
@@ -366,14 +438,14 @@ export const seed = async ({
       stripe: {
         customerID: 'cus_123',
         paymentIntentID: 'pi_123',
-      } as any,
+      } as SeedStripeInfo,
       status: 'pending',
       billingAddress: baseAddressUSData,
-    } as any,
+    } as SeedData,
   })
 
   const succeededTransaction = await payload.create({
-    collection: 'transactions' as any,
+    collection: 'transactions' as CollectionSlug,
     data: {
       currency: 'USD',
       customer: customer.id,
@@ -381,10 +453,10 @@ export const seed = async ({
       stripe: {
         customerID: 'cus_123',
         paymentIntentID: 'pi_123',
-      } as any,
+      } as SeedStripeInfo,
       status: 'succeeded',
       billingAddress: baseAddressUSData,
-    } as any,
+    } as SeedData,
   })
 
   let succeededTransactionID: number | string = succeededTransaction.id
@@ -406,9 +478,9 @@ export const seed = async ({
           product: productTshirt.id,
           variant: mediumTshirtHoodieVariant.id,
           quantity: 1,
-        } as any,
+        } as SeedLineItem,
       ],
-    } as any,
+    } as SeedData,
   })
 
   const oldTimestamp = new Date('2023-01-01T00:00:00Z').toISOString()
@@ -423,9 +495,9 @@ export const seed = async ({
         {
           product: productHat.id,
           quantity: 1,
-        } as any,
+        } as SeedLineItem,
       ],
-    } as any,
+    } as SeedData,
   })
 
   // Cart is purchased because it has a purchasedAt date
@@ -441,14 +513,14 @@ export const seed = async ({
           product: productTshirt.id,
           variant: smallTshirtHoodieVariant.id,
           quantity: 1,
-        } as any,
+        } as SeedLineItem,
         {
           product: productTshirt.id,
           variant: mediumTshirtHoodieVariant.id,
           quantity: 1,
-        } as any,
+        } as SeedLineItem,
       ],
-    } as any,
+    } as SeedData,
   })
 
   let completedCartID: number | string = completedCart.id
@@ -471,16 +543,16 @@ export const seed = async ({
           product: productTshirt.id,
           variant: smallTshirtHoodieVariant.id,
           quantity: 1,
-        } as any,
+        } as SeedLineItem,
         {
           product: productTshirt.id,
           variant: mediumTshirtHoodieVariant.id,
           quantity: 1,
-        } as any,
+        } as SeedLineItem,
       ],
       status: 'completed',
       transactions: [succeededTransaction.id],
-    } as any,
+    } as SeedData,
   })
 
   const orderInProcessing = await payload.create({
@@ -495,85 +567,89 @@ export const seed = async ({
           product: productTshirt.id,
           variant: smallTshirtHoodieVariant.id,
           quantity: 1,
-        } as any,
+        } as SeedLineItem,
         {
           product: productTshirt.id,
           variant: mediumTshirtHoodieVariant.id,
           quantity: 1,
-        } as any,
+        } as SeedLineItem,
       ],
       status: 'processing',
       transactions: [succeededTransaction.id],
-    } as any,
+    } as SeedData,
   })
 
   payload.logger.info(`— Seeding globals...`)
+
+  const headerNavItems: SeedNavItem[] = [
+    {
+      link: {
+        type: 'custom',
+        label: 'Home',
+        url: '/',
+      },
+    },
+    {
+      link: {
+        type: 'custom',
+        label: 'Shop',
+        url: '/shop',
+      },
+    },
+    {
+      link: {
+        type: 'custom',
+        label: 'Account',
+        url: '/account',
+      },
+    },
+  ]
+
+  const footerNavItems: SeedNavItem[] = [
+    {
+      link: {
+        type: 'custom',
+        label: 'Admin',
+        url: '/admin',
+      },
+    },
+    {
+      link: {
+        type: 'custom',
+        label: 'Find my order',
+        url: '/find-order',
+      },
+    },
+    {
+      link: {
+        type: 'custom',
+        label: 'Source Code',
+        newTab: true,
+        url: 'https://github.com/payloadcms/payload/tree/main/templates/website',
+      },
+    },
+    {
+      link: {
+        type: 'custom',
+        label: 'Payload',
+        newTab: true,
+        url: 'https://payloadcms.com/',
+      },
+    },
+  ]
 
   await Promise.all([
     payload.updateGlobal({
       slug: 'header',
       data: {
-        navItems: [
-          {
-            link: {
-              type: 'custom',
-              label: 'Home',
-              url: '/',
-            } as any,
-          } as any,
-          {
-            link: {
-              type: 'custom',
-              label: 'Shop',
-              url: '/shop',
-            } as any,
-          } as any,
-          {
-            link: {
-              type: 'custom',
-              label: 'Account',
-              url: '/account',
-            } as any,
-          } as any,
-        ],
-      } as any,
+        navItems: headerNavItems,
+      } as SeedData,
     }),
     payload.updateGlobal({
       slug: 'footer',
       data: {
-        navItems: [
-          {
-            link: {
-              type: 'custom',
-              label: 'Admin',
-              url: '/admin',
-            } as any,
-          } as any,
-          {
-            link: {
-              type: 'custom',
-              label: 'Find my order',
-              url: '/find-order',
-            } as any,
-          } as any,
-          {
-            link: {
-              type: 'custom',
-              label: 'Source Code',
-              newTab: true,
-              url: 'https://github.com/payloadcms/payload/tree/main/templates/website',
-            } as any,
-          } as any,
-          {
-            link: {
-              type: 'custom',
-              label: 'Payload',
-              newTab: true,
-              url: 'https://payloadcms.com/',
-            } as any,
-          } as any,
-        ],
-      } as any,
+        navItems: footerNavItems,
+      } as SeedData,
     }),
   ])
 

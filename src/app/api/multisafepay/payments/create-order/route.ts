@@ -136,10 +136,11 @@ export async function POST(request: NextRequest) {
       message: 'Payment order created successfully',
     })
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[MultiSafePay Connect] Error creating payment order:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Failed to create payment order' },
+      { error: message || 'Failed to create payment order' },
       { status: 500 }
     )
   }

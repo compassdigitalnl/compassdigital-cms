@@ -129,10 +129,11 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ received: true })
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[MultiSafePay Webhook] Error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Webhook processing failed' },
+      { error: message || 'Webhook processing failed' },
       { status: 500 }
     )
   }

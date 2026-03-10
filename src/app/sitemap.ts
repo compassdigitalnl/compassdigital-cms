@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const settings = await payload.findGlobal({ slug: 'settings' })
     sitemapEnabled = settings.sitemapEnabled !== false
-    excludeSlugs = settings.sitemapExclude?.map((e: any) => e.slug) || []
+    excludeSlugs = settings.sitemapExclude?.map((entry: { slug: string }) => entry.slug) || []
   } catch (error) {
     console.log('Settings not available, using defaults')
   }

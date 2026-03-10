@@ -53,8 +53,8 @@ export async function getOrCreateIndex(indexName: string) {
     await index.getStats()
 
     return index
-  } catch (error: any) {
-    if (error.code === 'index_not_found') {
+  } catch (error: unknown) {
+    if ((error as any)?.code === 'index_not_found') {
       // Create index if it doesn't exist
       console.log(`📋 Creating Meilisearch index: ${indexName}`)
       const task = await meilisearchClient.createIndex(indexName, { primaryKey: 'id' })

@@ -97,10 +97,11 @@ export async function POST(
       message: 'Campaign paused',
       campaignId,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[API] Pause campaign error:', error)
     return NextResponse.json(
-      { error: error.message || 'Failed to pause campaign' },
+      { error: message || 'Failed to pause campaign' },
       { status: 500 }
     )
   }

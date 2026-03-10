@@ -110,9 +110,10 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
       } else {
         alert(`Deployment failed: ${result.error || 'Unknown error'}`)
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       console.error('Deployment failed:', error)
-      alert(`Deployment failed: ${error.message || 'Unknown error'}`)
+      alert(`Deployment failed: ${message || 'Unknown error'}`)
     } finally {
       setDeploying(false)
     }

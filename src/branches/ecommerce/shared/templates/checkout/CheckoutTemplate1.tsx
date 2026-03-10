@@ -19,7 +19,7 @@ import { useCart } from '@/branches/ecommerce/shared/contexts/CartContext'
 import { useAuth } from '@/providers/Auth'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { ShoppingBag, ArrowLeft, ArrowRight, Mail, ChevronDown, ChevronUp } from 'lucide-react'
 
 import dynamic from 'next/dynamic'
@@ -91,6 +91,10 @@ export default function CheckoutTemplate1() {
 
   // Processing
   const [isProcessing, setIsProcessing] = useState(false)
+
+  // Step mapping: string step names → numeric step IDs for CheckoutProgressStepper
+  const stepMap: Record<CheckoutStep, 1 | 2 | 3 | 4> = { contact: 1, shipping: 2, payment: 3, review: 4 }
+  const reverseStepMap: Record<number, CheckoutStep> = { 1: 'contact', 2: 'shipping', 3: 'payment', 4: 'review' }
 
   // Pricing
   const subtotal = total
@@ -174,13 +178,13 @@ export default function CheckoutTemplate1() {
         <div className="mb-8">
           <CheckoutProgressStepper
             steps={[
-              { id: 1 as any, label: 'Contact', completed: canProceedToShipping },
-              { id: 2 as any, label: 'Verzending', completed: canProceedToPayment },
-              { id: 3 as any, label: 'Betaling', completed: canProceedToReview },
-              { id: 4 as any, label: 'Bestellen', completed: false },
-            ] as any}
-            currentStep={currentStep as any}
-            onStepClick={(step) => setCurrentStep(step as unknown as CheckoutStep)}
+              { id: 1, label: 'Contact' },
+              { id: 2, label: 'Verzending' },
+              { id: 3, label: 'Betaling' },
+              { id: 4, label: 'Bestellen' },
+            ]}
+            currentStep={stepMap[currentStep]}
+            onStepClick={(step) => setCurrentStep(reverseStepMap[step] ?? 'contact')}
           />
         </div>
 
@@ -212,19 +216,18 @@ export default function CheckoutTemplate1() {
 
           {showCartSummary && (
             <div className="mt-3">
-              <OrderSummary {...{} as any}
+              <CouponInput
                 variant="compact"
+                onApply={(code) => { handleApplyCoupon(code) }}
+              />
+              <OrderSummary
                 subtotal={subtotal}
                 shipping={shippingCost}
                 tax={tax}
                 total={grandTotal}
                 discount={discount}
-                itemCount={itemCount}
-                freeShippingThreshold={freeShippingThreshold}
-                currency="€"
-              >
-                <CouponInput {...{} as any} variant="compact" onApply={handleApplyCoupon} />
-              </OrderSummary>
+                readonly
+              />
             </div>
           )}
         </div>
@@ -331,12 +334,12 @@ export default function CheckoutTemplate1() {
                   >
                     Factuuradres
                   </h2>
-                  <AddressForm {...{} as any}
+                  <AddressForm
                     onSubmit={(address) => {
                       setBillingAddress(address)
                       if (sameAsShipping) setShippingAddress(address)
                     }}
-                    initialData={billingAddress}
+                    initialValues={billingAddress ?? undefined}
                     submitLabel="Adres opslaan"
                   />
                 </div>
@@ -375,9 +378,9 @@ export default function CheckoutTemplate1() {
                     >
                       Verzendadres
                     </h2>
-                    <AddressForm {...{} as any}
+                    <AddressForm
                       onSubmit={setShippingAddress}
-                      initialData={shippingAddress}
+                      initialValues={shippingAddress ?? undefined}
                       submitLabel="Adres opslaan"
                     />
                   </div>
@@ -423,21 +426,28 @@ export default function CheckoutTemplate1() {
                     Verzendmethode
                   </h2>
                   <div className="space-y-3">
-                    <ShippingMethodCard {...{} as any}
-                      id="standard"
-                      name="Standaard verzending"
-                      description="Bezorging binnen 2-3 werkdagen"
-                      price={subtotal >= freeShippingThreshold ? 0 : ecomSettings.shippingCost}
-                      estimatedDays="2-3 werkdagen"
+                    <ShippingMethodCard
+                      method={{
+                        id: 'standard',
+                        name: 'Standaard verzending',
+                        slug: 'standard',
+                        icon: 'truck',
+                        deliveryTime: '2-3 werkdagen',
+                        price: subtotal >= freeShippingThreshold ? 0 : ecomSettings.shippingCost,
+                        isFree: subtotal >= freeShippingThreshold,
+                      }}
                       selected={shippingMethod === 'standard'}
                       onSelect={() => setShippingMethod('standard')}
                     />
-                    <ShippingMethodCard {...{} as any}
-                      id="express"
-                      name="Express verzending"
-                      description="Bezorging de volgende werkdag"
-                      price={9.95}
-                      estimatedDays="1 werkdag"
+                    <ShippingMethodCard
+                      method={{
+                        id: 'express',
+                        name: 'Express verzending',
+                        slug: 'express',
+                        icon: 'zap',
+                        deliveryTime: '1 werkdag',
+                        price: 9.95,
+                      }}
                       selected={shippingMethod === 'express'}
                       onSelect={() => setShippingMethod('express')}
                     />
@@ -460,31 +470,40 @@ export default function CheckoutTemplate1() {
                     Betaalmethode
                   </h2>
                   <div className="space-y-3">
-                    <PaymentMethodCard {...{} as any}
-                      id="ideal"
-                      name="iDEAL"
-                      description="Direct betalen via uw bank"
-                      icon="🏦"
+                    <PaymentMethodCard
+                      method={{
+                        id: 'ideal',
+                        name: 'iDEAL',
+                        slug: 'ideal',
+                        description: 'Direct betalen via uw bank',
+                        logo: '🏦',
+                        badge: 'Populair',
+                      }}
                       selected={paymentMethod === 'ideal'}
                       onSelect={() => setPaymentMethod('ideal')}
-                      popular
                     />
-                    <PaymentMethodCard {...{} as any}
-                      id="creditcard"
-                      name="Credit Card"
-                      description="Visa, Mastercard, American Express"
-                      icon="💳"
+                    <PaymentMethodCard
+                      method={{
+                        id: 'creditcard',
+                        name: 'Credit Card',
+                        slug: 'creditcard',
+                        description: 'Visa, Mastercard, American Express',
+                        logo: '💳',
+                      }}
                       selected={paymentMethod === 'creditcard'}
                       onSelect={() => setPaymentMethod('creditcard')}
                     />
-                    <PaymentMethodCard {...{} as any}
-                      id="invoice"
-                      name="Op rekening"
-                      description="Betaal binnen 14 dagen (alleen B2B)"
-                      icon="📋"
+                    <PaymentMethodCard
+                      method={{
+                        id: 'invoice',
+                        name: 'Op rekening',
+                        slug: 'invoice',
+                        description: 'Betaal binnen 14 dagen (alleen B2B)',
+                        logo: '📋',
+                        isB2B: true,
+                      }}
                       selected={paymentMethod === 'invoice'}
                       onSelect={() => setPaymentMethod('invoice')}
-                      b2bOnly
                     />
                   </div>
 
@@ -537,12 +556,18 @@ export default function CheckoutTemplate1() {
                   </h2>
                   <div className="space-y-4">
                     {items.map((item) => (
-                      <CartLineItem {...{} as any}
+                      <CartLineItem
                         key={item.id}
-                        item={item}
+                        product={{
+                          id: String(item.id),
+                          title: item.title,
+                          price: item.unitPrice ?? item.price,
+                          sku: item.sku,
+                          image: item.image,
+                        }}
+                        quantity={item.quantity}
                         onQuantityChange={(newQty) => updateQuantity(item.id, newQty)}
                         onRemove={() => removeItem(item.id)}
-                        variant="card"
                       />
                     ))}
                   </div>
@@ -582,21 +607,17 @@ export default function CheckoutTemplate1() {
           {/* Sidebar: Order Summary (1/3) - Desktop Only */}
           <div className="hidden lg:block lg:col-span-1">
             <div className="sticky top-8">
-              <OrderSummary {...{} as any}
-                variant="default"
+              <div className="mb-4">
+                <CouponInput onApply={(code) => { handleApplyCoupon(code) }} />
+              </div>
+              <OrderSummary
                 subtotal={subtotal}
                 shipping={shippingCost}
                 tax={tax}
                 total={grandTotal}
                 discount={discount}
-                itemCount={itemCount}
-                freeShippingThreshold={freeShippingThreshold}
-                currency="€"
-              >
-                <div className="mb-4">
-                  <CouponInput onApply={handleApplyCoupon as any} />
-                </div>
-              </OrderSummary>
+                readonly
+              />
 
               <div className="mt-6">
                 <TrustSignals variant="compact" />

@@ -303,7 +303,7 @@ export async function moveToDLQ(
 
     // TODO: Send to monitoring/alerting system (Sentry, etc.)
     // TODO: Store in database for retry dashboard
-  } catch (dlqError: any) {
+  } catch (dlqError: unknown) {
     console.error('[DLQ] Failed to move job to DLQ:', dlqError)
   }
 }

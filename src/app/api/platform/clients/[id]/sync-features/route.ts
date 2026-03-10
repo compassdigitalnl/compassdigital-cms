@@ -127,10 +127,11 @@ export async function POST(
       instructions:
         'ENV vars updated on server. To apply changes, SSH to server and run: pm2 restart <app-name>',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[SyncFeatures] Error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Failed to sync features' },
+      { error: message || 'Failed to sync features' },
       { status: 500 },
     )
   }

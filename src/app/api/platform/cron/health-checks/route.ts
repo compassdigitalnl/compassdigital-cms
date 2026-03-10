@@ -85,8 +85,9 @@ export async function GET(request: Request) {
         const cleaned = await cleanupOldChecks(drizzle)
         if (cleaned > 0) console.log(`[Cron] Cleaned up ${cleaned} old uptime checks`)
       }
-    } catch (uptimeError: any) {
-      console.error('[Cron] Uptime monitoring error (non-fatal):', uptimeError.message)
+    } catch (uptimeError: unknown) {
+      const message = uptimeError instanceof Error ? uptimeError.message : String(uptimeError)
+      console.error('[Cron] Uptime monitoring error (non-fatal):', message)
     }
 
     // Count by status
@@ -106,12 +107,13 @@ export async function GET(request: Request) {
       incidentsResolved,
       timestamp: new Date().toISOString(),
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Cron] Health check error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
       {
         success: false,
-        error: error.message,
+        error: message,
       },
       { status: 500 },
     )

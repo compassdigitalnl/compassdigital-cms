@@ -238,10 +238,11 @@ export async function GET(request: NextRequest) {
       facets,
       processingTimeMs: result.processingTimeMs,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Shop search error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: 'Search failed', details: error.message },
+      { error: 'Search failed', details: message },
       { status: 500 },
     )
   }

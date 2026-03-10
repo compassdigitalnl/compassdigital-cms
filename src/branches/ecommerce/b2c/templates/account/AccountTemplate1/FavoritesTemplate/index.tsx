@@ -1,24 +1,104 @@
 'use client'
 
-import React from 'react'
-import { Heart } from 'lucide-react'
+import React, { useState } from 'react'
+import { Heart, Share2, Link as LinkIcon, Check, Globe, Lock } from 'lucide-react'
 import { AccountEmptyState, AccountLoadingSkeleton } from '@/branches/ecommerce/shared/components/account/ui'
 import { FavoriteCard } from '@/branches/ecommerce/b2c/components/account/favorites'
 import type { FavoritesTemplateProps } from './types'
 
-export default function FavoritesTemplate({ favorites, onRemove, isLoading }: FavoritesTemplateProps) {
+export default function FavoritesTemplate({
+  favorites,
+  onRemove,
+  isLoading,
+  shareEnabled = false,
+  shareUrl,
+  onToggleShare,
+  isTogglingShare = false,
+}: FavoritesTemplateProps) {
+  const [copied, setCopied] = useState(false)
+
   if (isLoading) return <AccountLoadingSkeleton variant="page" />
+
+  const fullShareUrl = shareUrl ? `${typeof window !== 'undefined' ? window.location.origin : ''}${shareUrl}` : null
+
+  const handleCopyLink = async () => {
+    if (!fullShareUrl) return
+    try {
+      await navigator.clipboard.writeText(fullShareUrl)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Fallback for older browsers
+      const input = document.createElement('input')
+      input.value = fullShareUrl
+      document.body.appendChild(input)
+      input.select()
+      document.execCommand('copy')
+      document.body.removeChild(input)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
 
   return (
     <div className="space-y-4 lg:space-y-6">
-      <div>
-        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">Favorieten</h1>
-        <p className="text-sm lg:text-base text-gray-500">Je opgeslagen producten en wishlist</p>
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">Favorieten</h1>
+          <p className="text-sm lg:text-base text-gray-500">Je opgeslagen producten en wishlist</p>
+        </div>
+
+        {/* Share Controls */}
+        {favorites.length > 0 && onToggleShare && (
+          <div className="flex flex-col sm:items-end gap-2">
+            <button
+              onClick={() => onToggleShare(!shareEnabled)}
+              disabled={isTogglingShare}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                shareEnabled
+                  ? 'bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100'
+                  : 'bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100'
+              } ${isTogglingShare ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              {shareEnabled ? (
+                <Globe className="w-4 h-4" />
+              ) : (
+                <Lock className="w-4 h-4" />
+              )}
+              {isTogglingShare ? 'Bezig...' : shareEnabled ? 'Openbaar' : 'Prive'}
+            </button>
+
+            {shareEnabled && fullShareUrl && (
+              <button
+                onClick={handleCopyLink}
+                className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-4 h-4 text-green-500" />
+                    <span className="text-green-600">Gekopieerd!</span>
+                  </>
+                ) : (
+                  <>
+                    <LinkIcon className="w-4 h-4" />
+                    <span>Kopieer link</span>
+                  </>
+                )}
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {favorites.length > 0 && (
         <div className="text-sm text-gray-600">
           <strong>{favorites.length}</strong> {favorites.length === 1 ? 'product' : 'producten'} in je favorieten
+          {shareEnabled && (
+            <span className="ml-2 inline-flex items-center gap-1 text-blue-600">
+              <Share2 className="w-3.5 h-3.5" />
+              Gedeeld
+            </span>
+          )}
         </div>
       )}
 

@@ -52,7 +52,7 @@ export const flowWorker = new Worker(
         stepIndex,
         completed: result.completed,
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Classify error
       const classifiedError = classifyError(error)
       reportError('flow-step', classifiedError, {

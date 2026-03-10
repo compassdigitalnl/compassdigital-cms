@@ -63,10 +63,11 @@ export async function GET(request: NextRequest) {
         totalReceived,
       },
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error fetching gift vouchers:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch gift vouchers', message: error.message },
+      { error: 'Failed to fetch gift vouchers', message },
       { status: 500 },
     )
   }
@@ -151,10 +152,11 @@ export async function POST(request: NextRequest) {
       success: true,
       giftVoucher: updatedVoucher,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error redeeming gift voucher:', error)
     return NextResponse.json(
-      { error: 'Failed to redeem gift voucher', message: error.message },
+      { error: 'Failed to redeem gift voucher', message },
       { status: 500 },
     )
   }

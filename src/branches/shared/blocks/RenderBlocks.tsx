@@ -38,6 +38,12 @@ import QuickOrderComponent from '@/branches/ecommerce/b2b/blocks/QuickOrder/Comp
 import ComparisonTableComponent from '@/branches/ecommerce/shared/blocks/ComparisonTable/Component'
 import ProductEmbedComponent from '@/branches/ecommerce/shared/blocks/ProductEmbed/Component'
 
+// ─── EXPERIENCES BLOCKS (eager loaded, feature-gated at render time) ─
+import { ExperienceHeroComponent } from '@/branches/experiences/blocks/components/ExperienceHero'
+import { ExperienceGridComponent } from '@/branches/experiences/blocks/components/ExperienceGrid'
+import { ExperienceCategoryGridComponent } from '@/branches/experiences/blocks/components/ExperienceCategoryGrid'
+import { ExperienceSocialProofComponent } from '@/branches/experiences/blocks/components/ExperienceSocialProof'
+
 const blockComponents: Record<string, React.FC<any>> = {
   // ─── SHARED (always available) ────────────────────────────────────
   content: ContentBlockComponent,
@@ -74,6 +80,16 @@ const blockComponents: Record<string, React.FC<any>> = {
         quickOrder: QuickOrderComponent,
         comparisontable: ComparisonTableComponent,
         productembed: ProductEmbedComponent,
+      }
+    : {}),
+
+  // ─── EXPERIENCES (only if experiences enabled) ────────────────────────
+  ...(isFeatureEnabled('experiences')
+    ? {
+        'experience-hero': ExperienceHeroComponent,
+        'experience-grid': ExperienceGridComponent,
+        'experience-category-grid': ExperienceCategoryGridComponent,
+        'experience-social-proof': ExperienceSocialProofComponent,
       }
     : {}),
 }

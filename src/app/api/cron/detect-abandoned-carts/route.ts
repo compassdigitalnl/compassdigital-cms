@@ -127,8 +127,9 @@ export async function GET(request: NextRequest) {
           eventsTriggered++
         }
         processed++
-      } catch (err: any) {
-        errors.push(`Cart ${cart.id}: ${err.message}`)
+      } catch (err: unknown) {
+        const errMessage = err instanceof Error ? err.message : String(err)
+        errors.push(`Cart ${cart.id}: ${errMessage}`)
         processed++
       }
     }
@@ -141,10 +142,11 @@ export async function GET(request: NextRequest) {
       errors: errors.length > 0 ? errors : undefined,
       timestamp: new Date().toISOString(),
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[Cron] detect-abandoned-carts error:', error)
     return NextResponse.json(
-      { success: false, error: error.message || 'Unknown error', timestamp: new Date().toISOString() },
+      { success: false, error: message || 'Unknown error', timestamp: new Date().toISOString() },
       { status: 500 },
     )
   }

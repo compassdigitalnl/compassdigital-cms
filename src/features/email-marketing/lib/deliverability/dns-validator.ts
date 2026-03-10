@@ -129,8 +129,9 @@ export async function validateSPF(domain: string): Promise<SPFRecord> {
 
     result.valid = result.issues!.length === 0
     return result
-  } catch (error: any) {
-    result.issues!.push(`DNS lookup failed: ${error.message}`)
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
+    result.issues!.push(`DNS lookup failed: ${message}`)
     return result
   }
 }
@@ -195,8 +196,9 @@ export async function validateDKIM(domain: string, selector: string): Promise<DK
 
     result.valid = result.issues!.length === 0
     return result
-  } catch (error: any) {
-    result.issues!.push(`DNS lookup failed: ${error.message}`)
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
+    result.issues!.push(`DNS lookup failed: ${message}`)
     return result
   }
 }
@@ -315,8 +317,9 @@ export async function validateDMARC(domain: string): Promise<DMARCRecord> {
 
     result.valid = result.issues!.length === 0
     return result
-  } catch (error: any) {
-    result.issues!.push(`DNS lookup failed: ${error.message}`)
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
+    result.issues!.push(`DNS lookup failed: ${message}`)
     return result
   }
 }
@@ -359,8 +362,9 @@ export async function validateMX(domain: string): Promise<MXRecord> {
 
     result.valid = result.issues!.length === 0
     return result
-  } catch (error: any) {
-    result.issues!.push(`DNS lookup failed: ${error.message}`)
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
+    result.issues!.push(`DNS lookup failed: ${message}`)
     return result
   }
 }

@@ -67,14 +67,15 @@ export const siteGeneratorWorker = new Worker(
       }
 
       return result
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       console.error(`[SiteGeneratorWorker] Error in job ${jobId}:`, error)
 
       // Send error notification
       if (sseConnectionId) {
         await sendSSEUpdate(sseConnectionId, {
           type: 'error',
-          error: error.message || 'Site generation failed',
+          error: message || 'Site generation failed',
           message: 'Er is een fout opgetreden bij het genereren van de site',
         })
       }

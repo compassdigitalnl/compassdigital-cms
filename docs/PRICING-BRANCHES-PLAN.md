@@ -1,428 +1,579 @@
-# 💰 SiteForge - Branch-Based Pricing & Features Plan
+# CompassDigital - Branch-Based Pricing Plan
 
-**Status:** 📋 Planning Phase
-**Version:** 2.0 - Branch-Driven Architecture
-**Last Updated:** February 2026
-
----
-
-## 🎯 Philosophy: Pay for What You Use
-
-Instead of traditional tiered pricing (Starter/Pro/Enterprise), we offer **modular branch-based pricing** where clients pay only for the industry branches and features they actually need.
-
-**Core Principle:**
-- Every deployment gets: Platform CMS + Core Features (Pages, Media, Users, Settings)
-- Clients add **Industry Branches** relevant to their business
-- Within branches, clients can enable/disable specific features
+**Status:** Planning Phase
+**Version:** 4.0 - Senior Herberekening
+**Last Updated:** Maart 2026
 
 ---
 
-## 🏗️ Branch Categories & Pricing
+## Filosofie
 
-### 1️⃣ **INDUSTRY BRANCHES** (Primary Revenue)
+**Wij zijn GEEN Shopify.** Wij bieden een standaard multi-tenant Payload CMS platform MET maatwerk.
 
-Each branch includes all collections, blocks, components, and routes specific to that industry.
+**Wat wij bieden dat Shopify/WordPress NIET biedt:**
+- Volledig op maat ingericht platform (niet zelf klooien met plugins)
+- Eigen email marketing suite (GrapesJS editor, automation, flows, deliverability)
+- AI chatbot met RAG (kennisbank-gebaseerd, geen simpele FAQ bot)
+- AI content generatie (SEO, vertalingen, afbeeldingen)
+- Multi-tenant architectuur (schaalbaar, gedeeld platform)
+- 70+ feature flags — per klant configureerbaar
+- Managed service — wij doen alles
 
-| Branch | Monthly Price | Collections | Key Features | Ideal For |
-|--------|--------------|-------------|--------------|-----------|
-| **E-commerce (B2C)** | €149/mo | Products, Orders, Categories, Invoices, Returns | Shop, Cart, Checkout, My Account, Product Reviews | Online winkel, webshop |
-| **E-commerce (B2B)** | €249/mo | + Customer Groups, Group Pricing, Order Lists, Recurring Orders | MOQ, Volume Pricing, Quote Requests, Account Management | Groothandel, B2B webshop |
-| **Construction** | €99/mo | Services, Projects, Reviews, Quote Requests | Project Portfolio, Quote Forms, Service Pages | Aannemers, bouwbedrijven |
-| **Hospitality** | €129/mo | Menus, Reservations, Events, Locations, Tables | Online Reservations, Event Booking, Menu Management | Restaurants, cafés |
-| **Beauty & Wellness** | €129/mo | Services, Treatments, Appointments, Staff, Packages | Online Booking, Treatment Catalog, Staff Profiles | Salons, spa's, klinieken |
-| **Real Estate** | €149/mo | Properties, Agents, Viewings, Neighborhoods | Property Search, Viewing Scheduler, Agent Profiles | Makelaars, vastgoed |
-| **Professional Services** | €99/mo | Services, Team, Consultations, Case Studies | Service Catalog, Consultation Booking, Team Profiles | Advocaten, accountants |
-| **Tourism & Hotels** | €179/mo | Accommodations, Rooms, Bookings, Activities, Reviews | Room Booking, Activity Scheduler, Reviews | Hotels, vakantieparken |
-| **Marketplace** | €199/mo | Vendors, Vendor Products, Vendor Reviews, Workshops | Multi-vendor Platform, Commission System | Marktplaatsen |
-| **Content & Blog** | €49/mo | Blog Posts, Categories, Authors, FAQs, Testimonials, Cases, Partners | Blog, FAQ, Testimonials, Case Studies | Content sites, bloggers |
-
-**Bundle Discounts:**
-- 2 branches: 10% korting
-- 3+ branches: 15% korting
-- Example: E-commerce B2C (€149) + Content (€49) = €178/mo (10% off) = **€160/mo**
+**Revenue model:**
+1. **Maandelijkse licentie** — all-inclusive per branch, recurring
+2. **Add-ons** — usage-based voor diensten met externe kosten (AI, email)
+3. **Setup & inrichting** — eenmalig, hier zit de primaire marge
+4. **Maatwerk uren** — ongoing development @ €100/uur
 
 ---
 
-### 2️⃣ **E-COMMERCE ADD-ONS** (Modular Features)
+## Kostenanalyse (inkoop per tenant)
 
-These are feature modules within the E-commerce branch that can be enabled separately.
+| Kostenpost | Per tenant/mo | Toelichting |
+|------------|---------------|-------------|
+| Railway PostgreSQL (shared) | ~€3-5 | Multi-tenant, gedeeld |
+| Server/VPS (PM2, shared) | ~€5-10 | Multi-tenant, meerdere sites |
+| Storage, CDN, SSL | ~€2-5 | Cloudflare, media opslag |
+| Listmonk (self-hosted) | ~€1-2 | Eigen email platform |
+| Meilisearch (self-hosted) | ~€1-2 | Eigen search engine |
+| Redis (queue/cache) | ~€1-2 | BullMQ workers |
+| **Totaal platform inkoop** | **~€13-26** | |
 
-| Add-on | Monthly Price | What's Included | Use Case |
-|--------|--------------|-----------------|----------|
-| **Subscriptions** | €79/mo | Subscription Plans, User Subscriptions, Recurring Billing, Payment Methods | Abonnementen, membership sites |
-| **Gift Vouchers** | €39/mo | Voucher Management, Redemption Tracking, Balance Management | Cadeaubonnen, tegoedbonnen |
-| **Digital Licenses** | €59/mo | License Keys, Activations, Software Distribution | Software verkoop, digitale producten |
-| **Loyalty Program** | €69/mo | Tiers, Points, Rewards, Transactions, Redemptions | Loyaliteitsprogramma, spaarpunten |
-| **Advanced Inventory** | €49/mo | Stock Locations, Stock Movements, Low Stock Alerts | Multi-warehouse, stock management |
-| **Variable Products** | €39/mo | Product Variants (maten, kleuren), SKU Management | Kleding, schoenen, varianten |
-| **Mix & Match Deals** | €29/mo | Bundle Builder, Multi-buy Discounts | "Kies 3 voor €10" deals |
-
-**Add-on Bundle:** Alle 7 add-ons samen: €299/mo (normaal €362) - **17% korting**
-
----
-
-### 3️⃣ **ADVANCED FEATURES** (Cross-Branch)
-
-Features that work across all branches and enhance the entire platform.
-
-| Feature | Monthly Price | Description | Benefit |
-|---------|--------------|-------------|---------|
-| **Multi-Language** | €79/mo | Content translation, Language switcher, Localized URLs | Meertalige websites (EN, DE, FR, etc.) |
-| **AI Content Generation** | €99/mo | Auto-generate blog posts, product descriptions, meta tags, SEO analysis | 10x sneller content maken |
-| **Advanced Search** | €59/mo | Meilisearch integration, Faceted search, Auto-suggestions | Betere vindbaarheid |
-| **Newsletter Integration** | €29/mo | Mailchimp/Brevo integration, Signup forms, Campaign tracking | Email marketing |
-| **Analytics Suite** | €49/mo | Advanced analytics, Conversion tracking, Heatmaps | Data-driven beslissingen |
+**Externe variabele kosten (apart doorberekend):**
+| Service | Kosten | Doorberekening |
+|---------|--------|---------------|
+| Groq AI (chatbot) | Gratis tot 14.400 req/dag | Gedeeld over alle tenants |
+| OpenAI GPT-4 (fallback) | ~$0.03/1K tokens | Bij complexe queries |
+| Resend (transactioneel) | Gratis tot 100/dag | Per tenant basis |
+| SMTP (bulk email) | ~€0.001-0.003/email | Volume-afhankelijk |
 
 ---
 
-## 📦 Pre-Built Packages (Most Popular)
+## All-Inclusive Branch Pakketten
 
-### **Starter Web** - €99/mo
-**Perfect voor: Kleine bedrijven, portfolios, dienstverleners**
-- ✅ Content Branch (Blog, FAQ, Testimonials)
-- ✅ 5 Pages
-- ✅ Custom Domain
-- ✅ SSL Certificate
-- ✅ 10GB Storage
+### Basis
 
----
+| Pakket | Maandelijks | Alles inbegrepen | Ideaal voor |
+|--------|------------|------------------|-------------|
+| **Website** | **€49/mo** | Platform CMS, Pages, Media, Users, Blog, FAQ, Testimonials, Cases, Partners, Forms, SEO, Meilisearch zoekfunctie, Cookie consent, Thema's | Bedrijfswebsites, portfolios |
+| **Website + Branche** | **€79/mo** | Alles van Website + 1 industry branch (zie hieronder) | MKB met branche-specifieke features |
 
-### **E-commerce Essential** - €199/mo
-**Perfect voor: Online winkels, webshops**
-- ✅ E-commerce B2C Branch
-- ✅ Content Branch (Blog + FAQ)
-- ✅ Up to 500 products
-- ✅ Payment Integration (Stripe/Mollie)
-- ✅ Order Management
-- ✅ Email Notifications
-- ✅ 50GB Storage
+### Industry Branches (onderdeel van €79/mo)
+
+| Branch | All-inclusive features |
+|--------|----------------------|
+| **Construction** | Services, Projecten, Reviews, Offerte-aanvragen, Portfolio, Stats |
+| **Hospitality** | Behandelingen, Practitioners, Afspraken, Online booking |
+| **Beauty & Wellness** | Services, Stylisten, Boekingen, Beschikbaarheid |
+| **Horeca** | Menu's, Reserveringen, Evenementen |
+| **Professional Services** | Diensten, Team, Consultaties, Casestudies |
 
 ---
 
-### **E-commerce Pro** - €349/mo
-**Perfect voor: Groeiende webshops, B2B bedrijven**
-- ✅ E-commerce B2B Branch
-- ✅ Content Branch
-- ✅ Subscriptions Add-on
-- ✅ Loyalty Program Add-on
-- ✅ Unlimited products
-- ✅ Advanced Analytics
-- ✅ Priority Support
-- ✅ 200GB Storage
+### E-commerce
+
+| Pakket | Maandelijks | Alles inbegrepen | Ideaal voor |
+|--------|------------|------------------|-------------|
+| **E-commerce B2C** | **€119/mo** | Alles van Website + Producten, Categorieën, Merken, Winkelwagen, Checkout, Orders, Facturen (PDF), Retouren, Klantaccounts, Reviews, Abonnementen, Loyaliteitsprogramma (tiers, punten, rewards), Cadeaubonnen, Variabele producten, Mix & Match, Voorraad, Kortingscodes, A/B testing, Stripe + MultiSafepay, Transactionele emails | Webshops, online winkels |
+| **E-commerce B2B** | **€179/mo** | Alles van B2C + Klantgroepen, Groepsprijzen, Bestelhistorie, Herhalingsbestellingen, Offerte-aanvragen, Bestelformulieren, Barcode scanner, Licenties & activaties, MOQ, Volumekorting | Groothandels, B2B platformen |
+
+### Publishing
+
+| Pakket | Maandelijks | Alles inbegrepen | Ideaal voor |
+|--------|------------|------------------|-------------|
+| **Publishing** | **€99/mo** | Alles van Website + Tijdschriften, Edities, Auteurs, Kennisbank, Premium Content (Paywall), Abonnementen & Checkout, Digitale Bibliotheek (Flipbook viewer, watermark, leesvoortgang), Losse verkoop edities | Uitgevers, vakbladen, media |
+
+### Geavanceerd
+
+| Pakket | Maandelijks | Alles inbegrepen | Ideaal voor |
+|--------|------------|------------------|-------------|
+| **Real Estate** | **€99/mo** | Alles van Website + Woningen, Makelaars, Bezichtigingen, Wijken, Zoekfilters | Makelaars, vastgoed |
+| **Tourism & Hotels** | **€119/mo** | Alles van Website + Accommodaties, Kamers, Boekingen, Activiteiten, Reviews | Hotels, vakantieparken |
+| **Marketplace** | **€149/mo** | Alles van Website + Vendors, Producten, Reviews, Commissiesysteem (Stripe Connect + MSP), Workshops | Marktplaatsen |
+
+### Multi-Branch Korting
+
+| Combinatie | Korting |
+|-----------|--------|
+| 2 branches | 10% op totaal |
+| 3+ branches | 15% op totaal |
 
 ---
 
-### **Industry Professional** - €179/mo
-**Perfect voor: Construction, Beauty, Services**
-- ✅ 1 Industry Branch (keuze uit Construction/Beauty/Services)
-- ✅ Content Branch
-- ✅ Booking/Quote System
-- ✅ Custom Forms
-- ✅ 50GB Storage
+## Add-ons (usage-based, externe kosten)
+
+### Email Marketing (eigen platform)
+
+Volledig eigen email marketing suite met GrapesJS visual editor, automation engine, flows, deliverability monitoring, en subscriber management. Vergelijkbaar met Brevo/Mailchimp — maar ingebouwd.
+
+| Tier | Subscribers | Emails/mo | Maandelijks | Overage |
+|------|-----------|-----------|------------|---------|
+| **Starter** | 1.000 | 5.000 | **€29/mo** | €1,00/1.000 emails |
+| **Groei** | 5.000 | 30.000 | **€79/mo** | €0,80/1.000 emails |
+| **Pro** | 10.000 | 100.000 | **€149/mo** | €0,60/1.000 emails |
+| **Business** | 25.000 | 500.000 | **€299/mo** | €0,40/1.000 emails |
+| **Enterprise** | Onbeperkt | Onbeperkt | **Op maat** | Op maat |
+
+Inclusief bij elke tier:
+- Visuele email editor (drag & drop)
+- Transactionele emails (order bevestiging, verzending, etc.)
+- Subscriber beheer + lijsten + tags
+- Analytics (opens, clicks, bounces)
+
+Hogere tiers unlocken extra:
+- **Groei+**: Automation rules, A/B testing
+- **Pro+**: Automation flows, API access, dedicated IP warmup
+- **Business+**: Alles + deliverability monitoring + DNS validatie
 
 ---
 
-### **Multi-Branch Enterprise** - €499/mo
-**Perfect voor: Grote bedrijven, complexe requirements**
-- ✅ 3+ Industry Branches (naar keuze)
-- ✅ All E-commerce Add-ons
-- ✅ Multi-Language
-- ✅ AI Content Generation
-- ✅ Advanced Search
-- ✅ Dedicated Support
-- ✅ 500GB Storage
-- ✅ Custom Development Hours (5u/maand)
+### AI Chatbot (RAG-gebaseerd)
+
+Kennisbank-gebaseerde chatbot met Groq/OpenAI hybrid routing. Zoekt automatisch in producten, blog posts, FAQ's en pagina's. Inclusief guided conversation flows.
+
+| Tier | Chats/mo | Maandelijks | Toelichting |
+|------|---------|------------|-------------|
+| **Light** | 1.000 | **€39/mo** | ~33 chats/dag, voldoende voor kleine sites |
+| **Standard** | 5.000 | **€79/mo** | ~167 chats/dag, gemiddelde webshop |
+| **Pro** | 20.000 | **€149/mo** | ~667 chats/dag, drukke sites |
+| **Enterprise** | Onbeperkt | **Op maat** | High-volume, dedicated model config |
+
+**Kostenonderbouwing:**
+- 95% van queries → Groq (gratis, 14.400 req/dag)
+- 5% complexe queries → OpenAI GPT-4 (~€0,03/query)
+- 5.000 chats/mo = 250 GPT-4 queries = ~€7,50 API kosten
+- Marge bij €79/mo = ~€71,50 (90%)
+- Bij 20.000 chats/mo = 1.000 GPT-4 queries = ~€30 API kosten
+- Marge bij €149/mo = ~€119 (80%)
+
+Inclusief bij elke tier:
+- RAG integratie (zoekt in je kennisbank)
+- Guided conversation flows
+- Customizable UI (positie, kleuren, avatar)
+- Rate limiting & content moderatie
+- Source attribution (bronvermelding)
 
 ---
 
-## 🔧 Feature Flag Mapping (Technical)
+### AI Content Generatie
 
-### Branch → Feature Flags
+Content generator, SEO optimizer, vertaler. Gebruikt Groq + OpenAI.
+
+| Tier | Generaties/mo | Maandelijks |
+|------|--------------|------------|
+| **Basis** | 200 | **€49/mo** |
+| **Pro** | 1.000 | **€99/mo** |
+| **Unlimited** | Onbeperkt | **€199/mo** |
+
+Inclusief:
+- Blog post generatie
+- Productbeschrijvingen
+- Meta tags & SEO analyse
+- Readability scoring
+- Content vertaling (meerdere talen)
+
+> **Roadmap:** AI beeldgeneratie (DALL-E 3) wordt later als aparte feature toegevoegd. Zie `docs/roadmap/ai/DALL-E-IMAGE-GENERATION.md`.
+
+---
+
+### Overige Add-ons
+
+| Add-on | Maandelijks | Toelichting |
+|--------|------------|-------------|
+| **Meertaligheid** | **€29/mo** | Content vertaling (AI), taalswitch, gelokaliseerde URLs |
+| **SMS Notificaties** | **€19/mo** | 200 SMS/mo inclusief, daarna €0,08/SMS |
+
+---
+
+## Setup & Inrichting (eenmalig)
+
+| Setup type | Eenmalig | Doorlooptijd |
+|-----------|----------|-------------|
+| **Website** | €1.500 - €2.500 | 1-2 weken |
+| **Website + Branche** | €2.500 - €4.000 | 2-3 weken |
+| **E-commerce B2C** | €3.500 - €5.500 | 2-3 weken |
+| **E-commerce B2B** | €5.000 - €7.500 | 3-4 weken |
+| **Publishing** | €3.500 - €5.500 | 2-4 weken |
+| **Multi-Branch** | €6.000 - €10.000 | 3-5 weken |
+
+### Migratie (optioneel)
+
+| Van | Prijs |
+|-----|-------|
+| WordPress (klein) | €800 - €1.500 |
+| WordPress (groot) | €2.000 - €4.000 |
+| WooCommerce (klein) | €1.500 - €2.500 |
+| WooCommerce (groot) | €3.000 - €6.000 |
+| Shopify | €1.200 - €2.500 |
+| Custom / CSV | €500 - €3.000 |
+
+---
+
+## Maatwerk Development
+
+| Blok | Per uur | Korting |
+|------|---------|--------|
+| Standaard | €100/uur | — |
+| 10 uur | €95/uur | 5% |
+| 20 uur | €90/uur | 10% |
+| 40 uur | €85/uur | 15% |
+
+---
+
+## Managed Service (optioneel)
+
+| Service | Maandelijks |
+|---------|------------|
+| Content Beheer (4u/mo) | €149/mo |
+| Priority Support (4u SLA) | €99/mo |
+| Maandelijkse Optimalisatie | €199/mo |
+
+---
+
+## Klantvoorbeelden
+
+### 1. Kleine Dienstverlener
+
+```
+SETUP:   Website + Branche:           €3.000
+         WordPress migratie:           €1.000
+         ─────────────────────────────────────
+         TOTAAL EENMALIG:              €4.000
+
+LICENTIE: Website + Branche:           €79/mo
+
+JAAR 1:   €4.000 + €948             = €4.948
+JAAR 2+:                               €948/jaar
+```
+
+---
+
+### 2. Online Webshop (B2C)
+
+```
+SETUP:   E-commerce B2C:              €4.500
+         WooCommerce migratie:         €2.000
+         ─────────────────────────────────────
+         TOTAAL EENMALIG:              €6.500
+
+LICENTIE: E-commerce B2C:             €119/mo
+          Email Marketing (Starter):    €29/mo
+          ─────────────────────────────────────
+          TOTAAL MAANDELIJKS:          €148/mo
+
+JAAR 1:   €6.500 + €1.776           = €8.276
+JAAR 2+:                             €1.776/jaar
+```
+
+---
+
+### 3. B2B Groothandel (bijv. Plastimed)
+
+```
+SETUP:   E-commerce B2B:              €6.500
+         Migratie + data import:       €3.500
+         Maatwerk (20u @ €90):         €1.800
+         ─────────────────────────────────────
+         TOTAAL EENMALIG:             €11.800
+
+LICENTIE: E-commerce B2B:             €179/mo
+          Email Marketing (Groei):      €79/mo
+          AI Chatbot (Standard):        €79/mo
+          Meertaligheid:                €29/mo
+          Priority Support:             €99/mo
+          ─────────────────────────────────────
+          TOTAAL MAANDELIJKS:          €465/mo
+
+JAAR 1:  €11.800 + €5.580           = €17.380
+JAAR 2+:                              €5.580/jaar
+```
+
+---
+
+### 4. Vakbladuitgever (Publishing)
+
+```
+SETUP:   Publishing:                   €4.500
+         ─────────────────────────────────────
+         TOTAAL EENMALIG:              €4.500
+
+LICENTIE: Publishing:                  €99/mo
+          Email Marketing (Starter):    €29/mo
+          ─────────────────────────────────────
+          TOTAAL MAANDELIJKS:          €128/mo
+
+JAAR 1:   €4.500 + €1.536           = €6.036
+JAAR 2+:                             €1.536/jaar
+```
+
+---
+
+### 5. Vakbladuitgever + Webshop + AI
+
+```
+SETUP:   Publishing + E-commerce:      €6.500
+         Content + product import:      €2.000
+         ─────────────────────────────────────
+         TOTAAL EENMALIG:              €8.500
+
+LICENTIE: Publishing:                  €99/mo
+          E-commerce B2C:              €119/mo
+          10% multi-branch korting:    -€22/mo
+          Email Marketing (Groei):      €79/mo
+          AI Chatbot (Standard):        €79/mo
+          AI Content (Basis):           €49/mo
+          ─────────────────────────────────────
+          TOTAAL MAANDELIJKS:          €403/mo
+
+JAAR 1:   €8.500 + €4.836           = €13.336
+JAAR 2+:                              €4.836/jaar
+```
+
+---
+
+### 6. Enterprise Marketplace
+
+```
+SETUP:   Marketplace:                  €8.000
+         Maatwerk (40u @ €85):         €3.400
+         ─────────────────────────────────────
+         TOTAAL EENMALIG:             €11.400
+
+LICENTIE: Marketplace:                €149/mo
+          Email Marketing (Pro):       €149/mo
+          AI Chatbot (Pro):            €149/mo
+          AI Content (Pro):             €99/mo
+          Meertaligheid:                €29/mo
+          Priority Support:             €99/mo
+          Maandelijkse Optimalisatie:  €199/mo
+          ─────────────────────────────────────
+          TOTAAL MAANDELIJKS:          €873/mo
+
+JAAR 1:  €11.400 + €10.476          = €21.876
+JAAR 2+:                             €10.476/jaar
+```
+
+---
+
+## Concurrentiepositie
+
+### vs Shopify (€21-299/mo + transactiekosten)
+- Shopify = self-service, templates, plugins nodig
+- Shopify + apps + transactiekosten = al snel €150-400/mo
+- **Wij: €119/mo all-in + geen transactiekosten + volledig op maat**
+- Onze email marketing vervangt Mailchimp/Brevo (€30-100/mo besparing)
+- Onze chatbot vervangt Intercom/Zendesk (€50-200/mo besparing)
+
+### vs Brevo/Mailchimp + Intercom + Shopify apart
+| Dienst apart | Kosten/mo | Bij ons |
+|-------------|-----------|---------|
+| Shopify Advanced | €299 | — |
+| Brevo (10K subs) | €65 | — |
+| Intercom (chatbot) | €74 | — |
+| Meilisearch Cloud | €29 | — |
+| **Totaal apart** | **€467/mo** | — |
+| **Bij ons (E-commerce + Email Groei + Chatbot)** | — | **€277/mo** |
+
+**Besparing: €190/mo = €2.280/jaar**
+
+### vs Webbureau
+- Webbureau: €10.000-25.000 setup + €300-500/mo onderhoud
+- Wij: €3.500-7.500 setup + €119-465/mo all-in
+- **40-60% goedkoper in jaar 1**
+
+---
+
+## Pricing Overzicht (snelreferentie)
+
+```
+LICENTIES (maandelijks, all-inclusive per branch):
+┌───────────────────────────┬──────────┐
+│ Website (+ Blog, SEO, etc)│   €49/mo │
+│ Website + Branche         │   €79/mo │
+│ Publishing                │   €99/mo │
+│ Real Estate               │   €99/mo │
+│ E-commerce B2C            │  €119/mo │
+│ Tourism & Hotels          │  €119/mo │
+│ Marketplace               │  €149/mo │
+│ E-commerce B2B            │  €179/mo │
+└───────────────────────────┴──────────┘
+
+EMAIL MARKETING (eigen platform, usage-based):
+┌───────────────────────────┬──────────┐
+│ Starter (1K subs, 5K/mo)  │   €29/mo │
+│ Groei (5K subs, 30K/mo)   │   €79/mo │
+│ Pro (10K subs, 100K/mo)   │  €149/mo │
+│ Business (25K subs, 500K) │  €299/mo │
+└───────────────────────────┴──────────┘
+
+AI CHATBOT (RAG, usage-based):
+┌───────────────────────────┬──────────┐
+│ Light (1.000 chats/mo)    │   €39/mo │
+│ Standard (5.000 chats/mo) │   €79/mo │
+│ Pro (20.000 chats/mo)     │  €149/mo │
+└───────────────────────────┴──────────┘
+
+AI CONTENT GENERATIE:
+┌───────────────────────────┬──────────┐
+│ Basis (200 generaties/mo) │   €49/mo │
+│ Pro (1.000 generaties/mo) │   €99/mo │
+│ Unlimited                 │  €199/mo │
+└───────────────────────────┴──────────┘
+
+OVERIGE ADD-ONS:
+┌───────────────────────────┬──────────┐
+│ Meertaligheid             │   €29/mo │
+│ SMS Notificaties          │   €19/mo │
+└───────────────────────────┴──────────┘
+
+SETUP (eenmalig):
+┌───────────────────────────┬──────────────────┐
+│ Website                   │ €1.500 - €2.500  │
+│ Website + Branche         │ €2.500 - €4.000  │
+│ E-commerce B2C            │ €3.500 - €5.500  │
+│ Publishing                │ €3.500 - €5.500  │
+│ E-commerce B2B            │ €5.000 - €7.500  │
+│ Multi-Branch              │ €6.000 - €10.000 │
+└───────────────────────────┴──────────────────┘
+
+MAATWERK:
+┌───────────────────────────┬──────────┐
+│ Standaard                 │ €100/uur │
+│ 10-uren blok              │  €95/uur │
+│ 20-uren blok              │  €90/uur │
+│ 40-uren blok              │  €85/uur │
+└───────────────────────────┴──────────┘
+```
+
+---
+
+## Feature Flags (technisch)
 
 ```typescript
-// E-commerce B2C
-ENABLE_SHOP=true
-ENABLE_CART=true
-ENABLE_CHECKOUT=true
-ENABLE_MY_ACCOUNT=true
-
-// E-commerce B2B (requires B2C)
-ENABLE_B2B=true
-ENABLE_CUSTOMER_GROUPS=true
-ENABLE_GROUP_PRICING=true
-ENABLE_ORDER_LISTS=true
-ENABLE_RECURRING_ORDERS=true
-
-// Construction
-ENABLE_CONSTRUCTION=true
-// → Enables: construction-services, construction-projects,
-//            construction-reviews, quote-requests
-
-// Hospitality
-ENABLE_HOSPITALITY=true
-// → Enables: menus, menu-items, reservations, events, locations
-
-// Beauty & Wellness
-ENABLE_BEAUTY=true
-// → Enables: treatments, appointments, staff, packages, booking
-
-// Real Estate
-ENABLE_REAL_ESTATE=true
-// → Enables: properties, agents, viewings, neighborhoods
-
-// Professional Services
-ENABLE_SERVICES=true
-// → Enables: services, team, consultations, case-studies
-
-// Tourism & Hotels
-ENABLE_TOURISM=true
-// → Enables: accommodations, rooms, bookings, activities
-
-// Marketplace
-ENABLE_VENDORS=true
-ENABLE_VENDOR_REVIEWS=true
-ENABLE_WORKSHOPS=true
-
-// Content
+// Platform Base (altijd aan)
+ENABLE_PAGES=true
+ENABLE_MEDIA=true
+ENABLE_USERS=true
+ENABLE_FORMS=true
 ENABLE_BLOG=true
 ENABLE_FAQ=true
 ENABLE_TESTIMONIALS=true
 ENABLE_CASES=true
 ENABLE_PARTNERS=true
+ENABLE_SEO=true
+ENABLE_SEARCH=true              // Meilisearch (inbegrepen)
+ENABLE_COOKIE_CONSENT=true
+ENABLE_THEMES=true
 
-// E-commerce Add-ons
-ENABLE_SUBSCRIPTIONS=true
-ENABLE_GIFT_VOUCHERS=true
-ENABLE_LICENSES=true
-ENABLE_LOYALTY=true
-ENABLE_VARIABLE_PRODUCTS=true
-ENABLE_MIX_AND_MATCH=true
+// Industry Branches (all-inclusive)
+ENABLE_CONSTRUCTION=true
+ENABLE_HOSPITALITY=true
+ENABLE_BEAUTY=true
+ENABLE_HORECA=true
+ENABLE_SERVICES=true
+ENABLE_REAL_ESTATE=true
+ENABLE_TOURISM=true
 
-// Advanced Features
-ENABLE_MULTI_LANGUAGE=true
-ENABLE_AI_CONTENT=true
-ENABLE_SEARCH=true
-ENABLE_NEWSLETTER=true
+// E-commerce (all-inclusive)
+ENABLE_SHOP=true                // B2C: producten, orders, checkout, etc.
+ENABLE_SUBSCRIPTIONS=true       // Inbegrepen bij E-commerce
+ENABLE_LOYALTY=true             // Inbegrepen bij E-commerce
+ENABLE_GIFT_VOUCHERS=true       // Inbegrepen bij E-commerce
+ENABLE_VARIABLE_PRODUCTS=true   // Inbegrepen bij E-commerce
+ENABLE_MIX_AND_MATCH=true       // Inbegrepen bij E-commerce
+ENABLE_AB_TESTING=true          // Inbegrepen bij E-commerce
+ENABLE_B2B=true                 // B2B tier: + klantgroepen, quotes, etc.
+ENABLE_LICENSES=true            // Inbegrepen bij B2B
+ENABLE_RECURRING_ORDERS=true    // Inbegrepen bij B2B
+
+// Publishing (all-inclusive)
+ENABLE_PUBLISHING=true          // Tijdschriften, edities, paywall, bibliotheek
+ENABLE_MAGAZINES=true
+ENABLE_PAYWALL=true
+ENABLE_DIGITAL_LIBRARY=true
+
+// Marketplace (all-inclusive)
+ENABLE_VENDORS=true
+ENABLE_VENDOR_REVIEWS=true
+ENABLE_WORKSHOPS=true
+
+// Add-ons (usage-based, apart)
+ENABLE_EMAIL_MARKETING=true     // Email marketing suite
+ENABLE_EMAIL_CAMPAIGNS=true
+ENABLE_EMAIL_AUTOMATION=true
+ENABLE_EMAIL_FLOWS=true
+ENABLE_EMAIL_GRAPES_EDITOR=true
+ENABLE_EMAIL_DELIVERABILITY=true
+
+ENABLE_CHATBOT=true             // AI chatbot
+
+ENABLE_AI_CONTENT=true          // AI content generatie
+
+ENABLE_MULTI_LANGUAGE=true      // Meertaligheid
+ENABLE_SMS=true                 // SMS notificaties
 ```
 
 ---
 
-## 🎨 Client Dashboard - Feature Management
+## Revenue Projecties
 
-In the Platform CMS, each client has a visual feature management interface:
+### Conservatief (Jaar 1) — 6 klanten
 
 ```
-┌─────────────────────────────────────────────┐
-│ Client: Plastimed B.V.                      │
-├─────────────────────────────────────────────┤
-│                                             │
-│ INDUSTRY BRANCHES                           │
-│ ✅ E-commerce (B2C)          €149/mo       │
-│ ☐  E-commerce (B2B)          €249/mo       │
-│ ☐  Construction              €99/mo        │
-│ ☐  Beauty & Wellness         €129/mo       │
-│                                             │
-│ E-COMMERCE ADD-ONS                          │
-│ ✅ Subscriptions             €79/mo        │
-│ ☐  Gift Vouchers             €39/mo        │
-│ ☐  Digital Licenses          €59/mo        │
-│ ✅ Loyalty Program           €69/mo        │
-│                                             │
-│ CONTENT & MARKETING                         │
-│ ✅ Blog & Content            €49/mo        │
-│ ✅ Multi-Language            €79/mo        │
-│ ☐  AI Content Generation     €99/mo        │
-│                                             │
-│ MONTHLY TOTAL: €425/mo                      │
-│ (15% multi-branch discount applied)         │
-└─────────────────────────────────────────────┘
+SETUP REVENUE:
+  2x Website + Branche (€3.500):      €7.000
+  3x E-commerce B2C (€5.000):        €15.000
+  1x Publishing (€4.500):             €4.500
+  ────────────────────────────────────────────
+  TOTAAL SETUP:                       €26.500
+
+MAATWERK:
+  ~10 uur/maand × €100:              €12.000/jaar
+
+RECURRING (MRR opbouw gedurende jaar):
+  2x Website + Branche (€79):          €158/mo
+  3x E-com + Email (€148):            €444/mo
+  1x Publishing + Email (€128):        €128/mo
+  ────────────────────────────────────────────
+  MRR eind jaar 1:                     €730/mo
+  Gewogen ARR (geleidelijke opbouw):  ~€5.500
+
+JAAR 1 TOTAAL: €26.500 + €12.000 + €5.500 = ~€44.000
 ```
 
----
+### Optimistisch (Jaar 1) — 12 klanten
 
-## 💡 Revenue Examples
+```
+SETUP REVENUE:
+  3x Website + Branche (€3.500):      €10.500
+  5x E-commerce (€5.000):             €25.000
+  2x Publishing (€4.500):              €9.000
+  2x E-commerce B2B (€6.500):         €13.000
+  ────────────────────────────────────────────
+  TOTAAL SETUP:                       €57.500
 
-### Example 1: Small Accountancy Firm
-**Stack:**
-- Professional Services Branch: €99/mo
-- Content Branch: €49/mo
+MAATWERK:
+  ~25 uur/maand × €100:              €30.000/jaar
 
-**Total:** €148/mo → **€133/mo** (10% bundle discount)
+RECURRING (MRR opbouw):
+  MRR eind jaar 1:                   €2.100/mo
+  Gewogen ARR:                      ~€16.000
 
----
-
-### Example 2: Growing Webshop
-**Stack:**
-- E-commerce B2C: €149/mo
-- Content Branch: €49/mo
-- Subscriptions Add-on: €79/mo
-- Loyalty Program: €69/mo
-
-**Total:** €346/mo → **€294/mo** (15% multi-feature discount)
-
----
-
-### Example 3: Construction Company
-**Stack:**
-- Construction Branch: €99/mo
-- Content Branch: €49/mo
-- AI Content Generation: €99/mo
-
-**Total:** €247/mo → **€210/mo** (15% discount)
-
----
-
-### Example 4: B2B Medical Supplier (like Plastimed)
-**Stack:**
-- E-commerce B2B: €249/mo
-- Content Branch: €49/mo
-- Subscriptions: €79/mo
-- Loyalty: €69/mo
-- Multi-Language: €79/mo
-
-**Total:** €525/mo → **€446/mo** (15% multi-branch discount)
-
----
-
-### Example 5: Hotel Chain
-**Stack:**
-- Tourism & Hotels: €179/mo
-- Content Branch: €49/mo
-- Multi-Language: €79/mo
-- Advanced Search: €59/mo
-
-**Total:** €366/mo → **€311/mo** (15% discount)
-
----
-
-## 🚀 Implementation Roadmap
-
-### Phase 1: E-commerce Branches (LIVE) ✅
-- ✅ E-commerce B2C
-- ✅ E-commerce B2B
-- ✅ Add-ons: Subscriptions, Vouchers, Licenses, Loyalty
-- ✅ Content Branch
-
-### Phase 2: Construction Branch (LIVE) ✅
-- ✅ Construction collections
-- ✅ Quote request system
-- ✅ Project portfolio
-- ✅ Feature flag: `ENABLE_CONSTRUCTION`
-
-### Phase 3: Hospitality Branch (Q1 2026) 🔜
-- Menus & Menu Items
-- Reservations
-- Events & Catering
-- Table Management
-
-### Phase 4: Beauty & Professional Services (Q2 2026) 🔜
-- Appointments & Bookings
-- Staff Management
-- Treatment/Service Catalog
-- Professional Services Consultations
-
-### Phase 5: Real Estate & Tourism (Q2-Q3 2026) 🔜
-- Property Listings
-- Room Bookings
-- Activity Scheduler
-- Agent/Staff Profiles
-
----
-
-## 📊 Competitive Analysis
-
-### vs WordPress + WooCommerce
-**Their model:** €50-150/mo hosting + €200-500 setup + plugins (€5-30/ea)
-**Our advantage:**
-- All-in-one (no plugin hell)
-- Per-branch pricing (only pay for what you use)
-- Modern tech stack (Next.js + Payload)
-- Built-in AI features
-
-### vs Shopify
-**Their model:** €29-299/mo + 2% transaction fees + apps (€10-50/ea)
-**Our advantage:**
-- No transaction fees
-- More flexible (custom branches)
-- Better for non-ecommerce industries (construction, hospitality)
-- Full control over hosting
-
-### vs Custom Development
-**Their model:** €10,000-50,000 upfront + €500-2000/mo maintenance
-**Our advantage:**
-- €99-499/mo (no huge upfront cost)
-- Instant deployment
-- Regular updates included
-- Feature toggles (easy scaling)
-
----
-
-## 🎯 Next Steps
-
-1. **Update `src/lib/features.ts`:**
-   - Add feature flags for new branches: `hospitality`, `beauty`, `realEstate`, `services`, `tourism`
-
-2. **Create Branch Directories:**
-   ```
-   src/branches/hospitality/
-   src/branches/beauty/
-   src/branches/real-estate/
-   src/branches/services/
-   src/branches/tourism/
-   ```
-
-3. **Platform CMS: Add Pricing UI**
-   - Visual feature selector
-   - Real-time price calculator
-   - Bundle discount display
-
-4. **Documentation:**
-   - Branch-specific setup guides
-   - Feature comparison matrix
-   - Migration guides (from competitors)
-
-5. **Marketing:**
-   - Landing pages per branch
-   - Industry-specific case studies
-   - Pricing calculator on website
-
----
-
-## 🔐 Technical Notes
-
-### Feature Dependencies
-
-```typescript
-// E-commerce B2B requires B2C
-if (features.b2b && !features.shop) {
-  throw new Error('B2B branch requires E-commerce B2C base')
-}
-
-// Subscriptions requires E-commerce
-if (features.subscriptions && !features.shop) {
-  throw new Error('Subscriptions require E-commerce branch')
-}
-
-// Marketplace can be standalone or with E-commerce
-// (vendors can sell products or workshops separately)
+JAAR 1 TOTAAL: €57.500 + €30.000 + €16.000 = ~€103.500
 ```
 
-### Database Impact
+### 5-Jaar Projectie (Optimistisch)
 
-Each branch has its own collections, so enabling a branch means:
-1. New tables created (via Payload auto-migration)
-2. New admin menu items appear
-3. New API endpoints available
-4. New frontend routes activated
+| Jaar | Klanten | MRR (eind) | ARR | Setup | Maatwerk | Totaal |
+|------|---------|-----------|-----|-------|----------|--------|
+| 1 | 12 | €2.100 | €16.000 | €57.500 | €30.000 | €103.500 |
+| 2 | 22 | €3.800 | €40.000 | €50.000 | €40.000 | €130.000 |
+| 3 | 35 | €6.000 | €65.000 | €60.000 | €55.000 | €180.000 |
+| 4 | 50 | €8.500 | €95.000 | €65.000 | €65.000 | €225.000 |
+| 5 | 65 | €11.000 | €125.000 | €55.000 | €75.000 | €255.000 |
 
-**Storage Requirements per Branch:**
-- E-commerce B2C: ~50MB base (500 products)
-- Content: ~10MB (100 blog posts)
-- Construction: ~20MB (50 projects)
-- Hospitality: ~30MB (menus + images)
+**Cumulatief na 5 jaar: ~€893.500**
 
 ---
 
 **End of Document**
-
-✅ **Ready for review and refinement**

@@ -35,10 +35,11 @@ export async function PATCH(request: NextRequest) {
     })
 
     return NextResponse.json({ success: true, user: updatedUser })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error updating settings:', error)
     return NextResponse.json(
-      { error: 'Failed to update settings', message: error.message },
+      { error: 'Failed to update settings', message },
       { status: 500 },
     )
   }

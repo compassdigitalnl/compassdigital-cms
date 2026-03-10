@@ -33,10 +33,11 @@ export async function GET(request: NextRequest) {
       // Collection might not exist yet
       return NextResponse.json({ success: true, docs: [] })
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error fetching recurring orders:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch recurring orders', message: error.message },
+      { error: 'Failed to fetch recurring orders', message },
       { status: 500 },
     )
   }

@@ -64,10 +64,11 @@ export async function POST(request: NextRequest) {
       success: true,
       result,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[API] DNS check error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Failed to check DNS records' },
+      { error: message || 'Failed to check DNS records' },
       { status: 500 }
     )
   }

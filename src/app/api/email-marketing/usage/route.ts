@@ -87,12 +87,13 @@ export async function GET(request: NextRequest) {
       },
       recommendations: getRecommendations(usage),
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Usage API] Error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
       {
         success: false,
-        error: error.message,
+        error: message,
       },
       { status: 500 }
     )

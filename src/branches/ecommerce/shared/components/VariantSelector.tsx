@@ -5,19 +5,40 @@ import type { Product } from '@/payload-types'
 import { Check } from 'lucide-react'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
-type VariantOption = NonNullable<(Product & { variantOptions?: any[] })['variantOptions']>[number]
-type VariantValue = NonNullable<VariantOption['values']>[number]
+interface VariantOptionValue {
+  label: string
+  value: string
+  colorCode?: string | null
+  image?: { url?: string; alt?: string } | number | null
+  priceModifier?: number | null
+  stockLevel?: number | null
+}
+
+interface VariantOptionGroup {
+  optionName?: string | null
+  displayType?: 'colorSwatch' | 'sizeRadio' | 'dropdown' | 'imageRadio' | 'checkbox' | null
+  values?: VariantOptionValue[] | null
+}
+
+type ExtendedProduct = Product & {
+  variantOptions?: VariantOptionGroup[]
+  configuratorSettings?: {
+    showConfigSummary?: boolean
+    showPriceBreakdown?: boolean
+  }
+}
 
 interface VariantSelectorProps {
   product: Product
-  onSelectionChange?: (selections: Record<string, VariantValue>) => void
+  onSelectionChange?: (selections: Record<string, VariantOptionValue>) => void
 }
 
 export function VariantSelector({ product, onSelectionChange }: VariantSelectorProps) {
-  const [selections, setSelections] = useState<Record<string, VariantValue>>({})
+  const [selections, setSelections] = useState<Record<string, VariantOptionValue>>({})
   const { displayPrice, formatPriceStr } = usePriceMode()
 
-  const variantOptions = (product as any).variantOptions || []
+  const extProduct = product as ExtendedProduct
+  const variantOptions = extProduct.variantOptions || []
 
   // Calculate total price with modifiers (excl. VAT base)
   const calculateTotalPriceExcl = () => {
@@ -37,7 +58,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
     }
   }, [selections, onSelectionChange])
 
-  const handleSelection = (optionName: string, value: VariantValue) => {
+  const handleSelection = (optionName: string, value: VariantOptionValue) => {
     setSelections(prev => ({
       ...prev,
       [optionName]: value
@@ -50,7 +71,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
 
   return (
     <div className="space-y-6">
-      {variantOptions.map((option: any) => {
+      {variantOptions.map((option: VariantOptionGroup) => {
         const currentSelection = selections[option.optionName || '']
 
         return (
@@ -67,7 +88,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
             {/* Color Swatches */}
             {option.displayType === 'colorSwatch' && (
               <div className="flex flex-wrap gap-2">
-                {option.values?.map((value: any) => (
+                {option.values?.map((value: VariantOptionValue) => (
                   <button
                     key={value.value}
                     onClick={() => handleSelection(option.optionName || '', value)}
@@ -94,7 +115,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
             {/* Size Radio Buttons */}
             {option.displayType === 'sizeRadio' && (
               <div className="flex flex-wrap gap-2">
-                {option.values?.map((value: any) => (
+                {option.values?.map((value: VariantOptionValue) => (
                   <button
                     key={value.value}
                     onClick={() => handleSelection(option.optionName || '', value)}
@@ -119,20 +140,20 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
               <select
                 value={currentSelection?.value || ''}
                 onChange={(e) => {
-                  const value = option.values?.find((v: any) => v.value === e.target.value)
+                  const value = option.values?.find((v: VariantOptionValue) => v.value === e.target.value)
                   if (value) handleSelection(option.optionName || '', value)
                 }}
                 className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">Selecteer {option.optionName}</option>
-                {option.values?.map((value: any) => (
+                {option.values?.map((value: VariantOptionValue) => (
                   <option
                     key={value.value}
                     value={value.value}
                     disabled={value.stockLevel === 0}
                   >
                     {value.label}
-                    {value.priceModifier && value.priceModifier > 0 ? ` (+€${formatPriceStr(value.priceModifier, product.taxClass as any)})` : ''}
+                    {value.priceModifier && value.priceModifier > 0 ? ` (+€${formatPriceStr(value.priceModifier, product.taxClass ?? undefined)})` : ''}
                     {value.stockLevel === 0 ? ' (Uitverkocht)' : ''}
                   </option>
                 ))}
@@ -142,7 +163,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
             {/* Image Radio */}
             {option.displayType === 'imageRadio' && (
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-                {option.values?.map((value: any) => {
+                {option.values?.map((value: VariantOptionValue) => {
                   const imageUrl = typeof value.image === 'object' && value.image?.url ? value.image.url : null
 
                   return (
@@ -184,7 +205,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
             {/* Checkbox Add-ons */}
             {option.displayType === 'checkbox' && (
               <div className="space-y-2">
-                {option.values?.map((value: any) => (
+                {option.values?.map((value: VariantOptionValue) => (
                   <label
                     key={value.value}
                     className={`
@@ -217,7 +238,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                       {value.label}
                       {value.priceModifier && value.priceModifier > 0 && (
                         <span className="ml-2 text-sm text-gray-500">
-                          +€{formatPriceStr(value.priceModifier, product.taxClass as any)}
+                          +€{formatPriceStr(value.priceModifier, product.taxClass ?? undefined)}
                         </span>
                       )}
                     </span>
@@ -245,7 +266,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
       })}
 
       {/* Configuration Summary */}
-      {(product as any).configuratorSettings?.showConfigSummary && Object.keys(selections).length > 0 && (
+      {extProduct.configuratorSettings?.showConfigSummary && Object.keys(selections).length > 0 && (
         <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
           <h3 className="text-sm font-semibold text-gray-900 mb-2">
             Uw configuratie:
@@ -256,29 +277,29 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                 <span className="font-medium">{optionName}:</span> {value.label}
                 {value.priceModifier && value.priceModifier > 0 && (
                   <span className="text-gray-500 ml-1">
-                    (+€{formatPriceStr(value.priceModifier, product.taxClass as any)})
+                    (+€{formatPriceStr(value.priceModifier, product.taxClass ?? undefined)})
                   </span>
                 )}
               </li>
             ))}
           </ul>
-          {(product as any).configuratorSettings?.showPriceBreakdown && (
+          {extProduct.configuratorSettings?.showPriceBreakdown && (
             <div className="mt-3 pt-3 border-t border-gray-300">
               <div className="flex justify-between text-sm">
                 <span>Basisprijs:</span>
-                <span>€{formatPriceStr(product.price || 0, product.taxClass as any)}</span>
+                <span>€{formatPriceStr(product.price || 0, product.taxClass ?? undefined)}</span>
               </div>
               {Object.values(selections).map((value) =>
                 value.priceModifier && value.priceModifier > 0 ? (
                   <div key={value.value} className="flex justify-between text-sm text-gray-600">
                     <span>{value.label}:</span>
-                    <span>+€{formatPriceStr(value.priceModifier, product.taxClass as any)}</span>
+                    <span>+€{formatPriceStr(value.priceModifier, product.taxClass ?? undefined)}</span>
                   </div>
                 ) : null
               )}
               <div className="flex justify-between text-base font-bold mt-2 pt-2 border-t border-gray-300">
                 <span>Totaal:</span>
-                <span>€{formatPriceStr(calculateTotalPriceExcl(), product.taxClass as any)}</span>
+                <span>€{formatPriceStr(calculateTotalPriceExcl(), product.taxClass ?? undefined)}</span>
               </div>
             </div>
           )}

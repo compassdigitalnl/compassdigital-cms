@@ -243,12 +243,14 @@ async function getTenant(subdomain: string): Promise<any | null | typeof CLIENT_
     })
 
     return tenant
-  } catch (error: any) {
+  } catch (error: unknown) {
     // PostgreSQL error 42P01 = "undefined_table"
     // If the clients table doesn't exist, this is a client deployment database
     // (not the platform DB which always has the clients table).
     // In that case, bypass tenant routing and serve the client site directly.
-    if (error?.code === '42P01' || (typeof error?.message === 'string' && error.message.includes('clients') && error.message.includes('does not exist'))) {
+    const errCode = (error as Record<string, unknown>)?.code
+    const message = error instanceof Error ? error.message : String(error)
+    if (errCode === '42P01' || (typeof message === 'string' && message.includes('clients') && message.includes('does not exist'))) {
       console.log('[MIDDLEWARE] clients table not found - client deployment DB detected, bypassing routing')
       tenantCache.set(cacheKey, {
         data: CLIENT_DEPLOYMENT_DB,

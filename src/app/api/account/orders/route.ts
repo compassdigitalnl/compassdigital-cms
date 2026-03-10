@@ -59,10 +59,11 @@ export async function GET(request: NextRequest) {
       hasNextPage: result.hasNextPage,
       hasPrevPage: result.hasPrevPage,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error fetching orders:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch orders', message: error.message },
+      { error: 'Failed to fetch orders', message },
       { status: 500 },
     )
   }

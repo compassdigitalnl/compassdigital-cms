@@ -109,10 +109,11 @@ export async function POST(request: NextRequest) {
       message: 'Checkout session created successfully',
     })
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Stripe Checkout] Error creating session:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Failed to create checkout session' },
+      { error: message || 'Failed to create checkout session' },
       { status: 500 }
     )
   }

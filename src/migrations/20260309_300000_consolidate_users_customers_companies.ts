@@ -97,9 +97,10 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
       await db.execute(sql.raw(`SAVEPOINT ${label}`))
       await db.execute(query)
       await db.execute(sql.raw(`RELEASE SAVEPOINT ${label}`))
-    } catch (e: any) {
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : String(e)
       await db.execute(sql.raw(`ROLLBACK TO SAVEPOINT ${label}`))
-      console.warn(`[Migration] ${label} skipped: ${e.message?.split('\n')[0]}`)
+      console.warn(`[Migration] ${label} skipped: ${message.split('\n')[0]}`)
     }
   }
 

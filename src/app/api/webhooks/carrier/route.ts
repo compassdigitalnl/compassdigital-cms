@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Unknown carrier provider' }, { status: 400 })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Carrier Webhook] Error:', error)
     return NextResponse.json({ error: 'Internal error' }, { status: 500 })
   }

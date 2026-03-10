@@ -104,10 +104,11 @@ export async function POST(
       message: `Test emails queued for ${emails.length} recipient(s)`,
       emails,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[API] Test campaign error:', error)
     return NextResponse.json(
-      { error: error.message || 'Failed to send test emails' },
+      { error: message || 'Failed to send test emails' },
       { status: 500 }
     )
   }

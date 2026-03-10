@@ -75,10 +75,11 @@ export async function GET(request: NextRequest) {
       details: affiliate,
     })
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[MultiSafePay Connect] Error checking affiliate status:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Failed to check affiliate status' },
+      { error: message || 'Failed to check affiliate status' },
       { status: 500 }
     )
   }

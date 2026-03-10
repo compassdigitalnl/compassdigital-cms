@@ -97,8 +97,9 @@ function checkTypeScript(): CheckResult {
       passed: true,
       message: '✅ TypeScript compilation successful',
     }
-  } catch (error: any) {
-    const output = error.stdout || error.stderr || ''
+  } catch (error: unknown) {
+    const execError = error as { stdout?: string; stderr?: string }
+    const output = execError.stdout || execError.stderr || ''
     const lines = output.split('\n').filter((l: string) => l.trim())
     const errorLines = lines.slice(0, 10) // Show first 10 errors
 
@@ -153,8 +154,9 @@ function checkESLint(): CheckResult {
       passed: true,
       message: '✅ ESLint check passed',
     }
-  } catch (error: any) {
-    const output = error.stdout || error.stderr || ''
+  } catch (error: unknown) {
+    const execError = error as { stdout?: string; stderr?: string }
+    const output = execError.stdout || execError.stderr || ''
     const lines = output.split('\n').filter((l: string) => l.trim() && !l.includes('npm'))
     const errorLines = lines.slice(0, 5) // Show first 5 errors
 
@@ -204,11 +206,12 @@ function checkPackageJson(): CheckResult {
       passed: true,
       message: '✅ package.json validated',
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     return {
       passed: false,
       message: '❌ Failed to read package.json',
-      details: [error.message],
+      details: [message],
     }
   }
 }

@@ -244,9 +244,10 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
 
       // 4. Redirect to order confirmation
       router.push(`/order/${orderResult.order.id}`)
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       console.error('Order failed:', error)
-      alert(error.message || 'Er ging iets mis bij het plaatsen van je bestelling. Probeer het opnieuw.')
+      alert(message || 'Er ging iets mis bij het plaatsen van je bestelling. Probeer het opnieuw.')
     } finally {
       setIsProcessing(false)
     }

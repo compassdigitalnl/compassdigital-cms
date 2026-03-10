@@ -68,7 +68,8 @@ export async function checkClientHealth(client: {
       errors: errors.length > 0 ? errors : undefined,
       details: healthData?.details,
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error(`[Monitoring] Health check failed for ${client.id}:`, error)
 
     return {
@@ -77,7 +78,7 @@ export async function checkClientHealth(client: {
       responseTime: Date.now() - start,
       statusCode: 0,
       timestamp: new Date().toISOString(),
-      errors: [error.message],
+      errors: [message],
     }
   }
 }

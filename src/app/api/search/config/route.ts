@@ -25,7 +25,7 @@ export async function GET() {
         maxResults: s.maxResults || 5,
       })),
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[search/config] Error:', error)
 
     // Return defaults on error

@@ -30,10 +30,11 @@ export async function DELETE(request: NextRequest) {
     })
 
     return NextResponse.json({ success: true })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error deleting account:', error)
     return NextResponse.json(
-      { error: 'Failed to delete account', message: error.message },
+      { error: 'Failed to delete account', message },
       { status: 500 },
     )
   }

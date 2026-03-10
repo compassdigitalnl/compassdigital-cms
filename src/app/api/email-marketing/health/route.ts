@@ -37,12 +37,13 @@ export async function GET(request: NextRequest) {
       },
       { status: statusCode },
     )
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Health Check] Error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
       {
         status: 'unhealthy',
-        error: error.message || 'Health check failed',
+        error: message || 'Health check failed',
         timestamp: new Date(),
       },
       { status: 503 },

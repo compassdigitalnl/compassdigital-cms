@@ -68,8 +68,9 @@ export const CampaignDashboard: React.FC<{ field: Field; data: CampaignData }> =
       }, 1500)
 
       return result
-    } catch (error: any) {
-      setMessage(`Error: ${error.message}`)
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
+      setMessage(`Error: ${message}`)
       throw error
     } finally {
       setLoading(false)

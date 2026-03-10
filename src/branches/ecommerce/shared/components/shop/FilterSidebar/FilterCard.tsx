@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { ChevronDown, Star } from 'lucide-react'
-import * as LucideIcons from 'lucide-react'
+import { getIcon } from '@/utilities/getIcon'
 import { PriceRangeSlider } from './PriceRangeSlider'
 import type { FilterCardProps } from './types'
 
@@ -21,9 +21,9 @@ export const FilterCard: React.FC<FilterCardProps> = ({
     if (!filter.icon) return null
     const iconName = filter.icon
       .split('-')
-      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .map((part: string) => part.charAt(0).toUpperCase() + part.slice(1))
       .join('')
-    return (LucideIcons as any)[iconName] || null
+    return getIcon(iconName)
   }, [filter.icon])
 
   const [localPriceRange, setLocalPriceRange] = React.useState<[number, number] | null>(null)

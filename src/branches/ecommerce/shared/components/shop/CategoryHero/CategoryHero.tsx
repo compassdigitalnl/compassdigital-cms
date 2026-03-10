@@ -1,7 +1,8 @@
 'use client'
 
 import React from 'react'
-import * as LucideIcons from 'lucide-react'
+import { Package } from 'lucide-react'
+import { getIcon } from '@/utilities/getIcon'
 import type { CategoryHeroProps } from './types'
 
 export const CategoryHero: React.FC<CategoryHeroProps> = ({
@@ -13,15 +14,15 @@ export const CategoryHero: React.FC<CategoryHeroProps> = ({
 }) => {
   // Dynamically load Lucide icon (convert kebab-case to PascalCase)
   const IconComponent = React.useMemo(() => {
-    if (!category.icon) return LucideIcons.Package // Default fallback
+    if (!category.icon) return Package // Default fallback
 
     // Convert kebab-case to PascalCase (e.g., "heart-pulse" → "HeartPulse")
     const iconName = category.icon
       .split('-')
-      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .map((part: string) => part.charAt(0).toUpperCase() + part.slice(1))
       .join('')
 
-    return (LucideIcons as any)[iconName] || LucideIcons.Package
+    return getIcon(iconName, Package)!
   }, [category.icon])
 
   return (

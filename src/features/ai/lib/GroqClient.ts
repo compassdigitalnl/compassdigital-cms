@@ -97,20 +97,21 @@ export class GroqClient {
         },
         finishReason: chatResponse.choices[0].finish_reason,
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('[Groq] Chat error:', error)
 
       // Check for rate limiting
-      if (error?.status === 429) {
+      if ((error as any)?.status === 429) {
         throw new Error('Groq rate limit exceeded. Please try again later.')
       }
 
       // Check for invalid API key
-      if (error?.status === 401) {
+      if ((error as any)?.status === 401) {
         throw new Error('Invalid Groq API key. Check your GROQ_API_KEY environment variable.')
       }
 
-      throw new Error(`Groq chat failed: ${error?.message || 'Unknown error'}`)
+      const message = error instanceof Error ? error.message : String(error)
+      throw new Error(`Groq chat failed: ${message || 'Unknown error'}`)
     }
   }
 

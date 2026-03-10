@@ -55,10 +55,11 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       segment,
       ...(includeSubscribers ? { subscriberIds } : {}),
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Segments API] GET/:id error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Fout bij ophalen segment' },
+      { error: message || 'Fout bij ophalen segment' },
       { status: 500 },
     )
   }
@@ -114,10 +115,11 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     })
 
     return NextResponse.json({ segment })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Segments API] PATCH/:id error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Fout bij bijwerken segment' },
+      { error: message || 'Fout bij bijwerken segment' },
       { status: 500 },
     )
   }
@@ -140,10 +142,11 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     })
 
     return NextResponse.json({ success: true, message: 'Segment verwijderd' })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Segments API] DELETE/:id error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Fout bij verwijderen segment' },
+      { error: message || 'Fout bij verwijderen segment' },
       { status: 500 },
     )
   }

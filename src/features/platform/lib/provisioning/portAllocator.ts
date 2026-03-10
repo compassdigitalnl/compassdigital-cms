@@ -60,9 +60,10 @@ export async function getNextAvailablePort(): Promise<number> {
     }
 
     return nextPort
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     // If Payload is not available (e.g. during tests), fall back to PORT_BASE
-    console.warn('[portAllocator] Could not query Payload, falling back to PORT_BASE:', error.message)
+    console.warn('[portAllocator] Could not query Payload, falling back to PORT_BASE:', message)
     return PORT_BASE
   }
 }

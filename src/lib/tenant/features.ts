@@ -106,6 +106,7 @@ export interface ClientFeatures {
   construction?: boolean
   hospitality?: boolean
   beauty?: boolean
+  experiences?: boolean
   realEstate?: boolean
   professionalServices?: boolean
   tourism?: boolean
@@ -300,6 +301,7 @@ export const features = {
   construction: isFeatureEnabled('construction'),
   hospitality: isFeatureEnabled('hospitality'),
   beauty: isFeatureEnabled('beauty'),
+  experiences: isFeatureEnabled('experiences'),
   realEstate: isFeatureEnabled('real_estate'),
   professionalServices: isFeatureEnabled('professional_services'),
   tourism: isFeatureEnabled('tourism'),
@@ -366,6 +368,7 @@ export const featureCategories = {
   catalog: ['catalogBranches'],
   publishing: ['magazines'],
   content: ['blog', 'testimonials', 'cases', 'partners', 'services', 'wishlists'],
+  experiences: ['experiences'],
   advanced: ['multiLanguage', 'aiContent', 'search', 'newsletter', 'platform', 'authentication', 'chatbot', 'abTesting'],
   emailMarketing: ['emailMarketing', 'emailCampaigns', 'emailAutomation', 'emailFlows', 'emailGrapesEditor', 'emailDeliverability', 'emailAnalytics'],
 } as const
@@ -475,6 +478,7 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     construction: 'ENABLE_CONSTRUCTION',
     hospitality: 'ENABLE_HOSPITALITY',
     beauty: 'ENABLE_BEAUTY',
+    experiences: 'ENABLE_EXPERIENCES',
     realEstate: 'ENABLE_REAL_ESTATE',
     professionalServices: 'ENABLE_PROFESSIONAL_SERVICES',
     tourism: 'ENABLE_TOURISM',
@@ -579,6 +583,11 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     'construction-reviews': 'construction',
     'quote-requests': 'construction',
 
+    // === EXPERIENCES ===
+    'experiences': 'experiences',
+    'experience-categories': 'experiences',
+    'experience-reviews': 'experiences',
+
     // === HOSPITALITY ===
     'treatments': 'hospitality',
     'practitioners': 'hospitality',
@@ -590,6 +599,10 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     // === A/B TESTING ===
     'ab-tests': 'abTesting',
     'ab-test-results': 'abTesting',
+
+    // === WISHLISTS & REVIEWS ===
+    wishlists: 'wishlists',
+    'product-reviews': 'productReviews',
 
     // === PWA ===
     'push-subscriptions': 'pushNotifications',

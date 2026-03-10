@@ -35,9 +35,10 @@ export async function GET(request: NextRequest) {
       city: result.city,
       province: result.province || null,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { success: false, error: error.message || 'Postcode lookup mislukt' },
+      { success: false, error: message || 'Postcode lookup mislukt' },
       { status: 400 },
     )
   }

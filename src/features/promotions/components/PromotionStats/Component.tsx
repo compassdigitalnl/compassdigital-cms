@@ -26,8 +26,9 @@ export function PromotionStats({ promotionId }: PromotionStatsProps) {
 
         const data = await res.json()
         setStats(data)
-      } catch (err: any) {
-        setError(err.message)
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err)
+        setError(message)
       } finally {
         setLoading(false)
       }

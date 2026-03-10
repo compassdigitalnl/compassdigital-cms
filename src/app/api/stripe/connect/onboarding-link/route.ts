@@ -61,10 +61,11 @@ export async function POST(request: NextRequest) {
       expiresAt: accountLink.expires_at,
     })
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Stripe Connect] Error creating onboarding link:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Failed to create onboarding link' },
+      { error: message || 'Failed to create onboarding link' },
       { status: 500 }
     )
   }

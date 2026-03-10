@@ -21,8 +21,9 @@ export function SegmentList({ onEdit }: SegmentListProps) {
       }
       const data = await res.json()
       setSegments(data.segments || [])
-    } catch (err: any) {
-      setError(err.message || 'Fout bij ophalen segmenten')
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err)
+      setError(message || 'Fout bij ophalen segmenten')
     } finally {
       setLoading(false)
     }
@@ -46,8 +47,9 @@ export function SegmentList({ onEdit }: SegmentListProps) {
         }
         // Re-fetch after delete
         fetchSegments()
-      } catch (err: any) {
-        alert(err.message || 'Fout bij verwijderen segment')
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err)
+        alert(message || 'Fout bij verwijderen segment')
       }
     },
     [fetchSegments],
@@ -74,8 +76,9 @@ export function SegmentList({ onEdit }: SegmentListProps) {
         }
         // Re-fetch after duplicate
         fetchSegments()
-      } catch (err: any) {
-        alert(err.message || 'Fout bij dupliceren segment')
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err)
+        alert(message || 'Fout bij dupliceren segment')
       }
     },
     [fetchSegments],

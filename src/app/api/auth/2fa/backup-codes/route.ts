@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
       backupCodes,
       message: 'Nieuwe backup codes gegenereerd. Bewaar ze veilig!',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('2FA backup codes error:', error)
     return NextResponse.json(
       { error: 'Er is een fout opgetreden' },

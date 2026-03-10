@@ -169,10 +169,11 @@ export async function POST(request: NextRequest) {
           { status: 400 }
         )
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Reconciliation API] POST error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { success: false, error: error.message || 'Internal server error' },
+      { success: false, error: message || 'Internal server error' },
       { status: 500 }
     )
   }
@@ -218,10 +219,11 @@ export async function GET(request: NextRequest) {
       environment: process.env.NODE_ENV,
       autoInit: process.env.AUTO_INIT_RECONCILIATION === 'true',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Reconciliation API] GET error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { success: false, error: error.message || 'Internal server error' },
+      { success: false, error: message || 'Internal server error' },
       { status: 500 }
     )
   }

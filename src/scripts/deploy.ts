@@ -101,8 +101,9 @@ function execCommand(command: string, silent = false): string {
       stdio: silent ? 'pipe' : 'inherit',
       encoding: 'utf-8',
     })
-  } catch (error: any) {
-    throw new Error(`Command failed: ${command}\n${error.message}`)
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
+    throw new Error(`Command failed: ${command}\n${message}`)
   }
 }
 
@@ -309,11 +310,12 @@ async function deployToVercel(env: Environment): Promise<DeployResult> {
       message: 'Deployment successful',
       url: deployUrl,
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     return {
       success: false,
       message: 'Deployment failed',
-      error: error.message,
+      error: message,
     }
   }
 }
@@ -488,10 +490,11 @@ async function main() {
         console.log('  npm run deploy:verify       # Verify deployment')
         process.exit(1)
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     separator()
     log('DEPLOYMENT FAILED', 'error')
-    log(error.message, 'error')
+    log(message, 'error')
     separator()
     process.exit(1)
   }

@@ -28,6 +28,9 @@ import * as migration_20260310_190000_merge_discountcodes_into_promotions from '
 import * as migration_20260310_200000_remove_addresses_collection from './20260310_200000_remove_addresses_collection';
 import * as migration_20260310_210000_remove_faqs_collection from './20260310_210000_remove_faqs_collection';
 import * as migration_20260310_220000_rename_configurator_tables from './20260310_220000_rename_configurator_tables';
+import * as migration_20260311_100000_add_wishlists from './20260311_100000_add_wishlists';
+import * as migration_20260311_110000_add_product_reviews from './20260311_110000_add_product_reviews';
+import * as migration_20260311_120000_add_content_approvals from './20260311_120000_add_content_approvals';
 
 export const migrations = [
   {
@@ -179,5 +182,20 @@ export const migrations = [
     up: migration_20260310_220000_rename_configurator_tables.up,
     down: migration_20260310_220000_rename_configurator_tables.down,
     name: '20260310_220000_rename_configurator_tables',
+  },
+  {
+    up: migration_20260311_100000_add_wishlists.up,
+    down: migration_20260311_100000_add_wishlists.down,
+    name: '20260311_100000_add_wishlists',
+  },
+  {
+    up: migration_20260311_110000_add_product_reviews.up,
+    down: migration_20260311_110000_add_product_reviews.down,
+    name: '20260311_110000_add_product_reviews',
+  },
+  {
+    up: migration_20260311_120000_add_content_approvals.up,
+    down: migration_20260311_120000_add_content_approvals.down,
+    name: '20260311_120000_add_content_approvals',
   },
 ];

@@ -53,7 +53,8 @@ export async function checkSiteHealth(site: {
       statusCode: response.status,
       checkedAt: new Date().toISOString(),
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
     return {
       clientId: site.id,
       clientName: site.name,
@@ -61,7 +62,7 @@ export async function checkSiteHealth(site: {
       status: 'critical',
       responseTime: Date.now() - start,
       statusCode: 0,
-      error: err.message,
+      error: message,
       checkedAt: new Date().toISOString(),
     }
   }

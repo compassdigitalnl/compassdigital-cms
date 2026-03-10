@@ -39,10 +39,11 @@ export async function GET(request: NextRequest) {
       hasNextPage: result.hasNextPage,
       hasPrevPage: result.hasPrevPage,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error fetching quotes:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch quotes', message: error.message },
+      { error: 'Failed to fetch quotes', message },
       { status: 500 },
     )
   }
@@ -106,10 +107,11 @@ export async function POST(request: NextRequest) {
       success: true,
       quote,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error creating quote:', error)
     return NextResponse.json(
-      { error: 'Failed to create quote', message: error.message },
+      { error: 'Failed to create quote', message },
       { status: 500 },
     )
   }

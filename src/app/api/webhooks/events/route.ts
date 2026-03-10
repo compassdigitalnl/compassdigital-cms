@@ -151,7 +151,7 @@ export async function POST(request: NextRequest) {
         },
       },
     )
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Record failed request for rate limiting
     if (!success) {
       await recordWebhookResult(request, tenantId, false).catch(() => {
@@ -160,7 +160,8 @@ export async function POST(request: NextRequest) {
     }
 
     console.error('[Webhook Events] Error processing event:', error)
-    return NextResponse.json({ error: error.message || 'Failed to process event' }, { status: 500 })
+    const message = error instanceof Error ? error.message : String(error)
+    return NextResponse.json({ error: message || 'Failed to process event' }, { status: 500 })
   }
 }
 

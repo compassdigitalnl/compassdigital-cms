@@ -18,10 +18,11 @@ export async function GET(request: NextRequest) {
     const addresses = (user as any).addresses || []
 
     return NextResponse.json({ success: true, docs: addresses, userId: user.id })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error fetching addresses:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch addresses', message: error.message },
+      { error: 'Failed to fetch addresses', message },
       { status: 500 },
     )
   }
@@ -58,10 +59,11 @@ export async function POST(request: NextRequest) {
     })
 
     return NextResponse.json({ success: true, doc: newAddress })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error creating address:', error)
     return NextResponse.json(
-      { error: 'Failed to create address', message: error.message },
+      { error: 'Failed to create address', message },
       { status: 500 },
     )
   }

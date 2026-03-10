@@ -64,7 +64,7 @@ export async function GET(
         'Content-Length': String(pdf.length),
       },
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Label download error:', error)
     return NextResponse.json(
       { error: 'Label downloaden mislukt' },

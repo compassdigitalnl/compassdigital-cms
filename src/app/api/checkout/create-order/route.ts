@@ -394,7 +394,8 @@ export async function POST(request: NextRequest) {
       // paymentSession: { ... } // TODO: Add when payment is implemented
     })
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('❌ Checkout error:', error)
 
     // Rollback: If order was created but stock deduction failed,
@@ -404,7 +405,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: 'Checkout failed',
-        message: error.message || 'An error occurred during checkout',
+        message: message || 'An error occurred during checkout',
       },
       { status: 500 }
     )

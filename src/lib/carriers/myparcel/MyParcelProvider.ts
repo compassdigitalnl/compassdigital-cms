@@ -124,9 +124,10 @@ export class MyParcelProvider implements CarrierProvider {
         trackingUrl,
         carrier: 'postnl',
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       console.error('[MyParcel] Create shipment error:', error)
-      return { success: false, shipmentId: '', error: error.message }
+      return { success: false, shipmentId: '', error: message }
     }
   }
 

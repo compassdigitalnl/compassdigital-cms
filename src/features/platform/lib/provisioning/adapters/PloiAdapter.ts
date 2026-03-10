@@ -99,8 +99,9 @@ export class PloiAdapter implements DeploymentAdapter {
         name: gitRepo,
       })
       console.log(`[PloiAdapter] Repository installed: ${gitRepo}@${gitBranch}`)
-    } catch (repoError: any) {
-      console.warn(`[PloiAdapter] Repository installation warning: ${repoError.message}`)
+    } catch (repoError: unknown) {
+      const repoMessage = repoError instanceof Error ? repoError.message : String(repoError)
+      console.warn(`[PloiAdapter] Repository installation warning: ${repoMessage}`)
       // Non-fatal: site may already have a repo, or user can set it manually
     }
 
@@ -225,11 +226,12 @@ export class PloiAdapter implements DeploymentAdapter {
         url: undefined,
         error: undefined,
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       return {
         status: 'error' as const,
         url: undefined,
-        error: error.message,
+        error: message,
       }
     }
   }
@@ -350,8 +352,9 @@ echo "Placeholder files removed from ${siteDir}"`
 
       // Give Ploi ~5 seconds to execute the script before we proceed
       await new Promise((resolve) => setTimeout(resolve, 5000))
-    } catch (err: any) {
-      console.warn(`[PloiAdapter] clearSitePlaceholder warning: ${err.message}`)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err)
+      console.warn(`[PloiAdapter] clearSitePlaceholder warning: ${message}`)
       // Non-fatal: if it fails we still attempt the clone
     } finally {
       // Always clean up the temporary script
@@ -424,9 +427,10 @@ echo "Placeholder files removed from ${siteDir}"`
       await service.updateNginxConfiguration(this.serverId, siteId, fixedConfig)
       await service.restartService(this.serverId, 'nginx')
       console.log(`[PloiAdapter] Nginx config updated and restarted for site ${siteId} ✓`)
-    } catch (err: any) {
+    } catch (err: unknown) {
       // Non-fatal: Nginx may need a moment to be ready after site creation
-      console.warn(`[PloiAdapter] ensureNginxPort warning: ${err.message}`)
+      const message = err instanceof Error ? err.message : String(err)
+      console.warn(`[PloiAdapter] ensureNginxPort warning: ${message}`)
     }
   }
 

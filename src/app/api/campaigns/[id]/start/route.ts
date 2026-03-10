@@ -97,10 +97,11 @@ export async function POST(
       message: 'Campaign start queued',
       campaignId,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[API] Start campaign error:', error)
     return NextResponse.json(
-      { error: error.message || 'Failed to start campaign' },
+      { error: message || 'Failed to start campaign' },
       { status: 500 }
     )
   }

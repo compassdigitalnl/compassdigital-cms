@@ -177,7 +177,8 @@ async function processSyncCampaign(job: Job<SyncCampaignJob>): Promise<void> {
     })
 
     console.log(`[EmailWorker] Campaign ${campaignId} synced successfully (Listmonk ID: ${listmonkResponse.data.id})`)
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error(`[EmailWorker] Failed to sync campaign ${campaignId}:`, error)
 
     // Update sync status with error
@@ -186,7 +187,7 @@ async function processSyncCampaign(job: Job<SyncCampaignJob>): Promise<void> {
       id: campaignId,
       data: {
         syncStatus: 'error',
-        syncError: error.message,
+        syncError: message,
         lastSyncedAt: new Date().toISOString(),
       },
     })
@@ -212,9 +213,9 @@ async function processDeleteCampaign(job: Job<DeleteCampaignJob>): Promise<void>
   try {
     await listmonk.deleteCampaign(listmonkId)
     console.log(`[EmailWorker] Campaign ${listmonkId} deleted from Listmonk`)
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Ignore 404 errors (already deleted)
-    if (error.response?.status === 404) {
+    if ((error as Record<string, any>).response?.status === 404) {
       console.log(`[EmailWorker] Campaign ${listmonkId} not found in Listmonk (already deleted)`)
       return
     }
@@ -300,7 +301,8 @@ async function processStartCampaign(job: Job<StartCampaignJob>): Promise<void> {
       },
       { delay: 5 * 60 * 1000 } // 5 minutes
     )
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error(`[EmailWorker] Failed to start campaign ${campaignId}:`, error)
 
     // Update status with error
@@ -309,7 +311,7 @@ async function processStartCampaign(job: Job<StartCampaignJob>): Promise<void> {
       id: campaignId,
       data: {
         status: 'draft',
-        syncError: `Failed to start: ${error.message}`,
+        syncError: `Failed to start: ${message}`,
       },
     })
 
@@ -377,7 +379,7 @@ async function processSyncStats(job: Job<SyncStatsJob>): Promise<void> {
         { delay: 5 * 60 * 1000 } // 5 minutes
       )
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(`[EmailWorker] Failed to sync stats for campaign ${campaignId}:`, error)
     throw error
   }
@@ -410,7 +412,7 @@ async function processTestCampaign(job: Job<TestCampaignJob>): Promise<void> {
   try {
     await listmonk.testCampaign(campaign.listmonkCampaignId, emails)
     console.log(`[EmailWorker] Test campaign sent successfully`)
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(`[EmailWorker] Failed to send test campaign:`, error)
     throw error
   }
@@ -454,7 +456,7 @@ export const emailMarketingWorker = new Worker(
       }
 
       console.log(`[EmailWorker] ✅ Job ${jobName} completed successfully`)
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Classify error
       const classifiedError = classifyError(error)
       reportError(jobName, classifiedError, {

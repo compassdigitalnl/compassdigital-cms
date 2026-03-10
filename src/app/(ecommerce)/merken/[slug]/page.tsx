@@ -6,6 +6,18 @@ import BrandDetailTemplate1 from '@/branches/shared/templates/brands/BrandDetail
 import type { Brand, Product, Media } from '@/payload-types'
 import type { Metadata } from 'next'
 
+// Lexical rich text helper types
+interface LexicalNode {
+  text?: string
+  children?: LexicalNode[]
+}
+
+interface LexicalRoot {
+  root?: {
+    children?: LexicalNode[]
+  }
+}
+
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
@@ -33,8 +45,8 @@ export async function generateMetadata({
     if (!brand) return { title: 'Merk niet gevonden' }
 
     return {
-      title: (brand as any).meta?.title || `${brand.name} - Merken`,
-      description: (brand as any).meta?.description || `Ontdek het volledige ${brand.name} assortiment.`,
+      title: brand.meta?.title || `${brand.name} - Merken`,
+      description: brand.meta?.description || `Ontdek het volledige ${brand.name} assortiment.`,
     }
   } catch {
     return { title: 'Merk niet gevonden' }
@@ -45,11 +57,11 @@ export async function generateMetadata({
 // HELPERS
 // ============================================
 
-function extractPlainText(richText: any): string | null {
+function extractPlainText(richText: LexicalRoot | null | undefined): string | null {
   if (!richText?.root?.children) return null
   const texts: string[] = []
 
-  function walk(nodes: any[]) {
+  function walk(nodes: LexicalNode[]) {
     for (const node of nodes) {
       if (node.text) texts.push(node.text)
       if (node.children) walk(node.children)
@@ -61,21 +73,21 @@ function extractPlainText(richText: any): string | null {
 }
 
 /** Determine stock status for a product, including grouped product logic */
-function resolveStockStatus(product: any): 'in-stock' | 'low' | 'out' | 'on-backorder' {
+function resolveStockStatus(product: Product): 'in-stock' | 'low' | 'out' | 'on-backorder' {
   // For grouped products: check childProducts[].product
-  if (product.productType === 'grouped' && product.childProducts?.length > 0) {
+  if (product.productType === 'grouped' && product.childProducts?.length) {
     const children = product.childProducts
-      .map((c: any) => (typeof c?.product === 'object' ? c.product : null))
-      .filter(Boolean)
+      .map((c) => (typeof c?.product === 'object' ? c.product : null))
+      .filter((c): c is Product => c !== null)
 
     if (children.length === 0) return 'out'
 
     // If ANY child is in stock, the parent is in stock
-    const anyInStock = children.some((c: any) => (c.stock ?? 0) > 0)
+    const anyInStock = children.some((c) => (c.stock ?? 0) > 0)
     if (anyInStock) return 'in-stock'
 
     // If any child allows backorders
-    const anyBackorder = children.some((c: any) => c.backordersAllowed)
+    const anyBackorder = children.some((c) => c.backordersAllowed)
     if (anyBackorder) return 'on-backorder'
 
     return 'out'
@@ -89,15 +101,15 @@ function resolveStockStatus(product: any): 'in-stock' | 'low' | 'out' | 'on-back
 }
 
 /** Get the effective (lowest) price for a product, including grouped children */
-function resolvePrice(product: any): { price: number | null; priceLabel?: string; compareAtPrice?: number } {
-  if (product.productType === 'grouped' && product.childProducts?.length > 0) {
+function resolvePrice(product: Product): { price: number | null; priceLabel?: string; compareAtPrice?: number } {
+  if (product.productType === 'grouped' && product.childProducts?.length) {
     const children = product.childProducts
-      .map((c: any) => (typeof c?.product === 'object' ? c.product : null))
-      .filter(Boolean)
+      .map((c) => (typeof c?.product === 'object' ? c.product : null))
+      .filter((c): c is Product => c !== null)
 
     const prices = children
-      .map((c: any) => c.price ?? null)
-      .filter((p: any): p is number => p !== null)
+      .map((c) => c.price ?? null)
+      .filter((p): p is number => p !== null)
 
     if (prices.length === 0) return { price: product.price ?? null }
 
@@ -150,7 +162,7 @@ export default async function MerkDetailPage({
 
   // Get product counts for product lines
   const productLines = await Promise.all(
-    childBrands.map(async (child: any) => {
+    childBrands.map(async (child: Brand) => {
       try {
         const { totalDocs } = await payload.count({
           collection: 'products',
@@ -176,7 +188,7 @@ export default async function MerkDetailPage({
   )
 
   // Fetch product count for this brand (including child brand products)
-  const brandIds = [brand.id, ...childBrands.map((c: any) => c.id)]
+  const brandIds = [brand.id, ...childBrands.map((c: Brand) => c.id)]
   const { totalDocs: productCount } = await payload.count({
     collection: 'products',
     where: {
@@ -198,7 +210,7 @@ export default async function MerkDetailPage({
   // Extract unique top-level categories from products (max 8)
   const categoryMap = new Map<string, { name: string; slug: string; icon?: string; productCount: number }>()
   for (const product of brandProducts) {
-    const cats = (product as any).categories || []
+    const cats = product.categories || []
     for (const cat of cats) {
       if (cat && typeof cat === 'object' && cat.name) {
         // Only include top-level categories (no parent)
@@ -222,7 +234,7 @@ export default async function MerkDetailPage({
     .slice(0, 8)
 
   // Calculate in-stock percentage
-  const inStockCount = brandProducts.filter((p: any) => {
+  const inStockCount = brandProducts.filter((p: Product) => {
     const status = resolveStockStatus(p)
     return status === 'in-stock' || status === 'low'
   }).length
@@ -231,9 +243,10 @@ export default async function MerkDetailPage({
     : 0
 
   // Popular products (first 4)
-  const popularProducts = brandProducts.slice(0, 4).map((p: any) => {
-    const image = p.featuredImage || p.images?.[0]?.image
-    const imageObj = image && typeof image === 'object' ? { url: image.url || '', alt: image.alt || p.name } : undefined
+  const popularProducts = brandProducts.slice(0, 4).map((p: Product) => {
+    const firstImage = p.images?.[0]
+    const image = firstImage && typeof firstImage === 'object' ? firstImage : undefined
+    const imageObj = image ? { url: image.url || '', alt: image.alt || p.title } : undefined
     const { price, priceLabel, compareAtPrice } = resolvePrice(p)
     const stockStatus = resolveStockStatus(p)
 
@@ -249,7 +262,7 @@ export default async function MerkDetailPage({
       compareAtPrice,
       stock: p.stock ?? 0,
       stockStatus,
-      badges: p.badges || [],
+      badges: [] as Array<{ type: 'sale' | 'new' | 'pro' | 'popular'; label?: string }>,
     }
   })
 
@@ -258,7 +271,7 @@ export default async function MerkDetailPage({
 
   return (
     <BrandDetailTemplate1
-      brand={brand as any}
+      brand={brand}
       productCount={productCount}
       categoryCount={categories.length}
       inStockPercent={inStockPercent}

@@ -191,7 +191,7 @@ export async function sendUsageAlert(
 
     // TODO: Send email notification to tenant admins
     // This could be implemented as a webhook or email service call
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Usage Alerts] Failed to send alert:', error)
     // Don't throw - alerts shouldn't block the system
   }

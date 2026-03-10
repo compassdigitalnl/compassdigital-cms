@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
       provider: carrier.name,
       methods,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Shipping methods error:', error)
     return NextResponse.json(
       { error: 'Verzendmethodes ophalen mislukt' },

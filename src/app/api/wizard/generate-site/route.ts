@@ -59,13 +59,14 @@ async function generateSiteWithAI(wizardData: WizardState, sseConnectionId: stri
     })
 
     return result
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[AI Wizard] Error:', error)
+    const message = error instanceof Error ? error.message : String(error)
 
     // Send error to client via SSE
     await sendProgress(sseConnectionId, {
       type: 'error',
-      error: error.message || 'AI generation failed',
+      error: message || 'AI generation failed',
     })
 
     throw error
@@ -117,10 +118,11 @@ export async function POST(request: NextRequest) {
       jobId,
       message: 'AI site generation started',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[AI Wizard] API error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { success: false, message: error.message || 'Internal server error' },
+      { success: false, message: message || 'Internal server error' },
       { status: 500 },
     )
   }

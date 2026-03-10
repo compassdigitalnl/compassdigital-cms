@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { Package, PackageX, ChevronDown, Hash } from 'lucide-react'
-import * as LucideIcons from 'lucide-react'
+import { getIcon } from '@/utilities/getIcon'
 import type { OrderItemsSummaryProps } from './types'
 
 /**
@@ -45,10 +45,9 @@ export function OrderItemsSummary({
   }
 
   // Get Lucide icon component by name
-  const getIcon = (iconName?: string) => {
+  const resolveIcon = (iconName?: string) => {
     if (!iconName) return Hash
-    const IconComponent = (LucideIcons as any)[iconName] || Hash
-    return IconComponent
+    return getIcon(iconName, Hash)!
   }
 
   return (
@@ -121,7 +120,7 @@ export function OrderItemsSummary({
                 <div className="order-item-name">{item.name}</div>
                 <div className="order-item-meta">
                   {item.metadata.map((meta, metaIndex) => {
-                    const IconComponent = getIcon(meta.icon)
+                    const IconComponent = resolveIcon(meta.icon)
                     return (
                       <div key={metaIndex} className="order-item-meta-item">
                         <IconComponent size={12} aria-hidden="true" />

@@ -31,10 +31,11 @@ export async function GET(request: Request) {
       success: true,
       ...dashboard,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[API] Monitoring dashboard error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { success: false, error: error.message },
+      { success: false, error: message },
       { status: 500 },
     )
   }

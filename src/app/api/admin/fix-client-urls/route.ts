@@ -103,12 +103,13 @@ export async function GET() {
 
     return NextResponse.json(summary)
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('❌ Error fixing client URLs:', error)
     return NextResponse.json(
       {
         success: false,
-        error: error.message,
+        error: message,
       },
       { status: 500 },
     )

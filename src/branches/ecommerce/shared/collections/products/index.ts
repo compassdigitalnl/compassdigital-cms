@@ -80,7 +80,7 @@ export const Products: CollectionConfig = {
         }
         // Index product in Meilisearch
         if (operation === 'create' || operation === 'update') {
-          indexProduct(doc).catch((err: any) =>
+          indexProduct(doc).catch((err: unknown) =>
             console.error('Failed to index product in Meilisearch:', err)
           )
         }
@@ -89,7 +89,7 @@ export const Products: CollectionConfig = {
     ],
     afterDelete: [
       async ({ doc }) => {
-        deleteProductFromIndex(doc.id).catch((err: any) =>
+        deleteProductFromIndex(doc.id).catch((err: unknown) =>
           console.error('Failed to delete product from Meilisearch:', err)
         )
       },
@@ -117,6 +117,30 @@ export const Products: CollectionConfig = {
         specificationsTab,
         relatedTab,
       ],
+    },
+
+    // Review aggregates (auto-updated by ProductReviews afterChange hook)
+    {
+      name: 'reviewCount',
+      type: 'number',
+      label: 'Aantal Reviews',
+      defaultValue: 0,
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'Automatisch bijgewerkt',
+      },
+    },
+    {
+      name: 'reviewAverage',
+      type: 'number',
+      label: 'Gemiddelde Score',
+      defaultValue: 0,
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'Gemiddelde van goedgekeurde reviews',
+      },
     },
   ],
 }

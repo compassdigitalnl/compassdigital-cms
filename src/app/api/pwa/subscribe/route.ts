@@ -80,10 +80,11 @@ export async function POST(request: NextRequest) {
     })
 
     return NextResponse.json({ success: true, action: 'created' })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[pwa/subscribe] Fout bij opslaan push abonnement:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: 'Opslaan push abonnement mislukt', message: error.message },
+      { error: 'Opslaan push abonnement mislukt', message },
       { status: 500 },
     )
   }

@@ -111,10 +111,11 @@ export async function POST(request: NextRequest) {
       orderId: order.id,
       orderNumber: (order as any).orderNumber,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Subscription] Error creating order:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Fout bij aanmaken bestelling' },
+      { error: message || 'Fout bij aanmaken bestelling' },
       { status: 500 },
     )
   }

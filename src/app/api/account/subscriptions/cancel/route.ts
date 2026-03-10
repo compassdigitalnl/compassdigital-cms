@@ -49,10 +49,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error canceling subscription:', error)
     return NextResponse.json(
-      { error: 'Failed to cancel subscription', message: error.message },
+      { error: 'Failed to cancel subscription', message },
       { status: 500 },
     )
   }

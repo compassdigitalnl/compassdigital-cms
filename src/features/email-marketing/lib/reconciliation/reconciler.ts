@@ -194,7 +194,7 @@ export class EmailReconciler {
         campaigns: campaignResult,
         summary,
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('[Reconciliation] ❌ Fatal error:', error)
       throw error
     }
@@ -289,8 +289,9 @@ export class EmailReconciler {
 
           // Remove from map (to detect orphaned Listmonk subscribers)
           listmonkMap.delete(payloadSub.listmonkId)
-        } catch (error: any) {
-          errors.push(`Failed to reconcile subscriber ${payloadSub.email}: ${error.message}`)
+        } catch (error: unknown) {
+          const message = error instanceof Error ? error.message : String(error)
+          errors.push(`Failed to reconcile subscriber ${payloadSub.email}: ${message}`)
           console.error(`[Reconciliation] Error reconciling ${payloadSub.email}:`, error)
         }
       }
@@ -313,8 +314,9 @@ export class EmailReconciler {
         errors: errors.length,
         errorMessages: errors,
       }
-    } catch (error: any) {
-      errors.push(`Fatal error in subscriber reconciliation: ${error.message}`)
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
+      errors.push(`Fatal error in subscriber reconciliation: ${message}`)
       throw error
     }
   }
@@ -405,8 +407,9 @@ export class EmailReconciler {
           if (payloadList.listmonkId) {
             listmonkMap.delete(payloadList.listmonkId)
           }
-        } catch (error: any) {
-          errors.push(`Failed to reconcile list ${payloadList.name}: ${error.message}`)
+        } catch (error: unknown) {
+          const message = error instanceof Error ? error.message : String(error)
+          errors.push(`Failed to reconcile list ${payloadList.name}: ${message}`)
           console.error(`[Reconciliation] Error reconciling ${payloadList.name}:`, error)
         }
       }
@@ -427,8 +430,9 @@ export class EmailReconciler {
         errors: errors.length,
         errorMessages: errors,
       }
-    } catch (error: any) {
-      errors.push(`Fatal error in list reconciliation: ${error.message}`)
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
+      errors.push(`Fatal error in list reconciliation: ${message}`)
       throw error
     }
   }
@@ -471,8 +475,9 @@ export class EmailReconciler {
           listmonkCampaigns = listmonkResponse.data.results
         }
         console.log(`[Reconciliation] Found ${listmonkCampaigns.length} campaigns in Listmonk`)
-      } catch (error: any) {
-        console.warn(`[Reconciliation] Failed to fetch campaigns from Listmonk: ${error.message}`)
+      } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error)
+        console.warn(`[Reconciliation] Failed to fetch campaigns from Listmonk: ${message}`)
       }
 
       // Create lookup map
@@ -546,8 +551,9 @@ export class EmailReconciler {
           statsUpdated++
 
           synced++
-        } catch (error: any) {
-          errors.push(`Failed to reconcile campaign ${payloadCampaign.name}: ${error.message}`)
+        } catch (error: unknown) {
+          const message = error instanceof Error ? error.message : String(error)
+          errors.push(`Failed to reconcile campaign ${payloadCampaign.name}: ${message}`)
           console.error(`[Reconciliation] Error reconciling ${payloadCampaign.name}:`, error)
         }
       }
@@ -562,8 +568,9 @@ export class EmailReconciler {
         errors: errors.length,
         errorMessages: errors,
       }
-    } catch (error: any) {
-      errors.push(`Fatal error in campaign reconciliation: ${error.message}`)
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
+      errors.push(`Fatal error in campaign reconciliation: ${message}`)
       throw error
     }
   }

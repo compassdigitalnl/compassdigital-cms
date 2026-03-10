@@ -41,10 +41,11 @@ export async function POST(request: NextRequest) {
     const count = await countSegmentSubscribers(db, conditions)
 
     return NextResponse.json({ count })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Segments Preview API] Error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Fout bij het berekenen van het segment' },
+      { error: message || 'Fout bij het berekenen van het segment' },
       { status: 500 },
     )
   }

@@ -100,9 +100,10 @@ export async function reserveStock(
     })
 
     return { success: true, reservationId: String(reservation.id) }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Failed to reserve stock:', error)
-    return { success: false, error: error.message || 'Failed to reserve stock' }
+    return { success: false, error: message || 'Failed to reserve stock' }
   }
 }
 
@@ -187,9 +188,10 @@ export async function releaseReservation(
     })
 
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Failed to release reservation:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: message }
   }
 }
 
@@ -214,9 +216,10 @@ export async function convertReservationToOrder(
     })
 
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Failed to convert reservation:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: message }
   }
 }
 
@@ -266,9 +269,10 @@ export async function cleanupExpiredReservations(payload: Payload): Promise<{
     }
 
     return { success: true, cleaned }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Failed to cleanup expired reservations:', error)
-    return { success: false, cleaned: 0, error: error.message }
+    return { success: false, cleaned: 0, error: message }
   }
 }
 
@@ -308,8 +312,9 @@ export async function releaseCartReservations(
     }
 
     return { success: true, released }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Failed to release cart reservations:', error)
-    return { success: false, released: 0, error: error.message }
+    return { success: false, released: 0, error: message }
   }
 }

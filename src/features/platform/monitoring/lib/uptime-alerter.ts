@@ -84,8 +84,9 @@ async function sendEmailAlert(alert: AlertPayload): Promise<void> {
       severity: isDown ? 'critical' : 'warning',
       deploymentUrl: alert.incident.deploymentUrl,
     })
-  } catch (err: any) {
-    console.error('[Alerter] Email failed:', err.message)
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
+    console.error('[Alerter] Email failed:', message)
   }
 }
 
@@ -135,7 +136,8 @@ async function sendSlackAlert(alert: AlertPayload, webhookUrl: string): Promise<
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     })
-  } catch (err: any) {
-    console.error('[Alerter] Slack failed:', err.message)
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
+    console.error('[Alerter] Slack failed:', message)
   }
 }

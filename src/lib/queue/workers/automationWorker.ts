@@ -57,13 +57,14 @@ export const automationWorker = new Worker(
         ruleId: context.ruleId,
         actionsExecuted: context.actions.length,
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       console.error(`[Automation Worker] Error executing automation:`, error)
 
       // Update failure stats
       await updateRuleStats(context.ruleId, {
         failed: true,
-        error: error.message,
+        error: message,
       })
 
       throw error // Re-throw for BullMQ retry logic

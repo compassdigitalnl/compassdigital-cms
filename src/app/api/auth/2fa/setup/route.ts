@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       secret, // Manual entry fallback
       message: 'Scan de QR-code met je authenticator app en voer de code in om te bevestigen.',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('2FA setup error:', error)
     return NextResponse.json(
       { error: 'Er is een fout opgetreden bij het instellen van 2FA' },

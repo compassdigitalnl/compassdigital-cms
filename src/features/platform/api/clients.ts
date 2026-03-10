@@ -74,9 +74,10 @@ export async function GET_Clients(request: NextRequest) {
         totalPages: result.totalPages,
       },
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[API] Error fetching clients:', error)
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }
 
@@ -158,9 +159,10 @@ export async function POST_Clients(request: NextRequest) {
       },
       logs: result.logs,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[API] Error creating client:', error)
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }
 
@@ -190,9 +192,10 @@ export async function GET_ClientById(clientId: string) {
       success: true,
       data: client,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[API] Error fetching client:', error)
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }
 
@@ -224,9 +227,10 @@ export async function PATCH_Client(clientId: string, request: NextRequest) {
       success: true,
       data: client,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[API] Error updating client:', error)
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }
 
@@ -267,9 +271,10 @@ export async function DELETE_Client(clientId: string) {
       success: true,
       message: 'Client deprovisioned and deleted',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[API] Error deleting client:', error)
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }
 
@@ -288,9 +293,10 @@ export async function POST_SuspendClient(clientId: string) {
       success: true,
       message: 'Client suspended',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[API] Error suspending client:', error)
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }
 
@@ -309,9 +315,10 @@ export async function POST_ActivateClient(clientId: string) {
       success: true,
       message: 'Client activated',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[API] Error activating client:', error)
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }
 
@@ -334,9 +341,10 @@ export async function GET_ClientHealth(clientId: string) {
         lastCheck: new Date().toISOString(),
       },
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[API] Error checking client health:', error)
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }
 
@@ -388,9 +396,10 @@ export async function GET_ClientDeployments(clientId: string, request: NextReque
       data: deployments,
       source: 'payload',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[API] Error fetching deployments:', error)
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }
 
@@ -441,7 +450,7 @@ export async function POST_RedeployClient(clientId: string) {
       clientId,
       provider: 'ploi',
       verbose: true,
-    }).catch((err: any) => {
+    }).catch((err: unknown) => {
       console.error(`[API] Re-provisioning failed for ${client.name}:`, err)
     })
 
@@ -451,9 +460,10 @@ export async function POST_RedeployClient(clientId: string) {
       clientId,
       status: 'provisioning',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[API] Error redeploying client:', error)
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }
 
@@ -494,8 +504,9 @@ export async function GET_PlatformStats() {
         failedDeployments: failedDeployments.totalDocs,
       },
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[API] Error fetching stats:', error)
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }

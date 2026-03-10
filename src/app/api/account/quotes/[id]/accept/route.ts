@@ -133,10 +133,11 @@ export async function POST(
       orderNumber: (order as any).orderNumber || orderNumber,
       message: 'Offerte geaccepteerd en bestelling aangemaakt',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error accepting quote:', error)
     return NextResponse.json(
-      { error: 'Kon offerte niet accepteren', message: error.message },
+      { error: 'Kon offerte niet accepteren', message },
       { status: 500 },
     )
   }

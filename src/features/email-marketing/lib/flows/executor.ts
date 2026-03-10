@@ -104,9 +104,10 @@ export async function enterFlow(
     console.log(`[Flow Executor] User entered flow: ${flow.name}, instance: ${instance.id}`)
 
     return { success: true, instanceId: String(instance.id) }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[Flow Executor] Error entering flow:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: message }
   }
 }
 
@@ -200,8 +201,8 @@ export async function executeFlowStep(
         default:
           console.warn(`[Flow Executor] Unknown step type: ${step.type}`)
       }
-    } catch (err: any) {
-      error = err.message
+    } catch (err: unknown) {
+      error = err instanceof Error ? err.message : String(err)
       console.error(`[Flow Executor] Step execution error:`, err)
     }
 
@@ -247,9 +248,10 @@ export async function executeFlowStep(
       await completeFlow(instanceId)
       return { success: true, completed: true }
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[Flow Executor] Error executing step:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: message }
   }
 }
 

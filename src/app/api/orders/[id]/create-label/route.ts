@@ -160,7 +160,7 @@ export async function POST(
       carrier: result.carrier,
       message: `Verzendlabel aangemaakt. Tracking: ${result.trackingNumber || result.shipmentId}`,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Create label error:', error)
     return NextResponse.json(
       { error: 'Er is een fout opgetreden bij het aanmaken van het label' },

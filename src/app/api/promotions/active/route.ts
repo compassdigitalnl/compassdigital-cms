@@ -31,10 +31,11 @@ export async function GET() {
     return NextResponse.json({
       promotions: publicPromotions,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[API] Active promotions error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { promotions: [], error: error.message },
+      { promotions: [], error: message },
       { status: 500 },
     )
   }

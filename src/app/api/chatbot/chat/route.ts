@@ -83,21 +83,22 @@ export async function POST(req: NextRequest) {
         timestamp: Date.now(),
       },
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[Chatbot API] Error:', error)
 
     // Check for specific errors
-    if (error.message?.includes('not enabled')) {
+    if (message?.includes('not enabled')) {
       return NextResponse.json(
         {
           error: 'Chatbot is disabled',
-          message: error.message,
+          message,
         },
         { status: 403 },
       )
     }
 
-    if (error.message?.includes('API key')) {
+    if (message?.includes('API key')) {
       return NextResponse.json(
         {
           error: 'AI service not configured',
@@ -107,7 +108,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    if (error.message?.includes('rate limit')) {
+    if (message?.includes('rate limit')) {
       return NextResponse.json(
         {
           error: 'Rate limit exceeded',
@@ -121,7 +122,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         error: 'Failed to get chatbot response',
-        message: error.message || 'An unexpected error occurred',
+        message: message || 'An unexpected error occurred',
       },
       { status: 500 },
     )

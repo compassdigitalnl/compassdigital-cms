@@ -13,7 +13,7 @@ export const pricesTab: Tab = {
           type: 'number',
           min: 0,
           label: 'Basis Prijs (excl. BTW)',
-          validate: (value: any, { data }: any) => {
+          validate: (value: number | undefined | null, { data }: { data: Record<string, unknown> }) => {
             const productType = data?.productType
             if (productType === 'grouped' || productType === 'bundle') return true
             if (value === null || value === undefined || value === '') {

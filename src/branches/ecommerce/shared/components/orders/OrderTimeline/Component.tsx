@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Truck, Check, Loader, Package, Home, Route } from 'lucide-react'
-import * as LucideIcons from 'lucide-react'
+import { getIcon } from '@/utilities/getIcon'
 import type { OrderTimelineProps, TimelineStep } from './types'
 
 /**
@@ -41,7 +41,7 @@ function resolveIcon(name?: string): React.ComponentType<{ size?: number; classN
     .split('-')
     .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
     .join('')
-  return (LucideIcons as any)[pascalCase] || null
+  return getIcon(pascalCase)
 }
 
 export function OrderTimeline({

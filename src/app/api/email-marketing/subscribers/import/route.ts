@@ -126,10 +126,11 @@ export async function POST(request: NextRequest) {
 
         existingEmails.add(email)
         results.created++
-      } catch (err: any) {
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err)
         results.errors.push({
           email: sub.email || '(onbekend)',
-          error: err.message || 'Onbekende fout',
+          error: message || 'Onbekende fout',
         })
       }
     }
@@ -141,7 +142,7 @@ export async function POST(request: NextRequest) {
       results,
       message: `${results.created} subscribers geïmporteerd${results.skipped > 0 ? `, ${results.skipped} duplicaten overgeslagen` : ''}${results.errors.length > 0 ? `, ${results.errors.length} fouten` : ''}.`,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Subscriber import error:', error)
     return NextResponse.json(
       { error: 'Import mislukt' },

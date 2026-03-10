@@ -218,16 +218,16 @@ export async function POST(request: NextRequest) {
       },
       { status: 201 },
     )
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('❌ Registration error:', error)
 
     // Handle specific Payload errors
-    if (error.name === 'ValidationError') {
+    if (error instanceof Error && error.name === 'ValidationError') {
       return NextResponse.json(
         {
           error: 'Validation error',
           message: 'De ingevulde gegevens zijn niet correct',
-          details: error.data || error.message,
+          details: (error as any).data || error.message,
         },
         { status: 400 },
       )

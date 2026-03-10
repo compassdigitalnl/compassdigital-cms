@@ -24,7 +24,67 @@ import { useEcommerceSettings } from '@/branches/ecommerce/shared/hooks/useEcomm
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 import { features } from '@/lib/tenant/features'
 import { getGroupedMinPrice } from '@/branches/ecommerce/shared/lib/shop/utils'
-import type { Product } from '@/payload-types'
+import type { Product, Brand, Media, ProductCategory } from '@/payload-types'
+// Extended product type with fields that exist at runtime but may not be in generated types
+type ExtendedProduct = Product & {
+  packaging?: string
+  features?: string[]
+  isSubscription?: boolean
+}
+
+// Helper to extract image URL from a Payload media reference
+type MediaRef = number | Media
+
+function getMediaUrl(img: MediaRef | undefined | null): string | null {
+  if (typeof img === 'object' && img !== null) return img.url || null
+  return null
+}
+
+// Cart item shape for grouped products
+interface GroupedCartItem {
+  id: number | string
+  title: string
+  slug: string
+  price: number
+  quantity: number
+  unitPrice: number
+  image?: string
+  sku?: string
+  ean?: string
+  stock: number
+  minOrderQuantity?: number
+  orderMultiple?: number
+  maxOrderQuantity?: number
+  parentProductId: number
+  parentProductTitle: string
+  backordersAllowed: boolean
+}
+
+// Variant selection shape
+interface VariantSelection {
+  label: string
+  value?: string
+  priceModifier?: number
+}
+
+// Subscription selection shape
+interface SubscriptionSelection {
+  label: string
+  value?: string
+  priceModifier?: number
+  discountPercentage?: number
+  stockLevel?: number
+}
+
+// Search hit from Meilisearch API
+interface SearchHit {
+  id: string | number
+  title: string
+  slug?: string
+  image?: string
+  effectivePrice?: number
+  price?: number
+}
 import {
   Heart,
   Share2,
@@ -55,17 +115,18 @@ import {
 
 interface SidebarItem { id: string | number; title: string; slug?: string; image?: string; price?: number }
 
-function ProductSidebar({ product }: { product: Product }) {
+function ProductSidebar({ product }: { product: ExtendedProduct }) {
   const { addItem } = useCart()
   const { showToast } = useAddToCartToast()
   const [autoSuggestions, setAutoSuggestions] = useState<SidebarItem[]>([])
 
   // Curated items (priority order): accessories → crossSells → relatedProducts
   const curated: SidebarItem[] = (() => {
-    for (const field of ['accessories', 'crossSells', 'relatedProducts'] as const) {
-      const items = ((product as any)[field] as any[])?.filter((p: any) => typeof p === 'object' && p !== null) || []
+    const fieldArrays: ((number | Product)[] | null | undefined)[] = [product.accessories, product.crossSells, product.relatedProducts]
+    for (const arr of fieldArrays) {
+      const items = arr?.filter((p): p is Product => typeof p === 'object' && p !== null) || []
       if (items.length > 0) {
-        return items.map((p: any) => ({
+        return items.map((p) => ({
           id: p.id,
           title: p.title,
           slug: p.slug,
@@ -78,11 +139,11 @@ function ProductSidebar({ product }: { product: Product }) {
   })()
 
   const curatedTitle = (() => {
-    const acc = ((product as any).accessories as any[])?.filter((p: any) => typeof p === 'object') || []
+    const acc = product.accessories?.filter((p): p is Product => typeof p === 'object') || []
     if (acc.length > 0) return 'Maak je bestelling compleet'
-    const cs = ((product as any).crossSells as any[])?.filter((p: any) => typeof p === 'object') || []
+    const cs = product.crossSells?.filter((p): p is Product => typeof p === 'object') || []
     if (cs.length > 0) return 'Vaak samen gekocht'
-    const rp = ((product as any).relatedProducts as any[])?.filter((p: any) => typeof p === 'object') || []
+    const rp = product.relatedProducts?.filter((p): p is Product => typeof p === 'object') || []
     if (rp.length > 0) return 'Misschien ook interessant'
     return ''
   })()
@@ -90,7 +151,7 @@ function ProductSidebar({ product }: { product: Product }) {
   // Auto-fetch from Meilisearch when no curated items
   useEffect(() => {
     if (curated.length > 0) return
-    const categoryIds = (product.categories as any[])?.map((c: any) => typeof c === 'object' ? c.id : c).filter(Boolean) || []
+    const categoryIds = product.categories?.map((c: number | ProductCategory) => typeof c === 'object' ? c.id : c).filter(Boolean) || []
     if (categoryIds.length === 0) return
 
     const params = new URLSearchParams()
@@ -100,10 +161,10 @@ function ProductSidebar({ product }: { product: Product }) {
     fetch(`/api/shop/search?${params}`)
       .then(res => res.json())
       .then(data => {
-        const hits = (data.hits || [])
-          .filter((h: any) => String(h.id) !== String(product.id))
+        const hits = ((data.hits || []) as SearchHit[])
+          .filter((h) => String(h.id) !== String(product.id))
           .slice(0, 6)
-          .map((h: any) => ({
+          .map((h) => ({
             id: h.id,
             title: h.title,
             slug: h.slug,
@@ -163,8 +224,8 @@ function ProductSidebar({ product }: { product: Product }) {
 }
 
 interface ProductTemplate4Props {
-  product: Product
-  parentGroupedProduct?: Product | null
+  product: ExtendedProduct
+  parentGroupedProduct?: ExtendedProduct | null
   defaultSelectedChildId?: number | string
 }
 
@@ -194,33 +255,33 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
   const [quantity, setQuantity] = useState(1)
 
   // Variable products - variant selections
-  const [variantSelections, setVariantSelections] = useState<Record<string, any>>({})
+  const [variantSelections, setVariantSelections] = useState<Record<string, VariantSelection>>({})
   const [variantPrice, setVariantPrice] = useState(0)
 
   // Subscription products - selected variant
-  const [selectedSubscription, setSelectedSubscription] = useState<any>(null)
+  const [selectedSubscription, setSelectedSubscription] = useState<SubscriptionSelection | null>(null)
 
   // Product type detection
   const isGrouped = product.productType === 'grouped'
   const isVariable = product.productType === 'variable'
-  const isSubscription = (product as any).isSubscription === true && isVariable
+  const isSubscription = product.isSubscription === true && isVariable
   const isMixMatch = (product.productType as string) === 'mixAndMatch'
 
-  const childProducts =
+  const childProducts: Product[] =
     isGrouped && product.childProducts
       ? product.childProducts
-          .map((child: any) => (typeof child.product === 'object' ? child.product : null))
-          .filter((p: any) => p !== null)
+          .map((child) => (typeof child.product === 'object' ? child.product : null))
+          .filter((p): p is Product => p !== null)
       : []
 
   // For grouped products: check if ANY child has stock
-  const groupedHasStock = isGrouped && childProducts.some((child: any) => child.stock && child.stock > 0)
+  const groupedHasStock = isGrouped && childProducts.some((child) => child.stock && child.stock > 0)
 
   // Calculate variant price
   useEffect(() => {
     if (isVariable && !isSubscription) {
       let total = product.price || 0
-      Object.values(variantSelections).forEach((selection: any) => {
+      Object.values(variantSelections).forEach((selection) => {
         if (selection.priceModifier) {
           total += selection.priceModifier
         }
@@ -249,9 +310,9 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
   useEffect(() => {
     let totalItems = 0
     let totalCost = 0
-    Object.entries(sizeQuantities).forEach(([productId, qty]: any) => {
+    Object.entries(sizeQuantities).forEach(([productId, qty]) => {
       if (qty > 0) {
-        const child = childProducts.find((p: any) => String(p.id) === String(productId))
+        const child = childProducts.find((p) => String(p.id) === String(productId))
         const childPrice = child?.salePrice || child?.price || 0
         totalItems += qty
         totalCost += qty * childPrice
@@ -344,11 +405,11 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
 
     if (isGrouped) {
       // Collect all selected items and add in one batch
-      const groupedItems: Array<any> = []
+      const groupedItems: GroupedCartItem[] = []
       let addedCount = 0
-      Object.entries(sizeQuantities).forEach(([productId, qty]: any) => {
+      Object.entries(sizeQuantities).forEach(([productId, qty]) => {
         if (qty > 0) {
-          const childProd = childProducts.find((p: any) => String(p.id) === String(productId))
+          const childProd = childProducts.find((p) => String(p.id) === String(productId))
           if (childProd) {
             const childUnitPrice = childProd.salePrice || childProd.price || 0
             groupedItems.push({
@@ -358,10 +419,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
               price: childProd.price ?? 0,
               quantity: qty,
               unitPrice: childUnitPrice,
-              image:
-                typeof childProd.images?.[0] === 'object' && childProd.images[0] !== null
-                  ? (childProd.images[0] as any)?.url || undefined
-                  : undefined,
+              image: getMediaUrl(childProd.images?.[0]) || undefined,
               sku: childProd.sku || undefined,
               ean: childProd.ean || undefined,
               stock: childProd.stock || 0,
@@ -422,8 +480,8 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
       })
     } else if (isVariable && Object.keys(variantSelections).length > 0) {
       // Add variable product with selected variants — unique ID per combination
-      const variantLabels = Object.values(variantSelections).map((v: any) => v.label).join(', ')
-      const variantKey = Object.values(variantSelections).map((v: any) => v.value || v.label).sort().join('-')
+      const variantLabels = Object.values(variantSelections).map((v) => v.label).join(', ')
+      const variantKey = Object.values(variantSelections).map((v) => v.value || v.label).sort().join('-')
 
       addItem({
         id: `${product.id}-${variantKey}`,
@@ -476,15 +534,12 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
   }
 
   // Extract primary image URL from media upload
-  let imageUrl: string | null =
-    typeof product.images?.[0] === 'object' && product.images[0] !== null
-      ? (product.images[0] as any)?.url || null
-      : null
+  let imageUrl: string | null = getMediaUrl(product.images?.[0])
 
   // Fallback: extract image URL from tags (WooCommerce import stores images as "img:URL" tags)
   if (!imageUrl && Array.isArray(product.tags)) {
     for (const tagEntry of product.tags) {
-      const tag = typeof tagEntry === 'object' && tagEntry !== null ? (tagEntry as any).tag : tagEntry
+      const tag = typeof tagEntry === 'object' && tagEntry !== null ? tagEntry.tag : tagEntry
       if (typeof tag === 'string' && tag.startsWith('img:')) {
         imageUrl = tag.slice(4)
         break
@@ -515,10 +570,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
   const isOutOfStock = !isBackorder && !isGrouped && product.trackStock && (product.stock ?? 0) <= 0
 
   const allImages = product.images || []
-  const currentImage =
-    allImages[imageIndex] && typeof allImages[imageIndex] === 'object' && allImages[imageIndex] !== null
-      ? (allImages[imageIndex] as any)?.url || imageUrl
-      : imageUrl
+  const currentImage = getMediaUrl(allImages[imageIndex]) || imageUrl
 
   return (
     <>
@@ -590,7 +642,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
           {/* Image Dots */}
           {allImages.length > 1 && (
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 px-3 py-2 bg-black/50 rounded-full">
-              {allImages.slice(0, 5).map((_: any, idx: number) => (
+              {allImages.slice(0, 5).map((_: MediaRef, idx: number) => (
                 <button
                   key={idx}
                   onClick={() => setImageIndex(idx)}
@@ -683,8 +735,8 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
             {/* Thumbnails */}
             {product.images && product.images.length > 1 && (
               <div className="flex gap-2.5 mt-3">
-                {product.images.slice(0, 5).map((img: any, idx: number) => {
-                  const imgUrl = typeof img === 'object' && img !== null ? (img as any)?.url : null
+                {product.images.slice(0, 5).map((img: MediaRef, idx: number) => {
+                  const imgUrl = getMediaUrl(img)
                   const isSelected = idx === imageIndex
                   return (
                     <button
@@ -716,7 +768,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
             {product.brand && (
               <div className="text-xs font-bold uppercase text-[var(--color-primary)] tracking-wider mb-2 flex items-center gap-1.5">
                 <Award className="w-[14px] h-[14px]" />
-                {typeof product.brand === 'object' ? (product.brand as any).name : product.brand}
+                {typeof product.brand === 'object' && product.brand !== null ? (product.brand as Brand).name : product.brand}
               </div>
             )}
 
@@ -739,10 +791,10 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                   EAN {product.ean}
                 </span>
               )}
-              {(product as any).packaging && (
+              {product.packaging && (
                 <span className="flex items-center gap-1">
                   <Package className="w-[13px] h-[13px]" />
-                  {(product as any).packaging}
+                  {product.packaging}
                 </span>
               )}
             </div>
@@ -750,7 +802,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
             {/* Rating — always visible, links to reviews tab */}
             <div className="flex items-center gap-2 mb-5 pb-5 border-b border-b-[var(--color-border)]">
               <div className="flex gap-0.5">
-                {[1, 2, 3, 4, 5].map((i: any) => (
+                {[1, 2, 3, 4, 5].map((i: number) => (
                   <Star
                     key={i}
                     className="w-4 h-4 text-[var(--color-warning)]"
@@ -777,12 +829,12 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                       className="font-heading text-[32px] font-extrabold"
                       style={{ color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)' }}
                     >
-                      €{formatPriceStr(currentPrice, product.taxClass as any)}
+                      €{formatPriceStr(currentPrice, product.taxClass ?? undefined)}
                     </span>
                     {oldPrice && (
                       <>
                         <span className="text-lg text-[var(--color-text-muted)] line-through font-normal">
-                          €{formatPriceStr(oldPrice, product.taxClass as any)}
+                          €{formatPriceStr(oldPrice, product.taxClass ?? undefined)}
                         </span>
                         <span className="text-[13px] font-bold text-[var(--color-error)] bg-[var(--color-error-light)] px-2.5 py-[3px] rounded-md">
                           Bespaar {savingsPercent}%
@@ -812,9 +864,9 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
               )}
 
               {/* Price Meta */}
-              {(product as any).packaging && (
+              {product.packaging && (
                 <div className="text-xs text-[var(--color-text-muted)] mb-4">
-                  {(product as any).packaging} · {vatLabel}
+                  {product.packaging} · {vatLabel}
                 </div>
               )}
 
@@ -824,10 +876,10 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                   <StaffelCalculator
                     productName={product.title}
                     basePrice={product.price ?? 0}
-                    tiers={volumeTiers.map((tier: any) => ({
+                    tiers={volumeTiers.map((tier) => ({
                       min: tier.minQuantity,
                       max: tier.maxQuantity || Infinity,
-                      price: tier.discountPrice || (product.price ?? 0) * (1 - (tier.discountPercentage || 0) / 100),
+                      price: tier.price || (product.price ?? 0) * (1 - (tier.discountPercentage || 0) / 100),
                       discount: tier.discountPercentage || 0,
                     }))}
                     initialQty={quantity}
@@ -908,7 +960,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                     className="grid gap-0 border-[1.5px] border-[var(--color-border)] rounded-xl overflow-hidden bg-[var(--color-surface,white)] min-w-min"
                     style={{ gridTemplateColumns: `repeat(${childProducts.length}, 1fr)` }}
                   >
-                  {childProducts.map((child: any, idx: number) => {
+                  {childProducts.map((child: Product, idx: number) => {
                     const qty = sizeQuantities[child.id] || 0
                     return (
                       <div
@@ -924,11 +976,11 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                           {(child.salePrice || child.price) != null && (
                             <div className="mt-1 flex items-center justify-center gap-1.5">
                               <span className="text-[13px] font-extrabold text-[var(--color-primary)]">
-                                €{formatPriceStr(child.salePrice || child.price, child.taxClass as any)}
+                                €{formatPriceStr(child.salePrice || child.price, child.taxClass ?? undefined)}
                               </span>
                               {child.salePrice && child.price && child.salePrice < child.price && (
                                 <span className="text-[11px] text-[var(--color-text-muted)] line-through">
-                                  €{formatPriceStr(child.price, child.taxClass as any)}
+                                  €{formatPriceStr(child.price, child.taxClass ?? undefined)}
                                 </span>
                               )}
                             </div>
@@ -951,7 +1003,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                             <input
                               type="number"
                               value={qty}
-                              onChange={(e: any) => {
+                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                 const val = Math.max(0, parseInt(e.target.value) || 0)
                                 setSizeQuantities((prev) => ({ ...prev, [child.id]: val }))
                               }}
@@ -1000,7 +1052,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                     {volumeTiers.length > 0 && totalQty > 0 && ' · staffelprijs van toepassing'}
                   </div>
                   <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
-                    €{formatPriceStr(totalPrice, product.taxClass as any)}
+                    €{formatPriceStr(totalPrice, product.taxClass ?? undefined)}
                   </div>
                 </div>
               </div>
@@ -1025,7 +1077,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                     <input
                       type="number"
                       value={quantity}
-                      onChange={(e: any) => {
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         const minQty = product.minOrderQuantity || 1
                         const stockCap = product.trackStock && !product.backordersAllowed ? (product.stock || 999) : 999
                         const maxQty = product.maxOrderQuantity || stockCap
@@ -1056,7 +1108,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                 </div>
                 {quantity > 1 && hasPrice && (
                   <div className="mt-2 text-sm text-[var(--color-text-muted)]">
-                    {quantity}× €{formatPriceStr(currentPrice, product.taxClass as any)} = <strong className="text-[var(--color-text-primary)]">€{formatPriceStr(currentPrice * quantity, product.taxClass as any)}</strong>
+                    {quantity}× €{formatPriceStr(currentPrice, product.taxClass ?? undefined)} = <strong className="text-[var(--color-text-primary)]">€{formatPriceStr(currentPrice * quantity, product.taxClass ?? undefined)}</strong>
                   </div>
                 )}
               </div>
@@ -1134,12 +1186,12 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                     className="font-heading text-[26px] font-extrabold"
                     style={{ color: oldPrice ? '#FF6B6B' : 'var(--color-text-primary)' }}
                   >
-                    €{formatPriceStr(currentPrice, product.taxClass as any)}
+                    €{formatPriceStr(currentPrice, product.taxClass ?? undefined)}
                   </span>
                   {oldPrice && (
                     <>
                       <span className="text-base text-[var(--color-text-muted)] line-through font-normal">
-                        €{formatPriceStr(oldPrice, product.taxClass as any)}
+                        €{formatPriceStr(oldPrice, product.taxClass ?? undefined)}
                       </span>
                       <span className="text-[11px] font-bold text-[var(--color-error)] bg-[var(--color-error-light)] px-2 py-[3px] rounded">
                         -{savingsPercent}%
@@ -1168,9 +1220,9 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
               </div>
             )}
 
-            {(product as any).packaging && (
+            {product.packaging && (
               <div className="text-[11px] text-[var(--color-text-muted)] mb-3">
-                {(product as any).packaging} · {vatLabel}
+                {product.packaging} · {vatLabel}
               </div>
             )}
 
@@ -1180,10 +1232,10 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                 <StaffelCalculator
                   productName={product.title}
                   basePrice={product.price ?? 0}
-                  tiers={volumeTiers.map((tier: any) => ({
+                  tiers={volumeTiers.map((tier) => ({
                     min: tier.minQuantity,
                     max: tier.maxQuantity || Infinity,
-                    price: tier.discountPrice || (product.price ?? 0) * (1 - (tier.discountPercentage || 0) / 100),
+                    price: tier.price || (product.price ?? 0) * (1 - (tier.discountPercentage || 0) / 100),
                     discount: tier.discountPercentage || 0,
                   }))}
                   initialQty={quantity}
@@ -1254,7 +1306,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
               </div>
 
               <div className="space-y-2">
-                {childProducts.map((child: any) => {
+                {childProducts.map((child: Product) => {
                   const qty = sizeQuantities[child.id] || 0
                   return (
                     <div
@@ -1273,12 +1325,12 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                           <div className="flex items-center gap-2 mt-0.5">
                             {(child.salePrice || child.price) != null && (
                               <span className="text-[13px] font-extrabold text-[var(--color-primary)]">
-                                €{formatPriceStr(child.salePrice || child.price, child.taxClass as any)}
+                                €{formatPriceStr(child.salePrice || child.price, child.taxClass ?? undefined)}
                               </span>
                             )}
                             {child.salePrice && child.price && child.salePrice < child.price && (
                               <span className="text-[11px] text-[var(--color-text-muted)] line-through">
-                                €{formatPriceStr(child.price, child.taxClass as any)}
+                                €{formatPriceStr(child.price, child.taxClass ?? undefined)}
                               </span>
                             )}
                           </div>
@@ -1335,7 +1387,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                     <strong className="text-[var(--color-text-primary)]">{totalQty}</strong> artikelen totaal
                   </div>
                   <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
-                    €{formatPriceStr(totalPrice, product.taxClass as any)}
+                    €{formatPriceStr(totalPrice, product.taxClass ?? undefined)}
                   </div>
                 </div>
               )}
@@ -1362,7 +1414,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                 <input
                   type="number"
                   value={quantity}
-                  onChange={(e: any) => {
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     const minQty = product.minOrderQuantity || 1
                     const stockCap = product.trackStock && !product.backordersAllowed ? (product.stock || 999) : 999
                     const maxQty = product.maxOrderQuantity || stockCap
@@ -1384,7 +1436,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
               </div>
               {quantity > 1 && (
                 <div className="mt-2 text-sm text-[var(--color-text-muted)]">
-                  {quantity}× €{formatPriceStr(currentPrice, product.taxClass as any)} = <strong className="text-[var(--color-text-primary)]">€{formatPriceStr(currentPrice * quantity, product.taxClass as any)}</strong>
+                  {quantity}× €{formatPriceStr(currentPrice, product.taxClass ?? undefined)} = <strong className="text-[var(--color-text-primary)]">€{formatPriceStr(currentPrice * quantity, product.taxClass ?? undefined)}</strong>
                 </div>
               )}
             </div>
@@ -1465,14 +1517,14 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                           </div>
                         </>
                       )}
-                      {(product as any).features && (product as any).features.length > 0 && (
+                      {product.features && product.features.length > 0 && (
                         <>
                           <h3 className="font-heading text-lg font-bold text-[var(--color-text-primary)] mb-3 mt-6 flex items-center gap-2">
                             <CheckCircle className="w-5 h-5 text-[var(--color-primary)]" />
                             Kenmerken
                           </h3>
                           <ul className="list-none mb-5">
-                            {(product as any).features.map((feature: any, idx: number) => (
+                            {product.features.map((feature: string, idx: number) => (
                               <li key={idx} className="flex items-center gap-2.5 py-2 text-sm text-[var(--color-text-primary)]">
                                 <Check className="w-[18px] h-[18px] text-[var(--color-success)] shrink-0" />
                                 {feature}
@@ -1481,7 +1533,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                           </ul>
                         </>
                       )}
-                      {!product.description && !(product as any).features?.length && (
+                      {!product.description && !product.features?.length && (
                         <p className="text-[var(--color-text-muted)]">Geen beschrijving beschikbaar.</p>
                       )}
                     </div>
@@ -1497,14 +1549,14 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                         <h3 className="py-4 px-5 font-heading text-base font-bold bg-[var(--color-background)] border-b border-b-[var(--color-border)]">
                           Technische specificaties
                         </h3>
-                        {Array.isArray(product.specifications) && product.specifications.map((specGroup: any, groupIdx: number) => (
+                        {Array.isArray(product.specifications) && product.specifications.map((specGroup, groupIdx: number) => (
                           <div key={groupIdx}>
                             {specGroup.group && (
                               <h4 className="py-3 px-5 font-bold text-sm bg-[var(--color-background)] border-b border-b-[var(--color-border)]">
                                 {specGroup.group}
                               </h4>
                             )}
-                            {specGroup.attributes?.map((attr: any, attrIdx: number) => (
+                            {specGroup.attributes?.map((attr, attrIdx: number) => (
                               <div key={attrIdx} className="flex py-3 px-5 border-b border-b-[var(--color-border)] text-sm">
                                 <span className="w-[200px] text-[var(--color-text-muted)] font-medium shrink-0">
                                   {attr.name}
@@ -1535,13 +1587,13 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                   />
                 ),
               }] : []),
-              ...(product.downloads && (product.downloads as any[]).length > 0
+              ...(product.downloads && product.downloads.length > 0
                 ? [{
                     id: 'downloads',
                     label: 'Downloads',
                     content: (
                       <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
-                        {(product.downloads as any[]).map((download: any, idx: number) => {
+                        {product.downloads.map((download: number | Media, idx: number) => {
                           const file = typeof download === 'object' && download !== null ? download : null
                           if (!file || !file.url) return null
                           return (
@@ -1582,9 +1634,9 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
         {features.shop && (
           <div className="pt-16 border-t border-t-[var(--color-border)] mt-16 px-4">
             <RelatedProductsSection
-              upSells={product.upSells as any}
-              crossSells={product.crossSells as any}
-              accessories={product.accessories as any}
+              upSells={(product.upSells ?? undefined) as (string | Product)[] | undefined}
+              crossSells={(product.crossSells ?? undefined) as (string | Product)[] | undefined}
+              accessories={(product.accessories ?? undefined) as (string | Product)[] | undefined}
             />
           </div>
         )}
@@ -1608,11 +1660,11 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
 
             {/* Mobile: Horizontal Scroll */}
             <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory lg:hidden -mx-4 px-4">
-              {product.relatedProducts.slice(0, 4).map((relProd: any, idx: number) => {
+              {product.relatedProducts.slice(0, 4).map((relProd: number | Product, idx: number) => {
                 const rp = typeof relProd === 'object' ? relProd : null
                 if (!rp) return null
 
-                const rpImg = typeof rp.images?.[0] === 'object' && rp.images[0] !== null ? (rp.images[0] as any)?.url : null
+                const rpImg = getMediaUrl(rp.images?.[0])
 
                 return (
                   <Link
@@ -1645,7 +1697,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
 
                       <div className="flex justify-between items-center">
                         <div className="font-heading text-base font-extrabold text-[var(--color-text-primary)]">
-                          {rp.price != null ? `€${formatPriceStr(rp.price, rp.taxClass as any)}` : 'Prijs op aanvraag'}
+                          {rp.price != null ? `€${formatPriceStr(rp.price, rp.taxClass ?? undefined)}` : 'Prijs op aanvraag'}
                         </div>
                         <button
                           className="btn btn-primary w-9 h-9 !p-0"
@@ -1676,11 +1728,11 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
 
             {/* Desktop: Grid */}
             <div className="hidden lg:grid lg:grid-cols-4 lg:gap-5">
-              {product.relatedProducts.slice(0, 4).map((relProd: any, idx: number) => {
+              {product.relatedProducts.slice(0, 4).map((relProd: number | Product, idx: number) => {
                 const rp = typeof relProd === 'object' ? relProd : null
                 if (!rp) return null
 
-                const rpImg = typeof rp.images?.[0] === 'object' && rp.images[0] !== null ? (rp.images[0] as any)?.url : null
+                const rpImg = getMediaUrl(rp.images?.[0])
 
                 return (
                   <Link
@@ -1713,7 +1765,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
 
                       <div className="flex justify-between items-center">
                         <div className="font-heading text-lg font-extrabold text-[var(--color-text-primary)]">
-                          {rp.price != null ? `€${formatPriceStr(rp.price, rp.taxClass as any)}` : 'Prijs op aanvraag'}
+                          {rp.price != null ? `€${formatPriceStr(rp.price, rp.taxClass ?? undefined)}` : 'Prijs op aanvraag'}
                         </div>
                         <button
                           className="btn btn-primary w-[38px] h-[38px] !p-0"
@@ -1754,7 +1806,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
               {product.title}
             </div>
             <div className="text-base font-extrabold text-[var(--color-primary)] font-heading">
-              {hasPrice ? `€${formatPriceStr(currentPrice, product.taxClass as any)}` : 'Prijs op aanvraag'}
+              {hasPrice ? `€${formatPriceStr(currentPrice, product.taxClass ?? undefined)}` : 'Prijs op aanvraag'}
             </div>
           </div>
 

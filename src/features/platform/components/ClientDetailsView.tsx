@@ -94,8 +94,9 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
       } else {
         alert(`Failed to ${action}: ${data.error}`)
       }
-    } catch (error: any) {
-      alert(`Error: ${error.message}`)
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
+      alert(`Error: ${message}`)
     }
     setActionLoading(null)
   }

@@ -69,10 +69,11 @@ export async function POST(request: NextRequest) {
       sent: result.sent,
       failed: result.failed,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[pwa/send] Fout bij versturen push notificaties:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: 'Versturen push notificaties mislukt', message: error.message },
+      { error: 'Versturen push notificaties mislukt', message },
       { status: 500 },
     )
   }

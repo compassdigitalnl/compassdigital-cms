@@ -156,12 +156,13 @@ export class ProvisioningService {
         await reportProgress('configuring_dns', `DNS A-record created: ${dnsResult.record.name}`, 30, {
           dnsRecord: `${dnsResult.record.name} → ${dnsResult.record.content}`,
         })
-      } catch (dnsError: any) {
-        logs.push(`⚠️ DNS configuration failed: ${dnsError.message}`)
+      } catch (dnsError: unknown) {
+        const dnsMessage = dnsError instanceof Error ? dnsError.message : String(dnsError)
+        logs.push(`⚠️ DNS configuration failed: ${dnsMessage}`)
         console.error('[ProvisioningService] DNS error:', dnsError)
 
         await reportProgress('configuring_dns', '⚠️ DNS configuration skipped (manual setup required)', 30, {
-          warning: dnsError.message,
+          warning: dnsMessage,
         })
       }
 
@@ -248,9 +249,10 @@ export class ProvisioningService {
         await reportProgress('deploying', `Admin user created: ${adminEmail}`, 84, {
           adminEmail,
         })
-      } catch (adminError: any) {
-        logs.push(`⚠️ Admin user creation failed: ${adminError.message}`)
-        console.warn('[ProvisioningService] Admin user creation warning:', adminError.message)
+      } catch (adminError: unknown) {
+        const adminMessage = adminError instanceof Error ? adminError.message : String(adminError)
+        logs.push(`⚠️ Admin user creation failed: ${adminMessage}`)
+        console.warn('[ProvisioningService] Admin user creation warning:', adminMessage)
         // Non-fatal: admin can still log in via Payload's create-first-user flow
       }
 
@@ -313,9 +315,10 @@ export class ProvisioningService {
           await reportProgress('completed', 'Demo content seeded successfully', 98, {
             seeded: seedResult.seeded,
           })
-        } catch (seedError: any) {
-          logs.push(`⚠️ Demo content seeding failed: ${seedError.message}`)
-          console.warn('[ProvisioningService] Demo content seeding warning:', seedError.message)
+        } catch (seedError: unknown) {
+          const seedMessage = seedError instanceof Error ? seedError.message : String(seedError)
+          logs.push(`⚠️ Demo content seeding failed: ${seedMessage}`)
+          console.warn('[ProvisioningService] Demo content seeding warning:', seedMessage)
           // Non-fatal: provisioning can still succeed without demo content
         }
       }
@@ -337,11 +340,12 @@ export class ProvisioningService {
         completedAt: new Date(),
         logs,
       }
-    } catch (error: any) {
-      logs.push(`ERROR: ${error.message}`)
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
+      logs.push(`ERROR: ${message}`)
 
-      await reportProgress('failed', `Provisioning failed: ${error.message}`, 0, {
-        error: error.message,
+      await reportProgress('failed', `Provisioning failed: ${message}`, 0, {
+        error: message,
       })
 
       // Update client record to 'failed' status
@@ -362,7 +366,7 @@ export class ProvisioningService {
         success: false,
         clientId: input.clientId,
         status: 'failed',
-        error: error.message,
+        error: message,
         logs,
       }
     }
@@ -564,12 +568,13 @@ export class ProvisioningService {
         domain: fullDomain,
         ssl: true,
       })
-    } catch (sslError: any) {
-      logs.push(`⚠️ SSL request failed: ${sslError.message}`)
+    } catch (sslError: unknown) {
+      const sslMessage = sslError instanceof Error ? sslError.message : String(sslError)
+      logs.push(`⚠️ SSL request failed: ${sslMessage}`)
       console.error('[ProvisioningService] SSL error:', sslError)
 
-      await reportProgress('configuring_domains', `⚠️ SSL failed: ${sslError.message}`, 90, {
-        warning: sslError.message,
+      await reportProgress('configuring_domains', `⚠️ SSL failed: ${sslMessage}`, 90, {
+        warning: sslMessage,
       })
     }
   }
@@ -620,7 +625,7 @@ export class ProvisioningService {
 
         await this.sleep(5000)
         attempts++
-      } catch (error: any) {
+      } catch (error: unknown) {
         if (attempts >= (this.options.maxRetries || 3)) {
           throw error
         }
@@ -665,8 +670,9 @@ export class ProvisioningService {
       }
 
       logs.push('ROLLBACK: Completed successfully')
-    } catch (error: any) {
-      logs.push(`ROLLBACK ERROR: ${error.message}`)
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
+      logs.push(`ROLLBACK ERROR: ${message}`)
     }
   }
 
@@ -717,10 +723,11 @@ export class ProvisioningService {
         }
 
         console.warn(`[ProvisioningService] Attempt ${attempt} failed: HTTP ${res.status}`, body)
-      } catch (err: any) {
+      } catch (err: unknown) {
         // Network errors (site not yet up) — retry
         if (attempt === MAX_ATTEMPTS) throw err
-        console.warn(`[ProvisioningService] Attempt ${attempt} error: ${err.message} — retrying in ${RETRY_DELAY_MS / 1000}s`)
+        const errMsg = err instanceof Error ? err.message : String(err)
+        console.warn(`[ProvisioningService] Attempt ${attempt} error: ${errMsg} — retrying in ${RETRY_DELAY_MS / 1000}s`)
       }
 
       if (attempt < MAX_ATTEMPTS) {

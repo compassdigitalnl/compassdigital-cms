@@ -31,10 +31,11 @@ export async function GET(request: NextRequest) {
       subscription,
       invoices: [], // Placeholder for future invoice integration
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error fetching subscription:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch subscription', message: error.message },
+      { error: 'Failed to fetch subscription', message },
       { status: 500 },
     )
   }

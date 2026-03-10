@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import Link from 'next/link'
 import {
   ChevronRight,
@@ -114,11 +115,11 @@ export function MegaNav({
                         ? { backgroundColor: 'var(--color-primary-glow)' }
                         : {}
                     }
-                    onMouseOver={(e: any) => {
+                    onMouseOver={(e: React.MouseEvent<HTMLButtonElement>) => {
                       if (activeL1 !== cat.id)
                         e.currentTarget.style.backgroundColor = 'var(--color-primary-glow)'
                     }}
-                    onMouseOut={(e: any) => {
+                    onMouseOut={(e: React.MouseEvent<HTMLButtonElement>) => {
                       if (activeL1 !== cat.id)
                         e.currentTarget.style.backgroundColor = 'transparent'
                     }}
@@ -191,13 +192,13 @@ export function MegaNav({
                           ? { backgroundColor: 'var(--color-primary-glow)', color: primaryColor }
                           : {}
                       }
-                      onMouseOver={(e: any) => {
+                      onMouseOver={(e: React.MouseEvent<HTMLButtonElement>) => {
                         if (activeL2 !== cat.id) {
                           e.currentTarget.style.backgroundColor = 'var(--color-primary-glow)'
                           e.currentTarget.style.color = primaryColor
                         }
                       }}
-                      onMouseOut={(e: any) => {
+                      onMouseOut={(e: React.MouseEvent<HTMLButtonElement>) => {
                         if (activeL2 !== cat.id) {
                           e.currentTarget.style.backgroundColor = 'transparent'
                           e.currentTarget.style.color = 'var(--color-text-primary)'
@@ -259,11 +260,11 @@ export function MegaNav({
                         onClick={onClose}
                         className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 transition-all rounded-lg"
                         style={{ color: 'var(--color-text-primary)' }}
-                        onMouseEnter={(e: any) => {
+                        onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
                           e.currentTarget.style.backgroundColor = 'var(--color-primary-glow)'
                           e.currentTarget.style.color = primaryColor
                         }}
-                        onMouseLeave={(e: any) => {
+                        onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
                           e.currentTarget.style.backgroundColor = 'transparent'
                           e.currentTarget.style.color = 'var(--color-text-primary)'
                         }}

@@ -76,10 +76,11 @@ export async function POST(
     return NextResponse.json({
       success: true,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error deactivating device:', error)
     return NextResponse.json(
-      { error: 'Failed to deactivate device', message: error.message },
+      { error: 'Failed to deactivate device', message },
       { status: 500 },
     )
   }

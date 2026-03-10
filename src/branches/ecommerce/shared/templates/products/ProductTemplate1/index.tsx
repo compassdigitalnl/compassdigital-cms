@@ -714,7 +714,7 @@ export default function ProductTemplate1({ product, parentGroupedProduct, defaul
                             <input
                               type="number"
                               value={qty}
-                              onChange={(e: any) => {
+                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                 const val = Math.max(0, parseInt(e.target.value) || 0)
                                 setSizeQuantities((prev) => ({ ...prev, [child.id]: val }))
                               }}
@@ -775,7 +775,7 @@ export default function ProductTemplate1({ product, parentGroupedProduct, defaul
                   <input
                     type="number"
                     value={quantity}
-                    onChange={(e: any) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
                     className="w-[60px] h-11 border-0 text-center font-mono text-base font-bold text-[var(--color-text-primary)] outline-none"
                   />
                   <button
@@ -1053,7 +1053,7 @@ export default function ProductTemplate1({ product, parentGroupedProduct, defaul
                 <input
                   type="number"
                   value={quantity}
-                  onChange={(e: any) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
                   className="w-[60px] h-11 border-0 text-center font-mono text-base font-bold text-[var(--color-text-primary)] outline-none"
                 />
                 <button

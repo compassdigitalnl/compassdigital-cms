@@ -86,13 +86,14 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       )
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('❌ Reindex API error:', error)
+    const message = error instanceof Error ? error.message : String(error)
 
     return NextResponse.json(
       {
         error: 'Internal server error',
-        message: error.message || 'Unknown error occurred',
+        message: message || 'Unknown error occurred',
       },
       { status: 500 }
     )
@@ -117,11 +118,12 @@ export async function GET() {
         pages: process.env.MEILISEARCH_PAGES_INDEX || 'pages',
       },
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
       {
         available: false,
-        error: error.message,
+        error: message,
       },
       { status: 503 }
     )

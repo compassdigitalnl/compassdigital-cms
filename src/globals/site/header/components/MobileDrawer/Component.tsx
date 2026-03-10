@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import type { Header, Theme1, Setting } from '@/payload-types'
+import type { Header, Theme1, Setting, Media } from '@/payload-types'
 import { X, ChevronRight, Phone, Mail, Globe, Search, Heart } from 'lucide-react'
 import { cn } from '@/utilities/cn'
 import { CMSLink } from '@/branches/shared/components/common/Link'
 import { MobileCategoryNav } from '@/globals/site/header/components/MobileCategoryNav'
-import type { MobileDrawerProps } from './types'
+import type { MobileDrawerProps, NavItem, SpecialNavItem } from './types'
 
 export function MobileDrawer({
   isOpen,
@@ -26,12 +26,10 @@ export function MobileDrawer({
   const primaryColor = 'var(--color-primary)'
   const secondaryColor = 'var(--color-secondary)'
 
-  const enablePriceToggle = (header as any)?.enablePriceToggle === true
-  const priceToggleConfig = (header as any)?.priceToggle
-  const enableLanguageSwitcher = (header as any)?.enableLanguageSwitcher === true
-  const languages = (header as any)?.languages as
-    | Array<{ code: string; label: string; flag?: string; isDefault?: boolean }>
-    | undefined
+  const enablePriceToggle = header.enablePriceToggle === true
+  const priceToggleConfig = header.priceToggle
+  const hasLanguages = Array.isArray(header.languages) && header.languages.length > 0
+  const languages = header.languages ?? undefined
 
   const showCategories =
     navigation?.mode === 'categories' || navigation?.mode === 'hybrid'
@@ -103,25 +101,19 @@ export function MobileDrawer({
       >
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-gray-200 flex-shrink-0">
-          {(header as any).logo &&
-          typeof (header as any).logo === 'object' &&
-          (header as any).logo.url ? (
+          {header.logo &&
+          typeof header.logo === 'object' &&
+          'url' in header.logo &&
+          (header.logo as Media).url ? (
             <img
-              src={(header as any).logo.url}
-              alt={(header as any).siteName || 'Logo'}
+              src={(header.logo as Media).url!}
+              alt={header.siteName || 'Logo'}
               className="w-auto"
-              style={{ height: `${Math.min((header as any).logoHeight || 28, 36)}px` }}
+              style={{ height: `${Math.min(header.logoHeight || 28, 36)}px` }}
             />
-          ) : (header as any).siteName ? (
+          ) : header.siteName ? (
             <span className="text-lg font-extrabold" style={{ color: secondaryColor }}>
-              {(header as any).siteNameAccent ? (
-                <>
-                  {(header as any).siteName.replace((header as any).siteNameAccent, '')}
-                  <span style={{ color: primaryColor }}>{(header as any).siteNameAccent}</span>
-                </>
-              ) : (
-                (header as any).siteName
-              )}
+              {header.siteName}
             </span>
           ) : (
             <span className="text-lg font-extrabold" style={{ color: secondaryColor }}>
@@ -171,7 +163,7 @@ export function MobileDrawer({
               <div className="px-5 py-3 text-[10px] font-extrabold uppercase tracking-wider text-gray-400">
                 Speciale Items
               </div>
-              {specialItems.map((item: any, index: number) => (
+              {specialItems.map((item: SpecialNavItem, index: number) => (
                 <Link
                   key={index}
                   href={item.url || '#'}
@@ -198,14 +190,13 @@ export function MobileDrawer({
               <div className="px-5 py-3 text-[10px] font-extrabold uppercase tracking-wider text-gray-400">
                 Navigatie
               </div>
-              {navItems.map((item: any) => (
+              {navItems.map((item: NavItem) => (
                 <div key={item.id}>
                   <CMSLink
-                    {...({} as any)}
+                    type={item.type === 'page' ? 'reference' : 'custom'}
                     {...(item.type === 'page'
-                      ? { reference: item.page }
+                      ? { reference: { relationTo: 'pages' as const, value: item.page as number } }
                       : { url: item.url })}
-                    onClick={onClose}
                     className="flex items-center gap-3 px-5 py-3 text-base font-semibold hover:bg-gray-50 transition-colors"
                     style={{ color: secondaryColor }}
                   >
@@ -214,14 +205,13 @@ export function MobileDrawer({
                   </CMSLink>
                   {item.children && item.children.length > 0 && (
                     <div className="bg-gray-50">
-                      {item.children.map((child: any) => (
+                      {item.children.map((child: NavItem) => (
                         <CMSLink
-                          {...({} as any)}
                           key={child.id}
-                          {...(typeof child.page === 'object' && 'slug' in child.page
-                            ? { reference: child.page }
-                            : {})}
-                          onClick={onClose}
+                          type={typeof child.page === 'object' && child.page !== null && 'slug' in (child.page as Record<string, unknown>) ? 'reference' : 'custom'}
+                          {...(typeof child.page === 'object' && child.page !== null && 'slug' in (child.page as Record<string, unknown>)
+                            ? { reference: { relationTo: 'pages' as const, value: child.page as number } }
+                            : { url: child.url })}
                           className="flex items-center gap-3 pl-12 pr-5 py-2.5 text-sm font-medium hover:bg-gray-100 transition-colors text-gray-600"
                         >
                           {child.label}
@@ -273,7 +263,7 @@ export function MobileDrawer({
           )}
 
           {/* Language Switcher */}
-          {showToggles && enableLanguageSwitcher && languages && languages.length > 0 && (
+          {showToggles && hasLanguages && languages && languages.length > 0 && (
             <div className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-gray-50">
               <span
                 className="flex items-center gap-2 text-sm font-semibold"

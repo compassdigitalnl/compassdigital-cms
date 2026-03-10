@@ -121,8 +121,9 @@ export default function SettingsPage() {
       setTimeout(() => setSaved(false), 3000)
 
       console.log('Settings saved:', settings)
-    } catch (error: any) {
-      setError(error.message || 'Failed to save settings')
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
+      setError(message || 'Failed to save settings')
     } finally {
       setSaving(false)
     }

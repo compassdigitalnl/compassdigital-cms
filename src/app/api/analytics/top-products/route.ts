@@ -71,8 +71,9 @@ export async function GET(request: NextRequest) {
         orderCount: parseInt(row.order_count) || 0,
       })),
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[analytics/top-products] Error:', error)
-    return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: message || 'Internal server error' }, { status: 500 })
   }
 }

@@ -29,8 +29,9 @@ export async function GET(request: NextRequest) {
     } else {
       return NextResponse.json({ status: 'dead' }, { status: 503 })
     }
-  } catch (error: any) {
-    return NextResponse.json({ status: 'dead', error: error.message }, { status: 503 })
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
+    return NextResponse.json({ status: 'dead', error: message }, { status: 503 })
   }
 }
 

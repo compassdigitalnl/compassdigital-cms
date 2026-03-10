@@ -109,10 +109,12 @@ async function runHealthMonitoring() {
     console.log('═══════════════════════════════════════════════════════════════════════════════\n')
 
     process.exit(0)
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
+    const stack = error instanceof Error ? error.stack : undefined
     console.error('\n❌ HEALTH MONITORING FAILED')
-    console.error('Error:', error.message)
-    console.error('Stack:', error.stack)
+    console.error('Error:', message)
+    console.error('Stack:', stack)
 
     // Capture in Sentry
     captureError(error, {

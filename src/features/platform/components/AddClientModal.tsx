@@ -49,8 +49,9 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
       // Success - redirect to client details
       router.push(`/platform/clients/${data.data.clientId}`)
       onClose()
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err)
+      setError(message)
     } finally {
       setLoading(false)
     }

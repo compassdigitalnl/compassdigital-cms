@@ -25,8 +25,9 @@ export function InsightsDashboard({ className }: InsightsDashboardProps) {
       }
       const json: InsightsDashboardData = await res.json()
       setData(json)
-    } catch (err: any) {
-      setError(err.message || 'Er is een fout opgetreden')
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err)
+      setError(message || 'Er is een fout opgetreden')
     } finally {
       setLoading(false)
     }

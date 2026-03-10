@@ -28,8 +28,9 @@ async function diagnose(payload: any) {
         overrideAccess: true,
       })
       results[collection] = { ok: true, count: result.totalDocs }
-    } catch (err: any) {
-      results[collection] = { ok: false, error: err?.message || String(err) }
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err)
+      results[collection] = { ok: false, error: message }
     }
   }
 
@@ -48,20 +49,23 @@ async function diagnose(payload: any) {
       try {
         const cols = await db.drizzle.run(`PRAGMA table_info(users_sessions)`)
         usersSessionsColumns = (cols?.rows || []).map((r: any) => r.name || r[1])
-      } catch (e: any) {
-        usersSessionsColumns = [`Error: ${e?.message}`]
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : String(e)
+        usersSessionsColumns = [`Error: ${message}`]
       }
 
       // Check payload_migrations
       try {
         const migs = await db.drizzle.run(`SELECT name, batch FROM payload_migrations ORDER BY id`)
         payloadMigrations = (migs?.rows || []).map((r: any) => ({ name: r.name || r[0], batch: r.batch || r[1] }))
-      } catch (e: any) {
-        payloadMigrations = [{ error: e?.message }]
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : String(e)
+        payloadMigrations = [{ error: message }]
       }
     }
-  } catch (err: any) {
-    tables = [`Error listing tables: ${err?.message}`]
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
+    tables = [`Error listing tables: ${message}`]
   }
 
   return { collections: results, tables, usersSessionsColumns, payloadMigrations }
@@ -85,9 +89,11 @@ export async function GET(request: NextRequest) {
       PORT: process.env.PORT,
     }
     return NextResponse.json({ ok: true, envCheck, ...data, timestamp: new Date().toISOString() })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
+    const stack = error instanceof Error ? error.stack?.split('\n').slice(0, 10) : undefined
     return NextResponse.json(
-      { ok: false, error: error?.message || String(error), stack: error?.stack?.split('\n').slice(0, 10) },
+      { ok: false, error: message, stack },
       { status: 500 }
     )
   }
@@ -141,8 +147,9 @@ export async function POST(request: NextRequest) {
         } else {
           fixResults.push({ step: 'users_sessions_schema_ok', ok: true })
         }
-      } catch (e: any) {
-        fixResults.push({ step: 'fix_users_sessions_error', error: e?.message })
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : String(e)
+        fixResults.push({ step: 'fix_users_sessions_error', error: message })
       }
 
       // Step 2: Check which key tables are missing and create them
@@ -161,32 +168,37 @@ export async function POST(request: NextRequest) {
 
         const missing = requiredTables.filter(t => !existingTables.has(t))
         fixResults.push({ step: 'missing_tables', missing })
-      } catch (e: any) {
-        fixResults.push({ step: 'check_missing_tables_error', error: e?.message })
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : String(e)
+        fixResults.push({ step: 'check_missing_tables_error', error: message })
       }
 
       // Step 3: Delete migration record to force re-run
       try {
         await db.drizzle.run(`DELETE FROM payload_migrations WHERE name = '20260216_171738'`)
         fixResults.push({ step: 'deleted_migration_record', ok: true })
-      } catch (e: any) {
-        fixResults.push({ step: 'delete_migration_record_error', error: e?.message })
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : String(e)
+        fixResults.push({ step: 'delete_migration_record_error', error: message })
       }
 
       // Step 4: Run migrations
       try {
         await payload.db.migrate()
         fixResults.push({ step: 'migration_ran', ok: true })
-      } catch (e: any) {
-        fixResults.push({ step: 'migration_error', error: e?.message })
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : String(e)
+        fixResults.push({ step: 'migration_error', error: message })
       }
     }
 
     const data = await diagnose(payload)
     return NextResponse.json({ ok: true, fixResults, ...data, timestamp: new Date().toISOString() })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
+    const stack = error instanceof Error ? error.stack?.split('\n').slice(0, 10) : undefined
     return NextResponse.json(
-      { ok: false, error: error?.message || String(error), stack: error?.stack?.split('\n').slice(0, 10) },
+      { ok: false, error: message, stack },
       { status: 500 }
     )
   }

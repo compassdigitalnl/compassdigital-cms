@@ -52,12 +52,13 @@ export async function sendPushNotification(
       },
     )
     return true
-  } catch (error: any) {
+  } catch (error: unknown) {
     // 410 Gone or 404 Not Found means the subscription has expired
-    if (error.statusCode === 410 || error.statusCode === 404) {
+    if ((error as any)?.statusCode === 410 || (error as any)?.statusCode === 404) {
       await removeExpiredSubscription(subscription.endpoint)
     } else {
-      console.error('[push-service] Failed to send push notification:', error.message)
+      const message = error instanceof Error ? error.message : String(error)
+      console.error('[push-service] Failed to send push notification:', message)
     }
     return false
   }
@@ -212,7 +213,8 @@ async function removeExpiredSubscription(endpoint: string): Promise<void> {
       })
       console.info(`[push-service] Deactivated expired subscription: ${endpoint.substring(0, 60)}...`)
     }
-  } catch (error: any) {
-    console.error('[push-service] Failed to deactivate expired subscription:', error.message)
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
+    console.error('[push-service] Failed to deactivate expired subscription:', message)
   }
 }

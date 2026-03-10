@@ -57,13 +57,14 @@ export async function GET(request: NextRequest) {
       company,
       mode: getKVKMode(), // 'mock' or 'real'
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('❌ KVK lookup API error:', error)
+    const message = error instanceof Error ? error.message : String(error)
 
     return NextResponse.json(
       {
         error: 'KVK lookup failed',
-        message: error.message || 'Unknown error occurred',
+        message: message || 'Unknown error occurred',
       },
       { status: 500 }
     )

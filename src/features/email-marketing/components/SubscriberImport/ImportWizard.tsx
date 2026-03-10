@@ -223,7 +223,7 @@ export function ImportWizard({
               <div key={key} className="flex items-center gap-3">
                 <label className="text-xs font-medium text-gray-600 w-40">{label}</label>
                 <select
-                  value={(mapping as any)[key] || ''}
+                  value={mapping[key as keyof ColumnMapping] || ''}
                   onChange={(e) => setMapping((m) => ({ ...m, [key]: e.target.value }))}
                   className="flex-1 px-3 py-2 rounded-lg border text-sm focus:outline-none"
                   style={{ borderColor: '#d1d5db' }}

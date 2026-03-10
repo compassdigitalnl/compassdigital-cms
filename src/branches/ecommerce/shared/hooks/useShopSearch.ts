@@ -212,8 +212,8 @@ export function useShopSearch(options?: {
         setProcessingTimeMs(data.processingTimeMs || null)
         setLoading(false)
       }
-    } catch (err: any) {
-      if (err.name !== 'AbortError') {
+    } catch (err: unknown) {
+      if (err instanceof Error && err.name !== 'AbortError') {
         setError(err.message)
         setLoading(false)
       }

@@ -79,10 +79,11 @@ export async function POST(request: NextRequest) {
       message: 'MultiSafePay affiliate created successfully. Awaiting verification.',
     })
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[MultiSafePay Connect] Error creating affiliate:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Failed to create MultiSafePay affiliate' },
+      { error: message || 'Failed to create MultiSafePay affiliate' },
       { status: 500 }
     )
   }

@@ -86,9 +86,10 @@ export function useChatbot() {
         } else {
           throw new Error('Invalid response from server')
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err)
         console.error('[Chatbot] Send message error:', err)
-        setError(err.message || 'Er ging iets mis. Probeer het opnieuw.')
+        setError(message || 'Er ging iets mis. Probeer het opnieuw.')
 
         // Add error message to chat
         const errorMessage: ChatbotMessage = {

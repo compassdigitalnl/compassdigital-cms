@@ -44,12 +44,13 @@ export async function GET(request: NextRequest) {
       docs,
       totalDocs: docs.length,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching order lists:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
       {
         error: 'Failed to fetch order lists',
-        message: error.message,
+        message,
       },
       { status: 500 },
     )
@@ -98,12 +99,13 @@ export async function POST(request: NextRequest) {
       success: true,
       doc,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating order list:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
       {
         error: 'Failed to create order list',
-        message: error.message,
+        message,
       },
       { status: 500 },
     )

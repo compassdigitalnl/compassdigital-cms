@@ -80,12 +80,13 @@ export async function GET(request: NextRequest) {
       totalDocs,
       query,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error searching products:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
       {
         error: 'Failed to search products',
-        message: error.message,
+        message,
       },
       { status: 500 },
     )

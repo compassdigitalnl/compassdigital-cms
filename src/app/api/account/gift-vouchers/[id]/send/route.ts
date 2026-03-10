@@ -27,10 +27,11 @@ export async function POST(
       success: true,
       message: 'Verzoek om opnieuw te versturen is ontvangen',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error sending gift voucher:', error)
     return NextResponse.json(
-      { error: 'Failed to send gift voucher', message: error.message },
+      { error: 'Failed to send gift voucher', message },
       { status: 500 },
     )
   }

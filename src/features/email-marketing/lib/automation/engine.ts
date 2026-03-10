@@ -68,9 +68,10 @@ export async function processEvent(eventPayload: EventPayload): Promise<{
         if (result.error) {
           errors.push(`Rule "${rule.name}": ${result.error}`)
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error)
         console.error(`[Automation Engine] Error processing rule "${rule.name}":`, error)
-        errors.push(`Rule "${rule.name}": ${error.message}`)
+        errors.push(`Rule "${rule.name}": ${message}`)
       }
     }
 
@@ -102,9 +103,10 @@ export async function processEvent(eventPayload: EventPayload): Promise<{
             errors.push(`Flow "${flow.name}": ${result.error}`)
           }
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error)
         console.error(`[Automation Engine] Error triggering flow "${flow.name}":`, error)
-        errors.push(`Flow "${flow.name}": ${error.message}`)
+        errors.push(`Flow "${flow.name}": ${message}`)
       }
     }
 
@@ -119,14 +121,15 @@ export async function processEvent(eventPayload: EventPayload): Promise<{
       queuedExecutions,
       errors,
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[Automation Engine] Fatal error processing event:', error)
     return {
       success: false,
       triggeredRules,
       triggeredFlows,
       queuedExecutions,
-      errors: [error.message],
+      errors: [message],
     }
   }
 }
@@ -272,13 +275,14 @@ async function processRule(
       triggered: true,
       queued,
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error(`[Automation Engine] Error processing rule "${rule.name}":`, error)
-    await updateRuleStats(rule.id, { failed: true, error: error.message })
+    await updateRuleStats(rule.id, { failed: true, error: message })
     return {
       triggered: false,
       queued: false,
-      error: error.message,
+      error: message,
     }
   }
 }

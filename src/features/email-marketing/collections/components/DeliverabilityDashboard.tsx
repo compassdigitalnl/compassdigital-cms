@@ -57,8 +57,9 @@ export const DeliverabilityDashboard: React.FC = () => {
       }
 
       setDnsStatus(data.result)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err)
+      setError(message)
     } finally {
       setLoading(false)
     }

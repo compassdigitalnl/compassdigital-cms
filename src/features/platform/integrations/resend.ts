@@ -95,7 +95,7 @@ export async function sendWelcomeEmail(data: {
 
     const result = await res.json()
     console.log(`[Email] Welcome email sent successfully (ID: ${result.id})`)
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Email] Error sending welcome email:', error)
     // Don't throw - email failure shouldn't block provisioning
   }
@@ -184,7 +184,7 @@ export async function sendAlertEmail(data: {
 
     const result = await res.json()
     console.log(`[Email] Alert email sent successfully (ID: ${result.id})`)
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Email] Error sending alert email:', error)
   }
 }

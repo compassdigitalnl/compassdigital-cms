@@ -60,9 +60,10 @@ export async function GET(request: NextRequest) {
         { status: 200 },
       )
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Metrics API] Error:', error)
-    return NextResponse.json({ error: error.message || 'Failed to get metrics' }, { status: 500 })
+    const message = error instanceof Error ? error.message : String(error)
+    return NextResponse.json({ error: message || 'Failed to get metrics' }, { status: 500 })
   }
 }
 

@@ -1,7 +1,8 @@
 'use client'
 
 import React from 'react'
-import * as LucideIcons from 'lucide-react'
+import { AlertCircle } from 'lucide-react'
+import { getIcon } from '@/utilities/getIcon'
 
 /**
  * B02 - Features Block Component (Client)
@@ -50,15 +51,14 @@ export function FeaturesBlockComponent({
   }
 
   // Helper to get Lucide icon component
-  const getIcon = (iconName: string) => {
-    const IconComponent = (LucideIcons as any)[iconName] || LucideIcons.AlertCircle
-    return IconComponent
+  const resolveIcon = (iconName: string) => {
+    return getIcon(iconName, AlertCircle)!
   }
 
   return (
     <div className={`grid ${gridCols[variant as keyof typeof gridCols] || gridCols['grid-3']} gap-6 md:gap-8`}>
       {features.map((feature, idx) => {
-        const IconComponent = getIcon(feature.icon)
+        const IconComponent = resolveIcon(feature.icon)
 
         return (
           <div

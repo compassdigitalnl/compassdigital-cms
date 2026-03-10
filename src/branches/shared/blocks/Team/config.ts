@@ -167,7 +167,7 @@ export const Team: Block = {
                 description: 'Full LinkedIn profile URL',
                 placeholder: 'https://linkedin.com/in/username',
               },
-              validate: (val: any) => {
+              validate: (val: string | undefined | null) => {
                 if (!val) return true
                 if (val.includes('linkedin.com')) return true
                 return 'Must be a LinkedIn URL'
@@ -182,7 +182,7 @@ export const Team: Block = {
                 description: 'Full Twitter/X profile URL',
                 placeholder: 'https://twitter.com/username',
               },
-              validate: (val: any) => {
+              validate: (val: string | undefined | null) => {
                 if (!val) return true
                 if (val.includes('twitter.com') || val.includes('x.com')) return true
                 return 'Must be a Twitter/X URL'
@@ -197,7 +197,7 @@ export const Team: Block = {
                 description: 'Full GitHub profile URL',
                 placeholder: 'https://github.com/username',
               },
-              validate: (val: any) => {
+              validate: (val: string | undefined | null) => {
                 if (!val) return true
                 if (val.includes('github.com')) return true
                 return 'Must be a GitHub URL'

@@ -1151,7 +1151,7 @@ export const Clients: CollectionConfig = {
               } else {
                 console.error(`[Platform] Provisioning mislukt voor ${doc.name}: ${result.error}`)
               }
-            } catch (err: any) {
+            } catch (err: unknown) {
               console.error(`[Platform] Onverwachte fout bij provisioning van ${doc.name}:`, err)
             }
           })

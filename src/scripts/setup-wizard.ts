@@ -229,8 +229,9 @@ ${colors.bright}Neon Setup:${colors.reset}
       log.info('Running database migrations...')
       // Payload draait automatisch migrations bij eerste start
       log.success('Database migraties worden bij eerste start automatisch uitgevoerd!')
-    } catch (error: any) {
-      log.error(`Migrations failed: ${error.message}`)
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
+      log.error(`Migrations failed: ${message}`)
     }
   }
 
@@ -499,8 +500,9 @@ async function main() {
     if (success) {
       log.success('\n✨ Setup wizard succesvol afgerond!')
     }
-  } catch (error: any) {
-    log.error(`\nSetup failed: ${error.message}`)
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
+    log.error(`\nSetup failed: ${message}`)
     process.exit(1)
   } finally {
     rl.close()

@@ -46,8 +46,9 @@ export function SegmentPreview({ conditions }: SegmentPreviewProps) {
 
         const data = await res.json()
         setCount(data.count)
-      } catch (err: any) {
-        setError(err.message || 'Fout bij ophalen preview')
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err)
+        setError(message || 'Fout bij ophalen preview')
         setCount(null)
       } finally {
         setLoading(false)

@@ -15,24 +15,19 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Try fetching from wishlists collection if it exists
-    try {
-      const { docs } = await payload.find({
-        collection: 'wishlists' as any,
-        where: { user: { equals: user.id } },
-        depth: 2,
-        sort: '-createdAt',
-        limit: 100,
-      })
-      return NextResponse.json({ success: true, docs })
-    } catch {
-      // Wishlists collection might not exist, return empty
-      return NextResponse.json({ success: true, docs: [] })
-    }
-  } catch (error: any) {
+    const { docs } = await payload.find({
+      collection: 'wishlists',
+      where: { user: { equals: user.id } },
+      depth: 2,
+      sort: '-createdAt',
+      limit: 100,
+    })
+    return NextResponse.json({ success: true, docs })
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error fetching favorites:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch favorites', message: error.message },
+      { error: 'Failed to fetch favorites', message },
       { status: 500 },
     )
   }
@@ -56,22 +51,34 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'productId is required' }, { status: 400 })
     }
 
-    try {
-      const doc = await payload.create({
-        collection: 'wishlists' as any,
-        data: {
-          user: user.id,
-          product: body.productId,
-        },
-      })
-      return NextResponse.json({ success: true, doc })
-    } catch {
-      return NextResponse.json({ error: 'Wishlists not available' }, { status: 501 })
+    // Check for duplicate
+    const existing = await payload.find({
+      collection: 'wishlists',
+      where: {
+        user: { equals: user.id },
+        product: { equals: body.productId },
+      },
+      limit: 1,
+    })
+
+    if (existing.docs.length > 0) {
+      return NextResponse.json({ success: true, doc: existing.docs[0], duplicate: true })
     }
-  } catch (error: any) {
+
+    const doc = await payload.create({
+      collection: 'wishlists',
+      data: {
+        user: user.id,
+        product: body.productId,
+        notes: body.notes || undefined,
+      },
+    })
+    return NextResponse.json({ success: true, doc })
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error adding favorite:', error)
     return NextResponse.json(
-      { error: 'Failed to add favorite', message: error.message },
+      { error: 'Failed to add favorite', message },
       { status: 500 },
     )
   }
@@ -97,19 +104,16 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'id is required' }, { status: 400 })
     }
 
-    try {
-      await payload.delete({
-        collection: 'wishlists' as any,
-        id,
-      })
-      return NextResponse.json({ success: true })
-    } catch {
-      return NextResponse.json({ error: 'Wishlists not available' }, { status: 501 })
-    }
-  } catch (error: any) {
+    await payload.delete({
+      collection: 'wishlists',
+      id,
+    })
+    return NextResponse.json({ success: true })
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error removing favorite:', error)
     return NextResponse.json(
-      { error: 'Failed to remove favorite', message: error.message },
+      { error: 'Failed to remove favorite', message },
       { status: 500 },
     )
   }

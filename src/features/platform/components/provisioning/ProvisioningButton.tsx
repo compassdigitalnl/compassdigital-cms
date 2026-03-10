@@ -154,17 +154,18 @@ export function ProvisioningButton({
         status: 'provisioning',
         message: 'Provisioning started...',
       }))
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       console.error('Provisioning error:', error)
       setState({
         status: 'failed',
         progress: 0,
-        message: error.message || 'Failed to start provisioning',
-        error: error.message,
+        message: message || 'Failed to start provisioning',
+        error: message,
       })
 
       if (onError) {
-        onError(error.message)
+        onError(message)
       }
     }
   }

@@ -2,7 +2,8 @@
 
 import React from 'react'
 import Link from 'next/link'
-import * as LucideIcons from 'lucide-react'
+import { Package } from 'lucide-react'
+import { getIcon } from '@/utilities/getIcon'
 import type { NextStepsCTAProps } from './types'
 
 /**
@@ -32,17 +33,12 @@ export function NextStepsCTA({
   const gridColumns = columns || actions.length
 
   // Get Lucide icon component by name
-  const getIcon = (iconName: string) => {
-    const IconComponent =
-      (LucideIcons as any)[
-        iconName
-          .split('-')
-          .map((word: string, i: number) =>
-            i === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1),
-          )
-          .join('')
-      ] || LucideIcons.Package
-    return IconComponent
+  const resolveIcon = (iconName: string) => {
+    const pascalCase = iconName
+      .split('-')
+      .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join('')
+    return getIcon(pascalCase, Package)!
   }
 
   return (
@@ -52,7 +48,7 @@ export function NextStepsCTA({
       style={{ gridTemplateColumns: `repeat(${gridColumns}, 1fr)` }}
     >
       {actions.map((action) => {
-        const IconComponent = getIcon(action.icon)
+        const IconComponent = resolveIcon(action.icon)
         const isExternal = action.external || action.href?.startsWith('http')
         const isDownload = action.download || action.href?.endsWith('.pdf')
 

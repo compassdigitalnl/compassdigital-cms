@@ -177,13 +177,14 @@ export async function GET(request: NextRequest) {
         processingTimeMs: responseTimeMs,
       })
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Search API error:', error)
+    const message = error instanceof Error ? error.message : String(error)
 
     return NextResponse.json(
       {
         error: 'Search failed',
-        message: error.message || 'Unknown error occurred',
+        message: message || 'Unknown error occurred',
       },
       { status: 500 }
     )

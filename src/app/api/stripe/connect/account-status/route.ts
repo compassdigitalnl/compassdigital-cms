@@ -75,10 +75,11 @@ export async function GET(request: NextRequest) {
       paymentsEnabled: accountStatus.status === 'enabled',
     })
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Stripe Connect] Error checking account status:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Failed to check account status' },
+      { error: message || 'Failed to check account status' },
       { status: 500 }
     )
   }

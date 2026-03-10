@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       // Returns collection may not exist yet — return success anyway
       return NextResponse.json({ success: true, message: 'Return request received' }, { status: 201 })
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating return:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }

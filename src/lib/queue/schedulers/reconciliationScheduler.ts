@@ -56,7 +56,7 @@ export async function scheduleDailyReconciliation(): Promise<void> {
     )
 
     console.log('[Reconciliation Scheduler] ✅ Daily full reconciliation scheduled (2 AM daily)')
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Reconciliation Scheduler] ❌ Failed to schedule daily reconciliation:', error)
     throw error
   }
@@ -96,7 +96,7 @@ export async function scheduleHourlyReconciliation(): Promise<void> {
     )
 
     console.log('[Reconciliation Scheduler] ✅ Hourly reconciliation scheduled (every hour)')
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Reconciliation Scheduler] ❌ Failed to schedule hourly reconciliation:', error)
     throw error
   }
@@ -149,7 +149,7 @@ export async function scheduleTenantReconciliation(
     )
 
     console.log(`[Reconciliation Scheduler] ✅ Tenant ${tenantId} reconciliation scheduled (every ${intervalHours}h)`)
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(`[Reconciliation Scheduler] ❌ Failed to schedule tenant ${tenantId} reconciliation:`, error)
     throw error
   }
@@ -180,7 +180,7 @@ export async function triggerImmediateReconciliation(
 
     console.log(`[Reconciliation Scheduler] ✅ Manual reconciliation triggered (Job ID: ${job.id})`)
     return job.id || 'unknown'
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Reconciliation Scheduler] ❌ Failed to trigger manual reconciliation:', error)
     throw error
   }
@@ -193,7 +193,7 @@ export async function getScheduledJobs(): Promise<any[]> {
   try {
     const repeatableJobs = await reconciliationQueue.getRepeatableJobs()
     return repeatableJobs
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Reconciliation Scheduler] ❌ Failed to get scheduled jobs:', error)
     throw error
   }
@@ -209,7 +209,7 @@ export async function clearAllSchedules(): Promise<void> {
       await reconciliationQueue.removeRepeatableByKey(job.key)
     }
     console.log(`[Reconciliation Scheduler] ✅ Cleared ${repeatableJobs.length} scheduled jobs`)
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Reconciliation Scheduler] ❌ Failed to clear schedules:', error)
     throw error
   }
@@ -241,7 +241,7 @@ export async function initializeReconciliationSchedules(): Promise<void> {
     }
 
     console.log('[Reconciliation Scheduler] ✅ Initialization complete')
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Reconciliation Scheduler] ❌ Initialization failed:', error)
   }
 }

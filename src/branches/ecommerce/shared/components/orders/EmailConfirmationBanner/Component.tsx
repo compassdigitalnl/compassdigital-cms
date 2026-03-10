@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { Mail, CheckCircle, AlertTriangle, XCircle, X } from 'lucide-react'
-import * as LucideIcons from 'lucide-react'
+import { getIcon } from '@/utilities/getIcon'
 import type { EmailConfirmationBannerProps } from './types'
 
 /**
@@ -43,19 +43,19 @@ export function EmailConfirmationBanner({
   }
 
   // Get icon component
-  const getIcon = () => {
+  const resolveIcon = () => {
     if (icon) {
       // Convert kebab-case to PascalCase (e.g., "check-circle" → "CheckCircle")
       const pascalCase = icon
         .split('-')
         .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
         .join('')
-      return (LucideIcons as any)[pascalCase] || iconMap[variant]
+      return getIcon(pascalCase, iconMap[variant]) ?? iconMap[variant]
     }
     return iconMap[variant]
   }
 
-  const IconComponent = getIcon()
+  const IconComponent = resolveIcon()
   const iconSize = compact ? 16 : 20
 
   const handleClose = () => {

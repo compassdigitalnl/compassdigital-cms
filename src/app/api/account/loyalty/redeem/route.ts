@@ -34,10 +34,11 @@ export async function POST(request: NextRequest) {
       rewardId,
       pointsCost,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error redeeming reward:', error)
     return NextResponse.json(
-      { error: 'Failed to redeem reward', message: error.message },
+      { error: 'Failed to redeem reward', message },
       { status: 500 },
     )
   }

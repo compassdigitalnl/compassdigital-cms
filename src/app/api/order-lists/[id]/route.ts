@@ -45,12 +45,13 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       success: true,
       doc,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching order list:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
       {
         error: 'Failed to fetch order list',
-        message: error.message,
+        message,
       },
       { status: 500 },
     )
@@ -109,12 +110,13 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       success: true,
       doc,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating order list:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
       {
         error: 'Failed to update order list',
-        message: error.message,
+        message,
       },
       { status: 500 },
     )
@@ -166,12 +168,13 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
       success: true,
       message: 'Order list deleted',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error deleting order list:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
       {
         error: 'Failed to delete order list',
-        message: error.message,
+        message,
       },
       { status: 500 },
     )

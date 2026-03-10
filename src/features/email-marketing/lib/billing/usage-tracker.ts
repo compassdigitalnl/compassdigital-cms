@@ -342,7 +342,7 @@ export class UsageTracker {
       })
 
       console.log(`[Usage Tracker] Email sent event recorded for tenant ${data.tenantId}`)
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('[Usage Tracker] Failed to record email event:', error)
       // Don't throw - email tracking shouldn't block email sending
     }

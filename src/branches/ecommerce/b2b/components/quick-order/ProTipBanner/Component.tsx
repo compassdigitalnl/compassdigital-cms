@@ -1,17 +1,9 @@
 'use client'
 
 import React, { useState } from 'react'
-import * as LucideIcons from 'lucide-react'
+import { Lightbulb, X } from 'lucide-react'
+import { getIcon } from '@/utilities/getIcon'
 import type { ProTipBannerProps } from './types'
-
-// Helper: Get Lucide icon by name
-function getIcon(iconName: string) {
-  const pascalCase = iconName
-    .split('-')
-    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join('')
-  return (LucideIcons as any)[pascalCase] || LucideIcons.Lightbulb
-}
 
 /**
  * ProTipBanner Component
@@ -36,7 +28,11 @@ export function ProTipBanner({
   className = '',
 }: ProTipBannerProps) {
   const [isDismissed, setIsDismissed] = useState(false)
-  const Icon = getIcon(icon)
+  const pascalIcon = icon
+    .split('-')
+    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join('')
+  const Icon = getIcon(pascalIcon, Lightbulb)!
 
   const handleDismiss = () => {
     setIsDismissed(true)
@@ -65,7 +61,7 @@ export function ProTipBanner({
           type="button"
           aria-label="Sluiten"
         >
-          <LucideIcons.X size={16} aria-hidden="true" />
+          <X size={16} aria-hidden="true" />
         </button>
       )}
 

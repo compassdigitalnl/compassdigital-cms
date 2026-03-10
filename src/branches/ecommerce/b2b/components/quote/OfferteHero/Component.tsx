@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { getIcon } from '@/utilities/getIcon'
 import { OfferteHeroProps } from './types'
 
 export function OfferteHero({
@@ -13,25 +14,14 @@ export function OfferteHero({
   ariaLabel,
   className = '',
 }: OfferteHeroProps) {
-  // Dynamic icon loading (kebab-case → PascalCase)
-  const [IconComponent, setIconComponent] = React.useState<React.ComponentType<any> | null>(null)
-
-  React.useEffect(() => {
-    if (badgeIcon) {
-      const iconName = badgeIcon
-        .split('-')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join('')
-
-      import('lucide-react')
-        .then((mod) => {
-          const Icon = (mod as any)[iconName]
-          if (Icon) {
-            setIconComponent(() => Icon)
-          }
-        })
-        .catch((err) => console.error('Failed to load icon:', err))
-    }
+  // Resolve icon from kebab-case name
+  const IconComponent = React.useMemo(() => {
+    if (!badgeIcon) return null
+    const iconName = badgeIcon
+      .split('-')
+      .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join('')
+    return getIcon(iconName)
   }, [badgeIcon])
 
   // Combine description with optional response time

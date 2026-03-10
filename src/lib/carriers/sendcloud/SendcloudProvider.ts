@@ -85,9 +85,10 @@ export class SendcloudProvider implements CarrierProvider {
         labelUrl: parcel.label?.normal_printer?.[0] || parcel.label?.label_printer || undefined,
         carrier: parcel.carrier?.code || 'sendcloud',
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       console.error('[Sendcloud] Create shipment error:', error)
-      return { success: false, shipmentId: '', error: error.message }
+      return { success: false, shipmentId: '', error: message }
     }
   }
 

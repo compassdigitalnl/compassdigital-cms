@@ -82,7 +82,7 @@ export const reconciliationWorker = new Worker(
         result,
         timestamp: new Date().toISOString(),
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Classify error
       const classifiedError = classifyError(error)
       reportError('reconciliation', classifiedError, {

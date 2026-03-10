@@ -54,7 +54,7 @@ export const LogoBar: Block = {
               'Optional link to company website (leave empty if no link needed). Must be full URL (e.g., https://example.com)',
             placeholder: 'https://example.com',
           },
-          validate: (val: any) => {
+          validate: (val: string | undefined | null) => {
             if (!val) return true
             try {
               new URL(val)

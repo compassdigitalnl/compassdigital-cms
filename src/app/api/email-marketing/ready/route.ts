@@ -29,8 +29,9 @@ export async function GET(request: NextRequest) {
     } else {
       return NextResponse.json({ status: 'not ready' }, { status: 503 })
     }
-  } catch (error: any) {
-    return NextResponse.json({ status: 'not ready', error: error.message }, { status: 503 })
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
+    return NextResponse.json({ status: 'not ready', error: message }, { status: 503 })
   }
 }
 

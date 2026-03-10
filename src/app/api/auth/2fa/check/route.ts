@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       twoFactorRequired: !!user.twoFactorEnabled,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('2FA check error:', error)
     return NextResponse.json({ twoFactorRequired: false })
   }

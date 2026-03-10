@@ -131,8 +131,9 @@ export async function GET(request: NextRequest) {
         aov: Math.round((parseFloat(row.aov) || 0) * 100) / 100,
       })),
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[analytics/revenue] Error:', error)
-    return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: message || 'Internal server error' }, { status: 500 })
   }
 }

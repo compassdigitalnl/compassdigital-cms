@@ -83,11 +83,12 @@ export async function GET() {
     if (dbLatency > 1000) {
       health.checks.database.message = 'High database latency detected'
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     health.status = 'unhealthy'
     health.checks.database = {
       status: 'error',
-      message: error.message || 'Database connection failed',
+      message: message || 'Database connection failed',
     }
   }
 

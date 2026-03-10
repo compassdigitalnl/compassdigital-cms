@@ -314,8 +314,8 @@ export class MetricsCollector {
         limit: 10000,
       })
 
-      const emailsSent24h = emailEvents24h.docs.filter((e: any) => e.type === 'sent').length
-      const emailsFailed24h = emailEvents24h.docs.filter((e: any) => e.type === 'failed').length
+      const emailsSent24h = emailEvents24h.docs.filter((e) => (e as { type?: string }).type === 'sent').length
+      const emailsFailed24h = emailEvents24h.docs.filter((e) => (e as { type?: string }).type === 'failed').length
 
       // Campaign metrics
       const campaigns = await payload.find({
@@ -323,9 +323,9 @@ export class MetricsCollector {
         limit: 10000,
       })
 
-      const activeCampaigns = campaigns.docs.filter((c: any) => c.status === 'active').length
-      const scheduledCampaigns = campaigns.docs.filter((c: any) => c.status === 'scheduled').length
-      const draftCampaigns = campaigns.docs.filter((c: any) => c.status === 'draft').length
+      const activeCampaigns = campaigns.docs.filter((c) => (c as { status?: string }).status === 'active').length
+      const scheduledCampaigns = campaigns.docs.filter((c) => (c as { status?: string }).status === 'scheduled').length
+      const draftCampaigns = campaigns.docs.filter((c) => (c as { status?: string }).status === 'draft').length
 
       // Subscriber metrics
       const subscribers = await payload.find({
@@ -333,7 +333,7 @@ export class MetricsCollector {
         limit: 10000,
       })
 
-      const activeSubscribers = subscribers.docs.filter((s: any) => s.status === 'subscribed').length
+      const activeSubscribers = subscribers.docs.filter((s) => (s as { status?: string }).status === 'subscribed').length
 
       const subscribersAdded24h = await payload.find({
         collection: 'email-subscribers',
@@ -360,7 +360,7 @@ export class MetricsCollector {
         limit: 10000,
       })
 
-      const activeAutomationRules = automationRules.docs.filter((r: any) => r.status === 'active').length
+      const activeAutomationRules = automationRules.docs.filter((r) => (r as { status?: string }).status === 'active').length
 
       const automationEvents24h = await payload.find({
         collection: 'email-events',

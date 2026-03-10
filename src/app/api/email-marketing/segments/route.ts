@@ -33,10 +33,11 @@ export async function GET(request: NextRequest) {
       segments: segments.docs,
       totalDocs: segments.totalDocs,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Segments API] GET error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Fout bij ophalen segmenten' },
+      { error: message || 'Fout bij ophalen segmenten' },
       { status: 500 },
     )
   }
@@ -90,10 +91,11 @@ export async function POST(request: NextRequest) {
     })
 
     return NextResponse.json({ segment }, { status: 201 })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Segments API] POST error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Fout bij aanmaken segment' },
+      { error: message || 'Fout bij aanmaken segment' },
       { status: 500 },
     )
   }

@@ -112,8 +112,9 @@ export async function GET() {
         '3. Add your own blocks, images, and content',
       ],
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Seed error:', error)
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    const message = error instanceof Error ? error.message : String(error)
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }

@@ -502,8 +502,8 @@ export default function OrderListDetailPage() {
         await navigator.clipboard.writeText(url)
         toast.success('Link gekopieerd naar klembord')
       }
-    } catch (err: any) {
-      if (err?.name !== 'AbortError') {
+    } catch (err: unknown) {
+      if (err instanceof Error && err.name !== 'AbortError') {
         toast.error('Delen mislukt')
       }
     }

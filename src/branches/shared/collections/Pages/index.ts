@@ -41,6 +41,9 @@ import { QuickOrder } from '@/branches/ecommerce/shared/blocks/QuickOrder'
 // Construction blocks (conditional import)
 import { constructionBlocks } from '@/branches/construction/blocks'
 
+// Experiences blocks (conditional import)
+import { experienceBlocks } from '@/branches/experiences/blocks'
+
 // Hooks
 import { revalidatePage, revalidateDelete } from './hooks/revalidatePage'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
@@ -256,6 +259,12 @@ export const Pages: CollectionConfig = {
         // Construction blocks are only available when construction-services collection is enabled
         // Includes: ConstructionHero, ServicesGrid, ProjectsGrid, ReviewsGrid, CTABanner, StatsBar
         ...(disabledCollections.has('construction-services') ? [] : constructionBlocks),
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // EXPERIENCES BRANCH BLOCKS - Only if experiences feature enabled
+        // ═══════════════════════════════════════════════════════════════════════════
+        // Includes: ExperienceHero, ExperienceGrid, ExperienceCategoryGrid, ExperienceSocialProof
+        ...(disabledCollections.has('experiences') ? [] : experienceBlocks),
       ],
     },
 

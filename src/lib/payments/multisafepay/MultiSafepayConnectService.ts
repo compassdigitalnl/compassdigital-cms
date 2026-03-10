@@ -144,9 +144,10 @@ export class MultiSafepayConnectService {
         ...response,
       }
 
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       console.error('[MultiSafePay Connect] Error creating affiliate:', error)
-      throw new Error(`Failed to create MultiSafePay affiliate: ${error.message}`)
+      throw new Error(`Failed to create MultiSafePay affiliate: ${message}`)
     }
   }
 
@@ -157,9 +158,10 @@ export class MultiSafepayConnectService {
     try {
       const response = await this.makePartnerAPICall('GET', `/affiliates/${affiliateId}`)
       return response
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       console.error('[MultiSafePay Connect] Error fetching affiliate:', error)
-      throw new Error(`Failed to fetch affiliate: ${error.message}`)
+      throw new Error(`Failed to fetch affiliate: ${message}`)
     }
   }
 
@@ -193,7 +195,8 @@ export class MultiSafepayConnectService {
       if (pricingTier === 'custom' && customRates?.idealFee) {
         clientCost = customRates.idealFee
       } else {
-        clientCost = (PRICING_TIERS as any)[pricingTier]?.ideal || PRICING_TIERS.standard.ideal
+        const tier = PRICING_TIERS[pricingTier as keyof typeof PRICING_TIERS]
+        clientCost = tier?.ideal ?? PRICING_TIERS.standard.ideal
       }
       partnerCost = PARTNER_COSTS.ideal
 
@@ -208,8 +211,9 @@ export class MultiSafepayConnectService {
         clientPercentage = customRates.cardPercentage || PRICING_TIERS.standard.cardPercentage
         clientFixed = customRates.cardFixed || PRICING_TIERS.standard.cardFixed
       } else {
-        clientPercentage = (PRICING_TIERS as any)[pricingTier]?.cardPercentage || PRICING_TIERS.standard.cardPercentage
-        clientFixed = (PRICING_TIERS as any)[pricingTier]?.cardFixed || PRICING_TIERS.standard.cardFixed
+        const tier = PRICING_TIERS[pricingTier as keyof typeof PRICING_TIERS]
+        clientPercentage = tier?.cardPercentage ?? PRICING_TIERS.standard.cardPercentage
+        clientFixed = tier?.cardFixed ?? PRICING_TIERS.standard.cardFixed
       }
 
       const clientCostTotal = (amount * clientPercentage / 100) + clientFixed
@@ -287,9 +291,10 @@ export class MultiSafepayConnectService {
         ...order,
       }
 
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       console.error('[MultiSafePay Connect] Error creating order:', error)
-      throw new Error(`Failed to create payment order: ${error.message}`)
+      throw new Error(`Failed to create payment order: ${message}`)
     }
   }
 
@@ -300,9 +305,10 @@ export class MultiSafepayConnectService {
     try {
       const order = await this.client.orders.get(orderId)
       return order
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       console.error('[MultiSafePay Connect] Error fetching order:', error)
-      throw new Error(`Failed to fetch order: ${error.message}`)
+      throw new Error(`Failed to fetch order: ${message}`)
     }
   }
 
@@ -333,7 +339,7 @@ export class MultiSafepayConnectService {
         totalCommission: response.total_commission || 0,
         transactionCount: response.transaction_count || 0,
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('[MultiSafePay Connect] Error fetching stats:', error)
       return {
         totalVolume: 0,

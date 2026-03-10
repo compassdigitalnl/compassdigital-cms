@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
     })
 
     return response
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('2FA validate error:', error)
     return NextResponse.json(
       { error: 'Er is een fout opgetreden bij het verifiëren' },

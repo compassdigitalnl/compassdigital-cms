@@ -1,17 +1,9 @@
 'use client'
 
 import React from 'react'
-import * as LucideIcons from 'lucide-react'
+import { Zap } from 'lucide-react'
+import { getIcon } from '@/utilities/getIcon'
 import type { QuickOrderHeaderProps } from './types'
-
-// Helper: Get Lucide icon by name
-function getIcon(iconName: string) {
-  const pascalCase = iconName
-    .split('-')
-    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join('')
-  return (LucideIcons as any)[pascalCase] || LucideIcons.Zap
-}
 
 /**
  * QuickOrderHeader Component
@@ -31,6 +23,15 @@ function getIcon(iconName: string) {
  * />
  * ```
  */
+// Convert kebab-case icon name to PascalCase and resolve
+function resolveIcon(iconName: string, fallback: typeof Zap) {
+  const pascalCase = iconName
+    .split('-')
+    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join('')
+  return getIcon(pascalCase, fallback)!
+}
+
 export function QuickOrderHeader({
   title = 'Snelbestellen',
   description = 'Voer meerdere artikelen tegelijk in voor een snelle bestelling',
@@ -38,7 +39,7 @@ export function QuickOrderHeader({
   actions,
   className = '',
 }: QuickOrderHeaderProps) {
-  const HeaderIcon = getIcon(icon)
+  const HeaderIcon = resolveIcon(icon, Zap)
 
   return (
     <header className={`qoh ${className}`} role="banner">
@@ -51,7 +52,7 @@ export function QuickOrderHeader({
       </div>
       <div className="qoh-actions">
         {actions.map((action) => {
-          const Icon = getIcon(action.icon)
+          const Icon = resolveIcon(action.icon, Zap)
           return (
             <button
               key={action.id}

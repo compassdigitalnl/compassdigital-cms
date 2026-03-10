@@ -66,6 +66,10 @@ import { UptimeIncidents } from '@/features/platform/monitoring/collections/Upti
 // Licenses
 import { Licenses } from '@/branches/ecommerce/b2b/collections/licenses/Licenses'
 import { LicenseActivations } from '@/branches/ecommerce/b2b/collections/licenses/LicenseActivations'
+// Wishlists (Feature #34 - Wishlist Sharing)
+import { Wishlists } from '@/branches/ecommerce/b2c/collections/Wishlists'
+// Product Reviews (Feature #32 + #43 - AI Review Moderation)
+import { ProductReviews } from '@/branches/ecommerce/b2c/collections/ProductReviews'
 // Loyalty (LoyaltyPoints merged into Users, LoyaltyRedemptions merged into LoyaltyTransactions)
 import { LoyaltyRewards } from '@/branches/ecommerce/b2c/collections/loyalty/LoyaltyRewards'
 import { LoyaltyTiers } from '@/branches/ecommerce/b2c/collections/loyalty/LoyaltyTiers'
@@ -94,6 +98,8 @@ import { Vendors } from '@/branches/marketplace/collections/Vendors'
 import { VendorReviews } from '@/branches/marketplace/collections/VendorReviews'
 import { Workshops } from '@/branches/marketplace/collections/Workshops'
 
+// Content Approvals (Feature #28 - Content Goedkeuringsworkflows)
+import { ContentApprovals } from '@/branches/shared/collections/ContentApprovals'
 // Shared Branch (6 collections + 2 subdirectories)
 import { CookieConsents } from '@/branches/shared/collections/CookieConsents'
 import { Media } from '@/branches/shared/collections/Media'
@@ -132,6 +138,11 @@ import { BeautyBookings } from '@/branches/beauty/collections/BeautyBookings'
 import { MenuItems } from '@/branches/horeca/collections/MenuItems'
 import { Reservations } from '@/branches/horeca/collections/Reservations'
 import { Events } from '@/branches/horeca/collections/Events'
+
+// Experiences Branch (3 collections - Sprint 7)
+import { Experiences } from '@/branches/experiences/collections/Experiences'
+import { ExperienceCategories } from '@/branches/experiences/collections/ExperienceCategories'
+import { ExperienceReviews } from '@/branches/experiences/collections/ExperienceReviews'
 
 // Email Marketing Feature (8 collections - Feature flagged)
 import { emailMarketingFeatures } from '@/lib/tenant/features'
@@ -314,6 +325,7 @@ export default buildConfig({
     Pages,
     Media,
     CookieConsents, // GDPR cookie consent tracking (always enabled)
+    ContentApprovals, // Content approval workflow (Feature #28)
     _col(Partners),
     _col(ServicesCollection),
     _col(Notifications),
@@ -356,6 +368,12 @@ export default buildConfig({
     _col(SubscriptionPages),
     _col(UserSubscriptions),
     _col(PaymentMethods),
+
+    // Wishlists (Feature #34 - Wishlist Sharing)
+    _col(Wishlists),
+
+    // Product Reviews (Feature #32 + #43 - AI Review Moderation)
+    _col(ProductReviews),
 
     // Gift Vouchers (Sprint 6)
     _col(GiftVouchers),
@@ -423,6 +441,13 @@ export default buildConfig({
     _col(MenuItems),
     _col(Reservations),
     _col(Events),
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // EXPERIENCES BRANCH - Ervaringen & Belevenissen Template (Sprint 7)
+    // ═══════════════════════════════════════════════════════════════════════════
+    _col(Experiences),
+    _col(ExperienceCategories),
+    _col(ExperienceReviews),
 
     // ═══════════════════════════════════════════════════════════════════════════
     // EMAIL MARKETING BRANCH - Email campaigns, lists, subscribers (Feature flagged)

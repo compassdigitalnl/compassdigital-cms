@@ -68,14 +68,15 @@ export async function GET(request: NextRequest) {
       timestamp: new Date().toISOString(),
     })
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('❌ Cron job error (cleanup-stock-reservations):', error)
 
     return NextResponse.json(
       {
         success: false,
         error: 'Cron job failed',
-        message: error.message || 'Unknown error',
+        message: message || 'Unknown error',
         timestamp: new Date().toISOString(),
       },
       { status: 500 }

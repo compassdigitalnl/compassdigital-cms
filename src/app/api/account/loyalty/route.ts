@@ -92,10 +92,11 @@ export async function GET(request: NextRequest) {
       rewards: rewardsResult.docs,
       activeRedemptions: activeRedemptions.docs,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error fetching loyalty data:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch loyalty data', message: error.message },
+      { error: 'Failed to fetch loyalty data', message },
       { status: 500 },
     )
   }

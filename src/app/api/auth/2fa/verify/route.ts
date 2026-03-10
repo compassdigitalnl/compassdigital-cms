@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
       backupCodes, // Return plain codes ONCE — user must save them
       message: 'Tweefactorauthenticatie is succesvol geactiveerd. Bewaar je backup codes veilig!',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('2FA verify error:', error)
     return NextResponse.json(
       { error: 'Er is een fout opgetreden bij het verifiëren van 2FA' },

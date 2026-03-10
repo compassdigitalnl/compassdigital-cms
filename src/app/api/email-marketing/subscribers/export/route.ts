@@ -100,7 +100,7 @@ export async function GET(request: NextRequest) {
         'Content-Disposition': `attachment; filename="${filename}"`,
       },
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Subscriber export error:', error)
     return NextResponse.json(
       { error: 'Export mislukt' },

@@ -61,7 +61,7 @@ export async function POST(
       success: true,
       message: 'Offerte afgewezen',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error rejecting quote:', error)
     return NextResponse.json(
       { error: 'Kon offerte niet afwijzen' },

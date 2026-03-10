@@ -84,13 +84,13 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
                   backgroundColor: megaMenuOpen ? primaryColor : secondaryColor,
                   borderColor: megaMenuOpen ? primaryColor : secondaryColor,
                 }}
-                onMouseEnter={(e: any) => {
+                onMouseEnter={(e: React.MouseEvent<HTMLButtonElement>) => {
                   if (!megaMenuOpen) {
                     e.currentTarget.style.backgroundColor = primaryColor
                     e.currentTarget.style.borderColor = primaryColor
                   }
                 }}
-                onMouseLeave={(e: any) => {
+                onMouseLeave={(e: React.MouseEvent<HTMLButtonElement>) => {
                   if (!megaMenuOpen) {
                     e.currentTarget.style.backgroundColor = secondaryColor
                     e.currentTarget.style.borderColor = secondaryColor
@@ -167,11 +167,11 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
                             : {})}
                           className="block px-4 py-2 text-sm transition-colors first:rounded-t-xl last:rounded-b-xl"
                           style={{ color: 'var(--color-secondary)' }}
-                          onMouseEnter={(e: any) => {
+                          onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
                             e.currentTarget.style.backgroundColor = 'var(--color-surface)'
                             e.currentTarget.style.color = 'var(--color-primary)'
                           }}
-                          onMouseLeave={(e: any) => {
+                          onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
                             e.currentTarget.style.backgroundColor = 'transparent'
                             e.currentTarget.style.color = 'var(--color-secondary)'
                           }}
@@ -214,10 +214,10 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
                     href={`mailto:${settings.email}`}
                     className="flex items-center gap-1.5 transition-colors"
                     style={{ color: 'var(--color-text-secondary)' }}
-                    onMouseEnter={(e: any) => {
+                    onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
                       e.currentTarget.style.color = 'var(--color-primary)'
                     }}
-                    onMouseLeave={(e: any) => {
+                    onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
                       e.currentTarget.style.color = 'var(--color-text-secondary)'
                     }}
                   >
@@ -237,10 +237,10 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
                   href={`tel:${settings.phone}`}
                   className="flex items-center gap-1.5 transition-colors"
                   style={{ color: 'var(--color-text-secondary)' }}
-                  onMouseEnter={(e: any) => {
+                  onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
                     e.currentTarget.style.color = 'var(--color-primary)'
                   }}
-                  onMouseLeave={(e: any) => {
+                  onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
                     e.currentTarget.style.color = 'var(--color-text-secondary)'
                   }}
                 >

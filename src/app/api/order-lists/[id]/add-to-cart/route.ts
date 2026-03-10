@@ -140,12 +140,13 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       cart,
       itemsAdded: itemsToAdd.length,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error adding order list to cart:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
       {
         error: 'Failed to add order list to cart',
-        message: error.message,
+        message,
       },
       { status: 500 },
     )

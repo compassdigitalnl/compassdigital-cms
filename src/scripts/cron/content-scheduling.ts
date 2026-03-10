@@ -56,8 +56,9 @@ async function processPublish(
       }
     }
     return { count: rows.length, errors }
-  } catch (err: any) {
-    errors.push(`${table} publish: ${err.message}`)
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
+    errors.push(`${table} publish: ${message}`)
     return { count: 0, errors }
   }
 }
@@ -94,8 +95,9 @@ async function processUnpublish(
       }
     }
     return { count: rows.length, errors }
-  } catch (err: any) {
-    errors.push(`${table} unpublish: ${err.message}`)
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
+    errors.push(`${table} unpublish: ${message}`)
     return { count: 0, errors }
   }
 }

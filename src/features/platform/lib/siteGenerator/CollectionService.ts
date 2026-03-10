@@ -79,7 +79,7 @@ export class CollectionService {
         console.log(
           `[CollectionService] ✓ Created case: ${portfolioCase.projectName} (ID: ${createdCase.id})`,
         )
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error(`[CollectionService] Error creating case "${portfolioCase.projectName}":`, error)
         // Continue with other cases - don't fail completely
       }

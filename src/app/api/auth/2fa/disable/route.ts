@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
       success: true,
       message: 'Tweefactorauthenticatie is uitgeschakeld.',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('2FA disable error:', error)
     return NextResponse.json(
       { error: 'Er is een fout opgetreden bij het uitschakelen van 2FA' },

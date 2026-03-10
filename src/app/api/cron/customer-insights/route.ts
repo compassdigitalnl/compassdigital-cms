@@ -64,10 +64,11 @@ export async function GET(request: NextRequest) {
       avgPredictedCLV: avgClv,
       duration,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[cron/customer-insights] Error:', error)
     return NextResponse.json(
-      { success: false, error: error.message || 'Internal server error' },
+      { success: false, error: message || 'Internal server error' },
       { status: 500 }
     )
   }

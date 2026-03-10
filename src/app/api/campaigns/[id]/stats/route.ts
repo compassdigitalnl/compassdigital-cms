@@ -92,10 +92,11 @@ export async function GET(
         unsubscribed: 0,
       },
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('[API] Get campaign stats error:', error)
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch stats' },
+      { error: message || 'Failed to fetch stats' },
       { status: 500 }
     )
   }

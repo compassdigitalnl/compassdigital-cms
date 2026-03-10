@@ -31,10 +31,11 @@ export async function PATCH(
     } catch {
       return NextResponse.json({ error: 'Recurring orders not available' }, { status: 501 })
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error updating recurring order:', error)
     return NextResponse.json(
-      { error: 'Failed to update recurring order', message: error.message },
+      { error: 'Failed to update recurring order', message },
       { status: 500 },
     )
   }

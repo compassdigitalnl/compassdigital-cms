@@ -31,8 +31,9 @@ export function InviteUserModal({ open, onClose, onInvite, isSubmitting }: Invit
       setRole('buyer')
       setMessage('')
       onClose()
-    } catch (err: any) {
-      setError(err?.message || 'Er ging iets mis bij het versturen van de uitnodiging')
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err)
+      setError(message || 'Er ging iets mis bij het versturen van de uitnodiging')
     }
   }
 

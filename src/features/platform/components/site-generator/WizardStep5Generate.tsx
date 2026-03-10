@@ -92,9 +92,10 @@ export function WizardStep5Generate({ wizardData }: Props) {
       if (!data.success) {
         throw new Error(data.error || data.message || 'Site provisioning failed')
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err)
       setStatus('failed')
-      setError(err.message || 'Er is een fout opgetreden')
+      setError(message || 'Er is een fout opgetreden')
     }
   }
 

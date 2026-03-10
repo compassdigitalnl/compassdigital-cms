@@ -74,10 +74,11 @@ export async function POST(request: NextRequest) {
       email,
       bounce_type,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Bounce Webhook] Error:', error)
+    const message = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: error.message || 'Failed to process bounce' },
+      { error: message || 'Failed to process bounce' },
       { status: 500 }
     )
   }

@@ -80,10 +80,11 @@ export class HealthChecker {
           connectionPool: 'active',
         },
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       return {
         status: HealthStatus.UNHEALTHY,
-        message: `Database error: ${error.message}`,
+        message: `Database error: ${message}`,
         responseTime: Date.now() - startTime,
       }
     }
@@ -122,10 +123,11 @@ export class HealthChecker {
           connected: true,
         },
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       return {
         status: HealthStatus.UNHEALTHY,
-        message: `Redis error: ${error.message}`,
+        message: `Redis error: ${message}`,
         responseTime: Date.now() - startTime,
       }
     }
@@ -160,10 +162,11 @@ export class HealthChecker {
         responseTime,
         metadata: health,
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       return {
         status: HealthStatus.UNHEALTHY,
-        message: `Listmonk error: ${error.message}`,
+        message: `Listmonk error: ${message}`,
         responseTime: Date.now() - startTime,
       }
     }
@@ -222,10 +225,11 @@ export class HealthChecker {
           stuckJobs,
         },
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       return {
         status: HealthStatus.UNHEALTHY,
-        message: `Queue error: ${error.message}`,
+        message: `Queue error: ${message}`,
         responseTime: Date.now() - startTime,
       }
     }
@@ -279,10 +283,11 @@ export class HealthChecker {
           activeCampaigns: health.activeCampaigns,
         },
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error)
       return {
         status: HealthStatus.UNHEALTHY,
-        message: `Metrics error: ${error.message}`,
+        message: `Metrics error: ${message}`,
         responseTime: Date.now() - startTime,
       }
     }

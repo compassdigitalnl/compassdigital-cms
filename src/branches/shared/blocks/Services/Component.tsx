@@ -2,7 +2,8 @@
 
 import React from 'react'
 import Link from 'next/link'
-import * as LucideIcons from 'lucide-react'
+import { ArrowRight, Package } from 'lucide-react'
+import { getIcon } from '@/utilities/getIcon'
 import type { ServicesBlock } from '@/payload-types'
 
 /**
@@ -29,10 +30,8 @@ export const ServicesBlockComponent: React.FC<ServicesBlock> = ({
   services,
 }) => {
   // Get Lucide icon component (fallback to Package)
-  const getIcon = (iconName: string) => {
-    const IconComponent =
-      (LucideIcons as any)[iconName] || LucideIcons.Package
-    return IconComponent
+  const resolveIcon = (iconName: string) => {
+    return getIcon(iconName, Package)!
   }
 
   // Grid column classes
@@ -69,7 +68,7 @@ export const ServicesBlockComponent: React.FC<ServicesBlock> = ({
         {/* Services Grid */}
         <div className={`grid gap-5 ${gridClass}`}>
           {services?.map((service, index) => {
-            const Icon = getIcon(service.icon)
+            const Icon = resolveIcon(service.icon)
             const colorTheme = iconColorMap[service.iconColor as keyof typeof iconColorMap] || iconColorMap.teal
 
             return (
@@ -125,7 +124,7 @@ export const ServicesBlockComponent: React.FC<ServicesBlock> = ({
                     `}
                   >
                     {service.linkText || 'Meer info'}
-                    <LucideIcons.ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 )}
               </div>

@@ -35,8 +35,9 @@ async function runMigrations() {
 
   try {
     payload = await getPayload({ config })
-  } catch (err: any) {
-    console.error('[migrate] Failed to initialize Payload:', err?.message || err)
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
+    console.error('[migrate] Failed to initialize Payload:', message)
     process.exit(1)
   }
 
@@ -45,8 +46,8 @@ async function runMigrations() {
     // Note: If Payload shows a prompt, use "yes | npm run migrate" instead
     await payload.db.migrate()
     console.log('[migrate] ✅ Migrations completed successfully')
-  } catch (err: any) {
-    const msg = err?.message || ''
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err)
     if (
       msg.includes('No migrations') ||
       msg.includes('up to date') ||

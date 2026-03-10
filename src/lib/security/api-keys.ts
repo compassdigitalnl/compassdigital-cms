@@ -261,7 +261,7 @@ export async function validateApiKey(
         usage: keyData.usage,
       },
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[API Keys] Validation error:', error)
     return {
       valid: false,
@@ -300,7 +300,7 @@ export async function trackApiKeyUsage(
         },
       } as any,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[API Keys] Failed to track usage:', error)
     // Don't throw - tracking failure shouldn't block the request
   }

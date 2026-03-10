@@ -75,10 +75,11 @@ export async function GET(request: NextRequest) {
         pendingInvoices: allInvoices.totalDocs - paidOrders.totalDocs,
       },
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
     console.error('Error fetching invoices:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch invoices', message: error.message },
+      { error: 'Failed to fetch invoices', message },
       { status: 500 },
     )
   }
