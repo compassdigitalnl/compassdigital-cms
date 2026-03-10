@@ -32,6 +32,7 @@ import * as migration_20260311_100000_add_wishlists from './20260311_100000_add_
 import * as migration_20260311_110000_add_product_reviews from './20260311_110000_add_product_reviews';
 import * as migration_20260311_120000_add_content_approvals from './20260311_120000_add_content_approvals';
 import * as migration_20260311_200000_add_experiences_branch from './20260311_200000_add_experiences_branch';
+import * as migration_20260311_210000_add_feature_toggles from './20260311_210000_add_feature_toggles';
 
 export const migrations = [
   {
@@ -203,5 +204,10 @@ export const migrations = [
     up: migration_20260311_200000_add_experiences_branch.up,
     down: migration_20260311_200000_add_experiences_branch.down,
     name: '20260311_200000_add_experiences_branch',
+  },
+  {
+    up: migration_20260311_210000_add_feature_toggles.up,
+    down: migration_20260311_210000_add_feature_toggles.down,
+    name: '20260311_210000_add_feature_toggles',
   },
 ];

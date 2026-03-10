@@ -19,6 +19,321 @@ export const EcommerceSettings: GlobalConfig = {
     {
       type: 'tabs',
       tabs: [
+        // ─── TAB 0: FEATURE TOGGLES (altijd zichtbaar) ────
+        {
+          label: 'Feature Toggles',
+          description: 'Schakel features aan of uit. Uitgeschakelde features worden verborgen uit het admin menu en de frontend.',
+          fields: [
+            {
+              name: 'featureToggles',
+              type: 'group',
+              label: ' ',
+              admin: { hideGutter: true },
+              fields: [
+                // ── Catalogus & Winkel ──
+                {
+                  name: 'enableProducts',
+                  type: 'checkbox',
+                  label: 'Producten & Catalogus',
+                  defaultValue: true,
+                  admin: { description: 'Producten, categorieën en de webshop pagina' },
+                },
+                {
+                  name: 'enableBrands',
+                  type: 'checkbox',
+                  label: 'Merken',
+                  defaultValue: true,
+                  admin: { description: 'Merkenpagina en merkfilter in de shop' },
+                },
+                {
+                  name: 'enableBranches',
+                  type: 'checkbox',
+                  label: 'Vestigingen',
+                  defaultValue: false,
+                  admin: { description: 'Vestigingen / filialen met locatiegegevens' },
+                },
+                {
+                  name: 'enableRecentlyViewed',
+                  type: 'checkbox',
+                  label: 'Recent Bekeken',
+                  defaultValue: false,
+                  admin: { description: 'Toont recent bekeken producten aan klanten' },
+                },
+                {
+                  name: 'enableEditionNotifications',
+                  type: 'checkbox',
+                  label: 'Editie Notificaties',
+                  defaultValue: false,
+                  admin: { description: 'Klanten ontvangen notificatie bij nieuwe product edities' },
+                },
+
+                // ── Reviews & Verlanglijst ──
+                {
+                  name: 'enableReviews',
+                  type: 'checkbox',
+                  label: 'Product Reviews',
+                  defaultValue: false,
+                  admin: { description: 'Klanten kunnen producten reviewen en beoordelen' },
+                },
+                {
+                  name: 'enableWishlist',
+                  type: 'checkbox',
+                  label: 'Verlanglijstje',
+                  defaultValue: false,
+                  admin: { description: 'Klanten kunnen een verlanglijstje bijhouden' },
+                },
+
+                // ── Checkout & Bestellingen ──
+                {
+                  name: 'enableOrders',
+                  type: 'checkbox',
+                  label: 'Bestellingen',
+                  defaultValue: true,
+                  admin: { description: 'Bestellingen, checkout en orderoverzicht' },
+                },
+                {
+                  name: 'enableInvoices',
+                  type: 'checkbox',
+                  label: 'Facturen',
+                  defaultValue: true,
+                  admin: { description: 'Automatische factuurgeneratie (PDF)' },
+                },
+                {
+                  name: 'enableReturns',
+                  type: 'checkbox',
+                  label: 'Retouren',
+                  defaultValue: false,
+                  admin: { description: 'Klanten kunnen retourverzoeken indienen' },
+                },
+                {
+                  name: 'enablePromotions',
+                  type: 'checkbox',
+                  label: 'Promoties & Kortingscodes',
+                  defaultValue: true,
+                  admin: { description: 'Kortingscodes, automatische kortingen en promotieacties' },
+                },
+
+                // ── Mijn Account ──
+                {
+                  name: 'enableQuickOrder',
+                  type: 'checkbox',
+                  label: 'Quick Order',
+                  defaultValue: false,
+                  admin: { description: 'Bulkbestelling op basis van artikelnummers' },
+                },
+                {
+                  name: 'enableOrderLists',
+                  type: 'checkbox',
+                  label: 'Bestellijsten',
+                  defaultValue: false,
+                  admin: { description: 'Klanten kunnen favorieten lijsten maken' },
+                },
+                {
+                  name: 'enableRecurringOrders',
+                  type: 'checkbox',
+                  label: 'Herhalingsbestellingen',
+                  defaultValue: false,
+                  admin: { description: 'Klanten kunnen bestellingen automatisch laten herhalen' },
+                },
+                {
+                  name: 'enableNotifications',
+                  type: 'checkbox',
+                  label: 'Notificaties',
+                  defaultValue: false,
+                  admin: { description: 'In-app notificaties voor klanten' },
+                },
+
+                // ── Loyalty & Abonnementen ──
+                {
+                  name: 'enableLoyalty',
+                  type: 'checkbox',
+                  label: 'Loyaliteitsprogramma',
+                  defaultValue: false,
+                  admin: { description: 'Punten, tiers, beloningen en transacties' },
+                },
+                {
+                  name: 'enableSubscriptions',
+                  type: 'checkbox',
+                  label: 'Abonnementen',
+                  defaultValue: false,
+                  admin: { description: 'Abonnementsplannen, klantabonnementen en betaalmethoden' },
+                },
+                {
+                  name: 'enableGiftVouchers',
+                  type: 'checkbox',
+                  label: 'Cadeaubonnen',
+                  defaultValue: false,
+                  admin: { description: 'Digitale cadeaubonnen verkopen en inwisselen' },
+                },
+                {
+                  name: 'enableLicenses',
+                  type: 'checkbox',
+                  label: 'Licenties',
+                  defaultValue: false,
+                  admin: { description: 'Softwarelicenties, activaties en licentiebeheer' },
+                },
+
+                // ── B2B ──
+                {
+                  name: 'enableCustomerGroups',
+                  type: 'checkbox',
+                  label: 'Klantgroepen & Groepsprijzen',
+                  defaultValue: false,
+                  admin: { description: 'Klantgroepen met specifieke prijzen en kortingen' },
+                },
+                {
+                  name: 'enableCompanyAccounts',
+                  type: 'checkbox',
+                  label: 'Bedrijfsaccounts',
+                  defaultValue: false,
+                  admin: { description: 'Bedrijfsaccounts met uitnodigingen en teamleden' },
+                },
+                {
+                  name: 'enableApprovalWorkflow',
+                  type: 'checkbox',
+                  label: 'Goedkeuringsworkflow',
+                  defaultValue: false,
+                  admin: { description: 'Bestellingen moeten goedgekeurd worden door manager' },
+                },
+                {
+                  name: 'enableQuotes',
+                  type: 'checkbox',
+                  label: 'Offertes',
+                  defaultValue: false,
+                  admin: { description: 'Klanten kunnen offertes aanvragen' },
+                },
+
+                // ── Marktplaats ──
+                {
+                  name: 'enableVendors',
+                  type: 'checkbox',
+                  label: 'Vendors (Marktplaats)',
+                  defaultValue: false,
+                  admin: { description: 'Multi-vendor marktplaats met eigen producten per vendor' },
+                },
+                {
+                  name: 'enableVendorReviews',
+                  type: 'checkbox',
+                  label: 'Vendor Reviews',
+                  defaultValue: false,
+                  admin: { description: 'Klanten kunnen vendors beoordelen' },
+                },
+                {
+                  name: 'enableWorkshops',
+                  type: 'checkbox',
+                  label: 'Workshops',
+                  defaultValue: false,
+                  admin: { description: 'Workshops en evenementen van vendors' },
+                },
+
+                // ── Content & Publicaties ──
+                {
+                  name: 'enableBlog',
+                  type: 'checkbox',
+                  label: 'Blog',
+                  defaultValue: true,
+                  admin: { description: 'Blog posts en blog categorieën' },
+                },
+                {
+                  name: 'enableTestimonials',
+                  type: 'checkbox',
+                  label: 'Testimonials',
+                  defaultValue: true,
+                  admin: { description: 'Klantbeoordelingen en referenties' },
+                },
+                {
+                  name: 'enableCases',
+                  type: 'checkbox',
+                  label: 'Cases / Portfolio',
+                  defaultValue: false,
+                  admin: { description: 'Portfolio items en case studies' },
+                },
+                {
+                  name: 'enablePartners',
+                  type: 'checkbox',
+                  label: 'Partners',
+                  defaultValue: false,
+                  admin: { description: 'Partnerbedrijven en samenwerkingen' },
+                },
+                {
+                  name: 'enableServices',
+                  type: 'checkbox',
+                  label: 'Diensten',
+                  defaultValue: false,
+                  admin: { description: 'Diensten en services overzicht' },
+                },
+                {
+                  name: 'enableMagazines',
+                  type: 'checkbox',
+                  label: 'Magazines & Publicaties',
+                  defaultValue: false,
+                  admin: { description: 'Digitale magazines, edities en digital library' },
+                },
+
+                // ── Branche-specifiek ──
+                {
+                  name: 'enableExperiences',
+                  type: 'checkbox',
+                  label: 'Ervaringen',
+                  defaultValue: false,
+                  admin: { description: 'Ervaringen, categorieën en reviews (Tourism/Hospitality)' },
+                },
+                {
+                  name: 'enableConstruction',
+                  type: 'checkbox',
+                  label: 'Bouw',
+                  defaultValue: false,
+                  admin: { description: 'Bouwdiensten, projecten, reviews en offerteaanvragen' },
+                },
+                {
+                  name: 'enableHospitality',
+                  type: 'checkbox',
+                  label: 'Zorg / Welzijn',
+                  defaultValue: false,
+                  admin: { description: 'Behandelingen, praktijkhouders en afspraken' },
+                },
+                {
+                  name: 'enableBeauty',
+                  type: 'checkbox',
+                  label: 'Beauty / Salon',
+                  defaultValue: false,
+                  admin: { description: 'Salonservices, stylisten en boekingen' },
+                },
+                {
+                  name: 'enableHoreca',
+                  type: 'checkbox',
+                  label: 'Horeca',
+                  defaultValue: false,
+                  admin: { description: 'Menu items, reserveringen en evenementen' },
+                },
+
+                // ── Geavanceerd ──
+                {
+                  name: 'enableAbTesting',
+                  type: 'checkbox',
+                  label: 'A/B Testing',
+                  defaultValue: false,
+                  admin: { description: 'A/B testen van pagina varianten' },
+                },
+                {
+                  name: 'enablePushNotifications',
+                  type: 'checkbox',
+                  label: 'Push Notificaties',
+                  defaultValue: false,
+                  admin: { description: 'Web push notificaties (PWA)' },
+                },
+                {
+                  name: 'enableStockNotifications',
+                  type: 'checkbox',
+                  label: 'Voorraad Notificaties',
+                  defaultValue: false,
+                  admin: { description: 'Klanten krijgen bericht als product weer op voorraad is' },
+                },
+              ],
+            },
+          ],
+        },
+
         // ─── TAB 1: ALGEMEEN (uit Settings.ts E-commerce + Functies tabs) ────
         ...featureTab('shop', {
           label: 'Algemeen',
@@ -163,54 +478,18 @@ export const EcommerceSettings: GlobalConfig = {
                 description: 'Volledige retourbeleid tekst',
               },
             },
-            // Feature toggles (uit Settings.ts Functies tab)
+            // Legacy feature toggles — beheerd via Feature Toggles tab
             {
               name: 'features',
               type: 'group',
               label: 'Feature Toggles',
+              admin: { hidden: true },
               fields: [
-                {
-                  name: 'enableQuickOrder',
-                  type: 'checkbox',
-                  label: 'Quick Order Functie',
-                  defaultValue: true,
-                  admin: {
-                    description: 'Bulkbestelling op basis van artikelnummers',
-                  },
-                },
-                {
-                  name: 'enableOrderLists',
-                  type: 'checkbox',
-                  label: 'Bestellijsten',
-                  defaultValue: true,
-                  admin: {
-                    description: 'Klanten kunnen favorieten lijsten maken',
-                  },
-                },
-                {
-                  name: 'enableReviews',
-                  type: 'checkbox',
-                  label: 'Product Reviews',
-                  defaultValue: false,
-                  admin: {
-                    description: 'Klanten kunnen producten reviewen',
-                  },
-                },
-                {
-                  name: 'enableWishlist',
-                  type: 'checkbox',
-                  label: 'Verlanglijstje',
-                  defaultValue: true,
-                },
-                {
-                  name: 'enableStockNotifications',
-                  type: 'checkbox',
-                  label: 'Voorraad Notificaties',
-                  defaultValue: false,
-                  admin: {
-                    description: 'Klanten krijgen bericht als product weer op voorraad is',
-                  },
-                },
+                { name: 'enableQuickOrder', type: 'checkbox', defaultValue: true },
+                { name: 'enableOrderLists', type: 'checkbox', defaultValue: false },
+                { name: 'enableReviews', type: 'checkbox', defaultValue: false },
+                { name: 'enableWishlist', type: 'checkbox', defaultValue: false },
+                { name: 'enableStockNotifications', type: 'checkbox', defaultValue: false },
               ],
             },
           ],
