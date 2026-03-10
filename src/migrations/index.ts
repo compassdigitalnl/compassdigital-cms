@@ -31,6 +31,7 @@ import * as migration_20260310_220000_rename_configurator_tables from './2026031
 import * as migration_20260311_100000_add_wishlists from './20260311_100000_add_wishlists';
 import * as migration_20260311_110000_add_product_reviews from './20260311_110000_add_product_reviews';
 import * as migration_20260311_120000_add_content_approvals from './20260311_120000_add_content_approvals';
+import * as migration_20260311_200000_add_experiences_branch from './20260311_200000_add_experiences_branch';
 
 export const migrations = [
   {
@@ -196,6 +197,11 @@ export const migrations = [
   {
     up: migration_20260311_120000_add_content_approvals.up,
     down: migration_20260311_120000_add_content_approvals.down,
-    name: '20260311_120000_add_content_approvals',
+    name: '20260311_120000_add_content_approvals'
+  },
+  {
+    up: migration_20260311_200000_add_experiences_branch.up,
+    down: migration_20260311_200000_add_experiences_branch.down,
+    name: '20260311_200000_add_experiences_branch',
   },
 ];
