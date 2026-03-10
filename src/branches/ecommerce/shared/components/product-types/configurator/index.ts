@@ -20,6 +20,7 @@ export { ConfiguratorOptionGrid } from './ConfiguratorOptionGrid'
 export { ConfiguratorNavigation } from './ConfiguratorNavigation'
 export { ConfiguratorValidation } from './ConfiguratorValidation'
 export { ConfiguratorReview } from './ConfiguratorReview'
+export { ConfiguratorContainer } from './ConfiguratorContainer'
 
 // Type exports
 export type {

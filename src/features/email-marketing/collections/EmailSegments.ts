@@ -79,7 +79,9 @@ export const EmailSegments: CollectionConfig = {
       required: true,
       label: 'Voorwaarden',
       admin: {
-        description: 'Segmentatieregels (JSON definitie van groepen en voorwaarden)',
+        components: {
+          Field: '@/features/email-marketing/components/admin/SegmentConditionsField#SegmentConditionsField',
+        },
       },
     },
     {

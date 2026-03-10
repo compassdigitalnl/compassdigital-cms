@@ -19,6 +19,11 @@ export const EmailSubscribers: CollectionConfig = {
     useAsTitle: 'email',
     defaultColumns: ['email', 'name', 'status', 'lists', 'updatedAt'],
     description: 'Beheer e-mail abonnees en nieuwsbrieflijsten',
+    components: {
+      beforeListTable: [
+        '@/features/email-marketing/components/admin/SubscriberListActions#SubscriberListActions',
+      ],
+    },
   },
   access: {
     // Tenant isolation: users can only access their tenant's subscribers

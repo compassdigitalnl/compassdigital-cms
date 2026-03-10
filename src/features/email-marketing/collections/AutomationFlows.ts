@@ -19,6 +19,11 @@ export const AutomationFlows: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'status', 'updatedAt'],
     description: 'Maak automatische e-mail reeksen (bijv. welkomstmail serie)',
+    components: {
+      edit: {
+        Description: '@/features/email-marketing/components/admin/FlowEditBanner#FlowEditBanner',
+      },
+    },
   },
   access: {
     // Tenant isolation (only in multi-tenant/platform mode)

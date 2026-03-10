@@ -11,6 +11,7 @@ const StaffelCalculator = dynamic(
   { ssr: false }
 )
 import { VariantSelector } from '@/branches/ecommerce/shared/components/VariantSelector'
+import { ConfiguratorContainer } from '@/branches/ecommerce/shared/components/product-types/configurator/ConfiguratorContainer'
 import { SubscriptionPricingTable } from '@/branches/ecommerce/shared/components/SubscriptionPricingTable'
 import { RelatedProductsSection } from '@/branches/ecommerce/shared/components/RelatedProductsSection'
 import { RichText } from '@/branches/shared/components/common/RichText'
@@ -90,6 +91,7 @@ export default function ProductTemplate1({ product, parentGroupedProduct, defaul
   const isVariable = product.productType === 'variable'
   const isSubscription = (product as any).isSubscription === true && isVariable
   const isMixMatch = (product.productType as string) === 'mixAndMatch'
+  const isConfigurator = (product.productType as string) === 'configurator'
 
   const childProducts =
     isGrouped && product.childProducts
@@ -642,6 +644,13 @@ export default function ProductTemplate1({ product, parentGroupedProduct, defaul
               </div>
             )}
 
+            {/* CONFIGURATOR PRODUCTS - Step-by-step configurator */}
+            {isConfigurator && features.configuratorProducts && (
+              <div className="mb-6">
+                <ConfiguratorContainer product={product} />
+              </div>
+            )}
+
             {/* SUBSCRIPTION PRODUCTS - Pricing Table */}
             {isSubscription && features.subscriptions && (
               <div className="mb-6">
@@ -921,6 +930,13 @@ export default function ProductTemplate1({ product, parentGroupedProduct, defaul
                 </div>
               </div>
               <Truck className="w-4 h-4 text-[var(--color-success-dark)]" />
+            </div>
+          )}
+
+          {/* CONFIGURATOR PRODUCTS (Mobile) */}
+          {isConfigurator && features.configuratorProducts && (
+            <div className="mb-5">
+              <ConfiguratorContainer product={product} />
             </div>
           )}
 
