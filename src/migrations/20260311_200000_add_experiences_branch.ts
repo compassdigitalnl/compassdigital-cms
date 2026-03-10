@@ -322,6 +322,27 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
     ALTER TABLE products ADD COLUMN IF NOT EXISTS review_average numeric DEFAULT 0;
   `)
 
+  // Rels columns for pages, pages versions, locked documents, and preferences
+  const relsCollections = [
+    'experiences_id',
+    'experience_categories_id',
+    'experience_reviews_id',
+    'wishlists_id',
+    'product_reviews_id',
+    'content_approvals_id',
+  ]
+  const relsTables = [
+    'pages_rels',
+    '_pages_v_rels',
+    'payload_locked_documents_rels',
+    'payload_preferences_rels',
+  ]
+  for (const table of relsTables) {
+    for (const col of relsCollections) {
+      await db.query(`ALTER TABLE ${table} ADD COLUMN IF NOT EXISTS ${col} integer`)
+    }
+  }
+
   payload.logger.info('Migration: experiences branch tables created')
 }
 
