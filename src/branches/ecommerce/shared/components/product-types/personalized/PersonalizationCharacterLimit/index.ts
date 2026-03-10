@@ -4,4 +4,4 @@
  */
 
 export { PersonalizationCharacterLimit } from './Component'
-export type { PersonalizationCharacterLimitProps } from '@/branches/ecommerce/shared/lib/product-types'
+export type { PersonalizationCharacterLimitProps } from './types'

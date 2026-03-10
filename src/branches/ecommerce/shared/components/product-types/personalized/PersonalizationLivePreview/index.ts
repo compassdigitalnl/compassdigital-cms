@@ -4,4 +4,4 @@
  */
 
 export { PersonalizationLivePreview } from './Component'
-export type { PersonalizationLivePreviewProps } from '@/branches/ecommerce/shared/lib/product-types'
+export type { PersonalizationLivePreviewProps } from './types'

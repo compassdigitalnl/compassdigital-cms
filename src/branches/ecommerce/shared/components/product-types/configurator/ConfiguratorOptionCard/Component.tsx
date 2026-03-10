@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { Check, Star } from 'lucide-react'
 import Image from 'next/image'
-import type { ConfiguratorOptionCardProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { ConfiguratorOptionCardProps } from './types'
 import type { Media } from '@/payload-types'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 

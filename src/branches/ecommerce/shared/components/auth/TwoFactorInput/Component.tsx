@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import type { TwoFactorInputProps } from './types'
+export type { TwoFactorInputProps } from './types'
 
 /**
  * TwoFactorInput - 6-digit code input for 2FA verification during login.
@@ -8,13 +10,6 @@ import { useState, useRef, useEffect } from 'react'
  * Shows 6 individual digit boxes, auto-focuses next on input,
  * supports paste, and has a backup code toggle.
  */
-
-export interface TwoFactorInputProps {
-  onSubmit: (code: string, isBackupCode: boolean) => Promise<void>
-  onCancel?: () => void
-  email: string
-  className?: string
-}
 
 export function TwoFactorInput({
   onSubmit,

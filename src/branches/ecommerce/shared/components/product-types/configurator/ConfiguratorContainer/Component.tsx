@@ -15,12 +15,12 @@ import type {
   ConfiguratorOption,
   ConfiguratorSelection,
 } from '@/branches/ecommerce/shared/lib/product-types'
-import type { Product } from '@/payload-types'
-
-interface ConfiguratorContainerProps {
-  product: Product
-  className?: string
-}
+import type {
+  ConfiguratorContainerProps,
+  ConfiguratorConfig,
+  RawConfiguratorStep,
+  RawConfiguratorOption,
+} from './types'
 
 export function ConfiguratorContainer({ product, className = '' }: ConfiguratorContainerProps) {
   const { addItem } = useCart()
@@ -29,17 +29,17 @@ export function ConfiguratorContainer({ product, className = '' }: ConfiguratorC
 
   // Parse configurator steps from product data
   const steps: ConfiguratorStep[] = useMemo(() => {
-    const config = (product as any).configuratorConfig
+    const config = (product as unknown as { configuratorConfig?: ConfiguratorConfig }).configuratorConfig
     const rawSteps = config?.configuratorSteps
     if (!Array.isArray(rawSteps) || rawSteps.length === 0) return []
 
-    return rawSteps.map((step: any, index: number) => ({
+    return rawSteps.map((step: RawConfiguratorStep, index: number) => ({
       stepNumber: index + 1,
       title: step.title || `Stap ${index + 1}`,
       description: step.description || null,
       required: step.required !== false,
       options: Array.isArray(step.options)
-        ? step.options.map((opt: any) => ({
+        ? step.options.map((opt: RawConfiguratorOption) => ({
             name: opt.name || '',
             description: opt.description || null,
             price: Number(opt.price) || 0,
@@ -135,7 +135,7 @@ export function ConfiguratorContainer({ product, className = '' }: ConfiguratorC
         totalPrice,
         summary: configSummary,
       },
-    } as any)
+    } as Parameters<typeof addItem>[0])
 
     showToast({
       product,

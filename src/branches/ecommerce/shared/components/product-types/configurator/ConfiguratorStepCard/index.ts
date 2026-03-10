@@ -4,4 +4,4 @@
  */
 
 export { ConfiguratorStepCard } from './Component'
-export type { ConfiguratorStepCardProps } from '@/branches/ecommerce/shared/lib/product-types'
+export type { ConfiguratorStepCardProps } from './types'

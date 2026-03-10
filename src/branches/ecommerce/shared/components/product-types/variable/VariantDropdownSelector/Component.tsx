@@ -6,7 +6,7 @@
  */
 
 import React from 'react'
-import type { VariantDropdownSelectorProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { VariantDropdownSelectorProps } from './types'
 import { cn } from '@/utilities/cn'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 

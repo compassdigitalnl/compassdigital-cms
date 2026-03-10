@@ -4,28 +4,8 @@ import React from 'react'
 import * as LucideIcons from 'lucide-react'
 import { Button } from '@/branches/shared/components/ui/button'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
-
-export interface Badge {
-  label: string
-  variant: 'popular' | 'personal' | 'gift'
-  icon?: keyof typeof LucideIcons
-}
-
-export interface SubscriptionProductRowProps {
-  id: string
-  icon?: string
-  emoji?: string
-  title?: string
-  badges?: Badge[]
-  editionCount?: number
-  frequency?: string
-  pricePerMonth?: number
-  totalPrice?: number
-  savingsPercent?: number
-  onSubscribe?: (id: string) => void
-  onLearnMore?: (id: string) => void
-  className?: string
-}
+import type { SubscriptionProductRowProps } from './types'
+export type { Badge, SubscriptionProductRowProps } from './types'
 
 export const SubscriptionProductRow: React.FC<SubscriptionProductRowProps> = ({
   id,

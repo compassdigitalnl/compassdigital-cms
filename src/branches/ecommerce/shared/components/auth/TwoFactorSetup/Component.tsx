@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import type { TwoFactorSetupProps } from './types'
+export type { TwoFactorSetupProps } from './types'
 
 /**
  * TwoFactorSetup - Complete 2FA setup flow for account settings.
@@ -10,12 +12,6 @@ import { useState } from 'react'
  * 2. Verify first TOTP code
  * 3. Show backup codes (one-time display)
  */
-
-export interface TwoFactorSetupProps {
-  onComplete?: () => void
-  onCancel?: () => void
-  className?: string
-}
 
 type Step = 'idle' | 'scanning' | 'verifying' | 'complete'
 

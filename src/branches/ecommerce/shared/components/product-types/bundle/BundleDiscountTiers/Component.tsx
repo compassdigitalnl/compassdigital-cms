@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Check, Lock, TrendingUp } from 'lucide-react'
-import type { BundleDiscountTiersProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { BundleDiscountTiersProps } from './types'
 
 /**
  * BB04: BundleDiscountTiers

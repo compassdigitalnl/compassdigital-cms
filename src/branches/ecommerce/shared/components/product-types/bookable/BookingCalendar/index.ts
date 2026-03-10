@@ -1,2 +1,3 @@
-export { BookingCalendar, type BookingCalendarProps, type DayAvailability } from './Component'
+export { BookingCalendar } from './Component'
 export { BookingCalendar as default } from './Component'
+export type { BookingCalendarProps, DayAvailability } from './types'

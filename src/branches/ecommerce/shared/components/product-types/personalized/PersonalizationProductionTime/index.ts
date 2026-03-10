@@ -4,4 +4,4 @@
  */
 
 export { PersonalizationProductionTime } from './Component'
-export type { PersonalizationProductionTimeProps } from '@/branches/ecommerce/shared/lib/product-types'
+export type { PersonalizationProductionTimeProps } from './types'

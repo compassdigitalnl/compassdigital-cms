@@ -2,18 +2,7 @@
 
 import React from 'react'
 import { AlertCircle, CheckCircle, XCircle, Clock } from 'lucide-react'
-
-export type AvailabilityStatus = 'available' | 'limited' | 'full' | 'unavailable'
-
-export interface BookingAvailabilityStatusProps {
-  status: AvailabilityStatus
-  spotsLeft?: number
-  totalSpots?: number
-  message?: string
-  showIcon?: boolean
-  variant?: 'inline' | 'badge' | 'banner'
-  className?: string
-}
+import type { BookingAvailabilityStatusProps } from './types'
 
 export const BookingAvailabilityStatus: React.FC<BookingAvailabilityStatusProps> = ({
   status,

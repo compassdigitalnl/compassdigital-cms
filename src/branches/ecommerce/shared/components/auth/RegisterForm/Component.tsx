@@ -5,12 +5,14 @@ import dynamic from 'next/dynamic'
 import { FormInput } from '../FormInput'
 import { OAuthButtons } from '../OAuthButtons'
 import { PasswordStrengthMeter } from '../PasswordStrengthMeter'
+import type { OAuthProvider } from '../OAuthButtons/types'
+import type { RegisterFormData, RegisterFormProps } from './types'
+export type { RegisterFormData, RegisterFormProps } from './types'
 
 const B2BNotice = dynamic(
   () => import('@/branches/ecommerce/b2b/components/auth/B2BNotice').then(m => ({ default: m.B2BNotice })),
   { ssr: false }
 )
-import type { OAuthProvider } from '../OAuthButtons'
 
 /**
  * RegisterForm - B2B registration form with KVK validation
@@ -36,33 +38,6 @@ import type { OAuthProvider } from '../OAuthButtons'
  *   onOAuthRegister={(provider) => handleOAuth(provider)}
  * />
  */
-
-export interface RegisterFormData {
-  firstName: string
-  lastName: string
-  organization: string
-  kvkNumber?: string
-  email: string
-  phone?: string
-  password: string
-  acceptTerms: boolean
-}
-
-export interface RegisterFormProps {
-  onSubmit: (data: RegisterFormData) => Promise<void>
-  onOAuthRegister?: (provider: OAuthProvider) => void
-  onLoginClick?: () => void
-  onTermsClick?: () => void
-  title?: string
-  subtitle?: string
-  showOAuth?: boolean
-  oauthProviders?: OAuthProvider[]
-  showB2BNotice?: boolean
-  b2bNoticeVariant?: 'info' | 'pending' | 'approved'
-  loginLinkText?: string
-  requireKvk?: boolean
-  className?: string
-}
 
 export function RegisterForm({
   onSubmit,

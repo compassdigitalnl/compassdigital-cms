@@ -24,13 +24,8 @@
  */
 
 import { AuthBrandingPanel } from '../AuthBrandingPanel'
-
-export interface AuthLayoutProps {
-  children: React.ReactNode // Form content (right panel)
-  brandingContent?: React.ReactNode // Custom branding (optional, replaces default)
-  hideBranding?: boolean // Force hide branding panel
-  className?: string
-}
+import type { AuthLayoutProps } from './types'
+export type { AuthLayoutProps } from './types'
 
 export function AuthLayout({
   children,

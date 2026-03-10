@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { Clock, Calendar, Zap } from 'lucide-react'
-import type { PersonalizationProductionTimeProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { PersonalizationProductionTimeProps } from './types'
 
 /**
  * PP08: PersonalizationProductionTime

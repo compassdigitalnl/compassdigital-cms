@@ -1,5 +1,8 @@
 'use client'
 
+import type { B2BNoticeProps, B2BNoticeVariant } from './types'
+export type { B2BNoticeProps } from './types'
+
 /**
  * B2BNotice - B2B account approval information banner
  *
@@ -21,14 +24,7 @@
  * />
  */
 
-export interface B2BNoticeProps {
-  variant?: 'pending' | 'approved' | 'info'
-  message?: string // Custom message (overrides default)
-  icon?: string // Custom icon (overrides default)
-  className?: string
-}
-
-const variants = {
+const variants: Record<NonNullable<B2BNoticeProps['variant']>, B2BNoticeVariant> = {
   pending: {
     icon: '🏥',
     message:

@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { Check, Minus, Plus } from 'lucide-react'
 import Image from 'next/image'
-import type { VariantRowCompactProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { VariantRowCompactProps } from './types'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
 /**

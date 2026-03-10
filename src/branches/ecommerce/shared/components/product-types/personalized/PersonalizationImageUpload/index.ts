@@ -4,4 +4,4 @@
  */
 
 export { PersonalizationImageUpload } from './Component'
-export type { PersonalizationImageUploadProps } from '@/branches/ecommerce/shared/lib/product-types'
+export type { PersonalizationImageUploadProps } from './types'

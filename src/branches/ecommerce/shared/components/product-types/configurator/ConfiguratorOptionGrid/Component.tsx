@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { ConfiguratorOptionCard } from '../ConfiguratorOptionCard'
-import type { ConfiguratorOptionGridProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { ConfiguratorOptionGridProps } from './types'
 
 /**
  * PC04: ConfiguratorOptionGrid

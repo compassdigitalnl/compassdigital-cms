@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react'
-import type { VariantAvailabilityCalendarProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { VariantAvailabilityCalendarProps } from './types'
 import { cn } from '@/utilities/cn'
 
 export function VariantAvailabilityCalendar({

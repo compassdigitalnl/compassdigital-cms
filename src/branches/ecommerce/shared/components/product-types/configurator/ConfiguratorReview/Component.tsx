@@ -3,7 +3,7 @@
 import React from 'react'
 import { Edit2, Check, ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
-import type { ConfiguratorReviewProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { ConfiguratorReviewProps } from './types'
 import type { Media } from '@/payload-types'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 

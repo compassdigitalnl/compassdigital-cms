@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Calculator, TrendingDown } from 'lucide-react'
-import type { BundleTotalCalculatorProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { BundleTotalCalculatorProps } from './types'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
 /**

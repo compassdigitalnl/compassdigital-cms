@@ -3,7 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { Check, Package, Tag } from 'lucide-react'
-import type { BundleProductCardProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { BundleProductCardProps } from './types'
 import type { Product, Media } from '@/payload-types'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 

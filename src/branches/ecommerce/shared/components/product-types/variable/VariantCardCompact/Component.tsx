@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { Check, Minus, Plus } from 'lucide-react'
-import type { VariantCardCompactProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { VariantCardCompactProps } from './types'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
 /**

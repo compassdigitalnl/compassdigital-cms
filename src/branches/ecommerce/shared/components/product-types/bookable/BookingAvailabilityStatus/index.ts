@@ -1,2 +1,3 @@
-export { BookingAvailabilityStatus, type BookingAvailabilityStatusProps, type AvailabilityStatus } from './Component'
+export { BookingAvailabilityStatus } from './Component'
 export { BookingAvailabilityStatus as default } from './Component'
+export type { BookingAvailabilityStatusProps, AvailabilityStatus } from './types'

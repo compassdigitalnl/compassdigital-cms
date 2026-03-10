@@ -4,4 +4,4 @@
  */
 
 export { ConfiguratorReview } from './Component'
-export type { ConfiguratorReviewProps } from '@/branches/ecommerce/shared/lib/product-types'
+export type { ConfiguratorReviewProps } from './types'

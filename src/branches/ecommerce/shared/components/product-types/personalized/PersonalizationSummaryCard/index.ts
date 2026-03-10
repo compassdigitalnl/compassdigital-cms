@@ -4,4 +4,4 @@
  */
 
 export { PersonalizationSummaryCard } from './Component'
-export type { PersonalizationSummaryCardProps } from '@/branches/ecommerce/shared/lib/product-types'
+export type { PersonalizationSummaryCardProps } from './types'

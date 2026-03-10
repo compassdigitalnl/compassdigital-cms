@@ -2,21 +2,8 @@
 
 import React from 'react'
 import * as LucideIcons from 'lucide-react'
-
-export interface FilterTab {
-  id: string
-  label: string
-  icon?: keyof typeof LucideIcons
-  count?: number
-}
-
-export interface SubscriptionFilterTabsProps {
-  tabs: FilterTab[]
-  activeId: string
-  onChange: (tabId: string) => void
-  showCounts?: boolean
-  className?: string
-}
+import type { SubscriptionFilterTabsProps } from './types'
+export type { FilterTab, SubscriptionFilterTabsProps } from './types'
 
 export const SubscriptionFilterTabs: React.FC<SubscriptionFilterTabsProps> = ({
   tabs,

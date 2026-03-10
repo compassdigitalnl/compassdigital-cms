@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { Search, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
+import type { KvkLookupProps, KvkResult, KvkApiResponse } from './types'
+export type { KvkResult, KvkLookupProps } from './types'
 
 /**
  * KvkLookup - KVK number lookup with auto-fill
@@ -12,22 +14,6 @@ import { Search, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
  *
  * Uses /api/kvk/lookup endpoint (to be connected to KVK API).
  */
-
-export interface KvkResult {
-  kvkNumber: string
-  companyName: string
-  street: string
-  houseNumber: string
-  postalCode: string
-  city: string
-  country: string
-}
-
-export interface KvkLookupProps {
-  onResult: (result: KvkResult) => void
-  onClear?: () => void
-  className?: string
-}
 
 export function KvkLookup({ onResult, onClear, className = '' }: KvkLookupProps) {
   const [kvkNumber, setKvkNumber] = useState('')
@@ -61,11 +47,11 @@ export function KvkLookup({ onResult, onClear, className = '' }: KvkLookupProps)
       const response = await fetch(`/api/kvk/lookup?kvk=${kvkNumber}`)
 
       if (!response.ok) {
-        const data = await response.json()
+        const data: KvkApiResponse = await response.json()
         throw new Error(data.message || data.error || 'KVK-nummer niet gevonden')
       }
 
-      const data = await response.json()
+      const data: KvkApiResponse = await response.json()
       const company = data.company
       const kvkResult: KvkResult = {
         kvkNumber: company?.kvkNumber || kvkNumber,

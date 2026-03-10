@@ -3,23 +3,7 @@
 import React from 'react'
 import { Package, Check } from 'lucide-react'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
-
-export interface AddOn {
-  id: string
-  label: string
-  description?: string
-  price: number
-  required?: boolean
-  selected: boolean
-  icon?: React.ReactNode
-}
-
-export interface AddOnSelectorProps {
-  addOns: AddOn[]
-  onChange: (addOnId: string, selected: boolean) => void
-  layout?: 'grid' | 'list'
-  className?: string
-}
+import type { AddOnSelectorProps } from './types'
 
 export const AddOnSelector: React.FC<AddOnSelectorProps> = ({
   addOns,

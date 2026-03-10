@@ -4,4 +4,4 @@
  */
 
 export { ConfiguratorOptionCard } from './Component'
-export type { ConfiguratorOptionCardProps } from '@/branches/ecommerce/shared/lib/product-types'
+export type { ConfiguratorOptionCardProps } from './types'

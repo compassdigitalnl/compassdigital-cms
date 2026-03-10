@@ -27,6 +27,8 @@
 import { useState } from 'react'
 import { Eye, EyeOff, Mail, Lock, Phone, User, Building, Hash } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import type { FormInputProps } from './types'
+export type { FormInputProps } from './types'
 
 // Icon mapping
 const iconMap: Record<string, LucideIcon> = {
@@ -36,28 +38,6 @@ const iconMap: Record<string, LucideIcon> = {
   user: User,
   building: Building,
   hash: Hash,
-}
-
-export interface FormInputProps {
-  type?: 'text' | 'email' | 'password' | 'tel' | 'number'
-  label?: string
-  placeholder?: string
-  value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
-  error?: string
-  helperText?: string
-  required?: boolean
-  disabled?: boolean
-  icon?: string // Lucide icon name
-  showPasswordToggle?: boolean // Auto-enabled for type="password"
-  autoComplete?: string
-  minLength?: number
-  maxLength?: number
-  pattern?: string
-  className?: string
-  id?: string
-  name?: string
 }
 
 export function FormInput({

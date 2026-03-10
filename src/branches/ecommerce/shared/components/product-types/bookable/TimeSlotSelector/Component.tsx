@@ -3,25 +3,7 @@
 import React from 'react'
 import { Clock } from 'lucide-react'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
-
-export interface TimeSlot {
-  id: string
-  time: string
-  available: boolean
-  price?: number
-  spotsLeft?: number
-  duration?: number // in minutes
-}
-
-export interface TimeSlotSelectorProps {
-  slots: TimeSlot[]
-  selectedSlotId?: string
-  onSlotSelect: (slotId: string) => void
-  showPrices?: boolean
-  showDuration?: boolean
-  layout?: 'grid' | 'list'
-  className?: string
-}
+import type { TimeSlotSelectorProps } from './types'
 
 export const TimeSlotSelector: React.FC<TimeSlotSelectorProps> = ({
   slots,

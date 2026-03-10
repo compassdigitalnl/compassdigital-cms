@@ -7,7 +7,7 @@
 
 import React from 'react'
 import Image from 'next/image'
-import type { VariantImageRadioProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { VariantImageRadioProps } from './types'
 import type { Media } from '@/payload-types'
 import { cn } from '@/utilities/cn'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'

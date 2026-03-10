@@ -4,4 +4,4 @@
  */
 
 export { PersonalizationColorPicker } from './Component'
-export type { PersonalizationColorPickerProps } from '@/branches/ecommerce/shared/lib/product-types'
+export type { PersonalizationColorPickerProps } from './types'

@@ -4,4 +4,4 @@
  */
 
 export { ConfiguratorStepIndicator } from './Component'
-export type { ConfiguratorStepIndicatorProps } from '@/branches/ecommerce/shared/lib/product-types'
+export type { ConfiguratorStepIndicatorProps } from './types'

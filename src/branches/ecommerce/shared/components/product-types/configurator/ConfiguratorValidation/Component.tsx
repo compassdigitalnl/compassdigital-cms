@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { AlertTriangle, AlertCircle, XCircle } from 'lucide-react'
-import type { ConfiguratorValidationProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { ConfiguratorValidationProps } from './types'
 
 /**
  * PC06: ConfiguratorValidation

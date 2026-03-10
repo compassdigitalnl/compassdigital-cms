@@ -6,7 +6,7 @@
  */
 
 import React from 'react'
-import type { VariantCheckboxAddonsProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { VariantCheckboxAddonsProps } from './types'
 import { cn } from '@/utilities/cn'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 

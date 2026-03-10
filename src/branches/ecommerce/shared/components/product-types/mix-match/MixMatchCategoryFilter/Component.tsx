@@ -2,22 +2,9 @@
 
 import React from 'react'
 import * as LucideIcons from 'lucide-react'
+import type { Category, MixMatchCategoryFilterProps } from './types'
 
-export interface Category {
-  id: string
-  label: string
-  icon?: keyof typeof LucideIcons
-  emoji?: string
-  count: number
-}
-
-export interface MixMatchCategoryFilterProps {
-  categories: Category[]
-  activeId: string
-  onChange: (categoryId: string) => void
-  showCounts?: boolean
-  className?: string
-}
+export type { Category, MixMatchCategoryFilterProps }
 
 export const MixMatchCategoryFilter: React.FC<MixMatchCategoryFilterProps> = ({
   categories,

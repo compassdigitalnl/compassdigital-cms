@@ -3,7 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { Minus, Plus, X, Package } from 'lucide-react'
-import type { BundleItemRowProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { BundleItemRowProps } from './types'
 import type { Product, Media } from '@/payload-types'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 

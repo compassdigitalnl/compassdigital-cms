@@ -29,13 +29,8 @@
 
 import { useMemo } from 'react'
 import { Check, X } from 'lucide-react'
-
-export interface PasswordStrengthMeterProps {
-  password: string
-  showRequirements?: boolean // Show requirements checklist
-  minLength?: number // Default: 8
-  className?: string
-}
+import type { PasswordStrengthMeterProps } from './types'
+export type { PasswordStrengthMeterProps } from './types'
 
 type StrengthLevel = 'weak' | 'medium' | 'strong' | null
 

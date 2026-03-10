@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { ZoomIn, ZoomOut, RotateCw } from 'lucide-react'
 import Image from 'next/image'
-import type { PersonalizationLivePreviewProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { PersonalizationLivePreviewProps } from './types'
 import type { Media } from '@/payload-types'
 
 /**

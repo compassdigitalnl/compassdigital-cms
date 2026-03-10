@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { ShoppingCart, X, Truck } from 'lucide-react'
-import type { VariantSelectionSidebarProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { VariantSelectionSidebarProps } from './types'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
 /**

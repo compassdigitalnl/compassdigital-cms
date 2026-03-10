@@ -1,26 +1,9 @@
 'use client'
 
 import React from 'react'
+import type { MixMatchProgressCounterProps } from './types'
 
-export interface MixMatchProgressCounterProps {
-  // Progress state
-  currentCount: number
-  maxCount: number
-
-  // Labels
-  label?: string
-  completedLabel?: string
-
-  // Display options
-  variant?: 'default' | 'compact'
-  showLabel?: boolean
-
-  // Styling
-  className?: string
-
-  // Callbacks
-  onChange?: (current: number, max: number) => void
-}
+export type { MixMatchProgressCounterProps }
 
 export const MixMatchProgressCounter: React.FC<MixMatchProgressCounterProps> = ({
   currentCount,

@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react'
 import { Upload, X, Image as ImageIcon } from 'lucide-react'
 import Image from 'next/image'
-import type { PersonalizationImageUploadProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { PersonalizationImageUploadProps } from './types'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
 /**

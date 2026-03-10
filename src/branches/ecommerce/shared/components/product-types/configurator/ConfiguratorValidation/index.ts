@@ -4,4 +4,4 @@
  */
 
 export { ConfiguratorValidation } from './Component'
-export type { ConfiguratorValidationProps } from '@/branches/ecommerce/shared/lib/product-types'
+export type { ConfiguratorValidationProps } from './types'

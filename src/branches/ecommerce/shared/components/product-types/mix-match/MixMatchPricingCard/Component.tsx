@@ -3,33 +3,12 @@
 import React from 'react'
 import { ShoppingCart } from 'lucide-react'
 import { Button } from '@/branches/shared/components/ui/button'
-import { MixMatchSelectionSummary, type SelectedItem } from '../MixMatchSelectionSummary'
+import { MixMatchSelectionSummary } from '../MixMatchSelectionSummary'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
+import type { MixMatchPricingCardProps } from './types'
 
-export interface MixMatchPricingCardProps {
-  // Box configuration
-  title?: string
-  totalSlots: number
-  filledSlots: number
-
-  // Selected items
-  selectedItems: SelectedItem[]
-
-  // Pricing
-  boxPrice: number
-  individualTotal?: number
-  savings?: number
-
-  // Callbacks
-  onRemoveItem?: (itemId: string) => void
-  onAddToCart?: () => void
-
-  // State
-  isAddingToCart?: boolean
-
-  // Styling
-  className?: string
-}
+export type { MixMatchPricingCardProps }
+export type { SelectedItem } from './types'
 
 export const MixMatchPricingCard: React.FC<MixMatchPricingCardProps> = ({
   title = 'Je Lunchbox',

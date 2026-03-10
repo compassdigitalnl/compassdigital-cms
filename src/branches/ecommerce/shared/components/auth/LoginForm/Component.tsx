@@ -3,8 +3,10 @@
 import { useState } from 'react'
 import { FormInput } from '../FormInput'
 import { OAuthButtons } from '../OAuthButtons'
-import type { OAuthProvider } from '../OAuthButtons'
+import type { OAuthProvider } from '../OAuthButtons/types'
 import { TwoFactorInput } from '../TwoFactorInput'
+import type { LoginFormData, LoginFormProps } from './types'
+export type { LoginFormData, LoginFormProps } from './types'
 
 /**
  * LoginForm - Complete login form with OAuth and email/password
@@ -28,25 +30,6 @@ import { TwoFactorInput } from '../TwoFactorInput'
  *   onOAuthLogin={(provider) => handleOAuth(provider)}
  * />
  */
-
-export interface LoginFormData {
-  email: string
-  password: string
-  rememberMe: boolean
-}
-
-export interface LoginFormProps {
-  onSubmit: (data: LoginFormData) => Promise<void>
-  onOAuthLogin?: (provider: OAuthProvider) => void
-  onForgotPassword?: () => void
-  onRegisterClick?: () => void
-  title?: string
-  subtitle?: string
-  showOAuth?: boolean
-  oauthProviders?: OAuthProvider[]
-  registerLinkText?: string
-  className?: string
-}
 
 export function LoginForm({
   onSubmit,

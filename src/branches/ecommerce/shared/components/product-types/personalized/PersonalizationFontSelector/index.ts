@@ -4,4 +4,4 @@
  */
 
 export { PersonalizationFontSelector } from './Component'
-export type { PersonalizationFontSelectorProps } from '@/branches/ecommerce/shared/lib/product-types'
+export type { PersonalizationFontSelectorProps } from './types'

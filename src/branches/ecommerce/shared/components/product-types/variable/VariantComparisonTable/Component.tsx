@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react'
-import type { VariantComparisonTableProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { VariantComparisonTableProps } from './types'
 import { cn } from '@/utilities/cn'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 

@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { ChevronLeft, ChevronRight, Save } from 'lucide-react'
-import type { ConfiguratorNavigationProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { ConfiguratorNavigationProps } from './types'
 
 /**
  * PC05: ConfiguratorNavigation

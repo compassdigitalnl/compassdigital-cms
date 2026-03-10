@@ -4,4 +4,4 @@
  */
 
 export { ConfiguratorNavigation } from './Component'
-export type { ConfiguratorNavigationProps } from '@/branches/ecommerce/shared/lib/product-types'
+export type { ConfiguratorNavigationProps } from './types'

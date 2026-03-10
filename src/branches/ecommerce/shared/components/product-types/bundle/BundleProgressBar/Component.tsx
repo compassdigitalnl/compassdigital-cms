@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Check } from 'lucide-react'
-import type { BundleProgressBarProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { BundleProgressBarProps } from './types'
 
 /**
  * BB06: BundleProgressBar

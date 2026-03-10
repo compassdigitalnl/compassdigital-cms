@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { Check } from 'lucide-react'
-import type { PersonalizationColorPickerProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { PersonalizationColorPickerProps } from './types'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
 /**

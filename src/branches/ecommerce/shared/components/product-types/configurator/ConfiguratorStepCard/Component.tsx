@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { CheckCircle, Circle, AlertCircle } from 'lucide-react'
-import type { ConfiguratorStepCardProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { ConfiguratorStepCardProps } from './types'
 
 /**
  * PC02: ConfiguratorStepCard

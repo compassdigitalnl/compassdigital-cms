@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react'
-import type { VariantStepByStepProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { VariantStepByStepProps, VariantValue } from './types'
 import { cn } from '@/utilities/cn'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
@@ -53,7 +53,7 @@ export function VariantStepByStep({
     }
   }
 
-  const handleSelect = (optionName: string, value: any) => {
+  const handleSelect = (optionName: string, value: VariantValue) => {
     onSelectionsChange({
       ...selectedValues,
       [optionName]: value,

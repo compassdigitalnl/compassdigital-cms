@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { FormInput } from '../FormInput'
 import { GuestInfoBox } from '../GuestInfoBox'
+import type { GuestCheckoutFormData, GuestCheckoutFormProps } from './types'
+export type { GuestCheckoutFormData, GuestCheckoutFormProps } from './types'
 
 /**
  * GuestCheckoutForm - Guest checkout form (no account required)
@@ -27,28 +29,6 @@ import { GuestInfoBox } from '../GuestInfoBox'
  *   onRegisterClick={() => switchToRegister()}
  * />
  */
-
-export interface GuestCheckoutFormData {
-  firstName: string
-  lastName: string
-  email: string
-  organization?: string
-  phone: string
-  acceptTerms: boolean
-}
-
-export interface GuestCheckoutFormProps {
-  onSubmit: (data: GuestCheckoutFormData) => Promise<void>
-  onRegisterClick?: () => void
-  onTermsClick?: () => void
-  onPrivacyClick?: () => void
-  title?: string
-  subtitle?: string
-  showInfoBox?: boolean
-  submitButtonText?: string
-  registerButtonText?: string
-  className?: string
-}
 
 export function GuestCheckoutForm({
   onSubmit,

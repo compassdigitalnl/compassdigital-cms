@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Package, ShoppingCart, TrendingDown } from 'lucide-react'
-import type { BundleOverviewCardProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { BundleOverviewCardProps } from './types'
 import type { Product } from '@/payload-types'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 

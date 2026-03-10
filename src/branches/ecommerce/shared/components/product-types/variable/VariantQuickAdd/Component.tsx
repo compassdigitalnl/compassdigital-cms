@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react'
-import type { VariantQuickAddProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { VariantQuickAddProps } from './types'
 import { cn } from '@/utilities/cn'
 
 export function VariantQuickAdd({

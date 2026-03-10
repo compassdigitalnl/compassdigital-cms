@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { AlertTriangle } from 'lucide-react'
-import type { PersonalizationCharacterLimitProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { PersonalizationCharacterLimitProps } from './types'
 
 /**
  * PP07: PersonalizationCharacterLimit

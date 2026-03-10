@@ -24,17 +24,8 @@
  */
 
 import { Shield, Lock, CheckCircle } from 'lucide-react'
-
-export interface TrustBadge {
-  icon: string | React.ReactNode // Emoji or Lucide icon
-  label: string
-}
-
-export interface TrustBadgesProps {
-  badges?: TrustBadge[]
-  variant?: 'horizontal' | 'vertical'
-  className?: string
-}
+import type { TrustBadge, TrustBadgesProps } from './types'
+export type { TrustBadge, TrustBadgesProps } from './types'
 
 const defaultBadges: TrustBadge[] = [
   { icon: <Lock className="w-3.5 h-3.5" />, label: 'SSL beveiligd' },

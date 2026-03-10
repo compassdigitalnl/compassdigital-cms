@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Grid, List, CheckSquare, Square } from 'lucide-react'
-import type { VariantToolbarProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { VariantToolbarProps } from './types'
 
 /**
  * VP11: VariantToolbar

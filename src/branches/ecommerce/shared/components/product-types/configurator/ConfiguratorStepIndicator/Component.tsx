@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Check } from 'lucide-react'
-import type { ConfiguratorStepIndicatorProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { ConfiguratorStepIndicatorProps } from './types'
 
 /**
  * PC01: ConfiguratorStepIndicator

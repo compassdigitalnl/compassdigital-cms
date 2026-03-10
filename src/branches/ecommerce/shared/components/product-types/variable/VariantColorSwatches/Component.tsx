@@ -6,7 +6,7 @@
  */
 
 import React from 'react'
-import type { VariantColorSwatchesProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { VariantColorSwatchesProps } from './types'
 import { cn } from '@/utilities/cn'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 

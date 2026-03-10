@@ -6,7 +6,7 @@
  */
 
 import React from 'react'
-import type { VariantBulkSelectorProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { VariantBulkSelectorProps, VariantCombination } from './types'
 import { cn } from '@/utilities/cn'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
@@ -41,7 +41,7 @@ export function VariantBulkSelector({
     }
 
     // For 2+ options, create combinations
-    const combinations: any[] = []
+    const combinations: VariantCombination[] = []
     const firstOption = options[0].values || []
     const secondOption = options[1]?.values || []
 

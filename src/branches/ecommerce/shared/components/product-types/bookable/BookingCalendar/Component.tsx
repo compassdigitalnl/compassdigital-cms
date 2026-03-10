@@ -3,24 +3,7 @@
 import React, { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '@/branches/shared/components/ui/button'
-
-export interface DayAvailability {
-  date: Date
-  available: boolean
-  price?: number
-  spotsLeft?: number
-}
-
-export interface BookingCalendarProps {
-  availableDates: DayAvailability[]
-  selectedDate?: Date
-  onDateSelect: (date: Date) => void
-  minDate?: Date
-  maxDate?: Date
-  showPrices?: boolean
-  highlightWeekends?: boolean
-  className?: string
-}
+import type { BookingCalendarProps, DayAvailability } from './types'
 
 export const BookingCalendar: React.FC<BookingCalendarProps> = ({
   availableDates,

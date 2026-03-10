@@ -4,4 +4,4 @@
  */
 
 export { ConfiguratorOptionGrid } from './Component'
-export type { ConfiguratorOptionGridProps } from '@/branches/ecommerce/shared/lib/product-types'
+export type { ConfiguratorOptionGridProps } from './types'

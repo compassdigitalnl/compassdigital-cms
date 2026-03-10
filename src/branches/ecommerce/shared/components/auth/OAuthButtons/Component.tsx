@@ -27,15 +27,8 @@
  * />
  */
 
-export type OAuthProvider = 'google' | 'facebook' | 'apple'
-
-export interface OAuthButtonsProps {
-  providers?: OAuthProvider[]
-  onProviderClick: (provider: OAuthProvider) => void
-  showDivider?: boolean
-  dividerText?: string
-  className?: string
-}
+import type { OAuthProvider, OAuthButtonsProps } from './types'
+export type { OAuthProvider, OAuthButtonsProps } from './types'
 
 const providerConfig: Record<
   OAuthProvider,

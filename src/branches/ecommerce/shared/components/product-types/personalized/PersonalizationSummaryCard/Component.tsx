@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Edit2, FileText, Type, Palette, Image as ImageIcon } from 'lucide-react'
-import type { PersonalizationSummaryCardProps } from '@/branches/ecommerce/shared/lib/product-types'
+import type { PersonalizationSummaryCardProps } from './types'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
 /**
@@ -52,7 +52,7 @@ export const PersonalizationSummaryCard: React.FC<PersonalizationSummaryCardProp
   }
 
   // Format value display
-  const formatValue = (value: any, fieldType: string): string => {
+  const formatValue = (value: string | File | null, fieldType: string): string => {
     if (!value) return 'Niet ingevuld'
     if (fieldType === 'image' && value instanceof File) {
       return value.name

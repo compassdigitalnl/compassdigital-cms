@@ -3,24 +3,7 @@
 import React from 'react'
 import { Users, Plus, Minus } from 'lucide-react'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
-
-export interface ParticipantCategory {
-  id: string
-  label: string
-  description?: string
-  price: number
-  minCount?: number
-  maxCount?: number
-  count: number
-}
-
-export interface ParticipantSelectorProps {
-  categories: ParticipantCategory[]
-  onChange: (categoryId: string, count: number) => void
-  totalCapacity?: number
-  showPrices?: boolean
-  className?: string
-}
+import type { ParticipantCategory, ParticipantSelectorProps } from './types'
 
 export const ParticipantSelector: React.FC<ParticipantSelectorProps> = ({
   categories,
