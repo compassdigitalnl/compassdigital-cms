@@ -442,6 +442,7 @@ const subscriptionFields: Field[] = !features.subscriptions ? [] : [
         type: 'array',
         label: 'Abonnement Plannen',
         required: true,
+        dbName: 'prod_sub_plans',
         admin: { description: 'De beschikbare abonnementsvormen' },
         fields: [
           {
@@ -453,6 +454,8 @@ const subscriptionFields: Field[] = !features.subscriptions ? [] : [
                 type: 'select',
                 required: true,
                 label: 'Interval',
+                dbName: 'prod_sub_plan_interval',
+                enumName: 'prod_sub_plan_interval',
                 options: [
                   { label: 'Dagelijks', value: 'day' },
                   { label: 'Wekelijks', value: 'week' },
@@ -478,6 +481,7 @@ const subscriptionFields: Field[] = !features.subscriptions ? [] : [
             name: 'features',
             type: 'array',
             label: 'Voordelen',
+            dbName: 'prod_sub_plan_features',
             admin: { description: 'Opsomming voordelen bij dit plan' },
             fields: [
               { name: 'feature', type: 'text', required: true, label: 'Voordeel' },
