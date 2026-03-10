@@ -27,6 +27,7 @@ import * as migration_20260310_180000_merge_loyalty_collections from './20260310
 import * as migration_20260310_190000_merge_discountcodes_into_promotions from './20260310_190000_merge_discountcodes_into_promotions';
 import * as migration_20260310_200000_remove_addresses_collection from './20260310_200000_remove_addresses_collection';
 import * as migration_20260310_210000_remove_faqs_collection from './20260310_210000_remove_faqs_collection';
+import * as migration_20260310_220000_rename_configurator_tables from './20260310_220000_rename_configurator_tables';
 
 export const migrations = [
   {
@@ -173,5 +174,10 @@ export const migrations = [
     up: migration_20260310_210000_remove_faqs_collection.up,
     down: migration_20260310_210000_remove_faqs_collection.down,
     name: '20260310_210000_remove_faqs_collection',
+  },
+  {
+    up: migration_20260310_220000_rename_configurator_tables.up,
+    down: migration_20260310_220000_rename_configurator_tables.down,
+    name: '20260310_220000_rename_configurator_tables',
   },
 ];

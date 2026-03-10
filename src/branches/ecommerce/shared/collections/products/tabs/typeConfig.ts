@@ -289,6 +289,7 @@ const configuratorFields: Field[] = !features.configuratorProducts ? [] : [
         type: 'array',
         label: 'Configuratie Stappen',
         required: true,
+        dbName: 'prod_cfg_steps',
         admin: { description: 'Definieer de stappen die de klant doorloopt' },
         fields: [
           {
@@ -304,6 +305,7 @@ const configuratorFields: Field[] = !features.configuratorProducts ? [] : [
             type: 'array',
             label: 'Opties',
             required: true,
+            dbName: 'prod_cfg_step_opts',
             fields: [
               {
                 type: 'row',
