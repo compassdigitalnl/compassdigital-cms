@@ -15,6 +15,7 @@ export const CookieConsents: CollectionConfig = {
     useAsTitle: 'sessionId',
     defaultColumns: ['sessionId', 'necessary', 'analytics', 'marketing', 'consentedAt'],
     group: 'Systeem',
+    hidden: true, // Compliance audit data — rarely accessed directly
     description: 'GDPR cookie consent log (read-only voor compliance - gebruik access control)',
   },
   access: {

@@ -15,6 +15,7 @@ export const Carts: CollectionConfig = {
     useAsTitle: 'id',
     defaultColumns: ['user', 'status', 'itemCount', 'total', 'updatedAt'],
     group: 'E-commerce',
+    hidden: true, // System data — managed by checkout flow, not directly by admins
   },
   access: {
     read: ({ req: { user } }) => {

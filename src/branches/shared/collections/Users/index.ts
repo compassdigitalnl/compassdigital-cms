@@ -716,6 +716,105 @@ export const Users: CollectionConfig = {
         },
 
         // ══════════════════════════════════════════════════════════════════════
+        // TAB: Loyaliteit (merged from LoyaltyPoints collection)
+        // ══════════════════════════════════════════════════════════════════════
+        {
+          label: 'Loyaliteit',
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'loyaltyAvailablePoints',
+                  type: 'number',
+                  label: 'Beschikbare Punten',
+                  defaultValue: 0,
+                  admin: {
+                    width: '33%',
+                    description: 'Huidig besteedbaar saldo',
+                  },
+                },
+                {
+                  name: 'loyaltyTotalEarned',
+                  type: 'number',
+                  label: 'Totaal Verdiend',
+                  defaultValue: 0,
+                  admin: {
+                    width: '33%',
+                    description: 'Lifetime verdiende punten (voor tier berekening)',
+                  },
+                },
+                {
+                  name: 'loyaltyTotalSpent',
+                  type: 'number',
+                  label: 'Totaal Besteed',
+                  defaultValue: 0,
+                  admin: {
+                    width: '33%',
+                    description: 'Lifetime ingewisselde punten',
+                  },
+                },
+              ],
+            },
+            {
+              name: 'loyaltyTier',
+              type: 'relationship',
+              relationTo: 'loyalty-tiers',
+              label: 'Huidige Tier',
+              hasMany: false,
+              admin: {
+                description: 'Berekend op basis van totaal verdiende punten',
+              },
+            },
+            {
+              name: 'referralCode',
+              type: 'text',
+              label: 'Referral Code',
+              unique: true,
+              admin: {
+                description: 'Unieke code om vrienden uit te nodigen',
+              },
+            },
+            {
+              name: 'loyaltyMemberSince',
+              type: 'date',
+              label: 'Lid Sinds',
+              admin: {
+                date: {
+                  pickerAppearance: 'dayOnly',
+                },
+              },
+            },
+            {
+              name: 'loyaltyStats',
+              type: 'group',
+              label: 'Loyalty Statistieken',
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'rewardsRedeemed',
+                      type: 'number',
+                      label: 'Beloningen Ingewisseld',
+                      defaultValue: 0,
+                      admin: { readOnly: true, width: '50%' },
+                    },
+                    {
+                      name: 'referrals',
+                      type: 'number',
+                      label: 'Succesvolle Referrals',
+                      defaultValue: 0,
+                      admin: { readOnly: true, width: '50%' },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+
+        // ══════════════════════════════════════════════════════════════════════
         // TAB: Beveiliging (2FA)
         // ══════════════════════════════════════════════════════════════════════
         {

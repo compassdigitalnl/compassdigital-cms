@@ -2,17 +2,23 @@ import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
 
+/**
+ * Loyalty Transactions Collection (merged with LoyaltyRedemptions)
+ *
+ * Tracks all loyalty activity: points earned, spent, and reward redemptions.
+ * When type = 'spent_reward', the redemption fields become active.
+ */
 export const LoyaltyTransactions: CollectionConfig = {
   slug: 'loyalty-transactions',
   labels: {
-    singular: 'Loyalty Transaction',
-    plural: 'Loyalty Transactions',
+    singular: 'Loyalty Transactie',
+    plural: 'Loyalty Transacties',
   },
   admin: {
-    useAsTitle: 'id',
+    useAsTitle: 'description',
     group: 'Loyaliteit',
-    defaultColumns: ['user', 'type', 'points', 'description', 'createdAt'],
-    description: 'Points earning and spending history',
+    defaultColumns: ['user', 'type', 'points', 'description', 'redemptionStatus', 'createdAt'],
+    description: 'Punten verdienen, besteden en beloningen inwisselen',
     hidden: shouldHideCollection('loyalty'),
   },
   access: {
@@ -24,7 +30,7 @@ export const LoyaltyTransactions: CollectionConfig = {
         },
       }
     },
-    create: ({ req: { user } }) => checkRole(['admin'], user),
+    create: () => true, // System + users can create (redemptions)
     update: ({ req: { user } }) => checkRole(['admin'], user),
     delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
@@ -34,55 +40,55 @@ export const LoyaltyTransactions: CollectionConfig = {
       type: 'relationship',
       relationTo: 'users',
       required: true,
-      label: 'User',
+      label: 'Gebruiker',
       hasMany: false,
     },
     {
       name: 'type',
       type: 'select',
       required: true,
-      label: 'Transaction Type',
+      label: 'Type',
       options: [
-        { label: 'Earned - Purchase', value: 'earned_purchase' },
-        { label: 'Earned - Review', value: 'earned_review' },
-        { label: 'Earned - Referral', value: 'earned_referral' },
-        { label: 'Earned - Birthday', value: 'earned_birthday' },
-        { label: 'Earned - Bonus', value: 'earned_bonus' },
-        { label: 'Spent - Reward', value: 'spent_reward' },
-        { label: 'Expired', value: 'expired' },
-        { label: 'Adjustment', value: 'adjustment' },
+        { label: 'Verdiend - Aankoop', value: 'earned_purchase' },
+        { label: 'Verdiend - Review', value: 'earned_review' },
+        { label: 'Verdiend - Referral', value: 'earned_referral' },
+        { label: 'Verdiend - Verjaardag', value: 'earned_birthday' },
+        { label: 'Verdiend - Bonus', value: 'earned_bonus' },
+        { label: 'Besteed - Beloning', value: 'spent_reward' },
+        { label: 'Verlopen', value: 'expired' },
+        { label: 'Aanpassing', value: 'adjustment' },
       ],
     },
     {
       name: 'points',
       type: 'number',
       required: true,
-      label: 'Points',
+      label: 'Punten',
       admin: {
-        description: 'Positive for earning, negative for spending',
+        description: 'Positief = verdiend, negatief = besteed',
       },
     },
     {
       name: 'description',
       type: 'text',
       required: true,
-      label: 'Description',
+      label: 'Omschrijving',
       admin: {
-        description: 'e.g., "Order #DS-2026-0847" or "Review written"',
+        description: 'Bijv. "Bestelling #DS-2026-0847" of "Review geschreven"',
       },
     },
     {
       name: 'relatedOrder',
       type: 'relationship',
       relationTo: 'orders',
-      label: 'Related Order',
+      label: 'Gerelateerde Bestelling',
       hasMany: false,
     },
     {
       name: 'relatedReward',
       type: 'relationship',
       relationTo: 'loyalty-rewards',
-      label: 'Related Reward',
+      label: 'Gerelateerde Beloning',
       hasMany: false,
     },
     {
@@ -90,17 +96,58 @@ export const LoyaltyTransactions: CollectionConfig = {
       type: 'json',
       label: 'Metadata',
       admin: {
-        description: 'Additional data (JSON)',
+        description: 'Aanvullende data (JSON)',
       },
     },
     {
       name: 'expiresAt',
       type: 'date',
-      label: 'Expires At',
+      label: 'Verloopt op',
       admin: {
-        description: 'When these points expire (optional)',
+        description: 'Wanneer deze punten verlopen (optioneel)',
         date: {
           pickerAppearance: 'dayOnly',
+        },
+      },
+    },
+
+    // ══════════════════════════════════════════════════════════════════════
+    // Inwisseling velden (merged from LoyaltyRedemptions)
+    // Alleen zichtbaar wanneer type = 'spent_reward'
+    // ══════════════════════════════════════════════════════════════════════
+    {
+      name: 'redemptionStatus',
+      type: 'select',
+      label: 'Inwisselstatus',
+      options: [
+        { label: 'Beschikbaar', value: 'available' },
+        { label: 'Gebruikt', value: 'used' },
+        { label: 'Verlopen', value: 'expired' },
+        { label: 'Geannuleerd', value: 'canceled' },
+      ],
+      defaultValue: 'available',
+      admin: {
+        condition: (data) => data?.type === 'spent_reward',
+        description: 'Status van de ingewisselde beloning',
+      },
+    },
+    {
+      name: 'redemptionCode',
+      type: 'text',
+      label: 'Inwisselcode',
+      admin: {
+        condition: (data) => data?.type === 'spent_reward',
+        description: 'Unieke code om de beloning te gebruiken',
+      },
+    },
+    {
+      name: 'usedAt',
+      type: 'date',
+      label: 'Gebruikt op',
+      admin: {
+        condition: (data) => data?.type === 'spent_reward',
+        date: {
+          pickerAppearance: 'dayAndTime',
         },
       },
     },

@@ -33,9 +33,10 @@ export { default as GiftVouchers } from './b2c/collections/marketing/GiftVoucher
 export { default as Licenses } from './b2b/collections/licenses/Licenses'
 export { default as LicenseActivations } from './b2b/collections/licenses/LicenseActivations'
 
-// Loyalty (b2c)
+// Loyalty (b2c) — LoyaltyPoints merged into Users, LoyaltyRedemptions merged into LoyaltyTransactions
 export { default as LoyaltyTiers } from './b2c/collections/loyalty/LoyaltyTiers'
 export { default as LoyaltyRewards } from './b2c/collections/loyalty/LoyaltyRewards'
+export { LoyaltyTransactions } from './b2c/collections/loyalty/LoyaltyTransactions'
 
 // Cart & Addresses
 export { Carts } from './shared/collections/checkout/Carts'
@@ -48,7 +49,8 @@ export const branchMetadata = {
     'Products', 'ProductCategories', 'Orders', 'Carts', 'CustomerGroups',
     'Brands', 'Invoices', 'RecentlyViewed', 'Returns', 'RecurringOrders',
     'OrderLists', 'SubscriptionPlans', 'UserSubscriptions', 'PaymentMethods',
-    'GiftVouchers', 'Licenses', 'LicenseActivations', 'LoyaltyTiers', 'LoyaltyRewards',
+    'GiftVouchers', 'Licenses', 'LicenseActivations',
+    'LoyaltyTiers', 'LoyaltyRewards', 'LoyaltyTransactions',
   ],
   featureFlag: 'ENABLE_ECOMMERCE',
 } as const

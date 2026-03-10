@@ -31,7 +31,7 @@ export const ABTestResults: CollectionConfig = {
     group: 'Marketing',
     defaultColumns: ['test', 'variant', 'converted', 'conversionValue', 'createdAt'],
     description: 'A/B test variant assignments en conversie tracking',
-    hidden: shouldHideCollection('shop'),
+    hidden: true, // System data — accessible via A/B Tests or API, not directly in sidebar
   },
   access: {
     read: ({ req: { user } }) => {

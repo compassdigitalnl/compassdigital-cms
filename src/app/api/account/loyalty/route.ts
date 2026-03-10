@@ -4,7 +4,10 @@ import configPromise from '@payload-config'
 
 /**
  * GET /api/account/loyalty
- * Fetch loyalty data, transactions, and available rewards for the current user
+ * Fetch loyalty data, transactions, and available rewards for the current user.
+ *
+ * Loyalty points are now stored directly on the Users collection (merged from LoyaltyPoints).
+ * Transactions include redemptions (merged from LoyaltyRedemptions, type='spent_reward').
  */
 export async function GET(request: NextRequest) {
   try {
@@ -15,19 +18,38 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Fetch loyalty points for user
-    const pointsResult = await payload.find({
-      collection: 'loyalty-points',
-      where: {
-        user: { equals: user.id },
+    // Loyalty data is now on the user record itself
+    const loyaltyData = {
+      availablePoints: (user as any).loyaltyAvailablePoints || 0,
+      totalEarned: (user as any).loyaltyTotalEarned || 0,
+      totalSpent: (user as any).loyaltyTotalSpent || 0,
+      tier: (user as any).loyaltyTier || null,
+      referralCode: (user as any).referralCode || null,
+      memberSince: (user as any).loyaltyMemberSince || null,
+      stats: {
+        rewardsRedeemed: (user as any).loyaltyStats?.rewardsRedeemed || 0,
+        referrals: (user as any).loyaltyStats?.referrals || 0,
       },
-      limit: 1,
-      depth: 1,
-    })
+    }
 
-    const loyaltyData = pointsResult.docs[0] || null
+    // Fetch tier details if set
+    let tierDetails = null
+    if (loyaltyData.tier) {
+      const tierId = typeof loyaltyData.tier === 'object' ? loyaltyData.tier?.id : loyaltyData.tier
+      if (tierId) {
+        try {
+          tierDetails = await payload.findByID({
+            collection: 'loyalty-tiers',
+            id: tierId,
+            depth: 1,
+          })
+        } catch {
+          // Tier not found, ignore
+        }
+      }
+    }
 
-    // Fetch recent transactions
+    // Fetch recent transactions (includes redemptions with type='spent_reward')
     const transactionsResult = await payload.find({
       collection: 'loyalty-transactions',
       where: {
@@ -47,36 +69,28 @@ export async function GET(request: NextRequest) {
       depth: 1,
     })
 
-    // If loyalty data has a current tier, fetch tier details
-    let tierDetails = null
-    if (loyaltyData && (loyaltyData as any).currentTier) {
-      const tierId = typeof (loyaltyData as any).currentTier === 'object'
-        ? (loyaltyData as any).currentTier?.id
-        : (loyaltyData as any).currentTier
-
-      if (tierId) {
-        try {
-          tierDetails = await payload.findByID({
-            collection: 'loyalty-tiers',
-            id: tierId,
-            depth: 1,
-          })
-        } catch {
-          // Tier not found, ignore
-        }
-      }
-    }
+    // Fetch active redemptions (transactions where type=spent_reward and status=available)
+    const activeRedemptions = await payload.find({
+      collection: 'loyalty-transactions',
+      where: {
+        and: [
+          { user: { equals: user.id } },
+          { type: { equals: 'spent_reward' } },
+          { redemptionStatus: { equals: 'available' } },
+        ],
+      },
+      depth: 1,
+    })
 
     return NextResponse.json({
       success: true,
-      loyaltyData: loyaltyData
-        ? {
-            ...loyaltyData,
-            tierDetails,
-          }
-        : null,
+      loyaltyData: {
+        ...loyaltyData,
+        tierDetails,
+      },
       transactions: transactionsResult.docs,
       rewards: rewardsResult.docs,
+      activeRedemptions: activeRedemptions.docs,
     })
   } catch (error: any) {
     console.error('Error fetching loyalty data:', error)

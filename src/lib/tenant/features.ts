@@ -536,7 +536,7 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     // === CHECKOUT ===
     orders: 'checkout',
     invoices: 'invoices',
-    'discount-codes': 'discounts',
+    // discount-codes merged into promotions
 
     // === MY ACCOUNT ===
     returns: 'returns',
@@ -564,9 +564,7 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     'license-activations': 'licenses',
     'loyalty-tiers': 'loyalty',
     'loyalty-rewards': 'loyalty',
-    'loyalty-points': 'loyalty',
     'loyalty-transactions': 'loyalty',
-    'loyalty-redemptions': 'loyalty',
 
     // === CONTENT ===
     'blog-posts': 'blog',

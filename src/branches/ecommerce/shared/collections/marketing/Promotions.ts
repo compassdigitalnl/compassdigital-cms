@@ -3,27 +3,27 @@ import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
 
 /**
- * Promotions Collection (Fase 3A)
+ * Promotions Collection (merged with DiscountCodes)
  *
- * Geavanceerde promoties voor e-commerce:
+ * Alle promoties en kortingscodes in één collectie:
+ * - Automatische promoties (geen code nodig)
+ * - Kortingscodes (klant voert code in bij checkout)
  * - Percentage / vast bedrag korting
- * - Koop X krijg Y
- * - Gratis verzending
- * - Bundel-deals
+ * - Koop X krijg Y / Gratis verzending / Bundel-deals
  * Met planning, flash sales, en voorwaarden
  */
 export const Promotions: CollectionConfig = {
   slug: 'promotions',
   labels: {
     singular: 'Promotie',
-    plural: 'Promoties',
+    plural: 'Promoties & Kortingscodes',
   },
   admin: {
     group: 'E-commerce',
     hidden: shouldHideCollection('promotions'),
     useAsTitle: 'title',
-    defaultColumns: ['title', 'type', 'value', 'status', 'startDate', 'endDate', 'priority'],
-    description: 'Beheer promoties, flash sales en bundel-deals',
+    defaultColumns: ['title', 'promotionMode', 'type', 'value', 'status', 'code', 'startDate', 'endDate'],
+    description: 'Beheer promoties, kortingscodes, flash sales en bundel-deals',
   },
   access: {
     read: ({ req }) => checkRole(['admin', 'editor'], req.user) || false,
@@ -40,6 +40,10 @@ export const Promotions: CollectionConfig = {
             .toLowerCase()
             .replace(/[^a-z0-9]+/g, '-')
             .replace(/^-|-$/g, '')
+        }
+        // Auto-uppercase coupon code
+        if (data?.code) {
+          data.code = data.code.toUpperCase().trim()
         }
         return data
       },
@@ -68,6 +72,31 @@ export const Promotions: CollectionConfig = {
               unique: true,
               admin: {
                 description: 'Wordt automatisch gegenereerd op basis van de titel',
+              },
+            },
+            {
+              name: 'promotionMode',
+              label: 'Modus',
+              type: 'select',
+              required: true,
+              defaultValue: 'automatic',
+              options: [
+                { label: 'Automatisch (geen code nodig)', value: 'automatic' },
+                { label: 'Kortingscode (klant voert code in)', value: 'coupon' },
+              ],
+              admin: {
+                description: 'Automatisch = wordt automatisch toegepast. Kortingscode = klant moet code invoeren.',
+              },
+            },
+            {
+              name: 'code',
+              label: 'Kortingscode',
+              type: 'text',
+              unique: true,
+              admin: {
+                placeholder: 'bijv. WINTER25',
+                description: 'Unieke code die klanten invoeren bij checkout (automatisch hoofdletters)',
+                condition: (data) => data?.promotionMode === 'coupon',
               },
             },
             {
