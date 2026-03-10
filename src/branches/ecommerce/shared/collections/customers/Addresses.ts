@@ -14,7 +14,7 @@ export const Addresses: CollectionConfig = {
   admin: {
     useAsTitle: 'label',
     defaultColumns: ['label', 'user', 'type', 'city', 'country'],
-    group: 'E-commerce',
+    group: 'Webshop',
     hidden: true, // User data — viewable via user profile, not directly in sidebar
   },
   access: {

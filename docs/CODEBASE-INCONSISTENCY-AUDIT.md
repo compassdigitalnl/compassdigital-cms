@@ -1,14 +1,14 @@
 # Codebase Inconsistentie-Audit
 
-> Datum: 2026-03-09
-> Scope: `src/branches/` (ecommerce als referentie)
-> Status: Fase 1 (KRITIEK) afgerond op 2026-03-09
+> Datum: 2026-03-10 (herzien)
+> Scope: Volledige codebase — `src/branches/`, `src/features/`, `src/globals/`
+> Status: Fase 1 (KRITIEK) + DB-fixes afgerond
 
 ---
 
 ## Inhoudsopgave
 
-1. [KRITIEK — Security / Functioneel risico](#1-kritiek--security--functioneel-risico)
+1. [KRITIEK — Security / DB-integriteit](#1-kritiek--security--db-integriteit)
 2. [HOOG — Architecturele inconsistenties](#2-hoog--architecturele-inconsistenties)
 3. [MEDIUM — Code-kwaliteit](#3-medium--code-kwaliteit)
 4. [LAAG — Nice to fix](#4-laag--nice-to-fix)
@@ -16,103 +16,102 @@
 
 ---
 
-## 1. KRITIEK — Security / Functioneel risico
+## Totaaloverzicht collections
 
-### 1.1 ~~Ontbrekende Access Control (4 collections)~~ OPGELOST
+| Branch | Aantal | Alle kebab-case? | Alle access? | Alle delete=admin? |
+|--------|--------|------------------|--------------|---------------------|
+| shared | 13 | Ja | Ja | 9/13 (Media, Partners, Services: editor delete) |
+| ecommerce | 35 | Nee (`orderLists`) | Ja | 30/35 |
+| publishing | 1 | Ja | Ja | Ja |
+| beauty | 3 | Nee (`beautyBookings`, `beautyServices`) | Ja | Ja |
+| construction | 4 | Ja | Ja | Ja |
+| horeca | 3 | Nee (`menuItems`) | Ja | Ja |
+| hospitality | 3 | Ja | Ja | Ja |
+| marketplace | 3 | Ja | Ja | Ja |
+| email-marketing | 10 | Ja | Ja | Ja |
+| features (pwa/platform) | 2 | Ja | Ja | Ja |
+| **Totaal** | **~77** | | | |
 
-~~Deze collections hebben **geen** `access` property — standaard open voor iedereen:~~
+---
 
-| Collection | Bestand | Status |
-|---|---|---|
-| `approval-requests` | `src/branches/ecommerce/b2b/collections/approvals/ApprovalRequests.ts` | FIXED |
-| `company-accounts` | `src/branches/ecommerce/b2b/collections/company/CompanyAccounts.ts` | FIXED |
-| `company-invites` | `src/branches/ecommerce/b2b/collections/company/CompanyInvites.ts` | FIXED |
-| `quotes` | `src/branches/ecommerce/b2b/collections/orders/Quotes.ts` | Was al OK (had al access) |
+## 1. KRITIEK — Security / DB-integriteit
 
-**Fix:** Toevoegen van standaard access pattern:
+### 1.1 ~~Ontbrekende Access Control~~ OPGELOST (2026-03-09)
 
-```typescript
-access: {
-  read: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
-  create: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
-  update: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
-  delete: ({ req: { user } }) => checkRole(['admin'], user),
-}
-```
+Alle 77 collections hebben nu access control. Gefixt:
+- `approval-requests`, `company-accounts`, `company-invites`
 
-### 1.2 ~~Te ruime delete-permissies (5 collections)~~ OPGELOST
+### 1.2 ~~Te ruime delete-permissies~~ OPGELOST (2026-03-09)
 
-~~Editors kunnen verwijderen waar alleen admins dat zouden moeten:~~
+Gefixt naar admin-only: `pages`, `blog-posts`, `cases`, `faqs`, `testimonials`
 
-| Collection | Bestand | Status |
-|---|---|---|
-| `pages` | `src/branches/shared/collections/Pages/index.ts` | FIXED → `checkRole(['admin'])` |
-| `blog-posts` | `src/branches/publishing/collections/BlogPosts.ts` | FIXED → `checkRole(['admin'])` |
-| `cases` | `src/branches/shared/collections/Cases.ts` | FIXED → `checkRole(['admin'])` |
-| `faqs` | `src/branches/shared/collections/FAQs.ts` | FIXED → `checkRole(['admin'])` |
-| `testimonials` | `src/branches/shared/collections/Testimonials.ts` | FIXED → `checkRole(['admin'])` |
+### 1.3 ~~Ontbrekende DB-kolommen~~ OPGELOST (2026-03-10)
+
+Migraties maakten tabellen aan maar vergaten `payload_locked_documents_rels` kolommen:
+- `promotions_id`, `email_segments_id`, `push_subscriptions_id` — toegevoegd aan alle 7 DBs + migraties gefixt
+- `users_company_approval_roles` subtabel — aangemaakt in alle 7 DBs + migratie gefixt
+- `settings.pwa_install_prompt` / `pwa_push_notifications` — migratie aangemaakt
+
+### 1.4 Delete nog steeds open voor editors (3 collections)
+
+| Collection | Bestand | Huidig | Aanbeveling |
+|---|---|---|---|
+| `media` | `src/branches/shared/collections/Media.ts` | editor kan deleten | OK (media is disposable) |
+| `partners` | `src/branches/shared/collections/Partners.ts` | editor kan deleten | Overweeg admin-only |
+| `services` | `src/branches/shared/collections/ServicesCollection.ts` | editor kan deleten | Overweeg admin-only |
 
 ---
 
 ## 2. HOOG — Architecturele inconsistenties
 
-### 2.1 Slug-naamgeving — 3 conventies door elkaar
-
-**Huidige situatie:**
-
-| Conventie | Aantal | Voorbeeld slugs |
-|---|---|---|
-| **kebab-case** | 58 | `product-categories`, `construction-services`, `blog-posts`, `approval-requests` |
-| **camelCase** | 16 | `beautyServices`, `beautyBookings`, `menuItems`, `orderLists` |
-| **lowercase (geen separator)** | 1 | `vendorreviews` |
-
-**Collections met verkeerde conventie (moeten kebab-case zijn):**
+### 2.1 Collection slug-naamgeving — 4 collections nog camelCase
 
 | Huidig (camelCase) | Moet zijn (kebab-case) | Bestand |
 |---|---|---|
-| `beautyServices` | `beauty-services` | `src/branches/beauty/collections/BeautyServices.ts` |
 | `beautyBookings` | `beauty-bookings` | `src/branches/beauty/collections/BeautyBookings.ts` |
-| `stylists` | OK (single word) | `src/branches/beauty/collections/Stylists.ts` |
+| `beautyServices` | `beauty-services` | `src/branches/beauty/collections/BeautyServices.ts` |
 | `menuItems` | `menu-items` | `src/branches/horeca/collections/MenuItems.ts` |
 | `orderLists` | `order-lists` | `src/branches/ecommerce/b2b/collections/orders/OrderLists.ts` |
-| `vendorreviews` | `vendor-reviews` | `src/branches/marketplace/collections/VendorReviews.ts` |
 
-**Blocks met inconsistente slugs:**
+> **Let op:** Slug-wijzigingen vereisen database-migraties (tabelnamen, FK-kolommen, payload_locked_documents_rels).
+
+### 2.2 Block slug-naamgeving — 12 blocks inconsistent
 
 | Huidig | Moet zijn | Bestand |
 |---|---|---|
-| `calltoaction` | `call-to-action` | `src/branches/shared/blocks/CallToAction/config.ts` |
-| `comparisontable` | `comparison-table` | `src/branches/ecommerce/shared/blocks/ComparisonTable.ts` |
-| `productembed` | `product-embed` | `src/branches/ecommerce/shared/blocks/ProductEmbed.ts` |
-| `twoColumn` | `two-column` | `src/branches/shared/blocks/TwoColumn/config.ts` |
-| `contactForm` | `contact-form` | `src/branches/shared/blocks/ContactFormBlock/config.ts` |
-| `mediaBlock` | `media-block` | `src/branches/shared/blocks/MediaBlock/config.ts` |
-| `imageGallery` | `image-gallery` | `src/branches/shared/blocks/ImageGallery/config.ts` |
-| `logoBar` | `logo-bar` | `src/branches/shared/blocks/LogoBar/config.ts` |
-| `formBlock` | `form-block` | `src/branches/shared/blocks/Form/config.ts` |
-| `categoryGrid` | `category-grid` | `src/branches/ecommerce/shared/blocks/CategoryGrid.ts` |
-| `productGrid` | `product-grid` | `src/branches/ecommerce/shared/blocks/ProductGrid.ts` |
-| `quickOrder` | `quick-order` | `src/branches/ecommerce/shared/blocks/QuickOrder.ts` |
-| `blog-preview` | OK (already kebab) | `src/branches/shared/blocks/BlogPreview/config.ts` |
+| `calltoaction` | `call-to-action` | `shared/blocks/CallToAction/config.ts` |
+| `contactForm` | `contact-form` | `shared/blocks/ContactFormBlock/config.ts` |
+| `formBlock` | `form-block` | `shared/blocks/Form/config.ts` |
+| `imageGallery` | `image-gallery` | `shared/blocks/ImageGallery/config.ts` |
+| `infoBox` | `info-box` | `shared/blocks/InfoBox/config.ts` |
+| `logoBar` | `logo-bar` | `shared/blocks/LogoBar/config.ts` |
+| `mediaBlock` | `media-block` | `shared/blocks/MediaBlock/config.ts` |
+| `twocolumn` | `two-column` | `shared/blocks/TwoColumn/config.ts` |
+| `categoryGrid` | `category-grid` | `ecommerce/shared/blocks/CategoryGrid.ts` |
+| `productGrid` | `product-grid` | `ecommerce/shared/blocks/ProductGrid.ts` |
+| `comparisontable` | `comparison-table` | `ecommerce/shared/blocks/ComparisonTable.ts` |
+| `productembed` | `product-embed` | `ecommerce/shared/blocks/ProductEmbed.ts` |
+| `quickOrder` | `quick-order` | `ecommerce/b2b/blocks/QuickOrder.ts` |
 
-> **Let op:** Slug-wijzigingen vereisen database-migraties (blocks slaan slug op in `blockType` kolom).
-> Wijzig slugs alleen samen met een migratie-script.
+> **Let op:** Block slugs staan opgeslagen in `blockType` kolom in de DB. Wijzig alleen met migratie-script.
 
-### 2.2 Admin Group naamgeving — Mix Nederlands/Engels
+### 2.3 Admin Group naamgeving — Mix Nederlands/Engels
 
-| Nederlands | Engels |
-|---|---|
-| Systeem | E-commerce |
-| Website | Marketing |
-| Bestellingen | B2B |
-| Klanten | Beauty |
-| Abonnementen | Marketplace |
-| Loyaliteit | Publishing |
-| Bouw | |
-| Zorg | |
-| Producten | |
+| Nederlands | Engels | Features |
+|---|---|---|
+| Systeem | E-commerce | E-mail Marketing |
+| Website | Marketing | |
+| Bestellingen | B2B | |
+| Klanten | Beauty | |
+| Abonnementen | Marketplace | |
+| Loyaliteit | Publishing | |
+| Bouw | Horeca | |
+| Zorg | Platform | |
+| Producten | | |
+| Instellingen | | |
+| Ontwerp | | |
 
-**Aanbeveling:** Standaardiseer naar Nederlands (consistent met UI taal):
+**Aanbeveling:** Standaardiseer naar Nederlands:
 
 | Huidig (Engels) | Voorstel (Nederlands) |
 |---|---|
@@ -122,49 +121,53 @@ access: {
 | Beauty | Salon |
 | Marketplace | Marktplaats |
 | Publishing | Publicaties |
+| Horeca | Horeca (OK) |
+| Platform | Platform (OK) |
+| E-mail Marketing | E-mail Marketing (OK) |
 
-### 2.3 Ontbrekende branchMetadata — Horeca
+### 2.4 Ontbrekende branchMetadata — Horeca
 
 `src/branches/horeca/` heeft **geen** `index.ts` met branchMetadata.
-Alle andere 7 branches (beauty, construction, ecommerce, hospitality, marketplace, publishing, shared) hebben dit wel.
+Alle andere 7 branches hebben dit wel.
 
-**Fix:** Maak `src/branches/horeca/index.ts` aan met:
+### 2.5 Versioning/Drafts inconsistentie
 
-```typescript
-export { default as Events } from './collections/Events'
-export { default as Reservations } from './collections/Reservations'
-export { default as MenuItems } from './collections/MenuItems'
+8 collections hebben versioning:
 
-export const branchMetadata = {
-  name: 'horeca',
-  displayName: 'Horeca',
-  description: 'Template voor restaurants, cafes en eetgelegenheden',
-  collections: ['events', 'reservations', 'menuItems'],
-  featureFlag: 'ENABLE_HORECA',
-  category: 'Industry-Specific',
-  version: '1.0.0',
-}
-```
-
-### 2.4 Versioning/Drafts inconsistentie
-
-Slechts 4 van 60+ collections hebben versioning:
-
-| Collection | maxPerDoc | autosave interval |
+| Collection | maxPerDoc | autosave |
 |---|---|---|
 | `pages` | 10 | default |
 | `blog-posts` | 10 | default |
 | `beauty-services` | 50 | 100ms |
 | `stylists` | 50 | 100ms |
+| `menu-items` | 50 | 375ms |
+| `events` | 50 | 375ms |
+| `treatments` | 50 | 100ms |
+| `practitioners` | 50 | 100ms |
 
-**Ontbreekt bij (zou het wel moeten hebben):**
+**Ontbreekt bij (publiceerbare content):**
 
-- `products` — Belangrijkste content type, geen drafts
-- `cases` — Publiceerbare content
+- `products` — Belangrijkste content type
+- `cases` — Portfolio content
 - `vendors` — Complexe profielen
 - `construction-projects` — Portfolio content
 - `brands` — Publiceerbare content
-- `events` — Publiceerbare content
+
+### 2.6 Merged/verwijderde collections — Opruimen
+
+Deze collections zijn gemerged maar config-bestanden bestaan nog:
+
+| Oud | Gemerged naar | Status config |
+|---|---|---|
+| `customers` | `users` | Verwijderd |
+| `company-accounts` | `users` (companyOwner) | **Config bestaat nog** |
+| `discount-codes` | `promotions` | Verwijderd |
+| `loyalty-points` | `users` tabel | Verwijderd |
+| `loyalty-redemptions` | `loyalty-transactions` | Verwijderd |
+| `forms` | — | Verwijderd |
+| `redirects` | — | Verwijderd |
+
+> `company-accounts` config bestaat nog in `src/branches/ecommerce/b2b/collections/company/CompanyAccounts.ts` — controleer of dit nog actief geladen wordt of dode code is.
 
 ---
 
@@ -172,171 +175,95 @@ Slechts 4 van 60+ collections hebben versioning:
 
 ### 3.1 Styling — 5 aanpakken door elkaar
 
-| Aanpak | Waar | Aantal bestanden |
+| Aanpak | Waar | Omvang |
 |---|---|---|
-| **Tailwind utility classes** | Meeste ecommerce components | ~300+ |
+| **Tailwind utility classes** | Meeste ecommerce components | ~300+ bestanden |
 | **Inline `style={{}}`** | Verspreid door hele codebase | 190 bestanden (1414 instances) |
 | **BEM + custom CSS** | ProductCard, CrossSellSection, CartLineItemCompact | 6 bestanden |
 | **SCSS modules** | Construction branch | 4 bestanden |
-| **Gemixed (Tailwind + inline op zelfde element)** | RecentlyViewed, CreateLabelButton, PriceRangeSlider | ~20 bestanden |
+| **Gemixed (Tailwind + inline)** | RecentlyViewed, CreateLabelButton, PriceRangeSlider | ~20 bestanden |
 
-**Ergste bestanden (inline + Tailwind mixed):**
-
-| Bestand | Probleem |
-|---|---|
-| `ecommerce/shared/components/shop/RecentlyViewed/RecentlyViewed.tsx` | 5+ inline style blocks gemixed met Tailwind |
-| `ecommerce/shared/components/admin/OrderShipping/CreateLabelButton.tsx` | Hardcoded hex colors (`#059669`, `#0a1628`) in inline styles |
-| `ecommerce/shared/components/shop/FilterSidebar/PriceRangeSlider.tsx` | Dynamische positioning + lange Tailwind classes gemixed |
-
-**Standaard zou moeten zijn:**
-
-- Tailwind voor alles (mobile-first: base + `md:` / `lg:`)
-- CSS custom properties voor theming via `[var(--color)]` syntax in Tailwind
-- Inline styles ALLEEN voor runtime-dynamische waarden (bijv. `left: ${percent}%`)
+**Standaard:** Tailwind voor alles. Inline styles ALLEEN voor runtime-dynamische waarden.
 
 ### 3.2 Slug-generatie — 3 methoden
 
 | Methode | Gebruikt door |
 |---|---|
 | `autoGenerateSlug` (from `title`) | BlogPosts, Cases |
-| `autoGenerateSlugFromName` (from `name`) | ConstructionProjects, Brands, Branches |
-| Inline `beforeChange` hook (eigen logica) | BlogCategories, Products |
+| `autoGenerateSlugFromName` (from `name`) | 12 collections (Brands, Branches, ConstructionProjects, etc.) |
+| Inline `beforeChange` hook | BlogCategories, Products |
 
-**Aanbeveling:** Consolideer naar 1 functie die configurable is:
-
-```typescript
-autoGenerateSlug({ sourceField: 'title' | 'name' })
-```
+**Aanbeveling:** Consolideer naar 1 configureerbare functie.
 
 ### 3.3 Component-structuur inconsistenties
 
 | Patroon | Aantal | Waar |
 |---|---|---|
 | **Standaard** (`ComponentName/Component.tsx` + `types.ts` + `index.ts`) | ~315 | Meeste ecommerce |
-| **Alleen `index.tsx`** (geen `Component.tsx` wrapper) | ~14 | Construction, Publishing |
+| **Alleen `index.tsx`** | ~14 | Construction, Publishing |
 | **Los bestand** (geen eigen directory) | 3 | Ecommerce shared root |
-
-**Losse bestanden die in directory moeten:**
-
-- `src/branches/ecommerce/shared/components/VariantSelector.tsx`
-- `src/branches/ecommerce/shared/components/SubscriptionPricingTable.tsx`
-- `src/branches/ecommerce/shared/components/RelatedProductsSection.tsx`
 
 ### 3.4 Ontbrekende `types.ts` — 69 components
 
-Per categorie:
-
-| Groep | Aantal | Locatie |
-|---|---|---|
-| Product-types: variable | 15 | `ecommerce/shared/components/product-types/variable/` |
-| Product-types: bookable | 7 | `ecommerce/shared/components/product-types/bookable/` |
-| Product-types: configurator | 7 | `ecommerce/shared/components/product-types/configurator/` |
-| Product-types: mix-match | 7 | `ecommerce/shared/components/product-types/mix-match/` |
-| Product-types: personalized | 7 | `ecommerce/shared/components/product-types/personalized/` |
-| Product-types: bundle | 6 | `ecommerce/shared/components/product-types/bundle/` |
-| Product-types: subscription | 5 | `ecommerce/shared/components/product-types/subscription/` |
-| Auth components | 13 | `ecommerce/shared/components/auth/` |
-| Overig | 2 | SubcategoryChips, QuickAddToCart |
+Voornamelijk in `ecommerce/shared/components/product-types/` (54) en `auth/` (13).
 
 ### 3.5 Import paden — Diepe relative imports
 
-6 bestanden gebruiken `../../../hooks/usePriceMode` in plaats van `@/branches/ecommerce/shared/hooks/usePriceMode`:
-
-- `ecommerce/shared/components/cart/CartLineItemCompact/Component.tsx`
-- `ecommerce/shared/components/products/ProductActions/Component.tsx`
-- `ecommerce/shared/components/products/ProductCard/Component.tsx`
-- `ecommerce/shared/components/products/ProductMeta/Component.tsx`
-- `ecommerce/shared/components/ui/OrderSummary/Component.tsx`
-- `ecommerce/b2b/components/quick-order/QuickOrderRow/Component.tsx`
+6 bestanden gebruiken `../../../hooks/usePriceMode` i.p.v. `@/branches/ecommerce/shared/hooks/usePriceMode`.
 
 ### 3.6 `any` type gebruik — 50+ instances
 
-| Bestand | Instances | Aard |
-|---|---|---|
-| `ecommerce/shared/components/VariantSelector.tsx` | 17 | Props, product casting, option types |
-| `ecommerce/shared/lib/stock/reservations.ts` | 14 | Error handling, DB query results |
-| `ecommerce/shared/components/orders/NextStepsCTA/Component.tsx` | 2 | Button props |
-| Diverse shop components | ~17 | Icon casting (`as any`) |
+Zwaarst: `VariantSelector.tsx` (17x), `reservations.ts` (14x).
 
 ### 3.7 Onvolledige barrel exports
 
-`ecommerce/shared/components/shop/index.ts` exporteert maar 3 van 8+ componenten:
-
-```
-Wel:   CategoryHero, SubcategoryChips, SearchQueryHeader
-Mist:  FilterSidebar, SortDropdown, PromotionBanner, BundleDeal, RecentlyViewed
-```
+`ecommerce/shared/components/shop/index.ts` exporteert 3 van 8+ componenten.
 
 ---
 
 ## 4. LAAG — Nice to fix
 
-### 4.1 SEO auto-fill hooks ontbreken
+### 4.1 SEO auto-fill hooks
 
-Alleen BlogPosts en Cases hebben `autoFillSEO`. Mist bij content die SEO nodig heeft:
+Slechts 4 collections hebben `autoFillSEO`: BlogPosts, Cases, Testimonials, FAQs.
+Ontbreekt bij: Pages, Products, Brands, Branches, Vendors, ConstructionProjects, Events.
 
-- Pages
-- Products
-- Brands
-- Branches
-- Vendors
-- Services
-- ConstructionProjects
-- Events
+### 4.2 Meilisearch indexing
 
-### 4.2 Meilisearch indexing inconsistentie
+Slechts 3 collections geindexeerd: Products, BlogPosts, Pages.
+Niet geindexeerd: Vendors, Cases, BeautyServices, ConstructionProjects, Events.
 
-Slechts 3 collections geindexeerd:
+### 4.3 ISR Revalidation hooks
 
-| Collection | Status |
-|---|---|
-| Products | Geindexeerd |
-| BlogPosts | Geindexeerd |
-| Pages | Geindexeerd |
-| Vendors | **Niet geindexeerd** |
-| Cases | **Niet geindexeerd** |
-| BeautyServices | **Niet geindexeerd** |
-| ConstructionProjects | **Niet geindexeerd** |
-| Events | **Niet geindexeerd** |
-
-### 4.3 Revalidation hooks ontbreken
-
-Alleen Pages implementeert ISR revalidation hooks (`revalidateOnChange`/`revalidateOnDelete`). Mist bij:
-
-- BlogPosts
-- Cases
-- Products
-- Product Categories
-- Vendors
+Alleen Pages heeft `revalidatePath` hooks. Ontbreekt bij: BlogPosts, Products, Cases, ProductCategories, Vendors.
 
 ---
 
 ## 5. Aanbevolen Prioriteit
 
-### Fase 1 — Nu (security)
-
-- [ ] Access control toevoegen aan 4 B2B collections
-- [ ] Delete permissies beperken tot admin-only (5 collections)
+### Fase 1 — KRITIEK: AFGEROND
+- [x] Access control op alle collections
+- [x] Delete admin-only op content collections
+- [x] Ontbrekende DB-kolommen/tabellen gefixt
 
 ### Fase 2 — Korte termijn (architectuur)
-
-- [ ] Slug conventie standaardiseren naar kebab-case (+ migraties)
-- [ ] Admin groups standaardiseren (Nederlands)
-- [ ] Horeca branch index.ts toevoegen
-- [ ] Versioning toevoegen aan Products, Cases, Vendors
+- [ ] **2.6** Dode code opruimen (company-accounts config check)
+- [ ] **2.4** Horeca branch `index.ts` toevoegen
+- [ ] **2.5** Versioning toevoegen aan Products, Cases, Vendors
+- [ ] **2.3** Admin groups standaardiseren (Nederlands)
+- [ ] **2.1** Collection slugs standaardiseren (4 collections, vereist migraties)
+- [ ] **2.2** Block slugs standaardiseren (12 blocks, vereist migraties)
 
 ### Fase 3 — Geleidelijk (code-kwaliteit)
-
-- [ ] Inline styles migreren naar Tailwind (190 bestanden)
-- [ ] types.ts toevoegen aan 69 components
-- [ ] Relative imports vervangen door @/ alias (6 bestanden)
-- [ ] `any` types vervangen door proper types (50+ instances)
-- [ ] Slug-generatie consolideren naar 1 configureerbare functie
-- [ ] Barrel exports completeren
+- [ ] **3.1** Inline styles migreren naar Tailwind (190 bestanden)
+- [ ] **3.4** types.ts toevoegen aan 69 components
+- [ ] **3.5** Relative imports → `@/` alias (6 bestanden)
+- [ ] **3.6** `any` types vervangen (50+ instances)
+- [ ] **3.2** Slug-generatie consolideren
+- [ ] **3.7** Barrel exports completeren
 
 ### Fase 4 — Bij aanraking (nice to have)
-
-- [ ] autoFillSEO hook toevoegen aan content collections
-- [ ] Meilisearch indexing uitbreiden
-- [ ] ISR revalidation hooks toevoegen
-- [ ] Component structuur normaliseren (3 losse bestanden → directory)
+- [ ] **4.1** autoFillSEO hook uitbreiden (7 collections)
+- [ ] **4.2** Meilisearch indexing uitbreiden (5 collections)
+- [ ] **4.3** ISR revalidation hooks toevoegen (5 collections)
+- [ ] **3.3** Component structuur normaliseren

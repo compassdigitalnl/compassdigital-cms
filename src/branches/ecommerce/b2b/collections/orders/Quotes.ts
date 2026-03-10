@@ -3,7 +3,7 @@ import { checkRole } from '@/access/utilities'
 
 const Quotes: CollectionConfig = {
   slug: 'quotes',
-  admin: { useAsTitle: 'quoteNumber', group: 'E-commerce' },
+  admin: { useAsTitle: 'quoteNumber', group: 'Webshop' },
   access: {
     read: ({ req: { user } }) => {
       if (!user) return false

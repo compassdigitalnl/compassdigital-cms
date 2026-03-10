@@ -12,6 +12,12 @@ export const Cases: CollectionConfig = {
     defaultColumns: ['title', 'client', 'updatedAt'],
     hidden: shouldHideCollection('cases'),
   },
+  versions: {
+    drafts: {
+      autosave: true,
+    },
+    maxPerDoc: 10,
+  },
   access: {
     read: () => true, // Publiek leesbaar
     create: ({ req: { user } }) => checkRole(['admin', 'editor'], user),

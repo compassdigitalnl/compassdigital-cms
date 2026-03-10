@@ -10,7 +10,7 @@ export const CompanyInvites: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
     defaultColumns: ['email', 'role', 'company', 'status', 'createdAt'],
-    group: 'B2B',
+    group: 'Zakelijk',
     hidden: true, // Workflow data — managed via B2B team flow, not directly
   },
   access: {

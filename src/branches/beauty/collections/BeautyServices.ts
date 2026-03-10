@@ -24,7 +24,7 @@ export const BeautyServices: CollectionConfig = {
   },
   admin: {
     hidden: shouldHideCollection('beauty'),
-    group: 'Beauty',
+    group: 'Salon',
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', 'duration', 'price', 'updatedAt'],
     livePreview: {

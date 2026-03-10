@@ -26,7 +26,7 @@ export const StockReservations: CollectionConfig = {
   admin: {
     useAsTitle: 'id',
     defaultColumns: ['product', 'quantity', 'status', 'expiresAt', 'createdAt'],
-    group: 'E-commerce',
+    group: 'Webshop',
     description: 'Temporary stock reservations to prevent overselling',
     hidden: true,
   },

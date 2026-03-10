@@ -17,7 +17,7 @@ export const BeautyBookings: CollectionConfig = {
   },
   admin: {
     hidden: shouldHideCollection('beauty'),
-    group: 'Beauty',
+    group: 'Salon',
     useAsTitle: 'customerName',
     defaultColumns: ['customerName', 'service', 'stylist', 'date', 'time', 'status', 'createdAt'],
   },

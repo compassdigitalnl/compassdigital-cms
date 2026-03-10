@@ -14,7 +14,7 @@ export const Carts: CollectionConfig = {
   admin: {
     useAsTitle: 'id',
     defaultColumns: ['user', 'status', 'itemCount', 'total', 'updatedAt'],
-    group: 'E-commerce',
+    group: 'Webshop',
     hidden: true, // System data — managed by checkout flow, not directly by admins
   },
   access: {

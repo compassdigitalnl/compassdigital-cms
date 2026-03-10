@@ -23,7 +23,7 @@ export const ProductCategories: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'E-commerce',
+    group: 'Webshop',
     hidden: shouldHideCollection('shop'),
   },
   access: {

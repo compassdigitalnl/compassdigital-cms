@@ -11,7 +11,7 @@ export const Magazines: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'Publishing',
+    group: 'Publicaties',
     defaultColumns: ['name', 'slug', 'frequency', 'featured', 'visible', 'updatedAt'],
     description: 'Magazinetitels en hun edities, abonnementen en content',
     hidden: shouldHideCollection('magazines'),

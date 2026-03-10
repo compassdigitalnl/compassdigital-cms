@@ -11,7 +11,7 @@ export const Brands: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'E-commerce',
+    group: 'Webshop',
     defaultColumns: ['name', 'parent', 'level', 'featured', 'updatedAt'],
     description: 'Product merken zoals Hartmann, BSN Medical, 3M, etc.',
     hidden: shouldHideCollection('brands'),

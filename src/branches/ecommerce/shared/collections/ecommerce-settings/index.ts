@@ -7,7 +7,7 @@ export const EcommerceSettings: GlobalConfig = {
   slug: 'e-commerce-settings',
   label: 'E-commerce Instellingen',
   admin: {
-    group: 'E-commerce',
+    group: 'Webshop',
     description: 'Alle e-commerce instellingen: verzending, betaling, B2B en features',
     hidden: !isClientDeployment(),
   },

@@ -22,7 +22,7 @@ export const VendorReviews: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    group: 'Marketplace',
+    group: 'Marktplaats',
     defaultColumns: ['vendor', 'authorName', 'rating', 'isApproved', 'createdAt'],
     description: 'Klantbeoordelingen voor leveranciers',
     hidden: shouldHideCollection('vendorReviews'),

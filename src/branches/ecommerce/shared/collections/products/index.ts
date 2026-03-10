@@ -25,9 +25,15 @@ export const Products: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    group: 'E-commerce',
+    group: 'Webshop',
     defaultColumns: ['title', 'sku', 'ean', 'price', 'stock', 'status', 'productType', 'updatedAt'],
     hidden: shouldHideCollection('shop'),
+  },
+  versions: {
+    drafts: {
+      autosave: true,
+    },
+    maxPerDoc: 10,
   },
   access: {
     read: () => true,

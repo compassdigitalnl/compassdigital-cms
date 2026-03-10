@@ -23,7 +23,7 @@ export const Stylists: CollectionConfig = {
   },
   admin: {
     hidden: shouldHideCollection('beauty'),
-    group: 'Beauty',
+    group: 'Salon',
     useAsTitle: 'name',
     defaultColumns: ['name', 'role', 'specialties', 'availability', 'updatedAt'],
   },

@@ -25,10 +25,16 @@ export const Vendors: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'Marketplace',
+    group: 'Marktplaats',
     defaultColumns: ['name', 'isPremium', 'isVerified', 'rating', 'updatedAt'],
     description: 'Leveranciers, fabrikanten en partners',
     hidden: shouldHideCollection('vendors'),
+  },
+  versions: {
+    drafts: {
+      autosave: true,
+    },
+    maxPerDoc: 10,
   },
   access: {
     read: () => true, // Publicly accessible

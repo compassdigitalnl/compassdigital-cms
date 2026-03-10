@@ -25,7 +25,7 @@ export const Workshops: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    group: 'Marketplace',
+    group: 'Marktplaats',
     defaultColumns: ['title', 'vendor', 'date', 'location', 'status', 'updatedAt'],
     description: 'Trainingen, workshops en webinars',
     hidden: shouldHideCollection('workshops'),

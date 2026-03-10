@@ -11,7 +11,7 @@ export const Branches: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'E-commerce',
+    group: 'Webshop',
     defaultColumns: ['name', 'slug', 'featured', 'order', 'visible', 'updatedAt'],
     description: 'Branches zoals Huisartsen, Tandartsen, Fysiotherapie, etc.',
     hidden: shouldHideCollection('catalogBranches'),
