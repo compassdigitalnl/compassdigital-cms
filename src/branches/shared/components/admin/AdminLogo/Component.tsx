@@ -2,8 +2,7 @@
 import React from 'react'
 
 /**
- * Custom Admin Logo Component - Contyzr Branding
- * Modern, professional logo for the CMS admin panel
+ * Custom Admin Logo — Contyzr branding for dark sidebar
  */
 export const AdminLogo: React.FC = () => {
   return (
@@ -12,53 +11,43 @@ export const AdminLogo: React.FC = () => {
         display: 'flex',
         alignItems: 'center',
         gap: '0.75rem',
-        padding: '0.5rem 0',
+        padding: '0.25rem 0',
       }}
     >
       {/* Icon */}
       <div
         style={{
-          width: '40px',
-          height: '40px',
-          background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
-          borderRadius: '10px',
+          width: '2rem',
+          height: '2rem',
+          background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
+          borderRadius: '0.5rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.2)',
+          flexShrink: 0,
         }}
       >
         <svg
-          width="24"
-          height="24"
+          width="18"
+          height="18"
           viewBox="0 0 24 24"
           fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+          stroke="white"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <path
-            d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"
-            fill="white"
-            stroke="white"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
         </svg>
       </div>
 
       {/* Text */}
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          lineHeight: '1.2',
-        }}
-      >
+      <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.2 }}>
         <span
           style={{
-            fontSize: '1.25rem',
-            fontWeight: '700',
-            color: 'var(--theme-text)',
+            fontSize: '0.9375rem',
+            fontWeight: 800,
+            color: '#f1f5f9',
             letterSpacing: '-0.02em',
           }}
         >
@@ -66,14 +55,14 @@ export const AdminLogo: React.FC = () => {
         </span>
         <span
           style={{
-            fontSize: '0.75rem',
-            fontWeight: '500',
-            color: 'var(--theme-text-tertiary)',
+            fontSize: '0.5625rem',
+            fontWeight: 500,
+            color: '#94a3b8',
             textTransform: 'uppercase',
-            letterSpacing: '0.05em',
+            letterSpacing: '0.06em',
           }}
         >
-          CMS
+          Content Management
         </span>
       </div>
     </div>

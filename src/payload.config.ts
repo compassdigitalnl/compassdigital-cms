@@ -66,16 +66,14 @@ import { UptimeIncidents } from '@/features/platform/monitoring/collections/Upti
 // Licenses
 import { Licenses } from '@/branches/ecommerce/b2b/collections/licenses/Licenses'
 import { LicenseActivations } from '@/branches/ecommerce/b2b/collections/licenses/LicenseActivations'
-// Loyalty
-import { LoyaltyPoints } from '@/branches/ecommerce/b2c/collections/loyalty/LoyaltyPoints'
-import { LoyaltyRedemptions } from '@/branches/ecommerce/b2c/collections/loyalty/LoyaltyRedemptions'
+// Loyalty (LoyaltyPoints merged into Users, LoyaltyRedemptions merged into LoyaltyTransactions)
 import { LoyaltyRewards } from '@/branches/ecommerce/b2c/collections/loyalty/LoyaltyRewards'
 import { LoyaltyTiers } from '@/branches/ecommerce/b2c/collections/loyalty/LoyaltyTiers'
 import { LoyaltyTransactions } from '@/branches/ecommerce/b2c/collections/loyalty/LoyaltyTransactions'
 // Marketing & A/B Testing
 import { ABTests } from '@/branches/ecommerce/shared/collections/marketing/ABTests'
 import { ABTestResults } from '@/branches/ecommerce/shared/collections/marketing/ABTestResults'
-import { DiscountCodes } from '@/branches/ecommerce/shared/collections/marketing/DiscountCodes'
+// DiscountCodes merged into Promotions (promotionMode: 'coupon')
 import { Promotions } from '@/branches/ecommerce/shared/collections/marketing/Promotions'
 import { EditionNotifications } from '@/branches/ecommerce/shared/collections/marketing/EditionNotifications'
 import { GiftVouchers } from '@/branches/ecommerce/b2c/collections/marketing/GiftVouchers'
@@ -245,8 +243,7 @@ export default buildConfig({
     meta: {
       titleSuffix: '— Contyzr CMS',
     },
-    // Custom CSS - Contyzr Brand Styling (DISABLED - uncomment to re-enable)
-    // css: path.resolve(dirname, 'globals/design/styles/admin.scss'),
+    css: path.resolve(dirname, 'globals/design/styles/admin.scss'),
   },
 
   // ─── Editor ───────────────────────────────
@@ -344,9 +341,8 @@ export default buildConfig({
     _col(CustomerGroups),
     _col(Addresses),
 
-    // Cart & Checkout
+    // Cart & Checkout (DiscountCodes merged into Promotions)
     _col(Carts),
-    _col(DiscountCodes),
     _col(Promotions),
 
     // Order Management
@@ -370,12 +366,10 @@ export default buildConfig({
     _col(Licenses),
     _col(LicenseActivations),
 
-    // Loyalty Program (Sprint 6)
+    // Loyalty Program (Sprint 6 — Points merged into Users, Redemptions merged into Transactions)
     _col(LoyaltyTiers),
     _col(LoyaltyRewards),
-    _col(LoyaltyPoints),
     _col(LoyaltyTransactions),
-    _col(LoyaltyRedemptions),
 
     // B2B Invites & Approvals (CompanyAccounts merged into Users)
     _col(CompanyInvites),

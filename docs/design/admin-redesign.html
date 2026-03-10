@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contyzr CMS — Admin Design System (Light)</title>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS
+   ═══════════════════════════════════════════════════════════ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+
+  /* Surfaces */
+  --bg: #f4f4f8;
+  --surface: #ffffff;
+  --surface-hover: #fafbfc;
+  --surface-active: #f0f2f5;
+
+  /* Borders */
+  --border: #e5e7eb;
+  --border-hover: #d1d5db;
+  --border-focus: #3b82f6;
+
+  /* Text */
+  --text: #1a1a2e;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --text-inverse: #ffffff;
+
+  /* Primary */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #eff6ff;
+  --primary-border: #93c5fd;
+
+  /* Accent (teal) */
+  --accent: #0d9488;
+  --accent-hover: #0f766e;
+  --accent-light: #f0fdfa;
+
+  /* Status */
+  --success: #059669;
+  --success-light: #d1fae5;
+  --warning: #d97706;
+  --warning-light: #fef3c7;
+  --error: #dc2626;
+  --error-light: #fef2f2;
+
+  /* Shapes */
+  --radius-sm: 0.375rem;
+  --radius: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.08), 0 4px 10px -5px rgba(0,0,0,0.04);
+
+  /* Sidebar */
+  --sidebar-w: 280px;
+  --sidebar-bg: #0f172a;
+  --sidebar-text: #94a3b8;
+  --sidebar-text-hover: #e2e8f0;
+  --sidebar-active-bg: rgba(59,130,246,0.12);
+  --sidebar-active-text: #60a5fa;
+  --sidebar-group: #475569;
+  --sidebar-divider: rgba(255,255,255,0.06);
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PAGE SECTIONS (for the design doc)
+   ═══════════════════════════════════════════════════════════ */
+.design-section {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+.design-section + .design-section {
+  border-top: 2px dashed #d1d5db;
+}
+.design-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+.design-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+.design-desc {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCREEN 1: FULL ADMIN SHELL (Sidebar + Dashboard)
+   ═══════════════════════════════════════════════════════════ */
+.admin-shell {
+  display: flex;
+  min-height: 700px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--sidebar-bg);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar-brand {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--sidebar-divider);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.sidebar-brand-icon {
+  width: 2rem;
+  height: 2rem;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sidebar-brand-icon svg { width: 1.125rem; height: 1.125rem; }
+.sidebar-brand-text {
+  font-size: 0.9375rem;
+  font-weight: 800;
+  color: #f1f5f9;
+  letter-spacing: -0.02em;
+}
+.sidebar-brand-sub {
+  font-size: 0.625rem;
+  color: var(--sidebar-text);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+}
+
+/* Nav groups */
+.nav-group { padding: 0.75rem 0; }
+.nav-group + .nav-group { border-top: 1px solid var(--sidebar-divider); }
+.nav-group-label {
+  padding: 0.375rem 1.5rem 0.5rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sidebar-group);
+}
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem 1.25rem;
+  margin: 0.125rem 0.5rem;
+  border-radius: var(--radius);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--sidebar-text);
+  text-decoration: none;
+  transition: all 0.12s ease;
+  cursor: pointer;
+}
+.nav-link:hover {
+  background: rgba(255,255,255,0.05);
+  color: var(--sidebar-text-hover);
+}
+.nav-link.active {
+  background: var(--sidebar-active-bg);
+  color: var(--sidebar-active-text);
+  font-weight: 600;
+}
+.nav-link-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+.nav-link.active .nav-link-icon { opacity: 1; }
+.nav-link-badge {
+  margin-left: auto;
+  font-size: 0.625rem;
+  font-weight: 700;
+  padding: 0.125rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(59,130,246,0.2);
+  color: #60a5fa;
+}
+
+/* Sidebar footer */
+.sidebar-footer {
+  margin-top: auto;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--sidebar-divider);
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.sidebar-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+.sidebar-user-name { font-size: 0.8125rem; font-weight: 600; color: #e2e8f0; }
+.sidebar-user-role { font-size: 0.6875rem; color: var(--sidebar-text); }
+
+/* ── Main content area ── */
+.main {
+  flex: 1;
+  background: var(--bg);
+  overflow-y: auto;
+}
+.main-inner {
+  max-width: 1100px;
+  padding: 2rem 2.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DASHBOARD
+   ═══════════════════════════════════════════════════════════ */
+
+/* Hero banner */
+.dash-hero {
+  padding: 2rem 2.25rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 40%, #2563eb 100%);
+  color: white;
+}
+.dash-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='20' cy='20' r='20'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.dash-hero-content { position: relative; z-index: 1; }
+.dash-hero-eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.65;
+  margin-bottom: 0.375rem;
+}
+.dash-hero-title {
+  font-size: 1.625rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.375rem;
+}
+.dash-hero-subtitle {
+  font-size: 0.875rem;
+  opacity: 0.75;
+  max-width: 420px;
+  line-height: 1.5;
+}
+.dash-hero-badge {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 1rem;
+  background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(4px);
+}
+
+/* Dashboard stats */
+.dash-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.dash-stat {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--border);
+}
+.dash-stat.blue   { border-top-color: #3b82f6; }
+.dash-stat.green  { border-top-color: #10b981; }
+.dash-stat.orange { border-top-color: #f59e0b; }
+.dash-stat.purple { border-top-color: #8b5cf6; }
+.dash-stat-label { font-size: 0.75rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.25rem; }
+.dash-stat-value { font-size: 1.75rem; font-weight: 800; color: var(--text); line-height: 1; }
+.dash-stat-sub { font-size: 0.6875rem; color: var(--text-muted); margin-top: 0.375rem; }
+.dash-stat.blue .dash-stat-value   { color: #2563eb; }
+.dash-stat.green .dash-stat-value  { color: #059669; }
+.dash-stat.orange .dash-stat-value { color: #d97706; }
+.dash-stat.purple .dash-stat-value { color: #7c3aed; }
+
+/* Section headers */
+.section-header {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--text);
+  padding-bottom: 0.625rem;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 1rem;
+}
+
+/* Quick action cards */
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+.action-card {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 1rem 1.125rem;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+.action-card:hover {
+  border-color: var(--primary-border);
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+}
+.action-card-icon {
+  font-size: 1.375rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.action-card-label {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+.action-card-desc {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  margin-top: 0.125rem;
+}
+.action-card-arrow {
+  margin-left: auto;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  transition: transform 0.15s;
+}
+.action-card:hover .action-card-arrow {
+  transform: translateX(2px);
+  color: var(--primary);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCREEN 2: COLLECTION LIST VIEW
+   ═══════════════════════════════════════════════════════════ */
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.list-title { font-size: 1.5rem; font-weight: 800; color: var(--text); }
+.list-count { font-size: 0.8125rem; color: var(--text-muted); margin-top: 0.125rem; }
+
+/* Action buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  box-shadow: var(--shadow-xs);
+}
+.btn-primary:hover {
+  background: var(--primary-hover);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 1.5px solid var(--border);
+}
+.btn-secondary:hover {
+  border-color: var(--border-hover);
+  background: var(--surface-hover);
+}
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+}
+.btn-icon {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.btn-icon:hover {
+  background: var(--surface-active);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+/* Search + Filters bar */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.search-input {
+  flex: 1;
+  max-width: 320px;
+  padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.8125rem;
+  color: var(--text);
+  background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") 0.75rem center no-repeat;
+  transition: all 0.12s;
+  outline: none;
+  font-family: var(--font);
+}
+.search-input::placeholder { color: var(--text-muted); }
+.search-input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.08);
+}
+.filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.filter-btn:hover {
+  border-color: var(--border-hover);
+  color: var(--text);
+}
+.filter-btn.has-filter {
+  border-color: var(--primary-border);
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+/* Data table */
+.data-table-wrap {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background: #fafbfc;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+}
+.data-table th.sortable { cursor: pointer; }
+.data-table th.sortable:hover { color: var(--text); }
+.data-table td {
+  padding: 0.75rem 1rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid #f3f4f6;
+}
+.data-table tbody tr { transition: background 0.08s; }
+.data-table tbody tr:hover { background: #fafbfc; }
+.data-table .cell-primary {
+  font-weight: 600;
+  color: var(--text);
+}
+.data-table .cell-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+.data-table .cell-link:hover { text-decoration: underline; }
+.data-table .cell-mono {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.data-table .cell-right { text-align: right; font-variant-numeric: tabular-nums; }
+.data-table .cell-center { text-align: center; }
+.data-table .th-right { text-align: right; }
+.data-table .th-center { text-align: center; }
+
+/* Checkbox */
+.checkbox {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.25rem;
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--surface);
+  transition: all 0.1s;
+}
+.checkbox:checked {
+  background: var(--primary);
+  border-color: var(--primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Status badges */
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-success { background: #d1fae5; color: #065f46; }
+.badge-warning { background: #fef3c7; color: #92400e; }
+.badge-error   { background: #fecaca; color: #991b1b; }
+.badge-info    { background: #dbeafe; color: #1e40af; }
+.badge-neutral { background: #f3f4f6; color: #4b5563; }
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.pagination-pages {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.page-btn {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s;
+}
+.page-btn:hover { background: var(--surface-active); border-color: var(--border); }
+.page-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCREEN 3: EDIT / FORM VIEW
+   ═══════════════════════════════════════════════════════════ */
+
+/* Edit header */
+.edit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.edit-header-left { display: flex; align-items: center; gap: 0.75rem; }
+.edit-back {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all 0.12s;
+  text-decoration: none;
+}
+.edit-back:hover { border-color: var(--border-hover); color: var(--text); }
+.edit-title { font-size: 1.25rem; font-weight: 700; color: var(--text); }
+.edit-id { font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono); }
+.edit-actions { display: flex; gap: 0.5rem; }
+
+/* Form layout */
+.form-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* Form card */
+.form-card {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.form-card-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.form-card-body { padding: 1.25rem; }
+.form-card + .form-card { margin-top: 1rem; }
+
+/* Form fields */
+.field { margin-bottom: 1.25rem; }
+.field:last-child { margin-bottom: 0; }
+.field-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.375rem;
+}
+.field-label .required { color: var(--error); margin-left: 0.125rem; }
+.field-desc { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.375rem; }
+.field-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.8125rem;
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--surface);
+  outline: none;
+  transition: all 0.12s;
+}
+.field-input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.08);
+}
+.field-input::placeholder { color: var(--text-muted); }
+textarea.field-input { min-height: 5rem; resize: vertical; }
+select.field-input { cursor: pointer; }
+
+/* Field row (2 cols) */
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Toggle / switch */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+.toggle-row:last-child { border-bottom: none; }
+.toggle-label { font-size: 0.8125rem; font-weight: 500; color: var(--text); }
+.toggle-desc { font-size: 0.6875rem; color: var(--text-muted); margin-top: 0.125rem; }
+.toggle {
+  width: 2.25rem;
+  height: 1.25rem;
+  border-radius: 999px;
+  background: #d1d5db;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.toggle.on { background: var(--primary); }
+.toggle::after {
+  content: '';
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 999px;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  transition: transform 0.15s;
+}
+.toggle.on::after { transform: translateX(1rem); }
+
+/* Sidebar meta card */
+.meta-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 0;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 0.8125rem;
+}
+.meta-item:last-child { border-bottom: none; }
+.meta-key { color: var(--text-muted); font-weight: 500; }
+.meta-value { color: var(--text); font-weight: 600; }
+
+/* ═══════════════════════════════════════════════════════════
+   SCREEN 4: LOGIN PAGE
+   ═══════════════════════════════════════════════════════════ */
+.login-screen {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eff6ff 0%, var(--bg) 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+.login-screen::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  right: -200px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.login-card {
+  width: 400px;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+.login-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+.login-logo-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border-radius: 0.625rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-logo-text { font-size: 1.25rem; font-weight: 800; color: var(--text); letter-spacing: -0.02em; }
+.login-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 0.375rem;
+}
+.login-subtitle {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.login-field { margin-bottom: 1rem; }
+.login-btn {
+  width: 100%;
+  padding: 0.625rem;
+  border-radius: var(--radius);
+  border: none;
+  background: var(--primary);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.12s;
+  font-family: var(--font);
+}
+.login-btn:hover {
+  background: var(--primary-hover);
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+}
+.login-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.login-footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE ADJUSTMENTS
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .admin-shell { flex-direction: column; }
+  .sidebar { width: 100%; flex-direction: row; overflow-x: auto; }
+  .main-inner { padding: 1.5rem; }
+  .dash-stats { grid-template-columns: repeat(2, 1fr); }
+  .actions-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-layout { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 1: DASHBOARD -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="design-section">
+  <div class="design-label">Screen 1</div>
+  <div class="design-title">Dashboard — Editor View</div>
+  <div class="design-desc">Het eerste scherm na inloggen. Snelle toegang tot alle onderdelen.</div>
+
+  <div class="admin-shell">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div>
+          <div class="sidebar-brand-text">Contyzr</div>
+          <div class="sidebar-brand-sub">Content Management</div>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-label">Content</div>
+        <a class="nav-link active" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Pagina's
+          <span class="nav-link-badge">12</span>
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Berichten
+          <span class="nav-link-badge">8</span>
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          Media
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-label">E-commerce</div>
+        <a class="nav-link" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Producten
+          <span class="nav-link-badge">247</span>
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+          Bestellingen
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          Kortingscodes
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          Klanten
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-label">Marketing</div>
+        <a class="nav-link" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          E-mail abonnees
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Flows
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-label">Rapportages</div>
+        <a class="nav-link" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Analytics
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Klantinzichten
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-label">Instellingen</div>
+        <a class="nav-link" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          Thema
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Navigatie
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-avatar">JD</div>
+        <div>
+          <div class="sidebar-user-name">Jan de Vries</div>
+          <div class="sidebar-user-role">Editor</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content: Dashboard -->
+    <div class="main">
+      <div class="main-inner">
+        <!-- Hero -->
+        <div class="dash-hero">
+          <div class="dash-hero-content">
+            <div class="dash-hero-eyebrow">Welkom terug</div>
+            <div class="dash-hero-title">Goedemorgen, Jan!</div>
+            <div class="dash-hero-subtitle">Beheer je content, producten en bestellingen vanuit je dashboard.</div>
+          </div>
+          <div class="dash-hero-badge">C</div>
+        </div>
+
+        <!-- Stats -->
+        <div class="dash-stats">
+          <div class="dash-stat blue">
+            <div class="dash-stat-label">Pagina's</div>
+            <div class="dash-stat-value">12</div>
+            <div class="dash-stat-sub">3 concepten</div>
+          </div>
+          <div class="dash-stat green">
+            <div class="dash-stat-label">Producten</div>
+            <div class="dash-stat-value">247</div>
+            <div class="dash-stat-sub">18 nieuwe deze week</div>
+          </div>
+          <div class="dash-stat orange">
+            <div class="dash-stat-label">Bestellingen</div>
+            <div class="dash-stat-value">38</div>
+            <div class="dash-stat-sub">Deze maand</div>
+          </div>
+          <div class="dash-stat purple">
+            <div class="dash-stat-label">Omzet</div>
+            <div class="dash-stat-value">&euro; 4.820</div>
+            <div class="dash-stat-sub">+12% vs vorige maand</div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="section-header">Snelle acties</div>
+        <div class="actions-grid">
+          <a class="action-card" href="#">
+            <div class="action-card-icon">📄</div>
+            <div>
+              <div class="action-card-label">Nieuwe pagina</div>
+              <div class="action-card-desc">Maak een nieuwe pagina aan</div>
+            </div>
+            <div class="action-card-arrow">&rarr;</div>
+          </a>
+          <a class="action-card" href="#">
+            <div class="action-card-icon">🛍️</div>
+            <div>
+              <div class="action-card-label">Product toevoegen</div>
+              <div class="action-card-desc">Voeg een nieuw product toe</div>
+            </div>
+            <div class="action-card-arrow">&rarr;</div>
+          </a>
+          <a class="action-card" href="#">
+            <div class="action-card-icon">📊</div>
+            <div>
+              <div class="action-card-label">Analytics bekijken</div>
+              <div class="action-card-desc">Omzet en conversie data</div>
+            </div>
+            <div class="action-card-arrow">&rarr;</div>
+          </a>
+          <a class="action-card" href="#">
+            <div class="action-card-icon">📧</div>
+            <div>
+              <div class="action-card-label">E-mail campagne</div>
+              <div class="action-card-desc">Stuur een nieuwsbrief</div>
+            </div>
+            <div class="action-card-arrow">&rarr;</div>
+          </a>
+          <a class="action-card" href="#">
+            <div class="action-card-icon">🎨</div>
+            <div>
+              <div class="action-card-label">Thema aanpassen</div>
+              <div class="action-card-desc">Kleuren en typografie</div>
+            </div>
+            <div class="action-card-arrow">&rarr;</div>
+          </a>
+          <a class="action-card" href="#">
+            <div class="action-card-icon">🌐</div>
+            <div>
+              <div class="action-card-label">Website bekijken</div>
+              <div class="action-card-desc">Open je live website</div>
+            </div>
+            <div class="action-card-arrow">&rarr;</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 2: COLLECTION LIST VIEW -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="design-section">
+  <div class="design-label">Screen 2</div>
+  <div class="design-title">Collection List — Producten</div>
+  <div class="design-desc">Overzicht van alle items in een collection met zoek-, filter- en sorteerfuncties.</div>
+
+  <div class="admin-shell" style="min-height:600px">
+    <!-- Sidebar (abbreviated) -->
+    <div class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div>
+          <div class="sidebar-brand-text">Contyzr</div>
+          <div class="sidebar-brand-sub">Content Management</div>
+        </div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">E-commerce</div>
+        <a class="nav-link active" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Producten
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+          Bestellingen
+        </a>
+      </div>
+      <div class="sidebar-footer">
+        <div class="sidebar-avatar">JD</div>
+        <div>
+          <div class="sidebar-user-name">Jan de Vries</div>
+          <div class="sidebar-user-role">Editor</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main: List View -->
+    <div class="main">
+      <div class="main-inner">
+        <div class="list-header">
+          <div>
+            <div class="list-title">Producten</div>
+            <div class="list-count">247 items gevonden</div>
+          </div>
+          <button class="btn btn-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Nieuw product
+          </button>
+        </div>
+
+        <div class="toolbar">
+          <input class="search-input" type="text" placeholder="Zoek op naam, SKU...">
+          <button class="filter-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+            Filters
+          </button>
+          <button class="filter-btn has-filter">
+            Status: Actief
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <div style="margin-left:auto; display:flex; gap:0.25rem;">
+            <button class="btn-icon" title="Tabelweergave">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </button>
+            <button class="btn-icon" title="Kaartweergave">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width:2.5rem"><input class="checkbox" type="checkbox"></th>
+                <th class="sortable">Product</th>
+                <th class="sortable">SKU</th>
+                <th class="sortable th-right">Prijs</th>
+                <th class="sortable th-right">Voorraad</th>
+                <th class="sortable th-center">Status</th>
+                <th class="th-right">Bijgewerkt</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input class="checkbox" type="checkbox"></td>
+                <td><a class="cell-link" href="#">Nitriel handschoenen M</a></td>
+                <td class="cell-mono">PLM-0142</td>
+                <td class="cell-right">&euro; 12,50</td>
+                <td class="cell-right">1.240</td>
+                <td class="cell-center"><span class="badge badge-success">Actief</span></td>
+                <td class="cell-right" style="color:var(--text-muted)">2 uur geleden</td>
+              </tr>
+              <tr>
+                <td><input class="checkbox" type="checkbox"></td>
+                <td><a class="cell-link" href="#">Mondmasker FFP2 50st</a></td>
+                <td class="cell-mono">PLM-0089</td>
+                <td class="cell-right">&euro; 24,95</td>
+                <td class="cell-right">856</td>
+                <td class="cell-center"><span class="badge badge-success">Actief</span></td>
+                <td class="cell-right" style="color:var(--text-muted)">5 uur geleden</td>
+              </tr>
+              <tr>
+                <td><input class="checkbox" type="checkbox"></td>
+                <td><a class="cell-link" href="#">Desinfectie handgel 500ml</a></td>
+                <td class="cell-mono">PLM-0201</td>
+                <td class="cell-right">&euro; 8,75</td>
+                <td class="cell-right">2.180</td>
+                <td class="cell-center"><span class="badge badge-success">Actief</span></td>
+                <td class="cell-right" style="color:var(--text-muted)">Gisteren</td>
+              </tr>
+              <tr>
+                <td><input class="checkbox" type="checkbox"></td>
+                <td><a class="cell-link" href="#">Wegwerp schort blauw</a></td>
+                <td class="cell-mono">PLM-0156</td>
+                <td class="cell-right">&euro; 15,90</td>
+                <td class="cell-right" style="color:#d97706; font-weight:600">12</td>
+                <td class="cell-center"><span class="badge badge-warning">Laag voorraad</span></td>
+                <td class="cell-right" style="color:var(--text-muted)">3 dagen</td>
+              </tr>
+              <tr>
+                <td><input class="checkbox" type="checkbox"></td>
+                <td><a class="cell-link" href="#">Veiligheidsbril transparant</a></td>
+                <td class="cell-mono">PLM-0078</td>
+                <td class="cell-right">&euro; 9,95</td>
+                <td class="cell-right" style="color:#dc2626; font-weight:600">0</td>
+                <td class="cell-center"><span class="badge badge-error">Uitverkocht</span></td>
+                <td class="cell-right" style="color:var(--text-muted)">1 week</td>
+              </tr>
+              <tr>
+                <td><input class="checkbox" type="checkbox"></td>
+                <td><a class="cell-link" href="#">Onderzoekshandschoenen L (Latex)</a></td>
+                <td class="cell-mono">PLM-0310</td>
+                <td class="cell-right">&euro; 14,25</td>
+                <td class="cell-right">580</td>
+                <td class="cell-center"><span class="badge badge-neutral">Concept</span></td>
+                <td class="cell-right" style="color:var(--text-muted)">2 weken</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pagination">
+            <span>1 - 6 van 247 items</span>
+            <div class="pagination-pages">
+              <button class="page-btn">&laquo;</button>
+              <button class="page-btn active">1</button>
+              <button class="page-btn">2</button>
+              <button class="page-btn">3</button>
+              <button class="page-btn">...</button>
+              <button class="page-btn">42</button>
+              <button class="page-btn">&raquo;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 3: EDIT VIEW -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="design-section">
+  <div class="design-label">Screen 3</div>
+  <div class="design-title">Edit View — Product bewerken</div>
+  <div class="design-desc">Formulier met zijbalk voor metadata, status en acties.</div>
+
+  <div class="admin-shell" style="min-height:650px">
+    <!-- Sidebar abbreviated -->
+    <div class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div>
+          <div class="sidebar-brand-text">Contyzr</div>
+          <div class="sidebar-brand-sub">Content Management</div>
+        </div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">E-commerce</div>
+        <a class="nav-link active" href="#">
+          <svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Producten
+        </a>
+      </div>
+      <div class="sidebar-footer">
+        <div class="sidebar-avatar">JD</div>
+        <div>
+          <div class="sidebar-user-name">Jan de Vries</div>
+          <div class="sidebar-user-role">Editor</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main: Edit View -->
+    <div class="main">
+      <div class="main-inner">
+        <!-- Header -->
+        <div class="edit-header">
+          <div class="edit-header-left">
+            <a class="edit-back" href="#">&larr;</a>
+            <div>
+              <div class="edit-title">Nitriel handschoenen M</div>
+              <div class="edit-id">ID: 142 &middot; PLM-0142</div>
+            </div>
+          </div>
+          <div class="edit-actions">
+            <button class="btn btn-secondary btn-sm">Voorbeeld</button>
+            <button class="btn btn-secondary btn-sm">Dupliceren</button>
+            <button class="btn btn-primary">Opslaan</button>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="form-layout">
+          <!-- Main form -->
+          <div>
+            <div class="form-card">
+              <div class="form-card-header">Algemeen</div>
+              <div class="form-card-body">
+                <div class="field">
+                  <label class="field-label">Titel <span class="required">*</span></label>
+                  <input class="field-input" type="text" value="Nitriel handschoenen M">
+                </div>
+                <div class="field">
+                  <label class="field-label">Slug</label>
+                  <input class="field-input" type="text" value="nitriel-handschoenen-m" style="color:var(--text-muted); font-family:var(--font-mono); font-size:0.8125rem;">
+                </div>
+                <div class="field">
+                  <label class="field-label">Beschrijving</label>
+                  <textarea class="field-input" rows="4" placeholder="Voer een productbeschrijving in...">Hoogwaardige nitriel handschoenen, poedervrij, geschikt voor medisch en industrieel gebruik. Uitstekende grip en tastgevoeligheid.</textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-card">
+              <div class="form-card-header">Prijzen &amp; Voorraad</div>
+              <div class="form-card-body">
+                <div class="field-row">
+                  <div class="field">
+                    <label class="field-label">Prijs <span class="required">*</span></label>
+                    <input class="field-input" type="text" value="12,50" style="font-variant-numeric:tabular-nums;">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Actieprijs</label>
+                    <input class="field-input" type="text" placeholder="Leeg = geen actie">
+                  </div>
+                </div>
+                <div class="field-row">
+                  <div class="field">
+                    <label class="field-label">Voorraad</label>
+                    <input class="field-input" type="number" value="1240">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">SKU</label>
+                    <input class="field-input" type="text" value="PLM-0142" style="font-family:var(--font-mono); font-size:0.8125rem;">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-card">
+              <div class="form-card-header">Opties</div>
+              <div class="form-card-body">
+                <div class="toggle-row">
+                  <div>
+                    <div class="toggle-label">Op voorraad tonen</div>
+                    <div class="toggle-desc">Toon voorraadstatus op productpagina</div>
+                  </div>
+                  <div class="toggle on"></div>
+                </div>
+                <div class="toggle-row">
+                  <div>
+                    <div class="toggle-label">Backorders toestaan</div>
+                    <div class="toggle-desc">Klanten kunnen bestellen als voorraad 0 is</div>
+                  </div>
+                  <div class="toggle"></div>
+                </div>
+                <div class="toggle-row">
+                  <div>
+                    <div class="toggle-label">Uitgelicht product</div>
+                    <div class="toggle-desc">Toon op homepage en in speciale secties</div>
+                  </div>
+                  <div class="toggle on"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div>
+            <div class="form-card">
+              <div class="form-card-header">Status</div>
+              <div class="form-card-body">
+                <div class="field">
+                  <label class="field-label">Publicatiestatus</label>
+                  <select class="field-input">
+                    <option selected>Actief</option>
+                    <option>Concept</option>
+                    <option>Gearchiveerd</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label class="field-label">Categorie</label>
+                  <select class="field-input">
+                    <option selected>Beschermingsmiddelen</option>
+                    <option>Handschoenen</option>
+                    <option>Desinfectie</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-card">
+              <div class="form-card-header">Metadata</div>
+              <div class="form-card-body" style="padding:0.75rem 1.25rem">
+                <div class="meta-item">
+                  <span class="meta-key">Aangemaakt</span>
+                  <span class="meta-value">14 feb 2026</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-key">Bijgewerkt</span>
+                  <span class="meta-value">2 uur geleden</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-key">Door</span>
+                  <span class="meta-value">Jan de Vries</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-key">Versie</span>
+                  <span class="meta-value">v12</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-card" style="border-color:#fecaca;">
+              <div class="form-card-header" style="color:var(--error);">Verwijderen</div>
+              <div class="form-card-body">
+                <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.75rem;">Dit product permanent verwijderen. Deze actie kan niet ongedaan worden gemaakt.</p>
+                <button class="btn btn-sm" style="background:#fef2f2; color:#dc2626; border:1.5px solid #fecaca; width:100%; justify-content:center;">Verwijderen</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 4: LOGIN PAGE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="design-section">
+  <div class="design-label">Screen 4</div>
+  <div class="design-title">Login Pagina</div>
+  <div class="design-desc">Inlogscherm met branding en clean layout.</div>
+
+  <div class="login-screen">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="login-logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div class="login-logo-text">Contyzr CMS</div>
+      </div>
+      <div class="login-title">Inloggen</div>
+      <div class="login-subtitle">Voer je gegevens in om toegang te krijgen tot het dashboard.</div>
+      <div class="login-field">
+        <label class="field-label">E-mailadres</label>
+        <input class="field-input" type="email" placeholder="naam@bedrijf.nl">
+      </div>
+      <div class="login-field">
+        <label class="field-label">Wachtwoord</label>
+        <input class="field-input" type="password" placeholder="••••••••">
+      </div>
+      <div style="margin-bottom:1.25rem; display:flex; align-items:center; justify-content:space-between; font-size:0.8125rem;">
+        <label style="display:flex; align-items:center; gap:0.375rem; color:var(--text-secondary); cursor:pointer;">
+          <input class="checkbox" type="checkbox"> Onthoud mij
+        </label>
+        <a href="#" style="color:var(--primary); text-decoration:none; font-weight:600; font-size:0.8125rem;">Wachtwoord vergeten?</a>
+      </div>
+      <button class="login-btn">Inloggen</button>
+      <div class="login-footer">Klant? <a href="#">Log in via de website</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- DESIGN TOKENS REFERENCE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="design-section">
+  <div class="design-label">Referentie</div>
+  <div class="design-title">Design Tokens</div>
+  <div class="design-desc">Kleuren, typografie en componenten die door het hele admin panel worden gebruikt.</div>
+
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem;">
+    <div>
+      <div style="font-size:0.6875rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted); margin-bottom:0.5rem;">Primary</div>
+      <div style="display:flex; flex-direction:column; gap:0.25rem;">
+        <div style="height:2.5rem; background:#eff6ff; border-radius:0.375rem; display:flex; align-items:center; padding:0 0.75rem; font-size:0.6875rem; color:#1e40af;">50 — #eff6ff</div>
+        <div style="height:2.5rem; background:#3b82f6; border-radius:0.375rem; display:flex; align-items:center; padding:0 0.75rem; font-size:0.6875rem; color:white;">500 — #3b82f6</div>
+        <div style="height:2.5rem; background:#2563eb; border-radius:0.375rem; display:flex; align-items:center; padding:0 0.75rem; font-size:0.6875rem; color:white;">600 — #2563eb</div>
+        <div style="height:2.5rem; background:#1d4ed8; border-radius:0.375rem; display:flex; align-items:center; padding:0 0.75rem; font-size:0.6875rem; color:white;">700 — #1d4ed8</div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:0.6875rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted); margin-bottom:0.5rem;">Status</div>
+      <div style="display:flex; flex-direction:column; gap:0.25rem;">
+        <div style="height:2.5rem; background:#d1fae5; border-radius:0.375rem; display:flex; align-items:center; padding:0 0.75rem; font-size:0.6875rem; color:#065f46;">Success — #059669</div>
+        <div style="height:2.5rem; background:#fef3c7; border-radius:0.375rem; display:flex; align-items:center; padding:0 0.75rem; font-size:0.6875rem; color:#92400e;">Warning — #d97706</div>
+        <div style="height:2.5rem; background:#fecaca; border-radius:0.375rem; display:flex; align-items:center; padding:0 0.75rem; font-size:0.6875rem; color:#991b1b;">Error — #dc2626</div>
+        <div style="height:2.5rem; background:#dbeafe; border-radius:0.375rem; display:flex; align-items:center; padding:0 0.75rem; font-size:0.6875rem; color:#1e40af;">Info — #3b82f6</div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:0.6875rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted); margin-bottom:0.5rem;">Neutral</div>
+      <div style="display:flex; flex-direction:column; gap:0.25rem;">
+        <div style="height:2.5rem; background:#f4f4f8; border-radius:0.375rem; display:flex; align-items:center; padding:0 0.75rem; font-size:0.6875rem; color:#4b5563;">Background — #f4f4f8</div>
+        <div style="height:2.5rem; background:#ffffff; border:1px solid #e5e7eb; border-radius:0.375rem; display:flex; align-items:center; padding:0 0.75rem; font-size:0.6875rem; color:#4b5563;">Surface — #ffffff</div>
+        <div style="height:2.5rem; background:#e5e7eb; border-radius:0.375rem; display:flex; align-items:center; padding:0 0.75rem; font-size:0.6875rem; color:#4b5563;">Border — #e5e7eb</div>
+        <div style="height:2.5rem; background:#0f172a; border-radius:0.375rem; display:flex; align-items:center; padding:0 0.75rem; font-size:0.6875rem; color:#94a3b8;">Sidebar — #0f172a</div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:0.6875rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted); margin-bottom:0.5rem;">Componenten</div>
+      <div style="display:flex; flex-direction:column; gap:0.5rem;">
+        <div style="display:flex; gap:0.375rem; align-items:center;">
+          <button class="btn btn-primary btn-sm">Primary</button>
+          <button class="btn btn-secondary btn-sm">Secondary</button>
+        </div>
+        <div style="display:flex; gap:0.375rem;">
+          <span class="badge badge-success">Actief</span>
+          <span class="badge badge-warning">Concept</span>
+          <span class="badge badge-error">Fout</span>
+          <span class="badge badge-info">Info</span>
+          <span class="badge badge-neutral">Archief</span>
+        </div>
+        <div style="font-size:0.6875rem; color:var(--text-muted);">Border-radius: 8px (md: 12px)<br>Shadow: subtle multi-layer<br>Font: System stack (-apple-system)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
