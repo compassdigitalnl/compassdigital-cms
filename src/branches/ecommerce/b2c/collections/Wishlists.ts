@@ -61,7 +61,7 @@ export const Wishlists: CollectionConfig = {
   },
   indexes: [
     // Unique constraint: one product per user
-    { fields: { user: 1, product: 1 }, options: { unique: true } },
+    { fields: ['user', 'product'], unique: true },
   ],
   fields: [
     // === User Relationship ===
