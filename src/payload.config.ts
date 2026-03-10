@@ -77,9 +77,8 @@ import { ABTestResults } from '@/branches/ecommerce/shared/collections/marketing
 import { Promotions } from '@/branches/ecommerce/shared/collections/marketing/Promotions'
 import { EditionNotifications } from '@/branches/ecommerce/shared/collections/marketing/EditionNotifications'
 import { GiftVouchers } from '@/branches/ecommerce/b2c/collections/marketing/GiftVouchers'
-// Cart & Addresses
+// Cart (Addresses merged into Users)
 import { Carts } from '@/branches/ecommerce/shared/collections/checkout/Carts'
-import { Addresses } from '@/branches/ecommerce/shared/collections/customers/Addresses'
 
 // Content Branch (1 collection — premium content)
 import { BlogPosts } from '@/branches/publishing/collections/BlogPosts'
@@ -337,9 +336,8 @@ export default buildConfig({
     // Publishing
     _col(Magazines),
 
-    // Customer Management (Customers merged into Users)
+    // Customer Management (Customers + Addresses merged into Users)
     _col(CustomerGroups),
-    _col(Addresses),
 
     // Cart & Checkout (DiscountCodes merged into Promotions)
     _col(Carts),

@@ -254,7 +254,7 @@ export const features = {
   returns: isFeatureEnabled('returns'),
   recurringOrders: isFeatureEnabled('recurring_orders'),
   orderLists: isFeatureEnabled('order_lists'),
-  addresses: isFeatureEnabled('addresses'),
+  // addresses: merged into Users collection
   accountInvoices: isFeatureEnabled('account_invoices'),
   notifications: isFeatureEnabled('notifications'),
 
@@ -357,7 +357,6 @@ export const featureCategories = {
     'returns',
     'recurringOrders',
     'orderLists',
-    'addresses',
     'accountInvoices',
     'notifications',
   ],
