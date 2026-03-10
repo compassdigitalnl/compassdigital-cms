@@ -3,13 +3,25 @@
 import { useEffect, useState } from 'react'
 
 /**
- * HideCollections — Server + Client hybrid component
+ * Feature Toggle → Collection slug mapping
  *
- * NIEUW: Leest tenant context uit cookies (gezet door middleware via headers)
- * OF valt terug op oude API-based methode voor backwards compatibility.
+ * Maps e-commerce settings feature toggles to the collection slugs
+ * they control. When a toggle is false, the collection is hidden.
+ */
+const FEATURE_TOGGLE_MAP: Record<string, string[]> = {
+  enableReviews: ['product-reviews'],
+  enableWishlist: ['wishlists'],
+  enableOrderLists: ['order-lists'],
+}
+
+/**
+ * HideCollections — Client-side component that hides admin sidebar items
  *
- * Server-side: Middleware injecteert x-tenant-disabled-collections header
- * Client-side: Leest cookie en injecteert CSS om collections te verbergen
+ * Two sources of hidden collections:
+ * 1. Cookie/API — disabled collections per tenant (ENV-based feature flags)
+ * 2. E-commerce Settings — feature toggles stored in database
+ *
+ * Both are merged to determine which collections to hide.
  */
 export function HideCollections() {
   const [css, setCss] = useState('')
@@ -19,57 +31,52 @@ export function HideCollections() {
 
     // Platform zelf — nooit verbergen
     if (!fullHostname || fullHostname === 'cms.compassdigital.nl' || fullHostname === 'localhost') {
-      console.log('[HideCollections] Platform admin - no filtering')
       return
     }
 
-    console.log('[HideCollections] Tenant admin detected:', fullHostname)
+    resolveHiddenCollections(fullHostname)
+  }, [])
 
-    // Try to read disabled collections from cookie (set by middleware/server)
+  async function resolveHiddenCollections(fullHostname: string) {
+    const allDisabled: string[] = []
+
+    // Source 1: Cookie-based disabled collections (ENV feature flags)
+    const cookieDisabled = getDisabledFromCookie()
+    if (cookieDisabled) {
+      allDisabled.push(...cookieDisabled)
+    } else {
+      // Fallback: API-based lookup
+      const apiDisabled = await fetchDisabledFromAPI(fullHostname)
+      allDisabled.push(...apiDisabled)
+    }
+
+    // Source 2: E-commerce settings feature toggles (database)
+    const featureDisabled = await fetchDisabledFromFeatureToggles()
+    allDisabled.push(...featureDisabled)
+
+    // Deduplicate and apply
+    const unique = [...new Set(allDisabled)]
+    applyHiddenStyles(unique)
+  }
+
+  function getDisabledFromCookie(): string[] | null {
     const cookies = document.cookie.split(';').reduce((acc, cookie) => {
       const [key, value] = cookie.trim().split('=')
       acc[key] = value
       return acc
     }, {} as Record<string, string>)
 
-    const disabledCollectionsFromCookie = cookies['x-tenant-disabled-collections']
+    const raw = cookies['x-tenant-disabled-collections']
+    if (!raw) return null
 
-    if (disabledCollectionsFromCookie) {
-      try {
-        const disabled = JSON.parse(decodeURIComponent(disabledCollectionsFromCookie))
-        console.log('[HideCollections] ✅ Disabled collections from cookie:', disabled)
-        applyHiddenStyles(disabled)
-        return
-      } catch (e) {
-        console.error('[HideCollections] Failed to parse cookie:', e)
-      }
+    try {
+      return JSON.parse(decodeURIComponent(raw))
+    } catch {
+      return null
     }
-
-    // Fallback: API-based lookup (old method)
-    console.log('[HideCollections] Cookie not found, falling back to API lookup')
-    fetchAndHideCollections(fullHostname)
-  }, [])
-
-  function applyHiddenStyles(disabled: string[]) {
-    if (disabled.length === 0) {
-      console.log('[HideCollections] No collections to hide')
-      return
-    }
-
-    const styles = disabled
-      .map(
-        (slug) =>
-          `a[href="/admin/collections/${slug}/"], ` +
-          `a[href*="/admin/collections/${slug}/"], ` +
-          `li:has(> a[href="/admin/collections/${slug}/"]) { display: none !important; }`,
-      )
-      .join('\n')
-
-    console.log('[HideCollections] ✅ Injecting CSS to hide:', disabled)
-    setCss(styles)
   }
 
-  async function fetchAndHideCollections(fullHostname: string) {
+  async function fetchDisabledFromAPI(fullHostname: string): Promise<string[]> {
     const subdomain = fullHostname.endsWith('.compassdigital.nl')
       ? fullHostname.replace('.compassdigital.nl', '')
       : null
@@ -84,18 +91,49 @@ export function HideCollections() {
       const response = await fetch(`/api/platform/clients?${searchParams}`)
       const data = await response.json()
       const client = data?.docs?.[0]
+      return client?.disabledCollections ?? []
+    } catch {
+      return []
+    }
+  }
 
-      if (!client) {
-        console.warn('[HideCollections] No client found for:', fullHostname)
-        return
+  async function fetchDisabledFromFeatureToggles(): Promise<string[]> {
+    try {
+      const response = await fetch('/api/globals/e-commerce-settings?depth=0')
+      if (!response.ok) return []
+      const settings = await response.json()
+      const features = settings?.features
+      if (!features) return []
+
+      const disabled: string[] = []
+      for (const [toggleKey, collectionSlugs] of Object.entries(FEATURE_TOGGLE_MAP)) {
+        if (features[toggleKey] === false) {
+          disabled.push(...collectionSlugs)
+        }
       }
 
-      console.log('[HideCollections] ✅ Found client:', client.name)
-      const disabled: string[] = client.disabledCollections ?? []
-      applyHiddenStyles(disabled)
-    } catch (err) {
-      console.error('[HideCollections] ❌ API error:', err)
+      if (disabled.length > 0) {
+        console.log('[HideCollections] Feature toggles hiding:', disabled)
+      }
+      return disabled
+    } catch {
+      return []
     }
+  }
+
+  function applyHiddenStyles(disabled: string[]) {
+    if (disabled.length === 0) return
+
+    const styles = disabled
+      .map(
+        (slug) =>
+          `a[href="/admin/collections/${slug}/"], ` +
+          `a[href*="/admin/collections/${slug}/"], ` +
+          `li:has(> a[href="/admin/collections/${slug}/"]) { display: none !important; }`,
+      )
+      .join('\n')
+
+    setCss(styles)
   }
 
   if (!css) return null
