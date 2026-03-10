@@ -25,10 +25,46 @@ export function slugify(text: string): string {
 }
 
 /**
+ * Create a configurable field-level beforeValidate hook for slug generation
+ *
+ * This is the single source of truth for slug auto-generation. It creates a
+ * Payload field hook that reads from any source field and generates a slug.
+ *
+ * @param options.sourceField - The field name to generate the slug from (default: 'title')
+ * @returns A Payload beforeValidate field hook
+ *
+ * @example
+ * // Generate from 'title':
+ * hooks: { beforeValidate: [createSlugHook({ sourceField: 'title' })] }
+ *
+ * // Generate from 'name':
+ * hooks: { beforeValidate: [createSlugHook({ sourceField: 'name' })] }
+ *
+ * // Generate from any custom field:
+ * hooks: { beforeValidate: [createSlugHook({ sourceField: 'companyName' })] }
+ */
+export const createSlugHook = ({ sourceField = 'title' }: { sourceField?: string } = {}) => {
+  return ({ value, data }: any) => {
+    // If slug is already filled, keep it (allow manual override)
+    if (value) {
+      return value
+    }
+
+    // Generate from source field if available
+    if (data?.[sourceField]) {
+      return slugify(data[sourceField])
+    }
+
+    // Return empty if source field not available
+    return value
+  }
+}
+
+/**
  * Payload beforeValidate hook to auto-generate slug from title
  *
- * This hook automatically generates a URL slug from the title field
- * if the slug is empty. It can be used in any Payload collection.
+ * Thin wrapper around createSlugHook for backward compatibility.
+ * Use in field hooks: `hooks: { beforeValidate: [autoGenerateSlug] }`
  *
  * @example
  * // In your collection config:
@@ -43,24 +79,14 @@ export function slugify(text: string): string {
  *   }
  * ]
  */
-export const autoGenerateSlug = ({ value, data }: any) => {
-  // If slug is already filled, keep it (allow manual override)
-  if (value) {
-    return value
-  }
-
-  // Generate from title if available
-  if (data?.title) {
-    return slugify(data.title)
-  }
-
-  // Return empty if no title available
-  return value
-}
+export const autoGenerateSlug = createSlugHook({ sourceField: 'title' })
 
 /**
  * Payload beforeValidate hook to auto-generate slug from name
  * (for collections that use 'name' instead of 'title')
+ *
+ * Thin wrapper around createSlugHook for backward compatibility.
+ * Use in field hooks: `hooks: { beforeValidate: [autoGenerateSlugFromName] }`
  *
  * @example
  * // In your collection config:
@@ -75,20 +101,7 @@ export const autoGenerateSlug = ({ value, data }: any) => {
  *   }
  * ]
  */
-export const autoGenerateSlugFromName = ({ value, data }: any) => {
-  // If slug is already filled, keep it (allow manual override)
-  if (value) {
-    return value
-  }
-
-  // Generate from name if available
-  if (data?.name) {
-    return slugify(data.name)
-  }
-
-  // Return empty if no name available
-  return value
-}
+export const autoGenerateSlugFromName = createSlugHook({ sourceField: 'name' })
 
 /**
  * Generate alt text from filename

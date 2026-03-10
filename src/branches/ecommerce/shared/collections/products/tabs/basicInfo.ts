@@ -8,6 +8,7 @@ import {
 import { featureField } from '@/lib/tenant/featureFields'
 import { features } from '@/lib/tenant/features'
 import { productTypeOptions } from '../productTypeOptions'
+import { autoGenerateSlug } from '@/utilities/slugify'
 
 export const basicInfoTab: Tab = {
   label: 'Basis Info',
@@ -24,6 +25,9 @@ export const basicInfoTab: Tab = {
       type: 'text',
       unique: true,
       label: 'URL Slug',
+      hooks: {
+        beforeValidate: [autoGenerateSlug],
+      },
       admin: {
         position: 'sidebar',
         description: 'Laat leeg voor automatische generatie o.b.v. productnaam. Vul in om handmatig te overrulen.',

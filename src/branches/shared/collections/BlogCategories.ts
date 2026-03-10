@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
+import { autoGenerateSlugFromName } from '@/utilities/slugify'
 
 export const BlogCategories: CollectionConfig = {
   slug: 'blog-categories',
@@ -20,20 +21,6 @@ export const BlogCategories: CollectionConfig = {
     update: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
     delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
-  hooks: {
-    beforeChange: [
-      async ({ data }) => {
-        // Auto-generate slug from name if not provided
-        if (!data.slug && data.name) {
-          data.slug = data.name
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/(^-|-$)/g, '')
-        }
-        return data
-      },
-    ],
-  },
   fields: [
     {
       name: 'name',
@@ -50,6 +37,9 @@ export const BlogCategories: CollectionConfig = {
       required: true,
       unique: true,
       label: 'URL Slug',
+      hooks: {
+        beforeValidate: [autoGenerateSlugFromName],
+      },
       admin: {
         description: 'Auto-gegenereerd uit categorie naam. Gebruikt in URL: /blog/{slug}',
       },

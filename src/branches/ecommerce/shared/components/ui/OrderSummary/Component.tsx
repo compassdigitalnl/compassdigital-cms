@@ -26,7 +26,7 @@
 import React from 'react'
 import { Receipt, Lock, FileText } from 'lucide-react'
 import type { OrderSummaryProps } from './types'
-import { usePriceMode } from '../../../hooks/usePriceMode'
+import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
 export function OrderSummary({
   subtotal,

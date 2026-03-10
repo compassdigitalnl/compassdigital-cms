@@ -3,7 +3,7 @@
 import React from 'react'
 import { Truck, ShieldCheck, Award, Package, RotateCcw, Leaf, Bell } from 'lucide-react'
 import type { ProductMetaProps, StockStatus } from './types'
-import { usePriceMode } from '../../../hooks/usePriceMode'
+import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
 // Icon mapping for trust badges
 const ICON_MAP = {

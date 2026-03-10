@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { X } from 'lucide-react'
 import type { CartLineItemCompactProps } from './types'
-import { usePriceMode } from '../../../hooks/usePriceMode'
+import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 
 export default function CartLineItemCompact({
   product,

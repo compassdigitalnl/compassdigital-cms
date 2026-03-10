@@ -42,18 +42,6 @@ export const Products: CollectionConfig = {
     delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   hooks: {
-    beforeChange: [
-      async ({ data }) => {
-        // Auto-generate slug from title if not provided
-        if (!data.slug && data.title) {
-          data.slug = data.title
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/(^-|-$)/g, '')
-        }
-        return data
-      },
-    ],
     afterChange: [
       async ({ doc, req, operation }) => {
         // Auto-fill canonical URL for child products of grouped products

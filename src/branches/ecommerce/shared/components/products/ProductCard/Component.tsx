@@ -27,7 +27,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ShoppingCart, Star, Layers, Heart, Eye, Minus, Plus } from 'lucide-react'
 import type { ProductCardProps } from './types'
-import { usePriceMode } from '../../../hooks/usePriceMode'
+import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 import './ProductCard.css'
 
 export function ProductCard({
