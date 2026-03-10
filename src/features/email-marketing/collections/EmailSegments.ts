@@ -13,7 +13,7 @@ import { isAdmin, isSuperAdmin, isAdminOrEditor } from '@/access/utilities'
 export const EmailSegments: CollectionConfig = {
   slug: 'email-segments',
   admin: {
-    hidden: !emailMarketingFeatures.isEnabled(),
+    hidden: true, // System data — managed via campaigns/API, not directly in sidebar
     group: 'E-mail Marketing',
     useAsTitle: 'title',
     defaultColumns: ['title', 'subscriberCount', 'status', 'lastCalculatedAt', 'updatedAt'],

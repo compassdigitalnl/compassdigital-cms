@@ -14,7 +14,7 @@ const isPlatformMode = isFeatureEnabled('platform')
 export const AutomationRules: CollectionConfig = {
   slug: 'automation-rules',
   admin: {
-    hidden: !emailMarketingFeatures.campaigns(),
+    hidden: true, // System data — managed via AutomationFlows, not directly
     group: 'E-mail Marketing',
     useAsTitle: 'name',
     defaultColumns: ['name', 'status', 'trigger', 'updatedAt'],
