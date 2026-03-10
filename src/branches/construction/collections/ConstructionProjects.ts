@@ -10,6 +10,12 @@ export const ConstructionProjects: CollectionConfig = {
     singular: 'Bouw Project',
     plural: 'Bouw Projecten',
   },
+  versions: {
+    drafts: {
+      autosave: true,
+    },
+    maxPerDoc: 10,
+  },
   access: {
     read: publicAccess,
     create: ({ req: { user } }) => checkRole(['admin', 'editor'], user),

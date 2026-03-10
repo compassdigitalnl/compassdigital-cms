@@ -32,6 +32,12 @@ export const Brands: CollectionConfig = {
       },
     ],
   },
+  versions: {
+    drafts: {
+      autosave: true,
+    },
+    maxPerDoc: 10,
+  },
   access: {
     read: () => true, // Brands are publicly accessible (webshop catalog)
     create: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
