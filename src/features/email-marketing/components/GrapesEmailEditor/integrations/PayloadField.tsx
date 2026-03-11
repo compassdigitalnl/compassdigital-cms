@@ -30,8 +30,14 @@ export function GrapesJSField(props: GrapesJSFieldProps) {
   } = props
 
   // Get field state from Payload
-  const { value, setValue } = useField<string>({ path })
+  // Payload's json field returns parsed objects, but GrapesJS expects a string
+  const { value, setValue } = useField<unknown>({ path })
   const { setValue: setHtmlValue } = useField<string>({ path: 'html' })
+
+  // Ensure value is always a string for GrapesJS editor
+  const editorValue = typeof value === 'object' && value !== null
+    ? JSON.stringify(value)
+    : (typeof value === 'string' ? value : '')
 
   // Handle editor changes — store projectData AND auto-populate html field
   const handleChange = (html: string, projectData: any) => {
@@ -40,15 +46,14 @@ export function GrapesJSField(props: GrapesJSFieldProps) {
   }
 
   // Handle export — store inlined HTML in the html field
-  const handleExport = (fullHtml: string, inlinedHtml: string) => {
-    console.log('[GrapesJSField] Export triggered, saving inlined HTML to html field')
+  const handleExport = (_fullHtml: string, inlinedHtml: string) => {
     setHtmlValue(inlinedHtml)
   }
 
   return (
     <div style={{ marginBottom: '20px' }}>
       <GrapesEmailEditor
-        value={value || ''}
+        value={editorValue}
         onChange={handleChange}
         onExport={handleExport}
         readOnly={readOnly}
