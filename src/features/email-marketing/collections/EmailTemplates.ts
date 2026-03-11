@@ -146,22 +146,17 @@ export const EmailTemplates: CollectionConfig = {
     {
       name: 'grapesData',
       type: 'json',
+      label: 'Visuele Editor',
       admin: {
-        description: 'Visuele e-mail template editor',
-        condition: (data) => !!data.useVisualEditor,
+        description: 'Visuele e-mail template editor — sleep blokken om je email te bouwen',
         components: {
-          Field: {
-            path: '@/features/email-marketing/components/GrapesEmailEditor/integrations/PayloadField#GrapesJSField',
-            clientProps: {
-              ecommerceBlocks: true,
-            },
-          },
+          Field: '@/features/email-marketing/components/GrapesEmailEditor/integrations/PayloadField#GrapesJSField',
         },
       },
     },
 
     // ═══════════════════════════════════════════════════════════
-    // HTML CONTENT (Always present - either from GrapesJS export or manual)
+    // HTML CONTENT (hidden - auto-populated by GrapesJS)
     // ═══════════════════════════════════════════════════════════
     {
       name: 'html',
@@ -169,8 +164,8 @@ export const EmailTemplates: CollectionConfig = {
       label: 'HTML inhoud',
       admin: {
         language: 'html',
-        description: 'HTML code van de e-mail (handmatig bewerken als je geen visuele editor gebruikt)',
-        condition: (data) => !data.useVisualEditor,
+        description: 'Gegenereerde HTML — wordt automatisch bijgewerkt door de visuele editor',
+        condition: () => false,
       },
     },
 
