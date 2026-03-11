@@ -259,6 +259,9 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
         }
 
         // ── Empty State Hint ──────────────────────────────
+        // Only show when editor is truly empty (no content loaded)
+        const hasInitialContent = !!value
+
         const updateEmptyState = () => {
           const canvasEl = containerRef.current?.querySelector('.gjs-cv-canvas')
           if (!canvasEl) return
@@ -267,7 +270,7 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
           const wrapper = editor.getWrapper()
           const isEmpty = !wrapper || wrapper.components().length === 0
 
-          if (isEmpty && !existing) {
+          if (isEmpty && !hasInitialContent && !existing) {
             const hint = document.createElement('div')
             hint.className = 'canvas-empty-state'
             hint.innerHTML = `
@@ -276,7 +279,7 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
               <p class="canvas-empty-state__text">Sleep een blok vanuit het rechterpaneel naar hier</p>
             `
             canvasEl.appendChild(hint)
-          } else if (!isEmpty && existing) {
+          } else if ((!isEmpty || hasInitialContent) && existing) {
             existing.remove()
           }
         }
@@ -284,7 +287,6 @@ export function GrapesEditorCore(props: GrapesEmailEditorProps) {
         editor.on('component:add', updateEmptyState)
         editor.on('component:remove', updateEmptyState)
         editor.on('load', updateEmptyState)
-        // Check after initial load
         setTimeout(updateEmptyState, 500)
 
         // Listen to changes
