@@ -263,26 +263,7 @@ export const ConstructionProjects: CollectionConfig = {
         {
           label: 'SEO',
           fields: [
-            {
-              name: 'meta',
-              type: 'group',
-              label: 'Meta gegevens',
-              fields: [
-                {
-                  name: 'title',
-                  type: 'text',
-                  label: 'SEO Titel',
-                },
-                {
-                  name: 'description',
-                  type: 'textarea',
-                  label: 'SEO Omschrijving',
-                  admin: {
-                    rows: 2,
-                  },
-                },
-              ],
-            },
+            // meta fields are auto-added by seoPlugin
           ],
         },
       ],

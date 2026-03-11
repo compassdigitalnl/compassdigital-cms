@@ -263,38 +263,7 @@ export const ProfessionalServices: CollectionConfig = {
         {
           label: 'SEO',
           fields: [
-            {
-              name: 'meta',
-              type: 'group',
-              label: 'Meta gegevens',
-              fields: [
-                {
-                  name: 'title',
-                  type: 'text',
-                  label: 'SEO Titel',
-                  admin: {
-                    description: 'Titel voor zoekmachines (max 60 karakters)',
-                  },
-                },
-                {
-                  name: 'description',
-                  type: 'textarea',
-                  label: 'SEO Omschrijving',
-                  admin: {
-                    description: 'Meta omschrijving (max 160 karakters)',
-                    rows: 2,
-                  },
-                },
-                {
-                  name: 'keywords',
-                  type: 'text',
-                  label: 'Zoekwoorden',
-                  admin: {
-                    description: 'Komma-gescheiden (bijv. "accountant, boekhouder, belastingadvies")',
-                  },
-                },
-              ],
-            },
+            // meta fields are auto-added by seoPlugin
           ],
         },
       ],
