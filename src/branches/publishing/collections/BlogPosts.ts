@@ -20,7 +20,7 @@ import {
 import { InfoBox } from '@/branches/shared/blocks/InfoBox/config'
 import { ProductEmbed } from '@/branches/ecommerce/shared/blocks/ProductEmbed'
 import { ComparisonTable } from '@/branches/ecommerce/shared/blocks/ComparisonTable'
-import { FAQ } from '@/branches/shared/blocks/FAQ/config'
+import { FAQ } from '@/branches/shared/blocks/FAQ'
 
 export const BlogPosts: CollectionConfig = {
   slug: 'blog-posts',

@@ -291,6 +291,220 @@ export function buildServiceSchema(service: any, settings: Setting, siteUrl: str
 }
 
 // ─────────────────────────────────────────────────────────────
+// Construction Service Schema
+// ─────────────────────────────────────────────────────────────
+export function buildConstructionServiceSchema(service: any, settings: Setting, siteUrl: string) {
+  const schema: any = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${siteUrl}/diensten/${service.slug}#service`,
+    name: service.title,
+    description: service.shortDescription || '',
+    provider: {
+      '@type': 'Organization',
+      name: settings.companyName,
+      url: siteUrl,
+    },
+    areaServed: settings.address?.city
+      ? { '@type': 'City', name: settings.address.city }
+      : undefined,
+  }
+
+  // Features as service output
+  if (service.features?.length) {
+    schema.hasOfferCatalog = {
+      '@type': 'OfferCatalog',
+      name: service.title,
+      itemListElement: service.features.map((f: any, i: number) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: f.feature,
+        },
+      })),
+    }
+  }
+
+  // FAQ
+  if (service.faq?.length) {
+    schema.mainEntity = service.faq.map((item: any) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    }))
+  }
+
+  return schema
+}
+
+// ─────────────────────────────────────────────────────────────
+// Construction Project Schema
+// ─────────────────────────────────────────────────────────────
+export function buildConstructionProjectSchema(project: any, settings: Setting, siteUrl: string) {
+  const schema: any = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    '@id': `${siteUrl}/projecten/${project.slug}#project`,
+    name: project.title,
+    description: project.shortDescription || '',
+    creator: {
+      '@type': 'Organization',
+      name: settings.companyName,
+      url: siteUrl,
+    },
+  }
+
+  // Location
+  if (project.location) {
+    schema.locationCreated = {
+      '@type': 'Place',
+      name: project.location,
+    }
+  }
+
+  // Year
+  if (project.year) {
+    schema.dateCreated = String(project.year)
+  }
+
+  // Category
+  const category = typeof project.category === 'object' ? project.category : null
+  if (category?.title) {
+    schema.genre = category.title
+  }
+
+  // Featured image
+  const featuredImage = typeof project.featuredImage === 'object' ? project.featuredImage : null
+  if (featuredImage?.url) {
+    schema.image = featuredImage.url.startsWith('http') ? featuredImage.url : `${siteUrl}${featuredImage.url}`
+  }
+
+  // Testimonial as review
+  if (project.testimonial?.quote) {
+    schema.review = {
+      '@type': 'Review',
+      author: {
+        '@type': 'Person',
+        name: project.testimonial.clientName || 'Anoniem',
+      },
+      reviewBody: project.testimonial.quote,
+    }
+  }
+
+  return schema
+}
+
+// ─────────────────────────────────────────────────────────────
+// Professional Service Schema
+// ─────────────────────────────────────────────────────────────
+export function buildProfessionalServiceSchema(service: any, settings: Setting, siteUrl: string) {
+  const schema: any = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${siteUrl}/dienstverlening/${service.slug}#service`,
+    name: service.title,
+    description: service.shortDescription || '',
+    provider: {
+      '@type': 'Organization',
+      name: settings.companyName,
+      url: siteUrl,
+    },
+    areaServed: settings.address?.city
+      ? { '@type': 'City', name: settings.address.city }
+      : undefined,
+  }
+
+  // Features as service output
+  if (service.features?.length) {
+    schema.hasOfferCatalog = {
+      '@type': 'OfferCatalog',
+      name: service.title,
+      itemListElement: service.features.map((f: any) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: f.feature,
+        },
+      })),
+    }
+  }
+
+  // FAQ
+  if (service.faq?.length) {
+    schema.mainEntity = service.faq.map((item: any) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    }))
+  }
+
+  return schema
+}
+
+// ─────────────────────────────────────────────────────────────
+// Professional Case Schema
+// ─────────────────────────────────────────────────────────────
+export function buildProfessionalCaseSchema(caseItem: any, settings: Setting, siteUrl: string) {
+  const schema: any = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    '@id': `${siteUrl}/cases/${caseItem.slug}#case`,
+    name: caseItem.title,
+    description: caseItem.shortDescription || '',
+    creator: {
+      '@type': 'Organization',
+      name: settings.companyName,
+      url: siteUrl,
+    },
+  }
+
+  // Client
+  if (caseItem.client) {
+    schema.about = {
+      '@type': 'Organization',
+      name: caseItem.client,
+    }
+  }
+
+  // Industry
+  if (caseItem.industry) {
+    schema.genre = caseItem.industry
+  }
+
+  // Category
+  const category = typeof caseItem.category === 'object' ? caseItem.category : null
+  if (category?.title) {
+    schema.keywords = category.title
+  }
+
+  // Featured image
+  const featuredImage = typeof caseItem.featuredImage === 'object' ? caseItem.featuredImage : null
+  if (featuredImage?.url) {
+    schema.image = featuredImage.url.startsWith('http') ? featuredImage.url : `${siteUrl}${featuredImage.url}`
+  }
+
+  // Testimonial as review
+  if (caseItem.testimonial?.quote) {
+    schema.review = {
+      '@type': 'Review',
+      author: {
+        '@type': 'Person',
+        name: caseItem.testimonial.clientName || 'Anoniem',
+      },
+      reviewBody: caseItem.testimonial.quote,
+    }
+  }
+
+  return schema
+}
+
+// ─────────────────────────────────────────────────────────────
 // Helper Functions
 // ─────────────────────────────────────────────────────────────
 

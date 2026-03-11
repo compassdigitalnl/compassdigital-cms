@@ -40,6 +40,10 @@ export const INDEXES = {
   get PRODUCTS() { return process.env.MEILISEARCH_PRODUCTS_INDEX || 'products' },
   get BLOG_POSTS() { return process.env.MEILISEARCH_BLOG_INDEX || 'blog-posts' },
   get PAGES() { return process.env.MEILISEARCH_PAGES_INDEX || 'pages' },
+  get CONSTRUCTION_SERVICES() { return process.env.MEILISEARCH_CONSTRUCTION_SERVICES_INDEX || 'construction-services' },
+  get CONSTRUCTION_PROJECTS() { return process.env.MEILISEARCH_CONSTRUCTION_PROJECTS_INDEX || 'construction-projects' },
+  get PROFESSIONAL_SERVICES() { return process.env.MEILISEARCH_PROFESSIONAL_SERVICES_INDEX || 'professional-services' },
+  get PROFESSIONAL_CASES() { return process.env.MEILISEARCH_PROFESSIONAL_CASES_INDEX || 'professional-cases' },
 }
 
 /**

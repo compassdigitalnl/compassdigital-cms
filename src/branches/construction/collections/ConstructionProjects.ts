@@ -3,6 +3,7 @@ import { publicAccess } from '@/access/publicAccess'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
 import { autoGenerateSlugFromName } from '@/utilities/slugify'
+import { indexConstructionProject, deleteConstructionProjectFromIndex } from '@/features/search/lib/meilisearch/indexConstructionProjects'
 
 export const ConstructionProjects: CollectionConfig = {
   slug: 'construction-projects',
@@ -311,6 +312,32 @@ export const ConstructionProjects: CollectionConfig = {
       },
     },
   ],
+  hooks: {
+    afterChange: [
+      async ({ doc }) => {
+        try {
+          if (doc.status === 'published') {
+            await indexConstructionProject(doc)
+          } else {
+            await deleteConstructionProjectFromIndex(doc.id)
+          }
+        } catch (error) {
+          console.error(`[ConstructionProjects] Search index error:`, error)
+        }
+        return doc
+      },
+    ],
+    afterDelete: [
+      async ({ doc }) => {
+        try {
+          await deleteConstructionProjectFromIndex(doc.id)
+        } catch (error) {
+          console.error(`[ConstructionProjects] Search delete error:`, error)
+        }
+        return doc
+      },
+    ],
+  },
 }
 
 export default ConstructionProjects

@@ -43,10 +43,10 @@ const collectionRegistry: Record<string, () => Promise<any>> = {
  */
 const blockRegistry: Record<string, () => Promise<any>> = {
   // Core blocks (exist in platform)
-  hero: () => import('@/branches/shared/blocks/Hero/config'),
+  hero: () => import('@/branches/shared/blocks/Hero'),
   content: () => import('@/branches/shared/blocks/Content/config'),
   spacer: () => import('@/branches/shared/blocks/Spacer/config'),
-  cta: () => import('@/branches/shared/blocks/CTA/config'),
+  cta: () => import('@/branches/shared/blocks/CTA'),
   faq: () => import('@/branches/shared/blocks/FAQ/config'),
 
   // E-commerce blocks (exist in platform)

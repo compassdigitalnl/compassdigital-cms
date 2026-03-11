@@ -18,6 +18,9 @@ export { default as QuoteRequests } from './collections/QuoteRequests'
 export * from './blocks'
 export { constructionBlocks, constructionBlockSlugs } from './blocks'
 
+// Export all templates
+export * from './templates'
+
 // Export branch metadata
 export const branchMetadata = {
   name: 'construction',
@@ -48,8 +51,15 @@ export const branchMetadata = {
   featureFlag: 'ENABLE_CONSTRUCTION', // Optional feature flag
   platformOnly: false, // Available for all clients
   category: 'Industry-Specific',
-  version: '1.0.0',
+  templates: [
+    'constructionservice1',
+    'constructionproject1',
+    'constructionprojectsarchive1',
+    'constructionquote1',
+  ],
+  version: '2.0.0',
   createdAt: '2026-02-21',
+  updatedAt: '2026-03-11',
 } as const
 
 // Export individual collections for direct import

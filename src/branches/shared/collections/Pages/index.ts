@@ -3,46 +3,53 @@ import { checkRole } from '@/access/utilities'
 import { slugField } from 'payload'
 
 // Importeer alle custom blocks
-import { Hero } from '@/branches/shared/blocks/Hero/config'
-import { Content } from '@/branches/shared/blocks/Content/config'
-import { TwoColumn } from '@/branches/shared/blocks/TwoColumn/config'
-import { CTA } from '@/branches/shared/blocks/CTA/config'
-import { CallToAction } from '@/branches/shared/blocks/CallToAction/config' // B30 - Inline CTA
-import { Features } from '@/branches/shared/blocks/Features/config' // Features/USPs (B02)
-import { Services } from '@/branches/shared/blocks/Services/config' // Services (B07)
-import { FAQ } from '@/branches/shared/blocks/FAQ/config'
+import { Hero } from '@/branches/shared/blocks/Hero'
+import { Content } from '@/branches/shared/blocks/Content'
+import { TwoColumn } from '@/branches/shared/blocks/TwoColumn'
+import { CTA } from '@/branches/shared/blocks/CTA'
+import { Features } from '@/branches/shared/blocks/Features' // Features/USPs (B02)
+import { FAQ } from '@/branches/shared/blocks/FAQ'
 import { Testimonials as TestimonialsBlock } from '@/branches/shared/blocks/Testimonials/config'
 import { CasesBlock } from '@/branches/shared/blocks/CasesBlock'
-import { LogoBar } from '@/branches/shared/blocks/LogoBar/config'
-import { CategoryGrid } from '@/branches/ecommerce/shared/blocks/CategoryGrid'
 import { Stats } from '@/branches/shared/blocks/Stats/config'
 import { Team } from '@/branches/shared/blocks/Team/config'
 // REMOVED: Old Services block - replaced by Features (B02) in Sprint 3
 // import { Services } from '@/branches/shared/blocks/Services/config'
-import { Contact } from '@/branches/shared/blocks/Contact/config'
-import { ContactFormBlock } from '@/branches/shared/blocks/ContactFormBlock/config'
-import { Newsletter } from '@/branches/shared/blocks/Newsletter/config'
-import { ImageGallery } from '@/branches/shared/blocks/ImageGallery/config'
+import { Contact } from '@/branches/shared/blocks/Contact'
+import { Newsletter } from '@/branches/shared/blocks/Newsletter'
+import { ImageGallery } from '@/branches/shared/blocks/ImageGallery'
 import { Video } from '@/branches/shared/blocks/Video/config'
 import { Map } from '@/branches/shared/blocks/Map'
-import { Accordion } from '@/branches/shared/blocks/Accordion/config'
+import { Accordion } from '@/branches/shared/blocks/Accordion'
 import { Code } from '@/branches/shared/blocks/Code/config'
-import { MediaBlock } from '@/branches/shared/blocks/MediaBlock/config'
+import { MediaBlock } from '@/branches/shared/blocks/MediaBlock'
 import { Spacer } from '@/branches/shared/blocks/Spacer/config'
 import { BlogPreview } from '@/branches/shared/blocks/BlogPreview/config'
 import { Banner } from '@/branches/shared/blocks/Banner/config'
-import { Comparison } from '@/branches/shared/blocks/Comparison/config'
 import { InfoBox } from '@/branches/shared/blocks/InfoBox/config'
+import { ProcessSteps } from '@/branches/shared/blocks/ProcessSteps'
+import { CTASection } from '@/branches/shared/blocks/CTASection'
+import { HeroEmailCapture } from '@/branches/shared/blocks/HeroEmailCapture'
+import { TwoColumnImagePair } from '@/branches/shared/blocks/TwoColumnImagePair'
+import { OfferteRequest } from '@/branches/shared/blocks/OfferteRequest'
+import { Breadcrumbs } from '@/branches/shared/blocks/Breadcrumbs'
+import { ReviewsWidget } from '@/branches/shared/blocks/ReviewsWidget'
+import { TrustSignals } from '@/branches/shared/blocks/TrustSignals'
+import { SocialProofBanner } from '@/branches/shared/blocks/SocialProofBanner'
+import { LogoBar } from '@/branches/shared/blocks/LogoBar'
+import { CaseStudyGrid } from '@/branches/shared/blocks/CaseStudyGrid'
 
 // E-commerce blocks
-import { ProductGrid } from '@/branches/ecommerce/shared/blocks/ProductGrid'
-import { QuickOrder } from '@/branches/ecommerce/shared/blocks/QuickOrder'
+import { ecommerceBlocks } from '@/branches/ecommerce/shared/blocks'
 
 // Construction blocks (conditional import)
 import { constructionBlocks } from '@/branches/construction/blocks'
 
 // Experiences blocks (conditional import)
 import { experienceBlocks } from '@/branches/experiences/blocks'
+
+// Horeca blocks (conditional import)
+import { horecaBlocks } from '@/branches/horeca/blocks'
 
 // Hooks
 import { revalidatePage, revalidateDelete } from './hooks/revalidatePage'
@@ -210,42 +217,42 @@ export const Pages: CollectionConfig = {
         // ── Layout ──
         Banner, // Top announcement/promo banners
         Spacer,
+        Breadcrumbs, // B-35: Navigation breadcrumbs
 
         // ── Basis blokken ──
         Hero,
+        HeroEmailCapture, // B-01d: Hero with email capture form
         Content,
         MediaBlock,
         TwoColumn,
-
-        // ── E-commerce blokken ──
-        ProductGrid,
-        CategoryGrid, // Product categorieën
-        QuickOrder,
+        TwoColumnImagePair, // B-02d: Two images side-by-side
 
         // ── Conversie blokken ──
         CTA,
-        CallToAction, // B30 - Inline CTA (mid-page soft CTAs)
+        CTASection, // B-45: Dedicated CTA section with gradient variants
         Contact, // Contact information display
-        ContactFormBlock, // Contact form with sidebar
         Newsletter, // Email newsletter signup
+        OfferteRequest, // B-29: Offerte request form
 
         // ── Social proof & Portfolio ──
-        Features, // Features/USPs grid (B02)
-        Services, // Services catalog with links (B07)
+        Features, // Features/USPs grid (B02) — nu ook met optionele per-item links
         TestimonialsBlock, // Klant reviews
+        ReviewsWidget, // B-39: Product reviews with ratings
+        TrustSignals, // B-40: Trust indicators/USPs
+        SocialProofBanner, // B-41: Social proof metrics banner
+        LogoBar, // B-42: Logo bar (klanten, certificeringen, partners)
+        CaseStudyGrid, // B-43: Case study/portfolio grid
         // Cases block - only if cases collection is enabled
         ...(disabledCollections.has('cases') ? [] : [CasesBlock]), // Portfolio/projecten
-        LogoBar, // Partner/klant logo's
         Stats,
-        // REMOVED: Services (old) - replaced by Features (B02) in Sprint 3
 
         // ── Informatief ──
         FAQ,
         Team,
         Accordion,
         BlogPreview,
-        Comparison, // Feature comparison tables
         InfoBox, // Status notification callouts
+        ProcessSteps, // B-44: How-it-works process flow
 
         // ── Media ──
         ImageGallery,
@@ -254,17 +261,27 @@ export const Pages: CollectionConfig = {
         Map,
 
         // ═══════════════════════════════════════════════════════════════════════════
+        // E-COMMERCE BLOCKS - Only if shop feature enabled
+        // ═══════════════════════════════════════════════════════════════════════════
+        // Includes: ProductGrid, ProductEmbed, CategoryGrid, Pricing, SubscriptionPricing,
+        // QuickOrder, StaffelPricing, BundleBuilder, SubscriptionOptions, VendorShowcase,
+        // ComparisonTable, PricingGradient
+        ...ecommerceBlocks,
+
+        // ═══════════════════════════════════════════════════════════════════════════
         // CONSTRUCTION BRANCH BLOCKS - Only if construction feature enabled
         // ═══════════════════════════════════════════════════════════════════════════
-        // Construction blocks are only available when construction-services collection is enabled
-        // Includes: ConstructionHero, ServicesGrid, ProjectsGrid, ReviewsGrid, CTABanner, StatsBar
         ...(disabledCollections.has('construction-services') ? [] : constructionBlocks),
 
         // ═══════════════════════════════════════════════════════════════════════════
         // EXPERIENCES BRANCH BLOCKS - Only if experiences feature enabled
         // ═══════════════════════════════════════════════════════════════════════════
-        // Includes: ExperienceHero, ExperienceGrid, ExperienceCategoryGrid, ExperienceSocialProof
         ...(disabledCollections.has('experiences') ? [] : experienceBlocks),
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // HORECA BRANCH BLOCKS - Only if horeca feature enabled
+        // ═══════════════════════════════════════════════════════════════════════════
+        ...(disabledCollections.has('reservations') ? [] : horecaBlocks),
       ],
     },
 

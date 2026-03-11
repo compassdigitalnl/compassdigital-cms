@@ -1,145 +1,131 @@
 /**
- * CategoryGrid Component - 100% Theme Variable Compliant
+ * B-15 CategoryGrid Component
  *
- * Refactored from hardcoded teal colors (borders, accents, text, gradients)
- * to theme variables. All colors now use CSS variables from ThemeProvider.
+ * Server component that fetches and displays product categories
+ * in a grid layout with images, names, and product counts.
+ * Uses theme variables for all colors.
  */
 import React from 'react'
 import Link from 'next/link'
 import { Icon } from '@/branches/shared/components/common/Icon'
-import { SectionLabel } from '@/branches/shared/components/ui/SectionLabel'
+import { AnimationWrapper } from '@/branches/shared/blocks/_shared/AnimationWrapper'
 import type { CategoryGridBlock as CategoryGridType } from '@/payload-types'
 import type { ProductCategory } from '@/payload-types'
 
-export const CategoryGrid: React.FC<CategoryGridType> = async ({
-  sectionLabel,
-  heading,
-  intro,
-  source = 'auto',
+const gridClasses: Record<string, string> = {
+  'grid-3': 'grid grid-cols-2 md:grid-cols-3 gap-4',
+  'grid-4': 'grid grid-cols-2 md:grid-cols-4 gap-4',
+  masonry: 'columns-2 md:columns-3 gap-4 space-y-4',
+}
+
+export const CategoryGridComponent: React.FC<CategoryGridType> = async ({
+  title,
+  source = 'all',
   categories: manualCategories,
-  showIcon = true,
-  showProductCount = true,
+  limit = 6,
   layout = 'grid-3',
-  limit = 10,
-  showQuickOrderCard = false,
-  quickOrderLink = '/quick-order',
+  showCount = true,
+  enableAnimation,
+  animationType,
+  animationDuration,
+  animationDelay,
 }) => {
-  // Fetch categories based on source
   let categories: ProductCategory[] = []
 
   if (source === 'manual' && manualCategories) {
     categories = manualCategories as ProductCategory[]
-  } else if (source === 'auto') {
-    // Fetch categories from API
+  } else {
     try {
       const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3020'
-
-      // Fetch all categories sorted by name
       let apiUrl = `${baseUrl}/api/product-categories?sort=name&limit=${limit}`
 
+      if (source === 'featured') {
+        apiUrl += '&where[featured][equals]=true'
+      }
+
       const response = await fetch(apiUrl, {
-        next: { revalidate: 300 }, // Cache categorieën 5 minuten (veranderen zelden)
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        next: { revalidate: 300 },
+        headers: { 'Content-Type': 'application/json' },
       })
 
       if (response.ok) {
         const data = await response.json()
         categories = data.docs || []
-      } else {
-        console.error(`Failed to fetch categories: ${response.status} ${response.statusText}`)
-        categories = (manualCategories as ProductCategory[]) || []
       }
     } catch (error) {
-      console.error('Error fetching categories:', error)
-      // Fallback to manual categories on error
+      console.error('CategoryGrid: Error fetching categories:', error)
       categories = (manualCategories as ProductCategory[]) || []
     }
   }
 
   if (!categories || categories.length === 0) return null
 
-  const gridClass = {
-    'grid-2': 'grid grid-cols-1 md:grid-cols-2 gap-4',
-    'grid-3': 'grid grid-cols-2 md:grid-cols-3 gap-4',
-    'grid-4': 'grid grid-cols-2 md:grid-cols-4 gap-4',
-    'grid-5': 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4',
-    'grid-6': 'grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3',
-  }[layout || 'grid-3']
+  const isMasonry = layout === 'masonry'
+  const gridClass = gridClasses[layout || 'grid-3'] || gridClasses['grid-3']
 
   return (
-    <section className="py-12 md:py-16 bg-gray-50">
+    <AnimationWrapper
+      enableAnimation={enableAnimation}
+      animationType={animationType}
+      animationDuration={animationDuration}
+      animationDelay={animationDelay}
+      as="section"
+      className="py-12 md:py-16 bg-gray-50"
+    >
       <div className="container mx-auto px-4">
-        {(sectionLabel || heading || intro) && (
-          <div className="text-center mb-12">
-            {sectionLabel && <SectionLabel label={sectionLabel} />}
-            {heading && (
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{heading}</h2>
-            )}
-            {intro && <p className="text-lg text-gray-600 max-w-2xl mx-auto">{intro}</p>}
-          </div>
+        {title && (
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-10 text-center">
+            {title}
+          </h2>
         )}
 
         <div className={gridClass}>
-          {categories.slice(0, limit || 10).map((category) => {
-            const slug = typeof category === 'object' ? category.slug : null
-            const title = typeof category === 'object' ? (category as any).title : ''
-            const icon = typeof category === 'object' ? category.icon : null
-            const image = typeof category === 'object' ? category.image : null
-            const productCount = typeof category === 'object' ? (category as any).productCount : 0
+          {categories.slice(0, limit || 6).map((category) => {
+            if (typeof category !== 'object') return null
+
+            const catTitle = (category as any).title || category.name || ''
+            const slug = category.slug
+            const icon = category.icon
+            const image = category.image
+            const productCount = (category as any).productCount || 0
 
             return (
               <Link
-                key={typeof category === 'object' ? category.id : category}
+                key={category.id}
                 href={`/categorie/${slug}`}
-                className="group bg-white border-2 border-grey hover:border-primary rounded-2xl p-6 text-center hover:-translate-y-1.5 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+                className={`group bg-white border-2 border-grey hover:border-primary rounded-2xl p-6 text-center hover:-translate-y-1.5 hover:shadow-lg transition-all duration-300 relative overflow-hidden ${isMasonry ? 'break-inside-avoid' : ''}`}
               >
                 {/* Top border accent on hover */}
                 <div className="absolute top-0 left-0 right-0 h-1 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
 
-                {showIcon && icon && (
+                {icon && (
                   <div className="w-14 h-14 mx-auto bg-gray-100 group-hover:bg-primary-glow rounded-xl flex items-center justify-center mb-4 transition-colors">
                     <Icon name={icon} size={28} className="text-primary" />
                   </div>
                 )}
-                {showIcon && image && typeof image === 'object' && image.url && (
-                  <div className="w-14 h-14 mx-auto mb-4">
-                    <img src={image.url} alt={title} className="w-full h-full object-contain" />
+                {!icon && image && typeof image === 'object' && image.url && (
+                  <div className="w-14 h-14 mx-auto mb-4 rounded-xl overflow-hidden">
+                    <img
+                      src={image.url}
+                      alt={catTitle}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 )}
+
                 <h3 className="font-bold text-gray-900 mb-1 group-hover:text-primary transition-colors">
-                  {title}
+                  {catTitle}
                 </h3>
-                {showProductCount && productCount > 0 && (
+                {showCount && productCount > 0 && (
                   <p className="text-sm text-gray-500">{productCount}+ producten</p>
                 )}
               </Link>
             )
           })}
-
-          {/* Quick Order Card */}
-          {showQuickOrderCard && (
-            <Link
-              href={quickOrderLink || '/quick-order'}
-              className="group bg-gradient-primary border-2 border-primary rounded-2xl p-6 text-center hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 relative overflow-hidden"
-            >
-              {/* Decorative glow */}
-              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-              <div className="relative z-10">
-                <div className="w-14 h-14 mx-auto bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-white/30 transition-colors">
-                  <Icon name="Zap" size={28} className="text-white" />
-                </div>
-                <h3 className="font-bold text-white mb-1 text-lg">Quick Order</h3>
-                <p className="text-sm text-white/80">Bestel snel met SKU of EAN</p>
-              </div>
-            </Link>
-          )}
         </div>
       </div>
-    </section>
+    </AnimationWrapper>
   )
 }
 
-export default CategoryGrid
+export default CategoryGridComponent

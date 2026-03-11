@@ -466,10 +466,173 @@ export const Settings: GlobalConfig = {
                 description: 'Template voor de abonnement checkout (/abonneren/[slug]?plan=...)',
               },
             }),
+
+            // ─── CONSTRUCTION TEMPLATES ─────────────────────────────────
+            ...featureField('construction', {
+              name: 'defaultConstructionServiceTemplate',
+              type: 'select',
+              label: 'Standaard Dienst Template (Bouw)',
+              defaultValue: 'constructionservice1',
+              options: [
+                { label: 'Dienst Template 1 — 2-kolom layout (content + sidebar met offerte)', value: 'constructionservice1' },
+              ],
+              admin: {
+                description: 'Template voor bouwdienst detailpagina\'s (/diensten/[slug])',
+              },
+            }),
+            ...featureField('construction', {
+              name: 'defaultConstructionProjectTemplate',
+              type: 'select',
+              label: 'Standaard Project Template (Bouw)',
+              defaultValue: 'constructionproject1',
+              options: [
+                { label: 'Project Template 1 — Gallerij, specs, voor/na, timeline', value: 'constructionproject1' },
+              ],
+              admin: {
+                description: 'Template voor bouwproject detailpagina\'s (/projecten/[slug])',
+              },
+            }),
+            ...featureField('construction', {
+              name: 'defaultConstructionProjectsArchiveTemplate',
+              type: 'select',
+              label: 'Standaard Projecten Overzicht Template (Bouw)',
+              defaultValue: 'constructionprojectsarchive1',
+              options: [
+                { label: 'Projecten Archief Template 1 — Hero, filters, featured, grid', value: 'constructionprojectsarchive1' },
+              ],
+              admin: {
+                description: 'Template voor de projecten overzichtspagina (/projecten)',
+              },
+            }),
+            ...featureField('construction', {
+              name: 'defaultConstructionServicesArchiveTemplate',
+              type: 'select',
+              label: 'Standaard Diensten Overzicht Template (Bouw)',
+              defaultValue: 'constructionservicesarchive1',
+              options: [
+                { label: 'Diensten Archief Template 1 — Hero, grid, CTA', value: 'constructionservicesarchive1' },
+              ],
+              admin: {
+                description: 'Template voor de diensten overzichtspagina (/diensten)',
+              },
+            }),
+            ...featureField('construction', {
+              name: 'defaultConstructionQuoteTemplate',
+              type: 'select',
+              label: 'Standaard Offerte Template (Bouw)',
+              defaultValue: 'constructionquote1',
+              options: [
+                { label: 'Offerte Template 1 — Multi-step wizard + sidebar', value: 'constructionquote1' },
+              ],
+              admin: {
+                description: 'Template voor de offerte-aanvraagpagina (/offerte-aanvragen)',
+              },
+            }),
           ],
         },
 
-        // ─── TAB 6: TRUST BADGES & CERTIFICATEN ────────────────────
+        // ─── TAB 6: BOUW INSTELLINGEN ────────────────────────────
+        {
+          label: 'Bouw',
+          description: 'Instellingen specifiek voor de bouwbranche',
+          fields: [
+            ...featureField('construction', {
+              name: 'constructionServiceArea',
+              type: 'text',
+              label: 'Werkgebied',
+              admin: {
+                description: 'Bijv. "Groot Amsterdam", "Noord-Holland", "Heel Nederland"',
+              },
+            }),
+            ...featureField('construction', {
+              name: 'constructionExperience',
+              type: 'text',
+              label: 'Jaren ervaring',
+              admin: {
+                description: 'Bijv. "25+ jaar" — wordt gebruikt in templates en SEO',
+              },
+            }),
+            ...featureField('construction', {
+              name: 'constructionLicenses',
+              type: 'array',
+              label: 'Licenties & Certificeringen',
+              admin: {
+                description: 'Bouwvergunningen, certificeringen, keurmerken specifiek voor bouw',
+              },
+              fields: [
+                {
+                  name: 'name',
+                  type: 'text',
+                  required: true,
+                  label: 'Naam',
+                  admin: {
+                    description: 'Bijv. "Bouwgarant", "VCA*", "ISO 9001"',
+                  },
+                },
+                {
+                  name: 'number',
+                  type: 'text',
+                  label: 'Nummer',
+                  admin: {
+                    description: 'Certificaat- of licentienummer',
+                  },
+                },
+                {
+                  name: 'validUntil',
+                  type: 'date',
+                  label: 'Geldig tot',
+                  admin: {
+                    date: { pickerAppearance: 'dayOnly' },
+                  },
+                },
+              ],
+            }),
+            ...featureField('construction', {
+              name: 'constructionSpecialties',
+              type: 'array',
+              label: 'Specialisaties',
+              admin: {
+                description: 'Kernspecialisaties die op de website getoond worden',
+              },
+              fields: [
+                {
+                  name: 'specialty',
+                  type: 'text',
+                  required: true,
+                  label: 'Specialisatie',
+                },
+              ],
+            }),
+            ...featureField('construction', {
+              name: 'constructionQuoteResponseTime',
+              type: 'text',
+              label: 'Offerte reactietijd',
+              defaultValue: 'binnen 24 uur',
+              admin: {
+                description: 'Wordt getoond op offerte pagina, bijv. "binnen 24 uur", "binnen 2 werkdagen"',
+              },
+            }),
+            ...featureField('construction', {
+              name: 'constructionEmergencyPhone',
+              type: 'text',
+              label: 'Spoed telefoonnummer',
+              admin: {
+                description: 'Apart nummer voor noodgevallen / spoedreparaties (optioneel)',
+              },
+            }),
+            ...featureField('construction', {
+              name: 'constructionShowReviewForm',
+              type: 'checkbox',
+              label: 'Review formulier tonen',
+              defaultValue: true,
+              admin: {
+                description: 'Toon het review formulier op project- en dienstenpagina\'s',
+              },
+            }),
+          ],
+        },
+
+        // ─── TAB 7: TRUST BADGES & CERTIFICATEN ────────────────────
         {
           label: 'Trust Badges',
           description: 'Certificaten, keurmerken en vertrouwen',

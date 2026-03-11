@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
+import { quoteRequestHook } from '@/branches/construction/hooks/quoteRequestHook'
 
 export const QuoteRequests: CollectionConfig = {
   slug: 'quote-requests',
@@ -160,6 +161,37 @@ export const QuoteRequests: CollectionConfig = {
               },
             },
             {
+              name: 'quotedAmount',
+              type: 'number',
+              label: 'Offertebedrag',
+              admin: {
+                description: 'Totaalbedrag van de offerte (excl. BTW)',
+                step: 0.01,
+              },
+            },
+            {
+              name: 'expiresAt',
+              type: 'date',
+              label: 'Offerte geldig tot',
+              admin: {
+                description: 'Datum waarop de offerte verloopt',
+                date: {
+                  pickerAppearance: 'dayOnly',
+                },
+              },
+            },
+            {
+              name: 'followUpDate',
+              type: 'date',
+              label: 'Follow-up datum',
+              admin: {
+                description: 'Wanneer moet er opnieuw contact worden opgenomen?',
+                date: {
+                  pickerAppearance: 'dayOnly',
+                },
+              },
+            },
+            {
               name: 'notes',
               type: 'textarea',
               label: 'Interne notities',
@@ -232,6 +264,7 @@ export const QuoteRequests: CollectionConfig = {
         return data
       },
     ],
+    afterChange: [quoteRequestHook],
   },
 }
 

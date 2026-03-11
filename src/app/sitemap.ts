@@ -132,7 +132,107 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.log('Services collection not found or no slugs, skipping')
   }
 
-  // ─── 5. Products (for e-commerce) ─────────────────────────
+  // ─── 5. Construction Services ──────────────────────────────
+  try {
+    const constructionServices = await payload.find({
+      collection: 'construction-services',
+      where: { status: { equals: 'published' } },
+      limit: 200,
+      select: { slug: true, updatedAt: true },
+    })
+
+    const csEntries: MetadataRoute.Sitemap = constructionServices.docs
+      .filter((s): s is { id: number; slug: string; updatedAt: string } =>
+        typeof s === 'object' && 'slug' in s && typeof s.slug === 'string'
+      )
+      .map((s) => ({
+        url: `${siteUrl}/diensten/${s.slug}`,
+        lastModified: new Date(s.updatedAt),
+        changeFrequency: 'monthly',
+        priority: 0.7,
+      }))
+
+    entries.push(...csEntries)
+  } catch (error) {
+    console.log('Construction services not accessible, skipping')
+  }
+
+  // ─── 6. Construction Projects ──────────────────────────────
+  try {
+    const constructionProjects = await payload.find({
+      collection: 'construction-projects',
+      where: { status: { equals: 'published' } },
+      limit: 500,
+      select: { slug: true, updatedAt: true },
+    })
+
+    const cpEntries: MetadataRoute.Sitemap = constructionProjects.docs
+      .filter((p): p is { id: number; slug: string; updatedAt: string } =>
+        typeof p === 'object' && 'slug' in p && typeof p.slug === 'string'
+      )
+      .map((p) => ({
+        url: `${siteUrl}/projecten/${p.slug}`,
+        lastModified: new Date(p.updatedAt),
+        changeFrequency: 'monthly',
+        priority: 0.6,
+      }))
+
+    entries.push(...cpEntries)
+  } catch (error) {
+    console.log('Construction projects not accessible, skipping')
+  }
+
+  // ─── 7. Professional Services ───────────────────────────────
+  try {
+    const professionalServices = await payload.find({
+      collection: 'professional-services',
+      where: { status: { equals: 'published' } },
+      limit: 200,
+      select: { slug: true, updatedAt: true },
+    })
+
+    const psEntries: MetadataRoute.Sitemap = professionalServices.docs
+      .filter((s): s is { id: number; slug: string; updatedAt: string } =>
+        typeof s === 'object' && 'slug' in s && typeof s.slug === 'string'
+      )
+      .map((s) => ({
+        url: `${siteUrl}/dienstverlening/${s.slug}`,
+        lastModified: new Date(s.updatedAt),
+        changeFrequency: 'monthly',
+        priority: 0.7,
+      }))
+
+    entries.push(...psEntries)
+  } catch (error) {
+    console.log('Professional services not accessible, skipping')
+  }
+
+  // ─── 8. Professional Cases ────────────────────────────────
+  try {
+    const professionalCases = await payload.find({
+      collection: 'professional-cases',
+      where: { status: { equals: 'published' } },
+      limit: 500,
+      select: { slug: true, updatedAt: true },
+    })
+
+    const pcEntries: MetadataRoute.Sitemap = professionalCases.docs
+      .filter((p): p is { id: number; slug: string; updatedAt: string } =>
+        typeof p === 'object' && 'slug' in p && typeof p.slug === 'string'
+      )
+      .map((p) => ({
+        url: `${siteUrl}/cases/${p.slug}`,
+        lastModified: new Date(p.updatedAt),
+        changeFrequency: 'monthly',
+        priority: 0.6,
+      }))
+
+    entries.push(...pcEntries)
+  } catch (error) {
+    console.log('Professional cases not accessible, skipping')
+  }
+
+  // ─── 9. Products (for e-commerce) ─────────────────────────
   try {
     const products = await payload.find({
       collection: 'products',
