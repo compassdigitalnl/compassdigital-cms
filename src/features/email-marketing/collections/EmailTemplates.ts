@@ -148,7 +148,7 @@ export const EmailTemplates: CollectionConfig = {
       type: 'json',
       admin: {
         description: 'Visuele e-mail template editor',
-        condition: (data) => data.useVisualEditor === true,
+        condition: (data) => !!data.useVisualEditor,
         components: {
           Field: {
             path: '@/features/email-marketing/components/GrapesEmailEditor/integrations/PayloadField#GrapesJSField',
@@ -170,7 +170,7 @@ export const EmailTemplates: CollectionConfig = {
       admin: {
         language: 'html',
         description: 'HTML code van de e-mail (handmatig bewerken als je geen visuele editor gebruikt)',
-        condition: (data) => data.useVisualEditor !== true,
+        condition: (data) => !data.useVisualEditor,
       },
     },
 
