@@ -1,45 +1,49 @@
 import React from 'react'
+import type { SpacerBlockProps, SpacerSize, DividerColor } from './types'
 
 /**
- * B26 - Spacer Block Component
+ * B-37 Spacer Block Component (Server)
  *
- * Creates vertical whitespace between content sections with optional divider line.
- *
- * FEATURES:
- * - 4 sizes: sm (24px), md (48px), lg (80px → 64px mobile), xl (120px → 80px mobile)
- * - Optional horizontal divider line centered in spacer
- * - Server component (no interactivity)
- * - Invisible to screen readers (aria-hidden)
- *
- * @see src/branches/shared/blocks/Spacer/config.ts
- * @see docs/refactoring/sprint-6/b26-spacer.html
+ * Simple spacing utility. sm=32px, md=64px, lg=96px, xl=128px.
+ * Optional horizontal divider line with configurable color.
  */
 
-interface SpacerBlockProps {
-  size?: 'sm' | 'md' | 'lg' | 'xl'
-  showDivider?: boolean
+const sizeClasses: Record<SpacerSize, string> = {
+  sm: 'h-6 md:h-8',        // 24px mobile → 32px desktop
+  md: 'h-10 md:h-16',      // 40px mobile → 64px desktop
+  lg: 'h-16 md:h-24',      // 64px mobile → 96px desktop
+  xl: 'h-20 md:h-[128px]', // 80px mobile → 128px desktop
 }
 
-export const SpacerBlockComponent: React.FC<SpacerBlockProps> = ({ size = 'md', showDivider = false }) => {
-  // Height mapping based on size
-  const heightClasses = {
-    sm: 'h-6', // 24px (no mobile change)
-    md: 'h-12', // 48px (no mobile change)
-    lg: 'h-16 md:h-20', // 64px mobile → 80px desktop
-    xl: 'h-20 md:h-[120px]', // 80px mobile → 120px desktop
-  }
+const dividerColors: Record<DividerColor, string> = {
+  grey: 'bg-grey',
+  teal: 'bg-teal',
+  navy: 'bg-navy',
+}
+
+export const SpacerBlockComponent: React.FC<SpacerBlockProps> = ({
+  size = 'md',
+  showDivider = false,
+  dividerColor = 'grey',
+}) => {
+  const currentSize = (size || 'md') as SpacerSize
+  const currentDividerColor = (dividerColor || 'grey') as DividerColor
 
   return (
     <div
-      className={`relative ${heightClasses[size]}`}
+      className={`relative ${sizeClasses[currentSize]}`}
       aria-hidden="true"
       role="presentation"
     >
       {showDivider && (
-        <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2">
-          <div className="h-px bg-grey" />
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-6">
+          <div className="mx-auto max-w-6xl">
+            <div className={`h-px ${dividerColors[currentDividerColor]}`} />
+          </div>
         </div>
       )}
     </div>
   )
 }
+
+export default SpacerBlockComponent

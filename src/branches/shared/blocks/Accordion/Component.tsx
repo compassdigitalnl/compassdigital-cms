@@ -1,29 +1,54 @@
-/**
- * Accordion Component - 100% Theme Variable Compliant
- *
- * Already compliant - uses neutral colors only, no hardcoded theme colors.
- */
 import React from 'react'
-import type { AccordionBlock } from '@/payload-types'
+import { AnimationWrapper } from '../_shared/AnimationWrapper'
+import type { AccordionBlockProps, AccordionVariant, AccordionItem } from './types'
+import { AccordionClient } from './AccordionClient'
 
-export const AccordionBlockComponent: React.FC<AccordionBlock> = ({ title, items }) => {
+/**
+ * B-08 Accordion Block Component (Server)
+ *
+ * Generic accordion with rich text content per item.
+ *
+ * Variants:
+ * - simple: divider lines between items
+ * - bordered: border around each item
+ * - separated: gap between items with card styling
+ */
+export const AccordionBlockComponent: React.FC<AccordionBlockProps> = ({
+  title,
+  items,
+  variant = 'simple',
+  allowMultiple = false,
+  enableAnimation,
+  animationType,
+  animationDuration,
+  animationDelay,
+}) => {
+  const currentVariant = (variant || 'simple') as AccordionVariant
+
   return (
-    <section className="accordion py-16 px-4">
-      <div className="container mx-auto max-w-3xl">
-        {title && <h2 className="text-3xl font-bold mb-8 text-center">{title}</h2>}
-        <div className="space-y-4">
-          {items?.map((item, index) => (
-            <details key={index} className="border rounded-lg p-6">
-              <summary className="font-semibold text-lg cursor-pointer">
-                {item.title}
-              </summary>
-              <div className="mt-4 text-grey-dark">
-                <p>Content...</p>
-              </div>
-            </details>
-          ))}
-        </div>
+    <AnimationWrapper
+      enableAnimation={enableAnimation}
+      animationType={animationType}
+      animationDuration={animationDuration}
+      animationDelay={animationDelay}
+      as="section"
+      className="accordion-block py-12 md:py-16 lg:py-20 bg-white"
+    >
+      <div className="max-w-3xl mx-auto px-6">
+        {title && (
+          <h2 className="font-display text-2xl md:text-3xl text-navy mb-8 md:mb-10 text-center">
+            {title}
+          </h2>
+        )}
+
+        <AccordionClient
+          items={(items as AccordionItem[]) || []}
+          variant={currentVariant}
+          allowMultiple={allowMultiple ?? false}
+        />
       </div>
-    </section>
+    </AnimationWrapper>
   )
 }
+
+export default AccordionBlockComponent

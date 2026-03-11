@@ -1,164 +1,78 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
-import { Bell, Gift, AlertTriangle, Info, Zap, Star, X } from 'lucide-react'
-import * as LucideIcons from 'lucide-react'
+import type { BannerBlockProps, BannerVariant, BannerPosition } from './types'
 
 /**
- * B19 - Banner Block Component
+ * B-34 Banner Block Component (Client)
  *
- * Full-width top announcement banner with gradient backgrounds and optional sticky positioning.
- *
- * FEATURES:
- * - 3 gradient variants: announcement (navy), promo (teal), warning (amber)
- * - Lucide icons (6 options + none)
- * - Optional CTA link with newTab support
- * - Dismissible with localStorage persistence
- * - Optional sticky positioning (z-index: 100)
- * - Date range visibility (showFrom/showUntil)
- * - Responsive: horizontal desktop → vertical mobile
- *
- * @see src/branches/shared/blocks/Banner/config.ts
- * @see docs/refactoring/sprint-6/b19-banner.html
+ * Thin announcement/promo banner with dismiss functionality.
+ * Info=blue, promo=teal, warning=amber.
+ * Inline or sticky top position. Text + optional link + dismiss X.
  */
 
-type BannerVariant = 'announcement' | 'promo' | 'warning'
-type BannerIcon = 'bell' | 'gift' | 'alert-triangle' | 'info' | 'zap' | 'star' | 'none'
-
-interface BannerLink {
-  text?: string
-  url?: string
-  newTab?: boolean
-}
-
-interface BannerBlockProps {
-  variant?: BannerVariant
-  message?: string
-  icon?: BannerIcon
-  link?: BannerLink
-  dismissible?: boolean
-  dismissalKey?: string
-  sticky?: boolean
-  showFrom?: string // ISO date string
-  showUntil?: string // ISO date string
-}
-
-// Icon mapping
-const iconComponents = {
-  bell: Bell,
-  gift: Gift,
-  'alert-triangle': AlertTriangle,
-  info: Info,
-  zap: Zap,
-  star: Star,
-  none: null,
-}
-
-// Variant gradients
-const variantStyles = {
-  announcement: 'bg-gradient-to-r from-navy to-navy-light',
-  promo: 'bg-gradient-to-r from-teal to-teal-light',
-  warning: 'bg-gradient-to-r from-amber to-amber',
+const variantStyles: Record<BannerVariant, string> = {
+  info: 'bg-gradient-to-r from-blue-600 to-blue-500 text-white',
+  promo: 'bg-gradient-to-r from-teal to-teal-light text-white',
+  warning: 'bg-gradient-to-r from-amber-500 to-amber-400 text-amber-950',
 }
 
 export const BannerBlockComponent: React.FC<BannerBlockProps> = ({
-  variant = 'announcement',
-  message,
-  icon = 'bell',
+  text,
   link,
+  linkLabel,
+  icon,
+  variant = 'info',
+  position = 'inline',
   dismissible = true,
-  dismissalKey,
-  sticky = false,
-  showFrom,
-  showUntil,
 }) => {
-  const [isVisible, setIsVisible] = useState(true)
+  const [dismissed, setDismissed] = useState(false)
 
-  // Check if banner should be shown based on dates and dismissal
-  useEffect(() => {
-    // Check date range
-    const now = new Date()
-    if (showFrom && new Date(showFrom) > now) {
-      setIsVisible(false)
-      return
-    }
-    if (showUntil && new Date(showUntil) < now) {
-      setIsVisible(false)
-      return
-    }
+  if (dismissed || !text) return null
 
-    // Check localStorage for dismissal
-    if (dismissible && dismissalKey) {
-      try {
-        const isDismissed = localStorage.getItem(`banner-dismissed-${dismissalKey}`)
-        if (isDismissed === 'true') {
-          setIsVisible(false)
-        }
-      } catch (error) {
-        console.warn('Banner: localStorage not available', error)
-      }
-    }
-  }, [showFrom, showUntil, dismissible, dismissalKey])
-
-  const handleDismiss = () => {
-    if (dismissalKey) {
-      try {
-        localStorage.setItem(`banner-dismissed-${dismissalKey}`, 'true')
-      } catch (error) {
-        console.warn('Banner: Failed to save dismissal to localStorage', error)
-      }
-    }
-    setIsVisible(false)
-  }
-
-  if (!isVisible || !message) return null
-
-  const IconComponent = iconComponents[icon]
+  const currentVariant = (variant || 'info') as BannerVariant
+  const currentPosition = (position || 'inline') as BannerPosition
+  const styles = variantStyles[currentVariant]
 
   return (
     <div
-      className={`
-        relative w-full py-3.5 px-5 flex items-center justify-center gap-4 text-white text-sm transition-all duration-300
-        ${variantStyles[variant]}
-        ${sticky ? 'sticky top-0 z-[100]' : ''}
-        sm:flex-row flex-col
-      `}
+      className={`${styles} ${currentPosition === 'top' ? 'sticky top-0 z-50' : ''} w-full`}
+      role="banner"
     >
-      <div className="flex items-center gap-3 flex-1 max-w-4xl justify-center sm:flex-row flex-col sm:items-center items-start">
-        {/* Icon (hidden on mobile) */}
-        {IconComponent && (
-          <IconComponent className="w-5 h-5 flex-shrink-0 opacity-90 hidden sm:block" />
-        )}
+      <div className="mx-auto flex max-w-6xl items-center justify-center gap-3 px-6 py-2.5 text-sm">
+        {/* Icon */}
+        {icon && <span className="shrink-0">{icon}</span>}
 
-        {/* Message */}
-        <span className="text-sm font-medium leading-relaxed">
-          {message}
-        </span>
+        {/* Text */}
+        <span className="font-medium">{text}</span>
 
-        {/* CTA Link */}
-        {link?.text && link?.url && (
+        {/* Link */}
+        {link && linkLabel && (
           <Link
-            href={link.url}
-            className="font-bold underline underline-offset-2 whitespace-nowrap transition-opacity hover:opacity-80"
-            target={link.newTab ? '_blank' : undefined}
-            rel={link.newTab ? 'noopener noreferrer' : undefined}
+            href={link}
+            className="shrink-0 font-bold underline underline-offset-2 transition-opacity hover:opacity-80"
           >
-            {link.text}
+            {linkLabel}
           </Link>
         )}
-      </div>
 
-      {/* Dismiss Button */}
-      {dismissible && (
-        <button
-          onClick={handleDismiss}
-          className="w-8 h-8 rounded-lg cursor-pointer flex items-center justify-center flex-shrink-0 transition-all bg-white/15 hover:bg-white/25 sm:relative absolute top-2 right-2"
-          aria-label="Dismiss banner"
-        >
-          <X className="w-4 h-4" />
-        </button>
-      )}
+        {/* Dismiss */}
+        {dismissible && (
+          <button
+            type="button"
+            onClick={() => setDismissed(true)}
+            className="ml-auto shrink-0 rounded p-1 transition-colors hover:bg-white/20"
+            aria-label="Sluiten"
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
+      </div>
     </div>
   )
 }
+
+export default BannerBlockComponent

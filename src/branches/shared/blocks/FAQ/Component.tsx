@@ -1,43 +1,52 @@
 import React from 'react'
-import type { FAQBlock } from '@/payload-types'
+import { AnimationWrapper } from '../_shared/AnimationWrapper'
+import type { FAQBlockProps, FAQVariant, FAQItem } from './types'
 import { FAQAccordion } from './FAQAccordion'
 
 /**
- * B04 - FAQ Block Component (Server)
+ * B-05 FAQ Block Component (Server)
  *
- * Accordion-style FAQ section with expandable answers.
+ * Accordion-style FAQ section with expandable question/answer pairs.
  *
- * FEATURES:
- * - Server component wrapper
- * - Client component for accordion state
- * - Plus icon rotates to X on open
- * - Only one FAQ open at a time
- * - Rich text answers with Lexical
- *
- * @see docs/refactoring/sprint-9/shared/b04-faq.html
+ * Variants:
+ * - simple: minimal border-bottom between items
+ * - bordered: card-style border around each item
+ * - colored: alternating background colors per item
  */
-
-export const FAQBlockComponent: React.FC<FAQBlock> = ({
+export const FAQBlockComponent: React.FC<FAQBlockProps> = ({
   title,
-  description,
-  faqs,
-  variant = 'single-column',
+  subtitle,
+  items,
+  variant = 'simple',
+  enableAnimation,
+  animationType,
+  animationDuration,
+  animationDelay,
 }) => {
+  const currentVariant = (variant || 'simple') as FAQVariant
+
   return (
-    <section className="faq-block py-12 md:py-16 bg-white">
-      <div className="max-w-4xl mx-auto px-6">
-        {(title || description) && (
-          <div className="mb-10 text-center">
+    <AnimationWrapper
+      enableAnimation={enableAnimation}
+      animationType={animationType}
+      animationDuration={animationDuration}
+      animationDelay={animationDelay}
+      as="section"
+      className="faq-block py-12 md:py-16 lg:py-20 bg-white"
+    >
+      <div className="max-w-3xl mx-auto px-6">
+        {(title || subtitle) && (
+          <div className="mb-8 md:mb-12 text-center">
             {title && (
-              <h2 className="font-display text-3xl text-navy md:text-4xl mb-3">{title}</h2>
+              <h2 className="font-display text-2xl md:text-3xl text-navy mb-3">{title}</h2>
             )}
-            {description && <p className="text-base text-grey-mid">{description}</p>}
+            {subtitle && <p className="text-sm md:text-base text-grey-dark">{subtitle}</p>}
           </div>
         )}
 
-        <FAQAccordion faqs={faqs || []} variant={variant || 'single-column'} />
+        <FAQAccordion items={(items as FAQItem[]) || []} variant={currentVariant} />
       </div>
-    </section>
+    </AnimationWrapper>
   )
 }
 

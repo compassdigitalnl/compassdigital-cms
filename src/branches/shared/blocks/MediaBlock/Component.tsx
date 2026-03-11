@@ -1,70 +1,80 @@
-/**
- * MediaBlock Component - 100% Theme Variable Compliant
- *
- * Already compliant - uses Media component with theme border variables.
- */
-import type { StaticImageData } from 'next/image'
-
-import { cn } from '@/utilities/cn'
 import React from 'react'
-import { RichText } from '@/branches/shared/components/common/RichText'
-import type { MediaBlock as MediaBlockProps } from '@/payload-types'
+import Image from 'next/image'
+import { AnimationWrapper } from '../_shared/AnimationWrapper'
+import type { MediaBlockProps, MediaBlockSize } from './types'
+import type { Media } from '@/payload-types'
 
-import { Media } from '@/branches/shared/components/common/Media'
+/**
+ * B-06 Media Block Component (Server)
+ *
+ * Single image display with optional caption.
+ *
+ * Size options:
+ * - narrow: max-w-2xl centered
+ * - wide: max-w-5xl centered
+ * - full: w-full edge-to-edge
+ */
 
-export const MediaBlock: React.FC<
-  MediaBlockProps & {
-    id?: string | number
-    breakout?: boolean
-    captionClassName?: string
-    className?: string
-    enableGutter?: boolean
-    imgClassName?: string
-    staticImage?: StaticImageData
-    disableInnerContainer?: boolean
-  }
-> = (props) => {
-  const {
-    captionClassName,
-    className,
-    enableGutter = true,
-    imgClassName,
-    media,
-    staticImage,
-    disableInnerContainer,
-  } = props
+const sizeClasses: Record<MediaBlockSize, string> = {
+  narrow: 'max-w-2xl',
+  wide: 'max-w-5xl',
+  full: 'w-full',
+}
 
-  let caption
-  if (media && typeof media === 'object') caption = media.caption
+export const MediaBlockComponent: React.FC<MediaBlockProps> = ({
+  image,
+  caption,
+  alt,
+  size = 'wide',
+  rounded = true,
+  enableAnimation,
+  animationType,
+  animationDuration,
+  animationDelay,
+}) => {
+  if (!image || typeof image === 'number') return null
+
+  const media = image as Media
+  const imageUrl = media.url
+  const imageAlt = alt || media.alt || ''
+  const imageWidth = media.width || 1200
+  const imageHeight = media.height || 800
+  const currentSize = (size || 'wide') as MediaBlockSize
+
+  if (!imageUrl) return null
 
   return (
-    <div
-      className={cn(
-        '',
-        {
-          container: enableGutter,
-        },
-        className,
-      )}
+    <AnimationWrapper
+      enableAnimation={enableAnimation}
+      animationType={animationType}
+      animationDuration={animationDuration}
+      animationDelay={animationDelay}
+      as="section"
+      className="media-block py-12 md:py-16 bg-white"
     >
-      <Media
-        imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}
-        resource={media}
-        src={staticImage}
-      />
-      {caption && (
-        <div
-          className={cn(
-            'mt-6',
-            {
-              container: !disableInnerContainer,
-            },
-            captionClassName,
+      <div className={`mx-auto px-6 ${sizeClasses[currentSize]}`}>
+        <figure>
+          <Image
+            src={imageUrl}
+            alt={imageAlt}
+            width={imageWidth}
+            height={imageHeight}
+            className={`w-full h-auto object-cover ${rounded ? 'rounded-lg md:rounded-xl' : ''}`}
+            sizes={
+              currentSize === 'narrow'
+                ? '(max-width: 672px) 100vw, 672px'
+                : currentSize === 'wide'
+                  ? '(max-width: 1024px) 100vw, 1024px'
+                  : '100vw'
+            }
+          />
+          {caption && (
+            <figcaption className="mt-3 text-center text-sm text-grey-mid">{caption}</figcaption>
           )}
-        >
-          <RichText data={caption} enableGutter={false} />
-        </div>
-      )}
-    </div>
+        </figure>
+      </div>
+    </AnimationWrapper>
   )
 }
+
+export default MediaBlockComponent

@@ -1,204 +1,103 @@
-'use client'
-
-import React, { useState, useEffect } from 'react'
-import * as LucideIcons from 'lucide-react'
-import { Info, CheckCircle, AlertTriangle, XCircle, X } from 'lucide-react'
+import React from 'react'
+import Link from 'next/link'
+import { AnimationWrapper } from '../_shared/AnimationWrapper'
+import { DismissButton } from './DismissButton'
+import type { InfoBoxBlockProps, InfoBoxVariant } from './types'
 
 /**
- * B18 - InfoBox Block Component
+ * B-33 InfoBox Block Component (Server)
  *
- * Status notification callout with variant-specific styling and optional dismissal.
- *
- * FEATURES:
- * - 4 variants: info (blue), success (green), warning (amber), error (coral)
- * - Lucide icons (auto-default per variant or custom)
- * - Dismissible with localStorage persistence
- * - Lexical rich text description
- * - Configurable max width and margins
- * - Border-left accent design
- *
- * @see src/branches/shared/blocks/InfoBox/config.ts
- * @see docs/refactoring/sprint-6/b18-infobox.html
+ * Colored notification box. Info=blue, success=green, warning=amber, error=red.
+ * Left border accent with icon per variant.
+ * Dismissible version uses client component DismissButton.
  */
 
-type InfoBoxVariant = 'info' | 'success' | 'warning' | 'error'
-type MaxWidth = 'narrow' | 'wide' | 'full'
-type Margin = 'none' | 'sm' | 'md' | 'lg'
-
-interface InfoBoxBlockProps {
-  variant?: InfoBoxVariant
-  icon?: string
-  title?: string
-  description?: any // Lexical JSON
-  dismissible?: boolean
-  persistent?: boolean
-  storageKey?: string
-  maxWidth?: MaxWidth
-  marginTop?: Margin
-  marginBottom?: Margin
-}
-
-// Variant configuration (uses theme colors)
-const variantConfig = {
+const variantStyles: Record<InfoBoxVariant, { container: string; border: string; icon: string; iconPath: string }> = {
   info: {
-    bgColor: 'bg-blue-light',
-    borderColor: 'border-l-blue',
-    iconColor: 'text-blue',
-    textColor: 'text-blue',
-    defaultIcon: Info,
+    container: 'bg-blue-50 text-blue-900',
+    border: 'border-l-4 border-blue-500',
+    icon: 'text-blue-500',
+    iconPath: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
   },
   success: {
-    bgColor: 'bg-green-light',
-    borderColor: 'border-l-green',
-    iconColor: 'text-green',
-    textColor: 'text-green',
-    defaultIcon: CheckCircle,
+    container: 'bg-green-50 text-green-900',
+    border: 'border-l-4 border-green-500',
+    icon: 'text-green-500',
+    iconPath: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
   },
   warning: {
-    bgColor: 'bg-amber-light',
-    borderColor: 'border-l-amber',
-    iconColor: 'text-amber',
-    textColor: 'text-amber',
-    defaultIcon: AlertTriangle,
+    container: 'bg-amber-50 text-amber-900',
+    border: 'border-l-4 border-amber-500',
+    icon: 'text-amber-500',
+    iconPath: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',
   },
   error: {
-    bgColor: 'bg-coral-light',
-    borderColor: 'border-l-coral',
-    iconColor: 'text-coral',
-    textColor: 'text-coral',
-    defaultIcon: XCircle,
+    container: 'bg-red-50 text-red-900',
+    border: 'border-l-4 border-red-500',
+    icon: 'text-red-500',
+    iconPath: 'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z',
   },
-}
-
-// Simple Lexical renderer (extracts text from Lexical JSON)
-function renderLexicalContent(content: any): string {
-  if (!content) return ''
-  if (typeof content === 'string') return content
-
-  const extractText = (node: any): string => {
-    if (!node) return ''
-    if (typeof node === 'string') return node
-    if (node.text) return node.text
-    if (node.children) {
-      return node.children.map((child: any) => extractText(child)).join(' ')
-    }
-    if (Array.isArray(node)) {
-      return node.map((item) => extractText(item)).join(' ')
-    }
-    return ''
-  }
-
-  return extractText(content)
 }
 
 export const InfoBoxBlockComponent: React.FC<InfoBoxBlockProps> = ({
-  variant = 'info',
-  icon,
   title,
-  description,
+  content,
+  link,
+  linkLabel,
+  variant = 'info',
   dismissible = false,
-  persistent = false,
-  storageKey,
-  maxWidth = 'wide',
-  marginTop = 'md',
-  marginBottom = 'md',
+  enableAnimation,
+  animationType,
+  animationDuration,
+  animationDelay,
 }) => {
-  const [dismissed, setDismissed] = useState(false)
+  if (!content) return null
 
-  // Check localStorage if persistent dismissal
-  useEffect(() => {
-    if (dismissible && persistent && storageKey) {
-      try {
-        const isDismissed = localStorage.getItem(`infobox-${storageKey}`)
-        if (isDismissed === 'true') {
-          setDismissed(true)
-        }
-      } catch (error) {
-        // Handle localStorage errors (e.g., private browsing)
-        console.warn('InfoBox: localStorage not available', error)
-      }
-    }
-  }, [dismissible, persistent, storageKey])
+  const currentVariant = (variant || 'info') as InfoBoxVariant
+  const styles = variantStyles[currentVariant]
 
-  const handleDismiss = () => {
-    setDismissed(true)
-    if (persistent && storageKey) {
-      try {
-        localStorage.setItem(`infobox-${storageKey}`, 'true')
-      } catch (error) {
-        console.warn('InfoBox: Failed to save dismissal to localStorage', error)
-      }
-    }
-  }
+  const boxContent = (
+    <div className={`relative rounded-lg ${styles.container} ${styles.border} p-4 md:p-5`}>
+      <div className="flex gap-3">
+        {/* Icon */}
+        <div className="shrink-0 pt-0.5">
+          <svg className={`h-5 w-5 ${styles.icon}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={styles.iconPath} />
+          </svg>
+        </div>
 
-  if (dismissed) return null
+        {/* Content */}
+        <div className="min-w-0 flex-1">
+          {title && (
+            <h4 className="mb-1 text-sm font-bold">{title}</h4>
+          )}
+          <p className="text-sm leading-relaxed">{content}</p>
+          {link && linkLabel && (
+            <Link
+              href={link}
+              className="mt-2 inline-block text-sm font-semibold underline underline-offset-2 transition-opacity hover:opacity-80"
+            >
+              {linkLabel}
+            </Link>
+          )}
+        </div>
 
-  const config = variantConfig[variant]
-  const IconComponent = icon
-    ? (LucideIcons[icon as keyof typeof LucideIcons] as React.ComponentType<any>) || config.defaultIcon
-    : config.defaultIcon
-
-  const maxWidthClasses = {
-    narrow: 'max-w-2xl',
-    wide: 'max-w-4xl',
-    full: 'max-w-full',
-  }
-
-  const marginTopClasses = {
-    none: '',
-    sm: 'mt-3',
-    md: 'mt-6',
-    lg: 'mt-12',
-  }
-
-  const marginBottomClasses = {
-    none: '',
-    sm: 'mb-3',
-    md: 'mb-6',
-    lg: 'mb-12',
-  }
-
-  const renderedDescription = renderLexicalContent(description)
+        {/* Dismiss button */}
+        {dismissible && <DismissButton variant={currentVariant} />}
+      </div>
+    </div>
+  )
 
   return (
-    <section className={`w-full ${marginTopClasses[marginTop]} ${marginBottomClasses[marginBottom]}`}>
-      <div className={`mx-auto px-6 ${maxWidthClasses[maxWidth]}`}>
-        <div
-          className={`relative p-5 rounded-lg border-l-[3px] ${config.bgColor} ${config.borderColor}`}
-        >
-          <div className="flex items-start gap-3">
-            {IconComponent && (
-              <IconComponent
-                className={`w-5 h-5 flex-shrink-0 mt-0.5 ${config.iconColor}`}
-              />
-            )}
-            <div className={`flex-1 ${dismissible ? 'pr-8' : ''}`}>
-              {title && (
-                <strong
-                  className={`block text-sm font-bold mb-1.5 ${config.iconColor}`}
-                >
-                  {title}
-                </strong>
-              )}
-              {renderedDescription && (
-                <div className="text-[13px] text-grey-dark leading-relaxed">
-                  {renderedDescription}
-                </div>
-              )}
-            </div>
-            {dismissible && (
-              <button
-                onClick={handleDismiss}
-                className={`absolute top-4 right-4 p-1 rounded hover:bg-black/5 transition-colors opacity-60 hover:opacity-100 ${config.iconColor}`}
-                aria-label="Close notification"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-    </section>
+    <AnimationWrapper
+      enableAnimation={enableAnimation}
+      animationType={animationType}
+      animationDuration={animationDuration}
+      animationDelay={animationDelay}
+      className="info-box-block mx-auto max-w-4xl px-6 py-4"
+    >
+      {boxContent}
+    </AnimationWrapper>
   )
 }
 
