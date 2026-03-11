@@ -1,127 +1,154 @@
 import React from 'react'
-import type { StatsBlock } from '@/payload-types'
+import { AnimationWrapper } from '../_shared/AnimationWrapper'
+import { getIcon } from '@/utilities/getIcon'
+import type { StatsBlockProps, StatsItem } from './types'
 
 /**
- * B23 - Stats Block Component
+ * B-09 - Stats Block Component
  *
- * Statistics showcase block for displaying key metrics and achievements.
- * Supports 2-4 columns with large numbers, labels, optional icons, and descriptions.
- *
- * FEATURES:
- * - 2/3/4 column grid layouts
- * - 4 background variants (white, grey, teal gradient, navy gradient)
- * - Optional emoji or icon support
- * - Responsive design
- *
- * @see docs/refactoring/blocks/sprint-9/shared/b23-stats.html
+ * Statistics display with Lucide icons, values, labels and descriptions.
+ * Supports gradient backgrounds (navy, teal) with white text.
  */
 
-export const StatsBlockComponent: React.FC<StatsBlock> = ({
+const bgClasses: Record<string, string> = {
+  white: 'bg-white',
+  grey: 'bg-gray-50',
+  tealGradient: 'bg-gradient-to-br from-teal-600 to-teal-800',
+  navyGradient: 'bg-gradient-to-br from-slate-800 to-slate-950',
+  // Legacy values
+  navy: 'bg-gradient-to-br from-slate-800 to-slate-950',
+  teal: 'bg-gradient-to-br from-teal-600 to-teal-800',
+}
+
+const isDarkBg = (bg: string) =>
+  bg === 'tealGradient' || bg === 'navyGradient' || bg === 'navy' || bg === 'teal'
+
+export const StatsBlockComponent: React.FC<StatsBlockProps> = ({
   title,
   description,
-  columns = '3',
   stats,
+  items,
+  columns = '4',
+  variant,
   backgroundColor = 'white',
+  enableAnimation,
+  animationType,
+  animationDuration,
+  animationDelay,
 }) => {
-  // Map columns to grid classes
-  const gridClass = {
-    '2': 'grid-cols-1 md:grid-cols-2',
-    '3': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
-    '4': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
-  }[columns]
+  // Support both 'stats' (config) and 'items' (legacy) field names
+  const statItems = stats || items
+  if (!statItems || statItems.length === 0) return null
 
-  // Map background to classes (Sprint 10 uses 'tealGradient' and 'navyGradient')
-  const bgClass = {
-    white: 'bg-white',
-    grey: 'bg-grey-light',
-    tealGradient: 'bg-gradient-to-br from-teal to-teal-dark relative overflow-hidden',
-    navyGradient: 'bg-gradient-to-br from-navy to-navy-light relative overflow-hidden',
-  }[backgroundColor || 'white']
+  const dark = isDarkBg(backgroundColor || 'white')
+  const bgClass = bgClasses[backgroundColor || 'white'] || bgClasses.white
 
-  const isDark = backgroundColor === 'tealGradient' || backgroundColor === 'navyGradient'
+  // Map columns to grid class
+  const colsMap: Record<string, string> = {
+    '2': 'md:grid-cols-2',
+    '3': 'md:grid-cols-3',
+    '4': 'md:grid-cols-4',
+  }
+  const gridCols = colsMap[columns || '4'] || colsMap['4']
 
   return (
-    <section className={`py-12 md:py-16 ${bgClass}`}>
-      {/* Decorative glow for gradient backgrounds */}
-      {isDark && (
-        <div
-          className="absolute -top-1/2 -right-[10%] w-[400px] h-[400px] rounded-full pointer-events-none opacity-10"
-          style={{
-            background: backgroundColor === 'tealGradient'
-              ? 'radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 60%)'
-              : 'radial-gradient(circle, var(--color-primary-glow), transparent 60%)',
-          }}
-        />
-      )}
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* Header */}
-        {(title || description) && (
-          <div className="text-center mb-10 md:mb-14">
-            {title && (
-              <h2 className={`font-display text-3xl md:text-4xl mb-3 ${isDark ? 'text-white' : 'text-navy'}`}>
-                {title}
-              </h2>
-            )}
-            {description && (
-              <p className={`text-sm md:text-base max-w-2xl mx-auto ${isDark ? 'text-white/70' : 'text-grey-dark'}`}>
-                {description}
-              </p>
-            )}
-          </div>
-        )}
-
-        {/* Stats Grid */}
-        {stats && stats.length > 0 && (
-          <div className={`grid gap-8 md:gap-10 ${gridClass}`}>
-            {stats.map((stat, index) => (
-              <div key={stat.id || index} className="text-center">
-                {/* Icon */}
-                {stat.icon && (
-                  <div
-                    className={`w-14 h-14 mx-auto mb-4 rounded-xl flex items-center justify-center text-3xl ${
-                      isDark ? 'bg-white/15' : 'bg-teal-glow'
-                    }`}
-                  >
-                    {/* Render emoji (1-2 chars) or text icon */}
-                    <span>{stat.icon}</span>
-                  </div>
-                )}
-
-                {/* Value */}
-                <span
-                  className={`font-display text-4xl md:text-5xl block mb-2 leading-none ${
-                    isDark ? 'text-white' : 'text-navy'
+    <AnimationWrapper
+      enableAnimation={enableAnimation}
+      animationType={animationType}
+      animationDuration={animationDuration}
+      animationDelay={animationDelay}
+    >
+      <section className={`py-16 md:py-24 ${bgClass}`}>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Section header */}
+          {(title || description) && (
+            <div className="mb-12 text-center">
+              {title && (
+                <h2
+                  className={`font-display text-2xl md:text-3xl lg:text-4xl font-bold ${
+                    dark ? 'text-white' : 'text-slate-900'
                   }`}
                 >
-                  {stat.value}
-                </span>
-
-                {/* Label */}
-                <span
-                  className={`text-sm font-semibold block ${
-                    isDark ? 'text-white/80' : 'text-grey-dark'
+                  {title}
+                </h2>
+              )}
+              {description && (
+                <p
+                  className={`mt-3 text-base md:text-lg max-w-2xl mx-auto ${
+                    dark ? 'text-white/70' : 'text-gray-600'
                   }`}
                 >
-                  {stat.label}
-                </span>
+                  {description}
+                </p>
+              )}
+            </div>
+          )}
 
-                {/* Description */}
-                {stat.description && (
-                  <span
-                    className={`text-xs mt-1.5 block max-w-[220px] mx-auto leading-relaxed ${
-                      isDark ? 'text-white/60' : 'text-grey-mid'
-                    }`}
-                  >
-                    {stat.description}
-                  </span>
-                )}
-              </div>
+          {/* Stats grid */}
+          <div className={`grid grid-cols-2 gap-6 md:gap-8 ${gridCols}`}>
+            {statItems.map((item, index) => (
+              <StatCard key={item.id || index} item={item} dark={dark} />
             ))}
           </div>
+        </div>
+      </section>
+    </AnimationWrapper>
+  )
+}
+
+/** Individual stat card with icon */
+const StatCard: React.FC<{ item: StatsItem; dark: boolean }> = ({ item, dark }) => {
+  const IconComponent = item.icon ? getIcon(item.icon) : null
+
+  return (
+    <div className="text-center">
+      {/* Icon */}
+      {IconComponent && (
+        <div className="flex justify-center mb-4">
+          <div
+            className={`inline-flex h-14 w-14 items-center justify-center rounded-xl ${
+              dark
+                ? 'bg-white/10 text-white'
+                : 'bg-teal-50 text-teal-600'
+            }`}
+          >
+            <IconComponent className="h-7 w-7" />
+          </div>
+        </div>
+      )}
+
+      {/* Value */}
+      <span
+        className={`block font-display text-3xl md:text-4xl lg:text-5xl font-bold ${
+          dark ? 'text-white' : 'text-slate-900'
+        }`}
+      >
+        {item.value}
+        {item.suffix && (
+          <span className={dark ? 'text-teal-300' : 'text-teal-600'}>{item.suffix}</span>
         )}
-      </div>
-    </section>
+      </span>
+
+      {/* Label */}
+      <span
+        className={`mt-2 block text-sm md:text-base font-semibold uppercase tracking-wider ${
+          dark ? 'text-white/80' : 'text-slate-700'
+        }`}
+      >
+        {item.label}
+      </span>
+
+      {/* Description */}
+      {item.description && (
+        <span
+          className={`mt-1 block text-xs md:text-sm ${
+            dark ? 'text-white/60' : 'text-gray-500'
+          }`}
+        >
+          {item.description}
+        </span>
+      )}
+    </div>
   )
 }
 
