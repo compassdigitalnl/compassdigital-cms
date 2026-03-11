@@ -3,10 +3,14 @@
  *
  * This integrates the GrapesJS editor as a custom field in Payload CMS
  * Used in EmailTemplates collection
+ *
+ * Auto-fetches branding from Theme + Settings globals so email templates
+ * automatically use the site's brand colors, fonts, and logo.
  */
 
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useField } from '@payloadcms/ui'
 import GrapesEmailEditor from '../index'
 import type { GrapesEmailEditorProps } from '../index'
@@ -20,14 +24,70 @@ export interface GrapesJSFieldProps {
   ecommerceBlocks?: boolean
 }
 
+type Branding = GrapesEmailEditorProps['tenantBranding']
+
+function useBrandingFromGlobals(propBranding?: Branding): Branding | undefined {
+  const [branding, setBranding] = useState<Branding | undefined>(propBranding)
+
+  useEffect(() => {
+    if (propBranding) {
+      setBranding(propBranding)
+      return
+    }
+
+    let cancelled = false
+
+    async function fetchBranding() {
+      try {
+        const [themeRes, settingsRes] = await Promise.all([
+          fetch('/api/globals/theme?depth=0', { credentials: 'include' }),
+          fetch('/api/globals/settings?depth=1', { credentials: 'include' }),
+        ])
+
+        if (cancelled) return
+
+        const theme = themeRes.ok ? await themeRes.json() : {}
+        const settings = settingsRes.ok ? await settingsRes.json() : {}
+
+        // Extract logo URL from upload field (populated object or string)
+        let logoUrl: string | undefined
+        if (settings.logo && typeof settings.logo === 'object' && settings.logo.url) {
+          logoUrl = settings.logo.url
+        }
+
+        const result: Branding = {
+          primaryColor: theme.primaryColor || settings.primaryColor || undefined,
+          secondaryColor: theme.secondaryColor || settings.accentColor || undefined,
+          fontFamily: theme.bodyFont || theme.headingFont || undefined,
+          logo: logoUrl,
+        }
+
+        if (result.primaryColor || result.secondaryColor || result.fontFamily || result.logo) {
+          if (!cancelled) setBranding(result)
+        }
+      } catch (err) {
+        console.warn('[GrapesJSField] Could not fetch branding from globals:', err)
+      }
+    }
+
+    fetchBranding()
+    return () => { cancelled = true }
+  }, [propBranding])
+
+  return branding
+}
+
 export function GrapesJSField(props: GrapesJSFieldProps) {
   const {
     path,
     readOnly = false,
-    tenantBranding,
+    tenantBranding: propBranding,
     listmonkVariables = true,
     ecommerceBlocks = false,
   } = props
+
+  // Auto-fetch branding from Theme + Settings globals
+  const tenantBranding = useBrandingFromGlobals(propBranding)
 
   // Get field state from Payload
   // Payload's json field returns parsed objects, but GrapesJS expects a string
