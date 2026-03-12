@@ -41,6 +41,9 @@ export const CategoryGridComponent: React.FC<CategoryGridType> = async ({
 
       if (source === 'featured') {
         apiUrl += '&where[featured][equals]=true'
+      } else if (source === 'auto' || source === 'all') {
+        // Only show top-level categories (no parent)
+        apiUrl += '&where[parent][exists]=false'
       }
 
       const response = await fetch(apiUrl, {
