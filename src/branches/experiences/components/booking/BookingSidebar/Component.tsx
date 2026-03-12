@@ -5,7 +5,7 @@ import { ChevronDown } from 'lucide-react'
 import type { BookingSidebarProps } from './types'
 
 const defaultGuarantees = [
-  '\u{1F6E1}\uFE0F Geheel vrijblijvend',
+  String.fromCodePoint(0x1F6E1) + '\uFE0F Geheel vrijblijvend',
   '\u23F1\uFE0F Binnen 2 uur reactie',
   '\u274C Kosteloos annuleren',
 ]
@@ -117,7 +117,7 @@ export function BookingSidebar({
           onClick={onRequestQuote}
           className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-[var(--color-teal)] text-white font-bold text-sm hover:opacity-90 transition-opacity"
         >
-          <span>\u{1F4E9}</span>
+          <span>{String.fromCodePoint(0x1F4E9)}</span>
           Offerte aanvragen
         </button>
 
@@ -126,7 +126,7 @@ export function BookingSidebar({
           onClick={onBookNow}
           className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-gray-300 text-[var(--color-navy)] font-bold text-sm hover:border-[var(--color-teal)] hover:text-[var(--color-teal)] transition-colors"
         >
-          <span>\u{1F4C5}</span>
+          <span>{String.fromCodePoint(0x1F4C5)}</span>
           Direct reserveren
         </button>
       </div>
