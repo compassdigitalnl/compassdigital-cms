@@ -9,4 +9,5 @@ export interface TechStackProps {
   title?: string
   variant?: 'pills' | 'cards'
   className?: string
+  linkToHub?: boolean
 }

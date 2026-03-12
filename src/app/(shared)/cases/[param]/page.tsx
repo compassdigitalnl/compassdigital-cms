@@ -279,6 +279,25 @@ async function ProjectCaseDetail({ slug }: { slug: string }) {
   const faq = Array.isArray(project.faq) ? project.faq : []
   const videoUrl = project.videoUrl || null
 
+  // Related services (from relatedServices field or auto-query)
+  let relatedServices: any[] = []
+  const linkedServices = Array.isArray(project.relatedServices) ? project.relatedServices.filter((s: any) => typeof s === 'object' && s?.relationTo) : []
+  if (linkedServices.length > 0) {
+    relatedServices = linkedServices.map((s: any) => ({ ...s.value, _collection: s.relationTo })).filter((s: any) => s?.title)
+  } else if (project.branch) {
+    // Auto-query professional-services with same branch
+    try {
+      const { docs } = await payload.find({
+        collection: 'professional-services',
+        where: { status: { equals: 'published' }, branch: { equals: project.branch } },
+        limit: 3,
+        sort: 'title',
+        depth: 0,
+      })
+      relatedServices = docs
+    } catch { /* */ }
+  }
+
   const specs: { label: string; value: string }[] = []
   if (project.client) specs.push({ label: 'Klant', value: project.client })
   if (project.location) specs.push({ label: 'Locatie', value: project.location })
@@ -374,7 +393,7 @@ async function ProjectCaseDetail({ slug }: { slug: string }) {
               </div>
             )}
 
-            {technologies.length > 0 && <TechStack technologies={technologies} title="Technologie Stack" variant="cards" />}
+            {technologies.length > 0 && <TechStack technologies={technologies} title="Technologie Stack" variant="cards" linkToHub />}
             {timeline.length > 0 && <ProjectTimeline phases={timeline} title="Project Timeline" />}
 
             {processSteps.length > 0 && (
@@ -477,6 +496,23 @@ async function ProjectCaseDetail({ slug }: { slug: string }) {
               <div className="rounded-xl border border-grey bg-white p-6">
                 <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-grey-dark">Live Website</h4>
                 <LiveSiteButton url={project.websiteUrl} variant="outline" label="Bekijk website" />
+              </div>
+            )}
+            {relatedServices.length > 0 && (
+              <div className="rounded-xl border border-grey bg-white p-6">
+                <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-grey-dark">Gerelateerde diensten</h4>
+                <div className="space-y-2">
+                  {relatedServices.map((s: any) => (
+                    <Link
+                      key={s.id}
+                      href={`/diensten/${s.slug}`}
+                      className="flex items-center gap-2 rounded-lg p-2 text-sm text-navy transition-colors hover:bg-grey-light"
+                    >
+                      {s.icon && <span>{s.icon}</span>}
+                      <span className="font-medium">{s.title}</span>
+                    </Link>
+                  ))}
+                </div>
               </div>
             )}
           </aside>

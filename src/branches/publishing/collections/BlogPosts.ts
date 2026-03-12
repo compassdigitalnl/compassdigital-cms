@@ -362,6 +362,26 @@ export const BlogPosts: CollectionConfig = {
         description: 'Handmatig geselecteerde gerelateerde artikelen (max 3)',
       },
     },
+    {
+      name: 'relatedCases',
+      type: 'relationship',
+      relationTo: 'projects',
+      hasMany: true,
+      label: 'Gerelateerde Cases',
+      admin: {
+        description: 'Cases die bij dit artikel horen',
+      },
+    },
+    {
+      name: 'relatedServices',
+      type: 'relationship',
+      relationTo: ['professional-services', 'construction-services'],
+      hasMany: true,
+      label: 'Gerelateerde Diensten',
+      admin: {
+        description: 'Diensten die bij dit artikel horen',
+      },
+    },
 
     // ═══════════════════════════════════════════════════════════
     // SEO & SCHEMA

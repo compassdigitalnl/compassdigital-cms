@@ -178,6 +178,16 @@ export const ConstructionServices: CollectionConfig = {
               ],
             },
             {
+              name: 'relatedProjects',
+              type: 'relationship',
+              relationTo: 'projects',
+              hasMany: true,
+              label: 'Gerelateerde Cases',
+              admin: {
+                description: 'Cases die deze dienst demonstreren',
+              },
+            },
+            {
               name: 'usps',
               type: 'array',
               label: 'USPs / Voordelen',

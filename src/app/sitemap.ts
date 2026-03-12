@@ -182,7 +182,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.log('Construction projects not accessible, skipping')
   }
 
-  // ─── 7. Professional Services ───────────────────────────────
+  // ─── 7. Professional Services (unified /diensten route) ─────
   try {
     const professionalServices = await payload.find({
       collection: 'professional-services',
@@ -191,12 +191,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       select: { slug: true, updatedAt: true },
     })
 
+    // Diensten overview page
+    if (professionalServices.docs.length > 0) {
+      entries.push({
+        url: `${siteUrl}/diensten`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly',
+        priority: 0.8,
+      })
+    }
+
     const psEntries: MetadataRoute.Sitemap = professionalServices.docs
       .filter((s): s is { id: number; slug: string; updatedAt: string } =>
         typeof s === 'object' && 'slug' in s && typeof s.slug === 'string'
       )
       .map((s) => ({
-        url: `${siteUrl}/dienstverlening/${s.slug}`,
+        url: `${siteUrl}/diensten/${s.slug}`,
         lastModified: new Date(s.updatedAt),
         changeFrequency: 'monthly',
         priority: 0.7,
@@ -287,6 +297,45 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push(...productEntries)
   } catch (error) {
     console.log('Products collection not accessible, skipping')
+  }
+
+  // ─── 11. Technology Hub ──────────────────────────────────────
+  try {
+    const techProjects = await payload.find({
+      collection: 'projects',
+      where: { status: { equals: 'published' } },
+      limit: 500,
+      depth: 0,
+      select: { technologies: true },
+    })
+
+    const techSlugs = new Set<string>()
+    for (const p of techProjects.docs) {
+      const technologies = Array.isArray((p as any).technologies) ? (p as any).technologies : []
+      for (const tech of technologies) {
+        if (tech.name) {
+          techSlugs.add(tech.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''))
+        }
+      }
+    }
+
+    if (techSlugs.size > 0) {
+      entries.push({
+        url: `${siteUrl}/technologieen`,
+        changeFrequency: 'weekly',
+        priority: 0.7,
+      })
+
+      for (const slug of techSlugs) {
+        entries.push({
+          url: `${siteUrl}/technologieen/${slug}`,
+          changeFrequency: 'monthly',
+          priority: 0.5,
+        })
+      }
+    }
+  } catch (error) {
+    console.log('Technology hub entries skipped:', error)
   }
 
   return entries

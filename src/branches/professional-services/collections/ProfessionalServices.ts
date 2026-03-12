@@ -3,6 +3,7 @@ import { publicAccess } from '@/access/publicAccess'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
 import { autoGenerateSlugFromName } from '@/utilities/slugify'
+import { branchOptions } from '@/branches/shared/collections/Projects/index'
 import { indexProfessionalService, deleteProfessionalServiceFromIndex } from '@/features/search/lib/meilisearch/indexProfessionalServices'
 
 export const ProfessionalServices: CollectionConfig = {
@@ -18,10 +19,10 @@ export const ProfessionalServices: CollectionConfig = {
     delete: ({ req: { user } }) => checkRole(['admin'], user),
   },
   admin: {
-    hidden: shouldHideCollection('professional_services'),
+    hidden: shouldHideCollection('services'),
     useAsTitle: 'title',
-    defaultColumns: ['title', 'slug', 'status', 'updatedAt'],
-    group: 'Zakelijke Dienstverlening',
+    defaultColumns: ['title', 'branch', 'slug', 'status', 'updatedAt'],
+    group: 'Diensten',
   },
   fields: [
     {
@@ -71,6 +72,16 @@ export const ProfessionalServices: CollectionConfig = {
       defaultValue: 'teal',
       admin: {
         position: 'sidebar',
+      },
+    },
+    {
+      name: 'branch',
+      type: 'select',
+      label: 'Branche',
+      options: branchOptions,
+      admin: {
+        position: 'sidebar',
+        description: 'Aan welke branche hoort deze dienst?',
       },
     },
     {
@@ -176,6 +187,16 @@ export const ProfessionalServices: CollectionConfig = {
                   label: 'Icon',
                 },
               ],
+            },
+            {
+              name: 'relatedProjects',
+              type: 'relationship',
+              relationTo: 'projects',
+              hasMany: true,
+              label: 'Gerelateerde Cases',
+              admin: {
+                description: 'Cases die deze dienst demonstreren',
+              },
             },
             {
               name: 'usps',

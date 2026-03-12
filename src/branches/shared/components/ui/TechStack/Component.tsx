@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
 import { getIcon } from '@/utilities/getIcon'
 import { Code2 } from 'lucide-react'
 import type { TechStackProps } from './types'
@@ -11,6 +12,13 @@ import type { TechStackProps } from './types'
  * Displays the tech stack used in a project as a grid of pills or cards.
  * All colors use CSS theme variables via Tailwind mappings.
  */
+
+function slugify(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+}
 
 const categoryStyles: Record<string, string> = {
   frontend: 'border-blue/30 bg-blue/5',
@@ -33,6 +41,7 @@ export const TechStack: React.FC<TechStackProps> = ({
   title,
   variant = 'pills',
   className = '',
+  linkToHub = false,
 }) => {
   if (!technologies || technologies.length === 0) return null
 
@@ -53,22 +62,18 @@ export const TechStack: React.FC<TechStackProps> = ({
           const borderBg = categoryStyles[cat] || categoryStyles.platform
           const iconColor = categoryIconColors[cat] || categoryIconColors.platform
 
-          if (variant === 'cards') {
-            return (
-              <div
-                key={i}
-                className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 transition-shadow hover:shadow-sm ${borderBg}`}
-                style={{ borderRadius: 'var(--r-sm)' }}
-              >
-                {IconComponent && <IconComponent className={`h-4 w-4 ${iconColor}`} />}
-                <span className="text-sm font-medium" style={{ color: 'var(--navy)' }}>
-                  {tech.name}
-                </span>
-              </div>
-            )
-          }
-
-          return (
+          const content = variant === 'cards' ? (
+            <div
+              key={i}
+              className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 transition-shadow hover:shadow-sm ${borderBg}`}
+              style={{ borderRadius: 'var(--r-sm)' }}
+            >
+              {IconComponent && <IconComponent className={`h-4 w-4 ${iconColor}`} />}
+              <span className="text-sm font-medium" style={{ color: 'var(--navy)' }}>
+                {tech.name}
+              </span>
+            </div>
+          ) : (
             <span
               key={i}
               className={`inline-flex items-center gap-1.5 border px-3 py-1.5 text-xs font-semibold ${borderBg}`}
@@ -78,6 +83,16 @@ export const TechStack: React.FC<TechStackProps> = ({
               {tech.name}
             </span>
           )
+
+          if (linkToHub) {
+            return (
+              <Link key={i} href={`/technologieen/${slugify(tech.name)}`} className="transition-opacity hover:opacity-80">
+                {content}
+              </Link>
+            )
+          }
+
+          return content
         })}
       </div>
     </div>

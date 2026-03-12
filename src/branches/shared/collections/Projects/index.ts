@@ -217,6 +217,16 @@ export const Projects: CollectionConfig = {
               ],
             },
             {
+              name: 'relatedServices',
+              type: 'relationship',
+              relationTo: ['professional-services', 'construction-services'],
+              hasMany: true,
+              label: 'Gerelateerde Diensten',
+              admin: {
+                description: 'Diensten die bij dit project horen',
+              },
+            },
+            {
               name: 'processSteps',
               type: 'array',
               label: 'Processtappen',

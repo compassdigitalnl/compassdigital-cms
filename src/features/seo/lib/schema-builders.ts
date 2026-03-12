@@ -404,7 +404,7 @@ export function buildProfessionalServiceSchema(service: any, settings: Setting, 
   const schema: any = {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
-    '@id': `${siteUrl}/dienstverlening/${service.slug}#service`,
+    '@id': `${siteUrl}/diensten/${service.slug}#service`,
     name: service.title,
     description: service.shortDescription || '',
     provider: {
@@ -502,6 +502,36 @@ export function buildProfessionalCaseSchema(caseItem: any, settings: Setting, si
   }
 
   return schema
+}
+
+// ─────────────────────────────────────────────────────────────
+// Service Overview Schema
+// ─────────────────────────────────────────────────────────────
+export function buildServiceOverviewSchema(siteUrl: string, totalServices: number) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${siteUrl}/diensten#page`,
+    name: 'Onze Diensten',
+    description: 'Overzicht van al onze diensten',
+    url: `${siteUrl}/diensten`,
+    numberOfItems: totalServices,
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// Technology Hub Schema
+// ─────────────────────────────────────────────────────────────
+export function buildTechnologyHubSchema(siteUrl: string, totalTechnologies: number) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${siteUrl}/technologieen#page`,
+    name: 'Onze Technologieën',
+    description: 'Overzicht van technologieën die wij inzetten',
+    url: `${siteUrl}/technologieen`,
+    numberOfItems: totalTechnologies,
+  }
 }
 
 // ─────────────────────────────────────────────────────────────
