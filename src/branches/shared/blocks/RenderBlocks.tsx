@@ -36,6 +36,10 @@ import { TrustSignalsBlockComponent } from '@/branches/shared/blocks/TrustSignal
 import { SocialProofBannerBlockComponent } from '@/branches/shared/blocks/SocialProofBanner/Component'
 import { LogoBarBlockComponent } from '@/branches/shared/blocks/LogoBar/Component'
 import { CaseStudyGridBlockComponent } from '@/branches/shared/blocks/CaseStudyGrid/Component'
+import { PainPointsBlockComponent } from '@/branches/shared/blocks/PainPoints/Component'
+import { CompetitorComparisonBlockComponent } from '@/branches/shared/blocks/ComparisonTable/Component'
+import { BranchePricingBlockComponent } from '@/branches/shared/blocks/BranchePricing/Component'
+import { CalculatorBlockComponent } from '@/branches/shared/blocks/Calculator/Component'
 
 // ─── ECOMMERCE BLOCKS (eager loaded, feature-gated at render time) ─
 import CategoryGrid from '@/branches/ecommerce/shared/blocks/CategoryGrid/Component'
@@ -104,6 +108,10 @@ const blockComponents: Record<string, React.FC<any>> = {
   socialProofBanner: SocialProofBannerBlockComponent,
   logoBar: LogoBarBlockComponent,
   caseStudyGrid: CaseStudyGridBlockComponent,
+  painPoints: PainPointsBlockComponent,
+  competitorComparison: CompetitorComparisonBlockComponent,
+  branchePricing: BranchePricingBlockComponent,
+  calculator: CalculatorBlockComponent,
 
   // ─── ECOMMERCE (only if shop enabled) ──────────────────────────────
   ...(isFeatureEnabled('shop')

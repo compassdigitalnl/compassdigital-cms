@@ -38,6 +38,10 @@ import { TrustSignals } from '@/branches/shared/blocks/TrustSignals'
 import { SocialProofBanner } from '@/branches/shared/blocks/SocialProofBanner'
 import { LogoBar } from '@/branches/shared/blocks/LogoBar'
 import { CaseStudyGrid } from '@/branches/shared/blocks/CaseStudyGrid'
+import { PainPoints } from '@/branches/shared/blocks/PainPoints'
+import { CompetitorComparison } from '@/branches/shared/blocks/ComparisonTable'
+import { BranchePricing } from '@/branches/shared/blocks/BranchePricing'
+import { Calculator } from '@/branches/shared/blocks/Calculator'
 
 // E-commerce blocks
 import { ecommerceBlocks } from '@/branches/ecommerce/shared/blocks'
@@ -253,6 +257,10 @@ export const Pages: CollectionConfig = {
         BlogPreview,
         InfoBox, // Status notification callouts
         ProcessSteps, // B-44: How-it-works process flow
+        PainPoints, // Pain points: emotional recognition triggers
+        CompetitorComparison, // Competitor comparison table (us vs competitors)
+        BranchePricing, // Branch-specific pricing cards with competitor comparison
+        Calculator, // Interactive savings calculator
 
         // ── Media ──
         ImageGallery,
