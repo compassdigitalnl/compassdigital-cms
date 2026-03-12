@@ -68,6 +68,8 @@ function mapProductToCard(product: Product, showBadge: boolean): ProductCardProp
     stock: product.stock ?? 0,
     stockStatus: mapStockStatus(product),
     stockText: mapStockStatus(product) === 'on-backorder' ? 'Op bestelling' : undefined,
+    rating: (product as any).reviewAverage || undefined,
+    reviewCount: (product as any).reviewCount || undefined,
     badges: showBadge ? mapBadge(product.badge) : undefined,
     taxClass: (product as any).taxClass || undefined,
   }
@@ -101,6 +103,18 @@ export const ProductGridComponent: React.FC<ProductGridType> = async ({
         case 'featured':
           apiUrl = `${baseUrl}/api/products?where[featured][equals]=true&limit=${limit}`
           break
+        case 'sale':
+          apiUrl = `${baseUrl}/api/products?where[salePrice][greater_than]=0&sort=-updatedAt&limit=${limit}`
+          break
+        case 'bestsellers':
+          apiUrl = `${baseUrl}/api/products?where[badge][equals]=bestseller&sort=-updatedAt&limit=${limit}`
+          break
+        case 'popular':
+          apiUrl = `${baseUrl}/api/products?where[badge][equals]=popular&sort=-reviewCount&limit=${limit}`
+          break
+        case 'top-rated':
+          apiUrl = `${baseUrl}/api/products?where[reviewCount][greater_than]=0&sort=-reviewAverage&limit=${limit}`
+          break
         case 'category':
           if (category) {
             const categoryId = typeof category === 'object' ? category.id : category
@@ -115,7 +129,7 @@ export const ProductGridComponent: React.FC<ProductGridType> = async ({
 
       if (apiUrl) {
         const separator = apiUrl.includes('?') ? '&' : '?'
-        const optimizedUrl = `${apiUrl}${separator}depth=1&select[title]=true&select[slug]=true&select[price]=true&select[salePrice]=true&select[compareAtPrice]=true&select[sku]=true&select[stock]=true&select[stockStatus]=true&select[badge]=true&select[images]=true&select[brand]=true&select[shortDescription]=true&select[productType]=true&select[taxClass]=true`
+        const optimizedUrl = `${apiUrl}${separator}depth=1&select[title]=true&select[slug]=true&select[price]=true&select[salePrice]=true&select[compareAtPrice]=true&select[sku]=true&select[stock]=true&select[stockStatus]=true&select[badge]=true&select[images]=true&select[brand]=true&select[shortDescription]=true&select[productType]=true&select[taxClass]=true&select[reviewAverage]=true&select[reviewCount]=true&select[featured]=true`
 
         const response = await fetch(optimizedUrl, {
           next: { revalidate: 60 },

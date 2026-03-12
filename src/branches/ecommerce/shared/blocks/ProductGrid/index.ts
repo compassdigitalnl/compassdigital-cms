@@ -37,6 +37,10 @@ export const ProductGrid: Block = {
               options: [
                 { label: 'Nieuwste producten', value: 'latest' },
                 { label: 'Featured producten', value: 'featured' },
+                { label: 'Aanbiedingen / Sale', value: 'sale' },
+                { label: 'Bestsellers', value: 'bestsellers' },
+                { label: 'Populair', value: 'popular' },
+                { label: 'Best beoordeeld', value: 'top-rated' },
                 { label: 'Handmatig selecteren', value: 'manual' },
                 { label: 'Per categorie', value: 'category' },
               ],

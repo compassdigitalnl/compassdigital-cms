@@ -71,9 +71,11 @@ export interface Config {
     pages: Page;
     media: Media;
     'cookie-consents': CookieConsent;
+    'content-approvals': ContentApproval;
     partners: Partner;
     services: Service;
     notifications: Notification;
+    'push-subscriptions': PushSubscription;
     themes: Theme;
     products: Product;
     'product-categories': ProductCategory;
@@ -83,9 +85,8 @@ export interface Config {
     'edition-notifications': EditionNotification;
     magazines: Magazine;
     'customer-groups': CustomerGroup;
-    addresses: Address;
     carts: Cart;
-    'discount-codes': DiscountCode;
+    promotions: Promotion;
     orders: Order;
     orderLists: OrderList;
     'recurring-orders': RecurringOrder;
@@ -96,14 +97,14 @@ export interface Config {
     'subscription-pages': SubscriptionPage;
     'user-subscriptions': UserSubscription;
     'payment-methods': PaymentMethod;
+    wishlists: Wishlist;
+    'product-reviews': ProductReview;
     'gift-vouchers': GiftVoucher;
     licenses: License;
     'license-activations': LicenseActivation;
     'loyalty-tiers': LoyaltyTier;
     'loyalty-rewards': LoyaltyReward;
-    'loyalty-points': LoyaltyPoint;
     'loyalty-transactions': LoyaltyTransaction;
-    'loyalty-redemptions': LoyaltyRedemption;
     'company-invites': CompanyInvite;
     'approval-requests': ApprovalRequest;
     quotes: Quote;
@@ -111,7 +112,6 @@ export interface Config {
     'ab-test-results': AbTestResult;
     'blog-posts': BlogPost;
     'blog-categories': BlogCategory;
-    faqs: Faq;
     cases: Case;
     testimonials: Testimonial;
     vendors: Vendor;
@@ -130,6 +130,9 @@ export interface Config {
     menuItems: MenuItem;
     reservations: Reservation;
     events: Event;
+    experiences: Experience;
+    'experience-categories': ExperienceCategory;
+    'experience-reviews': ExperienceReview;
     'email-subscribers': EmailSubscriber;
     'email-lists': EmailList;
     'email-templates': EmailTemplate;
@@ -139,6 +142,7 @@ export interface Config {
     'automation-flows': AutomationFlow;
     'flow-instances': FlowInstance;
     'email-events': EmailEvent;
+    'email-segments': EmailSegment;
     'client-requests': ClientRequest;
     clients: Client;
     deployments: Deployment;
@@ -157,9 +161,11 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'cookie-consents': CookieConsentsSelect<false> | CookieConsentsSelect<true>;
+    'content-approvals': ContentApprovalsSelect<false> | ContentApprovalsSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     notifications: NotificationsSelect<false> | NotificationsSelect<true>;
+    'push-subscriptions': PushSubscriptionsSelect<false> | PushSubscriptionsSelect<true>;
     themes: ThemesSelect<false> | ThemesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     'product-categories': ProductCategoriesSelect<false> | ProductCategoriesSelect<true>;
@@ -169,9 +175,8 @@ export interface Config {
     'edition-notifications': EditionNotificationsSelect<false> | EditionNotificationsSelect<true>;
     magazines: MagazinesSelect<false> | MagazinesSelect<true>;
     'customer-groups': CustomerGroupsSelect<false> | CustomerGroupsSelect<true>;
-    addresses: AddressesSelect<false> | AddressesSelect<true>;
     carts: CartsSelect<false> | CartsSelect<true>;
-    'discount-codes': DiscountCodesSelect<false> | DiscountCodesSelect<true>;
+    promotions: PromotionsSelect<false> | PromotionsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     orderLists: OrderListsSelect<false> | OrderListsSelect<true>;
     'recurring-orders': RecurringOrdersSelect<false> | RecurringOrdersSelect<true>;
@@ -182,14 +187,14 @@ export interface Config {
     'subscription-pages': SubscriptionPagesSelect<false> | SubscriptionPagesSelect<true>;
     'user-subscriptions': UserSubscriptionsSelect<false> | UserSubscriptionsSelect<true>;
     'payment-methods': PaymentMethodsSelect<false> | PaymentMethodsSelect<true>;
+    wishlists: WishlistsSelect<false> | WishlistsSelect<true>;
+    'product-reviews': ProductReviewsSelect<false> | ProductReviewsSelect<true>;
     'gift-vouchers': GiftVouchersSelect<false> | GiftVouchersSelect<true>;
     licenses: LicensesSelect<false> | LicensesSelect<true>;
     'license-activations': LicenseActivationsSelect<false> | LicenseActivationsSelect<true>;
     'loyalty-tiers': LoyaltyTiersSelect<false> | LoyaltyTiersSelect<true>;
     'loyalty-rewards': LoyaltyRewardsSelect<false> | LoyaltyRewardsSelect<true>;
-    'loyalty-points': LoyaltyPointsSelect<false> | LoyaltyPointsSelect<true>;
     'loyalty-transactions': LoyaltyTransactionsSelect<false> | LoyaltyTransactionsSelect<true>;
-    'loyalty-redemptions': LoyaltyRedemptionsSelect<false> | LoyaltyRedemptionsSelect<true>;
     'company-invites': CompanyInvitesSelect<false> | CompanyInvitesSelect<true>;
     'approval-requests': ApprovalRequestsSelect<false> | ApprovalRequestsSelect<true>;
     quotes: QuotesSelect<false> | QuotesSelect<true>;
@@ -197,7 +202,6 @@ export interface Config {
     'ab-test-results': AbTestResultsSelect<false> | AbTestResultsSelect<true>;
     'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
     'blog-categories': BlogCategoriesSelect<false> | BlogCategoriesSelect<true>;
-    faqs: FaqsSelect<false> | FaqsSelect<true>;
     cases: CasesSelect<false> | CasesSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     vendors: VendorsSelect<false> | VendorsSelect<true>;
@@ -216,6 +220,9 @@ export interface Config {
     menuItems: MenuItemsSelect<false> | MenuItemsSelect<true>;
     reservations: ReservationsSelect<false> | ReservationsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    experiences: ExperiencesSelect<false> | ExperiencesSelect<true>;
+    'experience-categories': ExperienceCategoriesSelect<false> | ExperienceCategoriesSelect<true>;
+    'experience-reviews': ExperienceReviewsSelect<false> | ExperienceReviewsSelect<true>;
     'email-subscribers': EmailSubscribersSelect<false> | EmailSubscribersSelect<true>;
     'email-lists': EmailListsSelect<false> | EmailListsSelect<true>;
     'email-templates': EmailTemplatesSelect<false> | EmailTemplatesSelect<true>;
@@ -225,6 +232,7 @@ export interface Config {
     'automation-flows': AutomationFlowsSelect<false> | AutomationFlowsSelect<true>;
     'flow-instances': FlowInstancesSelect<false> | FlowInstancesSelect<true>;
     'email-events': EmailEventsSelect<false> | EmailEventsSelect<true>;
+    'email-segments': EmailSegmentsSelect<false> | EmailSegmentsSelect<true>;
     'client-requests': ClientRequestsSelect<false> | ClientRequestsSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
@@ -438,6 +446,31 @@ export interface User {
   totalSpent?: number | null;
   averageOrderValue?: number | null;
   lastOrderDate?: string | null;
+  /**
+   * Huidig besteedbaar saldo
+   */
+  loyaltyAvailablePoints?: number | null;
+  /**
+   * Lifetime verdiende punten (voor tier berekening)
+   */
+  loyaltyTotalEarned?: number | null;
+  /**
+   * Lifetime ingewisselde punten
+   */
+  loyaltyTotalSpent?: number | null;
+  /**
+   * Berekend op basis van totaal verdiende punten
+   */
+  loyaltyTier?: (number | null) | LoyaltyTier;
+  /**
+   * Unieke code om vrienden uit te nodigen
+   */
+  referralCode?: string | null;
+  loyaltyMemberSince?: string | null;
+  loyaltyStats?: {
+    rewardsRedeemed?: number | null;
+    referrals?: number | null;
+  };
   /**
    * 2FA kan worden in-/uitgeschakeld via het account instellingen menu
    */
@@ -1197,8 +1230,17 @@ export interface Product {
    * Optionele accessoires en toebehoren
    */
   accessories?: (number | Product)[] | null;
+  /**
+   * Automatisch bijgewerkt
+   */
+  reviewCount?: number | null;
+  /**
+   * Gemiddelde van goedgekeurde reviews
+   */
+  reviewAverage?: number | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * Product merken zoals Hartmann, BSN Medical, 3M, etc.
@@ -1292,6 +1334,7 @@ export interface Brand {
   };
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1507,6 +1550,51 @@ export interface Branch {
   createdAt: string;
 }
 /**
+ * Loyalty program tiers (Bronze, Silver, Gold, Platinum)
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "loyalty-tiers".
+ */
+export interface LoyaltyTier {
+  id: number;
+  /**
+   * e.g., Bronze, Silver, Gold, Platinum
+   */
+  name: string;
+  slug: string;
+  /**
+   * e.g., 🥉 🥈 🥇 👑
+   */
+  icon?: string | null;
+  /**
+   * Hex color code
+   */
+  color?: string | null;
+  /**
+   * Points needed to reach this tier
+   */
+  minPoints: number;
+  /**
+   * e.g., 2 = earn 2x points on purchases
+   */
+  multiplier: number;
+  benefits?:
+    | {
+        benefit: string;
+        id?: string | null;
+      }[]
+    | null;
+  freeShipping?: boolean | null;
+  prioritySupport?: boolean | null;
+  earlyAccess?: boolean | null;
+  /**
+   * Lower numbers appear first
+   */
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
@@ -1543,23 +1631,26 @@ export interface Page {
     | (
         | BannerBlock
         | SpacerBlock
+        | BreadcrumbsBlock
         | HeroBlock
+        | HeroEmailCaptureBlock
         | ContentBlock
         | MediaBlock
         | TwoColumnBlock
-        | ProductGridBlock
-        | CategoryGridBlock
-        | QuickOrderBlock
+        | TwoColumnImagePairBlock
         | CTABlock
-        | CallToActionBlock
+        | CTASectionBlock
         | ContactBlock
-        | ContactFormBlock
         | NewsletterBlock
+        | OfferteRequestBlock
         | FeaturesBlock
-        | ServicesBlock
         | TestimonialsBlock
-        | CasesBlock
+        | ReviewsWidgetBlock
+        | TrustSignalsBlock
+        | SocialProofBannerBlock
         | LogoBarBlock
+        | CaseStudyGridBlock
+        | CasesBlock
         | StatsBlock
         | FAQBlock
         | TeamBlock
@@ -1597,51 +1688,33 @@ export interface Page {
             blockName?: string | null;
             blockType: 'blog-preview';
           }
-        | {
-            title: string;
-            description?: string | null;
-            /**
-             * Add 2-4 plans or products to compare
-             */
-            columns: {
-              name: string;
-              price: string;
-              /**
-               * Highlight this column with teal accent
-               */
-              featured?: boolean | null;
-              id?: string | null;
-            }[];
-            /**
-             * Add features to compare across plans
-             */
-            rows: {
-              feature: string;
-              /**
-               * Add values for each comparison column (must match number of columns)
-               */
-              values: {
-                type: 'check' | 'x' | 'text';
-                text?: string | null;
-                id?: string | null;
-              }[];
-              id?: string | null;
-            }[];
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'comparison';
-          }
         | InfoBoxBlock
+        | ProcessStepsBlock
         | ImageGalleryBlock
         | VideoBlock
         | CodeBlock
         | MapBlock
+        | ProductGridBlock
+        | ProductEmbedBlock
+        | CategoryGridBlock
+        | PricingBlock
+        | SubscriptionPricingBlock
+        | QuickOrderBlock
+        | StaffelPricingBlock
+        | BundleBuilderBlock
+        | SubscriptionOptionsBlock
+        | VendorShowcaseBlock
+        | ComparisonTableBlock
+        | PricingGradientBlock
         | ConstructionHeroBlock
         | ServicesGridBlock
         | ProjectsGridBlock
-        | ReviewsGridBlock
-        | StatsBarBlock
-        | CTABannerBlock
+        | ExperienceHeroBlock
+        | ExperienceGridBlock
+        | ExperienceCategoryGridBlock
+        | ExperienceSocialProofBlock
+        | WorkshopRegistrationBlock
+        | ReservationFormBlock
       )[]
     | null;
   meta?: {
@@ -1736,6 +1809,43 @@ export interface SpacerBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BreadcrumbsBlock".
+ */
+export interface BreadcrumbsBlock {
+  /**
+   * Navigatie-items. Het laatste item wordt als huidige pagina weergegeven (niet klikbaar).
+   */
+  items?:
+    | {
+        label: string;
+        /**
+         * URL (laat leeg voor huidige pagina)
+         */
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Voeg automatisch een "Home" link toe aan het begin
+   */
+  showHome?: boolean | null;
+  /**
+   * Teken tussen de breadcrumb items
+   */
+  separator?: ('slash' | 'chevron' | 'dot') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'breadcrumbs';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "HeroBlock".
  */
 export interface HeroBlock {
@@ -1777,6 +1887,10 @@ export interface HeroBlock {
       }[]
     | null;
   /**
+   * Image shown in the split variant (right column). Recommended: 800x600px.
+   */
+  heroImage?: (number | null) | Media;
+  /**
    * Choose hero layout style
    */
   variant?: ('default' | 'split' | 'centered') | null;
@@ -1786,9 +1900,70 @@ export interface HeroBlock {
    */
   backgroundImage?: (number | null) | Media;
   backgroundColor?: ('navy' | 'white' | 'bg' | 'teal') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroEmailCaptureBlock".
+ */
+export interface HeroEmailCaptureBlock {
+  /**
+   * Optional small badge text above the title
+   */
+  badge?: string | null;
+  /**
+   * Primary heading. Keep under 60 characters for readability.
+   */
+  title: string;
+  /**
+   * Supporting text below the title
+   */
+  description?: string | null;
+  /**
+   * Placeholder text shown inside the email input
+   */
+  formLabel?: string | null;
+  /**
+   * Text on the submit button
+   */
+  submitButtonText?: string | null;
+  /**
+   * Small trust indicators shown below the form (max 3)
+   */
+  trustItems?:
+    | {
+        icon?: ('shield-check' | 'users' | 'star' | 'clock' | 'heart') | null;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Image shown in the split variant (right column). Recommended: 800x600px.
+   */
+  heroImage?: (number | null) | Media;
+  /**
+   * Centered: dark navy gradient, full centered content. Split: light bg, left text + form, right image. Compact: teal gradient, horizontal inline layout.
+   */
+  variant?: ('centered' | 'split' | 'compact') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'heroEmailCapture';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1796,7 +1971,7 @@ export interface HeroBlock {
  */
 export interface ContentBlock {
   /**
-   * Full rich text editor with all Lexical features
+   * Volledige rich text editor met koppen, lijsten, links, citaten en meer
    */
   content: {
     root: {
@@ -1814,9 +1989,16 @@ export interface ContentBlock {
     [k: string]: unknown;
   };
   /**
-   * Narrow = optimal reading width (45-75 characters per line)
+   * Smal = optimale leesbreedte (45-75 tekens per regel)
    */
-  maxWidth?: ('narrow' | 'wide' | 'full') | null;
+  width?: ('narrow' | 'wide' | 'full') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'content';
@@ -1827,67 +2009,32 @@ export interface ContentBlock {
  */
 export interface MediaBlock {
   /**
-   * Choose whether to display an image or video
+   * Upload een afbeelding (JPG, PNG, WebP)
    */
-  mediaType?: ('image' | 'video') | null;
+  image: number | Media;
   /**
-   * Position of media relative to text content
+   * Optioneel bijschrift onder de afbeelding
    */
-  mediaPosition?: ('left' | 'right') | null;
+  caption?: string | null;
   /**
-   * Upload an image or video file. For videos, use MP4 format for best compatibility.
+   * Beschrijving voor screenreaders en SEO. Als leeg wordt alt van media gebruikt.
    */
-  media: number | Media;
+  alt?: string | null;
   /**
-   * YouTube or Vimeo embed URL. If provided, this will be used instead of uploaded video file.
+   * Maximale breedte van de afbeelding
    */
-  videoUrl?: string | null;
+  size?: ('narrow' | 'wide' | 'full') | null;
   /**
-   * Controls the width ratio between media and text columns
+   * Toon de afbeelding met afgeronde hoeken
    */
-  split?: ('50-50' | '60-40' | '40-60') | null;
+  rounded?: boolean | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
   /**
-   * Small text above title (e.g., "Video Tour", "Product Showcase")
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
    */
-  subtitle?: string | null;
-  /**
-   * Main heading for this section
-   */
-  title: string;
-  /**
-   * Text content displayed next to media. Supports paragraphs, bold, italic, links, and lists.
-   */
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  buttons?:
-    | {
-        label: string;
-        variant?: ('primary' | 'secondary' | 'outline' | 'success' | 'danger') | null;
-        /**
-         * Link URL (e.g., "/contact", "https://example.com")
-         */
-        url: string;
-        newTab?: boolean | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Background color from Theme global. Maps to CSS variables: --color-white, --color-bg, etc.
-   */
-  backgroundColor?: ('white' | 'bg' | 'grey' | 'tealLight' | 'tealGlow' | 'navy' | 'navyLight') | null;
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
@@ -1898,13 +2045,9 @@ export interface MediaBlock {
  */
 export interface TwoColumnBlock {
   /**
-   * Controls the width ratio between the two columns. 50/50 for equal width, 60/40 for left emphasis, 40/60 for right emphasis.
+   * Content for the left column (or the text column in text-image variants)
    */
-  split?: ('50-50' | '60-40' | '40-60') | null;
-  /**
-   * Content for the left column. Supports headings, lists, links, and text formatting.
-   */
-  columnOne: {
+  leftColumn: {
     root: {
       type: string;
       children: {
@@ -1920,153 +2063,9 @@ export interface TwoColumnBlock {
     [k: string]: unknown;
   };
   /**
-   * Content for the right column. Supports headings, lists, links, and text formatting.
+   * Content for the right column (used in text-text variant)
    */
-  columnTwo: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'twoColumn';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ProductGridBlock".
- */
-export interface ProductGridBlock {
-  /**
-   * Kleine uppercase tekst boven de titel (bijv. "Assortiment", "Populair")
-   */
-  sectionLabel?: string | null;
-  heading?: string | null;
-  intro?: string | null;
-  /**
-   * Hoe worden de producten gekozen?
-   */
-  source?: ('manual' | 'featured' | 'latest' | 'category' | 'brand') | null;
-  /**
-   * Handmatig geselecteerde producten
-   */
-  products?: (number | Product)[] | null;
-  /**
-   * Toon producten uit deze categorie
-   */
-  category?: (number | null) | ProductCategory;
-  /**
-   * Toon producten van dit merk
-   */
-  brand?: (number | null) | Brand;
-  displayMode?: ('grid' | 'carousel') | null;
-  /**
-   * Aantal kolommen in de grid
-   */
-  layout?: ('grid-2' | 'grid-3' | 'grid-4' | 'grid-5') | null;
-  /**
-   * Maximaal aantal producten om te tonen
-   */
-  limit?: number | null;
-  /**
-   * Quick add to cart button op product cards
-   */
-  showAddToCart?: boolean | null;
-  /**
-   * Toon "Op voorraad" / "Uitverkocht" badges
-   */
-  showStockStatus?: boolean | null;
-  /**
-   * Toon merknaam op product cards
-   */
-  showBrand?: boolean | null;
-  /**
-   * Toon oude prijs doorgestreept bij aanbiedingen
-   */
-  showComparePrice?: boolean | null;
-  /**
-   * Link naar volledige productpagina of categorie
-   */
-  showViewAllButton?: boolean | null;
-  viewAllButtonText?: string | null;
-  viewAllButtonLink?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'productGrid';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CategoryGridBlock".
- */
-export interface CategoryGridBlock {
-  /**
-   * Kleine uppercase tekst boven de titel (bijv. "Assortiment", "Populair")
-   */
-  sectionLabel?: string | null;
-  heading?: string | null;
-  intro?: string | null;
-  /**
-   * Automatisch toont alle featured categorieën
-   */
-  source?: ('auto' | 'manual') | null;
-  /**
-   * Alleen gebruikt bij "Handmatig"
-   */
-  categories?: (number | ProductCategory)[] | null;
-  /**
-   * Toon emoji icon of afbeelding
-   */
-  showIcon?: boolean | null;
-  /**
-   * Toon "280+ producten" onder categorie naam
-   */
-  showProductCount?: boolean | null;
-  layout?: ('grid-2' | 'grid-3' | 'grid-4' | 'grid-5' | 'grid-6') | null;
-  /**
-   * Maximaal aantal categorieën om te tonen
-   */
-  limit?: number | null;
-  /**
-   * Voegt een speciale Quick Order kaart toe met teal achtergrond
-   */
-  showQuickOrderCard?: boolean | null;
-  quickOrderLink?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'categoryGrid';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "QuickOrderBlock".
- */
-export interface QuickOrderBlock {
-  heading?: string | null;
-  intro?: string | null;
-  /**
-   * Toon opgeslagen bestellijsten voor snelle selectie
-   */
-  showOrderLists?: boolean | null;
-  /**
-   * Hoe gebruikers producten kunnen invoeren
-   */
-  inputMode?: ('textarea' | 'single' | 'both') | null;
-  /**
-   * Voorbeeld tekst in het invoerveld
-   */
-  placeholderText?: string | null;
-  /**
-   * Extra uitleg over hoe de quick order functie werkt
-   */
-  helpText?: {
+  rightColumn?: {
     root: {
       type: string;
       children: {
@@ -2081,15 +2080,87 @@ export interface QuickOrderBlock {
     };
     [k: string]: unknown;
   } | null;
-  submitButtonText?: string | null;
   /**
-   * Gebruikers kunnen een CSV bestand uploaden met bestellingen
+   * Image for text-image or image-text variants. Recommended: 800x600px.
    */
-  showUpload?: boolean | null;
-  uploadHelpText?: string | null;
+  image?: (number | null) | Media;
+  /**
+   * Which side of the grid the image appears on
+   */
+  imagePosition?: ('left' | 'right') | null;
+  /**
+   * Choose the column content type combination
+   */
+  variant?: ('text-text' | 'text-image' | 'image-text') | null;
+  gap?: ('sm' | 'md' | 'lg') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'quickOrder';
+  blockType: 'twoColumn';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TwoColumnImagePairBlock".
+ */
+export interface TwoColumnImagePairBlock {
+  /**
+   * De linker afbeelding
+   */
+  image1: number | Media;
+  /**
+   * Optioneel bijschrift onder of over de eerste afbeelding
+   */
+  caption1?: string | null;
+  overlay1?: {
+    title: string;
+    description?: string | null;
+  };
+  /**
+   * Bijv. "Voor"
+   */
+  comparisonBadge1?: string | null;
+  /**
+   * De rechter afbeelding
+   */
+  image2: number | Media;
+  /**
+   * Optioneel bijschrift onder of over de tweede afbeelding
+   */
+  caption2?: string | null;
+  overlay2?: {
+    title: string;
+    description?: string | null;
+  };
+  /**
+   * Bijv. "Na"
+   */
+  comparisonBadge2?: string | null;
+  /**
+   * Kies de verdeling van de twee kolommen
+   */
+  layout?: ('equal' | 'left-large' | 'right-large' | 'comparison') | null;
+  /**
+   * Standaard toont bijschriften bij hover, overlay toont een kaart over de afbeelding
+   */
+  imageType?: ('standard' | 'overlay') | null;
+  aspectRatio?: ('landscape' | 'portrait' | 'square') | null;
+  spacing?: ('compact' | 'default' | 'spacious') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'twoColumnImagePair';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2112,40 +2183,97 @@ export interface CTABlock {
         id?: string | null;
       }[]
     | null;
-  variant: 'centered' | 'split' | 'full-width';
-  style: 'dark' | 'light' | 'gradient';
+  /**
+   * Small label shown above the title (optional)
+   */
+  badge?: string | null;
+  /**
+   * Vertrouwensindicatoren onder de buttons
+   */
+  trustElements?: {
+    enabled?: boolean | null;
+    items?:
+      | {
+          /**
+           * Lucide icon naam (bijv. "Check", "ShieldCheck", "Clock")
+           */
+          icon?: string | null;
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Choose the CTA layout style
+   */
+  variant?: ('centered' | 'split' | 'banner') | null;
+  backgroundStyle?: ('gradient' | 'solid' | 'image') | null;
+  /**
+   * Recommended: 1920x600px, WebP format, < 200KB
+   */
+  backgroundImage?: (number | null) | Media;
+  /**
+   * Formaat van de CTA sectie
+   */
+  size?: ('small' | 'medium' | 'large') | null;
+  /**
+   * Tekst uitlijning (niet beschikbaar bij split variant)
+   */
+  alignment?: ('center' | 'left') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'cta';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CallToActionBlock".
+ * via the `definition` "CTASectionBlock".
  */
-export interface CallToActionBlock {
+export interface CTASectionBlock {
   /**
-   * CTA headline (3-8 words). Use active language (e.g., "Ready to get started?")
+   * Uppercase text above the title
+   */
+  overline?: string | null;
+  /**
+   * Main CTA headline
    */
   title: string;
   /**
-   * Optional supporting text (1-2 sentences, max 120 characters)
+   * Supporting text below the title
    */
   description?: string | null;
+  buttons?:
+    | {
+        text: string;
+        href: string;
+        style?: ('primary' | 'secondary') | null;
+        /**
+         * Optional icon after button text
+         */
+        icon?: ('arrow-right' | 'sparkles' | 'mail' | 'phone' | 'calendar') | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
-   * Button text (2-4 words). Use first person (e.g., "Start mijn trial" > "Start trial")
+   * Choose the background color scheme
    */
-  buttonLabel: string;
+  variant?: ('navy' | 'teal' | 'white') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
   /**
-   * URL or path for the button (e.g., /contact or https://example.com)
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
    */
-  buttonLink: string;
-  /**
-   * Grey = default (subtle), Teal = high-priority (extra attention)
-   */
-  backgroundColor?: ('white' | 'grey' | 'teal') | null;
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'calltoaction';
+  blockType: 'ctaSection';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2162,98 +2290,248 @@ export interface ContactBlock {
   phone?: string | null;
   email?: string | null;
   /**
-   * Add opening hours for each day or day range
+   * Voeg openingstijden toe per dag of dagbereik
    */
   openingHours?:
     | {
-        day: string;
-        hours: string;
+        day?: string | null;
+        hours?: string | null;
         id?: string | null;
       }[]
     | null;
   showMap?: boolean | null;
   /**
-   * Get embed URL from Google Maps "Share" → "Embed a map"
+   * Haal de embed URL op via Google Maps "Delen" → "Kaart insluiten"
    */
   mapUrl?: string | null;
+  showForm?: boolean | null;
+  /**
+   * Kies het formulier dat getoond wordt naast de contactgegevens
+   */
+  form?: (number | null) | Form;
+  /**
+   * Kies de lay-out van het contactblok
+   */
+  variant?: ('info-only' | 'info-form' | 'info-form-reversed' | 'stacked') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'contact';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContactFormBlock".
+ * via the `definition` "forms".
  */
-export interface ContactFormBlock {
-  title?: string | null;
-  description?: string | null;
-  showPhone?: boolean | null;
-  showSubject?: boolean | null;
+export interface Form {
+  id: number;
+  title: string;
+  fields?:
+    | (
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            defaultValue?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'checkbox';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'email';
+          }
+        | {
+            message?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'message';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'number';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: string | null;
+            placeholder?: string | null;
+            options?:
+              | {
+                  label: string;
+                  value: string;
+                  id?: string | null;
+                }[]
+              | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'select';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: string | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: string | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textarea';
+          }
+      )[]
+    | null;
+  submitButtonLabel?: string | null;
   /**
-   * Email address to receive form submissions
+   * Choose whether to display an on-page message or redirect to a different page after they submit the form.
    */
-  submitTo: string;
-  /**
-   * Optional contact information displayed alongside the form
-   */
-  contactInfo?: {
-    phone?: string | null;
-    email?: string | null;
-    address?: string | null;
-    hours?: string | null;
+  confirmationType?: ('message' | 'redirect') | null;
+  confirmationMessage?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  redirect?: {
+    url: string;
   };
   /**
-   * Message shown after successful form submission
+   * Send custom emails when the form submits. Use comma separated lists to send the same email to multiple recipients. To reference a value from this form, wrap that field's name with double curly brackets, i.e. {{firstName}}. You can use a wildcard {{*}} to output all data and {{*:table}} to format it as an HTML table in the email.
    */
-  successMessage?: string | null;
-  /**
-   * Message shown when form submission fails
-   */
-  errorMessage?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'contactForm';
+  emails?:
+    | {
+        emailTo?: string | null;
+        cc?: string | null;
+        bcc?: string | null;
+        replyTo?: string | null;
+        emailFrom?: string | null;
+        subject: string;
+        /**
+         * Enter the message that should be sent in this email.
+         */
+        message?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "NewsletterBlock".
  */
 export interface NewsletterBlock {
-  /**
-   * Hoofdtitel van de newsletter sectie
-   */
-  title: string;
-  /**
-   * Tekst op de submit button
-   */
-  buttonLabel?: string | null;
-  /**
-   * Korte beschrijving onder de titel (optioneel)
-   */
+  title?: string | null;
   description?: string | null;
   /**
-   * Placeholder text voor email input
+   * Selecteer het nieuwsbrief-formulier
    */
-  placeholder?: string | null;
+  form: number | Form;
   /**
-   * Achtergrondkleur van de sectie
+   * Kies de lay-out van de nieuwsbrief
    */
-  backgroundColor?: ('white' | 'grey' | 'teal' | 'navy') | null;
+  variant?: ('inline' | 'card' | 'banner') | null;
+  backgroundColor?: ('white' | 'grey' | 'navy' | 'teal') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
   /**
-   * Privacy text onder het formulier
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
    */
-  privacyText?: string | null;
-  /**
-   * Bericht getoond na succesvolle inschrijving
-   */
-  successMessage?: string | null;
-  /**
-   * Bericht getoond bij foutmelding
-   */
-  errorMessage?: string | null;
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'newsletter';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OfferteRequestBlock".
+ */
+export interface OfferteRequestBlock {
+  title?: string | null;
+  description?: string | null;
+  /**
+   * Selecteer het offerte-formulier
+   */
+  form: number | Form;
+  /**
+   * Kies de lay-out van het offerte formulier
+   */
+  variant?: ('standard' | 'sidebar') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'offerteRequest';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2267,7 +2545,7 @@ export interface FeaturesBlock {
   /**
    * Optional subheading text below title
    */
-  description?: string | null;
+  subtitle?: string | null;
   features?:
     | {
         /**
@@ -2279,67 +2557,33 @@ export interface FeaturesBlock {
          * Short description (max 2-3 sentences)
          */
         description?: string | null;
+        /**
+         * URL of pad voor meer info (e.g., /diensten/webshop)
+         */
+        link?: string | null;
         id?: string | null;
       }[]
     | null;
-  variant?: ('grid-3' | 'grid-4' | 'list') | null;
+  /**
+   * Number of columns on desktop. Mobile always stacks to 1 column.
+   */
+  layout?: ('grid-3' | 'grid-4' | 'list' | 'split') | null;
   iconStyle?: ('glow' | 'solid' | 'outlined') | null;
-  alignment?: ('center' | 'left') | null;
+  /**
+   * Afbeelding aan de linkerkant bij split layout
+   */
+  splitImage?: (number | null) | Media;
+  splitImagePosition?: ('left' | 'right') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'features';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ServicesBlock".
- */
-export interface ServicesBlock {
-  /**
-   * Small overline text above main title (optional)
-   */
-  subtitle?: string | null;
-  /**
-   * Main section heading (optional)
-   */
-  title?: string | null;
-  /**
-   * Brief description below title (optional, max 2-3 sentences)
-   */
-  description?: string | null;
-  /**
-   * Number of service cards per row on desktop. Automatically stacks on mobile.
-   */
-  columns: '2' | '3' | '4';
-  /**
-   * Add 2-12 service cards. Recommended: 3, 6, or 9 items for best visual balance.
-   */
-  services: {
-    /**
-     * Lucide icon name (e.g., "package", "code", "rocket"). Browse icons at lucide.dev
-     */
-    icon: string;
-    /**
-     * Icon color theme
-     */
-    iconColor: 'teal' | 'blue' | 'green' | 'purple' | 'amber' | 'coral';
-    title: string;
-    /**
-     * Service description (1-2 sentences, max 150 chars recommended)
-     */
-    description: string;
-    /**
-     * Optional link URL (e.g., /services/setup or https://example.com)
-     */
-    link?: string | null;
-    /**
-     * CTA link text (shown only if link URL is provided)
-     */
-    linkText?: string | null;
-    id?: string | null;
-  }[];
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'services';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2376,6 +2620,346 @@ export interface TestimonialsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'testimonials';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ReviewsWidgetBlock".
+ */
+export interface ReviewsWidgetBlock {
+  /**
+   * Optionele koptekst boven de reviews
+   */
+  heading?: {
+    /**
+     * Kleine pill-badge boven de titel
+     */
+    badge?: string | null;
+    title?: string | null;
+    description?: string | null;
+  };
+  /**
+   * Handmatig invoeren, specifieke reviews selecteren, of automatisch alle gepubliceerde reviews ophalen
+   */
+  source?: ('manual' | 'collection' | 'auto') | null;
+  /**
+   * Uit welke review-collectie ophalen
+   */
+  collectionSource?: ('product-reviews' | 'construction-reviews' | 'experience-reviews') | null;
+  /**
+   * Maximaal aantal reviews om op te halen
+   */
+  limit?: number | null;
+  /**
+   * Handmatig ingevoerde reviews
+   */
+  reviews?:
+    | {
+        reviewer?: string | null;
+        rating?: number | null;
+        text?: string | null;
+        /**
+         * Datum van de review (vrij formaat)
+         */
+        date?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Selecteer reviews uit de product-reviews collectie
+   */
+  collection?: (number | ProductReview)[] | null;
+  /**
+   * Weergavestijl van de individuele reviews
+   */
+  layout?: ('cards' | 'quotes' | 'compact') | null;
+  /**
+   * Aantal kolommen in het grid
+   */
+  columns?: ('2' | '3') | null;
+  /**
+   * Distributie van 5 sterren tot 1 ster
+   */
+  showRatingBars?: boolean | null;
+  /**
+   * Gemiddelde beoordeling met groot cijfer
+   */
+  showAverage?: boolean | null;
+  /**
+   * Waar de gemiddelde score en balken worden getoond
+   */
+  averagePosition?: ('top' | 'left') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'reviewsWidget';
+}
+/**
+ * Klantbeoordelingen voor producten met AI-moderatie
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-reviews".
+ */
+export interface ProductReview {
+  id: number;
+  product: number | Product;
+  title?: string | null;
+  /**
+   * 1-5 sterren
+   */
+  rating: number;
+  comment: string;
+  /**
+   * Ingelogde gebruiker (optioneel voor gastreviews)
+   */
+  user?: (number | null) | User;
+  authorName: string;
+  /**
+   * Voor verificatie (niet publiek)
+   */
+  authorEmail?: string | null;
+  authorInitials?: string | null;
+  status: 'pending' | 'approved' | 'rejected' | 'flagged';
+  isVerifiedPurchase?: boolean | null;
+  /**
+   * Interne notities (niet publiek)
+   */
+  moderationNotes?: string | null;
+  /**
+   * Automatische analyse door AI-moderatie
+   */
+  ai?: {
+    moderated?: boolean | null;
+    /**
+     * 0=afwijzen, 100=perfect. Auto-approve boven 70.
+     */
+    score?: number | null;
+    sentiment?: ('positive' | 'neutral' | 'negative') | null;
+    /**
+     * Gedetecteerde onderwerpen (bijv. kwaliteit, levering, prijs)
+     */
+    topics?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    /**
+     * 0=veilig, 100=zeer toxisch
+     */
+    toxicity?: number | null;
+    isFake?: boolean | null;
+    /**
+     * Korte samenvatting van de AI-analyse
+     */
+    summary?: string | null;
+  };
+  helpfulYes?: number | null;
+  helpfulNo?: number | null;
+  response?: {
+    text?: string | null;
+    respondedAt?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TrustSignalsBlock".
+ */
+export interface TrustSignalsBlock {
+  /**
+   * USP's en vertrouwenssignalen. Voeg icoon, titel en optionele beschrijving toe.
+   */
+  items?:
+    | {
+        /**
+         * Emoji of icoon naam (bijv. shield-check)
+         */
+        icon?: string | null;
+        title: string;
+        /**
+         * Korte toelichting (optioneel)
+         */
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Horizontaal = compacte inline rij. Kaarten = grid met kaarten.
+   */
+  variant?: ('horizontal' | 'cards') | null;
+  /**
+   * Achtergrondkleur van de sectie
+   */
+  backgroundColor?: ('white' | 'grey' | 'navy') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'trustSignals';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocialProofBannerBlock".
+ */
+export interface SocialProofBannerBlock {
+  /**
+   * Grote getallen met korte labels
+   */
+  metrics?:
+    | {
+        /**
+         * Het grote getal of percentage
+         */
+        value: string;
+        /**
+         * Beschrijving onder het getal
+         */
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optionele tekst onder de statistieken
+   */
+  trustText?: string | null;
+  /**
+   * Achtergrondstijl van de banner
+   */
+  variant?: ('dark' | 'light' | 'gradient') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'socialProofBanner';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LogoBarBlock".
+ */
+export interface LogoBarBlock {
+  /**
+   * Bepaalt de standaard titel en styling
+   */
+  context?: ('customers' | 'certifications' | 'partners') | null;
+  /**
+   * Optionele koptekst boven de logo's. Laat leeg voor context-default.
+   */
+  title?: string | null;
+  /**
+   * Logo's van klanten, certificeringen of partners.
+   */
+  logos?:
+    | {
+        /**
+         * PNG of SVG met transparante achtergrond (aanbevolen)
+         */
+        logo: number | Media;
+        /**
+         * Gebruikt voor alt-tekst (toegankelijkheid)
+         */
+        name?: string | null;
+        /**
+         * Optionele link naar de website
+         */
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Statisch = grid layout. Scrollend = oneindige scroll animatie (CSS only).
+   */
+  variant?: ('static' | 'scroll') | null;
+  /**
+   * Toon logo's in grijstinten met kleur bij hover
+   */
+  grayscale?: boolean | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'logoBar';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CaseStudyGridBlock".
+ */
+export interface CaseStudyGridBlock {
+  /**
+   * Optionele koptekst boven de case studies
+   */
+  title?: string | null;
+  /**
+   * Optionele subtekst onder de titel
+   */
+  subtitle?: string | null;
+  /**
+   * Case studies met klantgegevens, resultaten en afbeelding
+   */
+  cases?:
+    | {
+        title: string;
+        client?: string | null;
+        description?: string | null;
+        /**
+         * Screenshot of afbeelding van het project
+         */
+        image?: (number | null) | Media;
+        /**
+         * Meetbare resultaten (bijv. +200% omzet, 3x sneller)
+         */
+        results?:
+          | {
+              metric?: string | null;
+              value?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Link naar de volledige case study
+         */
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Grid = gelijke kaarten. Uitgelicht = eerste case study groot weergegeven.
+   */
+  layout?: ('grid' | 'featured') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'caseStudyGrid';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2494,47 +3078,7 @@ export interface Case {
   };
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LogoBarBlock".
- */
-export interface LogoBarBlock {
-  /**
-   * Optional heading above logos (e.g., "Trusted by leading companies", "Our partners")
-   */
-  title?: string | null;
-  /**
-   * Add 3-20 client/partner logos. Logos will auto-scroll on mobile if more than 5. Best results: upload logos with transparent backgrounds.
-   */
-  logos?:
-    | {
-        /**
-         * Upload company logo (PNG, SVG recommended). Logos will be displayed in grayscale and colorize on hover.
-         */
-        image: number | Media;
-        /**
-         * Used for alt text accessibility (e.g., "Microsoft", "Google")
-         */
-        name: string;
-        /**
-         * Optional link to company website (leave empty if no link needed). Must be full URL (e.g., https://example.com)
-         */
-        link?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Enable automatic horizontal scrolling animation (pauses on hover). Best for 8+ logos. Creates an infinite carousel effect.
-   */
-  autoScroll?: boolean | null;
-  /**
-   * Choose background style to match surrounding sections. Dark variant inverts logos to white for visibility.
-   */
-  variant?: ('light' | 'white' | 'dark') | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'logoBar';
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2591,21 +3135,21 @@ export interface StatsBlock {
  */
 export interface FAQBlock {
   /**
-   * Optional heading above FAQ items (DM Serif Display)
+   * Optionele koptekst boven de FAQ items
    */
   title?: string | null;
   /**
-   * Optional subheading text
+   * Optionele subtekst onder de titel
    */
-  description?: string | null;
+  subtitle?: string | null;
   /**
-   * Add question/answer pairs. Click + icon expands to show answer.
+   * Vraag/antwoord paren. Klik op + om een nieuwe vraag toe te voegen.
    */
-  faqs?:
+  items?:
     | {
         question: string;
         /**
-         * Full rich text support (bold, lists, links, etc.)
+         * Rich text antwoord (vet, cursief, links)
          */
         answer: {
           root: {
@@ -2626,9 +3170,16 @@ export interface FAQBlock {
       }[]
     | null;
   /**
-   * Single = vertical stack (max 720px). Two = side-by-side on desktop.
+   * Visuele stijl van de FAQ items
    */
-  variant?: ('single-column' | 'two-column') | null;
+  variant?: ('simple' | 'bordered' | 'colored') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'faq';
@@ -2706,17 +3257,17 @@ export interface TeamBlock {
  */
 export interface AccordionBlock {
   /**
-   * Optional heading above the accordion items
+   * Optionele koptekst boven de accordion
    */
   title?: string | null;
   items?:
     | {
         /**
-         * The clickable heading for this accordion item
+         * De klikbare koptekst van dit accordion item
          */
         title: string;
         /**
-         * The content revealed when this item is expanded. Supports rich text formatting.
+         * De inhoud die zichtbaar wordt wanneer het item geopend is
          */
         content: {
           root: {
@@ -2733,13 +3284,28 @@ export interface AccordionBlock {
           };
           [k: string]: unknown;
         };
+        /**
+         * Dit item is standaard geopend wanneer de pagina laadt
+         */
+        defaultOpen?: boolean | null;
         id?: string | null;
       }[]
     | null;
   /**
-   * If disabled, opening one item will automatically close others (single-open mode)
+   * Visuele stijl van de accordion items
+   */
+  variant?: ('simple' | 'bordered' | 'separated') | null;
+  /**
+   * Indien uitgeschakeld, wordt een item automatisch gesloten wanneer een ander wordt geopend
    */
   allowMultiple?: boolean | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'accordion';
@@ -3027,38 +3593,103 @@ export interface InfoBoxBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProcessStepsBlock".
+ */
+export interface ProcessStepsBlock {
+  /**
+   * Heading above the process steps (e.g., "Hoe het werkt")
+   */
+  title: string;
+  /**
+   * Optional description below the title
+   */
+  subtitle?: string | null;
+  steps?:
+    | {
+        /**
+         * Icon displayed in the step card
+         */
+        icon?:
+          | (
+              | 'search'
+              | 'settings'
+              | 'check-circle'
+              | 'zap'
+              | 'rocket'
+              | 'target'
+              | 'bar-chart'
+              | 'lightbulb'
+              | 'palette'
+              | 'smartphone'
+            )
+          | null;
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Section background color
+   */
+  backgroundColor?: ('light-grey' | 'white') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'processSteps';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ImageGalleryBlock".
  */
 export interface ImageGalleryBlock {
   /**
-   * Optional heading above the gallery
+   * Optionele koptekst boven de gallerij
    */
   title?: string | null;
+  /**
+   * Optionele tekst onder de titel
+   */
+  description?: string | null;
   images?:
     | {
-        /**
-         * Upload an image file (JPG, PNG, WebP recommended)
-         */
         image: number | Media;
         /**
-         * Text displayed when hovering over or viewing the image in lightbox
+         * Tekst bij hover of in lightbox
          */
         caption?: string | null;
         id?: string | null;
       }[]
     | null;
   /**
-   * Number of columns in the gallery grid
+   * Kies de gallerij layout
+   */
+  variant?: ('grid' | 'featured-grid' | 'masonry') | null;
+  /**
+   * Aantal kolommen op desktop (niet van toepassing bij featured-grid)
    */
   columns?: ('2' | '3' | '4') | null;
   /**
-   * Aspect ratio for image containers. "Auto" preserves original dimensions.
+   * Beeldverhouding voor afbeeldingscontainers
    */
   aspectRatio?: ('16-9' | '4-3' | '1-1' | 'auto') | null;
   /**
-   * Allow users to click images to view them in a full-screen lightbox
+   * Klik op afbeelding om te vergroten in een overlay
    */
   enableLightbox?: boolean | null;
+  gap?: ('small' | 'normal' | 'large') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'imageGallery';
@@ -3175,6 +3806,471 @@ export interface MapBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'map';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductGridBlock".
+ */
+export interface ProductGridBlock {
+  title?: string | null;
+  /**
+   * Hoe worden de producten gekozen?
+   */
+  source?: ('latest' | 'featured' | 'sale' | 'bestsellers' | 'popular' | 'top-rated' | 'manual' | 'category') | null;
+  /**
+   * Selecteer producten handmatig
+   */
+  products?: (number | Product)[] | null;
+  /**
+   * Toon producten uit deze categorie
+   */
+  category?: (number | null) | ProductCategory;
+  /**
+   * Maximaal aantal producten om te tonen
+   */
+  limit?: number | null;
+  /**
+   * Weergave van de producten
+   */
+  layout?: ('grid-3' | 'grid-4' | 'list') | null;
+  showPrice?: boolean | null;
+  showBadge?: boolean | null;
+  showAddToCart?: boolean | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'productGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductEmbedBlock".
+ */
+export interface ProductEmbedBlock {
+  /**
+   * Selecteer een product om in te bedden
+   */
+  product: number | Product;
+  /**
+   * Optioneel: overschrijf de standaard productbeschrijving
+   */
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  variant?: ('card' | 'hero' | 'minimal') | null;
+  showPrice?: boolean | null;
+  showDescription?: boolean | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'productEmbed';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CategoryGridBlock".
+ */
+export interface CategoryGridBlock {
+  title?: string | null;
+  /**
+   * Welke categorieën worden getoond?
+   */
+  source?: ('all' | 'featured' | 'manual') | null;
+  /**
+   * Selecteer categorieën handmatig
+   */
+  categories?: (number | ProductCategory)[] | null;
+  /**
+   * Maximaal aantal categorieën om te tonen
+   */
+  limit?: number | null;
+  layout?: ('grid-3' | 'grid-4' | 'masonry') | null;
+  showCount?: boolean | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'categoryGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PricingBlock".
+ */
+export interface PricingBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  plans?:
+    | {
+        name: string;
+        /**
+         * Bijv. €29 of €99 of Gratis
+         */
+        price: string;
+        /**
+         * Bijv. /maand of /jaar
+         */
+        period?: string | null;
+        description?: string | null;
+        features?:
+          | {
+              text: string;
+              included?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
+        buttonLabel?: string | null;
+        buttonLink?: string | null;
+        /**
+         * Toon als aanbevolen pakket met highlight
+         */
+        featured?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  columns?: ('2' | '3' | '4') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'pricing';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SubscriptionPricingBlock".
+ */
+export interface SubscriptionPricingBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  /**
+   * Welke betaalfrequenties worden aangeboden?
+   */
+  frequency?: ('monthly' | 'yearly' | 'both') | null;
+  plans?:
+    | {
+        name: string;
+        monthlyPrice: string;
+        yearlyPrice: string;
+        period?: string | null;
+        description?: string | null;
+        features?:
+          | {
+              text: string;
+              included?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
+        buttonLabel?: string | null;
+        buttonLink?: string | null;
+        featured?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  variant?: ('cards' | 'table') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'subscriptionPricing';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "QuickOrderBlock".
+ */
+export interface QuickOrderBlock {
+  title?: string | null;
+  description?: string | null;
+  /**
+   * Placeholder tekst voor het invoerveld
+   */
+  placeholder?: string | null;
+  /**
+   * Simpel: enkel product. Geavanceerd: meerdere producten tegelijk.
+   */
+  variant?: ('simple' | 'advanced') | null;
+  showQuantity?: boolean | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'quickOrder';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StaffelPricingBlock".
+ */
+export interface StaffelPricingBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  tiers?:
+    | {
+        minQuantity: number;
+        /**
+         * Laat leeg voor "en meer"
+         */
+        maxQuantity?: number | null;
+        price: number;
+        /**
+         * Optioneel: toon een kortingslabel
+         */
+        discount?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  variant?: ('table' | 'cards') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'staffelPricing';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BundleBuilderBlock".
+ */
+export interface BundleBuilderBlock {
+  title?: string | null;
+  description?: string | null;
+  /**
+   * Selecteer de producten die in de bundel zitten
+   */
+  products?: (number | Product)[] | null;
+  /**
+   * Korting op de totaalprijs in procenten
+   */
+  discountPercentage?: number | null;
+  discountLabel?: string | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'bundleBuilder';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SubscriptionOptionsBlock".
+ */
+export interface SubscriptionOptionsBlock {
+  title?: string | null;
+  options?:
+    | {
+        frequency: string;
+        price: string;
+        /**
+         * Optioneel: toon een besparingslabel
+         */
+        savings?: string | null;
+        features?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  variant?: ('cards' | 'list') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'subscriptionOptions';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VendorShowcaseBlock".
+ */
+export interface VendorShowcaseBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  source?: ('all' | 'featured' | 'manual') | null;
+  /**
+   * Selecteer merken handmatig
+   */
+  vendors?: (number | Brand)[] | null;
+  limit?: number | null;
+  layout?: ('grid' | 'carousel') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'vendorShowcase';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ComparisonTableBlock".
+ */
+export interface ComparisonTableBlock {
+  /**
+   * Optionele titel boven de tabel
+   */
+  caption?: string | null;
+  /**
+   * Voeg kolomkoppen toe voor de tabel (min 2, max 6)
+   */
+  headers: {
+    header: string;
+    /**
+     * Highlight deze kolom met een accent kleur
+     */
+    featured?: boolean | null;
+    id?: string | null;
+  }[];
+  /**
+   * Voeg rijen toe aan de tabel
+   */
+  rows: {
+    rowLabel: string;
+    /**
+     * Voeg cellen toe (aantal moet overeenkomen met aantal kolomkoppen)
+     */
+    cells: {
+      value: string;
+      type?: ('text' | 'check' | 'cross') | null;
+      id?: string | null;
+    }[];
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'comparisontable';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PricingGradientBlock".
+ */
+export interface PricingGradientBlock {
+  header: {
+    /**
+     * Optioneel label boven de titel
+     */
+    badge?: string | null;
+    title: string;
+    description?: string | null;
+  };
+  billingToggle?: {
+    enabled?: boolean | null;
+    /**
+     * Badge naast jaarlijks label wanneer actief
+     */
+    saveBadge?: string | null;
+  };
+  plans?:
+    | {
+        name: string;
+        description?: string | null;
+        /**
+         * Toon als uitgelichte kaart met gradient achtergrond
+         */
+        isFeatured?: boolean | null;
+        featuredBadge?: string | null;
+        gradientColor?: ('navy' | 'teal' | 'purple' | 'blue') | null;
+        /**
+         * Laat leeg als u een aangepaste prijs wilt tonen
+         */
+        monthlyPrice?: number | null;
+        /**
+         * Laat leeg als u een aangepaste prijs wilt tonen
+         */
+        yearlyPrice?: number | null;
+        /**
+         * Wordt getoond in plaats van numerieke prijs
+         */
+        customPrice?: string | null;
+        ctaText: string;
+        ctaUrl: string;
+        features?:
+          | {
+              text: string;
+              enabled?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Veelgestelde vragen onder de prijskaarten
+   */
+  faq?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  variant?: ('three-tier' | 'two-column' | 'comparison' | 'with-faq') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'pricingGradient';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3398,21 +4494,31 @@ export interface ConstructionService {
    * Extra afbeeldingen
    */
   gallery?: (number | Media)[] | null;
+  status: 'draft' | 'published';
   meta?: {
-    /**
-     * Titel voor zoekmachines (max 60 karakters)
-     */
     title?: string | null;
-    /**
-     * Meta omschrijving (max 160 karakters)
-     */
     description?: string | null;
     /**
-     * Komma-gescheiden (bijv. "nieuwbouw, amsterdam, aannemer")
+     * Primary keyword/phrase to optimize for (e.g., "medical supplies Amsterdam")
      */
-    keywords?: string | null;
+    focusKeyword?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Override the default canonical URL. Leave empty to use auto-generated URL. Use for duplicate content prevention.
+     */
+    canonicalUrl?: string | null;
+    /**
+     * Prevent search engines from indexing this page. Use for duplicate content, thank-you pages, etc.
+     */
+    noIndex?: boolean | null;
+    /**
+     * Prevent search engines from following links on this page.
+     */
+    noFollow?: boolean | null;
   };
-  status: 'draft' | 'published';
   updatedAt: string;
   createdAt: string;
 }
@@ -3620,220 +4726,409 @@ export interface ConstructionProject {
      */
     clientRole?: string | null;
   };
+  /**
+   * Toon op homepage
+   */
+  featured?: boolean | null;
+  status: 'draft' | 'published';
   meta?: {
     title?: string | null;
     description?: string | null;
+    /**
+     * Primary keyword/phrase to optimize for (e.g., "medical supplies Amsterdam")
+     */
+    focusKeyword?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Override the default canonical URL. Leave empty to use auto-generated URL. Use for duplicate content prevention.
+     */
+    canonicalUrl?: string | null;
+    /**
+     * Prevent search engines from indexing this page. Use for duplicate content, thank-you pages, etc.
+     */
+    noIndex?: boolean | null;
+    /**
+     * Prevent search engines from following links on this page.
+     */
+    noFollow?: boolean | null;
   };
-  /**
-   * Toon op homepage
-   */
-  featured?: boolean | null;
-  status: 'draft' | 'published';
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ReviewsGridBlock".
+ * via the `definition` "ExperienceHeroBlock".
  */
-export interface ReviewsGridBlock {
+export interface ExperienceHeroBlock {
+  subtitle?: string | null;
+  title: string;
+  description?: string | null;
+  /**
+   * Toon de ervaringen zoekbalk in de hero
+   */
+  showSearchBar?: boolean | null;
+  /**
+   * Toon populaire categorieën als quick-filter pills
+   */
+  showCategoryPills?: boolean | null;
+  /**
+   * Vertrouwens-indicatoren onder de zoekbalk
+   */
+  trustBadges?:
+    | {
+        icon?: string | null;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Aanbevolen: 1920x800px, WebP format
+   */
+  backgroundImage?: (number | null) | Media;
+  backgroundStyle?: ('gradient' | 'image' | 'solid') | null;
+  /**
+   * 0 = transparant, 100 = volledig zwart
+   */
+  overlayOpacity?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'experience-hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ExperienceGridBlock".
+ */
+export interface ExperienceGridBlock {
   heading?: {
     /**
-     * Kleine label boven de titel (bijv. "Testimonials")
+     * Kleine label boven de titel (bijv. "Ons aanbod")
      */
     badge?: string | null;
-    /**
-     * Hoofdtitel van de sectie
-     */
     title?: string | null;
-    /**
-     * Optionele beschrijving onder de titel
-     */
     description?: string | null;
   };
   /**
-   * Hoe moeten reviews geselecteerd worden?
+   * Hoe moeten ervaringen geselecteerd worden?
    */
-  reviewsSource: 'featured' | 'auto' | 'manual';
+  source?: ('auto' | 'featured' | 'manual' | 'category') | null;
+  experiences?: (number | Experience)[] | null;
   /**
-   * Selecteer specifieke reviews
+   * Toon alleen ervaringen uit deze categorie
    */
-  reviews?: (number | ConstructionReview)[] | null;
+  category?: (number | null) | ExperienceCategory;
   /**
-   * Maximum aantal reviews om te tonen
+   * Toon de filter sidebar naast het grid
    */
+  showFilters?: boolean | null;
+  columns?: ('2' | '3' | '4') | null;
   limit?: number | null;
-  /**
-   * Aantal kolommen in het grid (desktop)
-   */
-  columns?: ('2' | '3') | null;
-  /**
-   * Visuele stijl van de reviews
-   */
-  layout?: ('cards' | 'quotes' | 'compact') | null;
-  /**
-   * Toon de sterren beoordeling
-   */
-  showRatings?: boolean | null;
-  /**
-   * Toon klant initialen als avatar
-   */
-  showAvatars?: boolean | null;
-  /**
-   * Toon een prominente gemiddelde score sectie
-   */
-  averageRating?: {
-    enabled?: boolean | null;
-    position?: ('top' | 'left') | null;
-  };
+  showPagination?: boolean | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'reviews-grid';
+  blockType: 'experience-grid';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "construction-reviews".
+ * via the `definition` "experiences".
  */
-export interface ConstructionReview {
+export interface Experience {
   id: number;
   /**
-   * Naam van de klant
+   * Naam van de ervaring
    */
-  clientName: string;
+  title: string;
   /**
-   * Bijv. "Eigenaar villa", "Projectleider", etc.
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
-  clientRole?: string | null;
+  generateSlug?: boolean | null;
+  slug: string;
   /**
-   * Initialen voor avatar (bijv. "JD")
+   * Voor kaarten en previews (max 200 karakters)
    */
-  clientInitials?: string | null;
-  clientColor?: ('teal' | 'blue' | 'green' | 'purple' | 'amber' | 'coral') | null;
+  excerpt?: string | null;
   /**
-   * Sterren beoordeling (1-5)
+   * Volledige omschrijving voor detail pagina
    */
-  rating: number;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   /**
-   * De testimonial tekst
+   * Belangrijkste kenmerken van de ervaring
    */
-  quote: string;
+  highlights?:
+    | {
+        label: string;
+        /**
+         * Emoji of icon (bijv. "🎯", "⏱️")
+         */
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
-   * Optioneel: koppel aan een project
+   * Wat is inbegrepen bij de ervaring
    */
-  project?: (number | null) | ConstructionProject;
+  included?:
+    | {
+        label: string;
+        /**
+         * Emoji of icon (bijv. "🍽️", "🎵")
+         */
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
-   * Optioneel: koppel aan een dienst
+   * Categorie van de ervaring
    */
-  service?: (number | null) | ConstructionService;
+  category?: (number | null) | ExperienceCategory;
+  /**
+   * Bijv. "4 uur", "hele dag", "2-3 uur"
+   */
+  duration?: string | null;
+  minPersons?: number | null;
+  maxPersons?: number | null;
+  /**
+   * Bijv. "Amsterdam", "Op locatie"
+   */
+  location?: string | null;
+  /**
+   * Extra informatie over de locatie
+   */
+  locationDetails?: string | null;
+  availability?: ('year-round' | 'seasonal' | 'weekends-only' | 'custom') | null;
   /**
    * Toon op homepage
    */
   featured?: boolean | null;
-  status: 'draft' | 'published';
+  /**
+   * Markeer als populaire ervaring
+   */
+  popular?: boolean | null;
+  status: 'draft' | 'published' | 'archived';
+  /**
+   * Prijs in euro
+   */
+  pricePerPerson: number;
+  priceType?: ('per-person' | 'fixed' | 'from') | null;
+  /**
+   * Bijv. "Excl. BTW", "Incl. lunch"
+   */
+  priceNote?: string | null;
+  /**
+   * Aanvullende opties die bijgeboekt kunnen worden
+   */
+  extras?:
+    | {
+        name: string;
+        description?: string | null;
+        price: number;
+        priceType?: ('per-person' | 'fixed' | 'per-hour') | null;
+        /**
+         * Markeer als populaire extra
+         */
+        popular?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Hoofdafbeelding voor de ervaring
+   */
+  featuredImage?: (number | null) | Media;
+  /**
+   * Extra afbeeldingen en video's
+   */
+  gallery?:
+    | {
+        image: number | Media;
+        caption?: string | null;
+        /**
+         * Markeer als video item
+         */
+        isVideo?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  meta?: {
+    /**
+     * Titel voor zoekmachines (max 60 karakters)
+     */
+    title?: string | null;
+    /**
+     * Meta omschrijving (max 160 karakters)
+     */
+    description?: string | null;
+    /**
+     * Komma-gescheiden (bijv. "teambuilding, amsterdam, bedrijfsuitje")
+     */
+    keywords?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experience-categories".
+ */
+export interface ExperienceCategory {
+  id: number;
+  /**
+   * Naam van de categorie (bijv. "Teambuilding", "Outdoor")
+   */
+  name: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  /**
+   * Emoji voor de categorie (bijv. "🎉", "🏔️")
+   */
+  icon?: string | null;
+  /**
+   * Korte omschrijving van de categorie
+   */
+  description?: string | null;
+  /**
+   * Afbeelding voor de categorie
+   */
+  image?: (number | null) | Media;
+  /**
+   * Sorteervolgorde (lager = eerder)
+   */
+  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "StatsBarBlock".
+ * via the `definition` "ExperienceCategoryGridBlock".
  */
-export interface StatsBarBlock {
+export interface ExperienceCategoryGridBlock {
+  heading?: {
+    badge?: string | null;
+    title?: string | null;
+    description?: string | null;
+  };
+  source?: ('auto' | 'manual') | null;
+  categories?: (number | ExperienceCategory)[] | null;
+  columns?: ('3' | '4' | '6') | null;
+  limit?: number | null;
   /**
-   * Visuele stijl van de statistieken balk
+   * Toon het aantal ervaringen per categorie
    */
-  style?: ('default' | 'accent' | 'dark' | 'transparent') | null;
-  /**
-   * Voeg 2-5 statistieken toe
-   */
-  stats: {
-    /**
-     * Bijv. "25+" of "500+" of "98%"
-     */
-    value: string;
-    /**
-     * Bijv. "Jaar ervaring" of "Projecten" of "Tevreden klanten"
-     */
-    label: string;
-    /**
-     * Optioneel icoon bij de statistiek
-     */
-    icon?: ('none' | 'construction' | 'star' | 'users' | 'trophy' | 'chart' | 'check' | 'target' | 'briefcase') | null;
-    id?: string | null;
-  }[];
-  /**
-   * Hoe de statistieken worden weergegeven
-   */
-  layout?: ('horizontal' | 'grid') | null;
-  /**
-   * Laat de getallen animeren bij scrollen
-   */
-  animate?: boolean | null;
-  /**
-   * Toon verticale lijnen tussen statistieken
-   */
-  dividers?: boolean | null;
+  showCount?: boolean | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'stats-bar';
+  blockType: 'experience-category-grid';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CTABannerBlock".
+ * via the `definition` "ExperienceSocialProofBlock".
  */
-export interface CTABannerBlock {
-  /**
-   * Visuele stijl van de banner
-   */
-  style?: ('gradient' | 'solid' | 'outlined' | 'image') | null;
-  /**
-   * Achtergrond afbeelding (alleen bij Image stijl)
-   */
-  backgroundImage?: (number | null) | Media;
-  /**
-   * Kleine label boven de titel (optioneel)
-   */
-  badge?: string | null;
-  /**
-   * Hoofdtitel van de CTA
-   */
-  title: string;
-  /**
-   * Beschrijving onder de titel
-   */
-  description?: string | null;
-  /**
-   * Voeg 1-2 actie knoppen toe
-   */
-  buttons: {
-    text: string;
-    link: string;
-    variant?: ('primary' | 'secondary' | 'white') | null;
-    id?: string | null;
-  }[];
-  /**
-   * Optionele vertrouwenselementen onder de knoppen
-   */
-  trustElements?: {
-    enabled?: boolean | null;
-    items?:
-      | {
-          icon?: ('check' | 'star' | 'trophy' | 'lock' | 'lightning') | null;
-          text: string;
-          id?: string | null;
-        }[]
-      | null;
+export interface ExperienceSocialProofBlock {
+  heading?: {
+    badge?: string | null;
+    title?: string | null;
   };
   /**
-   * Uitlijning van de inhoud
+   * Grote getallen met labels (bijv. "500+" → "Ervaringen")
    */
-  alignment?: ('left' | 'center') | null;
+  stats?:
+    | {
+        value: string;
+        label: string;
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  testimonials?:
+    | {
+        quote: string;
+        author: string;
+        role?: string | null;
+        rating?: number | null;
+        avatar?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
   /**
-   * Hoogte/ruimte van de banner
+   * Toon een live-achtige ticker met recente boekingen
    */
-  size?: ('small' | 'medium' | 'large') | null;
+  showActivityTicker?: boolean | null;
+  layout?: ('cards' | 'carousel' | 'compact') | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'cta-banner';
+  blockType: 'experience-social-proof';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WorkshopRegistrationBlock".
+ */
+export interface WorkshopRegistrationBlock {
+  title?: string | null;
+  description?: string | null;
+  /**
+   * Selecteer het registratieformulier
+   */
+  form: number | Form;
+  /**
+   * Kies de lay-out van het registratieformulier
+   */
+  variant?: ('standard' | 'card') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'workshopRegistration';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ReservationFormBlock".
+ */
+export interface ReservationFormBlock {
+  title?: string | null;
+  description?: string | null;
+  /**
+   * Selecteer het reserveringsformulier
+   */
+  form: number | Form;
+  /**
+   * Kies de lay-out van het reserveringsformulier
+   */
+  variant?: ('standard' | 'split') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'reservationForm';
 }
 /**
  * GDPR cookie consent log (read-only voor compliance - gebruik access control)
@@ -3871,6 +5166,59 @@ export interface CookieConsent {
    * Browser user agent string (optioneel)
    */
   userAgent?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Goedkeuringsworkflow voor content (pagina's, blogposts, producten)
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-approvals".
+ */
+export interface ContentApproval {
+  id: number;
+  contentType: 'pages' | 'blog-posts' | 'products';
+  /**
+   * ID van het content item
+   */
+  contentId: number;
+  /**
+   * Titel van het content item (voor overzicht)
+   */
+  title: string;
+  /**
+   * URL slug van het content item
+   */
+  contentSlug?: string | null;
+  status: 'pending' | 'approved' | 'rejected' | 'revision-requested';
+  priority?: ('low' | 'normal' | 'high' | 'urgent') | null;
+  submittedBy: number | User;
+  /**
+   * Admin die het verzoek beoordeelt
+   */
+  reviewer?: (number | null) | User;
+  /**
+   * Wat is er gewijzigd en waarom?
+   */
+  submissionNote?: string | null;
+  /**
+   * Toelichting bij goedkeuring/afwijzing
+   */
+  reviewNote?: string | null;
+  submittedAt?: string | null;
+  reviewedAt?: string | null;
+  /**
+   * Audit trail van statuswijzigingen
+   */
+  history?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -4585,6 +5933,45 @@ export interface Return {
   createdAt: string;
 }
 /**
+ * Push notificatie abonnementen van gebruikers (Web Push API)
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "push-subscriptions".
+ */
+export interface PushSubscription {
+  id: number;
+  /**
+   * Optioneel: gekoppelde ingelogde gebruiker
+   */
+  user?: (number | null) | User;
+  /**
+   * De Push API endpoint URL van de browser
+   */
+  endpoint: string;
+  /**
+   * De publieke encryptiesleutel van het abonnement
+   */
+  p256dh: string;
+  /**
+   * Het authenticatiegeheim van het abonnement
+   */
+  auth: string;
+  /**
+   * Browserinformatie van de abonnee
+   */
+  userAgent?: string | null;
+  /**
+   * Wordt automatisch uitgeschakeld bij verlopen abonnementen
+   */
+  active?: boolean | null;
+  /**
+   * Datum/tijd van de laatste verzonden push notificatie
+   */
+  lastUsed?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Multi-tenant theme configurations for all 10 industry verticals
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4988,47 +6375,6 @@ export interface Magazine {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "addresses".
- */
-export interface Address {
-  id: number;
-  user: number | User;
-  /**
-   * Bijvoorbeeld: "Thuis", "Werk", "Magazijn"
-   */
-  label: string;
-  type: 'billing' | 'shipping' | 'both';
-  company?: string | null;
-  firstName: string;
-  lastName: string;
-  street: string;
-  houseNumber: string;
-  addition?: string | null;
-  postalCode: string;
-  city: string;
-  state?: string | null;
-  country: 'NL' | 'BE' | 'DE' | 'FR' | 'GB' | 'US' | 'OTHER';
-  phone?: string | null;
-  /**
-   * Speciale instructies voor bezorging
-   */
-  deliveryInstructions?: string | null;
-  accessCode?: string | null;
-  /**
-   * Voor zakelijke adressen
-   */
-  businessHours?: string | null;
-  isDefault?: boolean | null;
-  /**
-   * Adres is gecontroleerd
-   */
-  isValidated?: boolean | null;
-  isActive?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "carts".
  */
 export interface Cart {
@@ -5100,47 +6446,120 @@ export interface Cart {
   createdAt: string;
 }
 /**
- * Beheer kortingscodes voor promoties en acties
+ * Beheer promoties, kortingscodes, flash sales en bundel-deals
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "discount-codes".
+ * via the `definition` "promotions".
  */
-export interface DiscountCode {
+export interface Promotion {
   id: number;
   /**
-   * Unieke kortingscode (wordt automatisch omgezet naar hoofdletters)
+   * Naam van de promotie (bijv. "Zomerkorting 25%")
    */
-  code: string;
-  type: 'percentage' | 'fixed-amount' | 'free-shipping';
+  title: string;
+  /**
+   * Wordt automatisch gegenereerd op basis van de titel
+   */
+  slug: string;
+  /**
+   * Automatisch = wordt automatisch toegepast. Kortingscode = klant moet code invoeren.
+   */
+  promotionMode: 'automatic' | 'coupon';
+  /**
+   * Unieke code die klanten invoeren bij checkout (automatisch hoofdletters)
+   */
+  code?: string | null;
+  type: 'percentage' | 'fixed_amount' | 'buy_x_get_y' | 'free_shipping' | 'bundle';
   /**
    * Percentage (bijv. 25) of bedrag in euro's (bijv. 10.00)
    */
   value: number;
   /**
-   * Minimale bestelwaarde om de code te gebruiken (optioneel)
+   * Hogere waarde = hogere prioriteit
    */
-  minOrderAmount?: number | null;
+  priority?: number | null;
+  status?: ('draft' | 'active' | 'expired' | 'paused') | null;
+  /**
+   * Wanneer de promotie ingaat (optioneel)
+   */
+  startDate?: string | null;
+  /**
+   * Wanneer de promotie eindigt (optioneel)
+   */
+  endDate?: string | null;
+  /**
+   * Markeer als flash sale (toont countdown timer)
+   */
+  isFlashSale?: boolean | null;
+  /**
+   * Tekst bij de flash sale (bijv. "Nog maar 2 uur!")
+   */
+  flashSaleLabel?: string | null;
+  appliesTo?: ('all' | 'specific_products' | 'specific_categories' | 'specific_brands') | null;
+  /**
+   * JSON array van product IDs (bijv. [1, 2, 3])
+   */
+  productIds?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * JSON array van categorie IDs (bijv. [10, 20])
+   */
+  categoryIds?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * JSON array van merk IDs (bijv. [5, 6])
+   */
+  brandIds?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Minimale bestelwaarde in euro's (optioneel)
+   */
+  minOrderValue?: number | null;
+  /**
+   * Minimaal aantal producten (optioneel)
+   */
+  minQuantity?: number | null;
   /**
    * Maximaal aantal keer te gebruiken (leeg = onbeperkt)
    */
   maxUses?: number | null;
   /**
-   * Aantal keer gebruikt
+   * Automatisch bijgehouden
    */
   usedCount?: number | null;
   /**
-   * Geldig vanaf (optioneel)
+   * Kan gecombineerd worden met andere promoties
    */
-  validFrom?: string | null;
+  stackable?: boolean | null;
   /**
-   * Geldig tot (optioneel)
+   * Tekst die in de promotie-banner wordt getoond
    */
-  validUntil?: string | null;
-  status?: ('active' | 'expired' | 'disabled') | null;
+  bannerText?: string | null;
   /**
-   * Interne notitie (niet zichtbaar voor klanten)
+   * Hex kleurcode (bijv. #FF5500)
    */
-  description?: string | null;
+  bannerColor?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -5553,6 +6972,31 @@ export interface PaymentMethod {
   createdAt: string;
 }
 /**
+ * Favoriete producten en deelbare wishlists
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wishlists".
+ */
+export interface Wishlist {
+  id: number;
+  user: number | User;
+  product: number | Product;
+  /**
+   * Maak deze wishlist publiek toegankelijk via een deellink
+   */
+  isPublic?: boolean | null;
+  /**
+   * Uniek token voor het delen van de wishlist
+   */
+  shareToken?: string | null;
+  /**
+   * Optionele notitie bij dit product (bijv. "voor mama")
+   */
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Gift vouchers / cadeaubonnen
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5687,51 +7131,6 @@ export interface LicenseActivation {
   createdAt: string;
 }
 /**
- * Loyalty program tiers (Bronze, Silver, Gold, Platinum)
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "loyalty-tiers".
- */
-export interface LoyaltyTier {
-  id: number;
-  /**
-   * e.g., Bronze, Silver, Gold, Platinum
-   */
-  name: string;
-  slug: string;
-  /**
-   * e.g., 🥉 🥈 🥇 👑
-   */
-  icon?: string | null;
-  /**
-   * Hex color code
-   */
-  color?: string | null;
-  /**
-   * Points needed to reach this tier
-   */
-  minPoints: number;
-  /**
-   * e.g., 2 = earn 2x points on purchases
-   */
-  multiplier: number;
-  benefits?:
-    | {
-        benefit: string;
-        id?: string | null;
-      }[]
-    | null;
-  freeShipping?: boolean | null;
-  prioritySupport?: boolean | null;
-  earlyAccess?: boolean | null;
-  /**
-   * Lower numbers appear first
-   */
-  order: number;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * Rewards that users can redeem with points
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5778,46 +7177,7 @@ export interface LoyaltyReward {
   createdAt: string;
 }
 /**
- * User loyalty points balances
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "loyalty-points".
- */
-export interface LoyaltyPoint {
-  id: number;
-  user: number | User;
-  /**
-   * Current spendable balance
-   */
-  availablePoints: number;
-  /**
-   * Lifetime points earned (for tier calculation)
-   */
-  totalEarned: number;
-  /**
-   * Lifetime points redeemed
-   */
-  totalSpent: number;
-  /**
-   * Calculated based on totalEarned
-   */
-  tier?: (number | null) | LoyaltyTier;
-  stats?: {
-    totalOrders?: number | null;
-    totalSpentMoney?: number | null;
-    rewardsRedeemed?: number | null;
-    referrals?: number | null;
-  };
-  /**
-   * Unique code for referring friends
-   */
-  referralCode?: string | null;
-  memberSince?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Points earning and spending history
+ * Punten verdienen, besteden en beloningen inwisselen
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "loyalty-transactions".
@@ -5835,17 +7195,17 @@ export interface LoyaltyTransaction {
     | 'expired'
     | 'adjustment';
   /**
-   * Positive for earning, negative for spending
+   * Positief = verdiend, negatief = besteed
    */
   points: number;
   /**
-   * e.g., "Order #DS-2026-0847" or "Review written"
+   * Bijv. "Bestelling #DS-2026-0847" of "Review geschreven"
    */
   description: string;
   relatedOrder?: (number | null) | Order;
   relatedReward?: (number | null) | LoyaltyReward;
   /**
-   * Additional data (JSON)
+   * Aanvullende data (JSON)
    */
   metadata?:
     | {
@@ -5857,35 +7217,18 @@ export interface LoyaltyTransaction {
     | boolean
     | null;
   /**
-   * When these points expire (optional)
+   * Wanneer deze punten verlopen (optioneel)
    */
   expiresAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Redeemed rewards and their status
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "loyalty-redemptions".
- */
-export interface LoyaltyRedemption {
-  id: number;
-  user: number | User;
-  reward: number | LoyaltyReward;
-  pointsSpent: number;
-  status: 'available' | 'used' | 'expired' | 'canceled';
-  redeemedAt: string;
+  /**
+   * Status van de ingewisselde beloning
+   */
+  redemptionStatus?: ('available' | 'used' | 'expired' | 'canceled') | null;
+  /**
+   * Unieke code om de beloning te gebruiken
+   */
+  redemptionCode?: string | null;
   usedAt?: string | null;
-  expiresAt?: string | null;
-  /**
-   * Unique code to use the reward
-   */
-  code?: string | null;
-  /**
-   * Order where reward was applied
-   */
-  usedInOrder?: (number | null) | Order;
   updatedAt: string;
   createdAt: string;
 }
@@ -6148,52 +7491,6 @@ export interface AbTestResult {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faqs".
- */
-export interface Faq {
-  id: number;
-  /**
-   * De veelgestelde vraag
-   */
-  question: string;
-  /**
-   * Het antwoord op de vraag (ondersteunt rich text)
-   */
-  answer: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  /**
-   * Categoriseer de vraag voor betere filtering
-   */
-  category?:
-    | ('algemeen' | 'producten' | 'verzending' | 'retourneren' | 'betaling' | 'account' | 'support' | 'overig')
-    | null;
-  /**
-   * Toon deze vraag op homepage of belangrijke pagina's
-   */
-  featured?: boolean | null;
-  /**
-   * Sorteer volgorde (lager = eerder getoond)
-   */
-  order?: number | null;
-  status?: ('published' | 'draft') | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "testimonials".
  */
 export interface Testimonial {
@@ -6355,6 +7652,7 @@ export interface Vendor {
   };
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * Klantbeoordelingen voor leveranciers
@@ -6565,6 +7863,49 @@ export interface Workshop {
   createdAt: string;
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "construction-reviews".
+ */
+export interface ConstructionReview {
+  id: number;
+  /**
+   * Naam van de klant
+   */
+  clientName: string;
+  /**
+   * Bijv. "Eigenaar villa", "Projectleider", etc.
+   */
+  clientRole?: string | null;
+  /**
+   * Initialen voor avatar (bijv. "JD")
+   */
+  clientInitials?: string | null;
+  clientColor?: ('teal' | 'blue' | 'green' | 'purple' | 'amber' | 'coral') | null;
+  /**
+   * Sterren beoordeling (1-5)
+   */
+  rating: number;
+  /**
+   * De testimonial tekst
+   */
+  quote: string;
+  /**
+   * Optioneel: koppel aan een project
+   */
+  project?: (number | null) | ConstructionProject;
+  /**
+   * Optioneel: koppel aan een dienst
+   */
+  service?: (number | null) | ConstructionService;
+  /**
+   * Toon op homepage
+   */
+  featured?: boolean | null;
+  status: 'draft' | 'published';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Offerte aanvragen van de website
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -6600,6 +7941,18 @@ export interface QuoteRequest {
    * Welke medewerker is verantwoordelijk?
    */
   assignedTo?: (number | null) | User;
+  /**
+   * Totaalbedrag van de offerte (excl. BTW)
+   */
+  quotedAmount?: number | null;
+  /**
+   * Datum waarop de offerte verloopt
+   */
+  expiresAt?: string | null;
+  /**
+   * Wanneer moet er opnieuw contact worden opgenomen?
+   */
+  followUpDate?: string | null;
   /**
    * Notities die niet naar de klant gaan
    */
@@ -7282,6 +8635,58 @@ export interface Event {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experience-reviews".
+ */
+export interface ExperienceReview {
+  id: number;
+  /**
+   * Welke ervaring wordt beoordeeld
+   */
+  experience: number | Experience;
+  /**
+   * Naam van de reviewer
+   */
+  author: string;
+  /**
+   * Initialen voor avatar (bijv. "JD")
+   */
+  authorInitials?: string | null;
+  /**
+   * Bijv. "Bedrijfsuitje · 80 personen", "Vrijgezellenfeest · 12 personen"
+   */
+  groupType?: string | null;
+  /**
+   * Datum van de ervaring
+   */
+  date?: string | null;
+  /**
+   * Score van 1 tot 10
+   */
+  overallRating: number;
+  /**
+   * Scores per onderdeel (1-10)
+   */
+  ratings?: {
+    organization?: number | null;
+    location?: number | null;
+    foodDrink?: number | null;
+    atmosphere?: number | null;
+    valueForMoney?: number | null;
+  };
+  /**
+   * De volledige review
+   */
+  content: string;
+  /**
+   * Toon op homepage of ervaringenpagina
+   */
+  featured?: boolean | null;
+  status: 'pending' | 'approved' | 'rejected';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Beheer e-mail abonnees en nieuwsbrieflijsten
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -7483,7 +8888,7 @@ export interface EmailTemplate {
    */
   useVisualEditor?: boolean | null;
   /**
-   * Visuele e-mail template editor
+   * Visuele e-mail template editor — sleep blokken om je email te bouwen
    */
   grapesData?:
     | {
@@ -7495,7 +8900,7 @@ export interface EmailTemplate {
     | boolean
     | null;
   /**
-   * HTML code van de e-mail (handmatig bewerken als je geen visuele editor gebruikt)
+   * Gegenereerde HTML — wordt automatisch bijgewerkt door de visuele editor
    */
   html?: string | null;
   /**
@@ -8404,6 +9809,62 @@ export interface EmailEvent {
   createdAt: string;
 }
 /**
+ * Segmenteer abonnees op basis van gedrag, RFM-scores en klantgegevens
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-segments".
+ */
+export interface EmailSegment {
+  id: number;
+  /**
+   * Naam van het segment (bijv. "VIP Klanten", "Churning Abonnees")
+   */
+  title: string;
+  /**
+   * Unieke technische naam (automatisch gegenereerd)
+   */
+  slug: string;
+  /**
+   * Beschrijf het doel van dit segment
+   */
+  description?: string | null;
+  conditions:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Hoe worden de groepen gecombineerd?
+   */
+  conditionLogic?: ('and' | 'or') | null;
+  /**
+   * Aantal abonnees dat aan de voorwaarden voldoet
+   */
+  subscriberCount?: number | null;
+  /**
+   * Wanneer is het aantal abonnees voor het laatst berekend?
+   */
+  lastCalculatedAt?: string | null;
+  /**
+   * Synchroniseer dit segment automatisch met Listmonk als lijst
+   */
+  autoSync?: boolean | null;
+  /**
+   * Gekoppelde Listmonk lijst (auto-synced)
+   */
+  listmonkListId?: number | null;
+  /**
+   * Status van het segment
+   */
+  status?: ('active' | 'archived') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Inkomende onboarding-verzoeken van nieuwe klanten
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -8584,162 +10045,6 @@ export interface UptimeIncident {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "forms".
- */
-export interface Form {
-  id: number;
-  title: string;
-  fields?:
-    | (
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            required?: boolean | null;
-            defaultValue?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'checkbox';
-          }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'email';
-          }
-        | {
-            message?: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'message';
-          }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            defaultValue?: number | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'number';
-          }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            defaultValue?: string | null;
-            placeholder?: string | null;
-            options?:
-              | {
-                  label: string;
-                  value: string;
-                  id?: string | null;
-                }[]
-              | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'select';
-          }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            defaultValue?: string | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'text';
-          }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            defaultValue?: string | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'textarea';
-          }
-      )[]
-    | null;
-  submitButtonLabel?: string | null;
-  /**
-   * Choose whether to display an on-page message or redirect to a different page after they submit the form.
-   */
-  confirmationType?: ('message' | 'redirect') | null;
-  confirmationMessage?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  redirect?: {
-    url: string;
-  };
-  /**
-   * Send custom emails when the form submits. Use comma separated lists to send the same email to multiple recipients. To reference a value from this form, wrap that field's name with double curly brackets, i.e. {{firstName}}. You can use a wildcard {{*}} to output all data and {{*:table}} to format it as an HTML table in the email.
-   */
-  emails?:
-    | {
-        emailTo?: string | null;
-        cc?: string | null;
-        bcc?: string | null;
-        replyTo?: string | null;
-        emailFrom?: string | null;
-        subject: string;
-        /**
-         * Enter the message that should be sent in this email.
-         */
-        message?: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
@@ -8816,6 +10121,10 @@ export interface PayloadLockedDocument {
         value: number | CookieConsent;
       } | null)
     | ({
+        relationTo: 'content-approvals';
+        value: number | ContentApproval;
+      } | null)
+    | ({
         relationTo: 'partners';
         value: number | Partner;
       } | null)
@@ -8826,6 +10135,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'notifications';
         value: number | Notification;
+      } | null)
+    | ({
+        relationTo: 'push-subscriptions';
+        value: number | PushSubscription;
       } | null)
     | ({
         relationTo: 'themes';
@@ -8864,16 +10177,12 @@ export interface PayloadLockedDocument {
         value: number | CustomerGroup;
       } | null)
     | ({
-        relationTo: 'addresses';
-        value: number | Address;
-      } | null)
-    | ({
         relationTo: 'carts';
         value: number | Cart;
       } | null)
     | ({
-        relationTo: 'discount-codes';
-        value: number | DiscountCode;
+        relationTo: 'promotions';
+        value: number | Promotion;
       } | null)
     | ({
         relationTo: 'orders';
@@ -8916,6 +10225,14 @@ export interface PayloadLockedDocument {
         value: number | PaymentMethod;
       } | null)
     | ({
+        relationTo: 'wishlists';
+        value: number | Wishlist;
+      } | null)
+    | ({
+        relationTo: 'product-reviews';
+        value: number | ProductReview;
+      } | null)
+    | ({
         relationTo: 'gift-vouchers';
         value: number | GiftVoucher;
       } | null)
@@ -8936,16 +10253,8 @@ export interface PayloadLockedDocument {
         value: number | LoyaltyReward;
       } | null)
     | ({
-        relationTo: 'loyalty-points';
-        value: number | LoyaltyPoint;
-      } | null)
-    | ({
         relationTo: 'loyalty-transactions';
         value: number | LoyaltyTransaction;
-      } | null)
-    | ({
-        relationTo: 'loyalty-redemptions';
-        value: number | LoyaltyRedemption;
       } | null)
     | ({
         relationTo: 'company-invites';
@@ -8974,10 +10283,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'blog-categories';
         value: number | BlogCategory;
-      } | null)
-    | ({
-        relationTo: 'faqs';
-        value: number | Faq;
       } | null)
     | ({
         relationTo: 'cases';
@@ -9052,6 +10357,18 @@ export interface PayloadLockedDocument {
         value: number | Event;
       } | null)
     | ({
+        relationTo: 'experiences';
+        value: number | Experience;
+      } | null)
+    | ({
+        relationTo: 'experience-categories';
+        value: number | ExperienceCategory;
+      } | null)
+    | ({
+        relationTo: 'experience-reviews';
+        value: number | ExperienceReview;
+      } | null)
+    | ({
         relationTo: 'email-subscribers';
         value: number | EmailSubscriber;
       } | null)
@@ -9086,6 +10403,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'email-events';
         value: number | EmailEvent;
+      } | null)
+    | ({
+        relationTo: 'email-segments';
+        value: number | EmailSegment;
       } | null)
     | ({
         relationTo: 'client-requests';
@@ -9234,6 +10555,18 @@ export interface UsersSelect<T extends boolean = true> {
   totalSpent?: T;
   averageOrderValue?: T;
   lastOrderDate?: T;
+  loyaltyAvailablePoints?: T;
+  loyaltyTotalEarned?: T;
+  loyaltyTotalSpent?: T;
+  loyaltyTier?: T;
+  referralCode?: T;
+  loyaltyMemberSince?: T;
+  loyaltyStats?:
+    | T
+    | {
+        rewardsRedeemed?: T;
+        referrals?: T;
+      };
   twoFactorEnabled?: T;
   twoFactorSecret?: T;
   twoFactorBackupCodes?: T;
@@ -9279,23 +10612,26 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         banner?: T | BannerBlockSelect<T>;
         spacer?: T | SpacerBlockSelect<T>;
+        breadcrumbs?: T | BreadcrumbsBlockSelect<T>;
         hero?: T | HeroBlockSelect<T>;
+        heroEmailCapture?: T | HeroEmailCaptureBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         twoColumn?: T | TwoColumnBlockSelect<T>;
-        productGrid?: T | ProductGridBlockSelect<T>;
-        categoryGrid?: T | CategoryGridBlockSelect<T>;
-        quickOrder?: T | QuickOrderBlockSelect<T>;
+        twoColumnImagePair?: T | TwoColumnImagePairBlockSelect<T>;
         cta?: T | CTABlockSelect<T>;
-        calltoaction?: T | CallToActionBlockSelect<T>;
+        ctaSection?: T | CTASectionBlockSelect<T>;
         contact?: T | ContactBlockSelect<T>;
-        contactForm?: T | ContactFormBlockSelect<T>;
         newsletter?: T | NewsletterBlockSelect<T>;
+        offerteRequest?: T | OfferteRequestBlockSelect<T>;
         features?: T | FeaturesBlockSelect<T>;
-        services?: T | ServicesBlockSelect<T>;
         testimonials?: T | TestimonialsBlockSelect<T>;
-        cases?: T | CasesBlockSelect<T>;
+        reviewsWidget?: T | ReviewsWidgetBlockSelect<T>;
+        trustSignals?: T | TrustSignalsBlockSelect<T>;
+        socialProofBanner?: T | SocialProofBannerBlockSelect<T>;
         logoBar?: T | LogoBarBlockSelect<T>;
+        caseStudyGrid?: T | CaseStudyGridBlockSelect<T>;
+        cases?: T | CasesBlockSelect<T>;
         stats?: T | StatsBlockSelect<T>;
         faq?: T | FAQBlockSelect<T>;
         team?: T | TeamBlockSelect<T>;
@@ -9313,46 +10649,33 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        comparison?:
-          | T
-          | {
-              title?: T;
-              description?: T;
-              columns?:
-                | T
-                | {
-                    name?: T;
-                    price?: T;
-                    featured?: T;
-                    id?: T;
-                  };
-              rows?:
-                | T
-                | {
-                    feature?: T;
-                    values?:
-                      | T
-                      | {
-                          type?: T;
-                          text?: T;
-                          id?: T;
-                        };
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
         infobox?: T | InfoBoxBlockSelect<T>;
+        processSteps?: T | ProcessStepsBlockSelect<T>;
         imageGallery?: T | ImageGalleryBlockSelect<T>;
         video?: T | VideoBlockSelect<T>;
         code?: T | CodeBlockSelect<T>;
         map?: T | MapBlockSelect<T>;
+        productGrid?: T | ProductGridBlockSelect<T>;
+        productEmbed?: T | ProductEmbedBlockSelect<T>;
+        categoryGrid?: T | CategoryGridBlockSelect<T>;
+        pricing?: T | PricingBlockSelect<T>;
+        subscriptionPricing?: T | SubscriptionPricingBlockSelect<T>;
+        quickOrder?: T | QuickOrderBlockSelect<T>;
+        staffelPricing?: T | StaffelPricingBlockSelect<T>;
+        bundleBuilder?: T | BundleBuilderBlockSelect<T>;
+        subscriptionOptions?: T | SubscriptionOptionsBlockSelect<T>;
+        vendorShowcase?: T | VendorShowcaseBlockSelect<T>;
+        comparisontable?: T | ComparisonTableBlockSelect<T>;
+        pricingGradient?: T | PricingGradientBlockSelect<T>;
         'construction-hero'?: T | ConstructionHeroBlockSelect<T>;
         'services-grid'?: T | ServicesGridBlockSelect<T>;
         'projects-grid'?: T | ProjectsGridBlockSelect<T>;
-        'reviews-grid'?: T | ReviewsGridBlockSelect<T>;
-        'stats-bar'?: T | StatsBarBlockSelect<T>;
-        'cta-banner'?: T | CTABannerBlockSelect<T>;
+        'experience-hero'?: T | ExperienceHeroBlockSelect<T>;
+        'experience-grid'?: T | ExperienceGridBlockSelect<T>;
+        'experience-category-grid'?: T | ExperienceCategoryGridBlockSelect<T>;
+        'experience-social-proof'?: T | ExperienceSocialProofBlockSelect<T>;
+        workshopRegistration?: T | WorkshopRegistrationBlockSelect<T>;
+        reservationForm?: T | ReservationFormBlockSelect<T>;
       };
   meta?:
     | T
@@ -9398,6 +10721,27 @@ export interface SpacerBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BreadcrumbsBlock_select".
+ */
+export interface BreadcrumbsBlockSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        label?: T;
+        link?: T;
+        id?: T;
+      };
+  showHome?: T;
+  separator?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "HeroBlock_select".
  */
 export interface HeroBlockSelect<T extends boolean = true> {
@@ -9412,10 +10756,41 @@ export interface HeroBlockSelect<T extends boolean = true> {
         style?: T;
         id?: T;
       };
+  heroImage?: T;
   variant?: T;
   backgroundStyle?: T;
   backgroundImage?: T;
   backgroundColor?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroEmailCaptureBlock_select".
+ */
+export interface HeroEmailCaptureBlockSelect<T extends boolean = true> {
+  badge?: T;
+  title?: T;
+  description?: T;
+  formLabel?: T;
+  submitButtonText?: T;
+  trustItems?:
+    | T
+    | {
+        icon?: T;
+        text?: T;
+        id?: T;
+      };
+  heroImage?: T;
+  variant?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -9425,7 +10800,11 @@ export interface HeroBlockSelect<T extends boolean = true> {
  */
 export interface ContentBlockSelect<T extends boolean = true> {
   content?: T;
-  maxWidth?: T;
+  width?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -9434,24 +10813,15 @@ export interface ContentBlockSelect<T extends boolean = true> {
  * via the `definition` "MediaBlock_select".
  */
 export interface MediaBlockSelect<T extends boolean = true> {
-  mediaType?: T;
-  mediaPosition?: T;
-  media?: T;
-  videoUrl?: T;
-  split?: T;
-  subtitle?: T;
-  title?: T;
-  content?: T;
-  buttons?:
-    | T
-    | {
-        label?: T;
-        variant?: T;
-        url?: T;
-        newTab?: T;
-        id?: T;
-      };
-  backgroundColor?: T;
+  image?: T;
+  caption?: T;
+  alt?: T;
+  size?: T;
+  rounded?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -9460,70 +10830,50 @@ export interface MediaBlockSelect<T extends boolean = true> {
  * via the `definition` "TwoColumnBlock_select".
  */
 export interface TwoColumnBlockSelect<T extends boolean = true> {
-  split?: T;
-  columnOne?: T;
-  columnTwo?: T;
+  leftColumn?: T;
+  rightColumn?: T;
+  image?: T;
+  imagePosition?: T;
+  variant?: T;
+  gap?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ProductGridBlock_select".
+ * via the `definition` "TwoColumnImagePairBlock_select".
  */
-export interface ProductGridBlockSelect<T extends boolean = true> {
-  sectionLabel?: T;
-  heading?: T;
-  intro?: T;
-  source?: T;
-  products?: T;
-  category?: T;
-  brand?: T;
-  displayMode?: T;
+export interface TwoColumnImagePairBlockSelect<T extends boolean = true> {
+  image1?: T;
+  caption1?: T;
+  overlay1?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  comparisonBadge1?: T;
+  image2?: T;
+  caption2?: T;
+  overlay2?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  comparisonBadge2?: T;
   layout?: T;
-  limit?: T;
-  showAddToCart?: T;
-  showStockStatus?: T;
-  showBrand?: T;
-  showComparePrice?: T;
-  showViewAllButton?: T;
-  viewAllButtonText?: T;
-  viewAllButtonLink?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CategoryGridBlock_select".
- */
-export interface CategoryGridBlockSelect<T extends boolean = true> {
-  sectionLabel?: T;
-  heading?: T;
-  intro?: T;
-  source?: T;
-  categories?: T;
-  showIcon?: T;
-  showProductCount?: T;
-  layout?: T;
-  limit?: T;
-  showQuickOrderCard?: T;
-  quickOrderLink?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "QuickOrderBlock_select".
- */
-export interface QuickOrderBlockSelect<T extends boolean = true> {
-  heading?: T;
-  intro?: T;
-  showOrderLists?: T;
-  inputMode?: T;
-  placeholderText?: T;
-  helpText?: T;
-  submitButtonText?: T;
-  showUpload?: T;
-  uploadHelpText?: T;
+  imageType?: T;
+  aspectRatio?: T;
+  spacing?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -9542,21 +10892,53 @@ export interface CTABlockSelect<T extends boolean = true> {
         style?: T;
         id?: T;
       };
+  badge?: T;
+  trustElements?:
+    | T
+    | {
+        enabled?: T;
+        items?:
+          | T
+          | {
+              icon?: T;
+              text?: T;
+              id?: T;
+            };
+      };
   variant?: T;
-  style?: T;
+  backgroundStyle?: T;
+  backgroundImage?: T;
+  size?: T;
+  alignment?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CallToActionBlock_select".
+ * via the `definition` "CTASectionBlock_select".
  */
-export interface CallToActionBlockSelect<T extends boolean = true> {
+export interface CTASectionBlockSelect<T extends boolean = true> {
+  overline?: T;
   title?: T;
   description?: T;
-  buttonLabel?: T;
-  buttonLink?: T;
-  backgroundColor?: T;
+  buttons?:
+    | T
+    | {
+        text?: T;
+        href?: T;
+        style?: T;
+        icon?: T;
+        id?: T;
+      };
+  variant?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -9585,29 +10967,13 @@ export interface ContactBlockSelect<T extends boolean = true> {
       };
   showMap?: T;
   mapUrl?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContactFormBlock_select".
- */
-export interface ContactFormBlockSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  showPhone?: T;
-  showSubject?: T;
-  submitTo?: T;
-  contactInfo?:
-    | T
-    | {
-        phone?: T;
-        email?: T;
-        address?: T;
-        hours?: T;
-      };
-  successMessage?: T;
-  errorMessage?: T;
+  showForm?: T;
+  form?: T;
+  variant?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -9617,13 +10983,30 @@ export interface ContactFormBlockSelect<T extends boolean = true> {
  */
 export interface NewsletterBlockSelect<T extends boolean = true> {
   title?: T;
-  buttonLabel?: T;
   description?: T;
-  placeholder?: T;
+  form?: T;
+  variant?: T;
   backgroundColor?: T;
-  privacyText?: T;
-  successMessage?: T;
-  errorMessage?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OfferteRequestBlock_select".
+ */
+export interface OfferteRequestBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  form?: T;
+  variant?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -9633,41 +11016,24 @@ export interface NewsletterBlockSelect<T extends boolean = true> {
  */
 export interface FeaturesBlockSelect<T extends boolean = true> {
   title?: T;
-  description?: T;
+  subtitle?: T;
   features?:
     | T
     | {
         icon?: T;
         title?: T;
         description?: T;
-        id?: T;
-      };
-  variant?: T;
-  iconStyle?: T;
-  alignment?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ServicesBlock_select".
- */
-export interface ServicesBlockSelect<T extends boolean = true> {
-  subtitle?: T;
-  title?: T;
-  description?: T;
-  columns?: T;
-  services?:
-    | T
-    | {
-        icon?: T;
-        iconColor?: T;
-        title?: T;
-        description?: T;
         link?: T;
-        linkText?: T;
         id?: T;
       };
+  layout?: T;
+  iconStyle?: T;
+  splitImage?: T;
+  splitImagePosition?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -9693,6 +11059,142 @@ export interface TestimonialsBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ReviewsWidgetBlock_select".
+ */
+export interface ReviewsWidgetBlockSelect<T extends boolean = true> {
+  heading?:
+    | T
+    | {
+        badge?: T;
+        title?: T;
+        description?: T;
+      };
+  source?: T;
+  collectionSource?: T;
+  limit?: T;
+  reviews?:
+    | T
+    | {
+        reviewer?: T;
+        rating?: T;
+        text?: T;
+        date?: T;
+        id?: T;
+      };
+  collection?: T;
+  layout?: T;
+  columns?: T;
+  showRatingBars?: T;
+  showAverage?: T;
+  averagePosition?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TrustSignalsBlock_select".
+ */
+export interface TrustSignalsBlockSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  variant?: T;
+  backgroundColor?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocialProofBannerBlock_select".
+ */
+export interface SocialProofBannerBlockSelect<T extends boolean = true> {
+  metrics?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  trustText?: T;
+  variant?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LogoBarBlock_select".
+ */
+export interface LogoBarBlockSelect<T extends boolean = true> {
+  context?: T;
+  title?: T;
+  logos?:
+    | T
+    | {
+        logo?: T;
+        name?: T;
+        link?: T;
+        id?: T;
+      };
+  variant?: T;
+  grayscale?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CaseStudyGridBlock_select".
+ */
+export interface CaseStudyGridBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  cases?:
+    | T
+    | {
+        title?: T;
+        client?: T;
+        description?: T;
+        image?: T;
+        results?:
+          | T
+          | {
+              metric?: T;
+              value?: T;
+              id?: T;
+            };
+        link?: T;
+        id?: T;
+      };
+  layout?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CasesBlock_select".
  */
 export interface CasesBlockSelect<T extends boolean = true> {
@@ -9708,25 +11210,6 @@ export interface CasesBlockSelect<T extends boolean = true> {
   showViewAllButton?: T;
   viewAllButtonText?: T;
   viewAllButtonLink?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LogoBarBlock_select".
- */
-export interface LogoBarBlockSelect<T extends boolean = true> {
-  title?: T;
-  logos?:
-    | T
-    | {
-        image?: T;
-        name?: T;
-        link?: T;
-        id?: T;
-      };
-  autoScroll?: T;
-  variant?: T;
   id?: T;
   blockName?: T;
 }
@@ -9757,8 +11240,8 @@ export interface StatsBlockSelect<T extends boolean = true> {
  */
 export interface FAQBlockSelect<T extends boolean = true> {
   title?: T;
-  description?: T;
-  faqs?:
+  subtitle?: T;
+  items?:
     | T
     | {
         question?: T;
@@ -9766,6 +11249,10 @@ export interface FAQBlockSelect<T extends boolean = true> {
         id?: T;
       };
   variant?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -9807,9 +11294,15 @@ export interface AccordionBlockSelect<T extends boolean = true> {
     | {
         title?: T;
         content?: T;
+        defaultOpen?: T;
         id?: T;
       };
+  variant?: T;
   allowMultiple?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -9833,10 +11326,34 @@ export interface InfoBoxBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProcessStepsBlock_select".
+ */
+export interface ProcessStepsBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  steps?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  backgroundColor?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ImageGalleryBlock_select".
  */
 export interface ImageGalleryBlockSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
   images?:
     | T
     | {
@@ -9844,9 +11361,15 @@ export interface ImageGalleryBlockSelect<T extends boolean = true> {
         caption?: T;
         id?: T;
       };
+  variant?: T;
   columns?: T;
   aspectRatio?: T;
   enableLightbox?: T;
+  gap?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -9890,6 +11413,320 @@ export interface MapBlockSelect<T extends boolean = true> {
   address?: T;
   zoom?: T;
   height?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductGridBlock_select".
+ */
+export interface ProductGridBlockSelect<T extends boolean = true> {
+  title?: T;
+  source?: T;
+  products?: T;
+  category?: T;
+  limit?: T;
+  layout?: T;
+  showPrice?: T;
+  showBadge?: T;
+  showAddToCart?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductEmbedBlock_select".
+ */
+export interface ProductEmbedBlockSelect<T extends boolean = true> {
+  product?: T;
+  description?: T;
+  variant?: T;
+  showPrice?: T;
+  showDescription?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CategoryGridBlock_select".
+ */
+export interface CategoryGridBlockSelect<T extends boolean = true> {
+  title?: T;
+  source?: T;
+  categories?: T;
+  limit?: T;
+  layout?: T;
+  showCount?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PricingBlock_select".
+ */
+export interface PricingBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  plans?:
+    | T
+    | {
+        name?: T;
+        price?: T;
+        period?: T;
+        description?: T;
+        features?:
+          | T
+          | {
+              text?: T;
+              included?: T;
+              id?: T;
+            };
+        buttonLabel?: T;
+        buttonLink?: T;
+        featured?: T;
+        id?: T;
+      };
+  columns?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SubscriptionPricingBlock_select".
+ */
+export interface SubscriptionPricingBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  frequency?: T;
+  plans?:
+    | T
+    | {
+        name?: T;
+        monthlyPrice?: T;
+        yearlyPrice?: T;
+        period?: T;
+        description?: T;
+        features?:
+          | T
+          | {
+              text?: T;
+              included?: T;
+              id?: T;
+            };
+        buttonLabel?: T;
+        buttonLink?: T;
+        featured?: T;
+        id?: T;
+      };
+  variant?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "QuickOrderBlock_select".
+ */
+export interface QuickOrderBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  placeholder?: T;
+  variant?: T;
+  showQuantity?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StaffelPricingBlock_select".
+ */
+export interface StaffelPricingBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  tiers?:
+    | T
+    | {
+        minQuantity?: T;
+        maxQuantity?: T;
+        price?: T;
+        discount?: T;
+        id?: T;
+      };
+  variant?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BundleBuilderBlock_select".
+ */
+export interface BundleBuilderBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  products?: T;
+  discountPercentage?: T;
+  discountLabel?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SubscriptionOptionsBlock_select".
+ */
+export interface SubscriptionOptionsBlockSelect<T extends boolean = true> {
+  title?: T;
+  options?:
+    | T
+    | {
+        frequency?: T;
+        price?: T;
+        savings?: T;
+        features?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  variant?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VendorShowcaseBlock_select".
+ */
+export interface VendorShowcaseBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  source?: T;
+  vendors?: T;
+  limit?: T;
+  layout?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ComparisonTableBlock_select".
+ */
+export interface ComparisonTableBlockSelect<T extends boolean = true> {
+  caption?: T;
+  headers?:
+    | T
+    | {
+        header?: T;
+        featured?: T;
+        id?: T;
+      };
+  rows?:
+    | T
+    | {
+        rowLabel?: T;
+        cells?:
+          | T
+          | {
+              value?: T;
+              type?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PricingGradientBlock_select".
+ */
+export interface PricingGradientBlockSelect<T extends boolean = true> {
+  header?:
+    | T
+    | {
+        badge?: T;
+        title?: T;
+        description?: T;
+      };
+  billingToggle?:
+    | T
+    | {
+        enabled?: T;
+        saveBadge?: T;
+      };
+  plans?:
+    | T
+    | {
+        name?: T;
+        description?: T;
+        isFeatured?: T;
+        featuredBadge?: T;
+        gradientColor?: T;
+        monthlyPrice?: T;
+        yearlyPrice?: T;
+        customPrice?: T;
+        ctaText?: T;
+        ctaUrl?: T;
+        features?:
+          | T
+          | {
+              text?: T;
+              enabled?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  variant?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -9991,9 +11828,32 @@ export interface ProjectsGridBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ReviewsGridBlock_select".
+ * via the `definition` "ExperienceHeroBlock_select".
  */
-export interface ReviewsGridBlockSelect<T extends boolean = true> {
+export interface ExperienceHeroBlockSelect<T extends boolean = true> {
+  subtitle?: T;
+  title?: T;
+  description?: T;
+  showSearchBar?: T;
+  showCategoryPills?: T;
+  trustBadges?:
+    | T
+    | {
+        icon?: T;
+        label?: T;
+        id?: T;
+      };
+  backgroundImage?: T;
+  backgroundStyle?: T;
+  overlayOpacity?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ExperienceGridBlock_select".
+ */
+export interface ExperienceGridBlockSelect<T extends boolean = true> {
   heading?:
     | T
     | {
@@ -10001,28 +11861,47 @@ export interface ReviewsGridBlockSelect<T extends boolean = true> {
         title?: T;
         description?: T;
       };
-  reviewsSource?: T;
-  reviews?: T;
-  limit?: T;
+  source?: T;
+  experiences?: T;
+  category?: T;
+  showFilters?: T;
   columns?: T;
-  layout?: T;
-  showRatings?: T;
-  showAvatars?: T;
-  averageRating?:
-    | T
-    | {
-        enabled?: T;
-        position?: T;
-      };
+  limit?: T;
+  showPagination?: T;
   id?: T;
   blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "StatsBarBlock_select".
+ * via the `definition` "ExperienceCategoryGridBlock_select".
  */
-export interface StatsBarBlockSelect<T extends boolean = true> {
-  style?: T;
+export interface ExperienceCategoryGridBlockSelect<T extends boolean = true> {
+  heading?:
+    | T
+    | {
+        badge?: T;
+        title?: T;
+        description?: T;
+      };
+  source?: T;
+  categories?: T;
+  columns?: T;
+  limit?: T;
+  showCount?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ExperienceSocialProofBlock_select".
+ */
+export interface ExperienceSocialProofBlockSelect<T extends boolean = true> {
+  heading?:
+    | T
+    | {
+        badge?: T;
+        title?: T;
+      };
   stats?:
     | T
     | {
@@ -10031,44 +11910,50 @@ export interface StatsBarBlockSelect<T extends boolean = true> {
         icon?: T;
         id?: T;
       };
+  testimonials?:
+    | T
+    | {
+        quote?: T;
+        author?: T;
+        role?: T;
+        rating?: T;
+        avatar?: T;
+        id?: T;
+      };
+  showActivityTicker?: T;
   layout?: T;
-  animate?: T;
-  dividers?: T;
   id?: T;
   blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CTABannerBlock_select".
+ * via the `definition` "WorkshopRegistrationBlock_select".
  */
-export interface CTABannerBlockSelect<T extends boolean = true> {
-  style?: T;
-  backgroundImage?: T;
-  badge?: T;
+export interface WorkshopRegistrationBlockSelect<T extends boolean = true> {
   title?: T;
   description?: T;
-  buttons?:
-    | T
-    | {
-        text?: T;
-        link?: T;
-        variant?: T;
-        id?: T;
-      };
-  trustElements?:
-    | T
-    | {
-        enabled?: T;
-        items?:
-          | T
-          | {
-              icon?: T;
-              text?: T;
-              id?: T;
-            };
-      };
-  alignment?: T;
-  size?: T;
+  form?: T;
+  variant?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ReservationFormBlock_select".
+ */
+export interface ReservationFormBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  form?: T;
+  variant?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -10103,6 +11988,27 @@ export interface CookieConsentsSelect<T extends boolean = true> {
   consentedAt?: T;
   ipAddress?: T;
   userAgent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-approvals_select".
+ */
+export interface ContentApprovalsSelect<T extends boolean = true> {
+  contentType?: T;
+  contentId?: T;
+  title?: T;
+  contentSlug?: T;
+  status?: T;
+  priority?: T;
+  submittedBy?: T;
+  reviewer?: T;
+  submissionNote?: T;
+  reviewNote?: T;
+  submittedAt?: T;
+  reviewedAt?: T;
+  history?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -10166,6 +12072,21 @@ export interface NotificationsSelect<T extends boolean = true> {
   sendEmail?: T;
   emailSent?: T;
   emailSentAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "push-subscriptions_select".
+ */
+export interface PushSubscriptionsSelect<T extends boolean = true> {
+  user?: T;
+  endpoint?: T;
+  p256dh?: T;
+  auth?: T;
+  userAgent?: T;
+  active?: T;
+  lastUsed?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -10478,8 +12399,11 @@ export interface ProductsSelect<T extends boolean = true> {
   crossSells?: T;
   upSells?: T;
   accessories?: T;
+  reviewCount?: T;
+  reviewAverage?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -10543,6 +12467,7 @@ export interface BrandsSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -10761,34 +12686,6 @@ export interface CustomerGroupsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "addresses_select".
- */
-export interface AddressesSelect<T extends boolean = true> {
-  user?: T;
-  label?: T;
-  type?: T;
-  company?: T;
-  firstName?: T;
-  lastName?: T;
-  street?: T;
-  houseNumber?: T;
-  addition?: T;
-  postalCode?: T;
-  city?: T;
-  state?: T;
-  country?: T;
-  phone?: T;
-  deliveryInstructions?: T;
-  accessCode?: T;
-  businessHours?: T;
-  isDefault?: T;
-  isValidated?: T;
-  isActive?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "carts_select".
  */
 export interface CartsSelect<T extends boolean = true> {
@@ -10835,19 +12732,32 @@ export interface CartsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "discount-codes_select".
+ * via the `definition` "promotions_select".
  */
-export interface DiscountCodesSelect<T extends boolean = true> {
+export interface PromotionsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  promotionMode?: T;
   code?: T;
   type?: T;
   value?: T;
-  minOrderAmount?: T;
+  priority?: T;
+  status?: T;
+  startDate?: T;
+  endDate?: T;
+  isFlashSale?: T;
+  flashSaleLabel?: T;
+  appliesTo?: T;
+  productIds?: T;
+  categoryIds?: T;
+  brandIds?: T;
+  minOrderValue?: T;
+  minQuantity?: T;
   maxUses?: T;
   usedCount?: T;
-  validFrom?: T;
-  validUntil?: T;
-  status?: T;
-  description?: T;
+  stackable?: T;
+  bannerText?: T;
+  bannerColor?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -11307,6 +13217,57 @@ export interface PaymentMethodsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wishlists_select".
+ */
+export interface WishlistsSelect<T extends boolean = true> {
+  user?: T;
+  product?: T;
+  isPublic?: T;
+  shareToken?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-reviews_select".
+ */
+export interface ProductReviewsSelect<T extends boolean = true> {
+  product?: T;
+  title?: T;
+  rating?: T;
+  comment?: T;
+  user?: T;
+  authorName?: T;
+  authorEmail?: T;
+  authorInitials?: T;
+  status?: T;
+  isVerifiedPurchase?: T;
+  moderationNotes?: T;
+  ai?:
+    | T
+    | {
+        moderated?: T;
+        score?: T;
+        sentiment?: T;
+        topics?: T;
+        toxicity?: T;
+        isFake?: T;
+        summary?: T;
+      };
+  helpfulYes?: T;
+  helpfulNo?: T;
+  response?:
+    | T
+    | {
+        text?: T;
+        respondedAt?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "gift-vouchers_select".
  */
 export interface GiftVouchersSelect<T extends boolean = true> {
@@ -11419,29 +13380,6 @@ export interface LoyaltyRewardsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "loyalty-points_select".
- */
-export interface LoyaltyPointsSelect<T extends boolean = true> {
-  user?: T;
-  availablePoints?: T;
-  totalEarned?: T;
-  totalSpent?: T;
-  tier?: T;
-  stats?:
-    | T
-    | {
-        totalOrders?: T;
-        totalSpentMoney?: T;
-        rewardsRedeemed?: T;
-        referrals?: T;
-      };
-  referralCode?: T;
-  memberSince?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "loyalty-transactions_select".
  */
 export interface LoyaltyTransactionsSelect<T extends boolean = true> {
@@ -11453,23 +13391,9 @@ export interface LoyaltyTransactionsSelect<T extends boolean = true> {
   relatedReward?: T;
   metadata?: T;
   expiresAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "loyalty-redemptions_select".
- */
-export interface LoyaltyRedemptionsSelect<T extends boolean = true> {
-  user?: T;
-  reward?: T;
-  pointsSpent?: T;
-  status?: T;
-  redeemedAt?: T;
+  redemptionStatus?: T;
+  redemptionCode?: T;
   usedAt?: T;
-  expiresAt?: T;
-  code?: T;
-  usedInOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -11683,20 +13607,6 @@ export interface BlogCategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faqs_select".
- */
-export interface FaqsSelect<T extends boolean = true> {
-  question?: T;
-  answer?: T;
-  category?: T;
-  featured?: T;
-  order?: T;
-  status?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "cases_select".
  */
 export interface CasesSelect<T extends boolean = true> {
@@ -11733,6 +13643,7 @@ export interface CasesSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -11809,6 +13720,7 @@ export interface VendorsSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -11936,14 +13848,18 @@ export interface ConstructionServicesSelect<T extends boolean = true> {
       };
   heroImage?: T;
   gallery?: T;
+  status?: T;
   meta?:
     | T
     | {
         title?: T;
         description?: T;
-        keywords?: T;
+        focusKeyword?: T;
+        image?: T;
+        canonicalUrl?: T;
+        noIndex?: T;
+        noFollow?: T;
       };
-  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -11986,16 +13902,22 @@ export interface ConstructionProjectsSelect<T extends boolean = true> {
         clientName?: T;
         clientRole?: T;
       };
+  featured?: T;
+  status?: T;
   meta?:
     | T
     | {
         title?: T;
         description?: T;
+        focusKeyword?: T;
+        image?: T;
+        canonicalUrl?: T;
+        noIndex?: T;
+        noFollow?: T;
       };
-  featured?: T;
-  status?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -12033,6 +13955,9 @@ export interface QuoteRequestsSelect<T extends boolean = true> {
   attachments?: T;
   status?: T;
   assignedTo?: T;
+  quotedAmount?: T;
+  expiresAt?: T;
+  followUpDate?: T;
   notes?: T;
   submittedAt?: T;
   contactedAt?: T;
@@ -12370,6 +14295,114 @@ export interface EventsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experiences_select".
+ */
+export interface ExperiencesSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  excerpt?: T;
+  description?: T;
+  highlights?:
+    | T
+    | {
+        label?: T;
+        icon?: T;
+        id?: T;
+      };
+  included?:
+    | T
+    | {
+        label?: T;
+        icon?: T;
+        id?: T;
+      };
+  category?: T;
+  duration?: T;
+  minPersons?: T;
+  maxPersons?: T;
+  location?: T;
+  locationDetails?: T;
+  availability?: T;
+  featured?: T;
+  popular?: T;
+  status?: T;
+  pricePerPerson?: T;
+  priceType?: T;
+  priceNote?: T;
+  extras?:
+    | T
+    | {
+        name?: T;
+        description?: T;
+        price?: T;
+        priceType?: T;
+        popular?: T;
+        id?: T;
+      };
+  featuredImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        isVideo?: T;
+        id?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        keywords?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experience-categories_select".
+ */
+export interface ExperienceCategoriesSelect<T extends boolean = true> {
+  name?: T;
+  generateSlug?: T;
+  slug?: T;
+  icon?: T;
+  description?: T;
+  image?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experience-reviews_select".
+ */
+export interface ExperienceReviewsSelect<T extends boolean = true> {
+  experience?: T;
+  author?: T;
+  authorInitials?: T;
+  groupType?: T;
+  date?: T;
+  overallRating?: T;
+  ratings?:
+    | T
+    | {
+        organization?: T;
+        location?: T;
+        foodDrink?: T;
+        atmosphere?: T;
+        valueForMoney?: T;
+      };
+  content?: T;
+  featured?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -12797,6 +14830,24 @@ export interface EmailEventsSelect<T extends boolean = true> {
   metadata?: T;
   source?: T;
   tenant?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-segments_select".
+ */
+export interface EmailSegmentsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  conditions?: T;
+  conditionLogic?: T;
+  subscriberCount?: T;
+  lastCalculatedAt?: T;
+  autoSync?: T;
+  listmonkListId?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -13324,6 +15375,14 @@ export interface Setting {
    * Secundaire kleur voor accenten
    */
   accentColor?: string | null;
+  /**
+   * Toon "Voeg toe aan startscherm" banner aan bezoekers
+   */
+  pwaInstallPrompt?: boolean | null;
+  /**
+   * Vraag bezoekers of ze push meldingen willen ontvangen
+   */
+  pwaPushNotifications?: boolean | null;
   ga4Id?: string | null;
   gtmId?: string | null;
   facebookPixel?: string | null;
@@ -13430,6 +15489,28 @@ export interface Setting {
  */
 export interface ECommerceSetting {
   id: number;
+  featureToggles?: {
+    /**
+     * Klanten kunnen producten reviewen en beoordelen
+     */
+    enableReviews?: boolean | null;
+    enableWishlist?: boolean | null;
+    enablePromotions?: boolean | null;
+    enableRecentlyViewed?: boolean | null;
+    enableReturns?: boolean | null;
+    enableOrderLists?: boolean | null;
+    enableRecurringOrders?: boolean | null;
+    enableQuickOrder?: boolean | null;
+    enableNotifications?: boolean | null;
+    enableStockNotifications?: boolean | null;
+    /**
+     * Punten, tiers, beloningen
+     */
+    enableLoyalty?: boolean | null;
+    enableSubscriptions?: boolean | null;
+    enableGiftVouchers?: boolean | null;
+    enableLicenses?: boolean | null;
+  };
   /**
    * Configureer de volgorde en zichtbaarheid van filters op de shop pagina. Sleep items om de volgorde te wijzigen.
    */
@@ -13521,23 +15602,29 @@ export interface ECommerceSetting {
     [k: string]: unknown;
   } | null;
   features?: {
-    /**
-     * Bulkbestelling op basis van artikelnummers
-     */
     enableQuickOrder?: boolean | null;
-    /**
-     * Klanten kunnen favorieten lijsten maken
-     */
     enableOrderLists?: boolean | null;
-    /**
-     * Klanten kunnen producten reviewen
-     */
     enableReviews?: boolean | null;
     enableWishlist?: boolean | null;
-    /**
-     * Klanten krijgen bericht als product weer op voorraad is
-     */
     enableStockNotifications?: boolean | null;
+  };
+  b2bFeatures?: {
+    /**
+     * Klantgroepen met specifieke prijzen en kortingen
+     */
+    enableCustomerGroups?: boolean | null;
+    /**
+     * Bedrijfsaccounts met uitnodigingen en teamleden
+     */
+    enableCompanyAccounts?: boolean | null;
+    /**
+     * Bestellingen moeten goedgekeurd worden door manager
+     */
+    enableApprovalWorkflow?: boolean | null;
+    /**
+     * Klanten kunnen offertes aanvragen
+     */
+    enableQuotes?: boolean | null;
   };
   /**
    * Optioneel - laat leeg voor geen minimum
@@ -14985,6 +17072,8 @@ export interface SettingsSelect<T extends boolean = true> {
   favicon?: T;
   primaryColor?: T;
   accentColor?: T;
+  pwaInstallPrompt?: T;
+  pwaPushNotifications?: T;
   ga4Id?: T;
   gtmId?: T;
   facebookPixel?: T;
@@ -15033,6 +17122,24 @@ export interface SettingsSelect<T extends boolean = true> {
  * via the `definition` "e-commerce-settings_select".
  */
 export interface ECommerceSettingsSelect<T extends boolean = true> {
+  featureToggles?:
+    | T
+    | {
+        enableReviews?: T;
+        enableWishlist?: T;
+        enablePromotions?: T;
+        enableRecentlyViewed?: T;
+        enableReturns?: T;
+        enableOrderLists?: T;
+        enableRecurringOrders?: T;
+        enableQuickOrder?: T;
+        enableNotifications?: T;
+        enableStockNotifications?: T;
+        enableLoyalty?: T;
+        enableSubscriptions?: T;
+        enableGiftVouchers?: T;
+        enableLicenses?: T;
+      };
   shopFilterOrder?:
     | T
     | {
@@ -15065,6 +17172,14 @@ export interface ECommerceSettingsSelect<T extends boolean = true> {
         enableReviews?: T;
         enableWishlist?: T;
         enableStockNotifications?: T;
+      };
+  b2bFeatures?:
+    | T
+    | {
+        enableCustomerGroups?: T;
+        enableCompanyAccounts?: T;
+        enableApprovalWorkflow?: T;
+        enableQuotes?: T;
       };
   minimumOrderAmount?: T;
   showPricesExclVAT?: T;
@@ -15710,66 +17825,6 @@ export interface ChatbotSettingsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ProductEmbedBlock".
- */
-export interface ProductEmbedBlock {
-  /**
-   * Selecteer een product om in te bedden
-   */
-  product: number | Product;
-  /**
-   * Toon de productprijs in de embed
-   */
-  showPrice?: boolean | null;
-  /**
-   * Toon de "Bestellen" knop
-   */
-  showButton?: boolean | null;
-  /**
-   * Optioneel: overschrijf de product beschrijving voor deze embed
-   */
-  customDescription?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'productembed';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ComparisonTableBlock".
- */
-export interface ComparisonTableBlock {
-  /**
-   * Optionele titel boven de tabel
-   */
-  caption?: string | null;
-  /**
-   * Voeg kolomkoppen toe voor de tabel (min 2, max 6)
-   */
-  headers: {
-    header: string;
-    id?: string | null;
-  }[];
-  /**
-   * Voeg rijen toe aan de tabel
-   */
-  rows: {
-    rowLabel: string;
-    /**
-     * Voeg cellen toe (aantal moet overeenkomen met aantal kolomkoppen)
-     */
-    cells: {
-      value: string;
-      type?: ('text' | 'check' | 'cross') | null;
-      id?: string | null;
-    }[];
-    id?: string | null;
-  }[];
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'comparisontable';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
