@@ -240,8 +240,12 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
             transition-duration: var(--transition-duration);
           }
 
+          /* Override link color inside dark containers (footer etc.) */
+          footer a {
+            color: inherit;
+          }
+
           button, .btn {
-            border-radius: var(--r-sm);
             transition-duration: var(--transition-duration);
           }
 
