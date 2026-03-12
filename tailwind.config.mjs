@@ -123,8 +123,12 @@ export default {
           DEFAULT: '#0A1628',
           light: '#121F33',
           dark: '#0D2137',
+          900: '#0A1628',
+          800: '#0D1A2F',
+          700: '#121F33',
         },
         teal: {
+          DEFAULT: '#00897B',
           50: '#E0F2F1',
           100: '#B2DFDB',
           200: '#80CBC4',
