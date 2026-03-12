@@ -19,6 +19,9 @@ const ReviewWidget = dynamic(
   { ssr: false }
 )
 import { BackInStockNotifier } from '@/branches/ecommerce/shared/components/products/BackInStockNotifier'
+import { ConfiguratorContainer } from '@/branches/ecommerce/shared/components/product-types/configurator/ConfiguratorContainer'
+import { BookableContainer } from '@/branches/ecommerce/shared/components/product-types/bookable/BookableContainer'
+import { PersonalizedContainer } from '@/branches/ecommerce/shared/components/product-types/personalized/PersonalizedContainer'
 import { ProductTabs } from '@/branches/ecommerce/shared/components/products/ProductTabs'
 import { useEcommerceSettings } from '@/branches/ecommerce/shared/hooks/useEcommerceSettings'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
@@ -266,6 +269,9 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
   const isVariable = product.productType === 'variable'
   const isSubscription = product.isSubscription === true && isVariable
   const isMixMatch = (product.productType as string) === 'mixAndMatch'
+  const isConfigurator = (product.productType as string) === 'configurator'
+  const isBookable = (product.productType as string) === 'bookable'
+  const isPersonalized = (product.productType as string) === 'personalized'
 
   const childProducts: Product[] =
     isGrouped && product.childProducts
@@ -946,6 +952,27 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
               </div>
             )}
 
+            {/* CONFIGURATOR PRODUCTS - Step-by-step configurator */}
+            {isConfigurator && features.configuratorProducts && (
+              <div className="mb-6">
+                <ConfiguratorContainer product={product} />
+              </div>
+            )}
+
+            {/* BOOKABLE PRODUCTS - Workshop/Experience booking */}
+            {isBookable && features.bookableProducts && (
+              <div className="mb-6">
+                <BookableContainer product={product} />
+              </div>
+            )}
+
+            {/* PERSONALIZED PRODUCTS - Custom text/images */}
+            {isPersonalized && features.personalizedProducts && (
+              <div className="mb-6">
+                <PersonalizedContainer product={product} />
+              </div>
+            )}
+
             {/* SIZE SELECTOR (Grouped Products) */}
             {isGrouped && childProducts.length > 0 && (
               <div className="mb-6">
@@ -1294,6 +1321,27 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                 product={product}
                 onSelectionChange={(selections) => setVariantSelections(selections)}
               />
+            </div>
+          )}
+
+          {/* CONFIGURATOR PRODUCTS - Mobile */}
+          {isConfigurator && features.configuratorProducts && (
+            <div className="mb-5">
+              <ConfiguratorContainer product={product} />
+            </div>
+          )}
+
+          {/* BOOKABLE PRODUCTS - Mobile */}
+          {isBookable && features.bookableProducts && (
+            <div className="mb-5">
+              <BookableContainer product={product} />
+            </div>
+          )}
+
+          {/* PERSONALIZED PRODUCTS - Mobile */}
+          {isPersonalized && features.personalizedProducts && (
+            <div className="mb-5">
+              <PersonalizedContainer product={product} />
             </div>
           )}
 

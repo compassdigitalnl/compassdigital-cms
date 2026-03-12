@@ -21,6 +21,7 @@ export { PersonalizationLivePreview } from './PersonalizationLivePreview'
 export { PersonalizationSummaryCard } from './PersonalizationSummaryCard'
 export { PersonalizationCharacterLimit } from './PersonalizationCharacterLimit'
 export { PersonalizationProductionTime } from './PersonalizationProductionTime'
+export { PersonalizedContainer } from './PersonalizedContainer'
 
 // Type exports
 export type {
