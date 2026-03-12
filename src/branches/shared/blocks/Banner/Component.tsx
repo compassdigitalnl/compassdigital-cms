@@ -13,7 +13,7 @@ import type { BannerBlockProps, BannerVariant, BannerPosition } from './types'
  */
 
 const variantStyles: Record<string, string> = {
-  info: 'bg-gradient-to-r from-blue-600 to-blue-500 text-white',
+  info: 'bg-gradient-to-r from-blue to-blue/80 text-white',
   announcement: 'bg-gradient-to-r from-navy to-navy-light text-white',
   promo: 'bg-gradient-to-r from-teal to-teal-light text-white',
   warning: 'bg-gradient-to-r from-amber-500 to-amber-400 text-amber-950',

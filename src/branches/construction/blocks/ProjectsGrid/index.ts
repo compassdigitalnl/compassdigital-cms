@@ -15,12 +15,12 @@ import type { Block } from 'payload'
  * Based on: VanderBouw projects section
  */
 export const ProjectsGrid: Block = {
-  slug: 'projects-grid',
+  slug: 'constructionProjectsGrid',
   labels: {
     singular: 'Projecten Grid',
     plural: 'Projecten Grids',
   },
-  interfaceName: 'ProjectsGridBlock',
+  interfaceName: 'ConstructionProjectsGridBlock',
   fields: [
     {
       name: 'heading',

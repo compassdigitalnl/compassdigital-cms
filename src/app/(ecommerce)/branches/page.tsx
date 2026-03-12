@@ -79,7 +79,7 @@ export default async function BranchesPage() {
     collection: 'pages',
     where: { slug: { equals: 'branches' } },
     limit: 1,
-    depth: 2,
+    depth: 1,
   })
 
   const page = docs[0] as Page | undefined

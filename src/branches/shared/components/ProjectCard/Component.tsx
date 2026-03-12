@@ -7,6 +7,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
   variant = 'default',
   showTestimonial = false,
+  basePath = '/projects',
   className = '',
 }) => {
   const {
@@ -45,7 +46,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
     <article
       className={`group relative flex h-full flex-col overflow-hidden rounded-xl border border-grey bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${className}`}
     >
-      <Link href={`/projects/${slug}`} className="flex h-full flex-col text-inherit no-underline">
+      <Link href={`${basePath}/${slug}`} className="flex h-full flex-col text-inherit no-underline">
         {/* Image */}
         {imageData?.url && (
           <div className={`relative w-full overflow-hidden bg-grey-light ${variant === 'detailed' ? 'aspect-video' : 'aspect-[3/2]'}`}>

@@ -66,7 +66,7 @@ export function FeaturesGrid({ features, layout, iconStyle, backgroundStyle }: F
               } ${
                 isDark
                   ? 'bg-white/[0.06] hover:bg-white/[0.1] backdrop-blur-sm border border-white/10'
-                  : 'bg-white border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5'
+                  : 'bg-white border border-grey/50 shadow-sm hover:shadow-md hover:-translate-y-0.5'
               }`}
             >
               {/* Icon */}
@@ -89,7 +89,7 @@ export function FeaturesGrid({ features, layout, iconStyle, backgroundStyle }: F
               {feature.description && (
                 <p
                   className={`text-[13px] leading-relaxed ${
-                    isDark ? 'text-white/60' : 'text-gray-500'
+                    isDark ? 'text-white/60' : 'text-grey-mid'
                   }`}
                 >
                   {feature.description}
@@ -138,7 +138,7 @@ export function FeaturesGrid({ features, layout, iconStyle, backgroundStyle }: F
                 {feature.title}
               </h3>
               {feature.description && (
-                <p className={`text-xs leading-relaxed ${isDark ? 'text-white/60' : 'text-gray-500'}`}>
+                <p className={`text-xs leading-relaxed ${isDark ? 'text-white/60' : 'text-grey-mid'}`}>
                   {feature.description}
                 </p>
               )}

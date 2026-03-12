@@ -12,12 +12,12 @@ import type { StatsBlockProps, StatsItem } from './types'
 
 const bgClasses: Record<string, string> = {
   white: 'bg-white',
-  grey: 'bg-gray-50',
-  tealGradient: 'bg-gradient-to-br from-teal-600 to-teal-800',
-  navyGradient: 'bg-gradient-to-br from-slate-800 to-slate-950',
+  grey: 'bg-grey-light',
+  tealGradient: 'bg-gradient-to-br from-teal to-teal-dark',
+  navyGradient: 'bg-gradient-to-br from-navy to-navy-light',
   // Legacy values
-  navy: 'bg-gradient-to-br from-slate-800 to-slate-950',
-  teal: 'bg-gradient-to-br from-teal-600 to-teal-800',
+  navy: 'bg-gradient-to-br from-navy to-navy-light',
+  teal: 'bg-gradient-to-br from-teal to-teal-dark',
 }
 
 const isDarkBg = (bg: string) =>
@@ -66,7 +66,7 @@ export const StatsBlockComponent: React.FC<StatsBlockProps> = ({
               {title && (
                 <h2
                   className={`font-display text-2xl md:text-3xl lg:text-4xl font-bold ${
-                    dark ? 'text-white' : 'text-slate-900'
+                    dark ? 'text-white' : 'text-navy'
                   }`}
                 >
                   {title}
@@ -75,7 +75,7 @@ export const StatsBlockComponent: React.FC<StatsBlockProps> = ({
               {description && (
                 <p
                   className={`mt-3 text-base md:text-lg max-w-2xl mx-auto ${
-                    dark ? 'text-white/70' : 'text-gray-600'
+                    dark ? 'text-white/70' : 'text-grey-dark'
                   }`}
                 >
                   {description}
@@ -109,7 +109,7 @@ const StatCard: React.FC<{ item: StatsItem; dark: boolean }> = ({ item, dark }) 
             className={`inline-flex h-14 w-14 items-center justify-center rounded-xl ${
               dark
                 ? 'bg-white/10 text-white'
-                : 'bg-teal-50 text-teal-600'
+                : 'bg-teal/10 text-teal'
             }`}
           >
             <IconComponent className="h-7 w-7" />
@@ -120,19 +120,19 @@ const StatCard: React.FC<{ item: StatsItem; dark: boolean }> = ({ item, dark }) 
       {/* Value */}
       <span
         className={`block font-display text-3xl md:text-4xl lg:text-5xl font-bold ${
-          dark ? 'text-white' : 'text-slate-900'
+          dark ? 'text-white' : 'text-navy'
         }`}
       >
         {item.value}
         {item.suffix && (
-          <span className={dark ? 'text-teal-300' : 'text-teal-600'}>{item.suffix}</span>
+          <span className={dark ? 'text-teal-light' : 'text-teal'}>{item.suffix}</span>
         )}
       </span>
 
       {/* Label */}
       <span
         className={`mt-2 block text-sm md:text-base font-semibold uppercase tracking-wider ${
-          dark ? 'text-white/80' : 'text-slate-700'
+          dark ? 'text-white/80' : 'text-grey-dark'
         }`}
       >
         {item.label}
@@ -142,7 +142,7 @@ const StatCard: React.FC<{ item: StatsItem; dark: boolean }> = ({ item, dark }) 
       {item.description && (
         <span
           className={`mt-1 block text-xs md:text-sm ${
-            dark ? 'text-white/60' : 'text-gray-500'
+            dark ? 'text-white/60' : 'text-grey-mid'
           }`}
         >
           {item.description}

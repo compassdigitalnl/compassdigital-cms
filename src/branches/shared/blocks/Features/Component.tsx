@@ -17,8 +17,8 @@ import { FeaturesGrid } from './Component.client'
 
 const bgClasses: Record<string, string> = {
   white: 'bg-white',
-  light: 'bg-gray-50',
-  navy: 'bg-gradient-to-br from-slate-800 to-slate-950 text-white',
+  light: 'bg-grey-light',
+  navy: 'bg-gradient-to-br from-navy to-navy-light text-white',
 }
 
 export const FeaturesBlockComponent: React.FC<FeaturesBlockProps> = ({
@@ -73,7 +73,7 @@ export const FeaturesBlockComponent: React.FC<FeaturesBlockProps> = ({
               </h2>
             )}
             {displaySubtitle && (
-              <p className={`text-sm md:text-base ${isDark ? 'text-white/70' : 'text-gray-500'}`}>
+              <p className={`text-sm md:text-base ${isDark ? 'text-white/70' : 'text-grey-mid'}`}>
                 {displaySubtitle}
               </p>
             )}
@@ -136,7 +136,7 @@ export const FeaturesBlockComponent: React.FC<FeaturesBlockProps> = ({
               </h2>
             )}
             {displaySubtitle && (
-              <p className={`text-sm md:text-base leading-relaxed ${isDark ? 'text-white/70' : 'text-gray-500'}`}>
+              <p className={`text-sm md:text-base leading-relaxed ${isDark ? 'text-white/70' : 'text-grey-mid'}`}>
                 {displaySubtitle}
               </p>
             )}

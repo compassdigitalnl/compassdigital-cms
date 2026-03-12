@@ -245,12 +245,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .filter((p): p is { id: number; slug: string; updatedAt: string } =>
         typeof p === 'object' && 'slug' in p && typeof p.slug === 'string'
       )
-      .map((p) => ({
-        url: `${siteUrl}/projects/${p.slug}`,
-        lastModified: new Date(p.updatedAt),
-        changeFrequency: 'monthly',
-        priority: 0.7,
-      }))
+      .flatMap((p) => ([
+        {
+          url: `${siteUrl}/cases/${p.slug}`,
+          lastModified: new Date(p.updatedAt),
+          changeFrequency: 'monthly' as const,
+          priority: 0.7,
+        },
+        {
+          url: `${siteUrl}/projects/${p.slug}`,
+          lastModified: new Date(p.updatedAt),
+          changeFrequency: 'monthly' as const,
+          priority: 0.5,
+        },
+      ]))
 
     entries.push(...projectEntries)
   } catch (error) {

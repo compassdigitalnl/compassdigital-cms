@@ -149,7 +149,7 @@ const blockComponents: Record<string, React.FC<any>> = {
     ? {
         'construction-hero': ConstructionHeroComponent,
         'services-grid': ServicesGridComponent,
-        'projects-grid': ProjectsGridComponent,
+        constructionProjectsGrid: ProjectsGridComponent,
       }
     : {}),
 

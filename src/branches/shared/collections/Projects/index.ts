@@ -137,6 +137,85 @@ export const Projects: CollectionConfig = {
               label: 'Resultaat highlight',
               admin: { description: 'Kort resultaat voor de kaart (bijv. "+280% omzet")' },
             },
+            // Digital/Agency-specific
+            {
+              name: 'websiteUrl',
+              type: 'text',
+              label: 'Live website URL',
+              admin: {
+                description: 'Link naar de live website (bijv. "https://klant.nl")',
+                condition: (data) => data?.branch !== 'construction',
+              },
+            },
+            {
+              name: 'technologies',
+              type: 'array',
+              label: 'Technologieën',
+              admin: {
+                description: 'Gebruikte technologieën en tools',
+              },
+              fields: [
+                { name: 'name', type: 'text', required: true, label: 'Naam' },
+                {
+                  name: 'icon',
+                  type: 'text',
+                  label: 'Icon (Lucide naam)',
+                  admin: { placeholder: 'Code2, Globe, Database, Palette...' },
+                },
+                {
+                  name: 'category',
+                  type: 'select',
+                  label: 'Categorie',
+                  options: [
+                    { label: 'Frontend', value: 'frontend' },
+                    { label: 'Backend', value: 'backend' },
+                    { label: 'Platform', value: 'platform' },
+                    { label: 'Integratie', value: 'integration' },
+                    { label: 'Design', value: 'design' },
+                  ],
+                },
+              ],
+            },
+            {
+              name: 'features',
+              type: 'array',
+              label: 'Features / Modules',
+              admin: {
+                description: 'Gerealiseerde features en modules',
+              },
+              fields: [
+                { name: 'title', type: 'text', required: true, label: 'Feature' },
+                { name: 'description', type: 'textarea', label: 'Toelichting' },
+              ],
+            },
+            {
+              name: 'metrics',
+              type: 'array',
+              label: 'Resultaat metrics',
+              admin: {
+                description: 'KPI\'s en resultaten (bijv. conversie, snelheid, etc.)',
+              },
+              fields: [
+                { name: 'value', type: 'text', required: true, label: 'Waarde', admin: { placeholder: '45%' } },
+                { name: 'label', type: 'text', required: true, label: 'Label', admin: { placeholder: 'Conversie stijging' } },
+                { name: 'icon', type: 'text', label: 'Icon (Lucide naam)', admin: { placeholder: 'TrendingUp' } },
+                { name: 'suffix', type: 'text', label: 'Suffix', admin: { placeholder: '%' } },
+              ],
+            },
+            {
+              name: 'timeline',
+              type: 'array',
+              label: 'Project Timeline',
+              admin: {
+                description: 'Fases van het project',
+              },
+              fields: [
+                { name: 'title', type: 'text', required: true, label: 'Fase' },
+                { name: 'description', type: 'textarea', label: 'Beschrijving' },
+                { name: 'duration', type: 'text', label: 'Doorlooptijd', admin: { placeholder: '2 weken' } },
+                { name: 'icon', type: 'text', label: 'Icon (Lucide naam)', admin: { placeholder: 'Search, Code2, Rocket...' } },
+              ],
+            },
             // Construction-specific
             {
               name: 'size',
@@ -209,6 +288,19 @@ export const Projects: CollectionConfig = {
               relationTo: 'media',
               hasMany: true,
               label: 'Galerij',
+            },
+            {
+              name: 'screenshots',
+              type: 'group',
+              label: 'Screenshots (Desktop / Mobile)',
+              admin: {
+                description: 'Screenshots van de live website voor device mockup weergave',
+                condition: (data) => data?.branch !== 'construction',
+              },
+              fields: [
+                { name: 'desktop', type: 'upload', relationTo: 'media', label: 'Desktop screenshot' },
+                { name: 'mobile', type: 'upload', relationTo: 'media', label: 'Mobile screenshot' },
+              ],
             },
             {
               name: 'beforeAfter',
