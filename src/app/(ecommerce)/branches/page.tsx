@@ -85,10 +85,10 @@ export default async function BranchesPage() {
   const page = docs[0] as Page | undefined
   if (page) {
     return (
-      <article className="pt-16 pb-24">
+      <>
         <JsonLdSchema page={page} />
         <RenderBlocks blocks={page.layout || []} />
-      </article>
+      </>
     )
   }
 

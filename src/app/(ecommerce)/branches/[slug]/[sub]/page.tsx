@@ -60,10 +60,10 @@ export default async function SubBranchePage({
 
   if (page) {
     return (
-      <article className="pt-16 pb-24">
+      <>
         <JsonLdSchema page={page} />
         <RenderBlocks blocks={page.layout || []} />
-      </article>
+      </>
     )
   }
 

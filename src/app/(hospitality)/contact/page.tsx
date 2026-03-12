@@ -40,9 +40,9 @@ export default async function ContactPage() {
     if (docs && docs.length > 0) {
       const page = docs[0]
       return (
-        <article className="pt-16 pb-24">
+        <>
           <RenderBlocks blocks={page.layout || []} />
-        </article>
+        </>
       )
     }
   }

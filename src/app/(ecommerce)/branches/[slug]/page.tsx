@@ -117,10 +117,10 @@ export default async function BrancheDetailPage({
 
   if (cmsPage) {
     return (
-      <article className="pt-16 pb-24">
+      <>
         <JsonLdSchema page={cmsPage} />
         <RenderBlocks blocks={cmsPage.layout || []} />
-      </article>
+      </>
     )
   }
 
