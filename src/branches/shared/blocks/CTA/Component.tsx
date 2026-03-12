@@ -153,7 +153,7 @@ export const CTABlockComponent: React.FC<CTABlockProps> = ({
       animationDuration={animationDuration}
       animationDelay={animationDelay}
       as="section"
-      className={`cta-block ${sectionPadding} ${bgClasses} ${isBanner ? '' : 'rounded-2xl'}`}
+      className={`cta-block ${sectionPadding} ${bgClasses}`}
     >
       {/* Gradient glow effect */}
       {currentBgStyle === 'gradient' && (

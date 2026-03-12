@@ -85,7 +85,7 @@ export const HeroBlockComponent: React.FC<HeroBlockProps> = ({
       animationDuration={animationDuration}
       animationDelay={animationDelay}
       as="section"
-      className={`hero-block ${variantClasses[currentVariant]} ${bgClass} rounded-2xl`}
+      className={`hero-block ${variantClasses[currentVariant]} ${bgClass}`}
     >
       {/* Gradient glow effect */}
       {currentBgStyle === 'gradient' && (

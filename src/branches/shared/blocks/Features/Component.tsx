@@ -11,19 +11,24 @@ import { FeaturesGrid } from './Component.client'
  * Features/USPs grid with Lucide icons and flexible layouts.
  * The icon rendering is delegated to a client component for dynamic Lucide imports.
  *
- * Layouts:
- * - grid-3: 1 col mobile, 2 cols tablet, 3 cols desktop
- * - grid-4: 1 col mobile, 2 cols tablet, 4 cols desktop
- * - list: single column with horizontal layout per item
- * - split: image + feature items side by side
+ * Layouts: grid-3, grid-4, list, split
+ * Backgrounds: white (default), light (grey-50), navy (dark)
  */
+
+const bgClasses: Record<string, string> = {
+  white: 'bg-white',
+  light: 'bg-gray-50',
+  navy: 'bg-gradient-to-br from-slate-800 to-slate-950 text-white',
+}
 
 export const FeaturesBlockComponent: React.FC<FeaturesBlockProps> = ({
   title,
   subtitle,
+  description,
   features,
   layout = 'grid-3',
   iconStyle = 'glow',
+  backgroundStyle = 'white',
   splitImage,
   splitImagePosition = 'left',
   enableAnimation,
@@ -34,9 +39,14 @@ export const FeaturesBlockComponent: React.FC<FeaturesBlockProps> = ({
   const currentLayout = (layout || 'grid-3') as FeaturesLayout
   const currentIconStyle = (iconStyle || 'glow') as FeaturesIconStyle
   const currentSplitPosition = (splitImagePosition || 'left') as 'left' | 'right'
+  const currentBg = (backgroundStyle || 'white') as string
+  const isDark = currentBg === 'navy'
 
   const resolvedSplitImage =
     typeof splitImage === 'object' && splitImage !== null ? (splitImage as Media) : null
+
+  // Displayed subtitle — use description as fallback
+  const displaySubtitle = subtitle || (typeof description === 'string' ? description : null)
 
   // Split layout rendering
   if (currentLayout === 'split') {
@@ -55,23 +65,25 @@ export const FeaturesBlockComponent: React.FC<FeaturesBlockProps> = ({
 
     const contentColumn = (
       <div className="flex flex-col justify-center">
-        {/* Section header */}
-        {(title || subtitle) && (
+        {(title || displaySubtitle) && (
           <div className="mb-6 md:mb-8">
             {title && (
-              <h2 className="font-display text-2xl md:text-3xl text-navy mb-3">{title}</h2>
+              <h2 className={`font-display text-2xl md:text-3xl mb-3 ${isDark ? 'text-white' : 'text-navy'}`}>
+                {title}
+              </h2>
             )}
-            {subtitle && (
-              <p className="text-sm md:text-base text-grey-dark">{subtitle}</p>
+            {displaySubtitle && (
+              <p className={`text-sm md:text-base ${isDark ? 'text-white/70' : 'text-gray-500'}`}>
+                {displaySubtitle}
+              </p>
             )}
           </div>
         )}
-
-        {/* Feature items in list mode */}
         <FeaturesGrid
           features={(features as FeatureItem[]) || []}
           layout="list"
           iconStyle={currentIconStyle}
+          backgroundStyle={currentBg as any}
         />
       </div>
     )
@@ -83,7 +95,7 @@ export const FeaturesBlockComponent: React.FC<FeaturesBlockProps> = ({
         animationDuration={animationDuration}
         animationDelay={animationDelay}
         as="section"
-        className="features-block py-12 md:py-16 lg:py-20 bg-white"
+        className={`features-block py-12 md:py-16 lg:py-20 ${bgClasses[currentBg] || bgClasses.white}`}
       >
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
@@ -112,26 +124,31 @@ export const FeaturesBlockComponent: React.FC<FeaturesBlockProps> = ({
       animationDuration={animationDuration}
       animationDelay={animationDelay}
       as="section"
-      className="features-block py-12 md:py-16 lg:py-20 bg-white"
+      className={`features-block py-12 md:py-16 lg:py-20 ${bgClasses[currentBg] || bgClasses.white}`}
     >
       <div className="max-w-7xl mx-auto px-6">
         {/* Section header */}
-        {(title || subtitle) && (
-          <div className="text-center max-w-3xl mx-auto mb-8 md:mb-12">
+        {(title || displaySubtitle) && (
+          <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
             {title && (
-              <h2 className="font-display text-2xl md:text-3xl text-navy mb-3">{title}</h2>
+              <h2 className={`font-display text-2xl md:text-3xl lg:text-4xl font-bold mb-3 ${isDark ? 'text-white' : 'text-navy'}`}>
+                {title}
+              </h2>
             )}
-            {subtitle && (
-              <p className="text-sm md:text-base text-grey-dark">{subtitle}</p>
+            {displaySubtitle && (
+              <p className={`text-sm md:text-base leading-relaxed ${isDark ? 'text-white/70' : 'text-gray-500'}`}>
+                {displaySubtitle}
+              </p>
             )}
           </div>
         )}
 
-        {/* Feature cards grid (client component for dynamic icons) */}
+        {/* Feature cards grid */}
         <FeaturesGrid
           features={(features as FeatureItem[]) || []}
           layout={currentLayout}
           iconStyle={currentIconStyle}
+          backgroundStyle={currentBg as any}
         />
       </div>
     </AnimationWrapper>
