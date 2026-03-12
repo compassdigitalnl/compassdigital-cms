@@ -22,10 +22,10 @@ export const Banner: Block = {
           label: 'Content',
           fields: [
             {
-              name: 'text',
+              name: 'message',
               type: 'text',
-              label: 'Tekst',
-              required: true,
+              label: 'Bericht',
+              maxLength: 150,
               admin: {
                 placeholder: 'Gratis verzending bij bestellingen boven de 50 euro!',
                 description: 'Aankondigingstekst voor de banner',
@@ -70,6 +70,7 @@ export const Banner: Block = {
               defaultValue: 'info',
               options: [
                 { label: 'Info (blauw)', value: 'info' },
+                { label: 'Aankondiging (navy)', value: 'announcement' },
                 { label: 'Promo (teal)', value: 'promo' },
                 { label: 'Waarschuwing (geel)', value: 'warning' },
               ],

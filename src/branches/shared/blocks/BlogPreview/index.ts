@@ -8,7 +8,7 @@ import { animationFields } from '../_shared/animationFields'
  * Supports filtering by category and configurable display options.
  */
 export const BlogPreview: Block = {
-  slug: 'blogPreview',
+  slug: 'blog-preview',
   interfaceName: 'BlogPreviewBlock',
   labels: {
     singular: 'Blog Preview',

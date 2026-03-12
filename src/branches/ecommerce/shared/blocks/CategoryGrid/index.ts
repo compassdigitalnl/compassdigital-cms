@@ -36,6 +36,7 @@ export const CategoryGrid: Block = {
               defaultValue: 'all',
               options: [
                 { label: 'Alle categorieën', value: 'all' },
+                { label: 'Automatisch (top-level)', value: 'auto' },
                 { label: 'Featured categorieën', value: 'featured' },
                 { label: 'Handmatig selecteren', value: 'manual' },
               ],

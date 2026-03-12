@@ -99,6 +99,7 @@ export const FAQ: Block = {
               defaultValue: 'simple',
               options: [
                 { label: 'Simpel (minimale lijnen)', value: 'simple' },
+                { label: 'Enkele kolom', value: 'single-column' },
                 { label: 'Omlijnd (kaart per item)', value: 'bordered' },
                 { label: 'Gekleurd (wisselende achtergrond)', value: 'colored' },
               ],

@@ -136,7 +136,7 @@ export const CTABlockComponent: React.FC<CTABlockProps> = ({
 
   const bgClasses = getBackgroundClasses(currentBgStyle)
 
-  const isBanner = currentVariant === 'banner'
+  const isBanner = currentVariant === 'banner' || currentVariant === 'full-width'
   const sectionPadding = isBanner ? 'py-8 md:py-10' : sizePaddingClasses[currentSize]
 
   // Alignment only applies to non-split variants

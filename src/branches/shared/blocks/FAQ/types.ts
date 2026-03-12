@@ -8,7 +8,7 @@ import type { BlockAnimationProps } from '../_shared/types'
  */
 export interface FAQBlockProps extends FAQBlock, BlockAnimationProps {}
 
-export type FAQVariant = 'simple' | 'bordered' | 'colored'
+export type FAQVariant = 'simple' | 'single-column' | 'bordered' | 'colored'
 
 export interface FAQItem {
   question: string

@@ -112,7 +112,7 @@ const blockComponents: Record<string, React.FC<any>> = {
         productGrid: ProductGrid,
         quickOrder: QuickOrderComponent,
         comparisontable: ComparisonTableComponent,
-        productembed: ProductEmbedComponent,
+        productEmbed: ProductEmbedComponent,
         pricingGradient: PricingGradientComponent,
         subscriptionPricing: SubscriptionPricingComponent,
         staffelPricing: StaffelPricingComponent,

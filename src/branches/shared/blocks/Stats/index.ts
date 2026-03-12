@@ -32,12 +32,21 @@ export const Stats: Block = {
               },
             },
             {
-              name: 'items',
+              name: 'stats',
               type: 'array',
               label: 'Statistieken',
               minRows: 1,
               maxRows: 8,
               fields: [
+                {
+                  name: 'icon',
+                  type: 'text',
+                  label: 'Icoon',
+                  admin: {
+                    description: 'Lucide icon naam (bijv. "Users", "TrendingUp", "Clock"). Laat leeg voor geen icoon.',
+                    placeholder: 'Users',
+                  },
+                },
                 {
                   name: 'value',
                   type: 'text',
@@ -56,6 +65,15 @@ export const Stats: Block = {
                   admin: {
                     description: 'Beschrijving van de statistiek (bijv. "Klanten", "Uptime")',
                     placeholder: 'Klanten',
+                  },
+                },
+                {
+                  name: 'description',
+                  type: 'text',
+                  label: 'Extra detail',
+                  admin: {
+                    description: 'Optionele extra context (bijv. "Sinds 2020", "En groeiend")',
+                    placeholder: 'En groeiend',
                   },
                 },
                 {
@@ -78,6 +96,20 @@ export const Stats: Block = {
         {
           label: 'Design',
           fields: [
+            {
+              name: 'columns',
+              type: 'select',
+              label: 'Kolommen',
+              defaultValue: '3',
+              options: [
+                { label: '2 kolommen', value: '2' },
+                { label: '3 kolommen', value: '3' },
+                { label: '4 kolommen', value: '4' },
+              ],
+              admin: {
+                description: 'Aantal statistieken per rij op desktop',
+              },
+            },
             {
               name: 'variant',
               type: 'select',
@@ -102,6 +134,8 @@ export const Stats: Block = {
                 { label: 'Navy', value: 'navy' },
                 { label: 'Teal', value: 'teal' },
                 { label: 'Grijs', value: 'grey' },
+                { label: 'Teal Gradient', value: 'tealGradient' },
+                { label: 'Navy Gradient', value: 'navyGradient' },
               ],
               admin: {
                 description: 'Achtergrondkleur van de sectie',

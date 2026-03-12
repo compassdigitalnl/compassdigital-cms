@@ -149,6 +149,7 @@ export const CTA: Block = {
                 { label: 'Centered (Text centered)', value: 'centered' },
                 { label: 'Split (Text left, CTA right)', value: 'split' },
                 { label: 'Banner (Full-width colored)', value: 'banner' },
+                { label: 'Full-width (Volledige breedte)', value: 'full-width' },
               ],
               admin: {
                 description: 'Choose the CTA layout style',

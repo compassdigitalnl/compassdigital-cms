@@ -16,7 +16,7 @@ interface FAQItem {
   id?: string | null
 }
 
-type FAQVariant = 'simple' | 'bordered' | 'colored'
+type FAQVariant = 'simple' | 'single-column' | 'bordered' | 'colored'
 
 interface FAQAccordionProps {
   items: FAQItem[]
@@ -43,6 +43,10 @@ function AccordionItem({ item, index, isOpen, onToggle, variant }: AccordionItem
 
   const variantClasses: Record<FAQVariant, { wrapper: string; summary: string }> = {
     simple: {
+      wrapper: 'border-b border-grey-light',
+      summary: '',
+    },
+    'single-column': {
       wrapper: 'border-b border-grey-light',
       summary: '',
     },
@@ -107,6 +111,7 @@ export function FAQAccordion({ items, variant }: FAQAccordionProps) {
 
   const wrapperClasses: Record<FAQVariant, string> = {
     simple: 'space-y-0',
+    'single-column': 'space-y-0',
     bordered: 'space-y-3',
     colored: 'space-y-2',
   }

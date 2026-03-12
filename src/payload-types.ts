@@ -1655,39 +1655,7 @@ export interface Page {
         | FAQBlock
         | TeamBlock
         | AccordionBlock
-        | {
-            /**
-             * Main section heading (optional, e.g., "Laatste Blog Posts")
-             */
-            title?: string | null;
-            /**
-             * Number of cards per row on desktop
-             */
-            columns: '2' | '3';
-            /**
-             * Brief description below title (optional, max 2 sentences)
-             */
-            description?: string | null;
-            /**
-             * Select 2-6 blog posts to display. Order matters: first = left.
-             */
-            posts: (number | BlogPost)[];
-            /**
-             * Display post excerpt below title (recommended for better preview)
-             */
-            showExcerpt?: boolean | null;
-            /**
-             * Display estimated reading time (e.g., "5 min read")
-             */
-            showReadTime?: boolean | null;
-            /**
-             * Show category badge overlay on thumbnail (recommended)
-             */
-            showCategory?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'blog-preview';
-          }
+        | BlogPreviewBlock
         | InfoBoxBlock
         | ProcessStepsBlock
         | ImageGalleryBlock
@@ -1751,41 +1719,40 @@ export interface Page {
  */
 export interface BannerBlock {
   /**
-   * Gradient background color and semantic meaning
+   * Aankondigingstekst voor de banner
    */
-  variant: 'announcement' | 'promo' | 'warning';
+  message?: string | null;
   /**
-   * Short announcement message (max 150 characters)
+   * Optionele link naar meer informatie
    */
-  message: string;
+  link?: string | null;
   /**
-   * Optional call-to-action button text
+   * Tekst voor de link knop
    */
-  ctaText?: string | null;
+  linkLabel?: string | null;
   /**
-   * URL for CTA button (internal or external)
+   * Optioneel icoon (emoji of tekst) links van de tekst
    */
-  ctaLink?: string | null;
+  icon?: string | null;
   /**
-   * Allow users to close this banner with an X button
+   * Kleurschema van de banner
+   */
+  variant?: ('info' | 'announcement' | 'promo' | 'warning') | null;
+  /**
+   * Waar de banner wordt weergegeven
+   */
+  position?: ('inline' | 'top') | null;
+  /**
+   * Gebruiker kan de banner sluiten met een X-knop
    */
   dismissible?: boolean | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
   /**
-   * Unique identifier for localStorage (e.g., "promo-2026-feb"). Users who dismiss this banner will not see it again.
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
    */
-  dismissalKey: string;
-  /**
-   * Keep banner fixed at top of screen when scrolling (z-index: 100)
-   */
-  sticky?: boolean | null;
-  /**
-   * Banner appears starting from this date (optional)
-   */
-  showFrom?: string | null;
-  /**
-   * Banner disappears after this date (optional)
-   */
-  showUntil?: string | null;
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'banner';
@@ -1796,13 +1763,17 @@ export interface BannerBlock {
  */
 export interface SpacerBlock {
   /**
-   * Vertical spacing amount. Automatically reduces on mobile for better UX.
+   * Verticale ruimte tussen secties. Automatisch kleiner op mobiel.
    */
-  size: 'sm' | 'md' | 'lg' | 'xl';
+  size?: ('sm' | 'md' | 'lg' | 'xl') | null;
   /**
-   * Add a subtle horizontal line in the middle of the spacing
+   * Horizontale lijn in het midden van de ruimte
    */
   showDivider?: boolean | null;
+  /**
+   * Kleur van de scheidingslijn
+   */
+  dividerColor?: ('grey' | 'teal' | 'navy') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'spacer';
@@ -2206,7 +2177,7 @@ export interface CTABlock {
   /**
    * Choose the CTA layout style
    */
-  variant?: ('centered' | 'split' | 'banner') | null;
+  variant?: ('centered' | 'split' | 'banner' | 'full-width') | null;
   backgroundStyle?: ('gradient' | 'solid' | 'image') | null;
   /**
    * Recommended: 1920x600px, WebP format, < 200KB
@@ -2490,7 +2461,7 @@ export interface NewsletterBlock {
   /**
    * Selecteer het nieuwsbrief-formulier
    */
-  form: number | Form;
+  form?: (number | null) | Form;
   /**
    * Kies de lay-out van de nieuwsbrief
    */
@@ -2591,32 +2562,45 @@ export interface FeaturesBlock {
  */
 export interface TestimonialsBlock {
   /**
-   * Optional heading above testimonials
+   * Optionele koptekst boven de testimonials
    */
   title?: string | null;
   /**
-   * Customer testimonials with quotes, ratings, and avatars
+   * Optionele subtekst onder de titel
+   */
+  subtitle?: string | null;
+  /**
+   * Klantbeoordelingen met citaten, sterren en avatars
    */
   testimonials?:
     | {
         quote: string;
         author: string;
         role?: string | null;
+        company?: string | null;
         /**
-         * Optional profile photo (square, min 80x80px)
+         * Optionele profielfoto (vierkant, min 80x80px)
          */
         avatar?: (number | null) | Media;
-        /**
-         * Star rating out of 5
-         */
         rating?: number | null;
         id?: string | null;
       }[]
     | null;
   /**
-   * Grid = static 3-col layout. Carousel = interactive slider. Featured = single large quote.
+   * Grid = 3-koloms layout. Uitgelicht = groot enkelvoudig citaat. Carousel = interactieve slider.
    */
-  variant?: ('grid' | 'carousel' | 'featured') | null;
+  variant?: ('grid' | 'featured' | 'carousel') | null;
+  /**
+   * Aantal kolommen in grid layout
+   */
+  columns?: ('2' | '3') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'testimonials';
@@ -3086,45 +3070,56 @@ export interface Case {
  */
 export interface StatsBlock {
   /**
-   * Optional heading above statistics (e.g., "Our Impact", "By the Numbers")
+   * Optionele koptekst boven de statistieken
    */
   title?: string | null;
   /**
-   * Number of statistics per row on desktop
-   */
-  columns: '2' | '3' | '4';
-  /**
-   * Optional introductory text below title (1-2 sentences)
-   */
-  description?: string | null;
-  /**
-   * Add 2-4 key statistics. Best practices: Use round numbers, add context with icons, keep labels short.
+   * Voeg statistieken toe. Houd het kort en krachtig.
    */
   stats?:
     | {
         /**
-         * Optional emoji or icon (e.g., "📊", "🚀", "⭐"). Leave empty for minimal design without icon.
+         * Lucide icon naam (bijv. "Users", "TrendingUp", "Clock"). Laat leeg voor geen icoon.
          */
         icon?: string | null;
         /**
-         * The statistic number/value (e.g., "500+", "€2.5M", "< 24h", "98%"). Keep it short and impactful.
+         * Het getal of de waarde (bijv. "500+", "98%", "24/7")
          */
         value: string;
         /**
-         * Description of what the stat represents (e.g., "Happy Clients", "Revenue", "Uptime")
+         * Beschrijving van de statistiek (bijv. "Klanten", "Uptime")
          */
         label: string;
         /**
-         * Optional extra context (e.g., "Since 2020", "And growing"). Shows below the label in smaller text.
+         * Optionele extra context (bijv. "Sinds 2020", "En groeiend")
          */
         description?: string | null;
+        /**
+         * Optioneel achtervoegsel bij de waarde (bijv. "+", "%", "k")
+         */
+        suffix?: string | null;
         id?: string | null;
       }[]
     | null;
   /**
-   * Background color/gradient from Theme global. Gradient variants use white text for better contrast.
+   * Aantal statistieken per rij op desktop
    */
-  backgroundColor?: ('white' | 'grey' | 'tealGradient' | 'navyGradient') | null;
+  columns?: ('2' | '3' | '4') | null;
+  /**
+   * Kies hoe de statistieken worden weergegeven
+   */
+  variant?: ('inline' | 'cards' | 'large') | null;
+  /**
+   * Achtergrondkleur van de sectie
+   */
+  backgroundColor?: ('white' | 'navy' | 'teal' | 'grey' | 'tealGradient' | 'navyGradient') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'stats';
@@ -3172,7 +3167,7 @@ export interface FAQBlock {
   /**
    * Visuele stijl van de FAQ items
    */
-  variant?: ('simple' | 'bordered' | 'colored') | null;
+  variant?: ('simple' | 'single-column' | 'bordered' | 'colored') | null;
   enableAnimation?: boolean | null;
   animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
   animationDuration?: ('fast' | 'normal' | 'slow') | null;
@@ -3190,63 +3185,56 @@ export interface FAQBlock {
  */
 export interface TeamBlock {
   /**
-   * Small overline text above main title (optional)
-   */
-  subtitle?: string | null;
-  /**
-   * Main section heading (optional)
+   * Sectiekop boven het team (bijv. "Ons Team")
    */
   title?: string | null;
   /**
-   * Brief introduction to the team (optional, 1-2 sentences)
+   * Optionele tekst onder de titel
    */
-  description?: string | null;
+  subtitle?: string | null;
   /**
-   * Number of team members per row on desktop
-   */
-  columns: '2' | '3' | '4';
-  /**
-   * Shape of team member photos
-   */
-  photoStyle?: ('square' | 'circle') | null;
-  /**
-   * Add 2-20 team members. Each member has a photo, name, role, bio, email, and optional social links.
+   * Voeg teamleden toe met foto, naam, functie en optionele links.
    */
   members?:
     | {
-        /**
-         * Team member headshot (recommended: square aspect ratio, 500x500px minimum for best quality)
-         */
-        photo: number | Media;
         name: string;
-        role: string;
+        role?: string | null;
         /**
-         * Short biography (2-3 sentences). Highlight expertise, experience, or achievements.
+         * Korte biografie (2-3 zinnen)
          */
         bio?: string | null;
         /**
-         * Contact email (optional). Will be displayed as a clickable mailto: link.
+         * Profielfoto (aanbevolen: vierkant, minimaal 400x400px)
          */
-        email?: string | null;
+        photo?: (number | null) | Media;
         /**
-         * Full LinkedIn profile URL
+         * Optionele sociale media- of contactlinks
          */
-        linkedin?: string | null;
-        /**
-         * Full Twitter/X profile URL
-         */
-        twitter?: string | null;
-        /**
-         * Full GitHub profile URL
-         */
-        github?: string | null;
+        links?:
+          | {
+              platform: 'linkedin' | 'twitter' | 'email';
+              url: string;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
   /**
-   * Background color from Theme global. Light backgrounds work best for team sections.
+   * Grid toont kaarten, lijst toont horizontale rijen
    */
-  backgroundColor?: ('white' | 'bg' | 'grey') | null;
+  layout?: ('grid' | 'list') | null;
+  /**
+   * Aantal kolommen op desktop (alleen bij grid-weergave)
+   */
+  columns?: ('2' | '3' | '4') | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'team';
@@ -3312,174 +3300,42 @@ export interface AccordionBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-posts".
+ * via the `definition` "BlogPreviewBlock".
  */
-export interface BlogPost {
-  id: number;
-  title: string;
+export interface BlogPreviewBlock {
   /**
-   * Auto-gegenereerd uit titel (kan handmatig overschreven worden)
+   * Optionele koptekst boven de blogposts
    */
-  slug: string;
+  title?: string | null;
   /**
-   * Korte samenvatting (max 160 tekens) - getoond in overzichten en intro paragraph
+   * Welke blogposts getoond moeten worden
    */
-  excerpt: string;
+  source?: ('latest' | 'featured' | 'category') | null;
   /**
-   * Grote afbeelding bovenaan artikel (360px hoog)
+   * Selecteer een categorie om te filteren
    */
-  featuredImage?: (number | null) | Media;
+  category?: (number | null) | BlogCategory;
   /**
-   * Als er geen afbeelding is: toon een emoji als placeholder (bijv: 🧤)
+   * Maximum aantal blogposts om te tonen
    */
-  featuredImageEmoji?: string | null;
+  limit?: number | null;
   /**
-   * Selecteer 1 of meer categorieën. Eerste categorie wordt gebruikt in URL.
+   * Weergave van de blogposts
    */
-  categories: (number | BlogCategory)[];
+  layout?: ('grid' | 'list' | 'featured') | null;
+  showExcerpt?: boolean | null;
+  showDate?: boolean | null;
+  showAuthor?: boolean | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
   /**
-   * Badge getoond op hero image (top-left)
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
    */
-  featuredTag?: ('none' | 'guide' | 'new' | 'featured' | 'tip' | 'news') | null;
-  /**
-   * Zoektermen en onderwerpen (getoond onderaan artikel)
-   */
-  tags?:
-    | {
-        tag: string;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Hoofdcontent van het artikel (ondersteunt headings, lists, bold, links, info boxes, product embeds, tabellen, FAQ)
-   */
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  /**
-   * Wordt getoond in author box
-   */
-  author?: (number | null) | User;
-  /**
-   * Optioneel: overschrijf auteur bio voor dit artikel
-   */
-  authorBio?: string | null;
-  /**
-   * Automatisch berekend, maar kan handmatig overschreven worden
-   */
-  readingTime?: number | null;
-  /**
-   * Wordt automatisch bijgewerkt bij elke page view
-   */
-  viewCount?: number | null;
-  /**
-   * Toon als grote featured card bovenaan blog archive
-   */
-  featured?: boolean | null;
-  /**
-   * Layout template voor dit artikel
-   */
-  template?: ('blogtemplate1' | 'blogtemplate2' | 'blogtemplate3') | null;
-  /**
-   * Type content - bepaalt badge/icon in overzicht en kennisbank filtering
-   */
-  contentType?: ('article' | 'guide' | 'elearning' | 'download' | 'video') | null;
-  /**
-   * Bepaal wie toegang heeft tot dit artikel en hoe de paywall werkt
-   */
-  contentAccess: {
-    /**
-     * Wie kan dit artikel volledig lezen?
-     */
-    accessLevel: 'free' | 'premium';
-    /**
-     * Hoeveel woorden gratis te lezen? (bijv. 200). Daarna wordt paywall getoond.
-     */
-    previewLength?: number | null;
-    /**
-     * Custom bericht op paywall. Als leeg: standaard "Upgrade naar Pro" bericht.
-     */
-    lockMessage?: string | null;
-  };
-  /**
-   * Producten genoemd in artikel (getoond in sidebar + inline embeds)
-   */
-  relatedProducts?: (number | Product)[] | null;
-  /**
-   * Handmatig geselecteerde gerelateerde artikelen (max 3)
-   */
-  relatedPosts?: (number | BlogPost)[] | null;
-  /**
-   * Optioneel: voeg FAQ toe voor Google rich snippets
-   */
-  faq?:
-    | {
-        question: string;
-        answer: string;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Toon automatische inhoudsopgave in sidebar (Template 1)
-   */
-  enableTOC?: boolean | null;
-  /**
-   * Toon LinkedIn, Email, Link, Print buttons onderaan artikel
-   */
-  enableShare?: boolean | null;
-  /**
-   * Toon comment sectie onderaan artikel (toekomstige feature)
-   */
-  enableComments?: boolean | null;
-  publishedAt?: string | null;
-  status?: ('published' | 'draft') | null;
-  /**
-   * Automatisch publiceren op dit tijdstip.
-   */
-  publishAt?: string | null;
-  /**
-   * Automatisch depubliceren op dit tijdstip.
-   */
-  unpublishAt?: string | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Primary keyword/phrase to optimize for (e.g., "medical supplies Amsterdam")
-     */
-    focusKeyword?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-    /**
-     * Override the default canonical URL. Leave empty to use auto-generated URL. Use for duplicate content prevention.
-     */
-    canonicalUrl?: string | null;
-    /**
-     * Prevent search engines from indexing this page. Use for duplicate content, thank-you pages, etc.
-     */
-    noIndex?: boolean | null;
-    /**
-     * Prevent search engines from following links on this page.
-     */
-    noFollow?: boolean | null;
-  };
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
+  animationDelay?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'blog-preview';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3700,45 +3556,32 @@ export interface ImageGalleryBlock {
  */
 export interface VideoBlock {
   /**
-   * Optional heading displayed above the video
+   * YouTube of Vimeo URL (bijv. https://www.youtube.com/watch?v=... of https://vimeo.com/...)
+   */
+  videoUrl: string;
+  /**
+   * Optionele koptekst boven de video
    */
   title?: string | null;
   /**
-   * Where the video is hosted
-   */
-  source: 'youtube' | 'vimeo' | 'upload';
-  /**
-   * Aspect ratio of the video player
-   */
-  aspectRatio?: ('16-9' | '4-3' | '1-1' | '21-9') | null;
-  /**
-   * Full YouTube video URL (e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-   */
-  youtubeUrl?: string | null;
-  /**
-   * Full Vimeo video URL (e.g., https://vimeo.com/123456789)
-   */
-  vimeoUrl?: string | null;
-  /**
-   * Upload a video file (MP4 recommended for best browser compatibility)
-   */
-  videoFile?: (number | null) | Media;
-  /**
-   * Thumbnail image shown before the video plays. Highly recommended for self-hosted videos.
-   */
-  posterImage?: (number | null) | Media;
-  /**
-   * Text displayed below the video
+   * Optionele tekst onder de video
    */
   caption?: string | null;
   /**
-   * Auto-play video when page loads (most browsers block autoplay with sound)
+   * Maximale breedte van de videospeler
+   */
+  size?: ('narrow' | 'wide' | 'full') | null;
+  /**
+   * Automatisch afspelen wanneer de pagina laadt (de meeste browsers blokkeren autoplay met geluid)
    */
   autoplay?: boolean | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
   /**
-   * Display video player controls (play, pause, volume, etc.)
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
    */
-  controls?: boolean | null;
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'video';
@@ -3749,44 +3592,32 @@ export interface VideoBlock {
  */
 export interface CodeBlock {
   /**
-   * Programming language for syntax highlighting
-   */
-  language:
-    | 'typescript'
-    | 'javascript'
-    | 'python'
-    | 'java'
-    | 'csharp'
-    | 'go'
-    | 'rust'
-    | 'php'
-    | 'ruby'
-    | 'swift'
-    | 'kotlin'
-    | 'html'
-    | 'css'
-    | 'sql'
-    | 'bash'
-    | 'json'
-    | 'yaml'
-    | 'markdown'
-    | 'plaintext';
-  /**
-   * Display line numbers in the code block
-   */
-  showLineNumbers?: boolean | null;
-  /**
-   * Display a filename/path above the code (e.g., "src/components/Button.tsx")
-   */
-  filename?: string | null;
-  /**
-   * Paste or type your code here. It will be syntax highlighted on the frontend.
+   * Plak of typ de code hier
    */
   code: string;
   /**
-   * Optional explanation or context displayed below the code block
+   * Taal voor syntax highlighting
    */
-  caption?: string | null;
+  language?: ('javascript' | 'typescript' | 'html' | 'css' | 'php' | 'python' | 'bash' | 'json' | 'sql') | null;
+  /**
+   * Optionele bestandsnaam boven het codeblok (bijv. "src/index.ts")
+   */
+  filename?: string | null;
+  /**
+   * Toon regelnummers links van de code
+   */
+  showLineNumbers?: boolean | null;
+  /**
+   * Toon een kopieerknop rechtsboven
+   */
+  showCopyButton?: boolean | null;
+  enableAnimation?: boolean | null;
+  animationType?: ('fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in') | null;
+  animationDuration?: ('fast' | 'normal' | 'slow') | null;
+  /**
+   * 0 = geen vertraging, 1-5 = stagger delay (0.1s per stap)
+   */
+  animationDelay?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'code';
@@ -3897,7 +3728,7 @@ export interface CategoryGridBlock {
   /**
    * Welke categorieën worden getoond?
    */
-  source?: ('all' | 'featured' | 'manual') | null;
+  source?: ('all' | 'auto' | 'featured' | 'manual') | null;
   /**
    * Selecteer categorieën handmatig
    */
@@ -7491,6 +7322,177 @@ export interface AbTestResult {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts".
+ */
+export interface BlogPost {
+  id: number;
+  title: string;
+  /**
+   * Auto-gegenereerd uit titel (kan handmatig overschreven worden)
+   */
+  slug: string;
+  /**
+   * Korte samenvatting (max 160 tekens) - getoond in overzichten en intro paragraph
+   */
+  excerpt: string;
+  /**
+   * Grote afbeelding bovenaan artikel (360px hoog)
+   */
+  featuredImage?: (number | null) | Media;
+  /**
+   * Als er geen afbeelding is: toon een emoji als placeholder (bijv: 🧤)
+   */
+  featuredImageEmoji?: string | null;
+  /**
+   * Selecteer 1 of meer categorieën. Eerste categorie wordt gebruikt in URL.
+   */
+  categories: (number | BlogCategory)[];
+  /**
+   * Badge getoond op hero image (top-left)
+   */
+  featuredTag?: ('none' | 'guide' | 'new' | 'featured' | 'tip' | 'news') | null;
+  /**
+   * Zoektermen en onderwerpen (getoond onderaan artikel)
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Hoofdcontent van het artikel (ondersteunt headings, lists, bold, links, info boxes, product embeds, tabellen, FAQ)
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Wordt getoond in author box
+   */
+  author?: (number | null) | User;
+  /**
+   * Optioneel: overschrijf auteur bio voor dit artikel
+   */
+  authorBio?: string | null;
+  /**
+   * Automatisch berekend, maar kan handmatig overschreven worden
+   */
+  readingTime?: number | null;
+  /**
+   * Wordt automatisch bijgewerkt bij elke page view
+   */
+  viewCount?: number | null;
+  /**
+   * Toon als grote featured card bovenaan blog archive
+   */
+  featured?: boolean | null;
+  /**
+   * Layout template voor dit artikel
+   */
+  template?: ('blogtemplate1' | 'blogtemplate2' | 'blogtemplate3') | null;
+  /**
+   * Type content - bepaalt badge/icon in overzicht en kennisbank filtering
+   */
+  contentType?: ('article' | 'guide' | 'elearning' | 'download' | 'video') | null;
+  /**
+   * Bepaal wie toegang heeft tot dit artikel en hoe de paywall werkt
+   */
+  contentAccess: {
+    /**
+     * Wie kan dit artikel volledig lezen?
+     */
+    accessLevel: 'free' | 'premium';
+    /**
+     * Hoeveel woorden gratis te lezen? (bijv. 200). Daarna wordt paywall getoond.
+     */
+    previewLength?: number | null;
+    /**
+     * Custom bericht op paywall. Als leeg: standaard "Upgrade naar Pro" bericht.
+     */
+    lockMessage?: string | null;
+  };
+  /**
+   * Producten genoemd in artikel (getoond in sidebar + inline embeds)
+   */
+  relatedProducts?: (number | Product)[] | null;
+  /**
+   * Handmatig geselecteerde gerelateerde artikelen (max 3)
+   */
+  relatedPosts?: (number | BlogPost)[] | null;
+  /**
+   * Optioneel: voeg FAQ toe voor Google rich snippets
+   */
+  faq?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Toon automatische inhoudsopgave in sidebar (Template 1)
+   */
+  enableTOC?: boolean | null;
+  /**
+   * Toon LinkedIn, Email, Link, Print buttons onderaan artikel
+   */
+  enableShare?: boolean | null;
+  /**
+   * Toon comment sectie onderaan artikel (toekomstige feature)
+   */
+  enableComments?: boolean | null;
+  publishedAt?: string | null;
+  status?: ('published' | 'draft') | null;
+  /**
+   * Automatisch publiceren op dit tijdstip.
+   */
+  publishAt?: string | null;
+  /**
+   * Automatisch depubliceren op dit tijdstip.
+   */
+  unpublishAt?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Primary keyword/phrase to optimize for (e.g., "medical supplies Amsterdam")
+     */
+    focusKeyword?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Override the default canonical URL. Leave empty to use auto-generated URL. Use for duplicate content prevention.
+     */
+    canonicalUrl?: string | null;
+    /**
+     * Prevent search engines from indexing this page. Use for duplicate content, thank-you pages, etc.
+     */
+    noIndex?: boolean | null;
+    /**
+     * Prevent search engines from following links on this page.
+     */
+    noFollow?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "testimonials".
  */
 export interface Testimonial {
@@ -10636,19 +10638,7 @@ export interface PagesSelect<T extends boolean = true> {
         faq?: T | FAQBlockSelect<T>;
         team?: T | TeamBlockSelect<T>;
         accordion?: T | AccordionBlockSelect<T>;
-        'blog-preview'?:
-          | T
-          | {
-              title?: T;
-              columns?: T;
-              description?: T;
-              posts?: T;
-              showExcerpt?: T;
-              showReadTime?: T;
-              showCategory?: T;
-              id?: T;
-              blockName?: T;
-            };
+        'blog-preview'?: T | BlogPreviewBlockSelect<T>;
         infobox?: T | InfoBoxBlockSelect<T>;
         processSteps?: T | ProcessStepsBlockSelect<T>;
         imageGallery?: T | ImageGalleryBlockSelect<T>;
@@ -10697,15 +10687,17 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "BannerBlock_select".
  */
 export interface BannerBlockSelect<T extends boolean = true> {
-  variant?: T;
   message?: T;
-  ctaText?: T;
-  ctaLink?: T;
+  link?: T;
+  linkLabel?: T;
+  icon?: T;
+  variant?: T;
+  position?: T;
   dismissible?: T;
-  dismissalKey?: T;
-  sticky?: T;
-  showFrom?: T;
-  showUntil?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -10716,6 +10708,7 @@ export interface BannerBlockSelect<T extends boolean = true> {
 export interface SpacerBlockSelect<T extends boolean = true> {
   size?: T;
   showDivider?: T;
+  dividerColor?: T;
   id?: T;
   blockName?: T;
 }
@@ -11043,17 +11036,24 @@ export interface FeaturesBlockSelect<T extends boolean = true> {
  */
 export interface TestimonialsBlockSelect<T extends boolean = true> {
   title?: T;
+  subtitle?: T;
   testimonials?:
     | T
     | {
         quote?: T;
         author?: T;
         role?: T;
+        company?: T;
         avatar?: T;
         rating?: T;
         id?: T;
       };
   variant?: T;
+  columns?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -11219,8 +11219,6 @@ export interface CasesBlockSelect<T extends boolean = true> {
  */
 export interface StatsBlockSelect<T extends boolean = true> {
   title?: T;
-  columns?: T;
-  description?: T;
   stats?:
     | T
     | {
@@ -11228,9 +11226,16 @@ export interface StatsBlockSelect<T extends boolean = true> {
         value?: T;
         label?: T;
         description?: T;
+        suffix?: T;
         id?: T;
       };
+  columns?: T;
+  variant?: T;
   backgroundColor?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -11261,25 +11266,30 @@ export interface FAQBlockSelect<T extends boolean = true> {
  * via the `definition` "TeamBlock_select".
  */
 export interface TeamBlockSelect<T extends boolean = true> {
-  subtitle?: T;
   title?: T;
-  description?: T;
-  columns?: T;
-  photoStyle?: T;
+  subtitle?: T;
   members?:
     | T
     | {
-        photo?: T;
         name?: T;
         role?: T;
         bio?: T;
-        email?: T;
-        linkedin?: T;
-        twitter?: T;
-        github?: T;
+        photo?: T;
+        links?:
+          | T
+          | {
+              platform?: T;
+              url?: T;
+              id?: T;
+            };
         id?: T;
       };
-  backgroundColor?: T;
+  layout?: T;
+  columns?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -11308,19 +11318,39 @@ export interface AccordionBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogPreviewBlock_select".
+ */
+export interface BlogPreviewBlockSelect<T extends boolean = true> {
+  title?: T;
+  source?: T;
+  category?: T;
+  limit?: T;
+  layout?: T;
+  showExcerpt?: T;
+  showDate?: T;
+  showAuthor?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "InfoBoxBlock_select".
  */
 export interface InfoBoxBlockSelect<T extends boolean = true> {
-  variant?: T;
-  icon?: T;
   title?: T;
-  description?: T;
+  content?: T;
+  link?: T;
+  linkLabel?: T;
+  variant?: T;
   dismissible?: T;
-  persistent?: T;
-  storageKey?: T;
-  maxWidth?: T;
-  marginTop?: T;
-  marginBottom?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -11378,16 +11408,15 @@ export interface ImageGalleryBlockSelect<T extends boolean = true> {
  * via the `definition` "VideoBlock_select".
  */
 export interface VideoBlockSelect<T extends boolean = true> {
+  videoUrl?: T;
   title?: T;
-  source?: T;
-  aspectRatio?: T;
-  youtubeUrl?: T;
-  vimeoUrl?: T;
-  videoFile?: T;
-  posterImage?: T;
   caption?: T;
+  size?: T;
   autoplay?: T;
-  controls?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }
@@ -11396,11 +11425,15 @@ export interface VideoBlockSelect<T extends boolean = true> {
  * via the `definition` "CodeBlock_select".
  */
 export interface CodeBlockSelect<T extends boolean = true> {
-  language?: T;
-  showLineNumbers?: T;
-  filename?: T;
   code?: T;
-  caption?: T;
+  language?: T;
+  filename?: T;
+  showLineNumbers?: T;
+  showCopyButton?: T;
+  enableAnimation?: T;
+  animationType?: T;
+  animationDuration?: T;
+  animationDelay?: T;
   id?: T;
   blockName?: T;
 }

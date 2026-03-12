@@ -45,7 +45,6 @@ export const Newsletter: Block = {
               name: 'form',
               type: 'relationship',
               relationTo: 'forms',
-              required: true,
               label: 'Formulier',
               admin: {
                 description: 'Selecteer het nieuwsbrief-formulier',

@@ -9,7 +9,7 @@ import { animationFields } from '../_shared/animationFields'
  * Optional dismiss button (requires client component).
  */
 export const InfoBox: Block = {
-  slug: 'infoBox',
+  slug: 'infobox',
   interfaceName: 'InfoBoxBlock',
   labels: {
     singular: 'InfoBox',

@@ -8,7 +8,7 @@ import type { BlockAnimationProps } from '../_shared/types'
  */
 export interface CTABlockProps extends CTABlock, BlockAnimationProps {}
 
-export type CTAVariant = 'centered' | 'split' | 'banner'
+export type CTAVariant = 'centered' | 'split' | 'banner' | 'full-width'
 export type CTABackgroundStyle = 'gradient' | 'solid' | 'image'
 export type CTAButtonStyle = 'primary' | 'secondary' | 'ghost'
 export type CTASize = 'small' | 'medium' | 'large'
