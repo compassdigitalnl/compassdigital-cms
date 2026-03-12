@@ -8,15 +8,7 @@ import { RenderBlocks } from '@/branches/shared/blocks/RenderBlocks'
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata() {
-  if (isFeatureEnabled('hospitality')) {
-    return {
-      title: 'Contact & Afspraak — FysioVitaal',
-      description:
-        'Maak direct een afspraak of neem contact op. Geen verwijzing nodig — directe toegang fysiotherapie.',
-    }
-  }
-
-  // Fallback: CMS page metadata
+  // CMS page metadata first
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: 'pages',
@@ -36,7 +28,26 @@ export async function generateMetadata() {
 }
 
 export default async function ContactPage() {
-  // Hospitality mode: show the hardcoded FysioVitaal contact page
+  // Always try CMS page first — allows each site to define its own contact page
+  {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'pages',
+      where: { slug: { equals: 'contact' } },
+      limit: 1,
+      depth: 2,
+    })
+    if (docs && docs.length > 0) {
+      const page = docs[0]
+      return (
+        <article className="pt-16 pb-24">
+          <RenderBlocks blocks={page.layout || []} />
+        </article>
+      )
+    }
+  }
+
+  // Hospitality fallback: show the hardcoded FysioVitaal contact page
   if (isFeatureEnabled('hospitality')) {
     return (
       <div className="min-h-screen bg-gray-50">
@@ -567,20 +578,6 @@ export default async function ContactPage() {
     )
   }
 
-  // Non-hospitality: try to render the CMS page with slug "contact"
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'pages',
-    where: { slug: { equals: 'contact' } },
-    limit: 1,
-  })
-
-  if (!docs || docs.length === 0) notFound()
-
-  const page = docs[0]
-  return (
-    <article>
-      <RenderBlocks blocks={page.layout || []} />
-    </article>
-  )
+  // No CMS page and no hospitality feature — 404
+  notFound()
 }
