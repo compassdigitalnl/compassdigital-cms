@@ -577,6 +577,12 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     partners: 'partners',
     services: 'services',
 
+    // === PROFESSIONAL SERVICES ===
+    'professional-services': 'services',
+    'professional-cases': 'services',
+    'professional-reviews': 'services',
+    'consultation-requests': 'services',
+
     // === INDUSTRY BRANCHES ===
     'construction-services': 'construction',
     'construction-projects': 'construction',

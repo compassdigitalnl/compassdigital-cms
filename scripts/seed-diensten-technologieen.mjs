@@ -655,6 +655,78 @@ async function seed() {
     console.log(`  Skipping project→service links: ${err.message}`)
   }
 
+  // ─── Navigation Menu Items ──────────────────────────────────────
+  console.log('\n=== Updating navigation menu ===')
+
+  try {
+    // Get the header global _parent_id
+    const { rows: headerRows } = await client.query(
+      "SELECT id FROM header LIMIT 1"
+    )
+
+    if (headerRows.length > 0) {
+      const headerId = headerRows[0].id
+
+      // Check existing nav items
+      const { rows: existingNav } = await client.query(
+        'SELECT id, label, _order, url, type FROM header_manual_nav_items WHERE _parent_id = $1 ORDER BY _order',
+        [headerId]
+      )
+      console.log('Existing nav items:', existingNav.map(n => `${n._order}:${n.label}`).join(', '))
+
+      // Check if Diensten and Technologieën already exist
+      const hasDiensten = existingNav.some(n => n.label === 'Diensten')
+      const hasTech = existingNav.some(n => n.label === 'Technologieën')
+
+      if (!hasDiensten || !hasTech) {
+        // Shift existing items with _order >= 3 to make room
+        // Current: 1:Branches, 2:Cases, 3:Over ons, 4:Blog, 5:Contact
+        // Target:  1:Branches, 2:Cases, 3:Diensten, 4:Technologieën, 5:Over ons, 6:Blog, 7:Contact
+
+        let itemsToInsert = 0
+        if (!hasDiensten) itemsToInsert++
+        if (!hasTech) itemsToInsert++
+
+        // Shift existing items down
+        await client.query(
+          'UPDATE header_manual_nav_items SET _order = _order + $1 WHERE _parent_id = $2 AND _order >= 3',
+          [itemsToInsert, headerId]
+        )
+        console.log(`  Shifted ${itemsToInsert} positions for items >= order 3`)
+
+        let insertOrder = 3
+        if (!hasDiensten) {
+          await client.query(
+            `INSERT INTO header_manual_nav_items (_order, _parent_id, id, label, icon, type, url) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+            [insertOrder++, headerId, `nav-diensten-${Date.now()}`, 'Diensten', null, 'link', '/diensten']
+          )
+          console.log('  Added Diensten nav item')
+        }
+
+        if (!hasTech) {
+          await client.query(
+            `INSERT INTO header_manual_nav_items (_order, _parent_id, id, label, icon, type, url) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+            [insertOrder++, headerId, `nav-tech-${Date.now()}`, 'Technologieën', null, 'link', '/technologieen']
+          )
+          console.log('  Added Technologieën nav item')
+        }
+
+        // Verify final order
+        const { rows: finalNav } = await client.query(
+          'SELECT label, _order, url FROM header_manual_nav_items WHERE _parent_id = $1 ORDER BY _order',
+          [headerId]
+        )
+        console.log('Final nav order:', finalNav.map(n => `${n._order}:${n.label}`).join(', '))
+      } else {
+        console.log('  Diensten and Technologieën already in nav, skipping')
+      }
+    } else {
+      console.log('  No header global found, skipping nav update')
+    }
+  } catch (err) {
+    console.log(`  Nav update failed: ${err.message}`)
+  }
+
   await client.end()
   console.log('\n✅ Diensten seed completed!')
 }

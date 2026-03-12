@@ -119,6 +119,12 @@ import { Clients } from '@/features/platform/collections/Clients'
 import { ClientRequests } from '@/features/platform/collections/ClientRequests'
 import { Deployments } from '@/features/platform/collections/Deployments'
 
+// Professional Services Branch (4 collections)
+import { ProfessionalServices } from '@/branches/professional-services/collections/ProfessionalServices'
+import { ProfessionalCases } from '@/branches/professional-services/collections/ProfessionalCases'
+import { ProfessionalReviews } from '@/branches/professional-services/collections/ProfessionalReviews'
+import { ConsultationRequests } from '@/branches/professional-services/collections/ConsultationRequests'
+
 // Construction Branch (4 collections - Sprint 2)
 import { ConstructionServices } from '@/branches/construction/collections/ConstructionServices'
 import { ConstructionProjects } from '@/branches/construction/collections/ConstructionProjects'
@@ -452,6 +458,14 @@ export default buildConfig({
     _col(BlogCategories),
     _col(Cases),
     _col(Testimonials),
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // PROFESSIONAL SERVICES BRANCH - Diensten, Cases, Reviews, Consultations
+    // ═══════════════════════════════════════════════════════════════════════════
+    _col(ProfessionalServices),
+    _col(ProfessionalCases),
+    _col(ProfessionalReviews),
+    _col(ConsultationRequests),
 
     // ═══════════════════════════════════════════════════════════════════════════
     // MARKETPLACE BRANCH - Vendors, Workshops, Reviews
