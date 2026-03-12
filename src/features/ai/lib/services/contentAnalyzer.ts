@@ -3,7 +3,7 @@
  * AI-powered content analysis and improvement suggestions
  */
 
-import { openai } from '../client'
+import { getOpenAI } from '../client'
 import type {
   AIGenerationResult,
   ReadabilityAnalysis,
@@ -63,7 +63,7 @@ ${content}
 
 Geef een gedetailleerde leesbaarheidsanalyse.`
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: this.model,
         messages: [
           { role: 'system', content: systemPrompt },
@@ -137,7 +137,7 @@ ${content}
 
 Geef een gedetailleerde toonanalyse.`
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: this.model,
         messages: [
           { role: 'system', content: systemPrompt },
@@ -216,7 +216,7 @@ ${content}
 
 Geef een gedetailleerde analyse met alle gevonden problemen.`
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: this.model,
         messages: [
           { role: 'system', content: systemPrompt },
@@ -307,7 +307,7 @@ ${content}
 
 Geef een gedetailleerde structuuranalyse.`
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: this.model,
         messages: [
           { role: 'system', content: systemPrompt },
@@ -389,7 +389,7 @@ ${content}${focusText}
 
 Geef prioriteit aan de belangrijkste verbeteringen.`
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: this.model,
         messages: [
           { role: 'system', content: systemPrompt },
@@ -464,7 +464,7 @@ ${content}
 
 Geef een gedetailleerde sentimentanalyse.`
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: this.model,
         messages: [
           { role: 'system', content: systemPrompt },

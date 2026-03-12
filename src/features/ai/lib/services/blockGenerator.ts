@@ -3,7 +3,7 @@
  * AI service for generating complete block content
  */
 
-import { openai } from '../client'
+import { getOpenAI } from '../client'
 import { aiLogger } from '../logger'
 import { AIGenerationError, AIConfigurationError } from '../errors'
 import type { AIGenerationResult } from '../types'
@@ -347,7 +347,7 @@ export class BlockGeneratorService {
         { options },
       )
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: process.env.AI_MODEL || 'gpt-4-turbo-preview',
         messages: [
           {
@@ -447,7 +447,7 @@ export class BlockGeneratorService {
         throw new AIConfigurationError('OpenAI client is not configured')
       }
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: process.env.AI_MODEL || 'gpt-4-turbo-preview',
         messages: [
           {

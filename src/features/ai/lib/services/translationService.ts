@@ -3,7 +3,7 @@
  * AI-powered translation and multi-language content generation
  */
 
-import { openai } from '../client'
+import { getOpenAI } from '../client'
 import type {
   AIGenerationResult,
   ContentLanguage,
@@ -66,7 +66,7 @@ Antwoord ALLEEN met valide JSON in dit formaat:
         ? `Vertaal deze tekst naar ${this.LANGUAGES[targetLanguage]?.nativeName || targetLanguage}:\n\n${content}`
         : `Vertaal deze ${this.LANGUAGES[sourceLanguage as ContentLanguage]?.nativeName || sourceLanguage} tekst naar ${this.LANGUAGES[targetLanguage]?.nativeName || targetLanguage}:\n\n${content}`
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: this.model,
         messages: [
           { role: 'system', content: systemPrompt },
@@ -122,7 +122,7 @@ Antwoord ALLEEN met valide JSON in dit formaat:
 
       const userPrompt = `Detecteer de taal van deze tekst:\n\n${content.substring(0, 500)}` // First 500 chars is enough
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: this.model,
         messages: [
           { role: 'system', content: systemPrompt },
@@ -240,7 +240,7 @@ Gebruik:
         ? `Context: ${options.context}\n\nSchrijf in ${this.LANGUAGES[targetLanguage]?.nativeName || targetLanguage}: ${prompt}`
         : `Schrijf in ${this.LANGUAGES[targetLanguage]?.nativeName || targetLanguage}: ${prompt}`
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: this.model,
         messages: [
           { role: 'system', content: systemPrompt },
@@ -311,7 +311,7 @@ Antwoord ALLEEN met valide JSON in dit formaat:
 
       const userPrompt = `Lokaliseer deze content voor ${this.LANGUAGES[targetLanguage]?.nativeName || targetLanguage} in ${region}:\n\n${content}`
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: this.model,
         messages: [
           { role: 'system', content: systemPrompt },
@@ -379,7 +379,7 @@ Antwoord ALLEEN met valide JSON in dit formaat:
 
       const userPrompt = `Origineel:\n${original}\n\n---\n\nVertalingen:\n${translationsText}\n\nBeoordeel elke vertaling.`
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: this.model,
         messages: [
           { role: 'system', content: systemPrompt },

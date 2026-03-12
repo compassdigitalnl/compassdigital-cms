@@ -62,5 +62,5 @@ export const aiClient = new AIClient()
 // Export client getter for convenience
 export const getAIClient = () => aiClient.getClient()
 
-// Export openai instance (lazy-loaded) for backward compatibility
-export const openai = aiClient.getClient()
+// Export openai getter for backward compatibility (lazy — avoids crash when key is missing)
+export const getOpenAI = () => aiClient.getClient()

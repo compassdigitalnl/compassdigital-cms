@@ -3,7 +3,7 @@
  * AI service for SEO analysis, optimization, and meta tag generation
  */
 
-import { openai } from '../client'
+import { getOpenAI } from '../client'
 import { aiLogger } from '../logger'
 import { AIGenerationError, AIConfigurationError } from '../errors'
 import type { AIGenerationResult } from '../types'
@@ -147,7 +147,7 @@ export class SEOOptimizerService {
         contentLength: options.content.length
       })
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: process.env.AI_MODEL || 'gpt-4-turbo-preview',
         messages: [
           {
@@ -291,7 +291,7 @@ Antwoord ALLEEN met valide JSON in dit formaat:
 
       aiLogger.info('SEOOptimizer', 'Generating meta tags')
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: process.env.AI_MODEL || 'gpt-4-turbo-preview',
         messages: [
           {
@@ -369,7 +369,7 @@ Antwoord ALLEEN met valide JSON:
 
       aiLogger.info('SEOOptimizer', 'Researching keywords', { topic: options.topic })
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: process.env.AI_MODEL || 'gpt-4-turbo-preview',
         messages: [
           {
@@ -458,7 +458,7 @@ Antwoord ALLEEN met valide JSON:
 
       aiLogger.info('SEOOptimizer', 'Generating schema markup', { type: options.type })
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: process.env.AI_MODEL || 'gpt-4-turbo-preview',
         messages: [
           {
@@ -516,7 +516,7 @@ Antwoord met valide schema.org JSON-LD markup.`,
         throw new AIConfigurationError('OpenAI client is not configured')
       }
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: process.env.AI_MODEL || 'gpt-4-turbo-preview',
         messages: [
           {

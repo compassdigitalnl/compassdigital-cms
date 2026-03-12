@@ -3,7 +3,7 @@
  * AI service for generating complete pages with multiple blocks
  */
 
-import { openai } from '../client'
+import { getOpenAI } from '../client'
 import { aiLogger } from '../logger'
 import { AIGenerationError, AIConfigurationError } from '../errors'
 import type { AIGenerationResult } from '../types'
@@ -220,7 +220,7 @@ export class PageGeneratorService {
         throw new AIConfigurationError('OpenAI client is not configured')
       }
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: process.env.AI_MODEL || 'gpt-4-turbo-preview',
         messages: [
           {
@@ -358,7 +358,7 @@ Antwoord met JSON:
         throw new AIConfigurationError('OpenAI client is not configured')
       }
 
-      const completion = await openai.chat.completions.create({
+      const completion = await getOpenAI().chat.completions.create({
         model: process.env.AI_MODEL || 'gpt-4-turbo-preview',
         messages: [
           {
