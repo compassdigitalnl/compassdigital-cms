@@ -216,6 +216,19 @@ export const Projects: CollectionConfig = {
                 { name: 'icon', type: 'text', label: 'Icon (Lucide naam)', admin: { placeholder: 'Search, Code2, Rocket...' } },
               ],
             },
+            {
+              name: 'processSteps',
+              type: 'array',
+              label: 'Processtappen',
+              admin: {
+                description: 'Stappen in het werkproces (bijv. "Analyse → Design → Development → Lancering")',
+              },
+              fields: [
+                { name: 'title', type: 'text', required: true, label: 'Stap' },
+                { name: 'description', type: 'textarea', label: 'Beschrijving' },
+                { name: 'icon', type: 'text', label: 'Icon (Lucide naam)', admin: { placeholder: 'Search, Palette, Code2, Rocket...' } },
+              ],
+            },
             // Construction-specific
             {
               name: 'size',
@@ -269,6 +282,31 @@ export const Projects: CollectionConfig = {
               type: 'richText',
               label: 'Resultaat',
               admin: { description: 'Wat is het eindresultaat?' },
+            },
+          ],
+        },
+        {
+          label: 'Extra',
+          fields: [
+            {
+              name: 'videoUrl',
+              type: 'text',
+              label: 'Video URL',
+              admin: {
+                description: 'YouTube of Vimeo embed URL (bijv. "https://www.youtube.com/embed/abc123")',
+              },
+            },
+            {
+              name: 'faq',
+              type: 'array',
+              label: 'Veelgestelde vragen',
+              admin: {
+                description: 'FAQ items over dit project',
+              },
+              fields: [
+                { name: 'question', type: 'text', required: true, label: 'Vraag' },
+                { name: 'answer', type: 'textarea', required: true, label: 'Antwoord' },
+              ],
             },
           ],
         },

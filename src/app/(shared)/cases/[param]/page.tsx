@@ -275,6 +275,9 @@ async function ProjectCaseDetail({ slug }: { slug: string }) {
   const metrics = Array.isArray(project.metrics) ? project.metrics : []
   const timeline = Array.isArray(project.timeline) ? project.timeline : []
   const features = Array.isArray(project.features) ? project.features : []
+  const processSteps = Array.isArray(project.processSteps) ? project.processSteps : []
+  const faq = Array.isArray(project.faq) ? project.faq : []
+  const videoUrl = project.videoUrl || null
 
   const specs: { label: string; value: string }[] = []
   if (project.client) specs.push({ label: 'Klant', value: project.client })
@@ -374,6 +377,28 @@ async function ProjectCaseDetail({ slug }: { slug: string }) {
             {technologies.length > 0 && <TechStack technologies={technologies} title="Technologie Stack" variant="cards" />}
             {timeline.length > 0 && <ProjectTimeline phases={timeline} title="Project Timeline" />}
 
+            {processSteps.length > 0 && (
+              <div>
+                <h2 className="mb-6 font-display text-xl text-navy">Ons werkproces</h2>
+                <div className="relative space-y-0">
+                  {processSteps.map((step: any, i: number) => (
+                    <div key={i} className="relative flex gap-4 pb-8 last:pb-0">
+                      {i < processSteps.length - 1 && (
+                        <div className="absolute left-5 top-10 h-full w-px bg-grey" />
+                      )}
+                      <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-teal text-sm font-bold text-white">
+                        {i + 1}
+                      </div>
+                      <div className="pt-1.5">
+                        <p className="text-sm font-semibold text-navy">{step.title}</p>
+                        {step.description && <p className="mt-1 text-sm text-grey-dark">{step.description}</p>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {testimonial?.quote && (
               <div className="rounded-xl border border-teal/20 bg-teal/5 p-6">
                 <div className="mb-3 flex gap-0.5">
@@ -394,6 +419,40 @@ async function ProjectCaseDetail({ slug }: { slug: string }) {
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
                   {gallery.map((img: any, i: number) => (
                     <div key={i} className="relative aspect-[4/3] overflow-hidden rounded-xl"><Image src={img.url} alt={img.alt || ''} fill className="object-cover" sizes="33vw" /></div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {videoUrl && (
+              <div>
+                <h2 className="mb-4 font-display text-xl text-navy">Video</h2>
+                <div className="relative aspect-video overflow-hidden rounded-xl">
+                  <iframe
+                    src={videoUrl}
+                    className="absolute inset-0 h-full w-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title={`${project.title} - Video`}
+                  />
+                </div>
+              </div>
+            )}
+
+            {faq.length > 0 && (
+              <div>
+                <h2 className="mb-4 font-display text-xl text-navy">Veelgestelde vragen</h2>
+                <div className="divide-y divide-grey rounded-xl border border-grey">
+                  {faq.map((item: any, i: number) => (
+                    <details key={i} className="group">
+                      <summary className="flex cursor-pointer items-center justify-between px-5 py-4 text-sm font-semibold text-navy transition-colors hover:bg-grey-light/50">
+                        {item.question}
+                        <svg className="h-4 w-4 shrink-0 text-grey-dark transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                      </summary>
+                      <div className="border-t border-grey bg-grey-light/30 px-5 py-4 text-sm leading-relaxed text-grey-dark">
+                        {item.answer}
+                      </div>
+                    </details>
                   ))}
                 </div>
               </div>
