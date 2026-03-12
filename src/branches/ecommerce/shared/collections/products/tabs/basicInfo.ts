@@ -19,6 +19,11 @@ export const basicInfoTab: Tab = {
       type: 'text',
       required: true,
       label: 'Product Naam',
+      admin: {
+        components: {
+          Field: '@/branches/shared/components/admin/fields/AITextField#AITextField',
+        },
+      },
     },
     {
       name: 'slug',
@@ -91,6 +96,9 @@ export const basicInfoTab: Tab = {
       maxLength: 200,
       admin: {
         description: 'Max 200 karakters, gebruikt in productlijsten',
+        components: {
+          Field: '@/branches/shared/components/admin/fields/AITextareaField#AITextareaField',
+        },
       },
     },
     {

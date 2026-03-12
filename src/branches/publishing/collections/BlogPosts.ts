@@ -59,6 +59,9 @@ export const BlogPosts: CollectionConfig = {
       label: 'Titel',
       admin: {
         placeholder: 'De complete gids voor medische handschoenen',
+        components: {
+          Field: '@/branches/shared/components/admin/fields/AITextField#AITextField',
+        },
       },
     },
     {
@@ -83,6 +86,9 @@ export const BlogPosts: CollectionConfig = {
       admin: {
         description: 'Korte samenvatting (max 160 tekens) - getoond in overzichten en intro paragraph',
         rows: 3,
+        components: {
+          Field: '@/branches/shared/components/admin/fields/AITextareaField#AITextareaField',
+        },
       },
     },
 

@@ -106,6 +106,11 @@ export const Pages: CollectionConfig = {
       type: 'text',
       label: 'Paginatitel',
       required: true,
+      admin: {
+        components: {
+          Field: '@/branches/shared/components/admin/fields/AITextField#AITextField',
+        },
+      },
     },
     slugField(),
     {

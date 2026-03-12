@@ -226,6 +226,7 @@ export default buildConfig({
       afterNavLinks: [
         '@/features/analytics/components/admin/AnalyticsNavLinks#AnalyticsNavLinks',
         '@/features/stock-photos/components/admin/StockPhotosNavLink#StockPhotosNavLink',
+        '@/features/ai/components/admin/AIToolsNavLink#AIToolsNavLink',
       ],
       graphics: {
         Logo: '@/branches/shared/components/admin/AdminLogo#AdminLogo',
@@ -254,6 +255,22 @@ export default buildConfig({
           meta: {
             title: 'Stock Foto\'s',
             description: 'Zoek en importeer professionele foto\'s van Unsplash en Pexels',
+          },
+        },
+        aiStudio: {
+          Component: '@/features/ai/components/admin/AIStudioView#AIStudioView',
+          path: '/ai-studio',
+          meta: {
+            title: 'AI Studio',
+            description: 'Genereer, verbeter, optimaliseer en vertaal content met AI',
+          },
+        },
+        contentTemplates: {
+          Component: '@/features/ai/components/admin/ContentTemplatesView#ContentTemplatesView',
+          path: '/content-templates',
+          meta: {
+            title: 'Content Templates',
+            description: 'Kies een template en laat AI een complete pagina genereren',
           },
         },
       },
