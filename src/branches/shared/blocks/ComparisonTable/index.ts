@@ -10,6 +10,7 @@ import { animationFields } from '../_shared/animationFields'
  */
 export const CompetitorComparison: Block = {
   slug: 'competitorComparison',
+  dbName: 'comp_compare',
   interfaceName: 'CompetitorComparisonBlock',
   labels: {
     singular: 'Vergelijkingstabel',
@@ -97,6 +98,7 @@ export const CompetitorComparison: Block = {
                 {
                   name: 'competitorValues',
                   type: 'array',
+                  dbName: 'comp_vals',
                   label: 'Concurrent waarden',
                   fields: [
                     {
