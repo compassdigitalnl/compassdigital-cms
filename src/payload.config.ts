@@ -225,6 +225,7 @@ export default buildConfig({
       ],
       afterNavLinks: [
         '@/features/analytics/components/admin/AnalyticsNavLinks#AnalyticsNavLinks',
+        '@/features/stock-photos/components/admin/StockPhotosNavLink#StockPhotosNavLink',
       ],
       graphics: {
         Logo: '@/branches/shared/components/admin/AdminLogo#AdminLogo',
@@ -245,6 +246,14 @@ export default buildConfig({
           meta: {
             title: 'Klantinzichten',
             description: 'RFM-analyse, segmentatie, CLV en churn-predictie',
+          },
+        },
+        stockPhotos: {
+          Component: '@/features/stock-photos/components/admin/StockPhotosView#StockPhotosView',
+          path: '/stock-photos',
+          meta: {
+            title: 'Stock Foto\'s',
+            description: 'Zoek en importeer professionele foto\'s van Unsplash en Pexels',
           },
         },
       },

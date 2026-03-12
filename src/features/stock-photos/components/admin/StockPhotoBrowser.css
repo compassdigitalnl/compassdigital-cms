@@ -1,0 +1,19 @@
+@keyframes stockphoto-loading {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(150%); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes stockphoto-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Hover effect for photo cards */
+.stock-photo-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.stock-photo-card:hover .stock-photo-overlay {
+  opacity: 1 !important;
+}
