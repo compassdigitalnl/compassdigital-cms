@@ -73,10 +73,10 @@ export async function POST(request: NextRequest) {
       },
       attribution: caption,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[StockPhotos] Download error:', error)
     return NextResponse.json(
-      { error: error.message || 'Failed to download photo' },
+      { error: 'Failed to download photo' },
       { status: 500 },
     )
   }

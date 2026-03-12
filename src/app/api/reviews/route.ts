@@ -113,10 +113,9 @@ export async function GET(request: NextRequest) {
       pagination: { page, limit, totalDocs, totalPages },
     })
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error)
     console.error('Error fetching reviews:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch reviews', message },
+      { error: 'Failed to fetch reviews' },
       { status: 500 },
     )
   }
@@ -266,10 +265,9 @@ export async function POST(request: NextRequest) {
             : 'Je review wordt beoordeeld en is binnenkort zichtbaar.',
     })
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error)
     console.error('Error submitting review:', error)
     return NextResponse.json(
-      { error: 'Failed to submit review', message },
+      { error: 'Failed to submit review' },
       { status: 500 },
     )
   }

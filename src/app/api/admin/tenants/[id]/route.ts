@@ -17,7 +17,7 @@ export async function GET(
   const { id } = await params;
   const client = new Client({
     connectionString: process.env.PLATFORM_DATABASE_URL || process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
+    ssl: { rejectUnauthorized: process.env.NODE_ENV === 'production' },
   })
 
   try {
@@ -72,7 +72,7 @@ export async function PATCH(
   const { id } = await params;
   const client = new Client({
     connectionString: process.env.PLATFORM_DATABASE_URL || process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
+    ssl: { rejectUnauthorized: process.env.NODE_ENV === 'production' },
   })
 
   try {
@@ -199,7 +199,7 @@ export async function DELETE(
   const { id } = await params;
   const client = new Client({
     connectionString: process.env.PLATFORM_DATABASE_URL || process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
+    ssl: { rejectUnauthorized: process.env.NODE_ENV === 'production' },
   })
 
   try {

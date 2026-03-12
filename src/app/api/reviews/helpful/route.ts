@@ -47,10 +47,9 @@ export async function POST(request: NextRequest) {
       helpfulNo: body.vote === 'no' ? (review.helpfulNo || 0) + 1 : review.helpfulNo || 0,
     })
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error)
     console.error('Error voting on review:', error)
     return NextResponse.json(
-      { error: 'Failed to vote', message },
+      { error: 'Failed to vote' },
       { status: 500 },
     )
   }

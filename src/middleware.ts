@@ -210,7 +210,7 @@ async function getTenant(subdomain: string): Promise<any | null | typeof CLIENT_
   // Query database
   const client = new Client({
     connectionString: databaseUrl,
-    ssl: { rejectUnauthorized: false },
+    ssl: { rejectUnauthorized: process.env.NODE_ENV === 'production' },
   })
 
   try {
@@ -395,7 +395,8 @@ export async function middleware(request: NextRequest) {
       response.cookies.set('x-tenant-disabled-collections', JSON.stringify(disabledCollections), {
         path: '/',
         sameSite: 'lax',
-        // maxAge: 5 minutes (to match cache TTL)
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 5 * 60,
       })
 
@@ -403,6 +404,8 @@ export async function middleware(request: NextRequest) {
       response.cookies.set('x-tenant-name', tenant.name || '', {
         path: '/',
         sameSite: 'lax',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 5 * 60,
       })
 

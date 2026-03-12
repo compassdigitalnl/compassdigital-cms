@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
   const client = new Client({
     connectionString: process.env.PLATFORM_DATABASE_URL || process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
+    ssl: { rejectUnauthorized: process.env.NODE_ENV === 'production' },
   })
 
   try {

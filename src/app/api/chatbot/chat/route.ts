@@ -84,46 +84,34 @@ export async function POST(req: NextRequest) {
       },
     })
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error)
+    const errMsg = error instanceof Error ? error.message : String(error)
     console.error('[Chatbot API] Error:', error)
 
     // Check for specific errors
-    if (message?.includes('not enabled')) {
+    if (errMsg?.includes('not enabled')) {
       return NextResponse.json(
-        {
-          error: 'Chatbot is disabled',
-          message,
-        },
+        { error: 'Chatbot is disabled' },
         { status: 403 },
       )
     }
 
-    if (message?.includes('API key')) {
+    if (errMsg?.includes('API key')) {
       return NextResponse.json(
-        {
-          error: 'AI service not configured',
-          message: 'Please configure GROQ_API_KEY or OPENAI_API_KEY',
-        },
+        { error: 'AI service not configured' },
         { status: 500 },
       )
     }
 
-    if (message?.includes('rate limit')) {
+    if (errMsg?.includes('rate limit')) {
       return NextResponse.json(
-        {
-          error: 'Rate limit exceeded',
-          message: 'Please try again in a few moments',
-        },
+        { error: 'Rate limit exceeded' },
         { status: 429 },
       )
     }
 
     // Generic error
     return NextResponse.json(
-      {
-        error: 'Failed to get chatbot response',
-        message: message || 'An unexpected error occurred',
-      },
+      { error: 'Failed to get chatbot response' },
       { status: 500 },
     )
   }

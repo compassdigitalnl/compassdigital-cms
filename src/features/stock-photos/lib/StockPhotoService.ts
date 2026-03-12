@@ -217,8 +217,22 @@ export class StockPhotoService {
       }
     }
 
-    // Download the actual image
+    // Download the actual image (with SSRF protection)
     const imageUrl = photo.fullUrl
+    const allowedHosts = [
+      'images.unsplash.com',
+      'unsplash.com',
+      'images.pexels.com',
+      'www.pexels.com',
+    ]
+    try {
+      const urlObj = new URL(imageUrl)
+      if (!allowedHosts.some((h) => urlObj.hostname === h || urlObj.hostname.endsWith(`.${h}`))) {
+        throw new Error('Image URL not from allowed source')
+      }
+    } catch (e) {
+      throw new Error('Invalid image URL')
+    }
     const response = await fetch(imageUrl)
     if (!response.ok) throw new Error(`Failed to download image: ${response.status}`)
 

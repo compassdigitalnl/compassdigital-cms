@@ -95,7 +95,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: 'Weak password',
-          message: 'Password must be at least 8 characters long',
+          message: 'Wachtwoord moet minimaal 8 tekens bevatten',
+        },
+        { status: 400 },
+      )
+    }
+    if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password)) {
+      return NextResponse.json(
+        {
+          error: 'Weak password',
+          message: 'Wachtwoord moet minimaal een hoofdletter, kleine letter en cijfer bevatten',
         },
         { status: 400 },
       )
@@ -141,12 +150,13 @@ export async function POST(request: NextRequest) {
     })
 
     if (existingUser.docs.length > 0) {
+      // Generic message to prevent email enumeration
       return NextResponse.json(
         {
-          error: 'User already exists',
-          message: 'Een account met dit e-mailadres bestaat al',
+          error: 'Registration failed',
+          message: 'Registratie kon niet worden voltooid. Probeer het opnieuw of neem contact op.',
         },
-        { status: 409 }, // 409 Conflict
+        { status: 400 },
       )
     }
 
@@ -227,7 +237,6 @@ export async function POST(request: NextRequest) {
         {
           error: 'Validation error',
           message: 'De ingevulde gegevens zijn niet correct',
-          details: (error as any).data || error.message,
         },
         { status: 400 },
       )

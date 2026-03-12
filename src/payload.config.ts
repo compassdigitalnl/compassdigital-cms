@@ -216,7 +216,24 @@ const databaseAdapter = isPostgreSQL
       push: false,
     })
 
+// ─── CORS Configuration ──────────────────────────────
+// Use CORS_ORIGIN env var if set, otherwise derive from NEXT_PUBLIC_SERVER_URL
+const corsOrigins: string[] = (() => {
+  const corsEnv = process.env.CORS_ORIGIN
+  if (corsEnv) {
+    return corsEnv.split(',').map((s) => s.trim()).filter(Boolean)
+  }
+  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL
+  if (serverUrl) {
+    return [serverUrl]
+  }
+  return []
+})()
+
 export default buildConfig({
+  // ─── CORS ──────────────────────────────────
+  cors: corsOrigins.length > 0 ? corsOrigins : undefined,
+
   // ─── Admin Panel ──────────────────────────
   admin: {
     components: {
