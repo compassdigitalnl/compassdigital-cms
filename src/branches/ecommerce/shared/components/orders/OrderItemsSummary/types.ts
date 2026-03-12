@@ -12,6 +12,24 @@ export interface OrderItem {
   imagePlaceholder?: string // Emoji or fallback (e.g., "🧤")
   metadata: OrderItemMetadata[] // Size, color, quantity, etc.
   price: number // Line total in cents (price × quantity)
+  // Special product type data
+  bookingData?: {
+    date?: string
+    time?: string
+    duration?: string
+    participants?: Array<{ category: string; count: number; price: number }>
+    addOns?: Array<{ label: string; price: number }>
+    summary?: string
+  }
+  personalizationData?: {
+    summary?: string
+    values?: Record<string, { fieldName: string; value: string | null }>
+    rushEnabled?: boolean
+  }
+  configurationData?: {
+    summary?: string
+    selections?: Record<string, { name: string; price: number }>
+  }
 }
 
 export interface OrderItemsSummaryProps {

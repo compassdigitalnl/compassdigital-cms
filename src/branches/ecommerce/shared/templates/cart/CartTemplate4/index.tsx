@@ -190,6 +190,11 @@ export default function CartTemplate4({ onCheckout }: CartTemplate4Props) {
                     quantity={item.quantity}
                     onQuantityChange={(newQty: number) => updateQuantity(item.id, newQty)}
                     onRemove={() => removeItem(item.id)}
+                    meta={{
+                      booking: item.booking,
+                      personalization: item.personalization,
+                      configuration: item.configuration,
+                    }}
                   />
                 </div>
               ))}

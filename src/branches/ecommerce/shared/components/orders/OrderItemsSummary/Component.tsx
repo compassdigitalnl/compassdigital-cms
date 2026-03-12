@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { Package, PackageX, ChevronDown, Hash } from 'lucide-react'
+import { Package, PackageX, ChevronDown, Hash, Calendar, Palette, Settings2 } from 'lucide-react'
 import { getIcon } from '@/utilities/getIcon'
 import type { OrderItemsSummaryProps } from './types'
 
@@ -130,6 +130,26 @@ export function OrderItemsSummary({
                   })}
                 </div>
               </div>
+
+              {/* Special product type data */}
+              {item.bookingData && (
+                <div className="order-item-special">
+                  <Calendar size={13} aria-hidden="true" />
+                  <span>{item.bookingData.summary || [item.bookingData.date, item.bookingData.time, item.bookingData.duration].filter(Boolean).join(' · ')}</span>
+                </div>
+              )}
+              {item.personalizationData && (
+                <div className="order-item-special">
+                  <Palette size={13} aria-hidden="true" />
+                  <span>{item.personalizationData.summary || 'Gepersonaliseerd'}</span>
+                </div>
+              )}
+              {item.configurationData && (
+                <div className="order-item-special">
+                  <Settings2 size={13} aria-hidden="true" />
+                  <span>{item.configurationData.summary || 'Geconfigureerd'}</span>
+                </div>
+              )}
 
               {/* Price */}
               <div className="order-item-price">{formatPrice(item.price)}</div>
@@ -282,6 +302,25 @@ export function OrderItemsSummary({
 
         .order-item-meta-item :global(svg) {
           opacity: 0.7;
+        }
+
+        /* Special product type data */
+        .order-item-special {
+          display: flex;
+          align-items: flex-start;
+          gap: 6px;
+          font-size: 12px;
+          color: var(--color-primary, var(--teal));
+          padding: 5px 10px;
+          background: var(--color-primary-glow, rgba(13, 79, 79, 0.05));
+          border-radius: 6px;
+          line-height: 1.4;
+          flex-basis: 100%;
+        }
+
+        .order-item-special :global(svg) {
+          flex-shrink: 0;
+          margin-top: 1px;
         }
 
         /* Price */

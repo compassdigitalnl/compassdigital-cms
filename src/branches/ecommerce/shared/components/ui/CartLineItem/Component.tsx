@@ -12,7 +12,7 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { Box, Ruler, CheckCircle, AlertTriangle, XCircle, ListPlus, Trash2 } from 'lucide-react'
+import { Box, Ruler, CheckCircle, AlertTriangle, XCircle, ListPlus, Trash2, Calendar, Palette, Settings2 } from 'lucide-react'
 import { QuantityStepper } from '@/branches/shared/components/ui'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 import type { CartLineItemProps, StockStatus } from './types'
@@ -23,6 +23,7 @@ export function CartLineItem({
   onQuantityChange,
   onRemove,
   onAddToList,
+  meta,
   className = '',
 }: CartLineItemProps) {
   const { displayPrice: applyPriceMode, formatPriceStr } = usePriceMode()
@@ -132,6 +133,30 @@ export function CartLineItem({
               <div className={`cart-line-item__stock ${getStockClassName(product.stockStatus)}`}>
                 <StockIcon />
                 {getStockText()}
+              </div>
+            )}
+
+            {/* Booking metadata */}
+            {meta?.booking && (
+              <div className="cart-line-item__special-meta">
+                <Calendar size={12} />
+                <span>{meta.booking.summary || [meta.booking.date, meta.booking.time, meta.booking.duration].filter(Boolean).join(' · ')}</span>
+              </div>
+            )}
+
+            {/* Personalization metadata */}
+            {meta?.personalization && (
+              <div className="cart-line-item__special-meta">
+                <Palette size={12} />
+                <span>{meta.personalization.summary || 'Gepersonaliseerd'}</span>
+              </div>
+            )}
+
+            {/* Configurator metadata */}
+            {meta?.configuration && (
+              <div className="cart-line-item__special-meta">
+                <Settings2 size={12} />
+                <span>{meta.configuration.summary || 'Geconfigureerd'}</span>
               </div>
             )}
           </div>
@@ -280,6 +305,25 @@ export function CartLineItem({
 
         .cart-line-item__stock--out {
           color: var(--coral);
+        }
+
+        /* Special product metadata */
+        .cart-line-item__special-meta {
+          display: flex;
+          align-items: flex-start;
+          gap: 6px;
+          font-size: 12px;
+          color: var(--color-primary, var(--teal));
+          margin-top: 6px;
+          padding: 6px 10px;
+          background: var(--color-primary-glow, rgba(13, 79, 79, 0.05));
+          border-radius: var(--radius-sm, 6px);
+          line-height: 1.4;
+        }
+
+        .cart-line-item__special-meta svg {
+          flex-shrink: 0;
+          margin-top: 1px;
         }
 
         /* Quantity Wrapper */

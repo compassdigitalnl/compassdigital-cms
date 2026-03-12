@@ -257,69 +257,83 @@ export async function seedBase(
   ])
 
   // ==========================================================================
-  // HEADER GLOBAL
+  // HEADER GLOBAL (only if not already configured)
   // ==========================================================================
-  payload.logger.info('   → Updating header...')
+  const existingHeader = await payload.findGlobal({ slug: 'header' }) as any
+  const headerHasNavItems = Array.isArray(existingHeader?.navItems) && existingHeader.navItems.length > 0
 
-  await payload.updateGlobal({
-    slug: 'header',
-    data: {
-      navItems: [
-        {
-          link: {
-            type: 'custom',
-            label: 'Home',
-            url: '/',
-          },
-        },
-        {
-          link: {
-            type: 'custom',
-            label: 'Contact',
-            url: '/contact',
-          },
-        },
-      ],
-    } as any,
-  })
+  if (!headerHasNavItems) {
+    payload.logger.info('   → Setting default header (no existing navigation found)...')
 
-  result.globals.push('header')
+    await payload.updateGlobal({
+      slug: 'header',
+      data: {
+        navItems: [
+          {
+            link: {
+              type: 'custom',
+              label: 'Home',
+              url: '/',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'Contact',
+              url: '/contact',
+            },
+          },
+        ],
+      } as any,
+    })
+
+    result.globals.push('header')
+  } else {
+    payload.logger.info('   → Header already configured, skipping (has ' + existingHeader.navItems.length + ' nav items)')
+  }
 
   // ==========================================================================
-  // FOOTER GLOBAL
+  // FOOTER GLOBAL (only if not already configured)
   // ==========================================================================
-  payload.logger.info('   → Updating footer...')
+  const existingFooter = await payload.findGlobal({ slug: 'footer' }) as any
+  const footerHasNavItems = Array.isArray(existingFooter?.navItems) && existingFooter.navItems.length > 0
 
-  await payload.updateGlobal({
-    slug: 'footer',
-    data: {
-      navItems: [
-        {
-          link: {
-            type: 'custom',
-            label: 'Admin',
-            url: '/admin',
-          },
-        },
-        {
-          link: {
-            type: 'custom',
-            label: 'Privacy Policy',
-            url: '/privacy',
-          },
-        },
-        {
-          link: {
-            type: 'custom',
-            label: companyName,
-            url: '/',
-          },
-        },
-      ],
-    } as any,
-  })
+  if (!footerHasNavItems) {
+    payload.logger.info('   → Setting default footer (no existing navigation found)...')
 
-  result.globals.push('footer')
+    await payload.updateGlobal({
+      slug: 'footer',
+      data: {
+        navItems: [
+          {
+            link: {
+              type: 'custom',
+              label: 'Admin',
+              url: '/admin',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'Privacy Policy',
+              url: '/privacy',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: companyName,
+              url: '/',
+            },
+          },
+        ],
+      } as any,
+    })
+
+    result.globals.push('footer')
+  } else {
+    payload.logger.info('   → Footer already configured, skipping (has ' + existingFooter.navItems.length + ' nav items)')
+  }
 
   return result
 }

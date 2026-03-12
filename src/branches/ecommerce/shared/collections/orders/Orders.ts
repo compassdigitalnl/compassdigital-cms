@@ -201,6 +201,34 @@ export const Orders: CollectionConfig = {
             ],
           },
         },
+        // Special product type data (JSON stored as text)
+        {
+          name: 'bookingData',
+          type: 'json',
+          label: 'Boekingsgegevens',
+          admin: {
+            description: 'Datum, tijd, deelnemers en add-ons voor bookable producten',
+            condition: (_data, siblingData) => !!siblingData?.bookingData,
+          },
+        },
+        {
+          name: 'personalizationData',
+          type: 'json',
+          label: 'Personalisatiegegevens',
+          admin: {
+            description: 'Gekozen personalisaties (tekst, kleur, lettertype, afbeelding)',
+            condition: (_data, siblingData) => !!siblingData?.personalizationData,
+          },
+        },
+        {
+          name: 'configurationData',
+          type: 'json',
+          label: 'Configuratiegegevens',
+          admin: {
+            description: 'Gekozen configuratiestappen',
+            condition: (_data, siblingData) => !!siblingData?.configurationData,
+          },
+        },
       ],
     },
     // Pricing

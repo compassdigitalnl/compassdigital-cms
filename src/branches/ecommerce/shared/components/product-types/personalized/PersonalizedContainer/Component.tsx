@@ -245,19 +245,23 @@ export function PersonalizedContainer({ product, className = '' }: PersonalizedC
         )
       })}
 
-      {/* Live preview */}
-      <PersonalizationLivePreview
-        product={product}
-        personalization={values}
-      />
+      {/* Live preview (optioneel per product) */}
+      {config.showLivePreview !== false && (
+        <PersonalizationLivePreview
+          product={product}
+          personalization={values}
+        />
+      )}
 
-      {/* Production time */}
-      <PersonalizationProductionTime
-        baseProductionDays={Number(config.baseProductionDays) || 5}
-        personalizationDays={extraProductionDays}
-        rushAvailable={config.rushAvailable === true}
-        onRushToggle={setRushEnabled}
-      />
+      {/* Production time (optioneel per product) */}
+      {config.showProductionTime !== false && (
+        <PersonalizationProductionTime
+          baseProductionDays={Number(config.baseProductionDays) || 5}
+          personalizationDays={extraProductionDays}
+          rushAvailable={config.rushAvailable === true}
+          onRushToggle={setRushEnabled}
+        />
+      )}
 
       {/* Summary */}
       <PersonalizationSummaryCard

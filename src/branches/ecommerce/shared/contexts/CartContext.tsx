@@ -20,6 +20,29 @@ export interface CartItem {
   maxOrderQuantity?: number // NEW: B2B max quantity
   backordersAllowed?: boolean // Backorder support
   taxClass?: 'standard' | 'reduced' | 'zero'
+  // Special product type data
+  booking?: {
+    date?: string
+    time?: string
+    duration?: string
+    participants?: Array<{ category: string; count: number; price: number }>
+    addOns?: Array<{ label: string; price: number }>
+    totalPrice?: number
+    summary?: string
+  }
+  personalization?: {
+    values?: Record<string, { fieldName: string; value: string | null }>
+    personalizationCost?: number
+    rushEnabled?: boolean
+    rushFee?: number
+    totalPrice?: number
+    summary?: string
+  }
+  configuration?: {
+    selections?: Record<string, { name: string; price: number }>
+    totalPrice?: number
+    summary?: string
+  }
 }
 
 interface CartContextType {

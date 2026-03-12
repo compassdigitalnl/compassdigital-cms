@@ -617,6 +617,15 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                       <div className="t4-order-item__info">
                         <p className="t4-order-item__name">{item.title}</p>
                         <p className="t4-order-item__qty">{item.quantity}x €{formatPriceStr(item.unitPrice ?? item.price, item.taxClass as any)}</p>
+                        {item.booking?.summary && (
+                          <p className="t4-order-item__meta">{item.booking.summary}</p>
+                        )}
+                        {item.personalization?.summary && (
+                          <p className="t4-order-item__meta">{item.personalization.summary}</p>
+                        )}
+                        {item.configuration?.summary && (
+                          <p className="t4-order-item__meta">{item.configuration.summary}</p>
+                        )}
                       </div>
                       <span className="t4-order-item__total">
                         €{formatPriceStr((item.unitPrice ?? item.price) * item.quantity, item.taxClass as any)}
@@ -826,6 +835,12 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
         .t4-order-item__qty {
           font-size: 12px;
           color: var(--grey-mid);
+        }
+        .t4-order-item__meta {
+          font-size: 11px;
+          color: var(--color-primary, var(--teal));
+          margin-top: 2px;
+          line-height: 1.3;
         }
         .t4-order-item__total {
           font-size: var(--text-small);

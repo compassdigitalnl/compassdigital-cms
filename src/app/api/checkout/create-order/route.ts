@@ -207,7 +207,7 @@ export async function POST(request: NextRequest) {
             : (product as any).price || 0)
         : cartItem.unitPrice || 0
 
-      return {
+      const item: Record<string, unknown> = {
         product: productId,
         quantity: cartItem.quantity || 1,
         price: serverPrice,
@@ -216,6 +216,14 @@ export async function POST(request: NextRequest) {
         sku: product?.sku || undefined,
         ean: product?.ean || undefined,
       }
+
+      // Preserve special product type data
+      const ci = cartItem as any
+      if (ci.bookingData) item.bookingData = ci.bookingData
+      if (ci.personalizationData) item.personalizationData = ci.personalizationData
+      if (ci.configurationData) item.configurationData = ci.configurationData
+
+      return item
     })
 
     // ========================================

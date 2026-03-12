@@ -187,6 +187,31 @@ export const Carts: CollectionConfig = {
             description: 'Klant notities (bijv. gravure tekst, kleurwensen)',
           },
         },
+        // Special product type data
+        {
+          name: 'bookingData',
+          type: 'json',
+          label: 'Boekingsgegevens',
+          admin: {
+            condition: (_data, siblingData) => !!siblingData?.bookingData,
+          },
+        },
+        {
+          name: 'personalizationData',
+          type: 'json',
+          label: 'Personalisatiegegevens',
+          admin: {
+            condition: (_data, siblingData) => !!siblingData?.personalizationData,
+          },
+        },
+        {
+          name: 'configurationData',
+          type: 'json',
+          label: 'Configuratiegegevens',
+          admin: {
+            condition: (_data, siblingData) => !!siblingData?.configurationData,
+          },
+        },
         {
           name: 'addedAt',
           type: 'date',

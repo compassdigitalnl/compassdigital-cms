@@ -65,8 +65,15 @@ export const personalizedProductTabs: Tab[] = featureTab('personalizedProducts',
         {
           type: 'row',
           fields: [
-            { name: 'baseProductionDays', type: 'number', min: 0, defaultValue: 5, label: 'Basis Productiedagen', admin: { width: '33%', description: 'Standaard productietijd in werkdagen' } },
-            { name: 'rushAvailable', type: 'checkbox', defaultValue: false, label: 'Spoedlevering Mogelijk', admin: { width: '33%', description: '50% snellere productie tegen meerprijs' } },
+            { name: 'showLivePreview', type: 'checkbox', defaultValue: true, label: 'Live Preview Tonen', admin: { width: '50%', description: 'Toon live preview van de personalisatie op de productpagina' } },
+            { name: 'showProductionTime', type: 'checkbox', defaultValue: true, label: 'Productietijd Tonen', admin: { width: '50%', description: 'Toon geschatte productietijd op de productpagina' } },
+          ],
+        },
+        {
+          type: 'row',
+          fields: [
+            { name: 'baseProductionDays', type: 'number', min: 0, defaultValue: 5, label: 'Basis Productiedagen', admin: { width: '33%', description: 'Standaard productietijd in werkdagen', condition: (_data: any, siblingData: any) => siblingData?.showProductionTime !== false } },
+            { name: 'rushAvailable', type: 'checkbox', defaultValue: false, label: 'Spoedlevering Mogelijk', admin: { width: '33%', description: '50% snellere productie tegen meerprijs', condition: (_data: any, siblingData: any) => siblingData?.showProductionTime !== false } },
             {
               name: 'rushFee',
               type: 'number',
@@ -75,7 +82,7 @@ export const personalizedProductTabs: Tab[] = featureTab('personalizedProducts',
               admin: {
                 step: 0.01,
                 width: '34%',
-                condition: (_data: any, siblingData: any) => siblingData?.rushAvailable === true,
+                condition: (_data: any, siblingData: any) => siblingData?.rushAvailable === true && siblingData?.showProductionTime !== false,
               },
             },
           ],

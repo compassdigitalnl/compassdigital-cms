@@ -444,6 +444,24 @@ export class EmailService {
     `
   }
 
+  private generateSpecialProductMeta(item: any): string {
+    const parts: string[] = []
+    if (item.bookingData) {
+      const b = item.bookingData
+      parts.push(b.summary || [b.date, b.time, b.duration].filter(Boolean).join(' · '))
+    }
+    if (item.personalizationData) {
+      const p = item.personalizationData
+      parts.push(p.summary || 'Gepersonaliseerd')
+    }
+    if (item.configurationData) {
+      const c = item.configurationData
+      parts.push(c.summary || 'Geconfigureerd')
+    }
+    if (parts.length === 0) return ''
+    return `<div style="font-size: 12px; color: #667eea; margin-top: 6px; padding: 4px 8px; background: #f0f1ff; border-radius: 4px;">${parts.join('<br>')}</div>`
+  }
+
   private generateOrderConfirmationHTML(order: Order, trackingLink?: string | null): string {
     const items = (order.items || [])
       .map(
@@ -451,6 +469,7 @@ export class EmailService {
       <tr>
         <td style="padding: 12px; border-bottom: 1px solid #eee;">
           ${this.getProductName(item)}
+          ${this.generateSpecialProductMeta(item)}
         </td>
         <td style="padding: 12px; border-bottom: 1px solid #eee; text-align: center;">
           ${item.quantity || 0}

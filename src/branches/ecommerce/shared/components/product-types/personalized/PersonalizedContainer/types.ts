@@ -8,6 +8,8 @@ export interface PersonalizedContainerProps {
 /** Raw personalization config from the product's personalizationConfig field */
 export interface PersonalizationConfig {
   personalizationOptions?: RawPersonalizationOption[]
+  showLivePreview?: boolean
+  showProductionTime?: boolean
   baseProductionDays?: number
   rushAvailable?: boolean
   rushFee?: number

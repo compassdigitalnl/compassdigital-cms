@@ -56,6 +56,32 @@ export interface CartProduct {
   taxClass?: 'standard' | 'reduced' | 'zero'
 }
 
+/** Booking/personalization/configurator metadata passed alongside cart items */
+export interface CartItemMeta {
+  booking?: {
+    date?: string
+    time?: string
+    duration?: string
+    participants?: Array<{ category: string; count: number; price: number }>
+    addOns?: Array<{ label: string; price: number }>
+    totalPrice?: number
+    summary?: string
+  }
+  personalization?: {
+    values?: Record<string, { fieldName: string; value: string | null }>
+    personalizationCost?: number
+    rushEnabled?: boolean
+    rushFee?: number
+    totalPrice?: number
+    summary?: string
+  }
+  configuration?: {
+    selections?: Record<string, { name: string; price: number }>
+    totalPrice?: number
+    summary?: string
+  }
+}
+
 export interface CartLineItemProps {
   /**
    * Product data
@@ -81,6 +107,11 @@ export interface CartLineItemProps {
    * Optional callback to add item to a list
    */
   onAddToList?: () => void
+
+  /**
+   * Special product type metadata (booking, personalization, configurator)
+   */
+  meta?: CartItemMeta
 
   /**
    * Additional CSS class names
