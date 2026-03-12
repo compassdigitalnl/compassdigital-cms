@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { ChevronRight, Home, LucideIcon } from 'lucide-react'
 import type { BreadcrumbProps } from './types'
