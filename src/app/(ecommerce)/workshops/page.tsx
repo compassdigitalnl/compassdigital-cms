@@ -20,13 +20,51 @@ import {
   CheckCircle,
 } from 'lucide-react'
 
-export const metadata: Metadata = {
-  title: 'Workshops & Trainingen',
-  description:
-    'Ontdek onze workshops en trainingen. Van beginners tot experts, wij bieden trainingen voor elk niveau.',
+export const dynamic = 'force-dynamic'
+
+export async function generateMetadata(): Promise<Metadata> {
+  // Check if experiences branch claims /workshops
+  if (isFeatureEnabled('experiences')) {
+    try {
+      const payload = await getPayload({ config })
+      const settings = await payload.findGlobal({ slug: 'settings', depth: 0 }) as any
+      if (settings?.experiencesRouteSlug === 'workshops') {
+        const label = settings?.experiencesRouteLabel || 'Workshops'
+        return {
+          title: `${label} | ${settings?.companyName || ''}`.trim(),
+          description: `Bekijk alle ${label.toLowerCase()}`,
+        }
+      }
+    } catch {}
+  }
+  return {
+    title: 'Workshops & Trainingen',
+    description:
+      'Ontdek onze workshops en trainingen. Van beginners tot experts, wij bieden trainingen voor elk niveau.',
+  }
 }
 
 export default async function WorkshopsPage() {
+  // ── Check if experiences branch claims /workshops ──────────────────
+  if (isFeatureEnabled('experiences')) {
+    try {
+      const payload = await getPayload({ config })
+      const settings = await payload.findGlobal({ slug: 'settings', depth: 0 }) as any
+      if (settings?.experiencesRouteSlug === 'workshops') {
+        const { ExperienceArchiveTemplate } = await import(
+          '@/branches/experiences/templates/ExperienceArchive'
+        )
+        return (
+          <ExperienceArchiveTemplate
+            routeSlug="workshops"
+            routeLabel={settings?.experiencesRouteLabel || 'Workshops'}
+          />
+        )
+      }
+    } catch {}
+  }
+
+  // ── Fallback: Marketplace Workshops ─────────────────────────────
   if (!isFeatureEnabled('shop')) notFound()
   requireFeature('workshops')
 

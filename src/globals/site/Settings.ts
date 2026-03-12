@@ -467,6 +467,28 @@ export const Settings: GlobalConfig = {
               },
             }),
 
+            // ─── EXPERIENCES TEMPLATES & ROUTES ────────────────────────────
+            ...featureField('experiences', {
+              name: 'experiencesRouteSlug',
+              type: 'text',
+              label: 'Ervaringen Route URL',
+              defaultValue: 'ervaringen',
+              admin: {
+                description: 'URL-prefix voor ervaringen pagina\'s. Bijv. "workshops", "arrangementen", "ervaringen". Let op: geen slash ervoor of erna.',
+                placeholder: 'ervaringen',
+              },
+            }),
+            ...featureField('experiences', {
+              name: 'experiencesRouteLabel',
+              type: 'text',
+              label: 'Ervaringen Route Label',
+              defaultValue: 'Ervaringen',
+              admin: {
+                description: 'Weergavenaam voor breadcrumbs en navigatie. Bijv. "Workshops", "Arrangementen", "Ervaringen"',
+                placeholder: 'Ervaringen',
+              },
+            }),
+
             // ─── CONSTRUCTION TEMPLATES ─────────────────────────────────
             ...featureField('construction', {
               name: 'defaultConstructionServiceTemplate',

@@ -4,7 +4,15 @@ import config from '@payload-config'
 import { Breadcrumb } from '@/globals/site/breadcrumbs/components/Breadcrumb/Component'
 import { ExperienceArchiveClient } from './ExperienceArchiveClient'
 
-export async function ExperienceArchiveTemplate() {
+interface ExperienceArchiveProps {
+  routeSlug?: string
+  routeLabel?: string
+}
+
+export async function ExperienceArchiveTemplate({
+  routeSlug = 'ervaringen',
+  routeLabel = 'Ervaringen',
+}: ExperienceArchiveProps = {}) {
   const payload = await getPayload({ config })
 
   // Fetch all published experiences
@@ -45,7 +53,7 @@ export async function ExperienceArchiveTemplate() {
         <Breadcrumb
           items={[
             { label: 'Home', href: '/' },
-            { label: 'Ervaringen' },
+            { label: routeLabel },
           ]}
         />
       </div>
@@ -59,10 +67,10 @@ export async function ExperienceArchiveTemplate() {
             fontFamily: 'var(--font-serif, Georgia, serif)',
           }}
         >
-          Alle ervaringen
+          Alle {routeLabel.toLowerCase()}
         </h1>
         <p className="text-gray-600">
-          {experiencesResult.totalDocs} ervaringen beschikbaar
+          {experiencesResult.totalDocs} {routeLabel.toLowerCase()} beschikbaar
         </p>
       </div>
 

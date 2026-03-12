@@ -13,6 +13,7 @@ import ProductTemplate4 from '@/branches/ecommerce/shared/templates/products/Pro
 import ShopArchiveTemplate1 from '@/branches/ecommerce/shared/templates/shop/ShopArchiveTemplate1'
 import { TrackRecentlyViewed } from '@/branches/ecommerce/shared/components/shop/RecentlyViewed/TrackRecentlyViewed'
 import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
+import { isFeatureEnabled } from '@/lib/tenant/features'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -60,6 +61,25 @@ function buildCategoryBreadcrumbs(
   }))
 }
 
+// ── Helper: get experiences route config from settings ───────────────
+async function getExperiencesRouteConfig(payload: any): Promise<{
+  slug: string
+  label: string
+} | null> {
+  if (!isFeatureEnabled('experiences')) return null
+  try {
+    const settings = await payload.findGlobal({ slug: 'settings', depth: 0 })
+    const slug = (settings as any)?.experiencesRouteSlug
+    if (!slug) return null
+    return {
+      slug,
+      label: (settings as any)?.experiencesRouteLabel || slug.charAt(0).toUpperCase() + slug.slice(1),
+    }
+  } catch {
+    return null
+  }
+}
+
 // ── METADATA ───────────────────────────────────────────────────────
 export async function generateMetadata({
   params,
@@ -69,6 +89,36 @@ export async function generateMetadata({
   const { slug: slugSegments } = await params
   const lastSlug = slugSegments[slugSegments.length - 1]
   const payload = await getPayload({ config: configPromise })
+
+  // 0. Try Experiences (configurable route prefix)
+  const expConfig = await getExperiencesRouteConfig(payload)
+  if (expConfig && slugSegments[0] === expConfig.slug) {
+    if (slugSegments.length === 1) {
+      // Archive page
+      return {
+        title: `${expConfig.label} | ${(await payload.findGlobal({ slug: 'settings', depth: 0 }) as any)?.companyName || ''}`.trim(),
+        description: `Bekijk alle ${expConfig.label.toLowerCase()}`,
+      }
+    }
+    if (slugSegments.length === 2) {
+      // Detail page
+      const experiences = await payload.find({
+        collection: 'experiences',
+        limit: 1,
+        where: { slug: { equals: slugSegments[1] } },
+        depth: 0,
+        select: { title: true, shortDescription: true, meta: true },
+      })
+      if (experiences.docs[0]) {
+        const exp = experiences.docs[0] as any
+        const meta = typeof exp.meta === 'object' ? exp.meta : null
+        return {
+          title: meta?.title || `${exp.title} | ${expConfig.label}`,
+          description: meta?.description || exp.shortDescription || exp.title,
+        }
+      }
+    }
+  }
 
   // 1. Try product (only single-segment URLs)
   if (slugSegments.length === 1) {
@@ -165,6 +215,53 @@ export default async function Page({
   const payload = await getPayload({ config: configPromise })
 
   const lastSlug = slugSegments[slugSegments.length - 1]
+
+  // ── 0. Try Experiences (configurable route prefix) ─────────────
+  const expRouteConfig = await getExperiencesRouteConfig(payload)
+  if (expRouteConfig && slugSegments[0] === expRouteConfig.slug) {
+    if (slugSegments.length === 1) {
+      // Archive page
+      const { ExperienceArchiveTemplate } = await import(
+        '@/branches/experiences/templates/ExperienceArchive'
+      )
+      return (
+        <ExperienceArchiveTemplate
+          routeSlug={expRouteConfig.slug}
+          routeLabel={expRouteConfig.label}
+        />
+      )
+    }
+
+    if (slugSegments.length === 2) {
+      // Detail page
+      const experiences = await payload.find({
+        collection: 'experiences',
+        limit: 1,
+        where: {
+          slug: { equals: slugSegments[1] },
+          status: { equals: 'published' },
+        },
+        depth: 2,
+      })
+
+      const experience = experiences.docs[0]
+      if (experience) {
+        const { ExperienceDetailTemplate } = await import(
+          '@/branches/experiences/templates/ExperienceDetail'
+        )
+        return (
+          <ExperienceDetailTemplate
+            experience={experience}
+            routeSlug={expRouteConfig.slug}
+            routeLabel={expRouteConfig.label}
+          />
+        )
+      }
+    }
+
+    // No match under experiences prefix → 404
+    notFound()
+  }
 
   // ── 1. Try Product FIRST (only single-segment URLs) ──────────────
   if (slugSegments.length === 1) {

@@ -12,9 +12,15 @@ import { ContactWidget } from '@/branches/experiences/components/detail/ContactW
 
 interface ExperienceDetailTemplateProps {
   experience: any
+  routeSlug?: string
+  routeLabel?: string
 }
 
-export async function ExperienceDetailTemplate({ experience }: ExperienceDetailTemplateProps) {
+export async function ExperienceDetailTemplate({
+  experience,
+  routeSlug = 'ervaringen',
+  routeLabel = 'Ervaringen',
+}: ExperienceDetailTemplateProps) {
   const payload = await getPayload({ config })
 
   // Resolve category
@@ -103,12 +109,12 @@ export async function ExperienceDetailTemplate({ experience }: ExperienceDetailT
   // Breadcrumb items
   const breadcrumbItems = [
     { label: 'Home', href: '/' },
-    { label: 'Ervaringen', href: '/ervaringen' },
+    { label: routeLabel, href: `/${routeSlug}` },
   ]
   if (category) {
     breadcrumbItems.push({
       label: category.name,
-      href: `/ervaringen/categorie/${category.slug}`,
+      href: `/${routeSlug}/categorie/${category.slug}`,
     })
   }
   breadcrumbItems.push({ label: experience.title })
