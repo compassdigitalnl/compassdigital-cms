@@ -206,11 +206,13 @@ const databaseAdapter = isPostgreSQL
       pool: {
         connectionString: databaseURL,
       },
+      push: true,
     })
   : sqliteAdapter({
       client: {
         url: databaseURL,
       },
+      push: false,
     })
 
 export default buildConfig({

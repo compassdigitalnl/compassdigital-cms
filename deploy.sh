@@ -23,6 +23,12 @@ echo "[deploy] npm install..."
 npm install --legacy-peer-deps --silent
 
 echo "[deploy] Building Next.js..."
+# Laad .env zodat DATABASE_URL beschikbaar is tijdens build (push: true)
+if [ -f .env ]; then
+    set -a
+    source .env
+    set +a
+fi
 NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 echo "[deploy] Restarting PM2..."
