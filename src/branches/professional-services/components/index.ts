@@ -18,3 +18,10 @@ export type { ConsultationFormProps, ConsultationFormData } from './Consultation
 
 export { ReviewForm } from './ReviewForm'
 export type { ReviewFormProps } from './ReviewForm/types'
+
+// Sidebars
+export { ConsultationSidebar } from './ConsultationSidebar'
+export type { ConsultationSidebarProps } from './ConsultationSidebar/types'
+
+export { ServiceSidebar } from './ServiceSidebar'
+export type { ServiceSidebarProps } from './ServiceSidebar/types'
