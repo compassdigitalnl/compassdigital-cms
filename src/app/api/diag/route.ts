@@ -72,12 +72,10 @@ async function diagnose(payload: any) {
 }
 
 export async function GET(request: NextRequest) {
-  const diagKey = process.env.DIAG_KEY || 'debug-compassdigital-2026'
-  const key = request.nextUrl.searchParams.get('key')
-
-  if (key !== diagKey) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+  // Require admin authentication — no more key-based access
+  const { requireAdmin } = await import('@/access/requireAdmin')
+  const authResult = await requireAdmin()
+  if (authResult instanceof NextResponse) return authResult
 
   try {
     const payload = await getPayload({ config })

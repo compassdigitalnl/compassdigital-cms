@@ -79,9 +79,17 @@ export async function GET(request: NextRequest) {
  */
 async function tryReadMediaFile(filename: string): Promise<Buffer | null> {
   try {
+    // Prevent path traversal attacks
+    if (filename.includes('..') || filename.includes('\0') || path.isAbsolute(filename)) {
+      return null
+    }
     // Payload stores uploads in the media directory (configurable, defaults to ./media)
     const mediaDir = path.resolve(process.cwd(), 'media')
     const filePath = path.join(mediaDir, filename)
+    // Double-check resolved path stays within media directory
+    if (!filePath.startsWith(mediaDir)) {
+      return null
+    }
     const buffer = await fs.readFile(filePath)
     return buffer
   } catch {

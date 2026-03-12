@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Client } from 'pg'
+import { requireAdmin } from '@/access/requireAdmin'
 
 /**
  * List All Tenants
  * GET /api/admin/tenants/list
+ *
+ * Requires: admin authentication
  *
  * Query params:
  *   - status: filter by status (active, pending, suspended, deleted)
@@ -12,6 +15,9 @@ import { Client } from 'pg'
  *   - offset: pagination offset (default 0)
  */
 export async function GET(req: NextRequest) {
+  const authResult = await requireAdmin()
+  if (authResult instanceof NextResponse) return authResult
+
   const client = new Client({
     connectionString: process.env.PLATFORM_DATABASE_URL || process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
@@ -84,10 +90,7 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error('List tenants error:', error)
     return NextResponse.json(
-      {
-        error: 'Failed to list tenants',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      },
+      { error: 'Failed to list tenants' },
       { status: 500 }
     )
   } finally {

@@ -1,14 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Client } from 'pg'
+import { requireAdmin } from '@/access/requireAdmin'
 
 /**
  * Get Tenant Details
  * GET /api/admin/tenants/[id]
+ *
+ * Requires: admin authentication
  */
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const authResult = await requireAdmin()
+  if (authResult instanceof NextResponse) return authResult
   const { id } = await params;
   const client = new Client({
     connectionString: process.env.PLATFORM_DATABASE_URL || process.env.DATABASE_URL,
@@ -54,12 +59,16 @@ export async function GET(
  * Update Tenant
  * PATCH /api/admin/tenants/[id]
  *
+ * Requires: admin authentication
+ *
  * Body: { databaseUrl?, status?, name?, metadata? }
  */
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const authResult = await requireAdmin()
+  if (authResult instanceof NextResponse) return authResult
   const { id } = await params;
   const client = new Client({
     connectionString: process.env.PLATFORM_DATABASE_URL || process.env.DATABASE_URL,
@@ -166,8 +175,7 @@ export async function PATCH(
     console.error('Update tenant error:', error)
     return NextResponse.json(
       {
-        error: 'Failed to update tenant',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        error: 'Failed to update tenant'
       },
       { status: 500 }
     )
@@ -179,11 +187,15 @@ export async function PATCH(
 /**
  * Delete Tenant (Soft Delete)
  * DELETE /api/admin/tenants/[id]
+ *
+ * Requires: admin authentication
  */
 export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const authResult = await requireAdmin()
+  if (authResult instanceof NextResponse) return authResult
   const { id } = await params;
   const client = new Client({
     connectionString: process.env.PLATFORM_DATABASE_URL || process.env.DATABASE_URL,

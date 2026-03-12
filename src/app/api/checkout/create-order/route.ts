@@ -200,10 +200,17 @@ export async function POST(request: NextRequest) {
           ? cartItem.product
           : cartItem.product?.id
 
+      // SERVER-SIDE PRICE VALIDATION: Always use the product's DB price, never trust cart
+      const serverPrice = product
+        ? ((product as any).salePrice && (product as any).salePrice > 0
+            ? (product as any).salePrice
+            : (product as any).price || 0)
+        : cartItem.unitPrice || 0
+
       return {
         product: productId,
         quantity: cartItem.quantity || 1,
-        price: cartItem.unitPrice || 0,
+        price: serverPrice,
         // Snapshot product details (preserved even if product is deleted)
         title: product?.title || 'Unknown Product',
         sku: product?.sku || undefined,

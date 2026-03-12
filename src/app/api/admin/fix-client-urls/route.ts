@@ -9,10 +9,14 @@
 import { NextResponse } from 'next/server'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 import config from '@payload-config'
+import { requireAdmin } from '@/access/requireAdmin'
 
 const PLATFORM_BASE_URL = process.env.PLATFORM_BASE_URL || 'compassdigital.nl'
 
 export async function GET() {
+  const authResult = await requireAdmin()
+  if (authResult instanceof NextResponse) return authResult
+
   try {
     console.log('🔧 Starting client URL fix...')
     console.log(`📍 Platform base URL: ${PLATFORM_BASE_URL}`)

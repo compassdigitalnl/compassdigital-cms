@@ -25,6 +25,11 @@ const RATE_LIMIT_CONFIG = {
     windowMs: 60 * 1000, // 1 minute
     maxRequests: 10, // 10 requests per minute
   },
+  // Authentication (strict — prevent brute-force)
+  auth: {
+    windowMs: 5 * 60 * 1000, // 5 minutes
+    maxRequests: 10, // 10 login attempts per 5 minutes per IP
+  },
   // Wizard/site generator (DISABLED for testing)
   wizard: {
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -57,10 +62,11 @@ function getClientIp(request: NextRequest): string {
 // Check rate limit
 function checkRateLimit(
   ip: string,
-  config: { windowMs: number; maxRequests: number }
+  config: { windowMs: number; maxRequests: number },
+  category?: string,
 ): { allowed: boolean; remaining: number; resetTime: number } {
   const now = Date.now()
-  const key = ip
+  const key = `${category || 'default'}:${ip}`
   const record = rateLimitStore.get(key)
 
   // Clean up expired entries
@@ -436,13 +442,24 @@ export async function middleware(request: NextRequest) {
     let rateLimitConfig = RATE_LIMIT_CONFIG.api
 
     // Stricter limits for specific endpoints
-    if (pathname.startsWith('/api/contact')) {
+    let rateLimitCategory = 'api'
+    if (pathname.startsWith('/api/contact') || pathname.startsWith('/api/quote-requests')) {
       rateLimitConfig = RATE_LIMIT_CONFIG.contact
+      rateLimitCategory = 'contact'
     } else if (pathname.includes('/ai/')) {
       rateLimitConfig = RATE_LIMIT_CONFIG.ai
+      rateLimitCategory = 'ai'
+    } else if (
+      pathname.startsWith('/api/users/login') ||
+      pathname.startsWith('/api/users/forgot-password') ||
+      pathname.startsWith('/api/users/reset-password') ||
+      pathname.startsWith('/api/auth/')
+    ) {
+      rateLimitConfig = RATE_LIMIT_CONFIG.auth
+      rateLimitCategory = 'auth'
     }
 
-    const rateLimit = checkRateLimit(clientIp, rateLimitConfig)
+    const rateLimit = checkRateLimit(clientIp, rateLimitConfig, rateLimitCategory)
 
     // Rate limit exceeded
     if (!rateLimit.allowed) {

@@ -1,14 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Client } from 'pg'
+import { requireAdmin } from '@/access/requireAdmin'
 
 /**
  * Create New Tenant (Klant)
  * POST /api/admin/tenants/create
  *
+ * Requires: admin authentication
+ *
  * Body: { name, type, wizardData }
  * Returns: { tenant, instructions }
  */
 export async function POST(req: NextRequest) {
+  const authResult = await requireAdmin()
+  if (authResult instanceof NextResponse) return authResult
+
   const client = new Client({
     connectionString: process.env.PLATFORM_DATABASE_URL || process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
@@ -111,10 +117,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error('Create tenant error:', error)
     return NextResponse.json(
-      {
-        error: 'Failed to create tenant',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      },
+      { error: 'Failed to create tenant' },
       { status: 500 }
     )
   } finally {
