@@ -59,7 +59,7 @@ function mapHeaderData(header: any): MappedHeaderData {
     },
     // Header Actions
     showPhone: header.showPhoneButton ?? true,
-    showCart: header.showCartButton ?? true,
+    showCart: header.showCartButton ?? false,
     showAccount: header.showAccountButton ?? true,
     showWishlist: header.showWishlistButton ?? false,
     customButtons: header.customActionButtons || [],
