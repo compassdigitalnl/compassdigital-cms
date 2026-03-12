@@ -99,7 +99,7 @@ export default function HeaderTemplate1({
             {/* Mobile Toggle */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden w-[42px] h-[42px] rounded-[10px] bg-[var(--color-secondary)] text-white flex items-center justify-center hover:bg-[var(--color-primary)] transition-colors"
+              className="lg:hidden w-[42px] h-[42px] bg-[var(--color-secondary)] text-white flex items-center justify-center hover:bg-[var(--color-primary)] transition-colors"
               aria-label="Open menu"
             >
               <Menu className="w-5 h-5" />

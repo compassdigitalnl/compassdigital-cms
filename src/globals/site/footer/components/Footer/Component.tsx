@@ -99,7 +99,7 @@ export async function SiteFooter() {
         : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
 
   return (
-    <footer className="bg-navy-900 rounded-3xl overflow-hidden text-gray-400 mt-12">
+    <footer className="bg-navy-900 overflow-hidden text-gray-400 mt-12">
       {/* Top Section */}
       <div className={`p-8 md:p-12 grid ${gridCols} gap-9 border-b border-white/5`}>
         {/* Brand Column */}
@@ -107,7 +107,7 @@ export async function SiteFooter() {
           <div className="text-2xl font-extrabold text-white mb-2.5">
             {logoText}
             {logoAccent && (
-              <span className="text-[var(--color-primary-light)]">{logoAccent}</span>
+              <span className="text-white/60">{logoAccent}</span>
             )}
           </div>
           {tagline && <p className="text-sm leading-relaxed mb-3.5">{tagline}</p>}
@@ -142,7 +142,7 @@ export async function SiteFooter() {
                   <li key={j}>
                     <Link
                       href={getLinkHref(link)}
-                      className="text-sm hover:text-[var(--color-primary-light)] transition-colors"
+                      className="text-sm hover:text-white transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -159,26 +159,26 @@ export async function SiteFooter() {
             <h4 className="text-white font-extrabold text-sm mb-3.5">{contactHeading}</h4>
             <div className="space-y-2">
               {phone && (
-                <a href={`tel:${phone.replace(/\s/g, '')}`} className="flex items-center gap-2 text-sm hover:text-[var(--color-primary-light)] transition-colors">
-                  <Phone className="w-4 h-4 text-[var(--color-primary-light)] shrink-0" />
+                <a href={`tel:${phone.replace(/\s/g, '')}`} className="flex items-center gap-2 text-sm hover:text-white transition-colors">
+                  <Phone className="w-4 h-4 text-white/50 shrink-0" />
                   {phone}
                 </a>
               )}
               {email && (
-                <a href={`mailto:${email}`} className="flex items-center gap-2 text-sm hover:text-[var(--color-primary-light)] transition-colors">
-                  <Mail className="w-4 h-4 text-[var(--color-primary-light)] shrink-0" />
+                <a href={`mailto:${email}`} className="flex items-center gap-2 text-sm hover:text-white transition-colors">
+                  <Mail className="w-4 h-4 text-white/50 shrink-0" />
                   {email}
                 </a>
               )}
               {address && (
                 <div className="flex items-center gap-2 text-sm">
-                  <MapPin className="w-4 h-4 text-[var(--color-primary-light)] shrink-0" />
+                  <MapPin className="w-4 h-4 text-white/50 shrink-0" />
                   {address}
                 </div>
               )}
               {openingHours && (
                 <div className="flex items-center gap-2 text-sm">
-                  <Clock className="w-4 h-4 text-[var(--color-primary-light)] shrink-0" />
+                  <Clock className="w-4 h-4 text-white/50 shrink-0" />
                   {openingHours}
                 </div>
               )}
@@ -211,7 +211,7 @@ export async function SiteFooter() {
               <Link
                 key={i}
                 href={getLinkHref(link)}
-                className="hover:text-[var(--color-primary-light)] transition-colors"
+                className="hover:text-white transition-colors"
               >
                 {link.label}
               </Link>
