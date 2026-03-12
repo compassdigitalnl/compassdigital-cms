@@ -252,7 +252,7 @@ export const Pages: CollectionConfig = {
         SocialProofBanner, // B-41: Social proof metrics banner
         LogoBar, // B-42: Logo bar (klanten, certificeringen, partners)
         CaseStudyGrid, // B-43: Case study/portfolio grid
-        ProjectsGrid, // Unified projects grid (all branches)
+        ...(disabledCollections.has('projects') ? [] : [ProjectsGrid]), // Unified projects grid
         // Cases block - only if cases collection is enabled
         ...(disabledCollections.has('cases') ? [] : [CasesBlock]), // Portfolio/projecten
         Stats,
