@@ -36,6 +36,7 @@ import { TrustSignalsBlockComponent } from '@/branches/shared/blocks/TrustSignal
 import { SocialProofBannerBlockComponent } from '@/branches/shared/blocks/SocialProofBanner/Component'
 import { LogoBarBlockComponent } from '@/branches/shared/blocks/LogoBar/Component'
 import { CaseStudyGridBlockComponent } from '@/branches/shared/blocks/CaseStudyGrid/Component'
+import { ProjectsGridBlockComponent } from '@/branches/shared/blocks/ProjectsGrid/Component'
 import { PainPointsBlockComponent } from '@/branches/shared/blocks/PainPoints/Component'
 import { CompetitorComparisonBlockComponent } from '@/branches/shared/blocks/ComparisonTable/Component'
 import { BranchePricingBlockComponent } from '@/branches/shared/blocks/BranchePricing/Component'
@@ -108,6 +109,7 @@ const blockComponents: Record<string, React.FC<any>> = {
   socialProofBanner: SocialProofBannerBlockComponent,
   logoBar: LogoBarBlockComponent,
   caseStudyGrid: CaseStudyGridBlockComponent,
+  projectsGrid: ProjectsGridBlockComponent,
   painPoints: PainPointsBlockComponent,
   competitorComparison: CompetitorComparisonBlockComponent,
   branchePricing: BranchePricingBlockComponent,

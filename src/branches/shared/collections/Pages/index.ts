@@ -38,6 +38,7 @@ import { TrustSignals } from '@/branches/shared/blocks/TrustSignals'
 import { SocialProofBanner } from '@/branches/shared/blocks/SocialProofBanner'
 import { LogoBar } from '@/branches/shared/blocks/LogoBar'
 import { CaseStudyGrid } from '@/branches/shared/blocks/CaseStudyGrid'
+import { ProjectsGrid } from '@/branches/shared/blocks/ProjectsGrid'
 import { PainPoints } from '@/branches/shared/blocks/PainPoints'
 import { CompetitorComparison } from '@/branches/shared/blocks/ComparisonTable'
 import { BranchePricing } from '@/branches/shared/blocks/BranchePricing'
@@ -251,6 +252,7 @@ export const Pages: CollectionConfig = {
         SocialProofBanner, // B-41: Social proof metrics banner
         LogoBar, // B-42: Logo bar (klanten, certificeringen, partners)
         CaseStudyGrid, // B-43: Case study/portfolio grid
+        ProjectsGrid, // Unified projects grid (all branches)
         // Cases block - only if cases collection is enabled
         ...(disabledCollections.has('cases') ? [] : [CasesBlock]), // Portfolio/projecten
         Stats,

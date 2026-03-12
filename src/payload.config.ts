@@ -87,9 +87,10 @@ import { Carts } from '@/branches/ecommerce/shared/collections/checkout/Carts'
 // Content Branch (1 collection — premium content)
 import { BlogPosts } from '@/branches/publishing/collections/BlogPosts'
 
-// Shared Collections (blog, marketing)
+// Shared Collections (blog, marketing, projects)
 import { BlogCategories } from '@/branches/shared/collections/BlogCategories'
 import { Cases } from '@/branches/shared/collections/Cases'
+import { Projects } from '@/branches/shared/collections/Projects'
 // FAQs collection removed — use FAQ block on pages instead
 import { Testimonials } from '@/branches/shared/collections/Testimonials'
 
@@ -354,6 +355,7 @@ export default buildConfig({
     Media,
     CookieConsents, // GDPR cookie consent tracking (always enabled)
     ContentApprovals, // Content approval workflow (Feature #28)
+    _col(Projects),
     _col(Partners),
     _col(ServicesCollection),
     _col(Notifications),

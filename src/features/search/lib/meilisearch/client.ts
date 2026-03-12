@@ -44,6 +44,7 @@ export const INDEXES = {
   get CONSTRUCTION_PROJECTS() { return process.env.MEILISEARCH_CONSTRUCTION_PROJECTS_INDEX || 'construction-projects' },
   get PROFESSIONAL_SERVICES() { return process.env.MEILISEARCH_PROFESSIONAL_SERVICES_INDEX || 'professional-services' },
   get PROFESSIONAL_CASES() { return process.env.MEILISEARCH_PROFESSIONAL_CASES_INDEX || 'professional-cases' },
+  get PROJECTS() { return process.env.MEILISEARCH_PROJECTS_INDEX || 'projects-portfolio' },
 }
 
 /**

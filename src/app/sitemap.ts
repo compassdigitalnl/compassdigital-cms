@@ -232,7 +232,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.log('Professional cases not accessible, skipping')
   }
 
-  // ─── 9. Products (for e-commerce) ─────────────────────────
+  // ─── 9. Projects (unified portfolio) ─────────────────────
+  try {
+    const projects = await payload.find({
+      collection: 'projects',
+      where: { status: { equals: 'published' } },
+      limit: 500,
+      select: { slug: true, updatedAt: true },
+    })
+
+    const projectEntries: MetadataRoute.Sitemap = projects.docs
+      .filter((p): p is { id: number; slug: string; updatedAt: string } =>
+        typeof p === 'object' && 'slug' in p && typeof p.slug === 'string'
+      )
+      .map((p) => ({
+        url: `${siteUrl}/projects/${p.slug}`,
+        lastModified: new Date(p.updatedAt),
+        changeFrequency: 'monthly',
+        priority: 0.7,
+      }))
+
+    entries.push(...projectEntries)
+  } catch (error) {
+    console.log('Projects collection not accessible, skipping')
+  }
+
+  // ─── 10. Products (for e-commerce) ────────────────────────
   try {
     const products = await payload.find({
       collection: 'products',
