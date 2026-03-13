@@ -1,19 +1,42 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { RenderBlocks } from '@/branches/shared/blocks/RenderBlocks'
 import { JsonLdSchema } from '@/features/seo/components/JsonLdSchema'
+import { generateMeta } from '@/features/seo/lib/generateMeta'
 import type { Page } from 'src/payload-types'
-
-export const metadata = {
-  title: 'Sityzr CMS — Build your perfect website',
-  description:
-    'Professional multi-tenant CMS platform for building beautiful websites, e-commerce stores, and SaaS applications.',
-}
 
 export const dynamic = 'force-dynamic'
 
-export default async function PlastimedHomepage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const payload = await getPayload({ config: configPromise })
+  try {
+    const { docs } = await payload.find({
+      collection: 'pages',
+      where: { slug: { equals: 'home' } },
+      depth: 0,
+      select: { title: true, meta: true },
+    })
+    if (docs[0]) {
+      return generateMeta({ doc: docs[0] as any })
+    }
+  } catch {}
+
+  // Fallback: use company name from settings
+  try {
+    const settings = await payload.findGlobal({ slug: 'settings', depth: 0 }) as any
+    const companyName = settings?.companyName || ''
+    return {
+      title: companyName ? `${companyName} - Home` : 'Home',
+      description: settings?.description || settings?.defaultMetaDescription || '',
+    }
+  } catch {}
+
+  return { title: 'Home' }
+}
+
+export default async function Homepage() {
   const payload = await getPayload({ config: configPromise })
 
   let page: Page | null = null
@@ -41,7 +64,7 @@ export default async function PlastimedHomepage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6">
         <div className="max-w-2xl text-center">
           <h1 className="text-4xl font-extrabold text-navy mb-4">
-            Welkom bij Sityzr CMS
+            Welkom
           </h1>
           <p className="text-lg text-gray-600 mb-8">
             De homepage is nog niet geconfigureerd. Volg deze stappen om te beginnen:
