@@ -1,9 +1,10 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Field } from 'payload'
 import { publicAccess } from '@/access/publicAccess'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
 import { autoGenerateSlugFromName } from '@/utilities/slugify'
 import { indexConstructionService, deleteConstructionServiceFromIndex } from '@/features/search/lib/meilisearch/indexConstructionServices'
+import { isCollectionEnabled } from '@/lib/tenant/isCollectionDisabled'
 
 export const ConstructionServices: CollectionConfig = {
   slug: 'construction-services',
@@ -177,16 +178,20 @@ export const ConstructionServices: CollectionConfig = {
                 },
               ],
             },
-            {
-              name: 'relatedProjects',
-              type: 'relationship',
-              relationTo: 'projects',
-              hasMany: true,
-              label: 'Gerelateerde Cases',
-              admin: {
-                description: 'Cases die deze dienst demonstreren',
-              },
-            },
+            ...(isCollectionEnabled('projects')
+              ? [
+                  {
+                    name: 'relatedProjects',
+                    type: 'relationship',
+                    relationTo: 'projects',
+                    hasMany: true,
+                    label: 'Gerelateerde Cases',
+                    admin: {
+                      description: 'Cases die deze dienst demonstreren',
+                    },
+                  } satisfies Field,
+                ]
+              : []),
             {
               name: 'usps',
               type: 'array',

@@ -1,10 +1,11 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Field } from 'payload'
 import { publicAccess } from '@/access/publicAccess'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
 import { autoGenerateSlugFromName } from '@/utilities/slugify'
 import { branchOptions } from '@/branches/shared/collections/Projects/index'
 import { indexProfessionalService, deleteProfessionalServiceFromIndex } from '@/features/search/lib/meilisearch/indexProfessionalServices'
+import { isCollectionEnabled } from '@/lib/tenant/isCollectionDisabled'
 
 export const ProfessionalServices: CollectionConfig = {
   slug: 'professional-services',
@@ -188,16 +189,20 @@ export const ProfessionalServices: CollectionConfig = {
                 },
               ],
             },
-            {
-              name: 'relatedProjects',
-              type: 'relationship',
-              relationTo: 'projects',
-              hasMany: true,
-              label: 'Gerelateerde Cases',
-              admin: {
-                description: 'Cases die deze dienst demonstreren',
-              },
-            },
+            ...(isCollectionEnabled('projects')
+              ? [
+                  {
+                    name: 'relatedProjects',
+                    type: 'relationship',
+                    relationTo: 'projects',
+                    hasMany: true,
+                    label: 'Gerelateerde Cases',
+                    admin: {
+                      description: 'Cases die deze dienst demonstreren',
+                    },
+                  } satisfies Field,
+                ]
+              : []),
             {
               name: 'usps',
               type: 'array',

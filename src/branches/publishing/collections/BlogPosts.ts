@@ -1,9 +1,10 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Field } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
 import { featureFields } from '@/lib/tenant/featureFields'
 import { autoGenerateSlug } from '@/utilities/slugify'
 import { autoFillSEO, autoSetPublishedDate, autoSetAuthor } from '@/features/seo/lib/seoAutoFill'
+import { isCollectionEnabled, filterRelationTo } from '@/lib/tenant/isCollectionDisabled'
 import {
   BoldFeature,
   HeadingFeature,
@@ -362,26 +363,41 @@ export const BlogPosts: CollectionConfig = {
         description: 'Handmatig geselecteerde gerelateerde artikelen (max 3)',
       },
     },
-    {
-      name: 'relatedCases',
-      type: 'relationship',
-      relationTo: 'projects',
-      hasMany: true,
-      label: 'Gerelateerde Cases',
-      admin: {
-        description: 'Cases die bij dit artikel horen',
-      },
-    },
-    {
-      name: 'relatedServices',
-      type: 'relationship',
-      relationTo: ['professional-services', 'construction-services'],
-      hasMany: true,
-      label: 'Gerelateerde Diensten',
-      admin: {
-        description: 'Diensten die bij dit artikel horen',
-      },
-    },
+    // Only include relatedCases if 'projects' collection is enabled
+    ...(isCollectionEnabled('projects')
+      ? [
+          {
+            name: 'relatedCases',
+            type: 'relationship',
+            relationTo: 'projects',
+            hasMany: true,
+            label: 'Gerelateerde Cases',
+            admin: {
+              description: 'Cases die bij dit artikel horen',
+            },
+          } satisfies Field,
+        ]
+      : []),
+    // Only include relatedServices if at least one service collection is enabled
+    ...(() => {
+      const serviceCollections = filterRelationTo([
+        'professional-services',
+        'construction-services',
+      ])
+      if (!serviceCollections) return []
+      return [
+        {
+          name: 'relatedServices',
+          type: 'relationship',
+          relationTo: serviceCollections.length === 1 ? serviceCollections[0] : serviceCollections,
+          hasMany: true,
+          label: 'Gerelateerde Diensten',
+          admin: {
+            description: 'Diensten die bij dit artikel horen',
+          },
+        } satisfies Field,
+      ]
+    })(),
 
     // ═══════════════════════════════════════════════════════════
     // SEO & SCHEMA
