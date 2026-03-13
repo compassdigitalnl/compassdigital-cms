@@ -11,7 +11,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import jwt from 'jsonwebtoken'
+import { SignJWT } from 'jose'
 import { randomUUID } from 'crypto'
 import { sql } from 'drizzle-orm'
 
@@ -130,17 +130,23 @@ export async function GET(request: NextRequest) {
       sql`INSERT INTO users_sessions (_order, _parent_id, id, created_at, expires_at) VALUES (${nextOrder}, ${user.id}, ${sid}, ${now.toISOString()}, ${expiresAt.toISOString()})`
     )
 
-    // 7. Generate Payload JWT token
-    const tokenData = {
+    // 7. Generate Payload JWT token (using jose, same as Payload internals)
+    const secretKey = new TextEncoder().encode(payloadSecret)
+    const issuedAt = Math.floor(Date.now() / 1000)
+    const exp = issuedAt + 14 * 24 * 60 * 60 // 14 days
+
+    const token = await new SignJWT({
       id: user.id,
       email: (user as any).email,
       collection: 'users',
       sid,
-    }
-
-    const token = jwt.sign(tokenData, payloadSecret, {
-      expiresIn: '14d',
     })
+      .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
+      .setIssuedAt(issuedAt)
+      .setExpirationTime(exp)
+      .sign(secretKey)
+
+    console.log(`[Google OAuth] Success: user=${(user as any).email}, id=${user.id}, sid=${sid}`)
 
     // 8. Set cookie and redirect to admin
     const response = NextResponse.redirect(adminUrl)
