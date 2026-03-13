@@ -469,9 +469,12 @@ export default buildConfig({
     EmailSegments,
 
     // ═══════════════════════════════════════════════════════════════════════════
-    // PLATFORM BRANCH - Multi-tenant Management (alleen op platform-instantie)
+    // PLATFORM BRANCH - Multi-tenant Management
+    // Clients is always registered because other collections reference it.
+    // Platform-only collections are conditionally included.
     // ═══════════════════════════════════════════════════════════════════════════
-    ...(_isPlatform ? [ClientRequests, Clients, Deployments, UptimeIncidents] : []),
+    Clients,
+    ...(_isPlatform ? [ClientRequests, Deployments, UptimeIncidents] : []),
   ] as any[],
 
   // ─── Globals ──────────────────────────────
