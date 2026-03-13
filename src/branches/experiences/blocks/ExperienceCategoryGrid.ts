@@ -52,11 +52,11 @@ export const ExperienceCategoryGrid: Block = {
       ],
     },
     {
-      name: 'categories',
+      name: 'activities',
       type: 'relationship',
-      relationTo: 'experience-categories',
+      relationTo: 'content-activities',
       hasMany: true,
-      label: 'Selecteer categorieën',
+      label: 'Selecteer activiteiten',
       admin: {
         condition: (_, siblingData) => siblingData?.source === 'manual',
       },

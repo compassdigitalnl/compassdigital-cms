@@ -59,7 +59,7 @@ export const ExperienceGrid: Block = {
     {
       name: 'experiences',
       type: 'relationship',
-      relationTo: 'experiences',
+      relationTo: 'content-activities',
       hasMany: true,
       label: 'Selecteer ervaringen',
       admin: {
@@ -67,13 +67,12 @@ export const ExperienceGrid: Block = {
       },
     },
     {
-      name: 'category',
-      type: 'relationship',
-      relationTo: 'experience-categories',
-      label: 'Categorie',
+      name: 'categoryFilter',
+      type: 'text',
+      label: 'Categorie filter',
       admin: {
         condition: (_, siblingData) => siblingData?.source === 'category',
-        description: 'Toon alleen ervaringen uit deze categorie',
+        description: 'Filter op type: experience, event, of workshop',
       },
     },
     {
