@@ -108,7 +108,8 @@ export async function GET(request: NextRequest) {
     }
 
     // 6. Create session on user (Payload v3 requires real sessions)
-    const payloadSecret = process.env.PAYLOAD_SECRET
+    // Use payload.secret (not process.env) - Payload may transform the secret internally
+    const payloadSecret = payload.secret
     if (!payloadSecret) {
       return NextResponse.redirect(`${adminUrl}/login?error=server_config`)
     }
