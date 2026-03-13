@@ -88,7 +88,7 @@ export const plugins: Plugin[] = [
     generateTitle,
     generateURL,
     generateDescription,
-    collections: ['pages', 'blog-posts', 'content-cases', 'content-services'],
+    collections: ['pages', 'blog-posts', 'content-cases', 'content-services', 'content-activities'],
     uploadsCollection: 'media',
     tabbedUI: true, // Separate SEO tab in editor for better UX
     fields: ({ defaultFields }) => {
