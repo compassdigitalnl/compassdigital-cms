@@ -8,11 +8,8 @@
  * Based on: VanderBouw template (Sprint 2)
  */
 
-// Export all collections
-export { default as ConstructionServices } from './collections/ConstructionServices'
-export { default as ConstructionProjects } from './collections/ConstructionProjects'
-export { default as ConstructionReviews } from './collections/ConstructionReviews'
-export { default as QuoteRequests } from './collections/QuoteRequests'
+// Collections removed — replaced by unified Content collections
+// (ContentServices, ContentCases, ContentReviews, ContentInquiries)
 
 // Export all blocks
 export * from './blocks'
@@ -62,8 +59,4 @@ export const branchMetadata = {
   updatedAt: '2026-03-11',
 } as const
 
-// Export individual collections for direct import
-export * from './collections/ConstructionServices'
-export * from './collections/ConstructionProjects'
-export * from './collections/ConstructionReviews'
-export * from './collections/QuoteRequests'
+// Individual collection exports removed — use unified Content collections

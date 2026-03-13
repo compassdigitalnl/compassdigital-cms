@@ -25,28 +25,12 @@ const generateTitle: GenerateTitle = ({ doc, collectionSlug }) => {
     return `${doc.title} | Blog`
   }
 
-  // Cases/Portfolio
-  if (collectionSlug === 'cases') {
-    return `${doc.title} | Portfolio`
-  }
-
-  // Construction services
-  if (collectionSlug === 'construction-services') {
+  // Unified content collections
+  if (collectionSlug === 'content-services') {
     return `${doc.title} | Diensten`
   }
 
-  // Construction projects
-  if (collectionSlug === 'construction-projects') {
-    return `${doc.title} | Projecten`
-  }
-
-  // Professional services
-  if (collectionSlug === 'professional-services') {
-    return `${doc.title} | Dienstverlening`
-  }
-
-  // Professional cases
-  if (collectionSlug === 'professional-cases') {
+  if (collectionSlug === 'content-cases') {
     return `${doc.title} | Cases`
   }
 
@@ -63,16 +47,10 @@ const generateURL: GenerateURL = ({ doc, collectionSlug }) => {
   switch (collectionSlug) {
     case 'blog-posts':
       return `${url}/blog/${doc.slug}`
-    case 'cases':
+    case 'content-cases':
       return `${url}/cases/${doc.slug}`
-    case 'construction-services':
-      return `${url}/services/${doc.slug}`
-    case 'construction-projects':
-      return `${url}/projecten/${doc.slug}`
-    case 'professional-services':
-      return `${url}/dienstverlening/${doc.slug}`
-    case 'professional-cases':
-      return `${url}/cases/${doc.slug}`
+    case 'content-services':
+      return `${url}/diensten/${doc.slug}`
     default:
       return doc.slug === 'home' ? url : `${url}/${doc.slug}`
   }
@@ -110,7 +88,7 @@ export const plugins: Plugin[] = [
     generateTitle,
     generateURL,
     generateDescription,
-    collections: ['pages', 'blog-posts', 'cases', 'construction-services', 'construction-projects', 'professional-services', 'professional-cases'],
+    collections: ['pages', 'blog-posts', 'content-cases', 'content-services'],
     uploadsCollection: 'media',
     tabbedUI: true, // Separate SEO tab in editor for better UX
     fields: ({ defaultFields }) => {

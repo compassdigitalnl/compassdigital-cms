@@ -10,17 +10,14 @@
  * - Events: Special events, themed nights, live music, etc.
  */
 
-// Export all collections
-export { default as MenuItems } from './collections/MenuItems'
-export { default as Reservations } from './collections/Reservations'
-export { default as Events } from './collections/Events'
+// Collections removed — replaced by unified Content collections
+// (ContentServices, ContentActivities, ContentBookings)
 
 // Branch metadata for feature flagging
 export const branchMetadata = {
   name: 'horeca',
   displayName: 'Horeca',
   description: 'Template voor restaurants, cafes en eetgelegenheden',
-  collections: ['menuItems', 'reservations', 'events'],
+  collections: [],
   featureFlag: 'ENABLE_HORECA',
-  icon: '🍽️',
 } as const

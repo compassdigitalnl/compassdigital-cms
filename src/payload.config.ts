@@ -87,12 +87,9 @@ import { Carts } from '@/branches/ecommerce/shared/collections/checkout/Carts'
 // Content Branch (1 collection — premium content)
 import { BlogPosts } from '@/branches/publishing/collections/BlogPosts'
 
-// Shared Collections (blog, marketing, projects)
+// Shared Collections (blog, marketing)
 import { BlogCategories } from '@/branches/shared/collections/BlogCategories'
-import { Cases } from '@/branches/shared/collections/Cases'
-import { Projects } from '@/branches/shared/collections/Projects'
 // FAQs collection removed — use FAQ block on pages instead
-import { Testimonials } from '@/branches/shared/collections/Testimonials'
 
 // Marketplace Branch (3 collections)
 import { Vendors } from '@/branches/marketplace/collections/Vendors'
@@ -101,12 +98,11 @@ import { Workshops } from '@/branches/marketplace/collections/Workshops'
 
 // Content Approvals (Feature #28 - Content Goedkeuringsworkflows)
 import { ContentApprovals } from '@/branches/shared/collections/ContentApprovals'
-// Shared Branch (6 collections + 2 subdirectories)
+// Shared Branch (5 collections + 2 subdirectories)
 import { CookieConsents } from '@/branches/shared/collections/CookieConsents'
 import { Media } from '@/branches/shared/collections/Media'
 import { Notifications } from '@/branches/shared/collections/Notifications'
 import { Partners } from '@/branches/shared/collections/Partners'
-import { ServicesCollection } from '@/branches/shared/collections/ServicesCollection'
 import { Themes } from '@/branches/shared/collections/Themes'
 // Note: FormSubmissions is provided by formBuilderPlugin, no need to import manually
 
@@ -119,37 +115,8 @@ import { Clients } from '@/features/platform/collections/Clients'
 import { ClientRequests } from '@/features/platform/collections/ClientRequests'
 import { Deployments } from '@/features/platform/collections/Deployments'
 
-// Professional Services Branch (4 collections)
-import { ProfessionalServices } from '@/branches/professional-services/collections/ProfessionalServices'
-import { ProfessionalCases } from '@/branches/professional-services/collections/ProfessionalCases'
-import { ProfessionalReviews } from '@/branches/professional-services/collections/ProfessionalReviews'
-import { ConsultationRequests } from '@/branches/professional-services/collections/ConsultationRequests'
-
-// Construction Branch (4 collections - Sprint 2)
-import { ConstructionServices } from '@/branches/construction/collections/ConstructionServices'
-import { ConstructionProjects } from '@/branches/construction/collections/ConstructionProjects'
-import { ConstructionReviews } from '@/branches/construction/collections/ConstructionReviews'
-import { QuoteRequests } from '@/branches/construction/collections/QuoteRequests'
-
-// Hospitality Branch (3 collections - Sprint 4)
-import { Treatments } from '@/branches/hospitality/collections/Treatments'
-import { Practitioners } from '@/branches/hospitality/collections/Practitioners'
-import { Appointments } from '@/branches/hospitality/collections/Appointments'
-
-// Beauty Branch (3 collections - Sprint 5)
-import { BeautyServices } from '@/branches/beauty/collections/BeautyServices'
-import { Stylists } from '@/branches/beauty/collections/Stylists'
-import { BeautyBookings } from '@/branches/beauty/collections/BeautyBookings'
-
-// Horeca Branch (3 collections - Sprint 6)
-import { MenuItems } from '@/branches/horeca/collections/MenuItems'
-import { Reservations } from '@/branches/horeca/collections/Reservations'
-import { Events } from '@/branches/horeca/collections/Events'
-
-// Experiences Branch (3 collections - Sprint 7)
-import { Experiences } from '@/branches/experiences/collections/Experiences'
-import { ExperienceCategories } from '@/branches/experiences/collections/ExperienceCategories'
-import { ExperienceReviews } from '@/branches/experiences/collections/ExperienceReviews'
+// Branch-specific collections REMOVED — replaced by unified Content collections
+// (ContentServices, ContentCases, ContentReviews, ContentInquiries, ContentBookings, ContentTeam, ContentActivities)
 
 // ─── Unified Content Collections (consolidation of 24+ branch-specific collections) ────
 import { ContentServices } from '@/branches/shared/collections/ContentServices'
@@ -387,9 +354,7 @@ export default buildConfig({
     Media,
     CookieConsents, // GDPR cookie consent tracking (always enabled)
     ContentApprovals, // Content approval workflow (Feature #28)
-    _col(Projects),
     _col(Partners),
-    _col(ServicesCollection),
     _col(Notifications),
     _col(PushSubscriptions),
     _col(Themes),
@@ -461,20 +426,10 @@ export default buildConfig({
     _col(ABTestResults),
 
     // ═══════════════════════════════════════════════════════════════════════════
-    // CONTENT BRANCH - Blog, FAQs, Testimonials, Cases
+    // CONTENT BRANCH - Blog
     // ═══════════════════════════════════════════════════════════════════════════
     _col(BlogPosts),
     _col(BlogCategories),
-    _col(Cases),
-    _col(Testimonials),
-
-    // ═══════════════════════════════════════════════════════════════════════════
-    // PROFESSIONAL SERVICES BRANCH - Diensten, Cases, Reviews, Consultations
-    // ═══════════════════════════════════════════════════════════════════════════
-    _col(ProfessionalServices),
-    _col(ProfessionalCases),
-    _col(ProfessionalReviews),
-    _col(ConsultationRequests),
 
     // ═══════════════════════════════════════════════════════════════════════════
     // MARKETPLACE BRANCH - Vendors, Workshops, Reviews
@@ -482,42 +437,6 @@ export default buildConfig({
     _col(Vendors),
     _col(VendorReviews),
     _col(Workshops),
-
-    // ═══════════════════════════════════════════════════════════════════════════
-    // CONSTRUCTION BRANCH - Bouwbedrijf Template (Sprint 2)
-    // ═══════════════════════════════════════════════════════════════════════════
-    _col(ConstructionServices),
-    _col(ConstructionProjects),
-    _col(ConstructionReviews),
-    _col(QuoteRequests),
-
-    // ═══════════════════════════════════════════════════════════════════════════
-    // HOSPITALITY BRANCH - Fysiotherapie/Zorg Template (Sprint 4)
-    // ═══════════════════════════════════════════════════════════════════════════
-    _col(Treatments),
-    _col(Practitioners),
-    _col(Appointments),
-
-    // ═══════════════════════════════════════════════════════════════════════════
-    // BEAUTY BRANCH - Hair & Beauty Salon Template (Sprint 5)
-    // ═══════════════════════════════════════════════════════════════════════════
-    _col(BeautyServices),
-    _col(Stylists),
-    _col(BeautyBookings),
-
-    // ═══════════════════════════════════════════════════════════════════════════
-    // HORECA BRANCH - Restaurant & Hospitality Template (Sprint 6)
-    // ═══════════════════════════════════════════════════════════════════════════
-    _col(MenuItems),
-    _col(Reservations),
-    _col(Events),
-
-    // ═══════════════════════════════════════════════════════════════════════════
-    // EXPERIENCES BRANCH - Ervaringen & Belevenissen Template (Sprint 7)
-    // ═══════════════════════════════════════════════════════════════════════════
-    _col(Experiences),
-    _col(ExperienceCategories),
-    _col(ExperienceReviews),
 
     // ═══════════════════════════════════════════════════════════════════════════
     // UNIFIED CONTENT COLLECTIONS - Consolidation of branch-specific collections

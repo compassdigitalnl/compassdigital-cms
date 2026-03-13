@@ -86,7 +86,7 @@ export const CasesGrid: Block = {
     {
       name: 'cases',
       type: 'relationship',
-      relationTo: 'professional-cases',
+      relationTo: 'content-cases',
       hasMany: true,
       label: 'Cases',
       admin: {
@@ -97,7 +97,7 @@ export const CasesGrid: Block = {
     {
       name: 'service',
       type: 'relationship',
-      relationTo: 'professional-services',
+      relationTo: 'content-services',
       label: 'Dienst',
       admin: {
         description: 'Filter cases op deze dienst',

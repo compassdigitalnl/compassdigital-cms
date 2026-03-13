@@ -4,7 +4,7 @@ import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
 import { featureFields } from '@/lib/tenant/featureFields'
 import { autoGenerateSlug } from '@/utilities/slugify'
 import { autoFillSEO, autoSetPublishedDate, autoSetAuthor } from '@/features/seo/lib/seoAutoFill'
-import { isCollectionEnabled, filterRelationTo } from '@/lib/tenant/isCollectionDisabled'
+import { isCollectionEnabled } from '@/lib/tenant/isCollectionDisabled'
 import {
   BoldFeature,
   HeadingFeature,
@@ -363,13 +363,13 @@ export const BlogPosts: CollectionConfig = {
         description: 'Handmatig geselecteerde gerelateerde artikelen (max 3)',
       },
     },
-    // Only include relatedCases if 'projects' collection is enabled
-    ...(isCollectionEnabled('projects')
+    // Related cases via unified content-cases collection
+    ...(isCollectionEnabled('content-cases')
       ? [
           {
             name: 'relatedCases',
             type: 'relationship',
-            relationTo: 'projects',
+            relationTo: 'content-cases',
             hasMany: true,
             label: 'Gerelateerde Cases',
             admin: {
@@ -378,26 +378,21 @@ export const BlogPosts: CollectionConfig = {
           } satisfies Field,
         ]
       : []),
-    // Only include relatedServices if at least one service collection is enabled
-    ...(() => {
-      const serviceCollections = filterRelationTo([
-        'professional-services',
-        'construction-services',
-      ])
-      if (!serviceCollections) return []
-      return [
-        {
-          name: 'relatedServices',
-          type: 'relationship',
-          relationTo: serviceCollections.length === 1 ? serviceCollections[0] : serviceCollections,
-          hasMany: true,
-          label: 'Gerelateerde Diensten',
-          admin: {
-            description: 'Diensten die bij dit artikel horen',
-          },
-        } satisfies Field,
-      ]
-    })(),
+    // Related services via unified content-services collection
+    ...(isCollectionEnabled('content-services')
+      ? [
+          {
+            name: 'relatedServices',
+            type: 'relationship',
+            relationTo: 'content-services',
+            hasMany: true,
+            label: 'Gerelateerde Diensten',
+            admin: {
+              description: 'Diensten die bij dit artikel horen',
+            },
+          } satisfies Field,
+        ]
+      : []),
 
     // ═══════════════════════════════════════════════════════════
     // SEO & SCHEMA

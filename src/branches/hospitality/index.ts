@@ -7,14 +7,12 @@
  * Features: Treatment detail pages, practitioner profiles, appointment booking
  */
 
-// Export all collections
-export { default as Treatments } from './collections/Treatments'
-export { default as Practitioners } from './collections/Practitioners'
-export { default as Appointments } from './collections/Appointments'
+// Collections removed — replaced by unified Content collections
+// (ContentServices, ContentTeam, ContentBookings)
 
 // Export branch metadata
 export const branchMetadata = {
   name: 'hospitality',
-  collections: ['Treatments', 'Practitioners', 'Appointments'],
+  collections: [],
   featureFlag: 'ENABLE_HOSPITALITY',
 } as const

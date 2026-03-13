@@ -86,7 +86,7 @@ export const ProjectsGrid: Block = {
     {
       name: 'projects',
       type: 'relationship',
-      relationTo: 'construction-projects',
+      relationTo: 'content-cases',
       hasMany: true,
       label: 'Projecten',
       admin: {
@@ -97,7 +97,7 @@ export const ProjectsGrid: Block = {
     {
       name: 'category',
       type: 'relationship',
-      relationTo: 'construction-services',
+      relationTo: 'content-services',
       label: 'Categorie',
       admin: {
         description: 'Filter projecten op deze categorie',

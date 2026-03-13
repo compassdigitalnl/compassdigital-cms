@@ -7,10 +7,8 @@
  * Use case: Experience providers, team building companies, event organizers
  */
 
-// Export all collections
-export { default as ExperienceCategories } from './collections/ExperienceCategories'
-export { default as Experiences } from './collections/Experiences'
-export { default as ExperienceReviews } from './collections/ExperienceReviews'
+// Collections removed — replaced by unified Content collections
+// (ContentActivities, ContentReviews)
 
 // Export branch metadata
 export const branchMetadata = {
@@ -46,7 +44,4 @@ export const branchMetadata = {
 // Export blocks
 export { experienceBlocks, experienceBlockSlugs } from './blocks'
 
-// Export individual collections for direct import
-export * from './collections/ExperienceCategories'
-export * from './collections/Experiences'
-export * from './collections/ExperienceReviews'
+// Individual collection exports removed — use unified Content collections

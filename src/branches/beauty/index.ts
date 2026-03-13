@@ -10,17 +10,14 @@
  * - BeautyBookings: Customer appointment bookings
  */
 
-// Export all collections
-export { BeautyServices } from './collections/BeautyServices'
-export { Stylists } from './collections/Stylists'
-export { BeautyBookings } from './collections/BeautyBookings'
+// Collections removed — replaced by unified Content collections
+// (ContentServices, ContentTeam, ContentBookings)
 
 // Branch metadata for feature flagging
 export const branchMetadata = {
   name: 'beauty',
   displayName: 'Beauty & Salon',
   description: 'Hair & beauty salon, spa, and wellness center template',
-  collections: ['beautyServices', 'stylists', 'beautyBookings'],
+  collections: [],
   featureFlag: 'ENABLE_BEAUTY',
-  icon: '✨',
 } as const

@@ -41,7 +41,7 @@ export const CasesBlock: Block = {
     {
       name: 'cases',
       type: 'relationship',
-      relationTo: 'cases',
+      relationTo: 'content-cases',
       hasMany: true,
       label: 'Selecteer cases',
       admin: {

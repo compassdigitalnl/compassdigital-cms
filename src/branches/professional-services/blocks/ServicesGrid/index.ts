@@ -83,7 +83,7 @@ export const ProfessionalServicesGrid: Block = {
     {
       name: 'services',
       type: 'relationship',
-      relationTo: 'professional-services',
+      relationTo: 'content-services',
       hasMany: true,
       label: 'Diensten',
       admin: {

@@ -229,15 +229,6 @@ export const ContentActivities: CollectionConfig = {
         {
           label: 'Relaties',
           fields: [
-            ...(isCollectionEnabled('experience-categories') ? [{
-              name: 'category',
-              type: 'relationship' as const,
-              relationTo: 'experience-categories' as const,
-              label: 'Categorie',
-              admin: {
-                condition: (_: any, s: any) => s?.branch === 'ervaringen',
-              },
-            }] : []),
             ...(isCollectionEnabled('vendors') ? [{
               name: 'vendor',
               type: 'relationship' as const,

@@ -9,11 +9,8 @@
  * Based on: Construction branch pattern
  */
 
-// Export all collections
-export { default as ProfessionalServices } from './collections/ProfessionalServices'
-export { default as ProfessionalCases } from './collections/ProfessionalCases'
-export { default as ProfessionalReviews } from './collections/ProfessionalReviews'
-export { default as ConsultationRequests } from './collections/ConsultationRequests'
+// Collections removed — replaced by unified Content collections
+// (ContentServices, ContentCases, ContentReviews, ContentInquiries)
 
 // Export all blocks
 export * from './blocks'
@@ -63,8 +60,4 @@ export const branchMetadata = {
   updatedAt: '2026-03-11',
 } as const
 
-// Export individual collections for direct import
-export * from './collections/ProfessionalServices'
-export * from './collections/ProfessionalCases'
-export * from './collections/ProfessionalReviews'
-export * from './collections/ConsultationRequests'
+// Individual collection exports removed — use unified Content collections

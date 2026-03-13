@@ -1,6 +1,17 @@
 import type { Block } from 'payload'
 import { animationFields } from '../_shared/animationFields'
-import { branchOptions } from '../../collections/Projects'
+
+const branchOptions = [
+  { label: 'E-commerce', value: 'e-commerce' },
+  { label: 'Bouw & Installatie', value: 'construction' },
+  { label: 'Beauty & Wellness', value: 'beauty' },
+  { label: 'Horeca', value: 'horeca' },
+  { label: 'Zorg & Welzijn', value: 'zorg' },
+  { label: 'Dienstverlening', value: 'dienstverlening' },
+  { label: 'Ervaringen & Events', value: 'ervaringen' },
+  { label: 'Marketplace', value: 'marketplace' },
+  { label: 'Publishing', value: 'publishing' },
+]
 
 export const ProjectsGrid: Block = {
   slug: 'projectsGrid',
@@ -41,7 +52,7 @@ export const ProjectsGrid: Block = {
             {
               name: 'projects',
               type: 'relationship',
-              relationTo: 'projects',
+              relationTo: 'content-cases',
               hasMany: true,
               label: 'Projecten',
               admin: {

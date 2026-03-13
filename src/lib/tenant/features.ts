@@ -572,32 +572,10 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     // === CONTENT ===
     'blog-posts': 'blog',
     // faqs: removed
-    testimonials: 'testimonials',
-    cases: 'cases',
+    // testimonials, cases, services, projects: removed — replaced by unified Content collections
     partners: 'partners',
-    services: 'services',
 
-    // === PROFESSIONAL SERVICES ===
-    'professional-services': 'services',
-    'professional-cases': 'services',
-    'professional-reviews': 'services',
-    'consultation-requests': 'services',
-
-    // === INDUSTRY BRANCHES ===
-    'construction-services': 'construction',
-    'construction-projects': 'construction',
-    'construction-reviews': 'construction',
-    'quote-requests': 'construction',
-
-    // === EXPERIENCES ===
-    'experiences': 'experiences',
-    'experience-categories': 'experiences',
-    'experience-reviews': 'experiences',
-
-    // === HOSPITALITY ===
-    'treatments': 'hospitality',
-    'practitioners': 'hospitality',
-    'appointments': 'hospitality',
+    // Branch-specific collections removed — replaced by unified Content collections
 
     // === USERS ===
     users: 'authentication',

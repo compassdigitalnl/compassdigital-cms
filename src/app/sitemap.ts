@@ -77,20 +77,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error fetching blog posts for sitemap:', error)
   }
 
-  // ─── 3. Cases ──────────────────────────────────────────────
+  // ─── 3. Content Cases (unified) ────────────────────────────
   try {
     const cases = await payload.find({
-      collection: 'cases',
-      where: { status: { equals: 'published' } },
-      limit: 200,
-      select: {
-        slug: true,
-        updatedAt: true,
-      },
+      collection: 'content-cases',
+      where: { _status: { equals: 'published' } },
+      limit: 500,
+      select: { slug: true, updatedAt: true },
     })
 
     const caseEntries: MetadataRoute.Sitemap = cases.docs
-      .filter((c) => c.slug) // Only cases with slugs (some might not have pages)
+      .filter((c): c is { id: number; slug: string; updatedAt: string } =>
+        typeof c === 'object' && 'slug' in c && typeof c.slug === 'string'
+      )
       .map((c) => ({
         url: `${siteUrl}/cases/${c.slug}`,
         lastModified: new Date(c.updatedAt),
@@ -100,140 +99,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     entries.push(...caseEntries)
   } catch (error) {
-    console.error('Error fetching cases for sitemap:', error)
+    console.log('Content cases not accessible, skipping')
   }
 
-  // ─── 4. Professional Services (/dienstverlening) ──────────
+  // ─── 4. Content Services (unified) ───────────────────────
   try {
-    const profServices = await payload.find({
-      collection: 'professional-services',
-      where: { status: { equals: 'published' } },
+    const services = await payload.find({
+      collection: 'content-services',
+      where: { _status: { equals: 'published' } },
       limit: 200,
       select: { slug: true, updatedAt: true },
     })
 
-    const psEntries: MetadataRoute.Sitemap = profServices.docs
+    const serviceEntries: MetadataRoute.Sitemap = services.docs
       .filter((s): s is { id: number; slug: string; updatedAt: string } =>
         typeof s === 'object' && 'slug' in s && typeof s.slug === 'string'
       )
       .map((s) => ({
-        url: `${siteUrl}/dienstverlening/${s.slug}`,
+        url: `${siteUrl}/diensten/${s.slug}`,
         lastModified: new Date(s.updatedAt),
         changeFrequency: 'monthly',
         priority: 0.7,
       }))
 
-    entries.push(...psEntries)
+    entries.push(...serviceEntries)
   } catch (error) {
-    console.log('Professional services not accessible, skipping')
-  }
-
-  // ─── 5. Construction Services (/services) ──────────────────
-  try {
-    const constructionServices = await payload.find({
-      collection: 'construction-services',
-      where: { status: { equals: 'published' } },
-      limit: 200,
-      select: { slug: true, updatedAt: true },
-    })
-
-    const csEntries: MetadataRoute.Sitemap = constructionServices.docs
-      .filter((s): s is { id: number; slug: string; updatedAt: string } =>
-        typeof s === 'object' && 'slug' in s && typeof s.slug === 'string'
-      )
-      .map((s) => ({
-        url: `${siteUrl}/services/${s.slug}`,
-        lastModified: new Date(s.updatedAt),
-        changeFrequency: 'monthly',
-        priority: 0.7,
-      }))
-
-    entries.push(...csEntries)
-  } catch (error) {
-    console.log('Construction services not accessible, skipping')
-  }
-
-  // ─── 6. Construction Projects ──────────────────────────────
-  try {
-    const constructionProjects = await payload.find({
-      collection: 'construction-projects',
-      where: { status: { equals: 'published' } },
-      limit: 500,
-      select: { slug: true, updatedAt: true },
-    })
-
-    const cpEntries: MetadataRoute.Sitemap = constructionProjects.docs
-      .filter((p): p is { id: number; slug: string; updatedAt: string } =>
-        typeof p === 'object' && 'slug' in p && typeof p.slug === 'string'
-      )
-      .map((p) => ({
-        url: `${siteUrl}/projecten/${p.slug}`,
-        lastModified: new Date(p.updatedAt),
-        changeFrequency: 'monthly',
-        priority: 0.6,
-      }))
-
-    entries.push(...cpEntries)
-  } catch (error) {
-    console.log('Construction projects not accessible, skipping')
-  }
-
-  // ─── 7. Professional Cases ────────────────────────────────
-  try {
-    const professionalCases = await payload.find({
-      collection: 'professional-cases',
-      where: { status: { equals: 'published' } },
-      limit: 500,
-      select: { slug: true, updatedAt: true },
-    })
-
-    const pcEntries: MetadataRoute.Sitemap = professionalCases.docs
-      .filter((p): p is { id: number; slug: string; updatedAt: string } =>
-        typeof p === 'object' && 'slug' in p && typeof p.slug === 'string'
-      )
-      .map((p) => ({
-        url: `${siteUrl}/cases/${p.slug}`,
-        lastModified: new Date(p.updatedAt),
-        changeFrequency: 'monthly',
-        priority: 0.6,
-      }))
-
-    entries.push(...pcEntries)
-  } catch (error) {
-    console.log('Professional cases not accessible, skipping')
-  }
-
-  // ─── 9. Projects (unified portfolio) ─────────────────────
-  try {
-    const projects = await payload.find({
-      collection: 'projects',
-      where: { status: { equals: 'published' } },
-      limit: 500,
-      select: { slug: true, updatedAt: true },
-    })
-
-    const projectEntries: MetadataRoute.Sitemap = projects.docs
-      .filter((p): p is { id: number; slug: string; updatedAt: string } =>
-        typeof p === 'object' && 'slug' in p && typeof p.slug === 'string'
-      )
-      .flatMap((p) => ([
-        {
-          url: `${siteUrl}/cases/${p.slug}`,
-          lastModified: new Date(p.updatedAt),
-          changeFrequency: 'monthly' as const,
-          priority: 0.7,
-        },
-        {
-          url: `${siteUrl}/projects/${p.slug}`,
-          lastModified: new Date(p.updatedAt),
-          changeFrequency: 'monthly' as const,
-          priority: 0.5,
-        },
-      ]))
-
-    entries.push(...projectEntries)
-  } catch (error) {
-    console.log('Projects collection not accessible, skipping')
+    console.log('Content services not accessible, skipping')
   }
 
   // ─── 10. Products (for e-commerce) ────────────────────────
@@ -260,44 +151,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.log('Products collection not accessible, skipping')
   }
 
-  // ─── 11. Technology Hub ──────────────────────────────────────
-  try {
-    const techProjects = await payload.find({
-      collection: 'projects',
-      where: { status: { equals: 'published' } },
-      limit: 500,
-      depth: 0,
-      select: { technologies: true },
-    })
-
-    const techSlugs = new Set<string>()
-    for (const p of techProjects.docs) {
-      const technologies = Array.isArray((p as any).technologies) ? (p as any).technologies : []
-      for (const tech of technologies) {
-        if (tech.name) {
-          techSlugs.add(tech.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''))
-        }
-      }
-    }
-
-    if (techSlugs.size > 0) {
-      entries.push({
-        url: `${siteUrl}/technologieen`,
-        changeFrequency: 'weekly',
-        priority: 0.7,
-      })
-
-      for (const slug of techSlugs) {
-        entries.push({
-          url: `${siteUrl}/technologieen/${slug}`,
-          changeFrequency: 'monthly',
-          priority: 0.5,
-        })
-      }
-    }
-  } catch (error) {
-    console.log('Technology hub entries skipped:', error)
-  }
+  // Technology Hub section removed — was based on old 'projects' collection
 
   return entries
 }
