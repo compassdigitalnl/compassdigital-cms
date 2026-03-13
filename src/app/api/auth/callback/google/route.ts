@@ -106,24 +106,43 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(`${adminUrl}/login?error=no_admin_access`)
     }
 
-    // 6. Generate Payload JWT token
+    // 6. Create session on user (Payload v3 requires real sessions)
     const payloadSecret = process.env.PAYLOAD_SECRET
     if (!payloadSecret) {
       return NextResponse.redirect(`${adminUrl}/login?error=server_config`)
     }
 
+    const sid = randomUUID()
+    const now = new Date()
+    const tokenExpirationMs = 14 * 24 * 60 * 60 * 1000 // 14 days
+    const expiresAt = new Date(now.getTime() + tokenExpirationMs)
+
+    const existingSessions = (user as any).sessions || []
+    const validSessions = existingSessions.filter((s: any) => {
+      const exp = s.expiresAt instanceof Date ? s.expiresAt : new Date(s.expiresAt)
+      return exp > now
+    })
+    validSessions.push({ id: sid, createdAt: now, expiresAt })
+
+    await payload.update({
+      collection: 'users',
+      id: user.id,
+      data: { sessions: validSessions } as any,
+    })
+
+    // 7. Generate Payload JWT token
     const tokenData = {
       id: user.id,
       email: (user as any).email,
       collection: 'users',
-      sid: randomUUID(),
+      sid,
     }
 
     const token = jwt.sign(tokenData, payloadSecret, {
       expiresIn: '14d',
     })
 
-    // 7. Set cookie and redirect to admin
+    // 8. Set cookie and redirect to admin
     const response = NextResponse.redirect(adminUrl)
 
     response.cookies.set('payload-token', token, {
