@@ -385,11 +385,17 @@ const diensten = [
 
 // ─── Helpers ────────────────────────────────────────────────────
 
+import crypto from 'crypto'
+
 function p(text) {
   return {
     type: 'paragraph', format: '', indent: 0, version: 1, direction: 'ltr', textFormat: 0, textStyle: '',
     children: [{ type: 'text', format: 0, text, version: 1, style: '', mode: 'normal', detail: 0 }],
   }
+}
+
+function uid() {
+  return crypto.randomBytes(12).toString('hex')
 }
 
 // ─── Main ───────────────────────────────────────────────────────
@@ -484,8 +490,8 @@ async function seed() {
         await client.query('DELETE FROM professional_services_features WHERE _parent_id = $1', [serviceId])
         for (let i = 0; i < dienst.features.length; i++) {
           await client.query(
-            'INSERT INTO professional_services_features (_order, _parent_id, feature) VALUES ($1, $2, $3)',
-            [i + 1, serviceId, dienst.features[i]]
+            'INSERT INTO professional_services_features (_order, _parent_id, id, feature) VALUES ($1, $2, $3, $4)',
+            [i + 1, serviceId, uid(), dienst.features[i]]
           )
         }
         console.log(`  Inserted ${dienst.features.length} features`)
@@ -501,8 +507,8 @@ async function seed() {
         for (let i = 0; i < dienst.processSteps.length; i++) {
           const s = dienst.processSteps[i]
           await client.query(
-            'INSERT INTO professional_services_process_steps (_order, _parent_id, title, description, icon) VALUES ($1, $2, $3, $4, $5)',
-            [i + 1, serviceId, s.title, s.description, s.icon || null]
+            'INSERT INTO professional_services_process_steps (_order, _parent_id, id, title, description, icon) VALUES ($1, $2, $3, $4, $5, $6)',
+            [i + 1, serviceId, uid(), s.title, s.description, s.icon || null]
           )
         }
         console.log(`  Inserted ${dienst.processSteps.length} process steps`)
@@ -518,8 +524,8 @@ async function seed() {
         for (let i = 0; i < dienst.usps.length; i++) {
           const u = dienst.usps[i]
           await client.query(
-            'INSERT INTO professional_services_usps (_order, _parent_id, title, description, icon) VALUES ($1, $2, $3, $4, $5)',
-            [i + 1, serviceId, u.title, u.description, u.icon || null]
+            'INSERT INTO professional_services_usps (_order, _parent_id, id, title, description, icon) VALUES ($1, $2, $3, $4, $5, $6)',
+            [i + 1, serviceId, uid(), u.title, u.description, u.icon || null]
           )
         }
         console.log(`  Inserted ${dienst.usps.length} USPs`)
@@ -535,8 +541,8 @@ async function seed() {
         for (let i = 0; i < dienst.faq.length; i++) {
           const f = dienst.faq[i]
           await client.query(
-            'INSERT INTO professional_services_faq (_order, _parent_id, question, answer) VALUES ($1, $2, $3, $4)',
-            [i + 1, serviceId, f.question, f.answer]
+            'INSERT INTO professional_services_faq (_order, _parent_id, id, question, answer) VALUES ($1, $2, $3, $4, $5)',
+            [i + 1, serviceId, uid(), f.question, f.answer]
           )
         }
         console.log(`  Inserted ${dienst.faq.length} FAQ items`)
@@ -698,7 +704,7 @@ async function seed() {
         if (!hasDiensten) {
           await client.query(
             `INSERT INTO header_manual_nav_items (_order, _parent_id, id, label, icon, type, url) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-            [insertOrder++, headerId, `nav-diensten-${Date.now()}`, 'Diensten', null, 'link', '/diensten']
+            [insertOrder++, headerId, `nav-diensten-${Date.now()}`, 'Diensten', null, 'external', '/diensten']
           )
           console.log('  Added Diensten nav item')
         }
@@ -706,7 +712,7 @@ async function seed() {
         if (!hasTech) {
           await client.query(
             `INSERT INTO header_manual_nav_items (_order, _parent_id, id, label, icon, type, url) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-            [insertOrder++, headerId, `nav-tech-${Date.now()}`, 'Technologieën', null, 'link', '/technologieen']
+            [insertOrder++, headerId, `nav-tech-${Date.now()}`, 'Technologieën', null, 'external', '/technologieen']
           )
           console.log('  Added Technologieën nav item')
         }
