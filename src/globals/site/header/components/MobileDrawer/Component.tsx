@@ -203,9 +203,22 @@ export function MobileDrawer({
                     {item.label}
                     <ChevronRight className="w-4 h-4 ml-auto text-gray-400" />
                   </CMSLink>
-                  {item.children && item.children.length > 0 && (
+                  {((item as any).subItems || item.children || (item as any).megaColumns)?.length > 0 && (
                     <div className="bg-gray-50">
-                      {item.children.map((child: NavItem) => (
+                      {/* Mega menu columns flattened for mobile */}
+                      {(item as any).type === 'mega' && (item as any).megaColumns?.map((col: any) => (
+                        (col.links || []).map((link: any) => (
+                          <a
+                            key={link.id || link.url}
+                            href={link.url || '#'}
+                            className="flex items-center gap-3 pl-12 pr-5 py-2.5 text-sm font-medium hover:bg-gray-100 transition-colors text-gray-600"
+                          >
+                            {link.label}
+                          </a>
+                        ))
+                      )).flat()}
+                      {/* Simple subItems dropdown */}
+                      {((item as any).subItems || item.children || []).map((child: NavItem) => (
                         <CMSLink
                           key={child.id}
                           type={typeof child.page === 'object' && child.page !== null && 'slug' in (child.page as Record<string, unknown>) ? 'reference' : 'custom'}

@@ -107,7 +107,10 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
 
             {/* Manual/Hybrid Navigation Items */}
             {navItems.map((item: any) => {
-              const hasChildren = item.children && item.children.length > 0
+              const subItems = item.subItems || item.children || []
+              const hasChildren = subItems.length > 0
+              const isMega = item.type === 'mega' && item.megaColumns?.length > 0
+              const hasDropdown = hasChildren || isMega
               const isActive =
                 item.type === 'page' && item.page
                   ? typeof item.page === 'object' &&
@@ -117,7 +120,7 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
 
               return (
                 <div key={item.id} className="relative group">
-                  {hasChildren ? (
+                  {hasDropdown ? (
                     <button
                       className={cn(
                         'flex items-center gap-2 px-4 text-sm font-semibold border-b-2 transition-all h-full',
@@ -153,13 +156,58 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
                     </CMSLink>
                   )}
 
-                  {/* Simple Dropdown for children */}
-                  {hasChildren && (
+                  {/* Mega Menu Dropdown */}
+                  {isMega && (
+                    <div
+                      className="absolute top-full left-0 bg-white border rounded-b-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[195]"
+                      style={{ borderColor: 'var(--color-border)', minWidth: `${Math.min(item.megaColumns.length * 220, 880)}px` }}
+                    >
+                      <div className="grid gap-0 p-5" style={{ gridTemplateColumns: `repeat(${item.megaColumns.length}, 1fr)` }}>
+                        {item.megaColumns.map((col: any, colIdx: number) => (
+                          <div key={col.id || colIdx} className={cn('px-3', colIdx > 0 && 'border-l border-[var(--color-border)]')}>
+                            {col.title && (
+                              <h4 className="mb-3 text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-primary)' }}>
+                                {col.title}
+                              </h4>
+                            )}
+                            <ul className="space-y-1">
+                              {(col.links || []).map((link: any, linkIdx: number) => (
+                                <li key={link.id || linkIdx}>
+                                  <Link
+                                    href={link.url || '#'}
+                                    className="flex items-start gap-2.5 rounded-lg px-2 py-2 text-sm transition-colors hover:bg-[var(--color-surface)]"
+                                    style={{ color: 'var(--color-secondary)' }}
+                                    onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                                      e.currentTarget.style.color = 'var(--color-primary)'
+                                    }}
+                                    onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                                      e.currentTarget.style.color = 'var(--color-secondary)'
+                                    }}
+                                  >
+                                    {link.icon && <Icon name={link.icon} size={16} className="mt-0.5 shrink-0" />}
+                                    <div>
+                                      <span className="font-medium">{link.label}</span>
+                                      {link.description && (
+                                        <p className="mt-0.5 text-xs opacity-60 leading-snug">{link.description}</p>
+                                      )}
+                                    </div>
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Simple Dropdown for subItems */}
+                  {hasChildren && !isMega && (
                     <div
                       className="absolute top-full left-0 bg-white border rounded-b-xl shadow-lg min-w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[195]"
                       style={{ borderColor: 'var(--color-border)' }}
                     >
-                      {(item.children as any[])!.map((child: any) => (
+                      {subItems.map((child: any) => (
                         <CMSLink
                           key={child.id}
                           {...(typeof child.page === 'object' && 'slug' in child.page
