@@ -60,11 +60,8 @@ import { horecaBlocks } from '@/branches/horeca/blocks'
 import { revalidatePage, revalidateDelete } from './hooks/revalidatePage'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 import { isClientDeployment } from '@/lib/tenant/isClientDeployment'
-
-// Check for disabled collections to prevent invalid relationship errors
-const disabledCollections = new Set(
-  (process.env.DISABLED_COLLECTIONS || '').split(',').map(s => s.trim()).filter(Boolean)
-)
+import { isFeatureEnabled } from '@/lib/tenant/features'
+import { isCollectionDisabled } from '@/lib/tenant/isCollectionDisabled'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -252,9 +249,9 @@ export const Pages: CollectionConfig = {
         SocialProofBanner, // B-41: Social proof metrics banner
         LogoBar, // B-42: Logo bar (klanten, certificeringen, partners)
         CaseStudyGrid, // B-43: Case study/portfolio grid
-        ...(disabledCollections.has('projects') ? [] : [ProjectsGrid]), // Unified projects grid
+        ...(isCollectionDisabled('projects') ? [] : [ProjectsGrid]), // Unified projects grid
         // Cases block - only if cases collection is enabled
-        ...(disabledCollections.has('cases') ? [] : [CasesBlock]), // Portfolio/projecten
+        ...(isCollectionDisabled('cases') ? [] : [CasesBlock]), // Portfolio/projecten
         Stats,
 
         // ── Informatief ──
@@ -286,17 +283,17 @@ export const Pages: CollectionConfig = {
         // ═══════════════════════════════════════════════════════════════════════════
         // CONSTRUCTION BRANCH BLOCKS - Only if construction feature enabled
         // ═══════════════════════════════════════════════════════════════════════════
-        ...(disabledCollections.has('construction-services') ? [] : constructionBlocks),
+        ...(!isFeatureEnabled('construction') ? [] : constructionBlocks),
 
         // ═══════════════════════════════════════════════════════════════════════════
         // EXPERIENCES BRANCH BLOCKS - Only if experiences feature enabled
         // ═══════════════════════════════════════════════════════════════════════════
-        ...(disabledCollections.has('experiences') ? [] : experienceBlocks),
+        ...(!isFeatureEnabled('experiences') ? [] : experienceBlocks),
 
         // ═══════════════════════════════════════════════════════════════════════════
         // HORECA BRANCH BLOCKS - Only if horeca feature enabled
         // ═══════════════════════════════════════════════════════════════════════════
-        ...(disabledCollections.has('reservations') ? [] : horecaBlocks),
+        ...(!isFeatureEnabled('horeca') ? [] : horecaBlocks),
       ],
     },
 
