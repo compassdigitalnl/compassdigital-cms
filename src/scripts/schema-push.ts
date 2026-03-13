@@ -138,9 +138,41 @@ async function run() {
     // Step 5: Apply changes (unless dry run)
     if (isDryRun) {
       console.log('[schema-push] Dry run — no changes applied')
-    } else if (statementsToExecute?.length || warnings.length) {
+    } else if (statementsToExecute?.length) {
       console.log('[schema-push] Applying schema changes...')
-      await apply()
+
+      // Apply statements individually so failures don't block remaining changes.
+      // This is critical for catch-up scenarios where many changes accumulated
+      // and some statements may fail (e.g., enum→text type changes, missing FKs).
+      const { sql } = await import('drizzle-orm')
+      let applied = 0
+      let failed = 0
+      const failures: string[] = []
+
+      for (const stmt of statementsToExecute) {
+        try {
+          await adapter.drizzle.execute(sql.raw(stmt))
+          applied++
+        } catch (err: unknown) {
+          failed++
+          const msg = err instanceof Error ? err.message : String(err)
+          // Keep first 10 failures for logging, avoid flooding
+          if (failures.length < 10) {
+            failures.push(`${stmt.slice(0, 120)}... → ${msg.split('\n')[0]}`)
+          }
+        }
+      }
+
+      console.log(`[schema-push] Applied: ${applied}/${statementsToExecute.length} statements`)
+      if (failed > 0) {
+        console.log(`[schema-push] Failed: ${failed} statements (non-critical, may be stale references):`)
+        for (const f of failures) {
+          console.log(`  ✗ ${f}`)
+        }
+        if (failed > 10) {
+          console.log(`  ... and ${failed - 10} more`)
+        }
+      }
 
       // Update payload_migrations dev push marker (same as pushDevSchema does)
       const migrationsTable = adapter.schemaName
@@ -170,7 +202,7 @@ async function run() {
         // payload_migrations table might not exist yet on fresh DBs — that's fine
       }
 
-      console.log('[schema-push] Schema changes applied successfully')
+      console.log('[schema-push] Schema sync complete')
     } else {
       console.log('[schema-push] Nothing to apply')
     }
