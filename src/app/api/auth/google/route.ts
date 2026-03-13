@@ -2,14 +2,14 @@
  * Google OAuth2 - Initiate Login
  *
  * Redirects to Google's OAuth2 consent screen.
- * After consent, Google redirects back to /api/auth/google/callback
+ * After consent, Google redirects back to /api/auth/callback/google
  */
 
 import { NextResponse } from 'next/server'
 
 export async function GET() {
   const clientId = process.env.GOOGLE_CLIENT_ID
-  const redirectUri = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/google/callback`
+  const redirectUri = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/callback/google`
 
   if (!clientId) {
     return NextResponse.json(
