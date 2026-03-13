@@ -13,6 +13,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import jwt from 'jsonwebtoken'
 import { randomUUID } from 'crypto'
+import { sql } from 'drizzle-orm'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -117,18 +118,17 @@ export async function GET(request: NextRequest) {
     const tokenExpirationMs = 14 * 24 * 60 * 60 * 1000 // 14 days
     const expiresAt = new Date(now.getTime() + tokenExpirationMs)
 
-    const existingSessions = (user as any).sessions || []
-    const validSessions = existingSessions.filter((s: any) => {
-      const exp = s.expiresAt instanceof Date ? s.expiresAt : new Date(s.expiresAt)
-      return exp > now
-    })
-    validSessions.push({ id: sid, createdAt: now, expiresAt })
+    // Get next _order for this user's sessions
+    const db = (payload.db as any).drizzle
+    const orderResult: any = await db.execute(
+      sql`SELECT COALESCE(MAX(_order), 0) + 1 as next_order FROM users_sessions WHERE _parent_id = ${user.id}`
+    )
+    const nextOrder = orderResult?.rows?.[0]?.next_order || 1
 
-    await payload.update({
-      collection: 'users',
-      id: user.id,
-      data: { sessions: validSessions } as any,
-    })
+    // Insert session directly (bypasses payload_locked_documents query issues)
+    await db.execute(
+      sql`INSERT INTO users_sessions (_order, _parent_id, id, created_at, expires_at) VALUES (${nextOrder}, ${user.id}, ${sid}, ${now.toISOString()}, ${expiresAt.toISOString()})`
+    )
 
     // 7. Generate Payload JWT token
     const tokenData = {
