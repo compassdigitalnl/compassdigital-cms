@@ -12,6 +12,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import jwt from 'jsonwebtoken'
+import { randomUUID } from 'crypto'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -115,6 +116,7 @@ export async function GET(request: NextRequest) {
       id: user.id,
       email: (user as any).email,
       collection: 'users',
+      sid: randomUUID(),
     }
 
     const token = jwt.sign(tokenData, payloadSecret, {
