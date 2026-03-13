@@ -27,45 +27,23 @@ echo "=============================================="
 # STAP 1: Pre-deploy backup
 # -----------------------------------------------------------
 echo ""
-echo "[deploy] Stap 1/7: Pre-deploy backup..."
+echo "[deploy] Stap 1/8: Pre-deploy backup..."
 node "${SCRIPTS_DIR}/backup-db.mjs" "${DB_NAME}" "pre-deploy" || {
     echo "[deploy] FATAAL: Backup mislukt. Deploy afgebroken!"
     exit 1
 }
 
 # -----------------------------------------------------------
-# STAP 2: Migration safety check
+# STAP 2: Migration safety check (overgeslagen — push: true)
 # -----------------------------------------------------------
 echo ""
-echo "[deploy] Stap 2/7: Migration veiligheidscheck..."
-MIGRATE_EXIT=0
-node "${SCRIPTS_DIR}/check-migrations.mjs" "${DB_NAME}" || MIGRATE_EXIT=$?
-
-case $MIGRATE_EXIT in
-    0)
-        echo "[deploy] Check: VEILIG — migraties mogen draaien"
-        RUN_MIGRATIONS=true
-        ;;
-    1)
-        echo "[deploy] Check: GEVAAR — migraties worden OVERGESLAGEN!"
-        echo "[deploy] Handmatige interventie nodig voordat migraties kunnen draaien."
-        RUN_MIGRATIONS=false
-        ;;
-    2)
-        echo "[deploy] Check: LEGE database — initieel setup wordt uitgevoerd"
-        RUN_MIGRATIONS=true
-        ;;
-    *)
-        echo "[deploy] Check: FOUT — migraties worden voor veiligheid overgeslagen"
-        RUN_MIGRATIONS=false
-        ;;
-esac
+echo "[deploy] Stap 2/8: Migration check overgeslagen (push: true strategie)"
 
 # -----------------------------------------------------------
 # STAP 3: Git pull
 # -----------------------------------------------------------
 echo ""
-echo "[deploy] Stap 3/7: Git pull..."
+echo "[deploy] Stap 3/8: Git pull..."
 cd "${SITE_DIR}"
 git pull origin main
 
@@ -73,42 +51,57 @@ git pull origin main
 # STAP 4: npm install
 # -----------------------------------------------------------
 echo ""
-echo "[deploy] Stap 4/7: npm install..."
+echo "[deploy] Stap 4/8: npm install..."
 cd "${SITE_DIR}"
 npm install --legacy-peer-deps --silent
 
 # -----------------------------------------------------------
-# STAP 5: Migraties uitvoeren (als veilig)
+# STAP 5: Migraties (overgeslagen — push: true in config)
 # -----------------------------------------------------------
 echo ""
-echo "[deploy] Stap 5/7: Migraties..."
-if [ "${RUN_MIGRATIONS}" = true ]; then
-    echo "[deploy] Migraties worden uitgevoerd..."
-    cd "${SITE_DIR}"
-    # Gebruik 'yes' om eventuele prompts automatisch te beantwoorden
-    # maar NOOIT migrate:fresh (dat dropt alles!)
-    yes 2>/dev/null | NODE_OPTIONS="--max-old-space-size=4096 --no-deprecation" npx payload migrate 2>&1 || {
-        echo "[deploy] WAARSCHUWING: Migratie had problemen. Check logs."
-        echo "[deploy] Post-migratie backup voor veiligheid..."
-        node "${SCRIPTS_DIR}/backup-db.mjs" "${DB_NAME}" "post-migrate-error" || true
-    }
-else
-    echo "[deploy] Migraties OVERGESLAGEN (veiligheidscheck gefaald)"
-fi
+echo "[deploy] Stap 5/8: Migraties overgeslagen (push: true synct schema automatisch)"
 
 # -----------------------------------------------------------
-# STAP 6: Build
+# STAP 5.5: Regenerate Payload importMap
 # -----------------------------------------------------------
 echo ""
-echo "[deploy] Stap 6/7: Next.js build..."
+echo "[deploy] Stap 5.5: ImportMap regenereren..."
 cd "${SITE_DIR}"
+NODE_OPTIONS="--max-old-space-size=4096 --no-deprecation" npx payload generate:importmap 2>&1 || {
+    echo "[deploy] WAARSCHUWING: ImportMap generatie gefaald."
+}
+
+# -----------------------------------------------------------
+# STAP 6: Build (met .env geladen voor DB-aware build)
+# -----------------------------------------------------------
+echo ""
+echo "[deploy] Stap 6/8: Next.js build..."
+cd "${SITE_DIR}"
+# Laad .env zodat DATABASE_URL beschikbaar is tijdens build
+if [ -f "${SITE_DIR}/.env" ]; then
+    set -a
+    source "${SITE_DIR}/.env"
+    set +a
+    echo "[deploy] .env geladen voor build"
+fi
 NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 # -----------------------------------------------------------
-# STAP 7: Restart PM2 (met correcte PORT uit .env)
+# STAP 7: Schema sync (push database schema)
 # -----------------------------------------------------------
 echo ""
-echo "[deploy] Stap 7/7: PM2 herstarten..."
+echo "[deploy] Stap 7/8: Schema sync..."
+cd "${SITE_DIR}"
+# .env is al geladen in stap 6 — DATABASE_URL is beschikbaar
+NODE_OPTIONS="--max-old-space-size=4096 --no-deprecation" npx tsx src/scripts/schema-push.ts 2>&1 || {
+    echo "[deploy] WAARSCHUWING: Schema sync gefaald — site start mogelijk met ontbrekende kolommen"
+}
+
+# -----------------------------------------------------------
+# STAP 8: Restart PM2 (met correcte PORT uit .env)
+# -----------------------------------------------------------
+echo ""
+echo "[deploy] Stap 8/8: PM2 herstarten..."
 
 # Lees PORT uit .env file (fallback naar 3020)
 if [ -f "${SITE_DIR}/.env" ]; then

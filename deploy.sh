@@ -23,13 +23,20 @@ echo "[deploy] npm install..."
 npm install --legacy-peer-deps --silent
 
 echo "[deploy] Building Next.js..."
-# Laad .env zodat DATABASE_URL beschikbaar is tijdens build (push: true)
+# Laad .env zodat DATABASE_URL beschikbaar is tijdens build
 if [ -f .env ]; then
     set -a
     source .env
     set +a
 fi
 NODE_OPTIONS="--max-old-space-size=4096" npm run build
+
+echo "[deploy] Schema sync (push database schema)..."
+# push:true in payload.config is IGNORED in production (NODE_ENV=production)
+# This script explicitly calls pushDevSchema() to sync the DB schema
+NODE_OPTIONS="--max-old-space-size=4096 --no-deprecation" npx tsx src/scripts/schema-push.ts 2>&1 || {
+    echo "[deploy] WAARSCHUWING: Schema sync gefaald!"
+}
 
 echo "[deploy] Restarting PM2..."
 pm2 restart cms-compassdigital --update-env

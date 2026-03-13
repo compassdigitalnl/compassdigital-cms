@@ -67,7 +67,10 @@
     "migrate:branches:dry": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/migrate-to-branches.ts --dry-run --all",
     "migrate:branches:rollback": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/migrate-to-branches.ts --rollback",
     "migrate:branch:ecommerce": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/migrate-to-branches.ts --branch=ecommerce",
-    "migrate:collection": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/migrate-to-branches.ts"
+    "migrate:collection": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/scripts/migrate-to-branches.ts",
+    "_comment_schema": "Schema push — syncs DB schema without migrations (push:true is ignored in production)",
+    "schema:push": "cross-env PAYLOAD_FORCE_DRIZZLE_PUSH=true PAYLOAD_MIGRATING=true NODE_OPTIONS=\"--no-deprecation --max-old-space-size=4096 --import=tsx/esm\" tsx src/scripts/schema-push.ts",
+    "schema:push:dry": "cross-env PAYLOAD_FORCE_DRIZZLE_PUSH=true PAYLOAD_MIGRATING=true NODE_OPTIONS=\"--no-deprecation --max-old-space-size=4096 --import=tsx/esm\" tsx src/scripts/schema-push.ts --dry-run"
   },
   "dependencies": {
     "@multisafepay/api-wrapper": "^1.0.1",

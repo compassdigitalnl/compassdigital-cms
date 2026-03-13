@@ -189,6 +189,9 @@ const databaseAdapter = isPostgreSQL
       pool: {
         connectionString: databaseURL,
       },
+      // NOTE: push:true only works in development (NODE_ENV !== 'production').
+      // In production, schema sync is handled by src/scripts/schema-push.ts
+      // which is called during deploy (safe-deploy.sh / deploy.sh).
       push: true,
     })
   : sqliteAdapter({
