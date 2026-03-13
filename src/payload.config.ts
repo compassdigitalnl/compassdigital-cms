@@ -160,24 +160,21 @@ import { plugins } from './plugins'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-// ─── Collection Filtering (per-client CMS customization) ──────────────────────
+// ─── Collection Visibility ────────────────────────────────────────────────────
 //
-// DISABLED_COLLECTIONS bevat een komma-gescheiden lijst van collection slugs
-// die uitgeschakeld zijn voor deze specifieke klant-CMS instantie.
+// ALL collections are ALWAYS registered in config. This is critical because
+// removing collections via DISABLED_COLLECTIONS breaks relationTo references
+// and causes 500 errors on any collection that references a disabled one.
 //
-// De platform-instantie zelf heeft DISABLED_COLLECTIONS leeg → alle collections actief.
-// Klant-instanties op Ploi krijgen deze env var automatisch gezet via CMSConfigService.
+// Visibility is controlled by:
+// 1. admin.hidden + shouldHideCollection(featureKey) — server-side, per ENABLE_* env vars
+// 2. HideCollections.tsx — client-side CSS hiding in admin sidebar
+// 3. Feature toggles in EcommerceSettings — database-driven feature flags
 //
-// Slugs moeten exact overeenkomen met ALL_COLLECTION_SLUGS in CMSConfigService.ts.
-const _disabledCollectionsEnv = process.env.DISABLED_COLLECTIONS || ''
-const _disabledSet = new Set(
-  _disabledCollectionsEnv.split(',').map((s) => s.trim()).filter(Boolean),
-)
-const _isPlatform = _disabledSet.size === 0
-
-// Helper: geef de collection terug als hij NIET uitgeschakeld is
-const _col = <T extends { slug: string }>(collection: T): T | null =>
-  _disabledSet.has(collection.slug) ? null : collection
+// Platform-only collections (Clients, Deployments, etc.) are still conditionally
+// included because they have no cross-references from other collections.
+import { isClientDeployment } from '@/lib/tenant/isClientDeployment'
+const _isPlatform = !isClientDeployment()
 
 // ─── Database Configuration ───────────────────────────
 // Automatically switch between SQLite (dev) and PostgreSQL (prod)
@@ -343,10 +340,13 @@ export default buildConfig({
   // 2. ECOMMERCE - Shop, Orders, Loyalty, Subscriptions, etc.
   // 3. CONTENT - Blog, FAQs, Testimonials, Cases
   // 4. MARKETPLACE - Vendors, Workshops
-  // 5. CONSTRUCTION - Bouwbedrijf (Services, Projects, Reviews, Quotes)
-  // 6. PLATFORM - Multi-tenant management (alleen op platform-instantie)
+  // 5. UNIFIED CONTENT - Services, Cases, Reviews, etc.
+  // 6. EMAIL MARKETING - Campaigns, Lists, Subscribers
+  // 7. PLATFORM - Multi-tenant management (alleen op platform-instantie)
   //
-  // Filtering via DISABLED_COLLECTIONS env var (per-client customization)
+  // Visibility per tenant is controlled by ENABLE_* feature flags + admin.hidden.
+  // Collections are ALWAYS registered — never removed from config — to prevent
+  // broken relationTo references that cause 500 errors.
   //
   collections: [
     // ═══════════════════════════════════════════════════════════════════════════
@@ -357,10 +357,10 @@ export default buildConfig({
     Media,
     CookieConsents, // GDPR cookie consent tracking (always enabled)
     ContentApprovals, // Content approval workflow (Feature #28)
-    _col(Partners),
-    _col(Notifications),
-    _col(PushSubscriptions),
-    _col(Themes),
+    Partners,
+    Notifications,
+    PushSubscriptions,
+    Themes,
     // FormSubmissions is provided by formBuilderPlugin
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -368,113 +368,111 @@ export default buildConfig({
     // ═══════════════════════════════════════════════════════════════════════════
 
     // Product Management
-    _col(Products),
-    _col(ProductCategories),
-    _col(Brands),
-    _col(Branches),
-    _col(RecentlyViewed),
-    _col(EditionNotifications),
+    Products,
+    ProductCategories,
+    Brands,
+    Branches,
+    RecentlyViewed,
+    EditionNotifications,
 
     // Publishing
-    _col(Magazines),
+    Magazines,
 
     // Customer Management (Customers + Addresses merged into Users)
-    _col(CustomerGroups),
+    CustomerGroups,
 
     // Cart & Checkout (DiscountCodes merged into Promotions)
-    _col(Carts),
-    _col(Promotions),
+    Carts,
+    Promotions,
 
     // Order Management
-    _col(Orders),
-    _col(OrderLists),
-    _col(RecurringOrders),
-    _col(Invoices),
-    _col(Returns),
-    _col(StockReservations),
+    Orders,
+    OrderLists,
+    RecurringOrders,
+    Invoices,
+    Returns,
+    StockReservations,
 
     // Subscriptions (Sprint 6)
-    _col(SubscriptionPlans),
-    _col(SubscriptionPages),
-    _col(UserSubscriptions),
-    _col(PaymentMethods),
+    SubscriptionPlans,
+    SubscriptionPages,
+    UserSubscriptions,
+    PaymentMethods,
 
     // Wishlists (Feature #34 - Wishlist Sharing)
-    _col(Wishlists),
+    Wishlists,
 
     // Product Reviews (Feature #32 + #43 - AI Review Moderation)
-    _col(ProductReviews),
+    ProductReviews,
 
     // Gift Vouchers (Sprint 6)
-    _col(GiftVouchers),
+    GiftVouchers,
 
     // Licenses (Sprint 6)
-    _col(Licenses),
-    _col(LicenseActivations),
+    Licenses,
+    LicenseActivations,
 
     // Loyalty Program (Sprint 6 — Points merged into Users, Redemptions merged into Transactions)
-    _col(LoyaltyTiers),
-    _col(LoyaltyRewards),
-    _col(LoyaltyTransactions),
+    LoyaltyTiers,
+    LoyaltyRewards,
+    LoyaltyTransactions,
 
     // B2B Invites & Approvals (CompanyAccounts merged into Users)
-    _col(CompanyInvites),
-    _col(ApprovalRequests),
+    CompanyInvites,
+    ApprovalRequests,
 
     // Quotes (Sprint 10)
-    _col(Quotes),
+    Quotes,
 
     // A/B Testing (Sprint 9)
-    _col(ABTests),
-    _col(ABTestResults),
+    ABTests,
+    ABTestResults,
 
     // ═══════════════════════════════════════════════════════════════════════════
     // CONTENT BRANCH - Blog
     // ═══════════════════════════════════════════════════════════════════════════
-    _col(BlogPosts),
-    _col(BlogCategories),
+    BlogPosts,
+    BlogCategories,
 
     // ═══════════════════════════════════════════════════════════════════════════
     // MARKETPLACE BRANCH - Vendors, Workshops, Reviews
     // ═══════════════════════════════════════════════════════════════════════════
-    _col(Vendors),
-    _col(VendorReviews),
-    _col(Workshops),
+    Vendors,
+    VendorReviews,
+    Workshops,
 
     // ═══════════════════════════════════════════════════════════════════════════
     // UNIFIED CONTENT COLLECTIONS - Consolidation of branch-specific collections
     // Controlled by Settings > Content Modules (not feature flags)
     // ═══════════════════════════════════════════════════════════════════════════
-    _col(ContentServices),
-    _col(ContentCases),
-    _col(ContentReviews),
-    _col(ContentInquiries),
-    _col(ContentBookings),
-    _col(ContentTeam),
-    _col(ContentActivities),
+    ContentServices,
+    ContentCases,
+    ContentReviews,
+    ContentInquiries,
+    ContentBookings,
+    ContentTeam,
+    ContentActivities,
 
     // ═══════════════════════════════════════════════════════════════════════════
     // EMAIL MARKETING BRANCH - Email campaigns, lists, subscribers (Feature flagged)
     // ═══════════════════════════════════════════════════════════════════════════
-    // Email marketing collections zijn ALTIJD geregistreerd zodat de importMap
-    // alle custom components bevat (o.a. GrapesJSField). Visibility en access
-    // worden geregeld via admin.hidden + access functies op de collections zelf.
-    _col(EmailSubscribers),
-    _col(EmailLists),
-    _col(EmailTemplates),
-    _col(EmailApiKeys),
-    _col(EmailCampaigns),
-    _col(AutomationRules),
-    _col(AutomationFlows),
-    _col(FlowInstances),
-    _col(EmailEvents),
-    _col(EmailSegments),
+    // Visibility en access geregeld via admin.hidden + access functies op de collections zelf.
+    EmailSubscribers,
+    EmailLists,
+    EmailTemplates,
+    EmailApiKeys,
+    EmailCampaigns,
+    AutomationRules,
+    AutomationFlows,
+    FlowInstances,
+    EmailEvents,
+    EmailSegments,
 
     // ═══════════════════════════════════════════════════════════════════════════
     // PLATFORM BRANCH - Multi-tenant Management (alleen op platform-instantie)
     // ═══════════════════════════════════════════════════════════════════════════
     ...(_isPlatform ? [ClientRequests, Clients, Deployments, UptimeIncidents] : []),
-  ].filter(Boolean) as any[],
+  ] as any[],
 
   // ─── Globals ──────────────────────────────
   globals: [

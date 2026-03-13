@@ -1,10 +1,11 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { quoteStatusHook } from '@/branches/ecommerce/b2b/hooks/quoteStatusHook'
+import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
 
 const Quotes: CollectionConfig = {
   slug: 'quotes',
-  admin: { useAsTitle: 'quoteNumber', group: 'Webshop' },
+  admin: { useAsTitle: 'quoteNumber', group: 'Webshop', hidden: shouldHideCollection('b2b') },
   access: {
     read: ({ req: { user } }) => {
       if (!user) return false
