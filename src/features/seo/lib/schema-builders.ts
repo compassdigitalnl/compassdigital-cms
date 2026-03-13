@@ -273,7 +273,7 @@ export function buildServiceSchema(service: any, settings: Setting, siteUrl: str
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    '@id': `${siteUrl}/diensten/${service.slug}#service`,
+    '@id': `${siteUrl}/dienstverlening/${service.slug}#service`,
     name: service.name,
     description: service.description,
     provider: {
@@ -297,7 +297,7 @@ export function buildConstructionServiceSchema(service: any, settings: Setting, 
   const schema: any = {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    '@id': `${siteUrl}/diensten/${service.slug}#service`,
+    '@id': `${siteUrl}/services/${service.slug}#service`,
     name: service.title,
     description: service.shortDescription || '',
     provider: {
@@ -404,7 +404,7 @@ export function buildProfessionalServiceSchema(service: any, settings: Setting, 
   const schema: any = {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
-    '@id': `${siteUrl}/diensten/${service.slug}#service`,
+    '@id': `${siteUrl}/dienstverlening/${service.slug}#service`,
     name: service.title,
     description: service.shortDescription || '',
     provider: {

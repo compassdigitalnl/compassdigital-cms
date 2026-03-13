@@ -73,7 +73,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
       {showCTA && (
         <div className="border-t border-[var(--color-base-200)] pt-6">
           <Link
-            href={`/diensten/${slug}`}
+            href={`/services/${slug}`}
             className="inline-flex items-center gap-2 text-base font-semibold text-[var(--color-base-800)] no-underline transition-colors hover:text-[var(--color-base-1000)]"
           >
             Meer informatie

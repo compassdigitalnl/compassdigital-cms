@@ -33,8 +33,8 @@ export const branchMetadata = {
     'quote-requests',
   ],
   routes: [
-    '/(construction)/diensten',
-    '/(construction)/diensten/[slug]',
+    '/(construction)/services',
+    '/(construction)/services/[slug]',
     '/(construction)/projecten',
     '/(construction)/projecten/[slug]',
     '/(construction)/offerte-aanvragen',

@@ -66,7 +66,7 @@ const generateURL: GenerateURL = ({ doc, collectionSlug }) => {
     case 'cases':
       return `${url}/cases/${doc.slug}`
     case 'construction-services':
-      return `${url}/diensten/${doc.slug}`
+      return `${url}/services/${doc.slug}`
     case 'construction-projects':
       return `${url}/projecten/${doc.slug}`
     case 'professional-services':

@@ -103,36 +103,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error fetching cases for sitemap:', error)
   }
 
-  // ─── 4. Services (if they have individual pages) ──────────
+  // ─── 4. Professional Services (/dienstverlening) ──────────
   try {
-    const services = await payload.find({
-      collection: 'services',
+    const profServices = await payload.find({
+      collection: 'professional-services',
       where: { status: { equals: 'published' } },
-      limit: 100,
-      select: {
-        slug: true,
-        updatedAt: true,
-      },
+      limit: 200,
+      select: { slug: true, updatedAt: true },
     })
 
-    const serviceEntries: MetadataRoute.Sitemap = services.docs
+    const psEntries: MetadataRoute.Sitemap = profServices.docs
       .filter((s): s is { id: number; slug: string; updatedAt: string } =>
         typeof s === 'object' && 'slug' in s && typeof s.slug === 'string'
       )
       .map((s) => ({
-        url: `${siteUrl}/diensten/${s.slug}`,
+        url: `${siteUrl}/dienstverlening/${s.slug}`,
         lastModified: new Date(s.updatedAt),
         changeFrequency: 'monthly',
-        priority: 0.6,
+        priority: 0.7,
       }))
 
-    entries.push(...serviceEntries)
+    entries.push(...psEntries)
   } catch (error) {
-    // Services might not have individual pages, that's okay
-    console.log('Services collection not found or no slugs, skipping')
+    console.log('Professional services not accessible, skipping')
   }
 
-  // ─── 5. Construction Services ──────────────────────────────
+  // ─── 5. Construction Services (/services) ──────────────────
   try {
     const constructionServices = await payload.find({
       collection: 'construction-services',
@@ -146,7 +142,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         typeof s === 'object' && 'slug' in s && typeof s.slug === 'string'
       )
       .map((s) => ({
-        url: `${siteUrl}/diensten/${s.slug}`,
+        url: `${siteUrl}/services/${s.slug}`,
         lastModified: new Date(s.updatedAt),
         changeFrequency: 'monthly',
         priority: 0.7,
@@ -182,42 +178,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.log('Construction projects not accessible, skipping')
   }
 
-  // ─── 7. Professional Services (unified /diensten route) ─────
-  try {
-    const professionalServices = await payload.find({
-      collection: 'professional-services',
-      where: { status: { equals: 'published' } },
-      limit: 200,
-      select: { slug: true, updatedAt: true },
-    })
-
-    // Diensten overview page
-    if (professionalServices.docs.length > 0) {
-      entries.push({
-        url: `${siteUrl}/diensten`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.8,
-      })
-    }
-
-    const psEntries: MetadataRoute.Sitemap = professionalServices.docs
-      .filter((s): s is { id: number; slug: string; updatedAt: string } =>
-        typeof s === 'object' && 'slug' in s && typeof s.slug === 'string'
-      )
-      .map((s) => ({
-        url: `${siteUrl}/diensten/${s.slug}`,
-        lastModified: new Date(s.updatedAt),
-        changeFrequency: 'monthly',
-        priority: 0.7,
-      }))
-
-    entries.push(...psEntries)
-  } catch (error) {
-    console.log('Professional services not accessible, skipping')
-  }
-
-  // ─── 8. Professional Cases ────────────────────────────────
+  // ─── 7. Professional Cases ────────────────────────────────
   try {
     const professionalCases = await payload.find({
       collection: 'professional-cases',

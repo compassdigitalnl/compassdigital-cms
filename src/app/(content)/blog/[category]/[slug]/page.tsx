@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation'
 import BlogTemplate1 from '@/branches/shared/templates/blog/BlogTemplate1'
 import BlogTemplate2 from '@/branches/shared/templates/blog/BlogTemplate2'
 import BlogTemplate3 from '@/branches/shared/templates/blog/BlogTemplate3'
+import { ProjectCard } from '@/branches/shared/components/ProjectCard'
 import type { BlogPost, BlogCategory } from '@/payload-types'
 
 export async function generateMetadata({
@@ -242,6 +243,14 @@ export default async function BlogPostPage({
     })
     .catch((err) => console.error('Failed to increment view count:', err))
 
+  // Extract related cases and services from post (resolved at depth 2)
+  const relatedCases = Array.isArray(post.relatedCases)
+    ? post.relatedCases.filter((c: any) => typeof c === 'object' && c?.title).slice(0, 3)
+    : []
+  const relatedServices = Array.isArray(post.relatedServices)
+    ? post.relatedServices.filter((s: any) => typeof s === 'object' && s?.value?.title).slice(0, 4)
+    : []
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Breadcrumb Header */}
@@ -284,6 +293,52 @@ export default async function BlogPostPage({
           <BlogTemplate1 post={post} relatedPosts={relatedPosts} prevPost={prevPost} nextPost={nextPost} category={category} />
         )}
       </div>
+
+      {/* Related Cases */}
+      {relatedCases.length > 0 && (
+        <div className="border-t border-gray-200 bg-white">
+          <div className="max-w-7xl mx-auto px-4 py-12">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Bekijk ook deze cases</h2>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {relatedCases.map((project: any) => (
+                <ProjectCard key={project.id} project={project} basePath="/cases" />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Related Services */}
+      {relatedServices.length > 0 && (
+        <div className="border-t border-gray-200 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 py-12">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Gerelateerde diensten</h2>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {relatedServices.map((s: any) => {
+                const service = s.value
+                const serviceUrl = s.relationTo === 'construction-services'
+                  ? `/services/${service.slug}`
+                  : `/dienstverlening/${service.slug}`
+                return (
+                  <Link
+                    key={service.id}
+                    href={serviceUrl}
+                    className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 transition-shadow hover:shadow-md"
+                  >
+                    {service.icon && <span className="text-xl">{service.icon}</span>}
+                    <div>
+                      <p className="font-semibold text-gray-900">{service.title}</p>
+                      {service.shortDescription && (
+                        <p className="mt-1 text-xs text-gray-500 line-clamp-2">{service.shortDescription}</p>
+                      )}
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

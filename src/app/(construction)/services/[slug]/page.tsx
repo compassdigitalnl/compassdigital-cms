@@ -2,7 +2,7 @@
  * Construction Service Detail Page
  *
  * Displays detailed information about a specific service.
- * Route: /diensten/[slug]
+ * Route: /services/[slug]
  */
 
 import { getPayload } from 'payload'
@@ -48,12 +48,12 @@ export async function generateMetadata({ params }: ServiceDetailPageProps): Prom
     title: service.meta?.title || `${service.title} - Onze Diensten`,
     description: service.meta?.description || service.shortDescription,
     alternates: {
-      canonical: `${siteUrl}/diensten/${slug}`,
+      canonical: `${siteUrl}/services/${slug}`,
     },
     openGraph: {
       title: service.meta?.title || service.title,
       description: service.meta?.description || service.shortDescription,
-      url: `${siteUrl}/diensten/${slug}`,
+      url: `${siteUrl}/services/${slug}`,
       ...(imageUrl ? { images: [{ url: imageUrl }] } : {}),
     },
   }

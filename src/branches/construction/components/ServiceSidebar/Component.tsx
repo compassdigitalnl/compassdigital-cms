@@ -34,7 +34,7 @@ export const ServiceSidebar: React.FC<ServiceSidebarProps> = ({
             {relatedServices.map((related) => (
               <li key={related.id}>
                 <Link
-                  href={`/diensten/${related.slug}`}
+                  href={`/services/${related.slug}`}
                   className="group flex items-center gap-3 text-sm text-grey-dark transition-colors hover:text-primary"
                 >
                   {related.icon && <span className="text-lg">{related.icon}</span>}

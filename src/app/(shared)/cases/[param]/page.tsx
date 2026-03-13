@@ -294,7 +294,7 @@ async function ProjectCaseDetail({ slug }: { slug: string }) {
         sort: 'title',
         depth: 0,
       })
-      relatedServices = docs
+      relatedServices = docs.map((d: any) => ({ ...d, _collection: 'professional-services' }))
     } catch { /* */ }
   }
 
@@ -502,16 +502,21 @@ async function ProjectCaseDetail({ slug }: { slug: string }) {
               <div className="rounded-xl border border-grey bg-white p-6">
                 <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-grey-dark">Gerelateerde diensten</h4>
                 <div className="space-y-2">
-                  {relatedServices.map((s: any) => (
-                    <Link
-                      key={s.id}
-                      href={`/diensten/${s.slug}`}
-                      className="flex items-center gap-2 rounded-lg p-2 text-sm text-navy transition-colors hover:bg-grey-light"
-                    >
-                      {s.icon && <span>{s.icon}</span>}
-                      <span className="font-medium">{s.title}</span>
-                    </Link>
-                  ))}
+                  {relatedServices.map((s: any) => {
+                    const serviceUrl = s._collection === 'construction-services'
+                      ? `/services/${s.slug}`
+                      : `/dienstverlening/${s.slug}`
+                    return (
+                      <Link
+                        key={s.id}
+                        href={serviceUrl}
+                        className="flex items-center gap-2 rounded-lg p-2 text-sm text-navy transition-colors hover:bg-grey-light"
+                      >
+                        {s.icon && <span>{s.icon}</span>}
+                        <span className="font-medium">{s.title}</span>
+                      </Link>
+                    )
+                  })}
                 </div>
               </div>
             )}
