@@ -2,6 +2,7 @@ import type { GlobalConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { isClientDeployment } from '@/lib/tenant/isClientDeployment'
 import { featureField } from '@/lib/tenant/featureFields'
+import { updateContentModulesCache } from '@/lib/tenant/contentModules'
 
 export const Settings: GlobalConfig = {
   slug: 'settings',
@@ -14,6 +15,15 @@ export const Settings: GlobalConfig = {
   access: {
     read: () => true,
     update: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
+  },
+  hooks: {
+    afterChange: [
+      ({ doc }) => {
+        // Update content modules cache when Settings are saved
+        updateContentModulesCache(doc)
+        return doc
+      },
+    ],
   },
   fields: [
     {
@@ -553,7 +563,285 @@ export const Settings: GlobalConfig = {
           ],
         },
 
-        // ─── TAB 6: BOUW INSTELLINGEN ────────────────────────────
+        // ─── TAB 6: CONTENT MODULES ────────────────────────────
+        {
+          label: 'Content Modules',
+          description: 'Activeer en configureer content-modules. Labels en routes worden automatisch ingevuld o.b.v. uw branche.',
+          fields: [
+            // ── Branche selector ──
+            {
+              name: 'siteBranch',
+              type: 'select',
+              label: 'Branche',
+              defaultValue: 'general',
+              options: [
+                { label: 'Algemeen', value: 'general' },
+                { label: 'Tech / ICT', value: 'tech' },
+                { label: 'Zakelijke Dienstverlening', value: 'dienstverlening' },
+                { label: 'Bouw & Renovatie', value: 'bouw' },
+                { label: 'Beauty & Wellness', value: 'beauty' },
+                { label: 'Zorg & Fysiotherapie', value: 'zorg' },
+                { label: 'Horeca & Restaurant', value: 'horeca' },
+                { label: 'Ervaringen & Belevenissen', value: 'ervaringen' },
+                { label: 'Marktplaats', value: 'marketplace' },
+              ],
+              admin: {
+                description: 'Bepaalt standaard labels, URL-routes en conditionele velden voor alle content-modules',
+              },
+            },
+
+            // ── Module 1: Diensten ──
+            {
+              name: 'servicesModule',
+              type: 'group',
+              label: 'Diensten / Behandelingen / Services',
+              admin: {
+                description: 'Diensten, behandelingen, services — afhankelijk van uw branche',
+              },
+              fields: [
+                {
+                  name: 'enabled',
+                  type: 'checkbox',
+                  label: 'Actief',
+                  defaultValue: false,
+                },
+                {
+                  name: 'label',
+                  type: 'text',
+                  label: 'Sidebar label',
+                  admin: {
+                    condition: (_, siblingData) => siblingData?.enabled,
+                    placeholder: 'Automatisch o.b.v. branche (bijv. "Diensten", "Behandelingen")',
+                  },
+                },
+                {
+                  name: 'routeSlug',
+                  type: 'text',
+                  label: 'URL prefix',
+                  admin: {
+                    condition: (_, siblingData) => siblingData?.enabled,
+                    placeholder: 'Automatisch o.b.v. branche (bijv. "diensten", "behandelingen")',
+                    description: 'Wordt gebruikt als URL: /[prefix]/[slug]',
+                  },
+                },
+              ],
+            },
+
+            // ── Module 2: Cases / Portfolio / Projecten ──
+            {
+              name: 'casesModule',
+              type: 'group',
+              label: 'Cases / Portfolio / Projecten',
+              admin: {
+                description: 'Cases, portfolio, projecten — dezelfde collection, andere naamgeving per branche',
+              },
+              fields: [
+                {
+                  name: 'enabled',
+                  type: 'checkbox',
+                  label: 'Actief',
+                  defaultValue: false,
+                },
+                {
+                  name: 'label',
+                  type: 'text',
+                  label: 'Sidebar label',
+                  admin: {
+                    condition: (_, siblingData) => siblingData?.enabled,
+                    placeholder: 'Automatisch (bijv. "Projecten", "Cases", "Portfolio")',
+                  },
+                },
+                {
+                  name: 'routeSlug',
+                  type: 'text',
+                  label: 'URL prefix',
+                  admin: {
+                    condition: (_, siblingData) => siblingData?.enabled,
+                    placeholder: 'Automatisch (bijv. "projecten", "cases", "portfolio")',
+                    description: 'Wordt gebruikt als URL: /[prefix]/[slug]',
+                  },
+                },
+              ],
+            },
+
+            // ── Module 3: Reviews / Testimonials ──
+            {
+              name: 'reviewsModule',
+              type: 'group',
+              label: 'Reviews & Testimonials',
+              admin: {
+                description: 'Klantreviews en testimonials (geen eigen pagina, getoond op dienst- en casepagina\'s)',
+              },
+              fields: [
+                {
+                  name: 'enabled',
+                  type: 'checkbox',
+                  label: 'Actief',
+                  defaultValue: false,
+                },
+                {
+                  name: 'label',
+                  type: 'text',
+                  label: 'Sidebar label',
+                  admin: {
+                    condition: (_, siblingData) => siblingData?.enabled,
+                    placeholder: 'Automatisch (bijv. "Reviews", "Testimonials")',
+                  },
+                },
+              ],
+            },
+
+            // ── Module 4: Aanvragen / Offertes ──
+            {
+              name: 'inquiriesModule',
+              type: 'group',
+              label: 'Offertes & Aanvragen',
+              admin: {
+                description: 'Offerteaanvragen, adviesgesprekken, consultatie-aanvragen',
+              },
+              fields: [
+                {
+                  name: 'enabled',
+                  type: 'checkbox',
+                  label: 'Actief',
+                  defaultValue: false,
+                },
+                {
+                  name: 'label',
+                  type: 'text',
+                  label: 'Sidebar label',
+                  admin: {
+                    condition: (_, siblingData) => siblingData?.enabled,
+                    placeholder: 'Automatisch (bijv. "Offerteaanvragen", "Adviesgesprekken")',
+                  },
+                },
+                {
+                  name: 'routeSlug',
+                  type: 'text',
+                  label: 'URL prefix',
+                  admin: {
+                    condition: (_, siblingData) => siblingData?.enabled,
+                    placeholder: 'Automatisch (bijv. "offerte-aanvragen", "adviesgesprek")',
+                    description: 'Wordt gebruikt als URL: /[prefix]',
+                  },
+                },
+              ],
+            },
+
+            // ── Module 5: Boekingen / Reserveringen / Afspraken ──
+            {
+              name: 'bookingsModule',
+              type: 'group',
+              label: 'Boekingen & Reserveringen',
+              admin: {
+                description: 'Boekingen, reserveringen, afspraken',
+              },
+              fields: [
+                {
+                  name: 'enabled',
+                  type: 'checkbox',
+                  label: 'Actief',
+                  defaultValue: false,
+                },
+                {
+                  name: 'label',
+                  type: 'text',
+                  label: 'Sidebar label',
+                  admin: {
+                    condition: (_, siblingData) => siblingData?.enabled,
+                    placeholder: 'Automatisch (bijv. "Boekingen", "Reserveringen", "Afspraken")',
+                  },
+                },
+                {
+                  name: 'routeSlug',
+                  type: 'text',
+                  label: 'URL prefix',
+                  admin: {
+                    condition: (_, siblingData) => siblingData?.enabled,
+                    placeholder: 'Automatisch (bijv. "boeken", "reserveren", "afspraak-maken")',
+                    description: 'Wordt gebruikt als URL: /[prefix]',
+                  },
+                },
+              ],
+            },
+
+            // ── Module 6: Team / Medewerkers ──
+            {
+              name: 'teamModule',
+              type: 'group',
+              label: 'Team & Medewerkers',
+              admin: {
+                description: 'Teamleden, stylisten, behandelaars, gidsen',
+              },
+              fields: [
+                {
+                  name: 'enabled',
+                  type: 'checkbox',
+                  label: 'Actief',
+                  defaultValue: false,
+                },
+                {
+                  name: 'label',
+                  type: 'text',
+                  label: 'Sidebar label',
+                  admin: {
+                    condition: (_, siblingData) => siblingData?.enabled,
+                    placeholder: 'Automatisch (bijv. "Team", "Stylisten", "Behandelaars")',
+                  },
+                },
+                {
+                  name: 'routeSlug',
+                  type: 'text',
+                  label: 'URL prefix',
+                  admin: {
+                    condition: (_, siblingData) => siblingData?.enabled,
+                    placeholder: 'Automatisch (bijv. "team")',
+                    description: 'Wordt gebruikt als URL: /[prefix]/[slug]',
+                  },
+                },
+              ],
+            },
+
+            // ── Module 7: Activiteiten / Events / Workshops ──
+            {
+              name: 'activitiesModule',
+              type: 'group',
+              label: 'Activiteiten & Events',
+              admin: {
+                description: 'Evenementen, ervaringen, workshops, open dagen',
+              },
+              fields: [
+                {
+                  name: 'enabled',
+                  type: 'checkbox',
+                  label: 'Actief',
+                  defaultValue: false,
+                },
+                {
+                  name: 'label',
+                  type: 'text',
+                  label: 'Sidebar label',
+                  admin: {
+                    condition: (_, siblingData) => siblingData?.enabled,
+                    placeholder: 'Automatisch (bijv. "Evenementen", "Ervaringen", "Workshops")',
+                  },
+                },
+                {
+                  name: 'routeSlug',
+                  type: 'text',
+                  label: 'URL prefix',
+                  admin: {
+                    condition: (_, siblingData) => siblingData?.enabled,
+                    placeholder: 'Automatisch (bijv. "evenementen", "ervaringen")',
+                    description: 'Wordt gebruikt als URL: /[prefix]/[slug]',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+
+        // ─── TAB 7: BOUW INSTELLINGEN ────────────────────────────
         {
           label: 'Bouw',
           description: 'Instellingen specifiek voor de bouwbranche',

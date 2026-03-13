@@ -151,6 +151,15 @@ import { Experiences } from '@/branches/experiences/collections/Experiences'
 import { ExperienceCategories } from '@/branches/experiences/collections/ExperienceCategories'
 import { ExperienceReviews } from '@/branches/experiences/collections/ExperienceReviews'
 
+// ─── Unified Content Collections (consolidation of 24+ branch-specific collections) ────
+import { ContentServices } from '@/branches/shared/collections/ContentServices'
+import { ContentCases } from '@/branches/shared/collections/ContentCases'
+import { ContentReviews } from '@/branches/shared/collections/ContentReviews'
+import { ContentInquiries } from '@/branches/shared/collections/ContentInquiries'
+import { ContentBookings } from '@/branches/shared/collections/ContentBookings'
+import { ContentTeam } from '@/branches/shared/collections/ContentTeam'
+import { ContentActivities } from '@/branches/shared/collections/ContentActivities'
+
 // Email Marketing Feature (8 collections - Feature flagged)
 import { emailMarketingFeatures } from '@/lib/tenant/features'
 import {
@@ -509,6 +518,18 @@ export default buildConfig({
     _col(Experiences),
     _col(ExperienceCategories),
     _col(ExperienceReviews),
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // UNIFIED CONTENT COLLECTIONS - Consolidation of branch-specific collections
+    // Controlled by Settings > Content Modules (not feature flags)
+    // ═══════════════════════════════════════════════════════════════════════════
+    _col(ContentServices),
+    _col(ContentCases),
+    _col(ContentReviews),
+    _col(ContentInquiries),
+    _col(ContentBookings),
+    _col(ContentTeam),
+    _col(ContentActivities),
 
     // ═══════════════════════════════════════════════════════════════════════════
     // EMAIL MARKETING BRANCH - Email campaigns, lists, subscribers (Feature flagged)

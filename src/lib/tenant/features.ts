@@ -612,6 +612,16 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
 
     // === PWA ===
     'push-subscriptions': 'pushNotifications',
+
+    // === UNIFIED CONTENT (controlled by Settings contentModules, not feature flags) ===
+    // Listed here for completeness — actual visibility is handled by shouldHideContentCollection()
+    'content-services': 'services',
+    'content-cases': 'cases',
+    'content-reviews': 'testimonials',
+    'content-inquiries': 'services',
+    'content-bookings': 'services',
+    'content-team': 'services',
+    'content-activities': 'experiences',
   }
 }
 
