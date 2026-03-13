@@ -35,12 +35,62 @@ export async function GET() {
     const ownerDoc = ownerId === user.id ? userData : await payload.findByID({ collection: 'users', id: ownerId })
     const company = (ownerDoc as any).company || {}
 
+    // Calculate actual monthly and quarterly spend from orders
+    const now = new Date()
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
+    const quarterMonth = now.getMonth() - (now.getMonth() % 3)
+    const startOfQuarter = new Date(now.getFullYear(), quarterMonth, 1).toISOString()
+
+    // Get all team user IDs for aggregation
+    const teamQuery = await payload.find({
+      collection: 'users',
+      where: {
+        or: [
+          { id: { equals: ownerId } },
+          { companyOwner: { equals: ownerId } },
+        ],
+      },
+      limit: 200,
+      select: { id: true } as any,
+    })
+    const teamUserIds = teamQuery.docs.map((u: any) => u.id)
+
+    // Aggregate monthly orders
+    const monthlyOrders = await payload.find({
+      collection: 'orders',
+      where: {
+        and: [
+          { customer: { in: teamUserIds } },
+          { createdAt: { greater_than_equal: startOfMonth } },
+          { status: { not_in: ['cancelled', 'refunded'] } },
+        ],
+      },
+      limit: 0,
+    })
+
+    const monthlyUsed = (monthlyOrders.docs as any[]).reduce((sum: number, o: any) => sum + (o.total || 0), 0)
+
+    // Aggregate quarterly orders
+    const quarterlyOrders = await payload.find({
+      collection: 'orders',
+      where: {
+        and: [
+          { customer: { in: teamUserIds } },
+          { createdAt: { greater_than_equal: startOfQuarter } },
+          { status: { not_in: ['cancelled', 'refunded'] } },
+        ],
+      },
+      limit: 0,
+    })
+
+    const quarterlyUsed = (quarterlyOrders.docs as any[]).reduce((sum: number, o: any) => sum + (o.total || 0), 0)
+
     // Build budget overview
     const budget = {
       monthlyBudget: company.monthlyBudget || undefined,
       quarterlyBudget: company.quarterlyBudget || undefined,
-      monthlyUsed: 0,
-      quarterlyUsed: 0,
+      monthlyUsed,
+      quarterlyUsed,
       creditLimit: company.creditLimit || undefined,
       creditUsed: company.creditUsed || 0,
       paymentTerms: company.paymentTerms || '30',
@@ -51,25 +101,22 @@ export async function GET() {
     let users: any[] = []
 
     if (companyRole === 'admin' || companyRole === 'manager' || companyRole === 'owner') {
-      const teamUsers = await payload.find({
-        collection: 'users',
-        where: {
-          or: [
-            { id: { equals: ownerId } },
-            { companyOwner: { equals: ownerId } },
-          ],
-        },
-        limit: 200,
-        sort: 'name',
-      })
+      // Calculate per-user monthly spend
+      const perUserSpend = new Map<number | string, number>()
+      for (const order of monthlyOrders.docs as any[]) {
+        const custId = typeof order.customer === 'object' ? order.customer?.id : order.customer
+        if (custId) {
+          perUserSpend.set(custId, (perUserSpend.get(custId) || 0) + (order.total || 0))
+        }
+      }
 
-      users = teamUsers.docs.map((u: any) => ({
+      users = teamQuery.docs.map((u: any) => ({
         id: u.id,
         name: u.name || [u.firstName, u.lastName].filter(Boolean).join(' ') || u.email,
         email: u.email,
         companyRole: u.companyRole || 'viewer',
         monthlyBudgetLimit: u.monthlyBudgetLimit || undefined,
-        monthlyUsed: 0,
+        monthlyUsed: perUserSpend.get(u.id) || 0,
       }))
     }
 

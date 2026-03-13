@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
+import { quoteStatusHook } from '@/branches/ecommerce/b2b/hooks/quoteStatusHook'
 
 const Quotes: CollectionConfig = {
   slug: 'quotes',
@@ -130,6 +131,7 @@ const Quotes: CollectionConfig = {
         return data
       },
     ],
+    afterChange: [quoteStatusHook],
   },
 }
 

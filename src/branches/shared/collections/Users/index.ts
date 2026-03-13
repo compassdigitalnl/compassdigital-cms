@@ -865,6 +865,62 @@ export const Users: CollectionConfig = {
       ],
     },
   ],
+  hooks: {
+    afterChange: [
+      async ({ doc, operation }) => {
+        // Send welcome email on user creation (non-admin users only)
+        if (operation !== 'create') return doc
+        if (!doc.email) return doc
+        // Skip admin/editor users — only welcome customer registrations
+        if (doc.roles && (doc.roles.includes('admin') || doc.roles.includes('super-admin'))) return doc
+
+        try {
+          const { emailService } = await import('@/features/email-marketing/lib/EmailService')
+          if (!emailService.isConfigured()) return doc
+
+          const siteName = process.env.SITE_NAME || 'Webshop'
+          const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3020'
+          const customerName = doc.name || doc.firstName || doc.email.split('@')[0]
+
+          const html = `
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f5;">
+  <div style="background: linear-gradient(135deg, #2563eb, #7c3aed); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 24px;">Welkom!</h1>
+  </div>
+  <div style="background: white; padding: 30px; border: 1px solid #eee; border-top: none; border-radius: 0 0 8px 8px;">
+    <h2 style="color: #1e293b; margin: 0 0 16px;">Hoi ${customerName},</h2>
+    <p>Welkom bij <strong>${siteName}</strong>! Je account is succesvol aangemaakt.</p>
+    <p>Met je account kun je:</p>
+    <ul>
+      <li>Bestellingen volgen en herhalen</li>
+      <li>Favoriete producten bewaren</li>
+      <li>Facturen downloaden</li>
+      <li>Retouren aanvragen</li>
+    </ul>
+    <p style="text-align: center; margin: 24px 0;">
+      <a href="${baseUrl}/account" style="display: inline-block; background: #2563eb; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 15px;">Naar je account</a>
+    </p>
+  </div>
+  <div style="text-align: center; padding: 20px; color: #999; font-size: 12px;">
+    <p style="margin: 0;">&copy; ${new Date().getFullYear()} ${siteName}</p>
+  </div>
+</body></html>`
+
+          await emailService.send({
+            to: doc.email,
+            subject: `Welkom bij ${siteName}, ${customerName}!`,
+            html,
+          })
+          console.log(`[Users] Welcome email sent to ${doc.email}`)
+        } catch (error) {
+          console.error(`[Users] Failed to send welcome email:`, error)
+        }
+
+        return doc
+      },
+    ],
+  },
 }
 
 export default Users

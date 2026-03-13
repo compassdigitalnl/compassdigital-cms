@@ -235,4 +235,102 @@ export const predefinedFlows: PredefinedFlow[] = [
     },
     tags: ['re-engagement', 'win-back', 'predefined'],
   },
+
+  // ═══════════════════════════════════════════════════════════
+  // 5. OFFERTE FOLLOW-UP
+  // ═══════════════════════════════════════════════════════════
+  {
+    name: 'Offerte Follow-up',
+    description: 'Automatische herinnering bij openstaande offerte: wacht 2 dagen → check status → herinnering',
+    entryTrigger: {
+      eventType: 'custom.event',
+      customEventName: 'quote.created',
+    },
+    steps: [
+      {
+        name: 'Wacht 2 dagen',
+        type: 'wait',
+        waitDuration: { value: 2, unit: 'days' },
+      },
+      {
+        name: 'Check offerte status',
+        type: 'condition',
+        condition: { field: 'quote_status', operator: 'equals', value: 'quoted' },
+      },
+      {
+        name: 'Stuur herinnering',
+        type: 'send_email',
+        templateName: 'Offerte Klaar (Klant)',
+      },
+      {
+        name: 'Tag: quote-reminder-sent',
+        type: 'add_tag',
+        tagName: 'quote-reminder-sent',
+      },
+      {
+        name: 'Flow afgerond',
+        type: 'exit',
+        exitReason: 'Offerte follow-up afgerond',
+      },
+    ],
+    exitConditions: [
+      { eventType: 'custom.event', customEventName: 'quote.accepted' },
+      { eventType: 'custom.event', customEventName: 'quote.rejected' },
+      { eventType: 'subscriber.unsubscribed' },
+    ],
+    settings: {
+      allowReentry: true,
+      maxEntriesPerUser: 5,
+    },
+    tags: ['quote', 'follow-up', 'b2b', 'predefined'],
+  },
+
+  // ═══════════════════════════════════════════════════════════
+  // 6. GOEDKEURING HERINNERING
+  // ═══════════════════════════════════════════════════════════
+  {
+    name: 'Goedkeuring Herinnering',
+    description: 'Herinnering bij openstaande goedkeuring: wacht 1 dag → check pending → herinnering',
+    entryTrigger: {
+      eventType: 'custom.event',
+      customEventName: 'approval.created',
+    },
+    steps: [
+      {
+        name: 'Wacht 1 dag',
+        type: 'wait',
+        waitDuration: { value: 1, unit: 'days' },
+      },
+      {
+        name: 'Check approval status',
+        type: 'condition',
+        condition: { field: 'approval_status', operator: 'equals', value: 'pending' },
+      },
+      {
+        name: 'Stuur herinnering',
+        type: 'send_email',
+        templateName: 'Goedkeuring Gevraagd',
+      },
+      {
+        name: 'Tag: approval-reminder-sent',
+        type: 'add_tag',
+        tagName: 'approval-reminder-sent',
+      },
+      {
+        name: 'Flow afgerond',
+        type: 'exit',
+        exitReason: 'Goedkeuring herinnering afgerond',
+      },
+    ],
+    exitConditions: [
+      { eventType: 'custom.event', customEventName: 'approval.approved' },
+      { eventType: 'custom.event', customEventName: 'approval.rejected' },
+      { eventType: 'subscriber.unsubscribed' },
+    ],
+    settings: {
+      allowReentry: true,
+      maxEntriesPerUser: 10,
+    },
+    tags: ['approval', 'reminder', 'b2b', 'predefined'],
+  },
 ]

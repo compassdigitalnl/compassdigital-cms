@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
+import { approvalStatusHook } from '@/branches/ecommerce/b2b/hooks/approvalStatusHook'
 
 export const ApprovalRequests: CollectionConfig = {
   slug: 'approval-requests',
@@ -112,4 +113,7 @@ export const ApprovalRequests: CollectionConfig = {
       label: 'Verloopt op',
     },
   ],
+  hooks: {
+    afterChange: [approvalStatusHook],
+  },
 }

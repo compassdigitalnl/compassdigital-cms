@@ -6,11 +6,13 @@ import { Providers } from '@/providers'
 import { ThemeProvider } from '@/branches/shared/components/utilities/ThemeProvider'
 import { SearchProvider } from '@/features/search/components/SearchProvider'
 import { MiniCartProvider } from '@/branches/ecommerce/shared/components/ui/MiniCart'
+import { AddToCartToastProviderClient } from '@/branches/ecommerce/shared/components/ui/AddToCartToast'
 import { ToastProvider } from '@/branches/shared/components/ui/ToastSystem'
 import { HeaderClient } from '@/globals/site/header/components/index.client'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { isFeatureEnabled } from '@/lib/tenant/features'
+import { isFeatureEnabled, features as serverFeatures } from '@/lib/tenant/features'
+import { FeaturesProvider } from '@/providers/Features'
 import { ChatbotProvider } from '@/features/ai/components/chatbot/ChatbotProvider'
 import React from 'react'
 import '../globals.css'
@@ -58,10 +60,12 @@ export default async function ContentLayout({ children }: { children: ReactNode 
 
   return (
     <Providers>
+      <FeaturesProvider features={serverFeatures}>
       <ThemeProvider theme={themeGlobal}>
         <SearchProvider enableSearch={isFeatureEnabled('search')}>
           <ToastProvider>
             <MiniCartProvider enableMiniCart={isFeatureEnabled('mini_cart') || isFeatureEnabled('cart')}>
+              <AddToCartToastProviderClient>
               <AdminBar />
               <LivePreviewListener />
 
@@ -76,10 +80,12 @@ export default async function ContentLayout({ children }: { children: ReactNode 
 
               {/* Chatbot (CMS-driven, feature-flagged) */}
               <ChatbotProvider />
+              </AddToCartToastProviderClient>
             </MiniCartProvider>
           </ToastProvider>
         </SearchProvider>
       </ThemeProvider>
+      </FeaturesProvider>
     </Providers>
   )
 }

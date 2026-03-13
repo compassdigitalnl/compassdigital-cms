@@ -368,18 +368,64 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
     })
   }
 
-  // Wishlist toggle (localStorage-based)
+  // Wishlist toggle (API with localStorage fallback for guests)
   useEffect(() => {
-    const wishlist: string[] = JSON.parse(localStorage.getItem('wishlist') || '[]')
-    setIsWishlisted(wishlist.includes(String(product.id)))
+    const pid = String(product.id)
+    fetch('/api/account/favorites')
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data?.docs) {
+          const isFav = data.docs.some((d: any) => {
+            const prodId = typeof d.product === 'object' ? d.product?.id : d.product
+            return String(prodId) === pid
+          })
+          setIsWishlisted(isFav)
+        } else {
+          // Not logged in — check localStorage
+          const wishlist: string[] = JSON.parse(localStorage.getItem('wishlist') || '[]')
+          setIsWishlisted(wishlist.includes(pid))
+        }
+      })
+      .catch(() => {
+        const wishlist: string[] = JSON.parse(localStorage.getItem('wishlist') || '[]')
+        setIsWishlisted(wishlist.includes(pid))
+      })
   }, [product.id])
 
-  const toggleWishlist = () => {
-    const wishlist: string[] = JSON.parse(localStorage.getItem('wishlist') || '[]')
+  const toggleWishlist = async () => {
     const pid = String(product.id)
-    const updated = wishlist.includes(pid) ? wishlist.filter((id) => id !== pid) : [...wishlist, pid]
-    localStorage.setItem('wishlist', JSON.stringify(updated))
-    setIsWishlisted(!isWishlisted)
+    const newState = !isWishlisted
+    setIsWishlisted(newState)
+
+    try {
+      if (newState) {
+        const res = await fetch('/api/account/favorites', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productId: product.id }),
+        })
+        if (!res.ok) throw new Error('Not logged in')
+      } else {
+        // Find the wishlist entry ID first
+        const listRes = await fetch('/api/account/favorites')
+        if (!listRes.ok) throw new Error('Not logged in')
+        const listData = await listRes.json()
+        const entry = listData.docs?.find((d: any) => {
+          const prodId = typeof d.product === 'object' ? d.product?.id : d.product
+          return String(prodId) === pid
+        })
+        if (entry) {
+          await fetch(`/api/account/favorites?id=${entry.id}`, { method: 'DELETE' })
+        }
+      }
+    } catch {
+      // Fallback to localStorage for guests
+      const wishlist: string[] = JSON.parse(localStorage.getItem('wishlist') || '[]')
+      const updated = newState
+        ? [...wishlist.filter(id => id !== pid), pid]
+        : wishlist.filter(id => id !== pid)
+      localStorage.setItem('wishlist', JSON.stringify(updated))
+    }
   }
 
   // Share with feedback

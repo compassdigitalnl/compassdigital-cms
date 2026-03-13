@@ -8,12 +8,15 @@ import { Icon } from '@/branches/shared/components/common/Icon'
 import { cn } from '@/utilities/cn'
 import { CMSLink } from '@/branches/shared/components/common/Link'
 import { MegaNav } from '@/globals/site/header/components/MegaNav'
+import { ManualMegaMenu } from '@/globals/site/header/components/ManualMegaMenu'
+import { SimpleDropdown } from '@/globals/site/header/components/SimpleDropdown'
 import { useCategoryNavigation } from '@/globals/site/header/components/hooks/useCategoryNavigation'
 import type { NavigationBarProps } from './types'
 
 export function NavigationBar({ navigation, theme, settings }: NavigationBarProps) {
   const pathname = usePathname()
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null)
   const navRef = useRef<HTMLElement>(null)
   const [navTop, setNavTop] = useState(0)
 
@@ -56,13 +59,14 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
   // Close menu on Escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && megaMenuOpen) {
+      if (e.key === 'Escape' && (megaMenuOpen || openDropdownId)) {
         setMegaMenuOpen(false)
+        setOpenDropdownId(null)
       }
     }
     document.addEventListener('keydown', handleEscape)
     return () => document.removeEventListener('keydown', handleEscape)
-  }, [megaMenuOpen])
+  }, [megaMenuOpen, openDropdownId])
 
   return (
     <>
@@ -76,7 +80,10 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
             {/* Menu Trigger Button */}
             {(navigation.mode === 'categories' || navigation.mode === 'hybrid') && (
               <button
-                onClick={() => setMegaMenuOpen(!megaMenuOpen)}
+                onClick={() => {
+                  setMegaMenuOpen(!megaMenuOpen)
+                  setOpenDropdownId(null)
+                }}
                 className={cn(
                   'flex items-center gap-2 px-5 text-sm font-bold transition-all border-b-2 text-white',
                 )}
@@ -118,23 +125,29 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
                     pathname.includes((item.page as any).slug as string)
                   : item.url && item.url !== '/' && pathname.includes(item.url)
 
+              const isDropdownOpen = openDropdownId === item.id
+
               return (
-                <div key={item.id} className="relative group">
+                <div key={item.id} className="relative">
                   {hasDropdown ? (
                     <button
+                      onClick={() => {
+                        setOpenDropdownId(isDropdownOpen ? null : item.id)
+                        setMegaMenuOpen(false)
+                      }}
                       className={cn(
                         'flex items-center gap-2 px-4 text-sm font-semibold border-b-2 transition-all h-full',
-                        isActive
+                        isActive || isDropdownOpen
                           ? 'border-[var(--color-primary)]'
                           : 'border-transparent hover:border-[var(--color-primary)]',
                       )}
                       style={{
-                        color: isActive ? 'var(--color-primary)' : 'var(--color-secondary)',
+                        color: isActive || isDropdownOpen ? 'var(--color-primary)' : 'var(--color-secondary)',
                       }}
                     >
                       {item.icon && <Icon name={item.icon} size={16} />}
                       {item.label}
-                      <ChevronDown className="w-3.5 h-3.5 opacity-40" />
+                      <ChevronDown className={cn('w-3.5 h-3.5 opacity-40 transition-transform', isDropdownOpen && 'rotate-180')} />
                     </button>
                   ) : (
                     <CMSLink
@@ -158,76 +171,26 @@ export function NavigationBar({ navigation, theme, settings }: NavigationBarProp
 
                   {/* Mega Menu Dropdown */}
                   {isMega && (
-                    <div
-                      className="absolute top-full left-0 bg-white border rounded-b-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[195]"
-                      style={{ borderColor: 'var(--color-border)', minWidth: `${Math.min(item.megaColumns.length * 220, 880)}px` }}
-                    >
-                      <div className="grid gap-0 p-5" style={{ gridTemplateColumns: `repeat(${item.megaColumns.length}, 1fr)` }}>
-                        {item.megaColumns.map((col: any, colIdx: number) => (
-                          <div key={col.id || colIdx} className={cn('px-3', colIdx > 0 && 'border-l border-[var(--color-border)]')}>
-                            {col.title && (
-                              <h4 className="mb-3 text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-primary)' }}>
-                                {col.title}
-                              </h4>
-                            )}
-                            <ul className="space-y-1">
-                              {(col.links || []).map((link: any, linkIdx: number) => (
-                                <li key={link.id || linkIdx}>
-                                  <Link
-                                    href={link.url || '#'}
-                                    className="flex items-start gap-2.5 rounded-lg px-2 py-2 text-sm transition-colors hover:bg-[var(--color-surface)]"
-                                    style={{ color: 'var(--color-secondary)' }}
-                                    onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                                      e.currentTarget.style.color = 'var(--color-primary)'
-                                    }}
-                                    onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                                      e.currentTarget.style.color = 'var(--color-secondary)'
-                                    }}
-                                  >
-                                    {link.icon && <Icon name={link.icon} size={16} className="mt-0.5 shrink-0" />}
-                                    <div>
-                                      <span className="font-medium">{link.label}</span>
-                                      {link.description && (
-                                        <p className="mt-0.5 text-xs opacity-60 leading-snug">{link.description}</p>
-                                      )}
-                                    </div>
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                    <ManualMegaMenu
+                      columns={item.megaColumns}
+                      isOpen={isDropdownOpen}
+                      onClose={() => setOpenDropdownId(null)}
+                      navTop={navTop}
+                      parentLabel={item.label}
+                      primaryColor={primaryColor}
+                      secondaryColor={secondaryColor}
+                    />
                   )}
 
                   {/* Simple Dropdown for subItems */}
                   {hasChildren && !isMega && (
-                    <div
-                      className="absolute top-full left-0 bg-white border rounded-b-xl shadow-lg min-w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[195]"
-                      style={{ borderColor: 'var(--color-border)' }}
-                    >
-                      {subItems.map((child: any) => (
-                        <CMSLink
-                          key={child.id}
-                          {...(typeof child.page === 'object' && 'slug' in child.page
-                            ? { reference: child.page }
-                            : {})}
-                          className="block px-4 py-2 text-sm transition-colors first:rounded-t-xl last:rounded-b-xl"
-                          style={{ color: 'var(--color-secondary)' }}
-                          onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                            e.currentTarget.style.backgroundColor = 'var(--color-surface)'
-                            e.currentTarget.style.color = 'var(--color-primary)'
-                          }}
-                          onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                            e.currentTarget.style.backgroundColor = 'transparent'
-                            e.currentTarget.style.color = 'var(--color-secondary)'
-                          }}
-                        >
-                          {child.label}
-                        </CMSLink>
-                      ))}
-                    </div>
+                    <SimpleDropdown
+                      items={subItems}
+                      isOpen={isDropdownOpen}
+                      onClose={() => setOpenDropdownId(null)}
+                      primaryColor={primaryColor}
+                      secondaryColor={secondaryColor}
+                    />
                   )}
                 </div>
               )

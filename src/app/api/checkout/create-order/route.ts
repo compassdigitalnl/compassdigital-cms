@@ -159,6 +159,71 @@ export async function POST(request: NextRequest) {
     }
 
     // ========================================
+    // 2b. B2B APPROVAL CHECK
+    // ========================================
+
+    const customerId = typeof (cart as any).user === 'number'
+      ? (cart as any).user
+      : typeof (cart as any).user === 'string'
+        ? (cart as any).user
+        : (cart as any).user?.id
+
+    if (customerId) {
+      try {
+        const customerUser = await payload.findByID({ collection: 'users', id: customerId }) as any
+        const isB2B = customerUser.accountType === 'b2b'
+        const companyRole = customerUser.companyRole || 'viewer'
+        const approvalRoles = ['buyer', 'viewer'] // Roles that need approval
+        const approvalThreshold = customerUser.monthlyBudgetLimit || customerUser.company?.approvalThreshold || 0
+        const orderTotal = cart.total || 0
+
+        if (isB2B && approvalRoles.includes(companyRole) && approvalThreshold > 0 && orderTotal > approvalThreshold) {
+          // Determine company owner
+          const companyOwnerId = customerUser.companyOwner
+            ? (typeof customerUser.companyOwner === 'object' ? customerUser.companyOwner.id : customerUser.companyOwner)
+            : customerId
+
+          // Create approval request instead of order
+          const approvalRef = `APR-${Date.now().toString(36).toUpperCase()}`
+
+          const approvalRequest = await payload.create({
+            collection: 'approval-requests',
+            data: {
+              companyOwner: companyOwnerId,
+              requestedBy: customerId,
+              orderReference: approvalRef,
+              status: 'pending',
+              totalAmount: orderTotal,
+              reason: orderTotal > approvalThreshold ? 'threshold' : 'budget',
+              items: cart.items?.map((item: any) => ({
+                product: typeof item.product === 'object' ? item.product?.id : item.product,
+                title: typeof item.product === 'object' ? item.product?.title : 'Product',
+                quantity: item.quantity || 1,
+                price: item.unitPrice || 0,
+              })),
+              shippingAddress: shippingAddress || undefined,
+              note: notes || undefined,
+              expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+            },
+          })
+
+          console.log(`⏳ Approval request created: ${approvalRef} (ID: ${approvalRequest.id}) for user ${customerId}`)
+
+          return NextResponse.json({
+            success: true,
+            requiresApproval: true,
+            approvalId: approvalRequest.id,
+            approvalRef,
+            message: 'Je bestelling vereist goedkeuring van een beheerder. Je ontvangt een melding zodra de bestelling is goedgekeurd.',
+          })
+        }
+      } catch (approvalError) {
+        // If approval check fails, proceed with normal order flow
+        console.warn('Approval check failed, proceeding with normal order:', approvalError)
+      }
+    }
+
+    // ========================================
     // 3. GENERATE ORDER NUMBER
     // ========================================
 
@@ -229,12 +294,6 @@ export async function POST(request: NextRequest) {
     // ========================================
     // 5. CREATE ORDER
     // ========================================
-
-    const customerId = typeof (cart as any).user === 'number'
-      ? (cart as any).user
-      : typeof (cart as any).user === 'string'
-        ? (cart as any).user
-        : (cart as any).user?.id
 
     // Shipping address (required)
     if (!shippingAddress) {

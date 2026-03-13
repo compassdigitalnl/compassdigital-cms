@@ -57,6 +57,11 @@ export default function CartTemplate1({ onCheckout, contactPhone }: CartTemplate
     window.location.href = '/checkout'
   }
 
+  const handleRequestQuote = () => {
+    const productParams = items.map((item) => `${item.id}:${item.quantity}`).join(',')
+    window.location.href = `/account/quotes/new?from=cart&products=${encodeURIComponent(productParams)}`
+  }
+
   const handleApplyCoupon = async (code: string) => {
     setCouponError('')
     if (code.toUpperCase() === 'WELCOME10') {
@@ -213,6 +218,7 @@ export default function CartTemplate1({ onCheckout, contactPhone }: CartTemplate
               discount={discount}
               discountCode={appliedCoupon?.code}
               onCheckout={handleCheckout}
+              onRequestQuote={handleRequestQuote}
               sticky={false}
             />
 

@@ -504,11 +504,17 @@ export const Returns: CollectionConfig = {
         // SEND EMAIL NOTIFICATIONS ON STATUS CHANGE
         // ========================================
 
-        // Only send emails on update operations (not create)
-        if (operation !== 'update') return doc
+        // On create: send return confirmation email
+        const isCreate = operation === 'create'
+        const isUpdate = operation === 'update'
 
-        const statusChanged = previousDoc.status !== doc.status
-        if (!statusChanged) return doc
+        if (!isCreate && !isUpdate) return doc
+
+        // On update: only act if status actually changed
+        if (isUpdate) {
+          const statusChanged = previousDoc.status !== doc.status
+          if (!statusChanged) return doc
+        }
 
         // Get customer email
         let customerEmail: string | undefined
@@ -541,7 +547,15 @@ export const Returns: CollectionConfig = {
         }
 
         try {
-          // Send email based on new status
+          // Send confirmation on create (pending status)
+          if (isCreate && doc.status === 'pending') {
+            console.log(`📧 Sending return confirmation email to ${customerEmail} for ${doc.rmaNumber}`)
+            await emailService.sendReturnConfirmation(doc, customerEmail)
+            console.log(`✅ Return confirmation email sent for ${doc.rmaNumber}`)
+            return doc
+          }
+
+          // Send email based on new status (update only)
           switch (doc.status) {
             case 'approved':
               console.log(`📧 Sending return approval email to ${customerEmail} for ${doc.rmaNumber}`)

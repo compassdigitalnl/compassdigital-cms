@@ -377,6 +377,31 @@ export default function ShopArchiveTemplate1({
   )
 
   // ========================================
+  // WISHLIST HANDLER
+  // ========================================
+
+  const handleWishlistToggle = useCallback(
+    async (productId: string) => {
+      try {
+        await fetch('/api/account/favorites', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productId: Number(productId) || productId }),
+        })
+      } catch {
+        // Fallback to localStorage for guests
+        const wishlist: string[] = JSON.parse(localStorage.getItem('wishlist') || '[]')
+        if (wishlist.includes(productId)) {
+          localStorage.setItem('wishlist', JSON.stringify(wishlist.filter(id => id !== productId)))
+        } else {
+          localStorage.setItem('wishlist', JSON.stringify([...wishlist, productId]))
+        }
+      }
+    },
+    [],
+  )
+
+  // ========================================
   // PAGINATION HANDLER
   // ========================================
 
@@ -563,6 +588,7 @@ export default function ShopArchiveTemplate1({
                           variant={viewMode}
                           onAddToCart={canAddToCart ? handleAddToCart : undefined}
                           onQuickView={() => handleQuickView(String(hit.id))}
+                          onWishlistToggle={() => handleWishlistToggle(String(hit.id))}
                         />
                       )
                     })}

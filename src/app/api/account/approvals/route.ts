@@ -18,17 +18,19 @@ export async function GET() {
       return NextResponse.json({ error: 'Niet ingelogd' }, { status: 401 })
     }
 
-    const companyAccountId = (user as any).companyAccount
-    if (!companyAccountId) {
+    const userData = user as any
+    // Determine company owner: if user IS owner, use their own ID; otherwise use companyOwner field
+    const companyOwnerId = userData.companyRole === 'owner' ? user.id : userData.companyOwner
+    if (!companyOwnerId) {
       return NextResponse.json({ requests: [] })
     }
 
-    const companyId = typeof companyAccountId === 'object' ? companyAccountId.id : companyAccountId
-    const companyRole = (user as any).companyRole || 'viewer'
-    const canApprove = companyRole === 'admin' || companyRole === 'manager'
+    const ownerId = typeof companyOwnerId === 'object' ? companyOwnerId.id : companyOwnerId
+    const companyRole = userData.companyRole || 'viewer'
+    const canApprove = companyRole === 'admin' || companyRole === 'manager' || companyRole === 'owner'
 
-    // Admins/managers see all company requests; others see only their own
-    const where: any = { company: { equals: companyId } }
+    // Admins/managers/owners see all company requests; others see only their own
+    const where: any = { companyOwner: { equals: ownerId } }
     if (!canApprove) {
       where.requestedBy = { equals: user.id }
     }

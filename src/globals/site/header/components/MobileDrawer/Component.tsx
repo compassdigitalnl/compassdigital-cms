@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import type { Header, Theme1, Setting, Media } from '@/payload-types'
 import { X, ChevronRight, Phone, Mail, Globe, Search, Heart } from 'lucide-react'
+import { Icon } from '@/branches/shared/components/common/Icon'
 import { cn } from '@/utilities/cn'
 import { CMSLink } from '@/branches/shared/components/common/Link'
 import { MobileCategoryNav } from '@/globals/site/header/components/MobileCategoryNav'
@@ -144,7 +145,7 @@ export function MobileDrawer({
             </button>
           )}
           <Link
-            href="/wishlist"
+            href="/account/favorites"
             onClick={onClose}
             className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
           >
@@ -205,18 +206,27 @@ export function MobileDrawer({
                   </CMSLink>
                   {((item as any).subItems || item.children || (item as any).megaColumns)?.length > 0 && (
                     <div className="bg-gray-50">
-                      {/* Mega menu columns flattened for mobile */}
+                      {/* Mega menu columns with section headers */}
                       {(item as any).type === 'mega' && (item as any).megaColumns?.map((col: any) => (
-                        (col.links || []).map((link: any) => (
-                          <a
-                            key={link.id || link.url}
-                            href={link.url || '#'}
-                            className="flex items-center gap-3 pl-12 pr-5 py-2.5 text-sm font-medium hover:bg-gray-100 transition-colors text-gray-600"
-                          >
-                            {link.label}
-                          </a>
-                        ))
-                      )).flat()}
+                        <React.Fragment key={col.id || col.title}>
+                          {col.title && (
+                            <div className="px-5 pl-10 py-1.5 text-[10px] font-bold uppercase tracking-wider text-gray-400">
+                              {col.title}
+                            </div>
+                          )}
+                          {(col.links || []).map((link: any) => (
+                            <Link
+                              key={link.id || link.url}
+                              href={link.url || '#'}
+                              onClick={onClose}
+                              className="flex items-center gap-3 pl-12 pr-5 py-2.5 text-sm font-medium hover:bg-gray-100 transition-colors text-gray-600"
+                            >
+                              {link.icon && <Icon name={link.icon} size={14} />}
+                              {link.label}
+                            </Link>
+                          ))}
+                        </React.Fragment>
+                      ))}
                       {/* Simple subItems dropdown */}
                       {((item as any).subItems || item.children || []).map((child: NavItem) => (
                         <CMSLink

@@ -277,7 +277,7 @@ export default function HeaderTemplate1({
               {/* Wishlist — always visible */}
               {showWishlist && (
                 <Link
-                  href="/wishlist"
+                  href="/account/favorites"
                   className="w-[42px] h-[42px] rounded-[10px] border border-transparent bg-gray-100 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 flex items-center justify-center transition-all"
                   title="Wishlist"
                 >
