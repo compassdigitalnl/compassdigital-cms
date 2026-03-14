@@ -6,8 +6,6 @@ import { branchOptions } from '../ContentServices'
 import { bookingStatusHook } from '@/branches/beauty/hooks/bookingStatusHook'
 import { reservationStatusHook } from '@/branches/horeca/hooks/reservationStatusHook'
 import { appointmentStatusHook } from '@/branches/zorg/hooks/appointmentStatusHook'
-import { workshopBookingHook } from '@/branches/automotive/hooks/workshopBookingHook'
-import { tourBookingHook } from '@/branches/toerisme/hooks/tourBookingHook'
 
 /**
  * Content Bookings — Unified collection
@@ -46,8 +44,6 @@ export const ContentBookings: CollectionConfig = {
       bookingStatusHook,
       reservationStatusHook,
       appointmentStatusHook,
-      workshopBookingHook,
-      tourBookingHook,
     ],
   },
   fields: [
@@ -234,21 +230,7 @@ export const ContentBookings: CollectionConfig = {
               label: 'Model',
               admin: { condition: (_, s) => s?.branch === 'automotive' },
             },
-            // Toerisme-specifiek
-            {
-              name: 'tour',
-              type: 'relationship',
-              relationTo: 'tours',
-              label: 'Reis',
-              admin: { condition: (_, s) => s?.branch === 'toerisme' },
-            },
-            {
-              name: 'accommodation',
-              type: 'relationship',
-              relationTo: 'accommodations',
-              label: 'Accommodatie',
-              admin: { condition: (_, s) => s?.branch === 'toerisme' },
-            },
+            // Toerisme-specifiek (relationship fields removed — collections not yet committed)
             {
               name: 'departureDate',
               type: 'date',
