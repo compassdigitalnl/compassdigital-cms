@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
+import { features } from '@/lib/tenant/features'
 
 /**
  * Meilisearch Settings Global
@@ -27,6 +28,7 @@ export const MeilisearchSettings: GlobalConfig = {
     description:
       'Configure Meilisearch search engine behavior, indexing, and ranking rules.',
     group: 'Instellingen',
+    hidden: !features.search,
   },
   fields: [
     {

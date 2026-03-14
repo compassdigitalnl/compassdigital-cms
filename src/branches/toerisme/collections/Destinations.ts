@@ -19,7 +19,7 @@ export const Destinations: CollectionConfig = {
     group: 'Toerisme',
     useAsTitle: 'name',
     defaultColumns: ['name', 'country', 'continent', 'featured'],
-    hidden: shouldHideCollection(),
+    hidden: shouldHideCollection('tourism'),
   },
   access: {
     read: () => true,

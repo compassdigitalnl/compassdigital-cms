@@ -19,7 +19,7 @@ export const Accommodations: CollectionConfig = {
     group: 'Toerisme',
     useAsTitle: 'name',
     defaultColumns: ['name', 'destination', 'type', 'stars', 'priceFrom'],
-    hidden: shouldHideCollection(),
+    hidden: shouldHideCollection('tourism'),
   },
   access: {
     read: () => true,

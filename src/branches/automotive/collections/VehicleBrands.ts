@@ -19,7 +19,7 @@ export const VehicleBrands: CollectionConfig = {
     group: 'Automotive',
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug', 'order'],
-    hidden: shouldHideCollection(),
+    hidden: shouldHideCollection('automotive'),
   },
   access: {
     read: () => true,

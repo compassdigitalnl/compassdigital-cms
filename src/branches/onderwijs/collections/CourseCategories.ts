@@ -19,7 +19,7 @@ export const CourseCategories: CollectionConfig = {
     group: 'Onderwijs',
     useAsTitle: 'name',
     defaultColumns: ['name', 'courseCount', 'featured'],
-    hidden: shouldHideCollection(),
+    hidden: shouldHideCollection('education'),
   },
   access: {
     read: () => true,

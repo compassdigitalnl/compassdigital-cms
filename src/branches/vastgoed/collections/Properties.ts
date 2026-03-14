@@ -19,7 +19,7 @@ export const Properties: CollectionConfig = {
     group: 'Vastgoed',
     useAsTitle: 'title',
     defaultColumns: ['title', 'city', 'askingPrice', 'propertyType', 'status', 'energyLabel'],
-    hidden: shouldHideCollection(),
+    hidden: shouldHideCollection('realEstate'),
   },
   access: {
     read: () => true,

@@ -19,7 +19,7 @@ export const Enrollments: CollectionConfig = {
     group: 'Onderwijs',
     useAsTitle: 'enrollmentNumber',
     defaultColumns: ['enrollmentNumber', 'user', 'course', 'enrollmentStatus', 'paymentStatus', 'progress'],
-    hidden: shouldHideCollection(),
+    hidden: shouldHideCollection('education'),
   },
   access: {
     read: ({ req: { user } }) => {

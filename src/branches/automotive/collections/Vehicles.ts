@@ -19,7 +19,7 @@ export const Vehicles: CollectionConfig = {
     group: 'Automotive',
     useAsTitle: 'title',
     defaultColumns: ['title', 'status', 'vehicleType', 'price', 'year', 'featured'],
-    hidden: shouldHideCollection(),
+    hidden: shouldHideCollection('automotive'),
   },
   access: {
     read: () => true,

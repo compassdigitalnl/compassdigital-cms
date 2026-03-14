@@ -19,7 +19,7 @@ export const Tours: CollectionConfig = {
     group: 'Toerisme',
     useAsTitle: 'title',
     defaultColumns: ['title', 'destination', 'price', 'duration', 'availability'],
-    hidden: shouldHideCollection(),
+    hidden: shouldHideCollection('tourism'),
   },
   access: {
     read: () => true,

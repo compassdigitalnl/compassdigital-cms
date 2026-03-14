@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { isClientDeployment } from '@/lib/tenant/isClientDeployment'
+import { features } from '@/lib/tenant/features'
 
 const _isClient = isClientDeployment()
 
@@ -25,6 +26,7 @@ export const ChatbotSettings: GlobalConfig = {
   admin: {
     description: 'Configure AI chatbot behavior, appearance, and model selection.',
     group: 'Instellingen',
+    hidden: !features.chatbot,
   },
   fields: [
     {
