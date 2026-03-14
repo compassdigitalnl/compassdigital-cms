@@ -547,12 +547,18 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
   }
 
   // Generate ENV vars from client features
+  // IMPORTANT: Because isFeatureEnabled() defaults to true when an env var is absent,
+  // we must explicitly set ALL features to 'false' unless the client has them enabled.
+  // Otherwise, unset features show up as enabled on the deployed site.
   for (const [feature, envVar] of Object.entries(featureMap)) {
     const featureKey = feature as keyof ClientFeatures
     const value = clientFeatures[featureKey]
 
-    if (typeof value === 'boolean') {
-      envVars[envVar] = String(value)
+    if (value === true) {
+      envVars[envVar] = 'true'
+    } else {
+      // Explicitly disable: undefined, null, and false all become 'false'
+      envVars[envVar] = 'false'
     }
   }
 
