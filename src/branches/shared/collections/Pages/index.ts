@@ -56,6 +56,12 @@ import { experienceBlocks } from '@/branches/experiences/blocks'
 // Horeca blocks (conditional import)
 import { horecaBlocks } from '@/branches/horeca/blocks'
 
+// Beauty blocks (conditional import)
+import { beautyBlocks } from '@/branches/beauty/blocks'
+
+// Publishing blocks (conditional import)
+import { publishingBlocks } from '@/branches/publishing/blocks'
+
 // Hooks
 import { revalidatePage, revalidateDelete } from './hooks/revalidatePage'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
@@ -294,6 +300,16 @@ export const Pages: CollectionConfig = {
         // HORECA BRANCH BLOCKS - Only if horeca feature enabled
         // ═══════════════════════════════════════════════════════════════════════════
         ...(!isFeatureEnabled('horeca') ? [] : horecaBlocks),
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // BEAUTY BRANCH BLOCKS - Only if beauty feature enabled
+        // ═══════════════════════════════════════════════════════════════════════════
+        ...(!isFeatureEnabled('beauty') ? [] : beautyBlocks),
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // PUBLISHING BRANCH BLOCKS - Only if publishing feature enabled
+        // ═══════════════════════════════════════════════════════════════════════════
+        ...(!isFeatureEnabled('publishing') ? [] : publishingBlocks),
       ],
     },
 

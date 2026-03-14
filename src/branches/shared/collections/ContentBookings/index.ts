@@ -5,7 +5,6 @@ import { getCachedSiteBranch } from '@/lib/tenant/contentModules'
 import { branchOptions } from '../ContentServices'
 import { bookingStatusHook } from '@/branches/beauty/hooks/bookingStatusHook'
 import { reservationStatusHook } from '@/branches/horeca/hooks/reservationStatusHook'
-import { appointmentStatusHook } from '@/branches/zorg/hooks/appointmentStatusHook'
 
 /**
  * Content Bookings — Unified collection
@@ -43,7 +42,6 @@ export const ContentBookings: CollectionConfig = {
     afterChange: [
       bookingStatusHook,
       reservationStatusHook,
-      appointmentStatusHook,
     ],
   },
   fields: [
