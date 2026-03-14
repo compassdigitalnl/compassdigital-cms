@@ -539,7 +539,7 @@ export const Returns: CollectionConfig = {
         }
 
         // Import email service dynamically to avoid circular dependencies
-        const { emailService } = await import('@/features/email-marketing/lib/EmailService')
+        const { emailService } = await import('@/features/email-marketing/lib/TransactionalEmailService')
 
         if (!emailService.isConfigured()) {
           console.warn('⚠️ Email service not configured - skipping return notification email')
