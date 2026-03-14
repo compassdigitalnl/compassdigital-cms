@@ -1,5 +1,5 @@
 import type { CollectionAfterChangeHook } from 'payload'
-import { emailService } from '@/features/email-marketing/lib/EmailService'
+import { emailService } from '@/features/email-marketing/lib/TransactionalEmailService'
 
 /**
  * Quote Status Hook

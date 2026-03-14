@@ -16,6 +16,7 @@ import { ListmonkClient } from '@/features/email-marketing/lib/listmonk/client'
 import type { Payload } from 'payload'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import juice from 'juice'
 import { getUsageTracker } from '@/features/email-marketing/lib/billing/usage-tracker'
 import {
   classifyError,
@@ -151,6 +152,11 @@ async function processSyncCampaign(job: Job<SyncCampaignJob>): Promise<void> {
       listmonkCampaign.body = campaign.html
     } else {
       throw new Error('Campaign has no content')
+    }
+
+    // Inline CSS for email client compatibility
+    if (listmonkCampaign.body) {
+      listmonkCampaign.body = juice(listmonkCampaign.body)
     }
 
     // Create or update in Listmonk

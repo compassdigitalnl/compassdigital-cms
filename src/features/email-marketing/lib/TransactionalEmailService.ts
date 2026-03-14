@@ -64,7 +64,7 @@ export interface EmailOptions {
   pdfAttachment?: { filename: string; content: Buffer }
 }
 
-export class EmailService {
+export class TransactionalEmailService {
   private resend: Resend | null = null
 
   constructor() {
@@ -1171,4 +1171,4 @@ export class EmailService {
 }
 
 // Singleton instance
-export const emailService = new EmailService()
+export const emailService = new TransactionalEmailService()

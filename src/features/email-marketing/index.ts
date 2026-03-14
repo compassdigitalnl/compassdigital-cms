@@ -21,4 +21,4 @@ export {
 } from './collections'
 
 // Services
-export { emailService } from './lib/EmailService'
+export { emailService } from './lib/TransactionalEmailService'

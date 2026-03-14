@@ -1,8 +1,13 @@
 /**
  * Automation Rules Collection
  *
- * Event-driven automation for email marketing
- * Trigger campaigns based on user actions and conditions
+ * @deprecated Use AutomationFlows instead. AutomationRules is a legacy single trigger+action
+ * model that is superseded by the multi-step AutomationFlows. This collection is hidden from the
+ * admin sidebar and will be removed in a future release. Existing rules should be migrated to flows.
+ *
+ * Still referenced by:
+ * - automation/engine.ts (findMatchingRules, updateRuleStats)
+ * - monitoring/MetricsCollector.ts (activeAutomationRules metric)
  */
 
 import type { CollectionConfig } from 'payload'
