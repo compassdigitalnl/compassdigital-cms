@@ -32,7 +32,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const branchLabels: Record<string, string> = {
   'e-commerce': 'E-commerce',
+  tech: 'E-commerce',
   construction: 'Bouw',
+  bouw: 'Bouw & Constructie',
   beauty: 'Beauty',
   horeca: 'Horeca',
   zorg: 'Zorg',
@@ -113,7 +115,7 @@ export default async function CasesPage({
     }
   }
 
-  // Strategy 2: Unified Projects collection
+  // Strategy 2: Unified Projects collection OR content-cases (unified content module)
   if (!isFeatureEnabled('cases') && !isFeatureEnabled('professional_services')) {
     notFound()
   }
@@ -121,20 +123,50 @@ export default async function CasesPage({
   const params = await searchParams
   const currentPage = Number(params.page) || 1
 
-  const { docs: projects, totalPages, totalDocs } = await payload.find({
-    collection: 'projects',
-    where: { status: { equals: 'published' } },
-    limit: 12,
-    page: currentPage,
-    sort: '-createdAt',
-    depth: 1,
-  })
-
+  // Try projects first, fall back to content-cases
+  let projects: any[] = []
+  let totalPages = 1
+  let totalDocs = 0
   let featuredProjects: any[] = []
+  let usingContentCases = false
+
+  try {
+    const result = await payload.find({
+      collection: 'projects',
+      where: { status: { equals: 'published' } },
+      limit: 12,
+      page: currentPage,
+      sort: '-createdAt',
+      depth: 1,
+    })
+    projects = result.docs
+    totalPages = result.totalPages
+    totalDocs = result.totalDocs
+  } catch { /* projects collection may not exist */ }
+
+  // If no projects found, try content-cases
+  if (projects.length === 0) {
+    try {
+      const result = await payload.find({
+        collection: 'content-cases',
+        where: { status: { equals: 'published' } },
+        limit: 12,
+        page: currentPage,
+        sort: '-createdAt',
+        depth: 1,
+      })
+      projects = result.docs
+      totalPages = result.totalPages
+      totalDocs = result.totalDocs
+      usingContentCases = true
+    } catch { /* content-cases may not exist */ }
+  }
+
   if (currentPage === 1) {
+    const collection = usingContentCases ? 'content-cases' : 'projects'
     try {
       const { docs } = await payload.find({
-        collection: 'projects',
+        collection,
         where: { status: { equals: 'published' }, featured: { equals: true } },
         limit: 2,
         depth: 1,

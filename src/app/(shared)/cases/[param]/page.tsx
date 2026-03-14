@@ -30,7 +30,9 @@ export const revalidate = 0
 
 const branchLabels: Record<string, string> = {
   'e-commerce': 'E-commerce',
+  tech: 'E-commerce',
   construction: 'Bouw & Installatie',
+  bouw: 'Bouw & Constructie',
   beauty: 'Beauty & Wellness',
   horeca: 'Horeca',
   zorg: 'Zorg & Welzijn',
@@ -113,6 +115,31 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   } catch { /* */ }
 
+  // Try content-cases (unified content module)
+  try {
+    const { docs } = await payload.find({
+      collection: 'content-cases',
+      where: { slug: { equals: param }, status: { equals: 'published' } },
+      limit: 1,
+      depth: 1,
+    })
+    if (docs[0]) {
+      const p = docs[0] as any
+      const imageUrl = typeof p.featuredImage === 'object' && p.featuredImage?.url ? p.featuredImage.url : null
+      return {
+        title: `${p.title} - Cases`,
+        description: p.shortDescription || undefined,
+        alternates: { canonical: `${siteUrl}/cases/${param}` },
+        openGraph: {
+          title: p.title,
+          description: p.shortDescription || undefined,
+          url: `${siteUrl}/cases/${param}`,
+          ...(imageUrl ? { images: [{ url: imageUrl }] } : {}),
+        },
+      }
+    }
+  } catch { /* */ }
+
   return { title: 'Case niet gevonden' }
 }
 
@@ -141,7 +168,32 @@ export default async function CaseParamPage({ params, searchParams }: PageProps)
     } catch { /* fall through */ }
   }
 
-  // Unified projects
+  // Try unified projects first, then content-cases
+  try {
+    const { docs } = await payload.find({
+      collection: 'projects',
+      where: { slug: { equals: param }, status: { equals: 'published' } },
+      depth: 2,
+      limit: 1,
+    })
+    if (docs[0]) {
+      return <ProjectCaseDetail slug={param} />
+    }
+  } catch { /* */ }
+
+  // Try content-cases (unified content module)
+  try {
+    const { docs } = await payload.find({
+      collection: 'content-cases',
+      where: { slug: { equals: param }, status: { equals: 'published' } },
+      depth: 2,
+      limit: 1,
+    })
+    if (docs[0]) {
+      return <ContentCaseDetail caseItem={docs[0] as any} />
+    }
+  } catch { /* */ }
+
   return <ProjectCaseDetail slug={param} />
 }
 
@@ -158,14 +210,41 @@ async function BranchFilterPage({
   const payload = await getPayload({ config })
   const currentPage = Number(pageParam) || 1
 
-  const { docs: projects, totalPages, totalDocs } = await payload.find({
-    collection: 'projects',
-    where: { status: { equals: 'published' }, branch: { equals: branch } },
-    limit: 12,
-    page: currentPage,
-    sort: '-createdAt',
-    depth: 1,
-  })
+  // Try projects first, fall back to content-cases
+  let projects: any[] = []
+  let totalPages = 1
+  let totalDocs = 0
+
+  try {
+    const result = await payload.find({
+      collection: 'projects',
+      where: { status: { equals: 'published' }, branch: { equals: branch } },
+      limit: 12,
+      page: currentPage,
+      sort: '-createdAt',
+      depth: 1,
+    })
+    projects = result.docs
+    totalPages = result.totalPages
+    totalDocs = result.totalDocs
+  } catch { /* */ }
+
+  // If no projects, try content-cases
+  if (projects.length === 0) {
+    try {
+      const result = await payload.find({
+        collection: 'content-cases',
+        where: { status: { equals: 'published' }, branch: { equals: branch } },
+        limit: 12,
+        page: currentPage,
+        sort: '-createdAt',
+        depth: 1,
+      })
+      projects = result.docs
+      totalPages = result.totalPages
+      totalDocs = result.totalDocs
+    } catch { /* */ }
+  }
 
   return (
     <>
@@ -534,6 +613,179 @@ async function ProjectCaseDetail({ slug }: { slug: string }) {
                 Bekijk alle {branchLabels[project.branch] || ''} cases
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
               </Link>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+/* ─── Content Case Detail (unified content-cases) ──────────── */
+
+async function ContentCaseDetail({ caseItem }: { caseItem: any }) {
+  const payload = await getPayload({ config })
+  const featuredImage = typeof caseItem.featuredImage === 'object' && caseItem.featuredImage !== null ? caseItem.featuredImage : null
+  const gallery = Array.isArray(caseItem.gallery) ? caseItem.gallery.filter((img: any) => typeof img === 'object' && img?.url) : []
+  const testimonial = caseItem.testimonial
+  const metrics = Array.isArray(caseItem.metrics) ? caseItem.metrics : []
+  const technologies = Array.isArray(caseItem.technologies) ? caseItem.technologies : []
+
+  const specs: { label: string; value: string }[] = []
+  if (caseItem.client) specs.push({ label: 'Klant', value: caseItem.client })
+  if (caseItem.industry) specs.push({ label: 'Branche', value: caseItem.industry })
+  if (caseItem.year) specs.push({ label: 'Jaar', value: String(caseItem.year) })
+  if (caseItem.duration) specs.push({ label: 'Doorlooptijd', value: caseItem.duration })
+  if (caseItem.location) specs.push({ label: 'Locatie', value: caseItem.location })
+
+  let relatedCases: any[] = []
+  if (caseItem.branch) {
+    try {
+      const result = await payload.find({
+        collection: 'content-cases',
+        where: { and: [{ status: { equals: 'published' } }, { id: { not_equals: caseItem.id } }, { branch: { equals: caseItem.branch } }] },
+        limit: 3,
+        sort: '-createdAt',
+        depth: 1,
+      })
+      relatedCases = result.docs
+    } catch { /* */ }
+  }
+
+  return (
+    <div className="bg-white">
+      <div className="mx-auto max-w-7xl px-6 py-4">
+        <nav className="flex items-center gap-2 text-sm text-grey-mid">
+          <Link href="/" className="hover:text-teal">Home</Link>
+          <span>/</span>
+          <Link href="/cases" className="hover:text-teal">Cases</Link>
+          {caseItem.branch && (<><span>/</span><Link href={`/cases/${caseItem.branch}`} className="hover:text-teal">{branchLabels[caseItem.branch] || caseItem.branch}</Link></>)}
+          <span>/</span>
+          <span className="text-navy">{caseItem.title}</span>
+        </nav>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-6 pb-16">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
+          <div className="space-y-10 lg:col-span-2">
+            {featuredImage?.url && (
+              <div className="relative aspect-video overflow-hidden rounded-xl">
+                <Image src={featuredImage.url} alt={featuredImage.alt || caseItem.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 66vw" priority />
+                {caseItem.resultHighlight && (
+                  <div className="absolute bottom-4 right-4 z-[2] rounded-lg bg-teal/90 px-4 py-2 text-sm font-bold text-white backdrop-blur-sm">{caseItem.resultHighlight}</div>
+                )}
+              </div>
+            )}
+
+            {specs.length > 0 && (
+              <div className={`grid gap-4 ${specs.length >= 4 ? 'grid-cols-2 md:grid-cols-4' : specs.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
+                {specs.map((spec, i) => (
+                  <div key={i} className="rounded-lg bg-grey-light p-4">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-grey-dark">{spec.label}</p>
+                    <p className="mt-1 text-base font-bold text-navy">{spec.value}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {metrics.length > 0 && (
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                {metrics.map((m: any, i: number) => (
+                  <div key={i} className="rounded-lg bg-teal/5 p-4 text-center">
+                    <p className="text-2xl font-bold text-teal">{m.value}{m.suffix}</p>
+                    <p className="mt-1 text-xs text-grey-dark">{m.label}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div>
+              {caseItem.branch && (
+                <span className="mb-2 inline-block rounded-full bg-teal/10 px-3 py-1 text-xs font-semibold text-teal">{branchLabels[caseItem.branch] || caseItem.branch}</span>
+              )}
+              <h1 className="font-display text-3xl text-navy md:text-4xl">{caseItem.title}</h1>
+              {caseItem.shortDescription && <p className="mt-3 text-lg text-grey-dark">{caseItem.shortDescription}</p>}
+            </div>
+
+            {caseItem.challenge && (<div><h2 className="mb-3 font-display text-xl text-navy">De uitdaging</h2><RichTextSection content={caseItem.challenge} /></div>)}
+            {caseItem.solution && (<div><h2 className="mb-3 font-display text-xl text-navy">Onze aanpak</h2><RichTextSection content={caseItem.solution} /></div>)}
+            {caseItem.resultDescription && (<div><h2 className="mb-3 font-display text-xl text-navy">Het resultaat</h2><RichTextSection content={caseItem.resultDescription} /></div>)}
+
+            {technologies.length > 0 && (
+              <div>
+                <h2 className="mb-4 font-display text-xl text-navy">Technologie</h2>
+                <div className="flex flex-wrap gap-2">
+                  {technologies.map((tech: any, i: number) => (
+                    <span key={i} className="rounded-full bg-navy/10 px-3 py-1 text-xs font-semibold text-navy">{typeof tech === 'string' ? tech : tech.technology || tech.name}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {testimonial?.quote && (
+              <div className="rounded-xl border border-teal/20 bg-teal/5 p-6">
+                <div className="mb-3 flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (<span key={i} className="text-lg" style={{ color: 'var(--amber, #f59e0b)' }}>&#9733;</span>))}
+                </div>
+                <blockquote className="text-lg italic leading-relaxed text-navy">&ldquo;{testimonial.quote}&rdquo;</blockquote>
+                {(testimonial.name || testimonial.clientName) && (
+                  <div className="mt-3 text-sm font-semibold text-grey-dark">
+                    — {testimonial.name || testimonial.clientName}
+                    {(testimonial.role || testimonial.clientRole) && <span className="font-normal text-grey-mid">, {testimonial.role || testimonial.clientRole}</span>}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {gallery.length > 0 && (
+              <div>
+                <h2 className="mb-4 font-display text-xl text-navy">Afbeeldingen</h2>
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                  {gallery.map((img: any, i: number) => (
+                    <div key={i} className="relative aspect-[4/3] overflow-hidden rounded-xl"><Image src={img.url} alt={img.alt || ''} fill className="object-cover" sizes="33vw" /></div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <aside className="space-y-6 lg:sticky lg:top-6 lg:self-start">
+            <div className="rounded-xl border border-grey bg-white p-6 shadow-sm">
+              <h3 className="mb-2 text-lg font-bold text-navy">Zelf ook zo&apos;n project?</h3>
+              <p className="mb-4 text-sm text-grey-dark">Neem vrijblijvend contact op voor een adviesgesprek.</p>
+              <Link href="/contact" className="block w-full rounded-lg bg-teal px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-teal-dark">Neem contact op</Link>
+            </div>
+
+            {caseItem.websiteUrl && (
+              <div className="rounded-xl border border-grey bg-white p-6">
+                <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-grey-dark">Website</h4>
+                <a href={caseItem.websiteUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-teal hover:underline">
+                  Bekijk live website
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                </a>
+              </div>
+            )}
+
+            {caseItem.badges && caseItem.badges.length > 0 && (
+              <div className="rounded-xl border border-grey bg-white p-6">
+                <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-grey-dark">Tags</h4>
+                <div className="flex flex-wrap gap-2">
+                  {caseItem.badges.map((b: any, i: number) => (
+                    <span key={i} className="rounded-full bg-navy/10 px-3 py-1 text-xs font-semibold text-navy">{typeof b === 'string' ? b : b.badge || b.label}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </aside>
+        </div>
+
+        {relatedCases.length > 0 && (
+          <div className="mt-16 border-t border-grey pt-12">
+            <h2 className="mb-8 text-center font-display text-2xl text-navy">Vergelijkbare cases</h2>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {relatedCases.map((p: any) => (
+                <ProjectCard key={p.id} project={p} basePath="/cases" />
+              ))}
             </div>
           </div>
         )}
