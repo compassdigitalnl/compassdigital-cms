@@ -16,6 +16,7 @@ import {
   lexicalEditor,
   BlocksFeature,
 } from '@payloadcms/richtext-lexical'
+import { articlePublishHook } from '../hooks/articlePublishHook'
 
 // Blog-specific blocks
 import { InfoBox } from '@/branches/shared/blocks/InfoBox/config'
@@ -529,6 +530,7 @@ export const BlogPosts: CollectionConfig = {
       },
     ],
     afterChange: [
+      articlePublishHook,
       async ({ doc }) => {
         // Fire-and-forget: index blog post in Meilisearch
         import('@/features/search/lib/meilisearch/indexBlogPosts').then(({ indexBlogPost }) => {
