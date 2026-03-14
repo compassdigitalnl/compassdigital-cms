@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
+import { shouldHideContentCollection } from '@/lib/tenant/shouldHideCollection'
 import { getCachedSiteBranch } from '@/lib/tenant/contentModules'
 
 /** Shared branch options used across all unified content collections */
@@ -14,6 +14,8 @@ export const branchOptions = [
   { label: 'Horeca & Restaurant', value: 'horeca' },
   { label: 'Ervaringen & Belevenissen', value: 'ervaringen' },
   { label: 'Marktplaats', value: 'marketplace' },
+  { label: 'Automotive', value: 'automotive' },
+  { label: 'Toerisme', value: 'toerisme' },
 ]
 
 const colorOptions = [
@@ -42,7 +44,7 @@ export const ContentServices: CollectionConfig = {
     group: 'Content',
     useAsTitle: 'title',
     defaultColumns: ['title', 'branch', 'status', 'featured'],
-    hidden: shouldHideCollection(),
+    hidden: shouldHideContentCollection('content-services'),
   },
   access: {
     read: () => true,
@@ -224,6 +226,23 @@ export const ContentServices: CollectionConfig = {
                   label: 'Icoon',
                 },
               ],
+            },
+            // Automotive-specifiek
+            {
+              name: 'vehicleType',
+              type: 'select',
+              label: 'Voertuigtype',
+              options: [
+                { label: 'Auto', value: 'auto' },
+                { label: 'Motor', value: 'motor' },
+                { label: 'Scooter', value: 'scooter' },
+                { label: 'Camper', value: 'camper' },
+                { label: 'Alle', value: 'alle' },
+              ],
+              admin: {
+                condition: (_, siblingData) => siblingData?.branch === 'automotive',
+                description: 'Voor welk voertuigtype is deze dienst bedoeld',
+              },
             },
             {
               name: 'serviceTypes',

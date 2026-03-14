@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
+import { shouldHideContentCollection } from '@/lib/tenant/shouldHideCollection'
 import { getCachedSiteBranch } from '@/lib/tenant/contentModules'
 import { branchOptions } from '../ContentServices'
 
@@ -30,7 +30,7 @@ export const ContentTeam: CollectionConfig = {
     group: 'Content',
     useAsTitle: 'name',
     defaultColumns: ['name', 'branch', 'role', 'availability', 'bookable'],
-    hidden: shouldHideCollection(),
+    hidden: shouldHideContentCollection('content-team'),
   },
   access: {
     read: () => true,

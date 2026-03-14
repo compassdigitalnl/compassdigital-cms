@@ -1,8 +1,13 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
+import { shouldHideContentCollection } from '@/lib/tenant/shouldHideCollection'
 import { getCachedSiteBranch } from '@/lib/tenant/contentModules'
 import { branchOptions } from '../ContentServices'
+import { bookingStatusHook } from '@/branches/beauty/hooks/bookingStatusHook'
+import { reservationStatusHook } from '@/branches/horeca/hooks/reservationStatusHook'
+import { appointmentStatusHook } from '@/branches/zorg/hooks/appointmentStatusHook'
+import { workshopBookingHook } from '@/branches/automotive/hooks/workshopBookingHook'
+import { tourBookingHook } from '@/branches/toerisme/hooks/tourBookingHook'
 
 /**
  * Content Bookings — Unified collection
@@ -20,7 +25,7 @@ export const ContentBookings: CollectionConfig = {
     group: 'Content',
     useAsTitle: 'firstName',
     defaultColumns: ['firstName', 'lastName', 'branch', 'date', 'status'],
-    hidden: shouldHideCollection(),
+    hidden: shouldHideContentCollection('content-bookings'),
   },
   access: {
     read: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
@@ -36,6 +41,13 @@ export const ContentBookings: CollectionConfig = {
         }
         return data
       },
+    ],
+    afterChange: [
+      bookingStatusHook,
+      reservationStatusHook,
+      appointmentStatusHook,
+      workshopBookingHook,
+      tourBookingHook,
     ],
   },
   fields: [
@@ -202,6 +214,71 @@ export const ContentBookings: CollectionConfig = {
               type: 'text',
               label: 'Toegewezen tafel',
               admin: { condition: (_, s) => s?.branch === 'horeca' },
+            },
+            // Automotive-specifiek
+            {
+              name: 'licensePlate',
+              type: 'text',
+              label: 'Kenteken',
+              admin: { condition: (_, s) => s?.branch === 'automotive' },
+            },
+            {
+              name: 'vehicleBrand',
+              type: 'text',
+              label: 'Merk',
+              admin: { condition: (_, s) => s?.branch === 'automotive' },
+            },
+            {
+              name: 'vehicleModel',
+              type: 'text',
+              label: 'Model',
+              admin: { condition: (_, s) => s?.branch === 'automotive' },
+            },
+            // Toerisme-specifiek
+            {
+              name: 'tour',
+              type: 'relationship',
+              relationTo: 'tours',
+              label: 'Reis',
+              admin: { condition: (_, s) => s?.branch === 'toerisme' },
+            },
+            {
+              name: 'accommodation',
+              type: 'relationship',
+              relationTo: 'accommodations',
+              label: 'Accommodatie',
+              admin: { condition: (_, s) => s?.branch === 'toerisme' },
+            },
+            {
+              name: 'departureDate',
+              type: 'date',
+              label: 'Vertrekdatum',
+              admin: {
+                condition: (_, s) => s?.branch === 'toerisme',
+                date: { pickerAppearance: 'dayOnly' },
+              },
+            },
+            {
+              name: 'returnDate',
+              type: 'date',
+              label: 'Retourdatum',
+              admin: {
+                condition: (_, s) => s?.branch === 'toerisme',
+                date: { pickerAppearance: 'dayOnly' },
+              },
+            },
+            {
+              name: 'travelers',
+              type: 'number',
+              label: 'Aantal reizigers',
+              min: 1,
+              admin: { condition: (_, s) => s?.branch === 'toerisme' },
+            },
+            {
+              name: 'travelInsurance',
+              type: 'checkbox',
+              label: 'Reisverzekering',
+              admin: { condition: (_, s) => s?.branch === 'toerisme' },
             },
           ],
         },

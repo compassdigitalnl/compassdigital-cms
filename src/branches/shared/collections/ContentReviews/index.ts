@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
+import { shouldHideContentCollection } from '@/lib/tenant/shouldHideCollection'
 import { getCachedSiteBranch } from '@/lib/tenant/contentModules'
 import { branchOptions } from '../ContentServices'
 
@@ -29,7 +29,7 @@ export const ContentReviews: CollectionConfig = {
     group: 'Content',
     useAsTitle: 'authorName',
     defaultColumns: ['authorName', 'branch', 'rating', 'featured', 'status'],
-    hidden: shouldHideCollection(),
+    hidden: shouldHideContentCollection('content-reviews'),
   },
   access: {
     read: () => true,

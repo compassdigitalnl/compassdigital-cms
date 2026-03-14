@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
-import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
+import { shouldHideContentCollection } from '@/lib/tenant/shouldHideCollection'
 import { isCollectionEnabled } from '@/lib/tenant/isCollectionDisabled'
 import { getCachedSiteBranch } from '@/lib/tenant/contentModules'
 import { branchOptions } from '../ContentServices'
@@ -21,7 +21,7 @@ export const ContentInquiries: CollectionConfig = {
     group: 'Content',
     useAsTitle: 'name',
     defaultColumns: ['name', 'type', 'branch', 'status', 'submittedAt'],
-    hidden: shouldHideCollection(),
+    hidden: shouldHideContentCollection('content-inquiries'),
   },
   access: {
     read: ({ req: { user } }) => checkRole(['admin', 'editor'], user),
