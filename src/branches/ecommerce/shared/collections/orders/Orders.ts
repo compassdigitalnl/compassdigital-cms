@@ -3,6 +3,8 @@ import { checkRole } from '@/access/utilities'
 import { shouldHideCollection } from '@/lib/tenant/shouldHideCollection'
 import { featureFields } from '@/lib/tenant/featureFields'
 import { orderStatusHook } from '@/branches/ecommerce/shared/hooks/orderStatusHook'
+import { multistoreChildOrderHook } from '@/features/multistore/hooks/multistoreChildOrderHook'
+import { multistoreFulfillmentHook } from '@/features/multistore/hooks/multistoreFulfillmentHook'
 
 export const Orders: CollectionConfig = {
   slug: 'orders',
@@ -686,9 +688,151 @@ export const Orders: CollectionConfig = {
         },
       },
     ]),
+    // ═══════════════════════════════════════════════════════════
+    // MULTISTORE HUB FIELDS — Only visible on Hub sites
+    // ═══════════════════════════════════════════════════════════
+    ...featureFields('multistoreHub', [
+      {
+        type: 'collapsible',
+        label: 'Multistore Hub',
+        admin: {
+          initCollapsed: true,
+        },
+        fields: [
+          {
+            name: 'sourceSite',
+            type: 'relationship',
+            relationTo: 'multistore-sites' as any,
+            label: 'Bronwebshop',
+            admin: {
+              readOnly: true,
+              description: 'De webshop waar deze bestelling vandaan komt',
+            },
+          },
+          {
+            name: 'remoteOrderId',
+            type: 'number',
+            label: 'Remote Order ID',
+            admin: {
+              readOnly: true,
+              description: 'Order ID op de bronwebshop',
+            },
+          },
+          {
+            name: 'remoteOrderNumber',
+            type: 'text',
+            label: 'Remote Bestelnummer',
+            admin: {
+              readOnly: true,
+              description: 'Bestelnummer op de bronwebshop',
+            },
+          },
+          {
+            name: 'fulfillmentStatus',
+            type: 'select',
+            label: 'Fulfillment Status',
+            defaultValue: 'new',
+            options: [
+              { label: 'Nieuw', value: 'new' },
+              { label: 'Picken', value: 'picking' },
+              { label: 'Inpakken', value: 'packing' },
+              { label: 'Verzonden', value: 'shipped' },
+              { label: 'Afgeleverd', value: 'delivered' },
+            ],
+            admin: {
+              position: 'sidebar',
+              description: 'Warehouse fulfillment status',
+            },
+          },
+          {
+            name: 'pickedBy',
+            type: 'relationship',
+            relationTo: 'users',
+            label: 'Gepickt door',
+            admin: {
+              description: 'Medewerker die de order heeft gepickt',
+            },
+          },
+          {
+            name: 'pickedAt',
+            type: 'date',
+            label: 'Gepickt op',
+            admin: {
+              date: { pickerAppearance: 'dayAndTime' },
+            },
+          },
+          {
+            name: 'packedAt',
+            type: 'date',
+            label: 'Ingepakt op',
+            admin: {
+              date: { pickerAppearance: 'dayAndTime' },
+            },
+          },
+          {
+            name: 'commission',
+            type: 'number',
+            label: 'Commissie (€)',
+            admin: {
+              readOnly: true,
+              step: 0.01,
+              description: 'Berekende commissie voor deze bestelling',
+            },
+          },
+          {
+            name: 'commissionPercentage',
+            type: 'number',
+            label: 'Commissie %',
+            admin: {
+              readOnly: true,
+              step: 0.01,
+              description: 'Commissiepercentage dat is toegepast',
+            },
+          },
+        ],
+      },
+    ]),
+    // ═══════════════════════════════════════════════════════════
+    // MULTISTORE CHILD FIELDS — Only visible on Child sites
+    // ═══════════════════════════════════════════════════════════
+    ...featureFields('multistoreChild', [
+      {
+        type: 'collapsible',
+        label: 'Multistore Sync',
+        admin: {
+          initCollapsed: true,
+        },
+        fields: [
+          {
+            name: 'hubOrderId',
+            type: 'number',
+            label: 'Hub Order ID',
+            admin: {
+              readOnly: true,
+              description: 'Order ID op de centrale Hub',
+            },
+          },
+          {
+            name: 'hubSyncStatus',
+            type: 'select',
+            label: 'Hub Sync Status',
+            defaultValue: 'pending',
+            options: [
+              { label: 'In afwachting', value: 'pending' },
+              { label: 'Gesynchroniseerd', value: 'synced' },
+              { label: 'Fout', value: 'error' },
+            ],
+            admin: {
+              readOnly: true,
+              description: 'Status van synchronisatie met de Hub',
+            },
+          },
+        ],
+      },
+    ]),
   ],
   hooks: {
-    afterChange: [orderStatusHook],
+    afterChange: [orderStatusHook, multistoreChildOrderHook, multistoreFulfillmentHook],
     beforeChange: [
       async ({ data }) => {
         // Calculate totals

@@ -90,6 +90,7 @@ export interface ClientFeatures {
   catalogBranches?: boolean
 
   // === PUBLISHING ===
+  publishing?: boolean
   magazines?: boolean
 
   // === CONTENT ===
@@ -110,6 +111,8 @@ export interface ClientFeatures {
   realEstate?: boolean
   professionalServices?: boolean
   tourism?: boolean
+  automotive?: boolean
+  education?: boolean
 
   // === ADVANCED ===
   multiLanguage?: boolean
@@ -129,6 +132,16 @@ export interface ClientFeatures {
   emailGrapesEditor?: boolean
   emailDeliverability?: boolean
   emailAnalytics?: boolean
+
+  // === MULTISTORE ===
+  multistoreHub?: boolean
+  multistoreChild?: boolean
+  // Multistore sub-features
+  multistoreProducts?: boolean
+  multistoreOrders?: boolean
+  multistoreInventory?: boolean
+  multistoreFulfillment?: boolean
+  multistoreReports?: boolean
 
   // === PWA ===
   pushNotifications?: boolean
@@ -286,6 +299,7 @@ export const features = {
   catalogBranches: isFeatureEnabled('catalog_branches'),
 
   // === PUBLISHING ===
+  publishing: isFeatureEnabled('publishing') || isFeatureEnabled('content'),
   magazines: isFeatureEnabled('magazines'),
 
   // === CONTENT ===
@@ -305,6 +319,8 @@ export const features = {
   realEstate: isFeatureEnabled('real_estate'),
   professionalServices: isFeatureEnabled('professional_services'),
   tourism: isFeatureEnabled('tourism'),
+  automotive: isFeatureEnabled('automotive'),
+  education: isFeatureEnabled('education'),
 
   // === ADVANCED ===
   multiLanguage: isFeatureEnabled('multi_language'),
@@ -324,6 +340,15 @@ export const features = {
   emailGrapesEditor: isFeatureEnabled('email_grapes_editor'),
   emailDeliverability: isFeatureEnabled('email_deliverability'),
   emailAnalytics: isFeatureEnabled('email_analytics'),
+
+  // === MULTISTORE (opt-in: default false, must be explicitly enabled) ===
+  multistoreHub: process.env.ENABLE_MULTISTORE_HUB === 'true',
+  multistoreChild: process.env.ENABLE_MULTISTORE_CHILD === 'true',
+  multistoreProducts: process.env.ENABLE_MULTISTORE_PRODUCTS === 'true',
+  multistoreOrders: process.env.ENABLE_MULTISTORE_ORDERS === 'true',
+  multistoreInventory: process.env.ENABLE_MULTISTORE_INVENTORY === 'true',
+  multistoreFulfillment: process.env.ENABLE_MULTISTORE_FULFILLMENT === 'true',
+  multistoreReports: process.env.ENABLE_MULTISTORE_REPORTS === 'true',
 
   // === PWA ===
   pushNotifications: isFeatureEnabled('push_notifications'),
@@ -366,11 +391,12 @@ export const featureCategories = {
   marketplace: ['vendors', 'vendorReviews', 'workshops'],
   sprint6: ['subscriptions', 'subscriptionManagement', 'subscriptionPages', 'giftVouchers', 'licenses', 'loyalty'],
   catalog: ['catalogBranches'],
-  publishing: ['magazines'],
+  publishing: ['publishing', 'magazines'],
   content: ['blog', 'testimonials', 'cases', 'partners', 'services', 'wishlists'],
   experiences: ['experiences'],
   advanced: ['multiLanguage', 'aiContent', 'search', 'newsletter', 'platform', 'authentication', 'chatbot', 'abTesting'],
   emailMarketing: ['emailMarketing', 'emailCampaigns', 'emailAutomation', 'emailFlows', 'emailGrapesEditor', 'emailDeliverability', 'emailAnalytics'],
+  multistore: ['multistoreHub', 'multistoreChild', 'multistoreProducts', 'multistoreOrders', 'multistoreInventory', 'multistoreFulfillment', 'multistoreReports'],
 } as const
 
 /**
@@ -462,6 +488,7 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     catalogBranches: 'ENABLE_CATALOG_BRANCHES',
 
     // === PUBLISHING ===
+    publishing: 'ENABLE_PUBLISHING',
     magazines: 'ENABLE_MAGAZINES',
 
     // === CONTENT ===
@@ -482,6 +509,8 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     realEstate: 'ENABLE_REAL_ESTATE',
     professionalServices: 'ENABLE_PROFESSIONAL_SERVICES',
     tourism: 'ENABLE_TOURISM',
+    automotive: 'ENABLE_AUTOMOTIVE',
+    education: 'ENABLE_EDUCATION',
 
     // === ADVANCED ===
     multiLanguage: 'ENABLE_MULTI_LANGUAGE',
@@ -500,6 +529,15 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     emailGrapesEditor: 'ENABLE_EMAIL_GRAPES_EDITOR',
     emailDeliverability: 'ENABLE_EMAIL_DELIVERABILITY',
     emailAnalytics: 'ENABLE_EMAIL_ANALYTICS',
+
+    // === MULTISTORE ===
+    multistoreHub: 'ENABLE_MULTISTORE_HUB',
+    multistoreChild: 'ENABLE_MULTISTORE_CHILD',
+    multistoreProducts: 'ENABLE_MULTISTORE_PRODUCTS',
+    multistoreOrders: 'ENABLE_MULTISTORE_ORDERS',
+    multistoreInventory: 'ENABLE_MULTISTORE_INVENTORY',
+    multistoreFulfillment: 'ENABLE_MULTISTORE_FULFILLMENT',
+    multistoreReports: 'ENABLE_MULTISTORE_REPORTS',
 
     // === PWA ===
     pushNotifications: 'ENABLE_PUSH_NOTIFICATIONS',
@@ -532,6 +570,7 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     'product-categories': 'shop',
     branches: 'catalogBranches',
     magazines: 'magazines',
+    'digital-edition-pages': 'magazines',
     brands: 'brands',
     'recently-viewed': 'recentlyViewed',
     'edition-notifications': 'editionNotifications',
@@ -575,6 +614,18 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     // testimonials, cases, services, projects: removed — replaced by unified Content collections
     partners: 'partners',
 
+    // Automotive Branch
+    vehicles: 'automotive',
+    'vehicle-brands': 'automotive',
+
+    // Vastgoed Branch
+    properties: 'realEstate',
+
+    // Onderwijs Branch
+    courses: 'education',
+    'course-categories': 'education',
+    enrollments: 'education',
+
     // Branch-specific collections removed — replaced by unified Content collections
 
     // === USERS ===
@@ -587,6 +638,10 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     // === WISHLISTS & REVIEWS ===
     wishlists: 'wishlists',
     'product-reviews': 'productReviews',
+
+    // === MULTISTORE ===
+    'multistore-sites': 'multistoreHub',
+    'multistore-sync-log': 'multistoreHub',
 
     // === PWA ===
     'push-subscriptions': 'pushNotifications',
@@ -638,4 +693,21 @@ export const emailMarketingFeatures = {
   grapesEditor: () => features.emailMarketing && features.emailGrapesEditor,
   deliverability: () => features.emailMarketing && features.emailDeliverability,
   analytics: () => features.emailMarketing && features.emailAnalytics,
+} as const
+
+/**
+ * Multistore Feature Helpers
+ * Structured feature checks for multistore module
+ *
+ * Hub site: ENABLE_MULTISTORE_HUB=true
+ * Child site: ENABLE_MULTISTORE_CHILD=true
+ */
+export const multistoreFeatures = {
+  isHub: () => features.multistoreHub,
+  isChild: () => features.multistoreChild,
+  products: () => features.multistoreHub && features.multistoreProducts,
+  orders: () => features.multistoreHub && features.multistoreOrders,
+  inventory: () => features.multistoreHub && features.multistoreInventory,
+  fulfillment: () => features.multistoreHub && features.multistoreFulfillment,
+  reports: () => features.multistoreHub && features.multistoreReports,
 } as const

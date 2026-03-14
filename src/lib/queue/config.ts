@@ -14,6 +14,7 @@ export const QUEUE_NAMES = {
   BLOCK_GENERATION: 'block-generation',
   PAGE_GENERATION: 'page-generation',
   SITE_GENERATION: 'site-generation',
+  MULTISTORE_SYNC: 'multistore-sync',
 } as const
 
 // Priority levels (lower number = higher priority)
@@ -61,6 +62,7 @@ export const queues = {
   blockGeneration: new Queue(QUEUE_NAMES.BLOCK_GENERATION, baseQueueConfig),
   pageGeneration: new Queue(QUEUE_NAMES.PAGE_GENERATION, baseQueueConfig),
   siteGeneration: new Queue(QUEUE_NAMES.SITE_GENERATION, baseQueueConfig),
+  multistoreSync: new Queue(QUEUE_NAMES.MULTISTORE_SYNC, baseQueueConfig),
 }
 
 // Job data types

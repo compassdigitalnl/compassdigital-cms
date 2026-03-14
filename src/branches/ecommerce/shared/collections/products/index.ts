@@ -12,10 +12,15 @@ import {
   mediaTab,
   typeConfigTab,
   b2bTabs,
+  multistoreHubTab,
+  multistoreChildTab,
   seoTab,
   specificationsTab,
   relatedTab,
 } from './tabs'
+import { multistoreProductSyncHook } from '@/features/multistore/hooks/multistoreProductSyncHook'
+import { multistoreChildProductHook } from '@/features/multistore/hooks/multistoreChildProductHook'
+import { multistoreStockHook } from '@/features/multistore/hooks/multistoreStockHook'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -86,6 +91,9 @@ export const Products: CollectionConfig = {
         }
       },
       notifyEditionSubscribers,
+      multistoreProductSyncHook,
+      multistoreChildProductHook,
+      multistoreStockHook,
     ],
     afterDelete: [
       async ({ doc }) => {
@@ -111,6 +119,8 @@ export const Products: CollectionConfig = {
 
         // Feature-gated tabs
         ...b2bTabs,
+        ...multistoreHubTab,
+        ...multistoreChildTab,
 
         // Universal tabs
         seoTab,

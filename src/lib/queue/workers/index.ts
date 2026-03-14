@@ -9,7 +9,7 @@ import { emailMarketingWorker } from './emailMarketingWorker'
 import { automationWorker } from './automationWorker'
 import { flowWorker } from './flowWorker'
 import { reconciliationWorker } from './reconciliationWorker'
-import { emailMarketingFeatures } from '@/lib/tenant/features'
+import { emailMarketingFeatures, multistoreFeatures } from '@/lib/tenant/features'
 
 const workers: any[] = []
 
@@ -34,6 +34,36 @@ if (emailMarketingFeatures.campaigns()) {
   console.log('⏸️  Automation Worker: Disabled (feature flag off)')
   console.log('⏸️  Flow Worker: Disabled (feature flag off)')
   console.log('⏸️  Reconciliation Worker: Disabled (feature flag off)')
+}
+
+// Start multistore workers if Hub feature is enabled
+if (multistoreFeatures.isHub()) {
+  import('@/features/multistore/workers/multistoreSyncWorker').then(({ multistoreSyncWorker }) => {
+    workers.push(multistoreSyncWorker)
+    console.log('✅ Multistore Sync Worker: Running')
+
+    // Start scheduler
+    import('@/features/multistore/workers/multistoreScheduler').then(({ startMultistoreScheduler }) => {
+      startMultistoreScheduler().catch((err) =>
+        console.error('❌ Multistore Scheduler failed to start:', err),
+      )
+      console.log('✅ Multistore Scheduler: Running')
+    })
+
+    // Start reconciliation scheduler if reports feature is enabled
+    if (multistoreFeatures.reports()) {
+      import('@/features/multistore/workers/multistoreReconciliationScheduler').then(({ startReconciliationScheduler }) => {
+        startReconciliationScheduler(6).catch((err) =>
+          console.error('❌ Multistore Reconciliation Scheduler failed to start:', err),
+        )
+        console.log('✅ Multistore Reconciliation Scheduler: Running (every 6h)')
+      })
+    }
+  }).catch((err) => {
+    console.error('❌ Multistore Sync Worker failed to load:', err)
+  })
+} else {
+  console.log('⏸️  Multistore Sync Worker: Disabled (feature flag off)')
 }
 
 console.log('')

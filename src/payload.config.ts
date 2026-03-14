@@ -84,8 +84,9 @@ import { GiftVouchers } from '@/branches/ecommerce/b2c/collections/marketing/Gif
 // Cart (Addresses merged into Users)
 import { Carts } from '@/branches/ecommerce/shared/collections/checkout/Carts'
 
-// Content Branch (1 collection — premium content)
+// Content Branch (premium content + digital library)
 import { BlogPosts } from '@/branches/publishing/collections/BlogPosts'
+import { DigitalEditionPages } from '@/branches/publishing/collections/DigitalEditionPages'
 
 // Shared Collections (blog, marketing)
 import { BlogCategories } from '@/branches/shared/collections/BlogCategories'
@@ -115,6 +116,23 @@ import { Clients } from '@/features/platform/collections/Clients'
 import { ClientRequests } from '@/features/platform/collections/ClientRequests'
 import { Deployments } from '@/features/platform/collections/Deployments'
 
+// Automotive Branch (2 branch-specific collections)
+import { Vehicles } from '@/branches/automotive/collections/Vehicles'
+import { VehicleBrands } from '@/branches/automotive/collections/VehicleBrands'
+
+// Toerisme Branch (3 branch-specific collections)
+import { Tours } from '@/branches/toerisme/collections/Tours'
+import { Destinations } from '@/branches/toerisme/collections/Destinations'
+import { Accommodations } from '@/branches/toerisme/collections/Accommodations'
+
+// Vastgoed Branch (1 branch-specific collection)
+import { Properties } from '@/branches/vastgoed/collections/Properties'
+
+// Onderwijs Branch (3 branch-specific collections)
+import { Courses } from '@/branches/onderwijs/collections/Courses'
+import { CourseCategories } from '@/branches/onderwijs/collections/CourseCategories'
+import { Enrollments } from '@/branches/onderwijs/collections/Enrollments'
+
 // Branch-specific collections REMOVED — replaced by unified Content collections
 // (ContentServices, ContentCases, ContentReviews, ContentInquiries, ContentBookings, ContentTeam, ContentActivities)
 
@@ -127,8 +145,13 @@ import { ContentBookings } from '@/branches/shared/collections/ContentBookings'
 import { ContentTeam } from '@/branches/shared/collections/ContentTeam'
 import { ContentActivities } from '@/branches/shared/collections/ContentActivities'
 
+// Multistore Feature (2 collections + 1 global - Feature flagged)
+import { MultistoreSites } from '@/features/multistore/collections/MultistoreSites'
+import { SyncLog } from '@/features/multistore/collections/SyncLog'
+import { MultistoreSettings } from '@/features/multistore/globals/MultistoreSettings'
+
 // Email Marketing Feature (8 collections - Feature flagged)
-import { emailMarketingFeatures } from '@/lib/tenant/features'
+import { emailMarketingFeatures, features } from '@/lib/tenant/features'
 import {
   EmailSubscribers,
   EmailLists,
@@ -229,6 +252,9 @@ export default buildConfig({
         '@/features/analytics/components/admin/AnalyticsNavLinks#AnalyticsNavLinks',
         '@/features/stock-photos/components/admin/StockPhotosNavLink#StockPhotosNavLink',
         '@/features/ai/components/admin/AIToolsNavLink#AIToolsNavLink',
+        ...(features.multistoreHub
+          ? ['@/features/multistore/components/admin/MultistoreNavLinks#MultistoreNavLinks']
+          : []),
       ],
       graphics: {
         Logo: '@/branches/shared/components/admin/AdminLogo#AdminLogo',
@@ -275,6 +301,65 @@ export default buildConfig({
             description: 'Kies een template en laat AI een complete pagina genereren',
           },
         },
+        // Multistore Hub views (feature-gated at runtime via the components themselves)
+        ...(features.multistoreHub
+          ? {
+              multistoreDashboard: {
+                Component:
+                  '@/features/multistore/components/admin/MultistoreDashboardView#MultistoreDashboardView',
+                path: '/multistore',
+                meta: {
+                  title: 'Multistore Hub',
+                  description: 'Overzicht van alle webshops en synchronisatie',
+                },
+              },
+              multistoreOrders: {
+                Component:
+                  '@/features/multistore/components/admin/CentralOrdersView#CentralOrdersView',
+                path: '/multistore/orders',
+                meta: {
+                  title: 'Centraal Orderdashboard',
+                  description: 'Alle bestellingen van alle webshops',
+                },
+              },
+              multistoreInventory: {
+                Component:
+                  '@/features/multistore/components/admin/InventoryOverviewView#InventoryOverviewView',
+                path: '/multistore/inventory',
+                meta: {
+                  title: 'Voorraadbeheer',
+                  description: 'Voorraadniveaus per product en per webshop',
+                },
+              },
+              multistoreFulfillment: {
+                Component:
+                  '@/features/multistore/components/admin/FulfillmentView#FulfillmentView',
+                path: '/multistore/fulfillment',
+                meta: {
+                  title: 'Fulfillment',
+                  description: 'Pick, pack & ship workflow',
+                },
+              },
+              multistoreDistribution: {
+                Component:
+                  '@/features/multistore/components/admin/ProductDistributionView#ProductDistributionView',
+                path: '/multistore/distribution',
+                meta: {
+                  title: 'Productdistributie',
+                  description: 'Distribueer producten in bulk naar webshops',
+                },
+              },
+              multistoreReports: {
+                Component:
+                  '@/features/multistore/components/admin/ReportsView#ReportsView',
+                path: '/multistore/reports',
+                meta: {
+                  title: 'Rapporten',
+                  description: 'Omzet en commissie per webshop',
+                },
+              },
+            }
+          : {}),
       },
     },
     user: Users.slug,
@@ -377,6 +462,7 @@ export default buildConfig({
 
     // Publishing
     Magazines,
+    DigitalEditionPages,
 
     // Customer Management (Customers + Addresses merged into Users)
     CustomerGroups,
@@ -442,6 +528,31 @@ export default buildConfig({
     Workshops,
 
     // ═══════════════════════════════════════════════════════════════════════════
+    // AUTOMOTIVE BRANCH - Vehicle management for dealers and garages
+    // ═══════════════════════════════════════════════════════════════════════════
+    Vehicles,
+    VehicleBrands,
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // TOERISME BRANCH - Tours, destinations and accommodations
+    // ═══════════════════════════════════════════════════════════════════════════
+    Tours,
+    Destinations,
+    Accommodations,
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // VASTGOED BRANCH - Property management for real estate agents
+    // ═══════════════════════════════════════════════════════════════════════════
+    Properties,
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // ONDERWIJS BRANCH - Course management for online academies
+    // ═══════════════════════════════════════════════════════════════════════════
+    Courses,
+    CourseCategories,
+    Enrollments,
+
+    // ═══════════════════════════════════════════════════════════════════════════
     // UNIFIED CONTENT COLLECTIONS - Consolidation of branch-specific collections
     // Controlled by Settings > Content Modules (not feature flags)
     // ═══════════════════════════════════════════════════════════════════════════
@@ -452,6 +563,12 @@ export default buildConfig({
     ContentBookings,
     ContentTeam,
     ContentActivities,
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // MULTISTORE BRANCH - Hub management for multi-webshop sync
+    // ═══════════════════════════════════════════════════════════════════════════
+    MultistoreSites,
+    SyncLog,
 
     // ═══════════════════════════════════════════════════════════════════════════
     // EMAIL MARKETING BRANCH - Email campaigns, lists, subscribers (Feature flagged)
@@ -486,6 +603,7 @@ export default buildConfig({
     Footer,
     MeilisearchSettings, // Search engine configuration
     ChatbotSettings, // AI Chatbot configuration
+    MultistoreSettings, // Multistore Hub configuration
   ],
 
   // ─── Plugins ──────────────────────────────
