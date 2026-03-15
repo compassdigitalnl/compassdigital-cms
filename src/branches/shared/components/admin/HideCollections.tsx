@@ -55,7 +55,7 @@ export function HideCollections() {
     const fullHostname = window.location.hostname
 
     // Platform zelf — nooit verbergen
-    if (!fullHostname || fullHostname === 'cms.compassdigital.nl' || fullHostname === 'localhost') {
+    if (!fullHostname || fullHostname === 'cms.compassdigital.nl') {
       return
     }
 
@@ -70,9 +70,18 @@ export function HideCollections() {
     if (cookieDisabled) {
       allDisabled.push(...cookieDisabled)
     } else {
-      // Fallback: API-based lookup
-      const apiDisabled = await fetchDisabledFromAPI(fullHostname)
-      allDisabled.push(...apiDisabled)
+      // Source 1b: NEXT_PUBLIC_DISABLED_COLLECTIONS env var (standalone deployments)
+      const envDisabled = (process.env.NEXT_PUBLIC_DISABLED_COLLECTIONS || '')
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
+      if (envDisabled.length > 0) {
+        allDisabled.push(...envDisabled)
+      } else {
+        // Fallback: API-based lookup (platform mode)
+        const apiDisabled = await fetchDisabledFromAPI(fullHostname)
+        allDisabled.push(...apiDisabled)
+      }
     }
 
     // Source 2: E-commerce settings feature toggles (database)
@@ -172,13 +181,18 @@ export function HideCollections() {
     if (disabled.length === 0) return
 
     const styles = disabled
-      .map(
-        (slug) =>
+      .map((slug) => {
+        // Hide both collections and globals (globals use /admin/globals/<slug>)
+        return (
           `a[href="/admin/collections/${slug}"], ` +
           `a[href="/admin/collections/${slug}/"], ` +
           `a[href*="/admin/collections/${slug}/"], ` +
-          `li:has(> a[href="/admin/collections/${slug}/"]) { display: none !important; }`,
-      )
+          `li:has(> a[href="/admin/collections/${slug}/"]), ` +
+          `a[href="/admin/globals/${slug}"], ` +
+          `a[href="/admin/globals/${slug}/"], ` +
+          `li:has(> a[href="/admin/globals/${slug}/"]) { display: none !important; }`
+        )
+      })
       .join('\n')
 
     setCss(styles)
@@ -191,7 +205,7 @@ export function HideCollections() {
   function hideEmptyNavGroups() {
     const navGroups = document.querySelectorAll('[id^="nav-group-"]')
     navGroups.forEach((group) => {
-      const links = group.querySelectorAll('a[href*="/admin/collections/"]')
+      const links = group.querySelectorAll('a[href*="/admin/collections/"], a[href*="/admin/globals/"]')
       if (links.length === 0) return
 
       const allHidden = Array.from(links).every((link) => {
