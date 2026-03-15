@@ -597,7 +597,8 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     // === CHECKOUT ===
     orders: 'checkout',
     invoices: 'invoices',
-    // discount-codes merged into promotions
+    promotions: 'discounts',
+    'payment-methods': 'checkout',
 
     // === MY ACCOUNT ===
     returns: 'returns',

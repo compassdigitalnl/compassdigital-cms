@@ -29,7 +29,7 @@ export const ABTests: CollectionConfig = {
     group: 'Marketing',
     defaultColumns: ['name', 'targetPage', 'status', 'startDate', 'winner'],
     description: 'A/B testing experiments voor multi-variant testing',
-    hidden: shouldHideCollection('ab-tests' as any),
+    hidden: shouldHideCollection('abTesting'),
   },
   access: {
     read: ({ req: { user } }) => {

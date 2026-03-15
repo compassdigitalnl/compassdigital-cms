@@ -259,9 +259,13 @@ export default buildConfig({
         '@/branches/shared/components/admin/NavIcons#NavIcons',
       ],
       afterNavLinks: [
+        // Analytics nav links — only for ecommerce sites (not multistore hub)
+        ...(features.checkout && !features.multistoreHub
+          ? ['@/features/analytics/components/admin/AnalyticsNavLinks#AnalyticsNavLinks']
+          : []),
+        // Stock Photos + AI Tools — general purpose (not multistore hub)
         ...(!features.multistoreHub
           ? [
-              '@/features/analytics/components/admin/AnalyticsNavLinks#AnalyticsNavLinks',
               '@/features/stock-photos/components/admin/StockPhotosNavLink#StockPhotosNavLink',
               '@/features/ai/components/admin/AIToolsNavLink#AIToolsNavLink',
             ]
@@ -278,8 +282,8 @@ export default buildConfig({
         Icon: '@/branches/shared/components/admin/AdminLogo#AdminLogo',
       },
       views: {
-        // Analytics, Stock Photos, AI views — hidden on multistore hub
-        ...(!features.multistoreHub
+        // Analytics & Insights — only for ecommerce sites (not multistore hub)
+        ...(features.checkout && !features.multistoreHub
           ? {
               analytics: {
                 Component: '@/features/analytics/components/admin/AnalyticsView#AnalyticsView',
@@ -297,6 +301,11 @@ export default buildConfig({
                   description: 'RFM-analyse, segmentatie, CLV en churn-predictie',
                 },
               },
+            }
+          : {}),
+        // Stock Photos, AI views — hidden on multistore hub
+        ...(!features.multistoreHub
+          ? {
               stockPhotos: {
                 Component:
                   '@/features/stock-photos/components/admin/StockPhotosView#StockPhotosView',

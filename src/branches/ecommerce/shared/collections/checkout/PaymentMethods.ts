@@ -13,7 +13,7 @@ export const PaymentMethods: CollectionConfig = {
     group: 'Abonnementen',
     defaultColumns: ['user', 'type', 'last4', 'isDefault', 'createdAt'],
     description: 'Saved payment methods for users',
-    hidden: shouldHideCollection('subscriptionManagement'),
+    hidden: shouldHideCollection('checkout'),
   },
   access: {
     read: ({ req: { user } }) => {

@@ -20,7 +20,7 @@ export const Promotions: CollectionConfig = {
   },
   admin: {
     group: 'Marketing',
-    hidden: shouldHideCollection('promotions'),
+    hidden: shouldHideCollection('discounts'),
     useAsTitle: 'title',
     defaultColumns: ['title', 'promotionMode', 'type', 'value', 'status', 'code', 'startDate', 'endDate'],
     description: 'Beheer promoties, kortingscodes, flash sales en bundel-deals',
