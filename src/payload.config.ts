@@ -92,10 +92,11 @@ import { DigitalEditionPages } from '@/branches/publishing/collections/DigitalEd
 import { BlogCategories } from '@/branches/shared/collections/BlogCategories'
 // FAQs collection removed — use FAQ block on pages instead
 
-// Marketplace Branch (3 collections)
+// Marketplace Branch (4 collections)
 import { Vendors } from '@/branches/marketplace/collections/Vendors'
 import { VendorReviews } from '@/branches/marketplace/collections/VendorReviews'
 import { Workshops } from '@/branches/marketplace/collections/Workshops'
+import { VendorApplications } from '@/branches/marketplace/collections/VendorApplications'
 
 // Content Approvals (Feature #28 - Content Goedkeuringsworkflows)
 import { ContentApprovals } from '@/branches/shared/collections/ContentApprovals'
@@ -249,9 +250,13 @@ export default buildConfig({
         '@/branches/shared/components/admin/HideCollections#HideCollections',
       ],
       afterNavLinks: [
-        '@/features/analytics/components/admin/AnalyticsNavLinks#AnalyticsNavLinks',
-        '@/features/stock-photos/components/admin/StockPhotosNavLink#StockPhotosNavLink',
-        '@/features/ai/components/admin/AIToolsNavLink#AIToolsNavLink',
+        ...(!features.multistoreHub
+          ? [
+              '@/features/analytics/components/admin/AnalyticsNavLinks#AnalyticsNavLinks',
+              '@/features/stock-photos/components/admin/StockPhotosNavLink#StockPhotosNavLink',
+              '@/features/ai/components/admin/AIToolsNavLink#AIToolsNavLink',
+            ]
+          : []),
         ...(features.multistoreHub
           ? ['@/features/multistore/components/admin/MultistoreNavLinks#MultistoreNavLinks']
           : []),
@@ -261,47 +266,57 @@ export default buildConfig({
         Icon: '@/branches/shared/components/admin/AdminLogo#AdminLogo',
       },
       views: {
-        analytics: {
-          Component: '@/features/analytics/components/admin/AnalyticsView#AnalyticsView',
-          path: '/analytics',
-          meta: {
-            title: 'Analytics',
-            description: 'Omzet, bestellingen, conversie en klantanalyse',
-          },
-        },
-        insights: {
-          Component: '@/features/analytics/components/admin/InsightsView#InsightsView',
-          path: '/insights',
-          meta: {
-            title: 'Klantinzichten',
-            description: 'RFM-analyse, segmentatie, CLV en churn-predictie',
-          },
-        },
-        stockPhotos: {
-          Component: '@/features/stock-photos/components/admin/StockPhotosView#StockPhotosView',
-          path: '/stock-photos',
-          meta: {
-            title: 'Stock Foto\'s',
-            description: 'Zoek en importeer professionele foto\'s van Unsplash en Pexels',
-          },
-        },
-        aiStudio: {
-          Component: '@/features/ai/components/admin/AIStudioView#AIStudioView',
-          path: '/ai-studio',
-          meta: {
-            title: 'AI Studio',
-            description: 'Genereer, verbeter, optimaliseer en vertaal content met AI',
-          },
-        },
-        contentTemplates: {
-          Component: '@/features/ai/components/admin/ContentTemplatesView#ContentTemplatesView',
-          path: '/content-templates',
-          meta: {
-            title: 'Content Templates',
-            description: 'Kies een template en laat AI een complete pagina genereren',
-          },
-        },
-        // Multistore Hub views (feature-gated at runtime via the components themselves)
+        // Analytics, Stock Photos, AI views — hidden on multistore hub
+        ...(!features.multistoreHub
+          ? {
+              analytics: {
+                Component: '@/features/analytics/components/admin/AnalyticsView#AnalyticsView',
+                path: '/analytics',
+                meta: {
+                  title: 'Analytics',
+                  description: 'Omzet, bestellingen, conversie en klantanalyse',
+                },
+              },
+              insights: {
+                Component: '@/features/analytics/components/admin/InsightsView#InsightsView',
+                path: '/insights',
+                meta: {
+                  title: 'Klantinzichten',
+                  description: 'RFM-analyse, segmentatie, CLV en churn-predictie',
+                },
+              },
+              stockPhotos: {
+                Component:
+                  '@/features/stock-photos/components/admin/StockPhotosView#StockPhotosView',
+                path: '/stock-photos',
+                meta: {
+                  title: 'Stock Foto\'s',
+                  description:
+                    'Zoek en importeer professionele foto\'s van Unsplash en Pexels',
+                },
+              },
+              aiStudio: {
+                Component: '@/features/ai/components/admin/AIStudioView#AIStudioView',
+                path: '/ai-studio',
+                meta: {
+                  title: 'AI Studio',
+                  description:
+                    'Genereer, verbeter, optimaliseer en vertaal content met AI',
+                },
+              },
+              contentTemplates: {
+                Component:
+                  '@/features/ai/components/admin/ContentTemplatesView#ContentTemplatesView',
+                path: '/content-templates',
+                meta: {
+                  title: 'Content Templates',
+                  description:
+                    'Kies een template en laat AI een complete pagina genereren',
+                },
+              },
+            }
+          : {}),
+        // Multistore Hub views
         ...(features.multistoreHub
           ? {
               multistoreDashboard: {
@@ -521,11 +536,12 @@ export default buildConfig({
     BlogCategories,
 
     // ═══════════════════════════════════════════════════════════════════════════
-    // MARKETPLACE BRANCH - Vendors, Workshops, Reviews
+    // MARKETPLACE BRANCH - Vendors, Workshops, Reviews, Applications
     // ═══════════════════════════════════════════════════════════════════════════
     Vendors,
     VendorReviews,
     Workshops,
+    VendorApplications,
 
     // ═══════════════════════════════════════════════════════════════════════════
     // AUTOMOTIVE BRANCH - Vehicle management for dealers and garages
