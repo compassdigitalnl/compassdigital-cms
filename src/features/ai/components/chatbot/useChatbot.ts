@@ -111,6 +111,50 @@ export function useChatbot() {
     setError(null)
   }, [])
 
+  // Save conversation to backend (fire-and-forget)
+  const saveConversation = useCallback(async () => {
+    if (messages.length === 0) return
+    try {
+      await fetch('/api/support/conversations/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          messages: messages.map((m) => ({
+            role: m.role,
+            content: m.content,
+            timestamp: m.timestamp,
+            sources: m.sources || null,
+          })),
+          metadata: {
+            startedAt: messages[0]?.timestamp ? new Date(messages[0].timestamp).toISOString() : undefined,
+            pageUrl: typeof window !== 'undefined' ? window.location.href : undefined,
+          },
+        }),
+      })
+    } catch {
+      // Non-critical, silent fail
+    }
+  }, [messages, sessionId])
+
+  // Escalate conversation to a support ticket
+  const escalateToTicket = useCallback(async (): Promise<string | null> => {
+    try {
+      const res = await fetch('/api/support/escalate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          subject: 'Doorgestuurd vanuit chatbot',
+        }),
+      })
+      const data = await res.json()
+      return data.success ? data.doc.id : null
+    } catch {
+      return null
+    }
+  }, [sessionId])
+
   return {
     messages,
     isLoading,
@@ -119,5 +163,7 @@ export function useChatbot() {
     resetConversation,
     isAvailable,
     sessionId,
+    saveConversation,
+    escalateToTicket,
   }
 }

@@ -124,6 +124,9 @@ export interface ClientFeatures {
   chatbot?: boolean
   abTesting?: boolean
 
+  // === SUPPORT ===
+  support?: boolean
+
   // === EMAIL MARKETING ===
   emailMarketing?: boolean
   // Email Marketing sub-features
@@ -334,6 +337,9 @@ export const features = {
   chatbot: isFeatureEnabled('chatbot'),
   abTesting: isFeatureEnabled('ab_testing'),
 
+  // === SUPPORT (opt-in: default false, must be explicitly enabled) ===
+  support: process.env.ENABLE_SUPPORT === 'true',
+
   // === EMAIL MARKETING ===
   emailMarketing: isFeatureEnabled('email_marketing'),
   emailCampaigns: isFeatureEnabled('email_campaigns'),
@@ -397,6 +403,7 @@ export const featureCategories = {
   content: ['blog', 'testimonials', 'cases', 'partners', 'services', 'wishlists'],
   experiences: ['experiences'],
   advanced: ['multiLanguage', 'aiContent', 'search', 'newsletter', 'platform', 'authentication', 'chatbot', 'abTesting'],
+  support: ['support'],
   emailMarketing: ['emailMarketing', 'emailCampaigns', 'emailAutomation', 'emailFlows', 'emailGrapesEditor', 'emailDeliverability', 'emailAnalytics'],
   multistore: ['multistoreHub', 'multistoreChild', 'multistoreProducts', 'multistoreOrders', 'multistoreInventory', 'multistoreFulfillment', 'multistoreReports'],
 } as const
@@ -523,6 +530,9 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     authentication: 'ENABLE_AUTHENTICATION',
     chatbot: 'ENABLE_CHATBOT',
     abTesting: 'ENABLE_AB_TESTING',
+
+    // === SUPPORT ===
+    support: 'ENABLE_SUPPORT',
 
     // === EMAIL MARKETING ===
     emailMarketing: 'ENABLE_EMAIL_MARKETING',
@@ -653,6 +663,12 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     'multistore-sites': 'multistoreHub',
     'multistore-sync-log': 'multistoreHub',
 
+    // === SUPPORT ===
+    'support-categories': 'support',
+    'support-tickets': 'support',
+    'support-messages': 'support',
+    'chat-conversations': 'support',
+
     // === PWA ===
     'push-subscriptions': 'pushNotifications',
 
@@ -712,6 +728,14 @@ export const emailMarketingFeatures = {
  * Hub site: ENABLE_MULTISTORE_HUB=true
  * Child site: ENABLE_MULTISTORE_CHILD=true
  */
+/**
+ * Support Feature Helpers
+ * Structured feature checks for support module
+ */
+export const supportFeatures = {
+  isEnabled: () => features.support,
+} as const
+
 export const multistoreFeatures = {
   isHub: () => features.multistoreHub,
   isChild: () => features.multistoreChild,

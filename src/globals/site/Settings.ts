@@ -1,7 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { checkRole } from '@/access/utilities'
 import { isClientDeployment } from '@/lib/tenant/isClientDeployment'
-import { featureField } from '@/lib/tenant/featureFields'
+import { featureField, featureTab } from '@/lib/tenant/featureFields'
 import { updateContentModulesCache } from '@/lib/tenant/contentModules'
 
 export const Settings: GlobalConfig = {
@@ -1245,6 +1245,89 @@ export const Settings: GlobalConfig = {
             },
           ],
         },
+
+        // ─── TAB: SUPPORT (feature-gated) ──────────────────────────
+        ...featureTab('support', {
+          label: 'Support',
+          description: 'Ticketsysteem en chatbot instellingen',
+          fields: [
+            {
+              name: 'supportEnableTickets',
+              type: 'checkbox',
+              label: 'Ticketsysteem inschakelen',
+              defaultValue: true,
+              admin: {
+                description: 'Klanten kunnen support tickets aanmaken in hun account',
+              },
+            },
+            {
+              name: 'supportEnableChatbotEscalation',
+              type: 'checkbox',
+              label: 'Chatbot escalatie',
+              defaultValue: true,
+              admin: {
+                description: 'Chatbot gesprekken kunnen worden geëscaleerd naar tickets',
+              },
+            },
+            {
+              name: 'supportEnableRating',
+              type: 'checkbox',
+              label: 'Tevredenheidsbeoordeling',
+              defaultValue: true,
+              admin: {
+                description: 'Klanten kunnen opgeloste tickets beoordelen (1-5 sterren)',
+              },
+            },
+            {
+              name: 'supportDefaultCategory',
+              type: 'relationship',
+              relationTo: 'support-categories',
+              label: 'Standaard categorie',
+              admin: {
+                description: 'Categorie voor tickets zonder specifieke categorie',
+              },
+            },
+            {
+              name: 'supportAutoCloseAfterDays',
+              type: 'number',
+              label: 'Automatisch sluiten na (dagen)',
+              defaultValue: 14,
+              admin: {
+                description: 'Opgeloste tickets worden automatisch gesloten na dit aantal dagen',
+              },
+            },
+            {
+              name: 'supportBusinessHours',
+              type: 'group',
+              label: 'Kantooruren',
+              fields: [
+                {
+                  name: 'start',
+                  type: 'text',
+                  label: 'Start',
+                  defaultValue: '09:00',
+                  admin: { placeholder: '09:00' },
+                },
+                {
+                  name: 'end',
+                  type: 'text',
+                  label: 'Eind',
+                  defaultValue: '17:00',
+                  admin: { placeholder: '17:00' },
+                },
+              ],
+            },
+            {
+              name: 'supportOutOfHoursMessage',
+              type: 'textarea',
+              label: 'Bericht buiten kantooruren',
+              admin: {
+                rows: 3,
+                placeholder: 'Wij zijn momenteel gesloten. Uw ticket wordt de eerstvolgende werkdag opgepakt.',
+              },
+            },
+          ],
+        }),
       ],
     },
   ],

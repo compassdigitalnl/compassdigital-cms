@@ -51,13 +51,15 @@ const INITIAL_FLOW_STATE: FlowState = {
 
 interface ChatbotWidgetProps {
   settings: ChatbotSettings
+  enableEscalation?: boolean
 }
 
-export function ChatbotWidget({ settings }: ChatbotWidgetProps) {
+export function ChatbotWidget({ settings, enableEscalation }: ChatbotWidgetProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [message, setMessage] = useState('')
   const [flowState, setFlowState] = useState<FlowState>(INITIAL_FLOW_STATE)
   const [flowInput, setFlowInput] = useState('')
+  const [isEscalating, setIsEscalating] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const {
@@ -67,6 +69,9 @@ export function ChatbotWidget({ settings }: ChatbotWidgetProps) {
     sendMessage,
     resetConversation: _resetConversation,
     isAvailable,
+    sessionId,
+    saveConversation,
+    escalateToTicket,
   } = useChatbot()
 
   // Auto-scroll to latest message
@@ -158,6 +163,29 @@ export function ChatbotWidget({ settings }: ChatbotWidgetProps) {
     await sendMessage(flowState.context)
     setFlowInput('')
   }
+
+  // Escalation handler
+  const handleEscalate = async () => {
+    if (isEscalating) return
+    setIsEscalating(true)
+    try {
+      // Save conversation first
+      await saveConversation()
+      // Escalate to ticket
+      const ticketId = await escalateToTicket()
+      if (ticketId) {
+        window.location.href = `/account/support/${ticketId}`
+      }
+    } catch {
+      // Fallback: redirect to new ticket with session ID
+      window.location.href = `/account/support/new?chatSessionId=${sessionId}`
+    } finally {
+      setIsEscalating(false)
+    }
+  }
+
+  const userMessageCount = messages.filter((m) => m.role === 'user').length
+  const showEscalation = enableEscalation && userMessageCount >= 2
 
   // Determine button position classes
   const positionClass = settings.position || 'bottom-right'
@@ -483,6 +511,19 @@ export function ChatbotWidget({ settings }: ChatbotWidgetProps) {
 
             <div ref={messagesEndRef} />
           </div>
+
+          {/* Escalation button */}
+          {showEscalation && (
+            <div className="chatbot-escalation">
+              <button
+                onClick={handleEscalate}
+                disabled={isEscalating}
+                className="chatbot-escalate-btn"
+              >
+                {isEscalating ? 'Doorverbinden...' : 'Spreek een medewerker'}
+              </button>
+            </div>
+          )}
 
           {/* Input Form */}
           <form onSubmit={handleSubmit} className="chatbot-input-form">

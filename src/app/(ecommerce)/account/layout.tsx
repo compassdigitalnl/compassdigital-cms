@@ -25,6 +25,7 @@ import {
   ClipboardCheck,
   Wallet,
   BookOpen,
+  Headset,
 } from 'lucide-react'
 
 export default function MyAccountLayout({ children }: { children: React.ReactNode }) {
@@ -65,6 +66,7 @@ export default function MyAccountLayout({ children }: { children: React.ReactNod
     { name: 'Team', href: '/account/team', icon: Users, requiresFeature: 'companyAccounts' as const },
     { name: 'Goedkeuringen', href: '/account/approvals', icon: ClipboardCheck, requiresFeature: 'approvalWorkflow' as const },
     { name: 'Budget & Krediet', href: '/account/budget', icon: Wallet, requiresFeature: 'budgetLimits' as const },
+    { name: 'Support', href: '/account/support', icon: Headset, requiresFeature: 'support' as const },
     { name: 'Adressen', href: '/account/addresses', icon: MapPin, requiresFeature: 'addresses' as const },
     { name: 'Instellingen', href: '/account/settings', icon: Settings, requiresFeature: null },
   ]

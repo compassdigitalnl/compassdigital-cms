@@ -146,6 +146,14 @@ import { ContentBookings } from '@/branches/shared/collections/ContentBookings'
 import { ContentTeam } from '@/branches/shared/collections/ContentTeam'
 import { ContentActivities } from '@/branches/shared/collections/ContentActivities'
 
+// Support Feature (4 collections - Feature flagged)
+import {
+  SupportCategories,
+  SupportTickets,
+  SupportMessages,
+  ChatConversations,
+} from '@/features/support'
+
 // Multistore Feature (2 collections + 1 global - Feature flagged)
 import { MultistoreSites } from '@/features/multistore/collections/MultistoreSites'
 import { SyncLog } from '@/features/multistore/collections/SyncLog'
@@ -258,6 +266,9 @@ export default buildConfig({
               '@/features/ai/components/admin/AIToolsNavLink#AIToolsNavLink',
             ]
           : []),
+        ...(features.support
+          ? ['@/features/support/components/admin/SupportNavLinks#SupportNavLinks']
+          : []),
         ...(features.multistoreHub
           ? ['@/features/multistore/components/admin/MultistoreNavLinks#MultistoreNavLinks']
           : []),
@@ -313,6 +324,29 @@ export default buildConfig({
                   title: 'Content Templates',
                   description:
                     'Kies een template en laat AI een complete pagina genereren',
+                },
+              },
+            }
+          : {}),
+        // Support views (feature-gated)
+        ...(features.support
+          ? {
+              supportDashboard: {
+                Component:
+                  '@/features/support/components/admin/SupportDashboardView#SupportDashboardView',
+                path: '/support',
+                meta: {
+                  title: 'Support Dashboard',
+                  description: 'Ticket queue, statistieken en SLA overzicht',
+                },
+              },
+              chatAnalytics: {
+                Component:
+                  '@/features/support/components/admin/ChatAnalyticsView#ChatAnalyticsView',
+                path: '/support/chats',
+                meta: {
+                  title: 'Chat Analyse',
+                  description: 'Chatbot gesprekken en escalatie statistieken',
                 },
               },
             }
@@ -580,6 +614,14 @@ export default buildConfig({
     ContentBookings,
     ContentTeam,
     ContentActivities,
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // SUPPORT & TICKETING - Self-hosted support system (Feature flagged)
+    // ═══════════════════════════════════════════════════════════════════════════
+    SupportCategories,
+    SupportTickets,
+    SupportMessages,
+    ChatConversations,
 
     // ═══════════════════════════════════════════════════════════════════════════
     // MULTISTORE BRANCH - Hub management for multi-webshop sync
