@@ -180,11 +180,14 @@ function generateCSS(): string {
   const rules: string[] = []
 
   // Base: make nav links flex and add icon pseudo-element
+  // NOTE: No !important on display — HideCollections uses display:none !important
+  // to hide disabled collections. If we use !important here, our higher specificity
+  // (.nav a.nav__link) wins over HideCollections' (a[href="..."]) and breaks hiding.
   rules.push(`
     .nav a.nav__link {
-      display: flex !important;
-      align-items: center !important;
-      gap: 0.625rem !important;
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
     }
     .nav a.nav__link::before {
       content: '';
