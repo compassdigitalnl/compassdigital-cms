@@ -82,11 +82,11 @@ export function WizardStepContact({ contactInfo, onChange }: Props) {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-navy flex items-center gap-2">
           <Phone className="w-6 h-6 text-teal" />
           Contact Informatie
         </h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-sm text-grey-dark">
           Vul je contactgegevens in en configureer het contactformulier voor je website.
         </p>
       </div>
@@ -250,7 +250,7 @@ export function WizardStepContact({ contactInfo, onChange }: Props) {
           </div>
           <div>
             <Label htmlFor="instagram" className="flex items-center gap-2">
-              <Instagram className="w-4 h-4 text-pink-600" />
+              <Instagram className="w-4 h-4 text-teal" />
               Instagram
             </Label>
             <Input
@@ -299,7 +299,7 @@ export function WizardStepContact({ contactInfo, onChange }: Props) {
               className="mt-1"
               required
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-grey-mid mt-1">
               Formulier inzendingen worden naar dit emailadres gestuurd
             </p>
           </div>
@@ -308,7 +308,7 @@ export function WizardStepContact({ contactInfo, onChange }: Props) {
             <Label className="text-sm font-semibold">Formuliervelden</Label>
 
             <div className="space-y-2">
-              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded">
+              <div className="flex items-center gap-2 p-3 bg-grey-light rounded">
                 <Checkbox
                   id="enablePhoneField"
                   checked={data.formConfig?.enablePhoneField}
@@ -333,7 +333,7 @@ export function WizardStepContact({ contactInfo, onChange }: Props) {
                 )}
               </div>
 
-              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded">
+              <div className="flex items-center gap-2 p-3 bg-grey-light rounded">
                 <Checkbox
                   id="enableCompanyField"
                   checked={data.formConfig?.enableCompanyField}
@@ -358,7 +358,7 @@ export function WizardStepContact({ contactInfo, onChange }: Props) {
                 )}
               </div>
 
-              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded">
+              <div className="flex items-center gap-2 p-3 bg-grey-light rounded">
                 <Checkbox
                   id="enableSubjectField"
                   checked={data.formConfig?.enableSubjectField}
@@ -372,7 +372,7 @@ export function WizardStepContact({ contactInfo, onChange }: Props) {
               </div>
             </div>
 
-            <p className="text-xs text-gray-500 mt-2">
+            <p className="text-xs text-grey-mid mt-2">
               Naam, email en bericht velden zijn altijd verplicht en kunnen niet worden
               uitgeschakeld
             </p>
@@ -390,7 +390,7 @@ export function WizardStepContact({ contactInfo, onChange }: Props) {
               rows={2}
               className="mt-1"
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-grey-mid mt-1">
               Dit bericht wordt getoond na het versturen van het formulier
             </p>
           </div>

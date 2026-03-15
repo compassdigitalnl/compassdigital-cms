@@ -110,13 +110,13 @@ export default async function PublicWishlistPage({ params }: Props) {
   const userName = user?.name || 'Iemand'
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-grey-light">
       <div className="max-w-6xl mx-auto px-4 py-8 lg:py-12">
         {/* Header */}
         <div className="mb-8">
           <Link
             href="/shop"
-            className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 mb-4"
+            className="inline-flex items-center gap-2 text-sm text-grey-mid hover:text-grey-dark mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
             Terug naar shop
@@ -127,10 +127,10 @@ export default async function PublicWishlistPage({ params }: Props) {
               <Heart className="w-6 h-6 text-rose-500" />
             </div>
             <div>
-              <h1 className="text-2xl lg:text-3xl font-extrabold text-gray-900">
+              <h1 className="text-2xl lg:text-3xl font-extrabold text-navy">
                 Wishlist van {userName}
               </h1>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-grey-mid mt-1">
                 {wishlistItems.length} {wishlistItems.length === 1 ? 'product' : 'producten'}
               </p>
             </div>
@@ -151,10 +151,10 @@ export default async function PublicWishlistPage({ params }: Props) {
                 <Link
                   key={item.id}
                   href={`/shop/${product.slug}`}
-                  className="group bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
+                  className="group bg-white rounded-xl border border-grey-light overflow-hidden hover:shadow-md transition-shadow"
                 >
                   {/* Image */}
-                  <div className="aspect-square bg-gray-100 relative overflow-hidden">
+                  <div className="aspect-square bg-grey-light relative overflow-hidden">
                     {imageUrl ? (
                       <img
                         src={imageUrl}
@@ -163,26 +163,26 @@ export default async function PublicWishlistPage({ params }: Props) {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <ShoppingCart className="w-12 h-12 text-gray-300" />
+                        <ShoppingCart className="w-12 h-12 text-grey-mid" />
                       </div>
                     )}
                   </div>
 
                   {/* Content */}
                   <div className="p-4">
-                    <h3 className="font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                    <h3 className="font-semibold text-navy line-clamp-2 group-hover:text-teal transition-colors">
                       {product.title}
                     </h3>
                     {product.sku && (
-                      <p className="text-xs text-gray-400 mt-1">SKU: {product.sku}</p>
+                      <p className="text-xs text-grey-mid mt-1">SKU: {product.sku}</p>
                     )}
                     {price != null && (
-                      <p className="text-lg font-bold text-gray-900 mt-2">
+                      <p className="text-lg font-bold text-navy mt-2">
                         {formatPrice(price)}
                       </p>
                     )}
                     {item.notes && (
-                      <p className="text-sm text-gray-500 mt-2 italic">
+                      <p className="text-sm text-grey-mid mt-2 italic">
                         &ldquo;{item.notes}&rdquo;
                       </p>
                     )}
@@ -193,9 +193,9 @@ export default async function PublicWishlistPage({ params }: Props) {
           </div>
         ) : (
           <div className="text-center py-16">
-            <Heart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-gray-700">Geen producten gevonden</h2>
-            <p className="text-gray-500 mt-2">
+            <Heart className="w-16 h-16 text-grey-mid mx-auto mb-4" />
+            <h2 className="text-xl font-semibold text-grey-dark">Geen producten gevonden</h2>
+            <p className="text-grey-mid mt-2">
               Deze wishlist is leeg of niet meer beschikbaar.
             </p>
           </div>

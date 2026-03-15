@@ -74,7 +74,7 @@ export const BackInStockNotifier: React.FC<BackInStockNotifierProps> = ({
   return (
     <div
       className={`
-        bis-card bg-white border border-gray-200 rounded-2xl p-6 max-w-[440px]
+        bis-card bg-white border border-grey-light rounded-2xl p-6 max-w-[440px]
         ${className}
       `}
       role="region"
@@ -82,8 +82,8 @@ export const BackInStockNotifier: React.FC<BackInStockNotifierProps> = ({
     >
       {/* Header */}
       <div className="bis-header flex items-center gap-2 mb-3">
-        <div className="bis-label text-xs font-bold text-red-500 flex items-center gap-1">
-          <span className="dot w-[7px] h-[7px] rounded-full bg-red-500" aria-hidden="true" />
+        <div className="bis-label text-xs font-bold text-coral flex items-center gap-1">
+          <span className="dot w-[7px] h-[7px] rounded-full bg-coral" aria-hidden="true" />
           Tijdelijk uitverkocht
         </div>
       </div>
@@ -94,14 +94,14 @@ export const BackInStockNotifier: React.FC<BackInStockNotifierProps> = ({
       </h3>
 
       {/* Description */}
-      <p className="bis-desc text-[13px] text-gray-500 mb-3.5 leading-snug">
+      <p className="bis-desc text-[13px] text-grey-mid mb-3.5 leading-snug">
         {customDescription ||
           'Vul uw e-mailadres in en wij sturen u automatisch een bericht zodra dit product weer leverbaar is.'}
       </p>
 
       {/* Estimated Restock Date */}
       {showEstimatedDate && product.estimatedRestock && (
-        <p className="text-xs text-gray-600 mb-3 font-medium">
+        <p className="text-xs text-grey-dark mb-3 font-medium">
           Verwacht leverbaar: {formatEstimatedDate(product.estimatedRestock)}
         </p>
       )}
@@ -117,9 +117,9 @@ export const BackInStockNotifier: React.FC<BackInStockNotifierProps> = ({
             required
             disabled={isSubmitting}
             className={`
-              bis-input flex-1 h-[42px] px-3.5 border-2 border-gray-200 rounded-lg
-              text-sm text-navy-600 bg-gray-50 outline-none transition-all duration-200
-              placeholder:text-gray-400
+              bis-input flex-1 h-[42px] px-3.5 border-2 border-grey-light rounded-lg
+              text-sm text-navy-600 bg-grey-light outline-none transition-all duration-200
+              placeholder:text-grey-mid
               focus:border-[var(--color-primary)] focus:bg-white focus:shadow-[0_0_0_4px_var(--color-primary-glow)]
               disabled:opacity-50 disabled:cursor-not-allowed
             `}
@@ -137,7 +137,7 @@ export const BackInStockNotifier: React.FC<BackInStockNotifierProps> = ({
         </form>
       ) : (
         <div
-          className="bis-success flex items-center gap-1.5 p-3 px-4 bg-green-50 rounded-lg text-[13px] text-green-600 font-semibold"
+          className="bis-success flex items-center gap-1.5 p-3 px-4 bg-green-50 rounded-lg text-[13px] text-green font-semibold"
           role="status"
           aria-live="polite"
         >
@@ -149,7 +149,7 @@ export const BackInStockNotifier: React.FC<BackInStockNotifierProps> = ({
       {/* Error Message */}
       {error && (
         <div
-          className="bis-error mt-2 text-xs text-red-600 font-medium"
+          className="bis-error mt-2 text-xs text-coral font-medium"
           role="alert"
           aria-live="assertive"
         >
@@ -158,7 +158,7 @@ export const BackInStockNotifier: React.FC<BackInStockNotifierProps> = ({
       )}
 
       {/* GDPR Notice (optional) */}
-      <p className="text-[11px] text-gray-400 mt-3 leading-relaxed">
+      <p className="text-[11px] text-grey-mid mt-3 leading-relaxed">
         Door aan te melden gaat u akkoord met het ontvangen van één e-mail wanneer dit product weer
         op voorraad is.
       </p>

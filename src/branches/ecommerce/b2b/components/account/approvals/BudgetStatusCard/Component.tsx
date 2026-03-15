@@ -18,12 +18,12 @@ export function BudgetStatusCard({ monthlyBudget, monthlyUsed, orderAmount }: Bu
   return (
     <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-5 shadow-sm">
       <div className="flex items-center gap-2 mb-3">
-        <Wallet className="w-4 h-4 text-gray-400" />
-        <h3 className="text-sm font-bold text-gray-900">Budget impact</h3>
+        <Wallet className="w-4 h-4 text-grey-mid" />
+        <h3 className="text-sm font-bold text-navy">Budget impact</h3>
       </div>
 
       {/* Progress bar */}
-      <div className="h-3 rounded-full bg-gray-100 overflow-hidden mb-3">
+      <div className="h-3 rounded-full bg-grey-light overflow-hidden mb-3">
         <div className="h-full flex">
           <div
             className="h-full rounded-l-full"
@@ -41,21 +41,21 @@ export function BudgetStatusCard({ monthlyBudget, monthlyUsed, orderAmount }: Bu
 
       <div className="space-y-1.5 text-xs">
         <div className="flex justify-between">
-          <span className="text-gray-500">Maandbudget</span>
-          <span className="font-semibold text-gray-900">{fmt(monthlyBudget)}</span>
+          <span className="text-grey-mid">Maandbudget</span>
+          <span className="font-semibold text-navy">{fmt(monthlyBudget)}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-gray-500">Besteed deze maand</span>
-          <span className="font-semibold text-gray-900">{fmt(monthlyUsed)}</span>
+          <span className="text-grey-mid">Besteed deze maand</span>
+          <span className="font-semibold text-navy">{fmt(monthlyUsed)}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-gray-500">Deze bestelling</span>
+          <span className="text-grey-mid">Deze bestelling</span>
           <span className="font-semibold" style={{ color: wouldExceed ? 'var(--color-error)' : 'var(--color-warning-dark)' }}>
             {fmt(orderAmount)}
           </span>
         </div>
-        <div className="flex justify-between pt-1.5 border-t border-gray-100">
-          <span className="text-gray-500">Resterend na goedkeuring</span>
+        <div className="flex justify-between pt-1.5 border-t border-grey-light">
+          <span className="text-grey-mid">Resterend na goedkeuring</span>
           <span className="font-bold" style={{ color: wouldExceed ? 'var(--color-error)' : 'var(--color-success)' }}>
             {fmt(Math.max(0, afterOrder))}
           </span>

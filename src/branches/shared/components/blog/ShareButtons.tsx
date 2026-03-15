@@ -48,7 +48,7 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({ title, url, classNam
   return (
     <div className={className}>
       <div className="flex items-center gap-3">
-        <span className="text-sm font-bold text-gray-900">Delen:</span>
+        <span className="text-sm font-bold text-navy">Delen:</span>
 
         <button
           onClick={() => handleShare('linkedin')}

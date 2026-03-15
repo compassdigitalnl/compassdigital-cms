@@ -1,0 +1,2925 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teamuitjes in de Jordaan Amsterdam - Authentieke Belevenissen | Huisbrand Events</title>
+  <meta name="description" content="Teamuitjes in de gezellige Jordaan: 6+ unieke uitjes tussen de smalle straatjes, grachten en authentieke Amsterdamse panden. Direct boeken met lokale expert!">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ============================================
+       COMPASS DESIGN SYSTEM V2.0 - JORDAAN WIJK
+       Design Tokens & Base Styles
+       ============================================ */
+
+    :root {
+      /* Primary Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Status Colors */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Spacing (4px base grid) */
+      --s-xs: 4px;
+      --s-sm: 8px;
+      --s-md: 12px;
+      --s-lg: 16px;
+      --s-xl: 24px;
+      --s-2xl: 32px;
+      --s-3xl: 48px;
+      --s-4xl: 64px;
+
+      /* Border Radius */
+      --r-sm: 8px;
+      --r-md: 12px;
+      --r-lg: 16px;
+      --r-xl: 20px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+      --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Container */
+      --container: 1200px;
+      --gutter: 24px;
+    }
+
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--navy);
+    }
+
+    h1 { font-size: 42px; }
+    h2 { font-size: 32px; }
+    h3 { font-size: 24px; }
+    h4 { font-size: 20px; }
+
+    a {
+      color: var(--teal);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    a:hover {
+      color: var(--teal-dark);
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Container */
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    /* Section */
+    section {
+      padding: var(--s-4xl) 0;
+    }
+
+    @media (max-width: 768px) {
+      section {
+        padding: var(--s-3xl) 0;
+      }
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s-sm);
+      padding: 14px 28px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: var(--r-sm);
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--teal);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--teal-dark);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--navy);
+      border: 1.5px solid var(--grey);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Cards */
+    .card {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--r-md);
+      padding: var(--s-xl);
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-radius: 9999px;
+      white-space: nowrap;
+    }
+
+    .badge-teal {
+      background: var(--teal-glow);
+      color: var(--teal-dark);
+    }
+
+    .badge-green {
+      background: var(--green-light);
+      color: #166534;
+    }
+
+    .badge-amber {
+      background: var(--amber-light);
+      color: #92400E;
+    }
+
+    /* Trust Badge */
+    .trust-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--r-sm);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--grey-dark);
+    }
+
+    .trust-badge i {
+      width: 18px;
+      height: 18px;
+      color: var(--teal);
+    }
+
+    /* ============================================
+       LIVE BOOKING TICKER
+       ============================================ */
+
+    .ticker-bar {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: white;
+      padding: 12px 0;
+      overflow: hidden;
+      position: relative;
+      border-bottom: 2px solid var(--teal);
+    }
+
+    .ticker-wrapper {
+      display: flex;
+      width: 200%;
+    }
+
+    .ticker-content {
+      display: flex;
+      gap: 48px;
+      animation: scroll 30s linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .ticker-item i {
+      width: 16px;
+      height: 16px;
+      color: var(--teal-light);
+    }
+
+    .ticker-item strong {
+      color: white;
+      font-weight: 600;
+    }
+
+    /* ============================================
+       HEADER
+       ============================================ */
+
+    header {
+      background: white;
+      border-bottom: 1px solid var(--grey);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 24px;
+      color: var(--navy);
+      font-weight: 400;
+    }
+
+    .logo span {
+      color: var(--teal);
+    }
+
+    nav {
+      display: flex;
+      gap: var(--s-xl);
+    }
+
+    nav a {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--grey-dark);
+    }
+
+    nav a:hover {
+      color: var(--teal);
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+    }
+
+    /* ============================================
+       TRUST BADGES BAR
+       ============================================ */
+
+    .trust-bar {
+      background: var(--grey-light);
+      padding: 16px 0;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .trust-badges {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: var(--s-xl);
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 768px) {
+      .trust-badges {
+        gap: var(--s-md);
+      }
+
+      .trust-badge {
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+    }
+
+    /* ============================================
+       HERO SECTION
+       ============================================ */
+
+    .hero {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: white;
+      padding: var(--s-4xl) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--teal-glow), transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+    }
+
+    .hero .badge {
+      margin-bottom: var(--s-lg);
+    }
+
+    .hero h1 {
+      color: white;
+      margin-bottom: var(--s-lg);
+      font-size: 48px;
+    }
+
+    .hero-subtitle {
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: var(--s-2xl);
+      line-height: 1.5;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: var(--s-lg);
+      margin-bottom: var(--s-2xl);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: var(--s-3xl);
+      padding-top: var(--s-2xl);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-stat strong {
+      display: block;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--teal-light);
+      margin-bottom: 4px;
+    }
+
+    .hero-stat span {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .hero-subtitle {
+        font-size: 16px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .hero-stats {
+        flex-wrap: wrap;
+        gap: var(--s-xl);
+      }
+    }
+
+    /* ============================================
+       URGENCY BANNER
+       ============================================ */
+
+    .urgency-banner {
+      background: linear-gradient(135deg, var(--amber-light), #FEF3C7);
+      border: 1px solid var(--amber);
+      border-left: 4px solid var(--amber);
+      padding: 16px 24px;
+      margin-bottom: 32px;
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .urgency-banner i {
+      width: 24px;
+      height: 24px;
+      color: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .urgency-banner p {
+      margin: 0;
+      font-size: 15px;
+      color: #92400E;
+      font-weight: 500;
+    }
+
+    .urgency-banner strong {
+      color: #78350F;
+      font-weight: 700;
+    }
+
+    /* ============================================
+       COMPARISON TABLE
+       ============================================ */
+
+    .comparison-section {
+      background: white;
+      padding: var(--s-4xl) 0;
+    }
+
+    .comparison-section h2 {
+      text-align: center;
+      margin-bottom: var(--s-xl);
+    }
+
+    .comparison-section .subtitle {
+      text-align: center;
+      font-size: 18px;
+      color: var(--grey-dark);
+      margin-bottom: var(--s-3xl);
+    }
+
+    .comparison-table {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s-xl);
+      margin-bottom: var(--s-2xl);
+    }
+
+    .comparison-col {
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--r-md);
+      padding: var(--s-xl);
+    }
+
+    .comparison-col.featured {
+      border: 2px solid var(--teal);
+      background: linear-gradient(to bottom, rgba(0, 137, 123, 0.03), white);
+      transform: scale(1.02);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .comparison-header {
+      text-align: center;
+      padding-bottom: var(--s-lg);
+      border-bottom: 1px solid var(--grey);
+      margin-bottom: var(--s-lg);
+    }
+
+    .comparison-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .comparison-subtitle {
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .comparison-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-md);
+    }
+
+    .comparison-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--s-sm);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .comparison-list li i {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .comparison-list li.yes i {
+      color: var(--green);
+    }
+
+    .comparison-list li.no i {
+      color: var(--coral);
+    }
+
+    @media (max-width: 1024px) {
+      .comparison-table {
+        grid-template-columns: 1fr;
+        gap: var(--s-lg);
+      }
+
+      .comparison-col.featured {
+        transform: scale(1);
+      }
+    }
+
+    /* ============================================
+       INTERACTIVE QUIZ
+       ============================================ */
+
+    .quiz-section {
+      background: var(--grey-light);
+      padding: var(--s-4xl) 0;
+    }
+
+    .quiz-widget {
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--r-lg);
+      padding: var(--s-3xl);
+      box-shadow: var(--shadow-md);
+    }
+
+    .quiz-header {
+      text-align: center;
+      margin-bottom: var(--s-2xl);
+    }
+
+    .quiz-header h3 {
+      margin-bottom: var(--s-md);
+    }
+
+    .quiz-header p {
+      color: var(--grey-dark);
+    }
+
+    .quiz-progress {
+      display: flex;
+      justify-content: center;
+      gap: var(--s-sm);
+      margin-bottom: var(--s-2xl);
+    }
+
+    .quiz-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--grey);
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+
+    .quiz-dot.active {
+      background: var(--teal);
+      width: 24px;
+      border-radius: 9999px;
+    }
+
+    .quiz-step {
+      display: none;
+    }
+
+    .quiz-step.active {
+      display: block;
+    }
+
+    .quiz-question {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: var(--s-xl);
+      text-align: center;
+    }
+
+    .quiz-options {
+      display: grid;
+      gap: var(--s-md);
+    }
+
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: var(--s-lg);
+      padding: var(--s-lg);
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .quiz-option:hover {
+      border-color: var(--teal);
+      background: var(--teal-glow);
+    }
+
+    .quiz-option i {
+      width: 24px;
+      height: 24px;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .quiz-option-text strong {
+      display: block;
+      font-size: 15px;
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
+
+    .quiz-option-text span {
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .quiz-result {
+      display: none;
+      text-align: center;
+    }
+
+    .quiz-result.active {
+      display: block;
+    }
+
+    .quiz-result i {
+      width: 64px;
+      height: 64px;
+      color: var(--green);
+      margin: 0 auto var(--s-lg);
+    }
+
+    .quiz-result h4 {
+      margin-bottom: var(--s-md);
+    }
+
+    .quiz-result p {
+      color: var(--grey-dark);
+      margin-bottom: var(--s-xl);
+    }
+
+    /* ============================================
+       VIDEO TESTIMONIAL
+       ============================================ */
+
+    .video-section {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      padding: var(--s-4xl) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-section::before {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--teal-glow), transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .video-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      color: white;
+    }
+
+    .video-content h2 {
+      color: white;
+      margin-bottom: var(--s-md);
+    }
+
+    .video-content .subtitle {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: var(--s-3xl);
+    }
+
+    .video-embed {
+      max-width: 900px;
+      margin: 0 auto;
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      aspect-ratio: 16 / 9;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .video-embed:hover {
+      transform: scale(1.02);
+    }
+
+    .video-play-btn {
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .video-embed:hover .video-play-btn {
+      transform: scale(1.1);
+      background: var(--teal-light);
+    }
+
+    .video-play-btn i {
+      width: 32px;
+      height: 32px;
+      color: var(--navy);
+      margin-left: 4px;
+    }
+
+    .video-embed:hover .video-play-btn i {
+      color: white;
+    }
+
+    /* ============================================
+       MAP SECTION
+       ============================================ */
+
+    .map-section {
+      background: white;
+      padding: var(--s-4xl) 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--s-3xl);
+    }
+
+    .section-header h2 {
+      margin-bottom: var(--s-md);
+    }
+
+    .section-header p {
+      font-size: 18px;
+      color: var(--grey-dark);
+    }
+
+    .map-filters {
+      display: flex;
+      justify-content: center;
+      gap: var(--s-md);
+      margin-bottom: var(--s-2xl);
+      flex-wrap: wrap;
+    }
+
+    .map-filter {
+      padding: 8px 16px;
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--r-sm);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--grey-dark);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .map-filter:hover,
+    .map-filter.active {
+      border-color: var(--teal);
+      background: var(--teal);
+      color: white;
+    }
+
+    .map-container {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--r-lg);
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--grey-dark);
+      font-size: 18px;
+    }
+
+    /* ============================================
+       POPULAIRE UITJES GRID
+       ============================================ */
+
+    .uitjes-section {
+      background: var(--grey-light);
+      padding: var(--s-4xl) 0;
+    }
+
+    .uitjes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s-xl);
+    }
+
+    .uitje-card {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .uitje-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-8px);
+    }
+
+    .uitje-image {
+      width: 100%;
+      height: 240px;
+      background: var(--grey-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      border-bottom: 1px solid var(--grey);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .uitje-badges {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .uitje-content {
+      padding: var(--s-xl);
+    }
+
+    .uitje-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--s-lg);
+      margin-bottom: var(--s-md);
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .uitje-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .uitje-meta-item i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .uitje-content h3 {
+      font-size: 20px;
+      margin-bottom: var(--s-sm);
+      color: var(--navy);
+    }
+
+    .uitje-content p {
+      font-size: 14px;
+      color: var(--grey-dark);
+      margin-bottom: var(--s-lg);
+      line-height: 1.6;
+    }
+
+    .uitje-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: var(--s-lg);
+      border-top: 1px solid var(--grey);
+    }
+
+    .uitje-price {
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .uitje-price strong {
+      display: block;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    @media (max-width: 1024px) {
+      .uitjes-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .uitjes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ============================================
+       TESTIMONIALS
+       ============================================ */
+
+    .testimonials-section {
+      background: white;
+      padding: var(--s-4xl) 0;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s-xl);
+    }
+
+    .testimonial-card {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--r-md);
+      padding: var(--s-xl);
+    }
+
+    .testimonial-rating {
+      display: flex;
+      gap: 4px;
+      margin-bottom: var(--s-lg);
+    }
+
+    .testimonial-rating i {
+      width: 16px;
+      height: 16px;
+      color: var(--amber);
+      fill: var(--amber);
+    }
+
+    .testimonial-quote {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--navy);
+      margin-bottom: var(--s-lg);
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: var(--s-md);
+      padding-top: var(--s-lg);
+      border-top: 1px solid var(--grey);
+    }
+
+    .testimonial-avatar {
+      width: 48px;
+      height: 48px;
+      background: var(--teal-glow);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--teal-dark);
+      font-size: 16px;
+    }
+
+    .testimonial-info strong {
+      display: block;
+      font-size: 14px;
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
+
+    .testimonial-info span {
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    @media (max-width: 1024px) {
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ============================================
+       NEARBY WIJKEN SECTION
+       ============================================ */
+
+    .nearby-wijken-section {
+      background: var(--grey-light);
+      padding: var(--s-4xl) 0;
+    }
+
+    .wijken-tabs {
+      display: flex;
+      justify-content: center;
+      gap: var(--s-sm);
+      margin-bottom: var(--s-2xl);
+      flex-wrap: wrap;
+    }
+
+    .wijk-tab {
+      padding: 10px 20px;
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--r-sm);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .wijk-tab:hover,
+    .wijk-tab.active {
+      border-color: var(--teal);
+      background: var(--teal);
+      color: white;
+    }
+
+    .wijk-content {
+      display: none;
+    }
+
+    .wijk-content.active {
+      display: block;
+    }
+
+    .wijk-uitjes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--s-xl);
+    }
+
+    @media (max-width: 768px) {
+      .wijk-uitjes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ============================================
+       PARTNERSHIPS
+       ============================================ */
+
+    .partnerships-section {
+      background: white;
+      padding: var(--s-3xl) 0;
+      border-top: 1px solid var(--grey);
+    }
+
+    .partnerships-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: var(--s-xl);
+      align-items: center;
+    }
+
+    .partner-logo {
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: var(--r-sm);
+      padding: var(--s-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      height: 80px;
+      opacity: 0.7;
+      transition: var(--transition);
+    }
+
+    .partner-logo:hover {
+      opacity: 1;
+      border-color: var(--teal);
+    }
+
+    @media (max-width: 1024px) {
+      .partnerships-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .partnerships-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* ============================================
+       BLOG SECTION
+       ============================================ */
+
+    .blog-section {
+      background: var(--grey-light);
+      padding: var(--s-4xl) 0;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s-xl);
+    }
+
+    .blog-card {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .blog-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+    }
+
+    .blog-image {
+      width: 100%;
+      height: 200px;
+      background: var(--grey-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .blog-content {
+      padding: var(--s-xl);
+    }
+
+    .blog-meta {
+      display: flex;
+      gap: var(--s-lg);
+      margin-bottom: var(--s-md);
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .blog-content h4 {
+      font-size: 18px;
+      margin-bottom: var(--s-sm);
+      color: var(--navy);
+    }
+
+    .blog-content p {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1024px) {
+      .blog-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ============================================
+       FAQ SECTION
+       ============================================ */
+
+    .faq-section {
+      background: white;
+      padding: var(--s-4xl) 0;
+    }
+
+    .faq-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--r-md);
+      margin-bottom: var(--s-lg);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--s-xl);
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--navy);
+      transition: var(--transition);
+    }
+
+    .faq-question:hover {
+      background: var(--grey-light);
+    }
+
+    .faq-question i {
+      width: 20px;
+      height: 20px;
+      color: var(--teal);
+      transition: var(--transition);
+    }
+
+    .faq-item.active .faq-question i {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-answer-content {
+      padding: 0 var(--s-xl) var(--s-xl);
+      color: var(--grey-dark);
+      line-height: 1.7;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 500px;
+    }
+
+    /* ============================================
+       CTA SECTION
+       ============================================ */
+
+    .cta-section {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: white;
+      padding: var(--s-4xl) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--teal-glow), transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .cta-content h2 {
+      color: white;
+      margin-bottom: var(--s-md);
+    }
+
+    .cta-content p {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: var(--s-2xl);
+    }
+
+    .cta-form {
+      display: flex;
+      gap: var(--s-md);
+      max-width: 500px;
+      margin: 0 auto var(--s-xl);
+    }
+
+    .cta-form input {
+      flex: 1;
+      padding: 14px 20px;
+      border: none;
+      border-radius: var(--r-sm);
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .cta-form input:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+
+    .cta-trust {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    @media (max-width: 768px) {
+      .cta-form {
+        flex-direction: column;
+      }
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+
+    footer {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.8);
+      padding: var(--s-3xl) 0 var(--s-xl);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--s-3xl);
+      margin-bottom: var(--s-3xl);
+    }
+
+    .footer-col h4 {
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: var(--s-lg);
+    }
+
+    .footer-col p {
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: var(--s-lg);
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: var(--s-sm);
+    }
+
+    .footer-col ul li a {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+      transition: var(--transition);
+    }
+
+    .footer-col ul li a:hover {
+      color: var(--teal-light);
+    }
+
+    .footer-bottom {
+      padding-top: var(--s-xl);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    @media (max-width: 1024px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ============================================
+       MOBILE STICKY CTA
+       ============================================ */
+
+    .mobile-sticky-cta {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--grey);
+      padding: var(--s-lg);
+      box-shadow: var(--shadow-lg);
+      z-index: 99;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-sticky-cta {
+        display: block;
+      }
+    }
+
+    .mobile-sticky-cta .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Huisbrand Events Amsterdam - Jordaan",
+    "image": "https://huisbrand.nl/amsterdam/jordaan-og.jpg",
+    "@id": "https://huisbrand.nl/amsterdam/jordaan",
+    "url": "https://huisbrand.nl/amsterdam/jordaan",
+    "telephone": "+31201234567",
+    "priceRange": "€€",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Prinsengracht 263",
+      "addressLocality": "Amsterdam",
+      "addressRegion": "Jordaan",
+      "postalCode": "1016 GV",
+      "addressCountry": "NL"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 52.3767,
+      "longitude": 4.8831
+    },
+    "areaServed": {
+      "@type": "Neighborhood",
+      "name": "Jordaan"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "127"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://huisbrand.nl"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Amsterdam",
+        "item": "https://huisbrand.nl/amsterdam"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Jordaan",
+        "item": "https://huisbrand.nl/amsterdam/jordaan"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Hoe parkeren in de Jordaan?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Parkeren in de Jordaan is beperkt en betaald (€5-€6 per uur). Wij adviseren om met OV te komen (tramlijn 13, 14, 17). Alternatieven: P+R Sloterdijk (€8/dag) + tram 19, of fiets/elektrische bakfiets huren (wij regelen dit graag voor jullie groep)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Zijn de uitjes toegankelijk voor alle leeftijden?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ja! De meeste Jordaan-uitjes zijn geschikt voor alle leeftijden. Grachtenwandelingen, foodtours en cultuurroutes zijn laagdrempelig en toegankelijk. Voor specifieke vragen over mobiliteit of fysieke inspanning: bel ons, dan adviseren we persoonlijk."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Kunnen jullie catering regelen in de Jordaan?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absoluut! Wij werken samen met 12+ Jordaan restaurants en cafés (zoals Café Chris, Winkel 43, De Reiger). Van borrelplanken tot 3-gangenmenu's, alles is mogelijk. Wij kennen alle eigenaren persoonlijk en krijgen altijd priority seating."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Live Booking Ticker -->
+  <div class="ticker-bar">
+    <div class="ticker-wrapper">
+      <div class="ticker-content">
+        <div class="ticker-item">
+          <i data-lucide="check-circle"></i>
+          <span><strong>TechBedrijf NL</strong> boekte zojuist "Grachtenwandeling + Borrel" voor 18 personen</span>
+        </div>
+        <div class="ticker-item">
+          <i data-lucide="check-circle"></i>
+          <span><strong>Startup Hub</strong> boekte zojuist "Jordaan Foodtour" voor 22 personen</span>
+        </div>
+        <div class="ticker-item">
+          <i data-lucide="check-circle"></i>
+          <span><strong>Creative Agency</strong> boekte zojuist "Noordermarkt Experience" voor 15 personen</span>
+        </div>
+        <div class="ticker-item">
+          <i data-lucide="check-circle"></i>
+          <span><strong>Scale-up X</strong> boekte zojuist "Anne Frank + Jordaan Tour" voor 28 personen</span>
+        </div>
+        <div class="ticker-item">
+          <i data-lucide="check-circle"></i>
+          <span><strong>Design Studio</strong> boekte zojuist "9 Straatjes Safari" voor 12 personen</span>
+        </div>
+        <!-- Duplicate for infinite scroll -->
+        <div class="ticker-item">
+          <i data-lucide="check-circle"></i>
+          <span><strong>TechBedrijf NL</strong> boekte zojuist "Grachtenwandeling + Borrel" voor 18 personen</span>
+        </div>
+        <div class="ticker-item">
+          <i data-lucide="check-circle"></i>
+          <span><strong>Startup Hub</strong> boekte zojuist "Jordaan Foodtour" voor 22 personen</span>
+        </div>
+        <div class="ticker-item">
+          <i data-lucide="check-circle"></i>
+          <span><strong>Creative Agency</strong> boekte zojuist "Noordermarkt Experience" voor 15 personen</span>
+        </div>
+        <div class="ticker-item">
+          <i data-lucide="check-circle"></i>
+          <span><strong>Scale-up X</strong> boekte zojuist "Anne Frank + Jordaan Tour" voor 28 personen</span>
+        </div>
+        <div class="ticker-item">
+          <i data-lucide="check-circle"></i>
+          <span><strong>Design Studio</strong> boekte zojuist "9 Straatjes Safari" voor 12 personen</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">Huisbrand <span>Events</span></div>
+        <nav>
+          <a href="#uitjes">Uitjes</a>
+          <a href="#testimonials">Reviews</a>
+          <a href="#wijken">Andere wijken</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <a href="#contact" class="btn btn-primary">Gratis offerte</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Trust Badges Bar -->
+  <div class="trust-bar">
+    <div class="container">
+      <div class="trust-badges">
+        <div class="trust-badge">
+          <i data-lucide="shield-check"></i>
+          <span>SSL Beveiligd</span>
+        </div>
+        <div class="trust-badge">
+          <i data-lucide="award"></i>
+          <span>AVG Compliant</span>
+        </div>
+        <div class="trust-badge">
+          <i data-lucide="star"></i>
+          <span>4.9★ Trustpilot (127 reviews)</span>
+        </div>
+        <div class="trust-badge">
+          <i data-lucide="zap"></i>
+          <span>48u Bevestiging</span>
+        </div>
+        <div class="trust-badge">
+          <i data-lucide="check-circle"></i>
+          <span>ISO 9001 Gecertificeerd</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="badge badge-teal">
+          <i data-lucide="map-pin"></i>
+          Jordaan Specialist
+        </div>
+        <h1>Teamuitjes in de Jordaan:<br>Authentiek Amsterdam Beleven</h1>
+        <p class="hero-subtitle">
+          Onze lokale guides kennen elke gracht, steeg en café in de gezellige Jordaan.
+          Van grachtenwandelingen tot foodtours en cultuurroutes — wij laten je het échte Amsterdam zien.
+          Geboorte & getogen in de Jordaan, 6+ unieke uitjes, 127+ tevreden bedrijven.
+        </p>
+        <div class="hero-buttons">
+          <a href="#uitjes" class="btn btn-primary" onclick="smoothScroll(event, '#uitjes')">
+            <i data-lucide="compass"></i>
+            Bekijk Jordaan uitjes
+          </a>
+          <a href="#contact" class="btn btn-secondary" onclick="smoothScroll(event, '#contact')">
+            <i data-lucide="phone"></i>
+            Bel voor advies
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong>6+</strong>
+            <span>Unieke Jordaan uitjes</span>
+          </div>
+          <div class="hero-stat">
+            <strong>127+</strong>
+            <span>Tevreden bedrijven</span>
+          </div>
+          <div class="hero-stat">
+            <strong>4.9★</strong>
+            <span>Gemiddelde review</span>
+          </div>
+          <div class="hero-stat">
+            <strong>48u</strong>
+            <span>Bevestiging gegarandeerd</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table Section -->
+  <section class="comparison-section">
+    <div class="container">
+      <!-- Urgency Banner -->
+      <div class="urgency-banner">
+        <i data-lucide="alert-circle"></i>
+        <p>
+          <strong>Let op:</strong> Nog maar 3 plekken beschikbaar in maart 2026 voor Jordaan-uitjes!
+          Aanvragen binnen 48u krijgen priority.
+        </p>
+      </div>
+
+      <h2>Waarom kiezen voor Huisbrand Events?</h2>
+      <p class="subtitle">Vergelijk onze lokale expertise met andere bureaus en DIY-organisatie</p>
+
+      <div class="comparison-table">
+        <!-- Column 1: Andere bureaus -->
+        <div class="comparison-col">
+          <div class="comparison-header">
+            <div class="comparison-title">Andere bureaus</div>
+            <div class="comparison-subtitle">Generieke uitjes</div>
+          </div>
+          <ul class="comparison-list">
+            <li class="no">
+              <i data-lucide="x"></i>
+              <span>Standaard routes, geen lokale kennis Jordaan</span>
+            </li>
+            <li class="no">
+              <i data-lucide="x"></i>
+              <span>3-5 werkdagen responstijd</span>
+            </li>
+            <li class="yes">
+              <i data-lucide="check"></i>
+              <span>Basis uitjes beschikbaar</span>
+            </li>
+            <li class="no">
+              <i data-lucide="x"></i>
+              <span>Contact via callcenter, niet lokaal</span>
+            </li>
+            <li class="no">
+              <i data-lucide="x"></i>
+              <span>Vaste pakketten, weinig flexibiliteit</span>
+            </li>
+            <li class="yes">
+              <i data-lucide="check"></i>
+              <span>Nederlands</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Huisbrand (Featured) -->
+        <div class="comparison-col featured">
+          <div class="comparison-header">
+            <div class="comparison-title">Huisbrand Events</div>
+            <div class="comparison-subtitle">Jouw Jordaan specialist</div>
+          </div>
+          <ul class="comparison-list">
+            <li class="yes">
+              <i data-lucide="check"></i>
+              <span>Geboren & getogen in Jordaan, kennen elke steeg & gracht</span>
+            </li>
+            <li class="yes">
+              <i data-lucide="check"></i>
+              <span>48u bevestiging gegarandeerd</span>
+            </li>
+            <li class="yes">
+              <i data-lucide="check"></i>
+              <span>6+ unieke Jordaan-routes (grachtenwandeling, foodtour, cultuurroute)</span>
+            </li>
+            <li class="yes">
+              <i data-lucide="check"></i>
+              <span>Persoonlijk contact met lokaal team Jordaan</span>
+            </li>
+            <li class="yes">
+              <i data-lucide="check"></i>
+              <span>100% op maat, flexibel met catering (12+ lokale partners)</span>
+            </li>
+            <li class="yes">
+              <i data-lucide="check"></i>
+              <span>Nederlands & Engels, perfect voor internationale teams</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 3: DIY -->
+        <div class="comparison-col">
+          <div class="comparison-header">
+            <div class="comparison-title">Zelf organiseren</div>
+            <div class="comparison-subtitle">DIY aanpak</div>
+          </div>
+          <ul class="comparison-list">
+            <li class="no">
+              <i data-lucide="x"></i>
+              <span>15-25 uur voorbereidingstijd</span>
+            </li>
+            <li class="no">
+              <i data-lucide="x"></i>
+              <span>Geen garantie op locatie beschikbaarheid</span>
+            </li>
+            <li class="no">
+              <i data-lucide="x"></i>
+              <span>Risico op no-shows of slechte ervaring</span>
+            </li>
+            <li class="no">
+              <i data-lucide="x"></i>
+              <span>Moet zelf alles coördineren + op de dag</span>
+            </li>
+            <li class="yes">
+              <i data-lucide="check"></i>
+              <span>Volledige controle over budget</span>
+            </li>
+            <li class="no">
+              <i data-lucide="x"></i>
+              <span>Geen backup als iets misgaat</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Quiz Section -->
+  <section class="quiz-section">
+    <div class="container">
+      <div class="quiz-widget">
+        <div class="quiz-header">
+          <h3>Vind jouw ideale Jordaan-uitje</h3>
+          <p>Beantwoord 4 vragen en ontdek welk uitje perfect bij je team past</p>
+        </div>
+
+        <div class="quiz-progress">
+          <span class="quiz-dot active"></span>
+          <span class="quiz-dot"></span>
+          <span class="quiz-dot"></span>
+          <span class="quiz-dot"></span>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="quiz-step active" data-step="1">
+          <p class="quiz-question">Hoe groot is jullie groep?</p>
+          <div class="quiz-options">
+            <div class="quiz-option" data-answer="small">
+              <i data-lucide="users"></i>
+              <div class="quiz-option-text">
+                <strong>5-12 personen</strong>
+                <span>Intiem, ideaal voor kleine teams of startups</span>
+              </div>
+            </div>
+            <div class="quiz-option" data-answer="medium">
+              <i data-lucide="users"></i>
+              <div class="quiz-option-text">
+                <strong>13-25 personen</strong>
+                <span>Perfect voor afdelingen of middelgrote teams</span>
+              </div>
+            </div>
+            <div class="quiz-option" data-answer="large">
+              <i data-lucide="users"></i>
+              <div class="quiz-option-text">
+                <strong>26+ personen</strong>
+                <span>Groot bedrijfsuitje of hele organisatie</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="quiz-step" data-step="2">
+          <p class="quiz-question">Wat is de vibe die jullie zoeken?</p>
+          <div class="quiz-options">
+            <div class="quiz-option" data-answer="relaxed">
+              <i data-lucide="coffee"></i>
+              <div class="quiz-option-text">
+                <strong>Relaxed & Gezellig</strong>
+                <span>Wandelen, praten, genieten van Jordaan sfeer</span>
+              </div>
+            </div>
+            <div class="quiz-option" data-answer="foodie">
+              <i data-lucide="utensils"></i>
+              <div class="quiz-option-text">
+                <strong>Culinair & Proeven</strong>
+                <span>Eten, drinken, lokale specialiteiten ontdekken</span>
+              </div>
+            </div>
+            <div class="quiz-option" data-answer="culture">
+              <i data-lucide="landmark"></i>
+              <div class="quiz-option-text">
+                <strong>Cultuur & Historie</strong>
+                <span>Musea, verhalen, Jordaan geschiedenis beleven</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="quiz-step" data-step="3">
+          <p class="quiz-question">Wat is jullie budget per persoon?</p>
+          <div class="quiz-options">
+            <div class="quiz-option" data-answer="budget">
+              <i data-lucide="coins"></i>
+              <div class="quiz-option-text">
+                <strong>€35-€55</strong>
+                <span>Basis uitje zonder catering</span>
+              </div>
+            </div>
+            <div class="quiz-option" data-answer="mid">
+              <i data-lucide="coins"></i>
+              <div class="quiz-option-text">
+                <strong>€60-€85</strong>
+                <span>Inclusief borrel of lunch</span>
+              </div>
+            </div>
+            <div class="quiz-option" data-answer="premium">
+              <i data-lucide="sparkles"></i>
+              <div class="quiz-option-text">
+                <strong>€90-€140</strong>
+                <span>Premium ervaring met 3-gangen diner</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="quiz-step" data-step="4">
+          <p class="quiz-question">Wanneer willen jullie het uitje plannen?</p>
+          <div class="quiz-options">
+            <div class="quiz-option" data-answer="urgent">
+              <i data-lucide="zap"></i>
+              <div class="quiz-option-text">
+                <strong>Binnen 2 weken</strong>
+                <span>Spoed — we zorgen voor snelle beschikbaarheid</span>
+              </div>
+            </div>
+            <div class="quiz-option" data-answer="soon">
+              <i data-lucide="calendar"></i>
+              <div class="quiz-option-text">
+                <strong>Komende maand</strong>
+                <span>Normale planning met flexibiliteit</span>
+              </div>
+            </div>
+            <div class="quiz-option" data-answer="flexible">
+              <i data-lucide="calendar-check"></i>
+              <div class="quiz-option-text">
+                <strong>Over 1-3 maanden</strong>
+                <span>Ruime tijd voor beste keuze en beschikbaarheid</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Result -->
+        <div class="quiz-result">
+          <i data-lucide="party-popper"></i>
+          <h4>Perfecte match gevonden!</h4>
+          <p>Op basis van jouw antwoorden hebben we het ideale Jordaan-uitje voor jullie. Wij nemen binnen 2 uur contact op met een persoonlijk advies en offerte.</p>
+          <a href="#contact" class="btn btn-primary" onclick="smoothScroll(event, '#contact')">
+            <i data-lucide="arrow-right"></i>
+            Ontvang jouw advies
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Testimonial Section -->
+  <section class="video-section">
+    <div class="container">
+      <div class="video-content">
+        <h2>Ervaar de Jordaan door de ogen van anderen</h2>
+        <p class="subtitle">Bekijk hoe Startup Hub hun teamdag beleefde met onze Jordaan Foodtour</p>
+        <div class="video-embed" onclick="playVideo()">
+          <div class="video-play-btn">
+            <i data-lucide="play"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Section -->
+  <section class="map-section" id="map">
+    <div class="container">
+      <div class="section-header">
+        <h2>Ontdek alle Jordaan hotspots</h2>
+        <p>Onze uitjes brengen je naar de mooiste plekken van de Jordaan</p>
+      </div>
+      <div class="map-filters">
+        <button class="map-filter active" data-filter="all">Alle locaties</button>
+        <button class="map-filter" data-filter="food">Eten & Drinken</button>
+        <button class="map-filter" data-filter="culture">Cultuur & Musea</button>
+        <button class="map-filter" data-filter="walk">Wandelroutes</button>
+      </div>
+      <div class="map-container">
+        🗺️ Interactieve Jordaan kaart (Google Maps integratie)
+      </div>
+    </div>
+  </section>
+
+  <!-- Populaire Jordaan Uitjes -->
+  <section class="uitjes-section" id="uitjes">
+    <div class="container">
+      <div class="section-header">
+        <h2>6 Populaire Jordaan Uitjes</h2>
+        <p>Unieke belevenissen tussen de grachten en smalle straatjes</p>
+      </div>
+
+      <div class="uitjes-grid">
+        <!-- Uitje 1 -->
+        <div class="uitje-card">
+          <div class="uitje-image">
+            <div class="uitje-badges">
+              <span class="badge badge-green">Meest geboekt</span>
+              <span class="badge badge-teal">Lokale gids</span>
+            </div>
+            🚶
+          </div>
+          <div class="uitje-content">
+            <div class="uitje-meta">
+              <div class="uitje-meta-item">
+                <i data-lucide="clock"></i>
+                <span>2,5 uur</span>
+              </div>
+              <div class="uitje-meta-item">
+                <i data-lucide="users"></i>
+                <span>8-25 pers</span>
+              </div>
+              <div class="uitje-meta-item">
+                <i data-lucide="star"></i>
+                <span>4.9★ (48 reviews)</span>
+              </div>
+            </div>
+            <h3>Grachtenwandeling + Jordaan Borrel</h3>
+            <p>
+              Wandel langs de mooiste grachten met lokale gids, hoor de verhalen over Jordaan geschiedenis,
+              en sluit af met authentieke borrel bij Café Chris (oudste café van Amsterdam, 1624).
+            </p>
+            <div class="uitje-footer">
+              <div class="uitje-price">
+                <span>Vanaf</span>
+                <strong>€48 p.p.</strong>
+              </div>
+              <a href="#contact" class="btn btn-primary" onclick="smoothScroll(event, '#contact')">
+                <i data-lucide="arrow-right"></i>
+                Aanvragen
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Uitje 2 -->
+        <div class="uitje-card">
+          <div class="uitje-image">
+            <div class="uitje-badges">
+              <span class="badge badge-amber">Foodie favoriet</span>
+            </div>
+            🍽️
+          </div>
+          <div class="uitje-content">
+            <div class="uitje-meta">
+              <div class="uitje-meta-item">
+                <i data-lucide="clock"></i>
+                <span>3 uur</span>
+              </div>
+              <div class="uitje-meta-item">
+                <i data-lucide="users"></i>
+                <span>10-20 pers</span>
+              </div>
+              <div class="uitje-meta-item">
+                <i data-lucide="star"></i>
+                <span>5.0★ (31 reviews)</span>
+              </div>
+            </div>
+            <h3>Jordaan Foodtour: Proeven & Genieten</h3>
+            <p>
+              Ontdek 6 verborgen hotspots (Winkel 43, Noordermarkt, Moeders, etc.).
+              Proef lokale specialiteiten, hoor verhalen van eigenaren, en ervaar de échte Jordaan.
+            </p>
+            <div class="uitje-footer">
+              <div class="uitje-price">
+                <span>Vanaf</span>
+                <strong>€72 p.p.</strong>
+              </div>
+              <a href="#contact" class="btn btn-primary" onclick="smoothScroll(event, '#contact')">
+                <i data-lucide="arrow-right"></i>
+                Aanvragen
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Uitje 3 -->
+        <div class="uitje-card">
+          <div class="uitje-image">
+            <div class="uitje-badges">
+              <span class="badge badge-teal">Cultureel</span>
+            </div>
+            🏛️
+          </div>
+          <div class="uitje-content">
+            <div class="uitje-meta">
+              <div class="uitje-meta-item">
+                <i data-lucide="clock"></i>
+                <span>2 uur</span>
+              </div>
+              <div class="uitje-meta-item">
+                <i data-lucide="users"></i>
+                <span>8-30 pers</span>
+              </div>
+              <div class="uitje-meta-item">
+                <i data-lucide="star"></i>
+                <span>4.8★ (27 reviews)</span>
+              </div>
+            </div>
+            <h3>Anne Frank Huis + Jordaan Cultuurroute</h3>
+            <p>
+              Bezoek het Anne Frank Huis (priority access), wandel door de Jordaan met verhalen over WOII,
+              en ontdek verborgen monumenten en kunstgalerijen.
+            </p>
+            <div class="uitje-footer">
+              <div class="uitje-price">
+                <span>Vanaf</span>
+                <strong>€55 p.p.</strong>
+              </div>
+              <a href="#contact" class="btn btn-primary" onclick="smoothScroll(event, '#contact')">
+                <i data-lucide="arrow-right"></i>
+                Aanvragen
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Uitje 4 -->
+        <div class="uitje-card">
+          <div class="uitje-image">
+            <div class="uitje-badges">
+              <span class="badge badge-green">Bestseller</span>
+            </div>
+            🛍️
+          </div>
+          <div class="uitje-content">
+            <div class="uitje-meta">
+              <div class="uitje-meta-item">
+                <i data-lucide="clock"></i>
+                <span>2 uur</span>
+              </div>
+              <div class="uitje-meta-item">
+                <i data-lucide="users"></i>
+                <span>8-18 pers</span>
+              </div>
+              <div class="uitje-meta-item">
+                <i data-lucide="star"></i>
+                <span>4.9★ (22 reviews)</span>
+              </div>
+            </div>
+            <h3>9 Straatjes Shopping Safari</h3>
+            <p>
+              Verken de iconische 9 Straatjes met local shopping expert.
+              Ontdek vintage winkels, design boutiques, en verborgen juweeltjes (met 10% korting bij partners).
+            </p>
+            <div class="uitje-footer">
+              <div class="uitje-price">
+                <span>Vanaf</span>
+                <strong>€42 p.p.</strong>
+              </div>
+              <a href="#contact" class="btn btn-primary" onclick="smoothScroll(event, '#contact')">
+                <i data-lucide="arrow-right"></i>
+                Aanvragen
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Uitje 5 -->
+        <div class="uitje-card">
+          <div class="uitje-image">
+            <div class="uitje-badges">
+              <span class="badge badge-amber">Weekend special</span>
+            </div>
+            🥨
+          </div>
+          <div class="uitje-content">
+            <div class="uitje-meta">
+              <div class="uitje-meta-item">
+                <i data-lucide="clock"></i>
+                <span>2,5 uur</span>
+              </div>
+              <div class="uitje-meta-item">
+                <i data-lucide="users"></i>
+                <span>12-24 pers</span>
+              </div>
+              <div class="uitje-meta-item">
+                <i data-lucide="star"></i>
+                <span>4.7★ (18 reviews)</span>
+              </div>
+            </div>
+            <h3>Noordermarkt Experience + Brunch</h3>
+            <p>
+              Bezoek de authentieke Noordermarkt (zaterdag biologisch, maandag vintage),
+              proef lokale producten, en geniet van brunch bij Café Papeneiland (sinds 1642).
+            </p>
+            <div class="uitje-footer">
+              <div class="uitje-price">
+                <span>Vanaf</span>
+                <strong>€58 p.p.</strong>
+              </div>
+              <a href="#contact" class="btn btn-primary" onclick="smoothScroll(event, '#contact')">
+                <i data-lucide="arrow-right"></i>
+                Aanvragen
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Uitje 6 -->
+        <div class="uitje-card">
+          <div class="uitje-image">
+            <div class="uitje-badges">
+              <span class="badge badge-teal">Avonduitje</span>
+            </div>
+            🎶
+          </div>
+          <div class="uitje-content">
+            <div class="uitje-meta">
+              <div class="uitje-meta-item">
+                <i data-lucide="clock"></i>
+                <span>3 uur</span>
+              </div>
+              <div class="uitje-meta-item">
+                <i data-lucide="users"></i>
+                <span>10-22 pers</span>
+              </div>
+              <div class="uitje-meta-item">
+                <i data-lucide="star"></i>
+                <span>4.8★ (14 reviews)</span>
+              </div>
+            </div>
+            <h3>Jordaan Music & Culture Walk</h3>
+            <p>
+              Ontdek Jordaan's muzikale erfgoed (Johnny Jordaan, Jordaanliedjes),
+              bezoek iconische muziekcafés, en sluit af met live muziek bij De Twee Zwaantjes.
+            </p>
+            <div class="uitje-footer">
+              <div class="uitje-price">
+                <span>Vanaf</span>
+                <strong>€52 p.p.</strong>
+              </div>
+              <a href="#contact" class="btn btn-primary" onclick="smoothScroll(event, '#contact')">
+                <i data-lucide="arrow-right"></i>
+                Aanvragen
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials-section" id="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <h2>127+ Tevreden Bedrijven uit de Jordaan</h2>
+        <p>Lees wat onze klanten zeggen over hun Jordaan-ervaring</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <!-- Testimonial 1 -->
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+          </div>
+          <p class="testimonial-quote">
+            "Onze Jordaan Foodtour was fantastisch! De lokale gids kende écht elke steeg en gracht.
+            Wij hebben plekken ontdekt die wij als Amsterdammers nog nooit hadden gezien.
+            Het eten bij Winkel 43 en Café Chris was top. Ons team van 18 personen had een geweldige dag!"
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">SH</div>
+            <div class="testimonial-info">
+              <strong>Sarah Hendriksen</strong>
+              <span>COO, Startup Hub (Jordaan)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+          </div>
+          <p class="testimonial-quote">
+            "De Anne Frank + Jordaan Cultuurroute was indrukwekkend. Onze internationale collega's
+            (6 nationaliteiten!) waren diep geraakt door de verhalen. De gids sprak perfect Engels
+            én Nederlands. Aanrader voor iedereen die de Jordaan écht wil leren kennen."
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">MV</div>
+            <div class="testimonial-info">
+              <strong>Michael van der Berg</strong>
+              <span>HR Manager, TechBedrijf NL (Centrum)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+          </div>
+          <p class="testimonial-quote">
+            "Wij hadden slechts 10 dagen voor ons teamuitje en Huisbrand regelde alles binnen 48u.
+            De Grachtenwandeling + Borrel bij Café Chris was perfect: relaxed, gezellig,
+            en super informatief. 22 personen, geen stress, alles geregeld. Top service!"
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">LP</div>
+            <div class="testimonial-info">
+              <strong>Lisa Pieters</strong>
+              <span>Creative Director, Design Studio (Jordaan)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nearby Wijken Section -->
+  <section class="nearby-wijken-section" id="wijken">
+    <div class="container">
+      <div class="section-header">
+        <h2>Ook uitjes in andere Amsterdam wijken</h2>
+        <p>Verken heel Amsterdam met onze lokale experts per wijk</p>
+      </div>
+
+      <div class="wijken-tabs">
+        <button class="wijk-tab active" data-wijk="centrum">Centrum</button>
+        <button class="wijk-tab" data-wijk="depijp">De Pijp</button>
+        <button class="wijk-tab" data-wijk="noord">Noord</button>
+        <button class="wijk-tab" data-wijk="oost">Oost</button>
+      </div>
+
+      <!-- Centrum Content -->
+      <div class="wijk-content active" data-wijk-content="centrum">
+        <div class="wijk-uitjes-grid">
+          <div class="uitje-card">
+            <div class="uitje-image">🏛️</div>
+            <div class="uitje-content">
+              <h3>Centrum Highlights Tour</h3>
+              <p>Dam, Paleis, Nieuwe Kerk — de iconen van Amsterdam</p>
+              <div class="uitje-footer">
+                <div class="uitje-price">
+                  <span>Vanaf</span>
+                  <strong>€45 p.p.</strong>
+                </div>
+                <a href="#contact" class="btn btn-primary">Aanvragen</a>
+              </div>
+            </div>
+          </div>
+          <div class="uitje-card">
+            <div class="uitje-image">🍻</div>
+            <div class="uitje-content">
+              <h3>Bruine Cafés Rondleiding</h3>
+              <p>De oudste en gezelligste cafés van het Centrum</p>
+              <div class="uitje-footer">
+                <div class="uitje-price">
+                  <span>Vanaf</span>
+                  <strong>€52 p.p.</strong>
+                </div>
+                <a href="#contact" class="btn btn-primary">Aanvragen</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- De Pijp Content -->
+      <div class="wijk-content" data-wijk-content="depijp">
+        <div class="wijk-uitjes-grid">
+          <div class="uitje-card">
+            <div class="uitje-image">🥘</div>
+            <div class="uitje-content">
+              <h3>Albert Cuyp Foodtour</h3>
+              <p>De grootste markt van Amsterdam met 20+ proeverijen</p>
+              <div class="uitje-footer">
+                <div class="uitje-price">
+                  <span>Vanaf</span>
+                  <strong>€68 p.p.</strong>
+                </div>
+                <a href="#contact" class="btn btn-primary">Aanvragen</a>
+              </div>
+            </div>
+          </div>
+          <div class="uitje-card">
+            <div class="uitje-image">🍺</div>
+            <div class="uitje-content">
+              <h3>Heineken Experience + De Pijp Tour</h3>
+              <p>Bierproeverij + rondleiding door de hipste wijk</p>
+              <div class="uitje-footer">
+                <div class="uitje-price">
+                  <span>Vanaf</span>
+                  <strong>€72 p.p.</strong>
+                </div>
+                <a href="#contact" class="btn btn-primary">Aanvragen</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Noord Content -->
+      <div class="wijk-content" data-wijk-content="noord">
+        <div class="wijk-uitjes-grid">
+          <div class="uitje-card">
+            <div class="uitje-image">🎨</div>
+            <div class="uitje-content">
+              <h3>Noord Streetart Tour</h3>
+              <p>De grootste streetart hotspot van Nederland</p>
+              <div class="uitje-footer">
+                <div class="uitje-price">
+                  <span>Vanaf</span>
+                  <strong>€48 p.p.</strong>
+                </div>
+                <a href="#contact" class="btn btn-primary">Aanvragen</a>
+              </div>
+            </div>
+          </div>
+          <div class="uitje-card">
+            <div class="uitje-image">🚲</div>
+            <div class="uitje-content">
+              <h3>Waterland Fietstocht</h3>
+              <p>Natuur & polders — 20km buiten de stad</p>
+              <div class="uitje-footer">
+                <div class="uitje-price">
+                  <span>Vanaf</span>
+                  <strong>€58 p.p.</strong>
+                </div>
+                <a href="#contact" class="btn btn-primary">Aanvragen</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Oost Content -->
+      <div class="wijk-content" data-wijk-content="oost">
+        <div class="wijk-uitjes-grid">
+          <div class="uitje-card">
+            <div class="uitje-image">🌳</div>
+            <div class="uitje-content">
+              <h3>Park Oost Picknick + Wandeling</h3>
+              <p>Ontdek Oosterpark, Tropenmuseum en Dappermarkt</p>
+              <div class="uitje-footer">
+                <div class="uitje-price">
+                  <span>Vanaf</span>
+                  <strong>€52 p.p.</strong>
+                </div>
+                <a href="#contact" class="btn btn-primary">Aanvragen</a>
+              </div>
+            </div>
+          </div>
+          <div class="uitje-card">
+            <div class="uitje-image">🌍</div>
+            <div class="uitje-content">
+              <h3>Multicultureel Oost Foodtour</h3>
+              <p>Proef de wereld: Surinaams, Turks, Marokkaans, etc.</p>
+              <div class="uitje-footer">
+                <div class="uitje-price">
+                  <span>Vanaf</span>
+                  <strong>€65 p.p.</strong>
+                </div>
+                <a href="#contact" class="btn btn-primary">Aanvragen</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partnerships -->
+  <section class="partnerships-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Samenwerking met 40+ lokale partners</h2>
+        <p>Van restaurants tot musea — wij zorgen voor de beste deals</p>
+      </div>
+      <div class="partnerships-grid">
+        <div class="partner-logo">🏛️</div>
+        <div class="partner-logo">🍴</div>
+        <div class="partner-logo">🎭</div>
+        <div class="partner-logo">🚤</div>
+        <div class="partner-logo">🎨</div>
+        <div class="partner-logo">☕</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Section -->
+  <section class="blog-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Ontdek meer over de Jordaan</h2>
+        <p>Tips, verhalen en insider info van onze lokale experts</p>
+      </div>
+
+      <div class="blog-grid">
+        <div class="blog-card">
+          <div class="blog-image">📖</div>
+          <div class="blog-content">
+            <div class="blog-meta">
+              <span>5 min leestijd</span>
+              <span>•</span>
+              <span>12 mrt 2026</span>
+            </div>
+            <h4>10 Verborgen Juweeltjes in de Jordaan</h4>
+            <p>Ontdek de plekken die zelfs de meeste Amsterdammers niet kennen...</p>
+          </div>
+        </div>
+        <div class="blog-card">
+          <div class="blog-image">🍽️</div>
+          <div class="blog-content">
+            <div class="blog-meta">
+              <span>7 min leestijd</span>
+              <span>•</span>
+              <span>8 mrt 2026</span>
+            </div>
+            <h4>Beste Restaurants in de Jordaan voor Groepen</h4>
+            <p>Onze top 8 locaties voor teamdiners en borrels met 12+ personen...</p>
+          </div>
+        </div>
+        <div class="blog-card">
+          <div class="blog-image">🏛️</div>
+          <div class="blog-content">
+            <div class="blog-meta">
+              <span>4 min leestijd</span>
+              <span>•</span>
+              <span>3 mrt 2026</span>
+            </div>
+            <h4>De Geschiedenis van de Jordaan in 5 Verhalen</h4>
+            <p>Van arbeiderswijk tot hipste buurt van Amsterdam...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <h2>Veelgestelde Vragen over Jordaan Uitjes</h2>
+        <p>Alles wat je moet weten voordat je boekt</p>
+      </div>
+
+      <div class="faq-container">
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Hoe parkeren in de Jordaan?</span>
+            <i data-lucide="chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Parkeren in de Jordaan is beperkt en betaald (€5-€6 per uur). Wij adviseren om met OV te komen:
+              tramlijn 13, 14, 17 stoppen direct in de Jordaan. Alternatieven: P+R Sloterdijk (€8/dag) + tram 19,
+              of fiets/elektrische bakfiets huren (wij regelen dit graag voor jullie groep).
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Zijn de uitjes toegankelijk voor alle leeftijden?</span>
+            <i data-lucide="chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Ja! De meeste Jordaan-uitjes zijn geschikt voor alle leeftijden.
+              Grachtenwandelingen, foodtours en cultuurroutes zijn laagdrempelig en toegankelijk.
+              Voor specifieke vragen over mobiliteit of fysieke inspanning: bel ons, dan adviseren we persoonlijk.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Kunnen jullie catering regelen in de Jordaan?</span>
+            <i data-lucide="chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Absoluut! Wij werken samen met 12+ Jordaan restaurants en cafés (zoals Café Chris, Winkel 43, De Reiger).
+              Van borrelplanken tot 3-gangenmenu's, alles is mogelijk. Wij kennen alle eigenaren persoonlijk
+              en krijgen altijd priority seating.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Wat is de beste tijd voor een Jordaan-uitje?</span>
+            <i data-lucide="chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              De Jordaan is het hele jaar door mooi! Lente/zomer (apr-sep): terrasjes en buitenactiviteiten.
+              Herfst/winter (okt-mrt): gezellige cafés en indoor uitjes.
+              Zaterdag ochtend is speciaal: biologische Noordermarkt (09:00-16:00).
+              Maandag is vintagedag op Noordermarkt (09:00-13:00).
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Hoe snel krijgen wij bevestiging?</span>
+            <i data-lucide="chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Wij garanderen bevestiging binnen 48 uur na aanvraag. In 90% van de gevallen hoor je binnen 4 uur van ons.
+              Spoed aanvragen (binnen 2 weken): bel ons direct op +31 20 123 45 67,
+              dan regelen we het binnen enkele uren.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Wat als het slecht weer is?</span>
+            <i data-lucide="chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              De meeste Jordaan-uitjes zijn all-weather. Bij wandelingen verstrekken wij gratis paraplu's/regenponchos.
+              Alternatieven bij echt slecht weer: indoor foodtours (markthallen), museumbezoeken (Anne Frank, Woonbootmuseum),
+              of café-hopping. Wij denken altijd mee om jullie uitje perfect te maken!
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Spreken jullie gidsen Engels?</span>
+            <i data-lucide="chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Ja! Al onze Jordaan-gidsen spreken vloeiend Nederlands én Engels.
+              Voor internationale teams bieden wij tweetalige tours aan (gemengde groepen).
+              Op aanvraag ook Duits, Frans of Spaans (wel 2 weken van tevoren aanvragen).
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Wat is jullie annuleringsbeleid?</span>
+            <i data-lucide="chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Tot 14 dagen voor het uitje: gratis annuleren of verplaatsen.
+              7-14 dagen voor: 25% kosten.
+              3-7 dagen voor: 50% kosten.
+              Binnen 3 dagen: 100% kosten.
+              Bij overmacht (ziekte, corona, etc.): altijd coulanceregeling.
+              Wij denken graag met je mee!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section" id="contact">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Klaar voor jullie Jordaan-avontuur?</h2>
+        <p>
+          Vraag binnen 2 minuten een gratis offerte aan.
+          Wij nemen binnen 4 uur contact op met een persoonlijk advies.
+        </p>
+        <form class="cta-form">
+          <input type="email" placeholder="Jouw e-mailadres" required>
+          <button type="submit" class="btn btn-primary">
+            <i data-lucide="arrow-right"></i>
+            Gratis offerte
+          </button>
+        </form>
+        <p class="cta-trust">
+          Of bel direct: <strong>+31 20 123 45 67</strong> (ma-vr 09:00-18:00)
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>Huisbrand Events</h4>
+          <p>
+            Jouw lokale partner voor unieke teamuitjes in Amsterdam.
+            Wij kennen elke wijk, gracht en steeg — en delen dat graag met jullie team.
+          </p>
+          <p>
+            <strong>KvK:</strong> 12345678<br>
+            <strong>BTW:</strong> NL123456789B01
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Uitjes per wijk</h4>
+          <ul>
+            <li><a href="/amsterdam">Amsterdam overzicht</a></li>
+            <li><a href="/amsterdam/jordaan">Jordaan</a></li>
+            <li><a href="/amsterdam/centrum">Centrum</a></li>
+            <li><a href="/amsterdam/de-pijp">De Pijp</a></li>
+            <li><a href="/amsterdam/noord">Noord</a></li>
+            <li><a href="/amsterdam/oost">Oost</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Service</h4>
+          <ul>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/offerte-aanvragen">Offerte aanvragen</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/reviews">Reviews</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li>Prinsengracht 263</li>
+            <li>1016 GV Amsterdam (Jordaan)</li>
+            <li><a href="tel:+31201234567">+31 20 123 45 67</a></li>
+            <li><a href="mailto:jordaan@huisbrand.nl">jordaan@huisbrand.nl</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Huisbrand Events. Alle rechten voorbehouden. <a href="/privacy">Privacy</a> | <a href="/voorwaarden">Voorwaarden</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Sticky CTA -->
+  <div class="mobile-sticky-cta">
+    <a href="#contact" class="btn btn-primary" onclick="smoothScroll(event, '#contact')">
+      <i data-lucide="arrow-right"></i>
+      Gratis offerte aanvragen
+    </a>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Quiz functionality
+    let currentStep = 1;
+    const quizAnswers = {};
+
+    document.querySelectorAll('.quiz-option').forEach(option => {
+      option.addEventListener('click', () => {
+        const step = option.closest('.quiz-step').dataset.step;
+        const answer = option.dataset.answer;
+
+        quizAnswers[`step${step}`] = answer;
+
+        // Move to next step
+        if (currentStep < 4) {
+          document.querySelector(`.quiz-step[data-step="${currentStep}"]`).classList.remove('active');
+          currentStep++;
+          document.querySelector(`.quiz-step[data-step="${currentStep}"]`).classList.add('active');
+
+          // Update progress dots
+          document.querySelectorAll('.quiz-dot').forEach((dot, index) => {
+            if (index < currentStep) {
+              dot.classList.add('active');
+            } else {
+              dot.classList.remove('active');
+            }
+          });
+        } else {
+          // Show result
+          document.querySelector(`.quiz-step[data-step="4"]`).classList.remove('active');
+          document.querySelector('.quiz-result').classList.add('active');
+          document.querySelector('.quiz-progress').style.display = 'none';
+
+          console.log('Quiz completed:', quizAnswers);
+        }
+
+        lucide.createIcons();
+      });
+    });
+
+    // Video play functionality
+    function playVideo() {
+      alert('Video would play here (YouTube/Vimeo embed in production)');
+    }
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.closest('.faq-item');
+        const wasActive = item.classList.contains('active');
+
+        // Close all items
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+        // Toggle current item
+        if (!wasActive) {
+          item.classList.add('active');
+        }
+      });
+    });
+
+    // Wijk tabs
+    document.querySelectorAll('.wijk-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const wijkId = tab.dataset.wijk;
+
+        // Update active tab
+        document.querySelectorAll('.wijk-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        // Update active content
+        document.querySelectorAll('.wijk-content').forEach(c => c.classList.remove('active'));
+        document.querySelector(`.wijk-content[data-wijk-content="${wijkId}"]`).classList.add('active');
+      });
+    });
+
+    // Map filters
+    document.querySelectorAll('.map-filter').forEach(filter => {
+      filter.addEventListener('click', () => {
+        document.querySelectorAll('.map-filter').forEach(f => f.classList.remove('active'));
+        filter.classList.add('active');
+
+        const filterType = filter.dataset.filter;
+        console.log('Filter map by:', filterType);
+        // In production: filter Google Maps markers
+      });
+    });
+
+    // Smooth scroll
+    function smoothScroll(e, target) {
+      e.preventDefault();
+      document.querySelector(target).scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+
+    // CTA form submission
+    document.querySelector('.cta-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = e.target.querySelector('input').value;
+      alert(`Bedankt! We nemen binnen 4 uur contact op met ${email}`);
+      // In production: send to backend/CRM
+    });
+  </script>
+</body>
+</html>

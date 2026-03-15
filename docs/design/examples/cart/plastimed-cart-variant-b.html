@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plastimed — Winkelwagen (Variant B: Visueel)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a2647;
+    --navy-deep: #061a33;
+    --navy-light: #0d3059;
+    --teal: #00897b;
+    --teal-light: #26a69a;
+    --teal-dark: #00695c;
+    --teal-bg: #e0f2f1;
+    --coral: #e94560;
+    --bg: #f8f9fb;
+    --white: #ffffff;
+    --gray-50: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-400: #94a3b8;
+    --gray-500: #64748b;
+    --gray-600: #475569;
+    --gray-700: #334155;
+    --text: #1e293b;
+    --green: #16a34a;
+    --green-bg: #f0fdf4;
+    --green-border: #bbf7d0;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --shadow-sm: 0 1px 3px rgba(10,38,71,0.06);
+    --shadow-md: 0 4px 20px rgba(10,38,71,0.08);
+    --shadow-lg: 0 8px 32px rgba(10,38,71,0.1);
+    --font: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    --font-display: 'DM Serif Display', Georgia, serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* ─── TOPBAR ─── */
+  .topbar {
+    background: var(--navy-deep);
+    color: rgba(255,255,255,0.7);
+    font-size: 12px; padding: 8px 0; letter-spacing: 0.02em;
+  }
+  .topbar .container { display: flex; justify-content: space-between; align-items: center; }
+  .topbar-left { display: flex; gap: 24px; }
+  .topbar-right { display: flex; gap: 16px; }
+  .topbar-right a { color: rgba(255,255,255,0.7); text-decoration: none; }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--navy); padding: 16px 0;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+  }
+  .header .container { display: flex; align-items: center; gap: 32px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-icon {
+    width: 38px; height: 38px; background: var(--teal);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 18px;
+  }
+  .logo-text { color: white; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .logo-text span { color: var(--teal-light); }
+  .search-bar { flex: 1; max-width: 500px; position: relative; }
+  .search-bar input {
+    width: 100%; padding: 10px 16px 10px 40px;
+    border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08); color: white;
+    font-family: var(--font); font-size: 14px; outline: none;
+  }
+  .search-bar input::placeholder { color: rgba(255,255,255,0.45); }
+  .search-bar .s-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.4); }
+  .header-actions { display: flex; gap: 8px; margin-left: auto; }
+  .header-btn {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+    color: white; padding: 8px 14px; border-radius: var(--radius-sm);
+    cursor: pointer; font-size: 14px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* ─── STEP INDICATOR ─── */
+  .step-bar {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 20px 0;
+  }
+  .steps {
+    display: flex; align-items: center; justify-content: center; gap: 0;
+    max-width: 600px; margin: 0 auto;
+  }
+  .step {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 600;
+    color: var(--gray-400);
+  }
+  .step.active { color: var(--teal); }
+  .step.active .step-num { background: var(--teal); color: white; border-color: var(--teal); }
+  .step.done { color: var(--green); }
+  .step.done .step-num { background: var(--green); color: white; border-color: var(--green); }
+  .step-num {
+    width: 30px; height: 30px;
+    border: 2px solid var(--gray-300);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800;
+    flex-shrink: 0;
+  }
+  .step-line {
+    width: 60px; height: 2px;
+    background: var(--gray-200);
+    margin: 0 12px;
+  }
+  .step-line.done { background: var(--green); }
+
+  /* ─── PAGE HEADER ─── */
+  .page-section { padding: 32px 0 60px; }
+  .page-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 28px;
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-size: 36px; color: var(--navy);
+    line-height: 1.1;
+  }
+  .page-subtitle {
+    font-size: 14px; color: var(--gray-500); margin-top: 6px;
+  }
+  .header-links { display: flex; gap: 16px; }
+  .header-link {
+    font-size: 13px; color: var(--teal); font-weight: 600;
+    text-decoration: none; padding: 8px 16px;
+    border: 1.5px solid var(--teal); border-radius: var(--radius-sm);
+    transition: all 0.2s;
+  }
+  .header-link:hover { background: var(--teal); color: white; }
+  .header-link.ghost { border-color: var(--gray-300); color: var(--gray-600); }
+  .header-link.ghost:hover { border-color: var(--navy); color: var(--navy); background: transparent; }
+
+  /* ─── LAYOUT ─── */
+  .cart-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* ─── PRODUCT CARDS ─── */
+  .product-cards { display: flex; flex-direction: column; gap: 16px; }
+
+  .product-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+    transition: all 0.2s;
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    box-shadow: var(--shadow-sm);
+  }
+  .product-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--gray-300);
+  }
+
+  .card-img {
+    width: 120px;
+    height: 100%;
+    min-height: 140px;
+    background: linear-gradient(135deg, var(--gray-50), var(--gray-100));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 44px;
+    border-right: 1px solid var(--gray-100);
+    position: relative;
+  }
+  .card-img .sale-tag {
+    position: absolute;
+    top: 10px; left: 10px;
+    background: var(--coral);
+    color: white;
+    font-size: 10px; font-weight: 800;
+    padding: 3px 8px; border-radius: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  .card-body {
+    padding: 20px 24px;
+    display: flex; flex-direction: column; justify-content: center;
+    min-width: 0;
+  }
+  .card-brand {
+    font-size: 10px; font-weight: 700; color: var(--teal);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .card-name {
+    font-size: 16px; font-weight: 700; color: var(--navy);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .card-sku { font-size: 11px; color: var(--gray-400); margin-bottom: 8px; }
+  .card-meta {
+    display: flex; gap: 16px; align-items: center;
+    flex-wrap: wrap;
+  }
+  .card-stock {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 12px; font-weight: 600;
+    color: var(--green);
+  }
+  .card-stock .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+  }
+  .card-delivery {
+    font-size: 12px; color: var(--gray-500);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .card-wishlist {
+    font-size: 12px; color: var(--gray-400);
+    text-decoration: none; cursor: pointer;
+    transition: color 0.15s;
+    background: none; border: none; font-family: var(--font);
+  }
+  .card-wishlist:hover { color: var(--coral); }
+
+  .card-actions {
+    padding: 20px 24px;
+    display: flex; flex-direction: column;
+    align-items: flex-end; justify-content: center;
+    gap: 12px;
+    border-left: 1px solid var(--gray-100);
+    min-width: 160px;
+  }
+  .card-price {
+    text-align: right;
+  }
+  .card-price .current {
+    font-size: 20px; font-weight: 800; color: var(--navy);
+    display: block;
+  }
+  .card-price .old {
+    font-size: 12px; color: var(--gray-400);
+    text-decoration: line-through;
+  }
+  .card-price .unit {
+    font-size: 11px; color: var(--gray-400);
+    display: block; margin-top: 2px;
+  }
+
+  .card-qty {
+    display: flex; align-items: center;
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .card-qty-btn {
+    width: 36px; height: 36px;
+    background: var(--gray-50); border: none;
+    font-size: 16px; color: var(--gray-600);
+    cursor: pointer; transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card-qty-btn:hover { background: var(--gray-200); }
+  .card-qty-val {
+    width: 44px; height: 36px;
+    text-align: center; border: none;
+    border-left: 1px solid var(--gray-200);
+    border-right: 1px solid var(--gray-200);
+    font-family: var(--font); font-size: 14px; font-weight: 700;
+    color: var(--text); outline: none;
+  }
+
+  .card-subtotal {
+    font-size: 11px; color: var(--gray-500);
+    text-align: right;
+  }
+  .card-subtotal strong {
+    color: var(--navy); font-size: 14px;
+  }
+
+  .card-remove {
+    background: none; border: none;
+    color: var(--gray-300); font-size: 12px;
+    cursor: pointer; font-family: var(--font);
+    transition: color 0.15s;
+  }
+  .card-remove:hover { color: var(--coral); }
+
+  /* ─── COUPON BAR ─── */
+  .coupon-bar {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: var(--shadow-sm);
+    margin-top: 8px;
+  }
+  .coupon-form { display: flex; gap: 8px; }
+  .coupon-input {
+    padding: 10px 16px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 13px;
+    width: 220px; outline: none;
+  }
+  .coupon-input:focus { border-color: var(--teal); }
+  .coupon-btn {
+    padding: 10px 20px;
+    background: var(--navy); color: white;
+    border: none; border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 13px; font-weight: 600;
+    cursor: pointer;
+  }
+  .coupon-btn:hover { background: var(--navy-light); }
+  .continue-link {
+    font-size: 13px; color: var(--teal); font-weight: 600;
+    text-decoration: none;
+  }
+
+  /* ─── SIDEBAR ─── */
+  .sidebar { position: sticky; top: 90px; display: flex; flex-direction: column; gap: 16px; }
+
+  /* Shipping progress */
+  .shipping-card {
+    background: var(--green-bg);
+    border: 1px solid var(--green-border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .shipping-top {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 10px;
+  }
+  .shipping-icon { font-size: 20px; }
+  .shipping-text { font-size: 13px; color: var(--green); font-weight: 600; }
+  .shipping-progress {
+    height: 6px; background: rgba(22,163,74,0.15);
+    border-radius: 3px; overflow: hidden;
+  }
+  .shipping-fill {
+    height: 100%; width: 100%; background: var(--green);
+    border-radius: 3px;
+  }
+  .shipping-note {
+    font-size: 11px; color: var(--green); margin-top: 6px;
+    font-weight: 600; text-align: center;
+  }
+
+  /* Summary card */
+  .summary-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  .summary-head {
+    background: var(--navy);
+    padding: 18px 24px;
+    color: white;
+  }
+  .summary-head h3 {
+    font-family: var(--font-display);
+    font-size: 20px;
+  }
+  .summary-body { padding: 24px; }
+  .sum-row {
+    display: flex; justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px; color: var(--gray-600);
+  }
+  .sum-row .val { font-weight: 600; color: var(--text); }
+  .sum-row.discount .val { color: var(--green); }
+  .sum-row.shipping .val { color: var(--green); font-weight: 700; }
+  .sum-divider { height: 1px; background: var(--gray-200); margin: 8px 0; }
+  .sum-total {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 16px 0 4px;
+  }
+  .sum-total .label { font-size: 16px; font-weight: 700; color: var(--navy); }
+  .sum-total .total-val {
+    font-family: var(--font-display);
+    font-size: 32px; color: var(--navy);
+  }
+  .sum-vat {
+    text-align: right; font-size: 11px; color: var(--gray-400);
+    margin-bottom: 20px;
+  }
+
+  .checkout-btn {
+    width: 100%; padding: 16px;
+    background: var(--teal); color: white; border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 16px; font-weight: 700;
+    cursor: pointer; transition: all 0.25s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    position: relative; overflow: hidden;
+  }
+  .checkout-btn:hover {
+    background: var(--teal-dark);
+    box-shadow: 0 6px 20px rgba(0,137,123,0.3);
+    transform: translateY(-1px);
+  }
+  .checkout-btn::after {
+    content: ''; position: absolute;
+    top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+    transition: left 0.5s;
+  }
+  .checkout-btn:hover::after { left: 100%; }
+
+  .alt-checkout {
+    width: 100%;
+    padding: 12px;
+    background: var(--navy);
+    color: white; border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    margin-top: 8px;
+  }
+  .alt-checkout:hover { background: var(--navy-light); }
+
+  .payment-strip {
+    display: flex; justify-content: center; gap: 6px;
+    padding-top: 16px;
+  }
+  .pay-badge {
+    padding: 3px 8px; border-radius: 4px;
+    background: var(--gray-100); font-size: 10px;
+    font-weight: 700; color: var(--gray-500);
+    letter-spacing: 0.02em;
+  }
+
+  /* Trust card */
+  .trust-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    padding: 18px 20px;
+  }
+  .trust-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .trust-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--gray-600); font-weight: 600;
+  }
+  .trust-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--teal-bg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+
+  /* ─── RECENTLY VIEWED ─── */
+  .recently-viewed {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--gray-200);
+  }
+  .rv-title {
+    font-family: var(--font-display);
+    font-size: 22px; color: var(--navy);
+    margin-bottom: 20px;
+  }
+  .rv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .rv-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    padding: 16px;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .rv-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--teal-light);
+  }
+  .rv-img {
+    width: 60px; height: 60px; margin: 0 auto 10px;
+    background: var(--gray-100); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+  }
+  .rv-brand {
+    font-size: 10px; font-weight: 700; color: var(--teal);
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .rv-name { font-size: 13px; font-weight: 600; color: var(--text); margin: 4px 0; }
+  .rv-price { font-size: 14px; font-weight: 800; color: var(--navy); }
+  .rv-add {
+    margin-top: 8px;
+    padding: 6px 14px;
+    background: var(--teal); color: white;
+    border: none; border-radius: 6px;
+    font-family: var(--font); font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .rv-add:hover { background: var(--teal-dark); }
+
+  @media (max-width: 900px) {
+    .cart-layout { grid-template-columns: 1fr; }
+    .product-card { grid-template-columns: 80px 1fr; }
+    .card-actions { flex-direction: row; border-left: none; border-top: 1px solid var(--gray-100); grid-column: 1/-1; min-width: auto; }
+    .rv-grid { grid-template-columns: 1fr 1fr; }
+    .steps { gap: 0; font-size: 11px; }
+    .step-line { width: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-left">
+      <span>✓ Voordelige B2B prijzen</span>
+      <span>🚚 Gratis verzending vanaf €150</span>
+      <span>🔒 Veilig & achteraf betalen</span>
+    </div>
+    <div class="topbar-right">
+      <a href="#">Klant worden</a>
+      <a href="#">Help & Contact</a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="container">
+    <a href="#" class="logo">
+      <div class="logo-icon">P</div>
+      <div class="logo-text">plasti<span>med</span></div>
+    </a>
+    <div class="search-bar">
+      <span class="s-icon">🔍</span>
+      <input type="text" placeholder="Zoek op product, merk of artikelnummer...">
+    </div>
+    <div class="header-actions">
+      <button class="header-btn">📞 0251-247233</button>
+      <button class="header-btn">♡</button>
+      <button class="header-btn">👤</button>
+      <button class="header-btn">🛒 <span style="background:var(--coral);padding:1px 7px;border-radius:10px;font-size:11px;margin-left:4px;">5</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP INDICATOR -->
+<div class="step-bar">
+  <div class="steps">
+    <div class="step active">
+      <div class="step-num">1</div>
+      Winkelwagen
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-num">2</div>
+      Gegevens
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-num">3</div>
+      Betaling
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-num">4</div>
+      Bevestiging
+    </div>
+  </div>
+</div>
+
+<div class="container page-section">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Uw winkelwagen</h1>
+      <p class="page-subtitle">5 artikelen — Laatst bijgewerkt 2 minuten geleden</p>
+    </div>
+    <div class="header-links">
+      <a href="#" class="header-link ghost">📋 Quick-order</a>
+      <a href="#" class="header-link ghost">← Verder winkelen</a>
+    </div>
+  </div>
+
+  <!-- CART LAYOUT -->
+  <div class="cart-layout">
+
+    <!-- LEFT: PRODUCT CARDS -->
+    <div>
+      <div class="product-cards">
+
+        <!-- Card 1 -->
+        <div class="product-card">
+          <div class="card-img">🩺</div>
+          <div class="card-body">
+            <div class="card-brand">Hartmann</div>
+            <div class="card-name">Tensoval Comfort Bloeddrukmeter — Bovenarm</div>
+            <div class="card-sku">Art. 900185 · EAN 4049500105125</div>
+            <div class="card-meta">
+              <span class="card-stock"><span class="dot"></span> Op voorraad</span>
+              <span class="card-delivery">📦 Morgen geleverd</span>
+              <button class="card-wishlist">♡ Bewaren</button>
+            </div>
+          </div>
+          <div class="card-actions">
+            <div class="card-price">
+              <span class="current">€89,95</span>
+              <span class="unit">per stuk</span>
+            </div>
+            <div class="card-qty">
+              <button class="card-qty-btn">−</button>
+              <input type="number" class="card-qty-val" value="1">
+              <button class="card-qty-btn">+</button>
+            </div>
+            <div class="card-subtotal">Subtotaal: <strong>€89,95</strong></div>
+            <button class="card-remove">✕ Verwijderen</button>
+          </div>
+        </div>
+
+        <!-- Card 2 (with sale) -->
+        <div class="product-card">
+          <div class="card-img">
+            🧤
+            <span class="sale-tag">−15%</span>
+          </div>
+          <div class="card-body">
+            <div class="card-brand">Medline</div>
+            <div class="card-name">Nitril Handschoenen Poedervrij Maat M</div>
+            <div class="card-sku">Art. 942210 · 100 stuks per doos</div>
+            <div class="card-meta">
+              <span class="card-stock"><span class="dot"></span> Op voorraad</span>
+              <span class="card-delivery">📦 Morgen geleverd</span>
+              <button class="card-wishlist">♡ Bewaren</button>
+            </div>
+          </div>
+          <div class="card-actions">
+            <div class="card-price">
+              <span class="current">€8,95</span>
+              <span class="old">€10,50</span>
+              <span class="unit">per doos</span>
+            </div>
+            <div class="card-qty">
+              <button class="card-qty-btn">−</button>
+              <input type="number" class="card-qty-val" value="3">
+              <button class="card-qty-btn">+</button>
+            </div>
+            <div class="card-subtotal">Subtotaal: <strong>€26,85</strong></div>
+            <button class="card-remove">✕ Verwijderen</button>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="product-card">
+          <div class="card-img">💉</div>
+          <div class="card-body">
+            <div class="card-brand">BD</div>
+            <div class="card-name">Discardit II Injectiespuit 10ml Luer</div>
+            <div class="card-sku">Art. 309110 · 100 stuks per doos</div>
+            <div class="card-meta">
+              <span class="card-stock"><span class="dot"></span> Op voorraad</span>
+              <span class="card-delivery">📦 Morgen geleverd</span>
+              <button class="card-wishlist">♡ Bewaren</button>
+            </div>
+          </div>
+          <div class="card-actions">
+            <div class="card-price">
+              <span class="current">€4,25</span>
+              <span class="unit">per doos</span>
+            </div>
+            <div class="card-qty">
+              <button class="card-qty-btn">−</button>
+              <input type="number" class="card-qty-val" value="2">
+              <button class="card-qty-btn">+</button>
+            </div>
+            <div class="card-subtotal">Subtotaal: <strong>€8,50</strong></div>
+            <button class="card-remove">✕ Verwijderen</button>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="product-card">
+          <div class="card-img">🩹</div>
+          <div class="card-body">
+            <div class="card-brand">BSN Medical</div>
+            <div class="card-name">Leukoplast Professional Wondpleister 5m × 2,5cm</div>
+            <div class="card-sku">Art. 76174</div>
+            <div class="card-meta">
+              <span class="card-stock"><span class="dot"></span> Op voorraad</span>
+              <span class="card-delivery">📦 Morgen geleverd</span>
+              <button class="card-wishlist">♡ Bewaren</button>
+            </div>
+          </div>
+          <div class="card-actions">
+            <div class="card-price">
+              <span class="current">€6,50</span>
+              <span class="unit">per stuk</span>
+            </div>
+            <div class="card-qty">
+              <button class="card-qty-btn">−</button>
+              <input type="number" class="card-qty-val" value="1">
+              <button class="card-qty-btn">+</button>
+            </div>
+            <div class="card-subtotal">Subtotaal: <strong>€6,50</strong></div>
+            <button class="card-remove">✕ Verwijderen</button>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="product-card">
+          <div class="card-img">🧴</div>
+          <div class="card-body">
+            <div class="card-brand">Clinhand</div>
+            <div class="card-name">Handdesinfectie Gel 500ml — Aloë Vera</div>
+            <div class="card-sku">Art. CH500</div>
+            <div class="card-meta">
+              <span class="card-stock"><span class="dot"></span> Op voorraad</span>
+              <span class="card-delivery">📦 Morgen geleverd</span>
+              <button class="card-wishlist">♡ Bewaren</button>
+            </div>
+          </div>
+          <div class="card-actions">
+            <div class="card-price">
+              <span class="current">€5,75</span>
+              <span class="unit">per stuk</span>
+            </div>
+            <div class="card-qty">
+              <button class="card-qty-btn">−</button>
+              <input type="number" class="card-qty-val" value="4">
+              <button class="card-qty-btn">+</button>
+            </div>
+            <div class="card-subtotal">Subtotaal: <strong>€23,00</strong></div>
+            <button class="card-remove">✕ Verwijderen</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Coupon bar -->
+      <div class="coupon-bar">
+        <div class="coupon-form">
+          <input type="text" class="coupon-input" placeholder="Kortingscode invoeren...">
+          <button class="coupon-btn">Toepassen</button>
+        </div>
+        <a href="#" class="continue-link">← Verder winkelen</a>
+      </div>
+    </div>
+
+    <!-- RIGHT: SIDEBAR -->
+    <div class="sidebar">
+
+      <!-- Shipping progress -->
+      <div class="shipping-card">
+        <div class="shipping-top">
+          <span class="shipping-icon">🎉</span>
+          <span class="shipping-text">Gratis verzending bereikt!</span>
+        </div>
+        <div class="shipping-progress"><div class="shipping-fill"></div></div>
+        <div class="shipping-note">✓ Uw bestelling wordt gratis verzonden</div>
+      </div>
+
+      <!-- Summary -->
+      <div class="summary-card">
+        <div class="summary-head">
+          <h3>Besteloverzicht</h3>
+        </div>
+        <div class="summary-body">
+          <div class="sum-row">
+            <span>Subtotaal (11 items)</span>
+            <span class="val">€154,80</span>
+          </div>
+          <div class="sum-row discount">
+            <span>Korting handschoenen</span>
+            <span class="val">−€4,65</span>
+          </div>
+          <div class="sum-row shipping">
+            <span>Verzending</span>
+            <span class="val">Gratis</span>
+          </div>
+          <div class="sum-divider"></div>
+          <div class="sum-total">
+            <span class="label">Totaal</span>
+            <span class="total-val">€150,15</span>
+          </div>
+          <div class="sum-vat">Inclusief €26,07 BTW</div>
+
+          <button class="checkout-btn">
+            🔒 Doorgaan naar betaling
+          </button>
+          <button class="alt-checkout">
+            📋 Offerte aanvragen
+          </button>
+
+          <div class="payment-strip">
+            <span class="pay-badge">iDEAL</span>
+            <span class="pay-badge">Visa</span>
+            <span class="pay-badge">Mastercard</span>
+            <span class="pay-badge">Op rekening</span>
+            <span class="pay-badge">PayPal</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust -->
+      <div class="trust-card">
+        <div class="trust-grid">
+          <div class="trust-item">
+            <div class="trust-icon">🔒</div>
+            SSL beveiligd
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">🚚</div>
+            Morgen in huis
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">↩️</div>
+            30 dagen retour
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">📞</div>
+            Persoonlijk advies
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RECENTLY VIEWED -->
+  <div class="recently-viewed">
+    <h2 class="rv-title">Recent bekeken</h2>
+    <div class="rv-grid">
+      <div class="rv-card">
+        <div class="rv-img">🌡️</div>
+        <div class="rv-brand">Braun</div>
+        <div class="rv-name">ThermoScan 7 Oorthermometer</div>
+        <div class="rv-price">€49,95</div>
+        <button class="rv-add">+ Toevoegen</button>
+      </div>
+      <div class="rv-card">
+        <div class="rv-img">😷</div>
+        <div class="rv-brand">3M</div>
+        <div class="rv-name">Mondkapjes Type IIR (50st)</div>
+        <div class="rv-price">€7,95</div>
+        <button class="rv-add">+ Toevoegen</button>
+      </div>
+      <div class="rv-card">
+        <div class="rv-img">🧪</div>
+        <div class="rv-brand">BD</div>
+        <div class="rv-name">Vacutainer Naaldhouder</div>
+        <div class="rv-price">€3,25</div>
+        <button class="rv-add">+ Toevoegen</button>
+      </div>
+      <div class="rv-card">
+        <div class="rv-img">🩻</div>
+        <div class="rv-brand">Hartmann</div>
+        <div class="rv-name">Peha-soft Onderzoekshandschoen L</div>
+        <div class="rv-price">€11,50</div>
+        <button class="rv-add">+ Toevoegen</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

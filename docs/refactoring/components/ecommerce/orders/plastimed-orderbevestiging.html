@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bestelling bevestigd — Plastimed.nl</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1240px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}
+  .container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  /* Simplified header */
+  .header-simple{background:white;border-bottom:1px solid var(--grey);padding:20px 0;}
+  .header-simple .container{display:flex;align-items:center;justify-content:space-between;}
+  .logo{display:flex;align-items:center;text-decoration:none;}
+  .logo img{height:36px;}
+  .header-badge{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--green);}
+  .header-badge i{width:18px;height:18px;}
+
+  /* Progress */
+  .progress-bar{background:white;border-bottom:1px solid var(--grey);padding:20px 0;}
+  .steps{display:flex;align-items:center;justify-content:center;gap:0;max-width:500px;margin:0 auto;}
+  .step{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--grey-mid);}
+  .step.done{color:var(--green);}
+  .step.active{color:var(--teal);}
+  .step-num{width:28px;height:28px;border-radius:50%;border:2px solid var(--grey);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+  .step.done .step-num{background:var(--green);border-color:var(--green);color:white;}
+  .step.active .step-num{background:var(--teal);border-color:var(--teal);color:white;}
+  .step-line{width:48px;height:2px;background:var(--grey);margin:0 8px;}
+  .step-line.done{background:var(--green);}
+
+  /* Success hero */
+  .success-hero{text-align:center;padding:48px 0 36px;}
+  .success-icon{width:80px;height:80px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;animation:popIn .5s cubic-bezier(0.175,0.885,0.32,1.275);}
+  .success-icon i{width:40px;height:40px;color:var(--green);}
+  @keyframes popIn{0%{transform:scale(0);opacity:0;}100%{transform:scale(1);opacity:1;}}
+  .success-hero h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:30px;font-weight:800;color:var(--navy);margin-bottom:8px;}
+  .success-hero p{font-size:16px;color:var(--grey-dark);max-width:520px;margin:0 auto;}
+  .order-number{display:inline-flex;align-items:center;gap:8px;background:white;border:1.5px solid var(--grey);border-radius:10px;padding:10px 20px;margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600;color:var(--navy);}
+  .order-number i{width:16px;height:16px;color:var(--teal);cursor:pointer;}
+
+  /* Layout */
+  .confirm-layout{display:grid;grid-template-columns:1fr 380px;gap:28px;padding-bottom:64px;align-items:start;}
+
+  /* Cards */
+  .card{background:white;border:1px solid var(--grey);border-radius:16px;padding:24px;margin-bottom:20px;}
+  .card-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:var(--navy);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .card-title i{width:18px;height:18px;color:var(--teal);}
+
+  /* Timeline */
+  .timeline{position:relative;padding-left:28px;}
+  .timeline::before{content:'';position:absolute;left:9px;top:4px;bottom:4px;width:2px;background:var(--grey);}
+  .tl-step{position:relative;padding-bottom:24px;}
+  .tl-step:last-child{padding-bottom:0;}
+  .tl-dot{position:absolute;left:-28px;top:2px;width:20px;height:20px;border-radius:50%;border:2px solid var(--grey);background:white;display:flex;align-items:center;justify-content:center;}
+  .tl-dot i{width:10px;height:10px;}
+  .tl-step.done .tl-dot{background:var(--green);border-color:var(--green);}
+  .tl-step.done .tl-dot i{color:white;}
+  .tl-step.active .tl-dot{background:var(--teal);border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-glow);}
+  .tl-step.active .tl-dot i{color:white;}
+  .tl-step.upcoming .tl-dot{border-color:var(--grey);}
+  .tl-title{font-size:14px;font-weight:700;color:var(--navy);}
+  .tl-step.upcoming .tl-title{color:var(--grey-mid);}
+  .tl-desc{font-size:13px;color:var(--grey-mid);margin-top:2px;}
+  .tl-time{font-size:12px;color:var(--teal);font-weight:600;margin-top:2px;}
+
+  /* Order items */
+  .oi{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--grey);align-items:center;}
+  .oi:last-child{border-bottom:none;}
+  .oi-img{width:56px;height:56px;background:var(--grey-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
+  .oi-info{flex:1;min-width:0;}
+  .oi-brand{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--teal);}
+  .oi-name{font-size:14px;font-weight:600;color:var(--navy);}
+  .oi-meta{font-size:12px;color:var(--grey-mid);}
+  .oi-right{text-align:right;flex-shrink:0;}
+  .oi-price{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--navy);}
+  .oi-qty{font-size:12px;color:var(--grey-mid);}
+
+  /* Summary rows */
+  .sum-row{display:flex;justify-content:space-between;padding:8px 0;font-size:14px;color:var(--grey-dark);}
+  .sum-row.discount{color:var(--green);font-weight:600;}
+  .sum-row.total{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--navy);padding:14px 0 0;margin-top:8px;border-top:2px solid var(--navy);}
+  .sum-row .label{display:flex;align-items:center;gap:4px;}
+  .sum-row .label i{width:14px;height:14px;}
+
+  /* Address cards */
+  .addr-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .addr-card{background:var(--grey-light);border-radius:var(--radius);padding:16px;}
+  .addr-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--teal);margin-bottom:6px;}
+  .addr-text{font-size:14px;color:var(--navy);line-height:1.6;}
+  .addr-text strong{font-weight:700;}
+
+  /* Delivery */
+  .delivery-card{display:flex;align-items:center;gap:14px;background:var(--green-light);border-radius:var(--radius);padding:16px;}
+  .delivery-icon{width:44px;height:44px;background:white;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .delivery-icon i{width:20px;height:20px;color:var(--green);}
+  .delivery-info .d-title{font-size:14px;font-weight:700;color:var(--navy);}
+  .delivery-info .d-desc{font-size:13px;color:var(--grey-dark);}
+
+  /* CTA cards */
+  .cta-card{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:16px;padding:28px;text-align:center;position:relative;overflow:hidden;}
+  .cta-card::before{content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(0,137,123,0.1),transparent 70%);border-radius:50%;}
+  .cta-card h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:white;margin-bottom:6px;position:relative;}
+  .cta-card p{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.5;margin-bottom:18px;position:relative;}
+  .cta-btn{display:inline-flex;align-items:center;gap:7px;padding:12px 24px;background:var(--teal);color:white;border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all var(--transition);text-decoration:none;position:relative;}
+  .cta-btn:hover{background:var(--teal-light);transform:translateY(-1px);}
+  .cta-btn i{width:16px;height:16px;}
+
+  /* Action buttons */
+  .action-btns{display:flex;gap:10px;flex-wrap:wrap;}
+  .btn-outline{display:inline-flex;align-items:center;gap:7px;padding:12px 20px;background:white;color:var(--navy);border:1.5px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all var(--transition);text-decoration:none;}
+  .btn-outline:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-glow);}
+  .btn-outline i{width:16px;height:16px;}
+  .btn-primary{display:inline-flex;align-items:center;gap:7px;padding:12px 20px;background:var(--teal);color:white;border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all var(--transition);text-decoration:none;box-shadow:0 4px 16px rgba(0,137,123,0.3);}
+  .btn-primary:hover{background:var(--teal-light);transform:translateY(-1px);}
+  .btn-primary i{width:16px;height:16px;}
+
+  /* Print info */
+  .print-note{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--grey-mid);margin-top:12px;}
+  .print-note i{width:14px;height:14px;}
+
+  @media(max-width:900px){
+    .confirm-layout{grid-template-columns:1fr;}
+    .addr-grid{grid-template-columns:1fr;}
+    .steps{flex-wrap:wrap;justify-content:center;gap:4px;}
+    .success-hero h1{font-size:24px;}
+  }
+  @media print{
+    .header-simple,.progress-bar,.cta-card,.action-btns,.print-note{display:none!important;}
+    body{background:white;}
+    .card{border:1px solid #ddd;break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Simplified header -->
+<header class="header-simple"><div class="container">
+  <a href="#" class="logo"><img src="plastimed-logo.png" alt="Plastimed"></a>
+  <div class="header-badge"><i data-lucide="shield-check"></i> Beveiligde checkout</div>
+</div></header>
+
+<!-- Progress -->
+<div class="progress-bar"><div class="steps">
+  <div class="step done"><span class="step-num"><i data-lucide="check" style="width:14px;height:14px;"></i></span> Winkelwagen</div>
+  <div class="step-line done"></div>
+  <div class="step done"><span class="step-num"><i data-lucide="check" style="width:14px;height:14px;"></i></span> Gegevens & betaling</div>
+  <div class="step-line done"></div>
+  <div class="step active"><span class="step-num">3</span> Bevestiging</div>
+</div></div>
+
+<div class="container">
+
+  <!-- Success hero -->
+  <div class="success-hero">
+    <div class="success-icon"><i data-lucide="check"></i></div>
+    <h1>Bedankt voor uw bestelling!</h1>
+    <p>Uw bestelling is succesvol ontvangen en wordt zo snel mogelijk verwerkt. U ontvangt een bevestiging per e-mail op <strong>j.devries@huisartsdevries.nl</strong></p>
+    <div class="order-number">#PM-2026-1847 <i data-lucide="copy" title="Kopiëren"></i></div>
+  </div>
+
+  <div class="confirm-layout">
+
+    <!-- Main -->
+    <div>
+
+      <!-- Timeline -->
+      <div class="card">
+        <div class="card-title"><i data-lucide="route"></i> Status & verwachte levering</div>
+        <div class="delivery-card" style="margin-bottom:20px;">
+          <div class="delivery-icon"><i data-lucide="truck"></i></div>
+          <div class="delivery-info">
+            <div class="d-title">Verwachte levering: donderdag 20 februari</div>
+            <div class="d-desc">Standaard bezorging · Besteld voor 16:00, morgen geleverd</div>
+          </div>
+        </div>
+        <div class="timeline">
+          <div class="tl-step done">
+            <div class="tl-dot"><i data-lucide="check"></i></div>
+            <div class="tl-title">Bestelling ontvangen</div>
+            <div class="tl-time">Vandaag, 14:23</div>
+          </div>
+          <div class="tl-step active">
+            <div class="tl-dot"><i data-lucide="loader"></i></div>
+            <div class="tl-title">In behandeling</div>
+            <div class="tl-desc">Uw bestelling wordt klaargezet in ons magazijn</div>
+          </div>
+          <div class="tl-step upcoming">
+            <div class="tl-dot"><i data-lucide="package"></i></div>
+            <div class="tl-title">Verzonden</div>
+            <div class="tl-desc">Track & trace beschikbaar per e-mail</div>
+          </div>
+          <div class="tl-step upcoming">
+            <div class="tl-dot"><i data-lucide="home"></i></div>
+            <div class="tl-title">Afgeleverd</div>
+            <div class="tl-desc">Verwacht: do 20 februari</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order items -->
+      <div class="card">
+        <div class="card-title"><i data-lucide="package"></i> Bestelde producten</div>
+        <div class="oi">
+          <div class="oi-img">🧤</div>
+          <div class="oi-info"><div class="oi-brand">Hartmann</div><div class="oi-name">Peha-soft Nitrile Fino — Maat M</div><div class="oi-meta">Art. 942210 · Doos 150 st.</div></div>
+          <div class="oi-right"><div class="oi-price">€41,25</div><div class="oi-qty">5× €8,25</div></div>
+        </div>
+        <div class="oi">
+          <div class="oi-img">🧴</div>
+          <div class="oi-info"><div class="oi-brand">Hartmann</div><div class="oi-name">Baktolan Protect+ Pure Handcrème 100ml</div><div class="oi-meta">Art. 232451</div></div>
+          <div class="oi-right"><div class="oi-price">€11,90</div><div class="oi-qty">2× €5,95</div></div>
+        </div>
+        <div class="oi">
+          <div class="oi-img">💉</div>
+          <div class="oi-info"><div class="oi-brand">BD</div><div class="oi-name">Discardit II Injectiespuit 10ml</div><div class="oi-meta">Art. 309110 · Doos 100 st.</div></div>
+          <div class="oi-right"><div class="oi-price">€8,50</div><div class="oi-qty">2× €4,25</div></div>
+        </div>
+      </div>
+
+      <!-- Addresses -->
+      <div class="card">
+        <div class="card-title"><i data-lucide="map-pin"></i> Adresgegevens</div>
+        <div class="addr-grid">
+          <div class="addr-card">
+            <div class="addr-label">Afleveradres</div>
+            <div class="addr-text"><strong>Huisartsenpraktijk De Vries</strong><br>T.a.v. Jan de Vries<br>Breestraat 42<br>1941 EK Beverwijk</div>
+          </div>
+          <div class="addr-card">
+            <div class="addr-label">Factuuradres</div>
+            <div class="addr-text"><strong>Huisartsenpraktijk De Vries</strong><br>Breestraat 42<br>1941 EK Beverwijk<br>KVK 12345678</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="action-btns">
+        <button class="btn-outline" onclick="window.print()"><i data-lucide="printer"></i> Print bevestiging</button>
+        <a href="#" class="btn-outline"><i data-lucide="file-text"></i> Download PDF</a>
+        <a href="#" class="btn-primary"><i data-lucide="shopping-bag"></i> Verder winkelen</a>
+      </div>
+      <div class="print-note"><i data-lucide="mail"></i> Een kopie van deze bevestiging is verstuurd naar j.devries@huisartsdevries.nl</div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <aside>
+
+      <!-- Order summary -->
+      <div class="card">
+        <div class="card-title"><i data-lucide="receipt"></i> Overzicht</div>
+        <div class="sum-row"><span>Subtotaal (9 artikelen)</span><span>€61,65</span></div>
+        <div class="sum-row discount"><span class="label"><i data-lucide="tag"></i> Staffelkorting</span><span>− €3,10</span></div>
+        <div class="sum-row"><span>Verzending (standaard)</span><span>€7,50</span></div>
+        <div class="sum-row"><span>BTW (21%)</span><span>€13,87</span></div>
+        <div class="sum-row total"><span>Totaal</span><span>€79,92</span></div>
+        <div style="margin-top:14px;padding:10px 14px;background:var(--grey-light);border-radius:var(--radius-sm);font-size:13px;color:var(--grey-dark);display:flex;align-items:center;gap:8px;">
+          <i data-lucide="credit-card" style="width:16px;height:16px;color:var(--teal);flex-shrink:0;"></i>
+          Betaald via <strong style="margin-left:4px;">iDEAL — ING</strong>
+        </div>
+      </div>
+
+      <!-- Account creation CTA -->
+      <div class="cta-card">
+        <h3>Account aanmaken?</h3>
+        <p>Volg uw bestelling, bestel sneller opnieuw en beheer uw bestellijsten vanuit uw eigen dashboard.</p>
+        <a href="#" class="cta-btn"><i data-lucide="user-plus"></i> Account aanmaken</a>
+      </div>
+
+      <!-- Need help -->
+      <div class="card" style="text-align:center;">
+        <div class="card-title" style="justify-content:center;"><i data-lucide="headphones"></i> Hulp nodig?</div>
+        <p style="font-size:14px;color:var(--grey-dark);margin-bottom:14px;">Heeft u vragen over uw bestelling? Wij helpen u graag.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="tel:0251247233" style="display:flex;align-items:center;justify-content:center;gap:6px;font-size:14px;font-weight:700;color:var(--teal);text-decoration:none;"><i data-lucide="phone" style="width:15px;height:15px;"></i> 0251‑247233</a>
+          <a href="mailto:info@plastimed.nl" style="display:flex;align-items:center;justify-content:center;gap:6px;font-size:14px;color:var(--grey-dark);text-decoration:none;"><i data-lucide="mail" style="width:15px;height:15px;"></i> info@plastimed.nl</a>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

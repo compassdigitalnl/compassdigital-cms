@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menukaart — Bistro de Gracht</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--warm:#2C1810;--warm-light:#3D2419;--gold:#C9A84C;--gold-light:rgba(201,168,76,.12);--cream:#FDF8F0;--navy:#0A1628;--teal:#00897B;--teal-glow:rgba(0,137,123,0.12);--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#FAFAF8;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  .header{background:var(--warm);position:sticky;top:0;z-index:200;border-bottom:1px solid rgba(255,255,255,.06);}.header .container{height:72px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:white;text-decoration:none;}.logo em{color:var(--gold);font-style:italic;}.nav{display:flex;gap:4px;}.nav-item{padding:10px 16px;font-size:13px;font-weight:600;color:rgba(255,255,255,.4);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--gold);background:rgba(201,168,76,.08);}.h-cta{height:42px;padding:0 20px;background:var(--gold);color:var(--warm);border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;}.h-cta:hover{background:white;}.h-cta i{width:14px;height:14px;}
+
+  /* Page hero */
+  .page-hero{background:var(--warm);padding:48px 0;text-align:center;position:relative;overflow:hidden;}
+  .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 100%,rgba(201,168,76,.06),transparent 70%);}
+  .ph-inner{position:relative;z-index:2;}
+  .ph-badge{display:inline-flex;align-items:center;gap:4px;border:1px solid rgba(201,168,76,.25);padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;color:var(--gold);margin-bottom:8px;}.ph-badge i{width:11px;height:11px;}
+  .ph-title{font-family:'Playfair Display',serif;font-size:40px;font-weight:700;color:white;margin-bottom:4px;}
+  .ph-desc{font-size:14px;color:rgba(255,255,255,.3);max-width:500px;margin:0 auto;}
+
+  /* Sticky toolbar */
+  .toolbar{background:white;border-bottom:1px solid var(--grey);position:sticky;top:72px;z-index:100;padding:10px 0;}
+  .tb-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  .tb-cats{display:flex;gap:3px;}
+  .tc{padding:7px 14px;border-radius:100px;font-size:12px;font-weight:700;border:1.5px solid var(--grey);background:white;color:var(--grey-mid);cursor:pointer;transition:all .12s;}.tc:hover{border-color:var(--gold);color:var(--gold);}.tc.active{background:var(--warm);color:var(--gold);border-color:var(--warm);}
+  .tb-right{display:flex;align-items:center;gap:6px;}
+  .tb-toggle{display:flex;border:1.5px solid var(--grey);border-radius:8px;overflow:hidden;}.tt-btn{padding:6px 14px;font-size:12px;font-weight:700;border:none;background:white;color:var(--grey-mid);cursor:pointer;transition:all .1s;}.tt-btn.active{background:var(--warm);color:var(--gold);}
+  .tb-filters{display:flex;gap:3px;}
+  .tf{padding:5px 10px;border-radius:6px;font-size:11px;font-weight:700;border:1.5px solid var(--grey);background:white;color:var(--grey-mid);cursor:pointer;transition:all .12s;display:flex;align-items:center;gap:3px;}.tf:hover{border-color:var(--gold);}.tf.active{background:var(--gold-light);border-color:var(--gold);color:var(--gold);}
+
+  /* Menu layout */
+  .menu-layout{display:grid;grid-template-columns:1fr 320px;gap:24px;padding:24px 0 64px;align-items:start;}
+
+  /* Menu category */
+  .menu-cat{margin-bottom:32px;}
+  .mc-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--grey);}
+  .mc-icon{font-size:24px;}
+  .mc-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;flex:1;}
+  .mc-count{font-size:11px;color:var(--grey-mid);font-weight:700;background:var(--grey-light);padding:3px 8px;border-radius:4px;}
+
+  /* Dish item */
+  .dish{display:flex;gap:14px;padding:14px;border-radius:14px;transition:background .1s;position:relative;}.dish:hover{background:var(--cream);}
+  .dish+.dish{border-top:1px solid var(--grey);}
+  .dish-img{width:80px;height:80px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;position:relative;}
+  .dish-tag{position:absolute;top:-3px;left:-3px;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:800;}.tag-chef{background:var(--gold);color:white;}.tag-veg{background:var(--green);color:white;}.tag-new{background:var(--teal);color:white;}.tag-spicy{background:var(--coral);color:white;}
+  .dish-info{flex:1;min-width:0;}
+  .dish-top{display:flex;align-items:start;justify-content:space-between;gap:8px;}
+  .dish-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;line-height:1.2;}
+  .dish-price{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;color:var(--gold);white-space:nowrap;flex-shrink:0;}
+  .dish-desc{font-size:12px;color:var(--grey-dark);line-height:1.5;margin-top:3px;}
+  .dish-bottom{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap;}
+  .dish-badge{padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;display:flex;align-items:center;gap:2px;}
+  .db-vegan{background:var(--green-light);color:var(--green);}.db-gf{background:var(--amber-light);color:var(--amber);}.db-dairy{background:var(--blue-light);color:var(--blue);}.db-nut{background:var(--coral-light);color:var(--coral);}.db-spicy{background:var(--coral-light);color:var(--coral);}
+  .dish-wine{font-size:10px;color:var(--grey-mid);display:flex;align-items:center;gap:2px;}.dish-wine i{width:10px;height:10px;color:var(--gold);}
+
+  /* Chef's special */
+  .chef-special{background:linear-gradient(135deg,var(--warm),var(--warm-light));border-radius:18px;padding:22px;margin-bottom:14px;color:white;display:flex;gap:16px;align-items:center;}
+  .cs-badge{position:absolute;top:-8px;right:12px;background:var(--gold);color:var(--warm);padding:3px 10px;border-radius:4px;font-size:10px;font-weight:800;}
+  .cs-img{width:90px;height:90px;border-radius:14px;background:rgba(201,168,76,.1);display:flex;align-items:center;justify-content:center;font-size:44px;flex-shrink:0;}
+  .cs-info{flex:1;}.cs-label{font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;}.cs-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:3px;}.cs-desc{font-size:12px;color:rgba(255,255,255,.4);line-height:1.4;}.cs-price{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--gold);margin-top:4px;}
+
+  /* Sidebar */
+  .sidebar{position:sticky;top:130px;}
+  .side-card{background:white;border:1.5px solid var(--grey);border-radius:18px;padding:20px;margin-bottom:12px;}
+  .sc-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;}.sc-title i{width:16px;height:16px;color:var(--gold);}
+
+  /* Wine list mini */
+  .wine-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--grey);}.wine-item:last-child{border-bottom:none;}
+  .wi-icon{font-size:20px;flex-shrink:0;}
+  .wi-info{flex:1;min-width:0;}.wi-name{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.wi-region{font-size:10px;color:var(--grey-mid);}
+  .wi-price{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--gold);flex-shrink:0;}
+
+  /* Allergy legend */
+  .allergy-grid{display:flex;flex-wrap:wrap;gap:4px;}
+  .al{padding:4px 8px;border-radius:4px;font-size:10px;font-weight:700;display:flex;align-items:center;gap:3px;}
+
+  /* Reservation mini */
+  .res-mini{background:linear-gradient(135deg,var(--warm),var(--warm-light));border-radius:16px;padding:20px;text-align:center;color:white;}
+  .rm-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;margin-bottom:3px;}
+  .rm-desc{font-size:11px;color:rgba(255,255,255,.35);margin-bottom:10px;}
+  .rm-btn{width:100%;height:44px;background:var(--gold);color:var(--warm);border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .12s;}.rm-btn:hover{background:white;}.rm-btn i{width:14px;height:14px;}
+  .rm-phone{margin-top:6px;font-size:11px;color:rgba(255,255,255,.3);}
+
+  /* Download menu */
+  .dl-btn{width:100%;height:40px;border:1.5px solid var(--grey);border-radius:var(--radius-sm);background:white;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;color:var(--grey-dark);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .12s;}.dl-btn:hover{border-color:var(--gold);color:var(--gold);}.dl-btn i{width:14px;height:14px;}
+
+  @media(max-width:900px){.menu-layout{grid-template-columns:1fr;}.sidebar{position:static;}.nav{display:none;}.tb-cats{overflow-x:auto;flex-wrap:nowrap;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo">Bistro <em>de Gracht</em></a><nav class="nav"><a href="#" class="nav-item">Home</a><a href="#" class="nav-item active">Menukaart</a><a href="#" class="nav-item">Reserveren</a><a href="#" class="nav-item">Over ons</a><a href="#" class="nav-item">Evenementen</a></nav><button class="h-cta"><i data-lucide="calendar"></i> Reserveer</button></div></header>
+
+<section class="page-hero"><div class="ph-inner"><div class="ph-badge"><i data-lucide="book-open"></i> Seizoensmenu Winter 2026</div><h1 class="ph-title">De Menukaart</h1><p class="ph-desc">Elk gerecht wordt bereid met verse, lokale en seizoensgebonden ingrediënten. Allergieën? Spreek onze bediening aan.</p></div></section>
+
+<!-- Toolbar -->
+<div class="toolbar"><div class="container"><div class="tb-inner">
+  <div class="tb-cats">
+    <button class="tc active">Alles</button>
+    <button class="tc">🥗 Voorgerechten</button>
+    <button class="tc">🥘 Hoofdgerechten</button>
+    <button class="tc">🍰 Desserts</button>
+    <button class="tc">🍷 Wijnen</button>
+    <button class="tc">🍹 Dranken</button>
+  </div>
+  <div class="tb-right">
+    <div class="tb-toggle"><button class="tt-btn active">Diner</button><button class="tt-btn">Lunch</button></div>
+    <div class="tb-filters">
+      <button class="tf">🌱 Vegan</button>
+      <button class="tf">🌾 Glutenvrij</button>
+      <button class="tf">🌶️ Pittig</button>
+    </div>
+  </div>
+</div></div></div>
+
+<div class="container"><div class="menu-layout">
+  <!-- LEFT: Menu -->
+  <div>
+    <!-- Chef's special -->
+    <div class="chef-special" style="position:relative;">
+      <div class="cs-badge">👨‍🍳 Chef's Special</div>
+      <div class="cs-img">🦞</div>
+      <div class="cs-info"><div class="cs-label">Seizoensgerecht — beperkt beschikbaar</div><div class="cs-name">Gegrilde Kreeft met Truffelrisotto</div><div class="cs-desc">Hele kreeft van de grill, romige truffelrisotto, geroosterde asperges en champagnebeurre blanc.</div><div class="cs-price">€ 42,50</div></div>
+    </div>
+
+    <!-- Voorgerechten -->
+    <div class="menu-cat" id="voorgerechten">
+      <div class="mc-header"><div class="mc-icon">🥗</div><div class="mc-title">Voorgerechten</div><div class="mc-count">6 gerechten</div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#dfe6e9,#b2bec3);">🦪</div><div class="dish-info"><div class="dish-top"><div class="dish-name">Oesters (6 stuks)</div><div class="dish-price">€ 18,50</div></div><div class="dish-desc">Zeeuwse Creuse oesters met mignonette, citroen en tabasco. Geserveerd op crushed ice.</div><div class="dish-bottom"><span class="dish-badge db-gf">Glutenvrij</span><span class="dish-badge db-dairy">Lactosevrij</span><div class="dish-wine"><i data-lucide="wine"></i> Chablis Premier Cru</div></div></div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#a8e6cf,#dcedc1);">🥗<div class="dish-tag tag-veg">🌱</div></div><div class="dish-info"><div class="dish-top"><div class="dish-name">Geroosterde Biet & Burrata</div><div class="dish-price">€ 14,50</div></div><div class="dish-desc">Rode biet uit de oven, romige burrata, walnoten, granaatappel en balsamicoreductie.</div><div class="dish-bottom"><span class="dish-badge db-vegan">Vegetarisch</span><span class="dish-badge db-nut">Noten</span></div></div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#ffeaa7,#fdcb6e);">🍲</div><div class="dish-info"><div class="dish-top"><div class="dish-name">Pompoensoep met Truffelolie</div><div class="dish-price">€ 11,50</div></div><div class="dish-desc">Fluweelzachte pompoensoep, toefje crème fraîche, geroosterde pompoenpitten en truffelolie.</div><div class="dish-bottom"><span class="dish-badge db-vegan">Vegan optie</span><span class="dish-badge db-gf">Glutenvrij</span></div></div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#fab1a0,#e17055);">🐟</div><div class="dish-info"><div class="dish-top"><div class="dish-name">Tartaar van Tonijn</div><div class="dish-price">€ 16,50</div></div><div class="dish-desc">Verse tonijntartaar met sesamdressing, avocado, wakame en krokante wontonchips.</div><div class="dish-bottom"><span class="dish-badge db-dairy">Lactosevrij</span><div class="dish-wine"><i data-lucide="wine"></i> Sancerre Blanc</div></div></div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#fdcb6e,#e17055);">🧀<div class="dish-tag tag-new">Nieuw</div></div><div class="dish-info"><div class="dish-top"><div class="dish-name">Gebakken Camembert</div><div class="dish-price">€ 13,50</div></div><div class="dish-desc">Hele camembert uit de oven met walnoten-honingdressing, rucola en knapperig brood.</div><div class="dish-bottom"><span class="dish-badge db-nut">Noten</span></div></div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#55efc4,#00b894);">🥑<div class="dish-tag tag-veg">🌱</div></div><div class="dish-info"><div class="dish-top"><div class="dish-name">Avocado Tostada</div><div class="dish-price">€ 12,50</div></div><div class="dish-desc">Krokante maïstortilla, geplette avocado, ingelegde rode ui, jalapeño crème en koriander.</div><div class="dish-bottom"><span class="dish-badge db-vegan">Vegan</span><span class="dish-badge db-spicy">🌶️ Mild</span></div></div></div>
+    </div>
+
+    <!-- Hoofdgerechten -->
+    <div class="menu-cat" id="hoofdgerechten">
+      <div class="mc-header"><div class="mc-icon">🥘</div><div class="mc-title">Hoofdgerechten</div><div class="mc-count">7 gerechten</div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#ffeaa7,#fdcb6e);">🥘<div class="dish-tag tag-chef">👨‍🍳</div></div><div class="dish-info"><div class="dish-top"><div class="dish-name">Ossobuco alla Milanese</div><div class="dish-price">€ 28,50</div></div><div class="dish-desc">Langzaam gegaard kalfsvlees met gremolata, risotto alla milanese en seizoensgroenten.</div><div class="dish-bottom"><span class="dish-badge db-gf">Glutenvrij</span><div class="dish-wine"><i data-lucide="wine"></i> Barolo</div></div></div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#74b9ff,#0984e3);">🐟</div><div class="dish-info"><div class="dish-top"><div class="dish-name">Zeebaars met Venkelcrème</div><div class="dish-price">€ 26,50</div></div><div class="dish-desc">Krokant gebakken zeebaarsfilet, venkelcrème, geroosterde cherry tomaten en olijventapenade.</div><div class="dish-bottom"><span class="dish-badge db-gf">Glutenvrij</span><span class="dish-badge db-dairy">Lactosevrij optie</span></div></div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#e17055,#d63031);">🥩</div><div class="dish-info"><div class="dish-top"><div class="dish-name">Dry-aged Ribeye (300g)</div><div class="dish-price">€ 34,50</div></div><div class="dish-desc">28 dagen dry-aged Black Angus ribeye, huisgemaakte kruidenboter, truffel-frites en rucola.</div><div class="dish-bottom"><span class="dish-badge db-gf">Glutenvrij</span></div></div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#badc58,#6ab04c);">🥬<div class="dish-tag tag-veg">🌱</div></div><div class="dish-info"><div class="dish-top"><div class="dish-name">Risotto Funghi Porcini</div><div class="dish-price">€ 21,50</div></div><div class="dish-desc">Romige arborio risotto met eekhoorntjesbrood, truffelschaafsel en Parmigiano Reggiano.</div><div class="dish-bottom"><span class="dish-badge db-vegan">Vegetarisch</span><span class="dish-badge db-gf">Glutenvrij</span></div></div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#fdcb6e,#f0932b);">🍗</div><div class="dish-info"><div class="dish-top"><div class="dish-name">Eend Confit</div><div class="dish-price">€ 27,50</div></div><div class="dish-desc">Langzaam gegaarde eendenbout, aardappelgratin, rode kool met appel en jus van porto.</div><div class="dish-bottom"><span class="dish-badge db-gf">Glutenvrij</span><div class="dish-wine"><i data-lucide="wine"></i> Pinot Noir</div></div></div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#00b894,#55efc4);">🥦<div class="dish-tag tag-veg">🌱</div></div><div class="dish-info"><div class="dish-top"><div class="dish-name">Bloemkool Tandoori</div><div class="dish-price">€ 19,50</div></div><div class="dish-desc">Hele geroosterde bloemkool met tandoori marinade, raita, naan en mango chutney.</div><div class="dish-bottom"><span class="dish-badge db-vegan">Vegan optie</span><span class="dish-badge db-spicy">🌶️ Medium</span></div></div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#a29bfe,#6c5ce7);">🍝<div class="dish-tag tag-new">Nieuw</div></div><div class="dish-info"><div class="dish-top"><div class="dish-name">Huisgemaakte Pappardelle</div><div class="dish-price">€ 23,50</div></div><div class="dish-desc">Verse pappardelle, slow-cooked ragù van wild zwijn, pecorino romano en verse salie.</div><div class="dish-bottom"><div class="dish-wine"><i data-lucide="wine"></i> Chianti Classico</div></div></div></div>
+    </div>
+
+    <!-- Desserts -->
+    <div class="menu-cat" id="desserts">
+      <div class="mc-header"><div class="mc-icon">🍰</div><div class="mc-title">Desserts</div><div class="mc-count">5 gerechten</div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#fab1a0,#e17055);">🍮</div><div class="dish-info"><div class="dish-top"><div class="dish-name">Crème Brûlée Tonkaboon</div><div class="dish-price">€ 11,50</div></div><div class="dish-desc">Klassieke crème brûlée met tonkaboon, gekarameliseerde suiker en vers seizoensfruit.</div><div class="dish-bottom"><span class="dish-badge db-gf">Glutenvrij</span></div></div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#636e72,#2d3436);">🍫</div><div class="dish-info"><div class="dish-top"><div class="dish-name">Chocolade Fondant</div><div class="dish-price">€ 12,50</div></div><div class="dish-desc">Warme chocoladefondant met vloeibare kern, vanille-ijs en gezouten karamelsaus.</div><div class="dish-bottom"><span class="dish-badge db-gf">Glutenvrij</span><span class="dish-badge db-nut">Noten</span></div></div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#ffeaa7,#fdcb6e);">🧀</div><div class="dish-info"><div class="dish-top"><div class="dish-name">Kaasplateau (voor 2)</div><div class="dish-price">€ 18,50</div></div><div class="dish-desc">Selectie van 5 ambachtelijke kazen, vijgencompote, walnoten, honing en crackers.</div><div class="dish-bottom"><span class="dish-badge db-nut">Noten</span><div class="dish-wine"><i data-lucide="wine"></i> Portwijnen</div></div></div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#a8e6cf,#dcedc1);">🍨<div class="dish-tag tag-veg">🌱</div></div><div class="dish-info"><div class="dish-top"><div class="dish-name">Sorbet Tricolore</div><div class="dish-price">€ 9,50</div></div><div class="dish-desc">Drie bolletjes huisgemaakt fruit sorbet: mango, framboos en passievrucht.</div><div class="dish-bottom"><span class="dish-badge db-vegan">Vegan</span><span class="dish-badge db-gf">Glutenvrij</span><span class="dish-badge db-dairy">Lactosevrij</span></div></div></div>
+      <div class="dish"><div class="dish-img" style="background:linear-gradient(135deg,#dfe6e9,#b2bec3);">🍰</div><div class="dish-info"><div class="dish-top"><div class="dish-name">Tiramisu Classico</div><div class="dish-price">€ 11,50</div></div><div class="dish-desc">Huisgemaakt met mascarpone, espresso, Marsala, savoiardi en cacaopoeder.</div><div class="dish-bottom"><span class="dish-badge db-nut">Bevat alcohol</span></div></div></div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Sidebar -->
+  <aside class="sidebar">
+    <div class="res-mini">
+      <div class="rm-title">Tafel reserveren?</div>
+      <div class="rm-desc">Boek direct online en ontvang meteen een bevestiging</div>
+      <button class="rm-btn"><i data-lucide="calendar"></i> Reserveer nu</button>
+      <div class="rm-phone">of bel: 020 - 123 45 67</div>
+    </div>
+
+    <div class="side-card">
+      <div class="sc-title"><i data-lucide="wine"></i> Wijnadvies</div>
+      <div class="wine-item"><div class="wi-icon">🥂</div><div class="wi-info"><div class="wi-name">Chablis Premier Cru</div><div class="wi-region">Bourgogne, Frankrijk</div></div><div class="wi-price">€ 8,50</div></div>
+      <div class="wine-item"><div class="wi-icon">🍷</div><div class="wi-info"><div class="wi-name">Barolo Serralunga</div><div class="wi-region">Piemonte, Italië</div></div><div class="wi-price">€ 12,50</div></div>
+      <div class="wine-item"><div class="wi-icon">🍷</div><div class="wi-info"><div class="wi-name">Chianti Classico Riserva</div><div class="wi-region">Toscane, Italië</div></div><div class="wi-price">€ 9,50</div></div>
+      <div class="wine-item"><div class="wi-icon">🥂</div><div class="wi-info"><div class="wi-name">Sancerre Blanc</div><div class="wi-region">Loire, Frankrijk</div></div><div class="wi-price">€ 9,00</div></div>
+      <div class="wine-item"><div class="wi-icon">🍾</div><div class="wi-info"><div class="wi-name">Champagne Brut NV</div><div class="wi-region">Champagne, Frankrijk</div></div><div class="wi-price">€ 14,00</div></div>
+    </div>
+
+    <div class="side-card">
+      <div class="sc-title"><i data-lucide="info"></i> Allergenen & dieet</div>
+      <div class="allergy-grid">
+        <div class="al db-vegan">🌱 Vegan</div>
+        <div class="al db-vegan">🥬 Vegetarisch</div>
+        <div class="al db-gf">🌾 Glutenvrij</div>
+        <div class="al db-dairy">🥛 Lactosevrij</div>
+        <div class="al db-nut">🥜 Noten</div>
+        <div class="al db-spicy">🌶️ Pittig</div>
+      </div>
+      <p style="font-size:11px;color:var(--grey-mid);margin-top:8px;line-height:1.4;">Heeft u een allergie of dieetwens? Informeer onze bediening. Wij passen gerechten graag aan.</p>
+    </div>
+
+    <button class="dl-btn"><i data-lucide="download"></i> Download menukaart (PDF)</button>
+  </aside>
+</div></div>
+
+<script>
+lucide.createIcons();
+document.querySelectorAll('.tc').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('.tc').forEach(e=>e.classList.remove('active'));el.classList.add('active');}));
+document.querySelectorAll('.tt-btn').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('.tt-btn').forEach(e=>e.classList.remove('active'));el.classList.add('active');}));
+document.querySelectorAll('.tf').forEach(el=>el.addEventListener('click',()=>{el.classList.toggle('active');}));
+</script>
+</body>
+</html>

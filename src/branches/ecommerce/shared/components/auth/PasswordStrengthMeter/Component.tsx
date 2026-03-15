@@ -147,12 +147,12 @@ export function PasswordStrengthMeter({
           {requirements.map((req, index) => (
             <div key={index} className="flex items-center gap-2 text-xs">
               {req.met ? (
-                <Check className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                <Check className="w-3.5 h-3.5 text-green flex-shrink-0" />
               ) : (
-                <X className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" />
+                <X className="w-3.5 h-3.5 text-grey-mid flex-shrink-0" />
               )}
               <span
-                className={req.met ? 'text-green-600 font-medium' : ''}
+                className={req.met ? 'text-green font-medium' : ''}
                 style={{
                   color: req.met ? undefined : 'var(--color-text-muted)',
                 }}

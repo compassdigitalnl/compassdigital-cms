@@ -10,7 +10,7 @@ export function RedeemCodeInput({ code, onChange, onRedeem }: RedeemCodeInputPro
   }
 
   return (
-    <div className="bg-white border-[1.5px] border-gray-200 rounded-2xl p-4 mb-4 flex items-center gap-3">
+    <div className="bg-white border-[1.5px] border-grey-light rounded-2xl p-4 mb-4 flex items-center gap-3">
       {/* Icon */}
       <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-[var(--color-primary-glow)] flex items-center justify-center">
         <Ticket className="w-5 h-5 text-[var(--color-primary)]" />
@@ -18,7 +18,7 @@ export function RedeemCodeInput({ code, onChange, onRedeem }: RedeemCodeInputPro
 
       {/* Form */}
       <div className="flex-1">
-        <div className="text-sm font-bold text-gray-900 mb-1.5">Cadeaubon inwisselen</div>
+        <div className="text-sm font-bold text-navy mb-1.5">Cadeaubon inwisselen</div>
         <div className="flex gap-1.5">
           <input
             type="text"
@@ -27,7 +27,7 @@ export function RedeemCodeInput({ code, onChange, onRedeem }: RedeemCodeInputPro
             onKeyDown={handleKeyDown}
             placeholder="Voer boncode in…"
             maxLength={24}
-            className="flex-1 h-10 px-3 border-[1.5px] border-gray-200 rounded-lg font-mono text-sm text-gray-900 uppercase tracking-wide outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/10 placeholder:font-sans placeholder:normal-case placeholder:tracking-normal placeholder:text-gray-300 transition-colors"
+            className="flex-1 h-10 px-3 border-[1.5px] border-grey-light rounded-lg font-mono text-sm text-navy uppercase tracking-wide outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/10 placeholder:font-sans placeholder:normal-case placeholder:tracking-normal placeholder:text-grey-mid transition-colors"
           />
           <button
             onClick={onRedeem}

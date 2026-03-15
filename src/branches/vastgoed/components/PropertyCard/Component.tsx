@@ -23,7 +23,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
   className = '',
 }) => {
   const statusInfo: Record<string, { label: string; className: string }> = {
-    beschikbaar: { label: 'Nieuw', className: 'bg-green-500 text-white' },
+    beschikbaar: { label: 'Nieuw', className: 'bg-green text-white' },
     'onder-bod': { label: 'Onder bod', className: 'bg-amber-500 text-white' },
     verkocht: { label: 'Verkocht', className: 'bg-[var(--color-base-500)] text-white' },
     verhuurd: { label: 'Verhuurd', className: 'bg-[var(--color-base-500)] text-white' },

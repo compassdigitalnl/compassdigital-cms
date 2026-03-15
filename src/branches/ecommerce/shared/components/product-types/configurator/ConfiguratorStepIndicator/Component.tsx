@@ -65,7 +65,7 @@ export const ConfiguratorStepIndicator: React.FC<ConfiguratorStepIndicatorProps>
                     <Check className="w-6 h-6 text-white" strokeWidth={3} />
                   ) : (
                     <span
-                      className={`text-[16px] font-bold ${stepState === 'active' ? 'text-white' : 'text-gray-600'}`}
+                      className={`text-[16px] font-bold ${stepState === 'active' ? 'text-white' : 'text-grey-dark'}`}
                     >
                       {step.stepNumber}
                     </span>
@@ -75,12 +75,12 @@ export const ConfiguratorStepIndicator: React.FC<ConfiguratorStepIndicatorProps>
                 {/* Step Title (below circle) */}
                 <div className="mt-2 text-center max-w-[120px]">
                   <p
-                    className={`text-[13px] font-semibold ${stepState === 'active' ? 'text-[var(--color-primary)]' : 'text-gray-700'}`}
+                    className={`text-[13px] font-semibold ${stepState === 'active' ? 'text-[var(--color-primary)]' : 'text-grey-dark'}`}
                   >
                     {step.title}
                   </p>
                   {step.description && (
-                    <p className="text-[11px] text-gray-500 mt-0.5 line-clamp-2">
+                    <p className="text-[11px] text-grey-mid mt-0.5 line-clamp-2">
                       {step.description}
                     </p>
                   )}
@@ -89,9 +89,9 @@ export const ConfiguratorStepIndicator: React.FC<ConfiguratorStepIndicatorProps>
 
               {/* Connector Line (between steps) */}
               {!isLast && (
-                <div className="flex-1 h-0.5 bg-gray-300 mx-2 mb-12">
+                <div className="flex-1 h-0.5 bg-grey-light mx-2 mb-12">
                   <div
-                    className={`h-full transition-all duration-300 ${completedSteps.includes(steps[index + 1].stepNumber) ? 'bg-[var(--color-primary)] w-full' : 'bg-gray-300 w-0'}`}
+                    className={`h-full transition-all duration-300 ${completedSteps.includes(steps[index + 1].stepNumber) ? 'bg-[var(--color-primary)] w-full' : 'bg-grey-light w-0'}`}
                   />
                 </div>
               )}
@@ -125,14 +125,14 @@ export const ConfiguratorStepIndicator: React.FC<ConfiguratorStepIndicatorProps>
                     flex-shrink-0 w-10 h-10 rounded-full border-2 flex items-center justify-center
                     ${stepState === 'completed' ? 'bg-[var(--color-primary)] border-[var(--color-primary)]' : ''}
                     ${stepState === 'active' ? 'bg-[var(--color-primary)] border-[var(--color-primary)]' : ''}
-                    ${stepState === 'pending' ? 'bg-gray-200 border-gray-300' : ''}
+                    ${stepState === 'pending' ? 'bg-grey-light border-grey-light' : ''}
                   `}
                 >
                   {stepState === 'completed' ? (
                     <Check className="w-5 h-5 text-white" strokeWidth={3} />
                   ) : (
                     <span
-                      className={`text-[14px] font-bold ${stepState === 'active' ? 'text-white' : 'text-gray-600'}`}
+                      className={`text-[14px] font-bold ${stepState === 'active' ? 'text-white' : 'text-grey-dark'}`}
                     >
                       {step.stepNumber}
                     </span>
@@ -142,12 +142,12 @@ export const ConfiguratorStepIndicator: React.FC<ConfiguratorStepIndicatorProps>
                 {/* Step Info */}
                 <div className="flex-1 text-left">
                   <p
-                    className={`text-[14px] font-semibold ${stepState === 'active' ? 'text-[var(--color-primary)]' : 'text-gray-900'}`}
+                    className={`text-[14px] font-semibold ${stepState === 'active' ? 'text-[var(--color-primary)]' : 'text-navy'}`}
                   >
                     {step.title}
                   </p>
                   {step.description && (
-                    <p className="text-[12px] text-gray-600 mt-0.5">{step.description}</p>
+                    <p className="text-[12px] text-grey-dark mt-0.5">{step.description}</p>
                   )}
                 </div>
 
@@ -161,9 +161,9 @@ export const ConfiguratorStepIndicator: React.FC<ConfiguratorStepIndicatorProps>
 
               {/* Vertical Connector Line */}
               {!isLast && (
-                <div className="absolute left-8 top-[52px] w-0.5 h-4 bg-gray-300">
+                <div className="absolute left-8 top-[52px] w-0.5 h-4 bg-grey-light">
                   <div
-                    className={`w-full transition-all duration-300 ${completedSteps.includes(steps[index + 1].stepNumber) ? 'bg-[var(--color-primary)] h-full' : 'bg-gray-300 h-0'}`}
+                    className={`w-full transition-all duration-300 ${completedSteps.includes(steps[index + 1].stepNumber) ? 'bg-[var(--color-primary)] h-full' : 'bg-grey-light h-0'}`}
                   />
                 </div>
               )}

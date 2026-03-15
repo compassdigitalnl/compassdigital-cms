@@ -1,18 +1,30 @@
 /**
- * Hospitality Branch
+ * Hospitality Branch (Deprecated)
  *
- * Vertical slice for hospitality/healthcare businesses (physiotherapy, dental, etc.)
- *
- * Collections: Treatments, Practitioners, Appointments, PatientInfo
- * Features: Treatment detail pages, practitioner profiles, appointment booking
+ * Superseded by the Zorg branch which covers healthcare/physiotherapy use cases.
+ * Kept for backwards compatibility with existing route groups.
+ * Uses unified Content collections from shared.
  */
-
-// Collections removed — replaced by unified Content collections
-// (ContentServices, ContentTeam, ContentBookings)
 
 // Export branch metadata
 export const branchMetadata = {
   name: 'hospitality',
-  collections: [],
+  displayName: 'Hospitality (Deprecated)',
+  description: 'Deprecated — gebruik de Zorg branche voor zorgpraktijken',
+  collections: [
+    'content-services',
+    'content-team',
+    'content-bookings',
+  ],
+  routes: [
+    '/(hospitality)/fysio',
+    '/(hospitality)/treatments/[slug]',
+  ],
+  features: [],
   featureFlag: 'ENABLE_HOSPITALITY',
+  platformOnly: false,
+  category: 'Deprecated',
+  deprecated: true,
+  supersededBy: 'zorg',
+  version: '0.1.0',
 } as const

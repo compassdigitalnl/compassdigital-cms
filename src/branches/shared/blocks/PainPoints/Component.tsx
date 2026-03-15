@@ -142,10 +142,10 @@ export const PainPointsBlockComponent: React.FC<PainPointsBlockProps> = ({
         {/* Section header */}
         <div className="text-center max-w-3xl mx-auto mb-8 md:mb-12">
           {title && (
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">{title}</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-navy mb-3">{title}</h2>
           )}
           {subtitle && (
-            <p className="text-sm md:text-base text-gray-600">{subtitle}</p>
+            <p className="text-sm md:text-base text-grey-dark">{subtitle}</p>
           )}
         </div>
 
@@ -167,12 +167,12 @@ export const PainPointsBlockComponent: React.FC<PainPointsBlockProps> = ({
                   </div>
 
                   {/* Title */}
-                  <h3 className="font-semibold text-lg text-gray-900 mb-2">
+                  <h3 className="font-semibold text-lg text-navy mb-2">
                     {item.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-gray-600 text-sm leading-relaxed">
+                  <p className="text-grey-dark text-sm leading-relaxed">
                     {item.description}
                   </p>
                 </div>

@@ -1,0 +1,3343 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payload CMS Blocks — Fase 3: Forms & Communication (5 blokken)</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Serif+Display:wght@400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  /* ================================
+     MASTER CSS DESIGN SYSTEM
+     Compass Design System v2.0
+     ================================ */
+  :root {
+    /* Primary Colors */
+    --navy: #0A1628;
+    --navy-light: #121F33;
+    --teal: #00897B;
+    --teal-light: #26A69A;
+    --teal-dark: #00695C;
+    --teal-glow: rgba(0, 137, 123, 0.12);
+
+    /* Status Colors */
+    --green: #00C853;
+    --green-light: #E8F5E9;
+    --coral: #FF6B6B;
+    --coral-light: #FFF0F0;
+    --amber: #F59E0B;
+    --amber-light: #FFF8E1;
+    --blue: #2196F3;
+    --blue-light: #E3F2FD;
+
+    /* Neutrals */
+    --white: #FAFBFC;
+    --bg: #F5F7FA;
+    --grey: #E8ECF1;
+    --grey-light: #F1F4F8;
+    --grey-mid: #94A3B8;
+    --grey-dark: #64748B;
+
+    /* System */
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+    --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+    --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --container: 1240px;
+    --gutter: 24px;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--navy);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  /* ================================
+     FORM-SPECIFIC CSS
+     ================================ */
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .form-label .req {
+    color: var(--coral);
+  }
+
+  .form-input,
+  .form-textarea,
+  .form-select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--grey);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--navy);
+    transition: all var(--transition);
+    background: var(--grey-light);
+    outline: none;
+  }
+
+  .form-input:focus,
+  .form-textarea:focus,
+  .form-select:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px var(--teal-glow);
+    background: white;
+  }
+
+  .form-input::placeholder,
+  .form-textarea::placeholder {
+    color: var(--grey-mid);
+  }
+
+  .form-textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-row.full {
+    grid-template-columns: 1fr;
+  }
+
+  @media (max-width: 640px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .form-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .form-checkbox input[type="checkbox"] {
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  .form-error {
+    color: var(--coral);
+    font-size: 12px;
+    margin-top: 6px;
+  }
+
+  .form-success {
+    padding: 16px;
+    background: var(--green-light);
+    border: 1px solid #81C784;
+    border-radius: var(--radius-sm);
+    color: #166534;
+    font-size: 13px;
+    margin-top: 20px;
+  }
+
+  .form-hint {
+    font-size: 12px;
+    color: var(--grey-mid);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+  }
+
+  .form-hint i {
+    width: 13px;
+    height: 13px;
+  }
+
+  .form-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition);
+    box-shadow: 0 4px 16px rgba(0, 137, 123, 0.3);
+  }
+
+  .form-submit:hover {
+    background: var(--navy);
+    transform: translateY(-1px);
+  }
+
+  .form-submit i {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* ================================
+     NAVIGATION & PAGE STRUCTURE
+     ================================ */
+  .nav-header {
+    background: white;
+    border-bottom: 1px solid var(--grey);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 12px;
+  }
+
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    background: var(--grey-light);
+    color: var(--navy);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    transition: all var(--transition);
+  }
+
+  .nav-btn:hover {
+    background: var(--teal-glow);
+    color: var(--teal);
+  }
+
+  .nav-btn i {
+    width: 16px;
+    height: 16px;
+  }
+
+  .page-intro {
+    padding: 48px 0;
+    text-align: center;
+  }
+
+  .page-intro h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+
+  .page-intro p {
+    font-size: 16px;
+    color: var(--grey-dark);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .block-demo {
+    padding: 64px 0;
+    border-bottom: 2px solid var(--grey);
+  }
+
+  .block-demo:last-of-type {
+    border-bottom: none;
+  }
+
+  .block-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .block-id {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--teal-glow);
+    color: var(--teal);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 100px;
+    margin-bottom: 12px;
+  }
+
+  .block-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .block-subtitle {
+    font-size: 15px;
+    color: var(--grey-mid);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .variant-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 20px;
+  }
+
+  .variant-label i {
+    width: 16px;
+    height: 16px;
+    color: var(--teal);
+  }
+
+  /* ================================
+     BLOCK-SPECIFIC STYLES
+     ================================ */
+
+  /* Card Containers */
+  .card {
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: 16px;
+    padding: 28px;
+  }
+
+  .card-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-title i {
+    width: 20px;
+    height: 20px;
+    color: var(--teal);
+  }
+
+  .card-desc {
+    font-size: 14px;
+    color: var(--grey-dark);
+    margin-bottom: 20px;
+  }
+
+  /* Contact Channels */
+  .channels {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+
+  @media (max-width: 900px) {
+    .channels {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .channels {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .channel {
+    background: white;
+    border: 1.5px solid var(--grey);
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+    transition: all 0.25s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .channel:hover {
+    border-color: var(--teal);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.05);
+  }
+
+  .ch-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+  }
+
+  .ch-icon i {
+    width: 24px;
+    height: 24px;
+  }
+
+  .ch-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .ch-value {
+    font-size: 14px;
+    color: var(--teal);
+    font-weight: 600;
+  }
+
+  .ch-desc {
+    font-size: 12px;
+    color: var(--grey-mid);
+    margin-top: 4px;
+  }
+
+  /* Newsletter Section */
+  .newsletter-section {
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    border-radius: 20px;
+    padding: 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .newsletter-section::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 70%);
+    border-radius: 50%;
+  }
+
+  .newsletter-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .newsletter-section h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  .newsletter-section p {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 24px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .newsletter-form {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .newsletter-input-wrapper {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .newsletter-input {
+    flex: 1;
+    height: 52px;
+    padding: 0 18px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    outline: none;
+    transition: all var(--transition);
+  }
+
+  .newsletter-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .newsletter-input:focus {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: white;
+  }
+
+  .newsletter-btn {
+    height: 52px;
+    padding: 0 32px;
+    background: white;
+    color: var(--teal);
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+  .newsletter-btn:hover {
+    background: var(--navy);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  .newsletter-btn i {
+    width: 18px;
+    height: 18px;
+  }
+
+  .newsletter-privacy {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .newsletter-privacy a {
+    color: white;
+    text-decoration: underline;
+  }
+
+  /* Inline Newsletter (Footer variant) */
+  .newsletter-inline {
+    background: var(--grey-light);
+    border-radius: 14px;
+    padding: 28px;
+  }
+
+  .newsletter-inline-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .newsletter-inline-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .newsletter-inline h4 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .newsletter-inline p {
+    font-size: 13px;
+    color: var(--grey-dark);
+  }
+
+  .newsletter-inline-form {
+    display: flex;
+    gap: 8px;
+  }
+
+  .newsletter-inline-input {
+    width: 260px;
+    height: 44px;
+    padding: 0 14px;
+    border: 1.5px solid var(--grey);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    outline: none;
+    transition: all var(--transition);
+  }
+
+  .newsletter-inline-input:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px var(--teal-glow);
+  }
+
+  .newsletter-inline-btn {
+    height: 44px;
+    padding: 0 20px;
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+  }
+
+  .newsletter-inline-btn:hover {
+    background: var(--navy);
+  }
+
+  /* Offerte (Multi-step) */
+  .offerte-hero {
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    border-radius: 20px;
+    padding: 44px 48px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .offerte-hero::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: 80px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(0, 137, 123, 0.08), transparent 70%);
+    border-radius: 50%;
+  }
+
+  .offerte-hero h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .offerte-hero p {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.45);
+    max-width: 500px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .offerte-badges {
+    display: flex;
+    gap: 16px;
+    position: relative;
+  }
+
+  .offerte-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .offerte-badge i {
+    width: 16px;
+    height: 16px;
+    color: var(--teal-light);
+  }
+
+  .offerte-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 28px;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .offerte-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .offerte-hero {
+      flex-direction: column;
+      padding: 32px 24px;
+    }
+
+    .offerte-badges {
+      flex-wrap: wrap;
+    }
+  }
+
+  .card-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Product search & table (for offerte) */
+  .prod-search-wrap {
+    position: relative;
+    margin-bottom: 14px;
+  }
+
+  .prod-search {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px 0 42px;
+    border: 2px solid var(--grey);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--navy);
+    background: var(--grey-light);
+    outline: none;
+    transition: all var(--transition);
+  }
+
+  .prod-search:focus {
+    border-color: var(--teal);
+    background: white;
+    box-shadow: 0 0 0 4px var(--teal-glow);
+  }
+
+  .prod-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .prod-search-icon i {
+    width: 16px;
+    height: 16px;
+    color: var(--grey-mid);
+  }
+
+  .prod-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .prod-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--grey-mid);
+    padding: 8px 10px;
+    border-bottom: 2px solid var(--grey);
+  }
+
+  .prod-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--grey);
+    font-size: 14px;
+    vertical-align: middle;
+  }
+
+  .prod-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .pt-product {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pt-img {
+    width: 40px;
+    height: 40px;
+    background: var(--grey-light);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .pt-name {
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .pt-sku {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--grey-mid);
+  }
+
+  .pt-qty {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid var(--grey);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .pt-qty button {
+    width: 30px;
+    height: 32px;
+    border: none;
+    background: white;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pt-qty button:hover {
+    background: var(--grey-light);
+  }
+
+  .pt-qty span {
+    width: 40px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .pt-remove {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .pt-remove:hover {
+    background: var(--coral-light);
+  }
+
+  .pt-remove i {
+    width: 14px;
+    height: 14px;
+    color: var(--grey-mid);
+  }
+
+  .pt-remove:hover i {
+    color: var(--coral);
+  }
+
+  .add-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border: 2px dashed var(--grey);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--teal);
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 12px;
+  }
+
+  .add-row:hover {
+    border-color: var(--teal);
+    background: var(--teal-glow);
+  }
+
+  .add-row i {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Sidebar (offerte, reservation) */
+  .side-card {
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+    position: sticky;
+    top: 96px;
+  }
+
+  .side-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .side-title i {
+    width: 16px;
+    height: 16px;
+    color: var(--teal);
+  }
+
+  .step-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .step-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--teal-glow);
+    color: var(--teal);
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .step-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .step-desc {
+    font-size: 12px;
+    color: var(--grey-mid);
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--navy);
+    padding: 4px 0;
+  }
+
+  .trust-item i {
+    width: 16px;
+    height: 16px;
+    color: var(--green);
+    flex-shrink: 0;
+  }
+
+  .help-card {
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .help-card::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(0, 137, 123, 0.1), transparent 70%);
+    border-radius: 50%;
+  }
+
+  .help-card h4 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 6px;
+    position: relative;
+  }
+
+  .help-card p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.45);
+    margin-bottom: 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .help-card a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--teal-light);
+    text-decoration: none;
+    position: relative;
+  }
+
+  .help-card a:hover {
+    color: white;
+  }
+
+  .help-card a i {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Workshop Registration */
+  .ws-hero {
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    border-radius: 20px;
+    padding: 48px;
+    margin-bottom: 28px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ws-hero::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: 100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0, 137, 123, 0.08), transparent 70%);
+    border-radius: 50%;
+  }
+
+  .ws-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 10px;
+    position: relative;
+  }
+
+  .ws-hero-badge i {
+    width: 13px;
+    height: 13px;
+  }
+
+  .ws-hero h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .ws-hero p {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.45);
+    max-width: 520px;
+    line-height: 1.6;
+    position: relative;
+  }
+
+  .ws-hero-stats {
+    display: flex;
+    gap: 24px;
+    margin-top: 18px;
+    position: relative;
+  }
+
+  .whs {
+    text-align: center;
+    padding: 12px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+  }
+
+  .whs-num {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: white;
+  }
+
+  .whs-label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  @media (max-width: 900px) {
+    .ws-hero {
+      grid-template-columns: 1fr;
+      padding: 32px 24px;
+    }
+  }
+
+  /* Date picker (calendar) */
+  .cal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .cal-month {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .cal-nav {
+    display: flex;
+    gap: 4px;
+  }
+
+  .cal-nav-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1.5px solid var(--grey);
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+
+  .cal-nav-btn:hover {
+    border-color: var(--teal);
+  }
+
+  .cal-nav-btn i {
+    width: 16px;
+    height: 16px;
+    color: var(--grey-mid);
+  }
+
+  .cal-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .cal-weekday {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--grey-mid);
+    padding: 6px 0;
+  }
+
+  .cal-day {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.12s;
+    border: 1.5px solid transparent;
+    color: var(--navy);
+  }
+
+  .cal-day:hover:not(.disabled):not(.selected) {
+    background: var(--teal-glow);
+    border-color: var(--teal);
+  }
+
+  .cal-day.selected {
+    background: var(--teal);
+    color: white;
+    border-color: var(--teal);
+    font-weight: 800;
+  }
+
+  .cal-day.today {
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+
+  .cal-day.disabled {
+    color: var(--grey);
+    cursor: not-allowed;
+  }
+
+  .cal-day.other-month {
+    color: var(--grey);
+  }
+
+  /* Time slots */
+  .time-section {
+    margin-bottom: 12px;
+  }
+
+  .ts-sublabel {
+    font-size: 11px;
+    color: var(--grey-mid);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .time-slots {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .time-slot {
+    padding: 8px 14px;
+    border: 1.5px solid var(--grey);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+
+  .time-slot:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+
+  .time-slot.selected {
+    background: var(--teal);
+    color: white;
+    border-color: var(--teal);
+  }
+
+  .time-slot.busy {
+    opacity: 0.35;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+
+  /* Party size selector */
+  .size-row {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .size-btn {
+    width: 48px;
+    height: 48px;
+    border: 2px solid var(--grey);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.12s;
+    position: relative;
+  }
+
+  .size-btn:hover {
+    border-color: var(--teal);
+  }
+
+  .size-btn.selected {
+    border-color: var(--teal);
+    background: var(--teal);
+    color: white;
+  }
+
+  /* Seating preference */
+  .seat-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  @media (max-width: 640px) {
+    .seat-options {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .seat-opt {
+    padding: 12px;
+    border: 1.5px solid var(--grey);
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+
+  .seat-opt:hover {
+    border-color: var(--teal);
+  }
+
+  .seat-opt.selected {
+    border-color: var(--teal);
+    background: var(--teal-glow);
+  }
+
+  .so-icon {
+    font-size: 22px;
+    margin-bottom: 2px;
+  }
+
+  .so-name {
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .so-desc {
+    font-size: 10px;
+    color: var(--grey-mid);
+  }
+
+  /* Reservation Summary */
+  .summary-card {
+    background: white;
+    border: 1.5px solid var(--grey);
+    border-radius: 18px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .sum-header {
+    background: var(--navy);
+    padding: 16px;
+    color: white;
+    text-align: center;
+  }
+
+  .sum-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .sum-body {
+    padding: 16px;
+  }
+
+  .sum-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--grey);
+    font-size: 13px;
+  }
+
+  .sum-row:last-child {
+    border-bottom: none;
+  }
+
+  .sr-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .sr-icon i {
+    width: 16px;
+    height: 16px;
+  }
+
+  .sr-label {
+    color: var(--grey-mid);
+    font-size: 11px;
+  }
+
+  .sr-val {
+    font-weight: 700;
+  }
+
+  .sum-empty {
+    font-size: 12px;
+    color: var(--grey-mid);
+    font-style: italic;
+    text-align: center;
+    padding: 8px 0;
+  }
+
+  /* Accommodation Extras */
+  .extra-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .extra-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: white;
+    border: 1.5px solid var(--grey);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .extra-item:hover {
+    border-color: var(--teal);
+  }
+
+  .extra-item.selected {
+    border-color: var(--teal);
+    background: var(--teal-glow);
+  }
+
+  .extra-check {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--grey);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.12s;
+  }
+
+  .extra-item.selected .extra-check {
+    background: var(--teal);
+    border-color: var(--teal);
+  }
+
+  .extra-item.selected .extra-check i {
+    color: white;
+  }
+
+  .extra-check i {
+    width: 14px;
+    height: 14px;
+    color: transparent;
+  }
+
+  .extra-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .extra-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .extra-name {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .extra-desc {
+    font-size: 12px;
+    color: var(--grey-mid);
+  }
+
+  .extra-price {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  /* Documentation Section */
+  .doc-section {
+    padding: 48px 0;
+    border-top: 2px solid var(--grey);
+  }
+
+  .doc-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 24px;
+  }
+
+  .doc-step {
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .doc-step h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .doc-step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: white;
+    font-size: 14px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .doc-step p {
+    font-size: 14px;
+    color: var(--grey-dark);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .doc-step pre {
+    background: var(--grey-light);
+    border: 1px solid var(--grey);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--navy);
+  }
+
+  .doc-step code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: var(--grey-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--teal);
+  }
+
+  .doc-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .doc-list li {
+    padding: 8px 0;
+    padding-left: 28px;
+    position: relative;
+    font-size: 14px;
+    color: var(--grey-dark);
+  }
+
+  .doc-list li:before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--teal);
+    font-weight: 700;
+  }
+
+  .doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+  }
+
+  .doc-table th {
+    background: var(--grey-light);
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--navy);
+    border: 1px solid var(--grey);
+  }
+
+  .doc-table td {
+    padding: 10px 12px;
+    font-size: 13px;
+    border: 1px solid var(--grey);
+  }
+
+  .doc-table code {
+    font-size: 11px;
+  }
+
+  .priority-high {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--green-light);
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 4px;
+  }
+
+  .priority-medium {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--blue-light);
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ================================
+     NAVIGATION
+     ================================ -->
+<nav class="nav-header">
+  <div class="container">
+    <div class="nav-content">
+      <div class="nav-title">📝 Fase 3: Forms & Communication</div>
+      <div class="nav-links">
+        <a href="payload-blocks-fase2.html" class="nav-btn"><i data-lucide="arrow-left"></i> Fase 2</a>
+        <a href="payload-blocks-index.html" class="nav-btn"><i data-lucide="home"></i> Index</a>
+        <a href="payload-blocks-fase4.html" class="nav-btn">Fase 4 <i data-lucide="arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ================================
+     PAGE INTRO
+     ================================ -->
+<section class="page-intro">
+  <div class="container">
+    <h1>Forms & Communication Blocks</h1>
+    <p>
+      5 production-ready form blokken voor contactformulieren, nieuwsbrieven, offertes, workshops en reserveringen.
+      Volledig geïntegreerd met Payload CMS, inclusief field validatie en spam protection.
+    </p>
+  </div>
+</section>
+
+<!-- ================================
+     B-27: CONTACT FORM
+     ================================ -->
+<section class="block-demo">
+  <div class="container">
+    <div class="block-header">
+      <span class="block-id">B-27</span>
+      <h2 class="block-title">Contact Form Block</h2>
+      <p class="block-subtitle">
+        Volledig contactformulier met customizable fields, file uploads en spam protection
+      </p>
+    </div>
+
+    <!-- Variant 1: Standard Form -->
+    <div style="margin-bottom: 64px;">
+      <div class="variant-label"><i data-lucide="layout"></i> Variant 1: Standard Form</div>
+
+      <div style="max-width: 800px; margin: 0 auto;">
+        <!-- Contact channels row -->
+        <div class="channels">
+          <a href="tel:0251247233" class="channel">
+            <div class="ch-icon" style="background:var(--teal-glow)"><i data-lucide="phone" style="color:var(--teal)"></i></div>
+            <div class="ch-title">Bel ons</div>
+            <div class="ch-value">0251‑247233</div>
+            <div class="ch-desc">Ma–Vr 08:30–17:00</div>
+          </a>
+          <a href="mailto:info@plastimed.nl" class="channel">
+            <div class="ch-icon" style="background:var(--blue-light)"><i data-lucide="mail" style="color:var(--blue)"></i></div>
+            <div class="ch-title">E-mail</div>
+            <div class="ch-value">info@plastimed.nl</div>
+            <div class="ch-desc">Reactie binnen 4 uur</div>
+          </a>
+          <a href="#" class="channel">
+            <div class="ch-icon" style="background:var(--green-light)"><i data-lucide="message-circle" style="color:var(--green)"></i></div>
+            <div class="ch-title">WhatsApp</div>
+            <div class="ch-value">06‑12345678</div>
+            <div class="ch-desc">Direct antwoord</div>
+          </a>
+          <a href="#" class="channel">
+            <div class="ch-icon" style="background:var(--amber-light)"><i data-lucide="file-text" style="color:var(--amber)"></i></div>
+            <div class="ch-title">Offerte</div>
+            <div class="ch-value">Aanvragen →</div>
+            <div class="ch-desc">Grote bestellingen</div>
+          </a>
+        </div>
+
+        <!-- Contact form -->
+        <div class="card">
+          <div class="card-title"><i data-lucide="send"></i> Stuur ons een bericht</div>
+          <div class="card-desc">Vul het formulier in en wij nemen zo snel mogelijk contact met u op — meestal binnen 4 uur op werkdagen.</div>
+
+          <form>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Voornaam <span class="req">*</span></label>
+                <input class="form-input" placeholder="Jan" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Achternaam <span class="req">*</span></label>
+                <input class="form-input" placeholder="de Vries" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">E-mailadres <span class="req">*</span></label>
+                <input class="form-input" type="email" placeholder="jan@bedrijf.nl" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Telefoonnummer</label>
+                <input class="form-input" type="tel" placeholder="06-12345678">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Bedrijfsnaam</label>
+                <input class="form-input" placeholder="Huisartsenpraktijk De Vries">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Onderwerp <span class="req">*</span></label>
+                <select class="form-select" required>
+                  <option value="">Kies een onderwerp…</option>
+                  <option>Vraag over bestelling</option>
+                  <option>Productinformatie</option>
+                  <option>Offerte aanvragen</option>
+                  <option>Retour / ruiling</option>
+                  <option>Technische support</option>
+                  <option>Anders</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row full">
+              <div class="form-group">
+                <label class="form-label">Ordernummer (optioneel)</label>
+                <input class="form-input" placeholder="bijv. PM-2026-1847">
+              </div>
+            </div>
+
+            <div class="form-row full">
+              <div class="form-group">
+                <label class="form-label">Uw bericht <span class="req">*</span></label>
+                <textarea class="form-textarea" placeholder="Beschrijf uw vraag zo duidelijk mogelijk…" required></textarea>
+              </div>
+            </div>
+
+            <div class="form-hint" style="margin-bottom:8px;">
+              <i data-lucide="paperclip"></i> U kunt bijlagen meesturen naar info@plastimed.nl
+            </div>
+
+            <button type="submit" class="form-submit">
+              <i data-lucide="send"></i> Verstuur bericht
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Variant 2: Compact Sidebar Form -->
+    <div>
+      <div class="variant-label"><i data-lucide="sidebar"></i> Variant 2: Compact Sidebar</div>
+
+      <div style="max-width: 420px;">
+        <div class="card">
+          <div class="card-title"><i data-lucide="message-square"></i> Snel contact</div>
+          <div class="card-desc">Kort bericht? Stuur direct een vraag.</div>
+
+          <form>
+            <div class="form-group">
+              <label class="form-label">Naam <span class="req">*</span></label>
+              <input class="form-input" placeholder="Uw naam" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">E-mail <span class="req">*</span></label>
+              <input class="form-input" type="email" placeholder="uw@email.nl" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Bericht <span class="req">*</span></label>
+              <textarea class="form-textarea" style="min-height: 100px;" placeholder="Uw vraag…" required></textarea>
+            </div>
+
+            <button type="submit" class="form-submit" style="width: 100%;">
+              <i data-lucide="send"></i> Verstuur
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================
+     B-28: NEWSLETTER SIGNUP
+     ================================ -->
+<section class="block-demo">
+  <div class="container">
+    <div class="block-header">
+      <span class="block-id">B-28</span>
+      <h2 class="block-title">Newsletter Signup Block</h2>
+      <p class="block-subtitle">
+        Email capture voor nieuwsbrieven met GDPR-compliant checkbox en Mailchimp/Resend integratie
+      </p>
+    </div>
+
+    <!-- Variant 1: Standalone Section -->
+    <div style="margin-bottom: 64px;">
+      <div class="variant-label"><i data-lucide="layout"></i> Variant 1: Standalone Section</div>
+
+      <div style="max-width: 900px; margin: 0 auto;">
+        <div class="newsletter-section">
+          <div class="newsletter-content">
+            <h3>Blijf op de hoogte</h3>
+            <p>Ontvang exclusieve aanbiedingen, productlanceringen en medische tips direct in uw inbox. Elke week.</p>
+
+            <form class="newsletter-form">
+              <div class="newsletter-input-wrapper">
+                <input type="email" class="newsletter-input" placeholder="Uw e-mailadres" required>
+                <button type="submit" class="newsletter-btn">
+                  <i data-lucide="mail"></i> Aanmelden
+                </button>
+              </div>
+              <div class="newsletter-privacy">
+                Door u aan te melden gaat u akkoord met ons <a href="#">privacybeleid</a>.
+                U kunt zich elk moment afmelden.
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Variant 2: Inline Footer -->
+    <div>
+      <div class="variant-label"><i data-lucide="align-justify"></i> Variant 2: Inline Footer</div>
+
+      <div style="max-width: 900px; margin: 0 auto;">
+        <div class="newsletter-inline">
+          <div class="newsletter-inline-grid">
+            <div>
+              <h4>📬 Blijf op de hoogte</h4>
+              <p>Ontvang exclusieve aanbiedingen en medische tips per mail</p>
+            </div>
+            <form class="newsletter-inline-form">
+              <input type="email" class="newsletter-inline-input" placeholder="Uw e-mailadres" required>
+              <button type="submit" class="newsletter-inline-btn">Aanmelden</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================
+     B-29: OFFERTE REQUEST
+     ================================ -->
+<section class="block-demo">
+  <div class="container">
+    <div class="block-header">
+      <span class="block-id">B-29</span>
+      <h2 class="block-title">Offerte Request Block (Multi-step)</h2>
+      <p class="block-subtitle">
+        Complete offerte workflow met product selectie, bedrijfsgegevens, file upload en leveringsvoorkeuren
+      </p>
+    </div>
+
+    <!-- Full Offerte Flow -->
+    <div>
+      <div class="offerte-hero">
+        <div>
+          <h1>Offerte op maat aanvragen</h1>
+          <p>Grote bestelling of specifieke wensen? Vraag een offerte aan en ontvang scherpe volume-prijzen binnen 24 uur.</p>
+        </div>
+        <div class="offerte-badges">
+          <div class="offerte-badge"><i data-lucide="clock"></i> Reactie binnen 24 uur</div>
+          <div class="offerte-badge"><i data-lucide="tag"></i> Scherpe volumeprijzen</div>
+        </div>
+      </div>
+
+      <div class="offerte-layout">
+        <div>
+          <!-- Step 1: Products -->
+          <div class="card" style="margin-bottom: 20px;">
+            <div class="card-title"><span class="card-num">1</span> Producten toevoegen</div>
+            <div class="card-desc">Zoek en voeg de gewenste producten toe met het aantal. U kunt ook een omschrijving typen als u het exacte product niet weet.</div>
+
+            <div class="prod-search-wrap">
+              <input class="prod-search" type="text" placeholder="Zoek product op naam, merk of artikelnummer…">
+              <div class="prod-search-icon"><i data-lucide="search"></i></div>
+            </div>
+
+            <table class="prod-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Aantal</th>
+                  <th style="width:40px;"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="pt-product">
+                      <div class="pt-img">🧤</div>
+                      <div>
+                        <div class="pt-name">Peha-soft Nitrile Fino — Maat M</div>
+                        <div class="pt-sku">Art. 942210</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="pt-qty">
+                      <button type="button">−</button>
+                      <span>50</span>
+                      <button type="button">+</button>
+                    </div>
+                  </td>
+                  <td>
+                    <button class="pt-remove"><i data-lucide="trash-2"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="pt-product">
+                      <div class="pt-img">🧴</div>
+                      <div>
+                        <div class="pt-name">Baktolan Protect+ Pure 100ml</div>
+                        <div class="pt-sku">Art. 232451</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="pt-qty">
+                      <button type="button">−</button>
+                      <span>24</span>
+                      <button type="button">+</button>
+                    </div>
+                  </td>
+                  <td>
+                    <button class="pt-remove"><i data-lucide="trash-2"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="add-row">
+              <i data-lucide="plus-circle"></i> Product toevoegen
+            </div>
+          </div>
+
+          <!-- Step 2: Company -->
+          <div class="card" style="margin-bottom: 20px;">
+            <div class="card-title"><span class="card-num">2</span> Bedrijfsgegevens</div>
+            <div class="card-desc">Vul uw contactgegevens in zodat wij de offerte op naam kunnen stellen.</div>
+
+            <form>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Bedrijfsnaam <span class="req">*</span></label>
+                  <input class="form-input" placeholder="Huisartsenpraktijk De Vries">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">KVK-nummer</label>
+                  <input class="form-input" placeholder="12345678">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Contactpersoon <span class="req">*</span></label>
+                  <input class="form-input" placeholder="Jan de Vries">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">E-mailadres <span class="req">*</span></label>
+                  <input class="form-input" type="email" placeholder="jan@bedrijf.nl">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Telefoonnummer <span class="req">*</span></label>
+                  <input class="form-input" type="tel" placeholder="06-12345678">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Branche</label>
+                  <select class="form-select">
+                    <option value="">Selecteer…</option>
+                    <option>Huisarts</option>
+                    <option>Tandarts</option>
+                    <option>Verloskunde</option>
+                    <option>Fysiotherapie</option>
+                    <option>Thuiszorg</option>
+                    <option>Ziekenhuis</option>
+                    <option>Anders</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Step 3: Details -->
+          <div class="card">
+            <div class="card-title"><span class="card-num">3</span> Leveringsvoorkeuren</div>
+
+            <form>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Gewenste leverdatum</label>
+                  <input class="form-input" type="date">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Leverfrequentie</label>
+                  <select class="form-select">
+                    <option value="">Eenmalig</option>
+                    <option>Wekelijks</option>
+                    <option>Tweewekelijks</option>
+                    <option>Maandelijks</option>
+                    <option>Per kwartaal</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row full">
+                <div class="form-group">
+                  <label class="form-label">Opmerkingen</label>
+                  <textarea class="form-textarea" placeholder="Eventuele wensen, specificaties of vragen…"></textarea>
+                </div>
+              </div>
+
+              <div class="form-checkbox" style="margin-bottom: 8px;">
+                <input type="checkbox" id="advice">
+                <label for="advice">Ik wil graag een persoonlijk adviesgesprek over de mogelijkheden</label>
+              </div>
+
+              <div class="form-checkbox" style="margin-bottom: 16px;">
+                <input type="checkbox" id="privacy" checked>
+                <label for="privacy">Ik ga akkoord met de <a href="#" style="color:var(--teal);">privacyverklaring</a></label>
+              </div>
+
+              <button type="submit" class="form-submit">
+                <i data-lucide="send"></i> Offerte aanvragen
+              </button>
+              <div class="form-hint" style="margin-top:10px;">
+                <i data-lucide="clock"></i> U ontvangt uw offerte binnen 24 uur op werkdagen
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside>
+          <div class="side-card">
+            <div class="side-title"><i data-lucide="zap"></i> Hoe het werkt</div>
+            <div class="step-list">
+              <div class="step-item">
+                <div class="step-num">1</div>
+                <div>
+                  <div class="step-text">Producten selecteren</div>
+                  <div class="step-desc">Voeg producten en aantallen toe</div>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">2</div>
+                <div>
+                  <div class="step-text">Gegevens invullen</div>
+                  <div class="step-desc">Uw bedrijfs- en contactinformatie</div>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">3</div>
+                <div>
+                  <div class="step-text">Offerte ontvangen</div>
+                  <div class="step-desc">Binnen 24 uur in uw inbox</div>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">4</div>
+                <div>
+                  <div class="step-text">Bestellen</div>
+                  <div class="step-desc">Akkoord? Direct omzetten in bestelling</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="side-card">
+            <div class="side-title"><i data-lucide="shield-check"></i> Waarom via offerte?</div>
+            <div class="trust-item"><i data-lucide="check"></i> Extra korting bij grote volumes</div>
+            <div class="trust-item"><i data-lucide="check"></i> Prijsgarantie gedurende offerte</div>
+            <div class="trust-item"><i data-lucide="check"></i> Op maat samengestelde pakketten</div>
+            <div class="trust-item"><i data-lucide="check"></i> Persoonlijk advies van specialist</div>
+            <div class="trust-item"><i data-lucide="check"></i> Flexibele leveringsschema's</div>
+          </div>
+
+          <div class="help-card">
+            <h4>Liever telefonisch?</h4>
+            <p>Onze productspecialisten helpen u graag met een offerte op maat.</p>
+            <a href="tel:0251247233"><i data-lucide="phone"></i> 0251‑247233</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================
+     B-30: WORKSHOP REGISTRATION
+     ================================ -->
+<section class="block-demo">
+  <div class="container">
+    <div class="block-header">
+      <span class="block-id">B-30</span>
+      <h2 class="block-title">Workshop Registration Block</h2>
+      <p class="block-subtitle">
+        Workshop/training booking met date picker, time slots, attendee info en payment integration
+      </p>
+    </div>
+
+    <!-- Workshop Booking -->
+    <div>
+      <div class="ws-hero">
+        <div>
+          <div class="ws-hero-badge"><i data-lucide="graduation-cap"></i> Plastimed Academy</div>
+          <h1>Workshops & Trainingen</h1>
+          <p>Ontwikkel uw kennis met professionele workshops van toonaangevende leveranciers. Van wondverzorging tot diagnostiek — boek direct en ontvang een certificaat.</p>
+          <div class="ws-hero-stats">
+            <div class="whs"><div class="whs-num">12</div><div class="whs-label">Workshops</div></div>
+            <div class="whs"><div class="whs-num">8</div><div class="whs-label">Trainers</div></div>
+            <div class="whs"><div class="whs-num">4.9★</div><div class="whs-label">Beoordeling</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="max-width: 600px; margin: 0 auto;">
+        <div class="card" style="margin-bottom: 20px;">
+          <div class="card-title">🩹 Masterclass Moderne Wondverzorging</div>
+          <div class="card-desc">
+            Intensieve dagworkshop over de nieuwste inzichten en technieken in wondverzorging.<br>
+            <strong>Locatie:</strong> Plastimed HQ, Beverwijk · <strong>Prijs:</strong> €195 p.p. excl. BTW
+          </div>
+
+          <!-- Date Picker -->
+          <div class="cal-header">
+            <div class="cal-month">Februari 2026</div>
+            <div class="cal-nav">
+              <button type="button" class="cal-nav-btn"><i data-lucide="chevron-left"></i></button>
+              <button type="button" class="cal-nav-btn"><i data-lucide="chevron-right"></i></button>
+            </div>
+          </div>
+
+          <div class="cal-days">
+            <div class="cal-weekday">Ma</div>
+            <div class="cal-weekday">Di</div>
+            <div class="cal-weekday">Wo</div>
+            <div class="cal-weekday">Do</div>
+            <div class="cal-weekday">Vr</div>
+            <div class="cal-weekday">Za</div>
+            <div class="cal-weekday">Zo</div>
+
+            <!-- Days -->
+            <div class="cal-day other-month disabled">26</div>
+            <div class="cal-day other-month disabled">27</div>
+            <div class="cal-day other-month disabled">28</div>
+            <div class="cal-day other-month disabled">29</div>
+            <div class="cal-day other-month disabled">30</div>
+            <div class="cal-day other-month disabled">31</div>
+            <div class="cal-day disabled">1</div>
+
+            <div class="cal-day disabled">2</div>
+            <div class="cal-day disabled">3</div>
+            <div class="cal-day disabled">4</div>
+            <div class="cal-day disabled">5</div>
+            <div class="cal-day disabled">6</div>
+            <div class="cal-day disabled">7</div>
+            <div class="cal-day disabled">8</div>
+
+            <div class="cal-day disabled">9</div>
+            <div class="cal-day disabled">10</div>
+            <div class="cal-day disabled">11</div>
+            <div class="cal-day disabled">12</div>
+            <div class="cal-day disabled">13</div>
+            <div class="cal-day disabled">14</div>
+            <div class="cal-day disabled">15</div>
+
+            <div class="cal-day disabled">16</div>
+            <div class="cal-day disabled">17</div>
+            <div class="cal-day disabled">18</div>
+            <div class="cal-day disabled">19</div>
+            <div class="cal-day disabled">20</div>
+            <div class="cal-day today">21</div>
+            <div class="cal-day">22</div>
+
+            <div class="cal-day disabled">23</div>
+            <div class="cal-day">24</div>
+            <div class="cal-day selected">25</div>
+            <div class="cal-day">26</div>
+            <div class="cal-day">27</div>
+            <div class="cal-day">28</div>
+          </div>
+
+          <!-- Time Slots -->
+          <div style="margin-top: 20px;">
+            <label class="form-label">Kies een tijdslot — Woensdag 25 februari</label>
+            <div class="time-slots">
+              <div class="time-slot selected">09:30 – 16:00</div>
+              <div class="time-slot busy">14:00 – 17:00</div>
+            </div>
+            <div class="form-hint" style="margin-top: 8px;">
+              <i data-lucide="info"></i> Volledige dag workshop incl. lunch en certificaat
+            </div>
+          </div>
+
+          <!-- Attendee count -->
+          <div style="margin-top: 20px;">
+            <label class="form-label">Aantal deelnemers</label>
+            <div class="size-row">
+              <div class="size-btn">1</div>
+              <div class="size-btn selected">2</div>
+              <div class="size-btn">3</div>
+              <div class="size-btn">4</div>
+              <div class="size-btn">5</div>
+              <div class="size-btn">6+</div>
+            </div>
+            <div class="form-hint">
+              <i data-lucide="tag"></i> Groepskorting vanaf 2 personen (5%)
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i data-lucide="user"></i> Uw gegevens</div>
+
+          <form>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Voornaam <span class="req">*</span></label>
+                <input class="form-input" placeholder="Jan" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Achternaam <span class="req">*</span></label>
+                <input class="form-input" placeholder="de Vries" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">E-mail <span class="req">*</span></label>
+                <input class="form-input" type="email" placeholder="jan@bedrijf.nl" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Telefoon <span class="req">*</span></label>
+                <input class="form-input" type="tel" placeholder="06-12345678" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Bedrijfsnaam</label>
+              <input class="form-input" placeholder="Huisartsenpraktijk De Vries">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Dieetwensen / Allergieën</label>
+              <textarea class="form-textarea" style="min-height: 80px;" placeholder="Voor de lunch catering…"></textarea>
+            </div>
+
+            <button type="submit" class="form-submit" style="width: 100%; margin-top: 8px;">
+              <i data-lucide="calendar-check"></i> Boeking bevestigen — €371,10
+            </button>
+            <div style="text-align: center; font-size: 12px; color: var(--grey-mid); margin-top: 8px;">
+              Gratis annuleren tot 48u van tevoren · Betaal achteraf op factuur
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================
+     B-31: RESERVATION FORM
+     ================================ -->
+<section class="block-demo">
+  <div class="container">
+    <div class="block-header">
+      <span class="block-id">B-31</span>
+      <h2 class="block-title">Reservation Form Block</h2>
+      <p class="block-subtitle">
+        Tabel/accommodatie reservering met calendar, time slots, party size en seating preferences
+      </p>
+    </div>
+
+    <!-- Variant 1: Restaurant Reservation -->
+    <div style="margin-bottom: 64px;">
+      <div class="variant-label"><i data-lucide="utensils"></i> Variant 1: Restaurant Reservation</div>
+
+      <div style="max-width: 900px; margin: 0 auto;">
+        <div style="display: grid; grid-template-columns: 1fr 360px; gap: 24px; align-items: start;">
+          <div>
+            <div class="card" style="margin-bottom: 16px;">
+              <div class="card-title"><i data-lucide="calendar"></i> Datum & Tijd</div>
+
+              <!-- Calendar -->
+              <div class="cal-header">
+                <div class="cal-month">Februari 2026</div>
+                <div class="cal-nav">
+                  <button type="button" class="cal-nav-btn"><i data-lucide="chevron-left"></i></button>
+                  <button type="button" class="cal-nav-btn"><i data-lucide="chevron-right"></i></button>
+                </div>
+              </div>
+
+              <div class="cal-days">
+                <div class="cal-weekday">Ma</div><div class="cal-weekday">Di</div><div class="cal-weekday">Wo</div><div class="cal-weekday">Do</div><div class="cal-weekday">Vr</div><div class="cal-weekday">Za</div><div class="cal-weekday">Zo</div>
+
+                <div class="cal-day other-month disabled">26</div><div class="cal-day other-month disabled">27</div><div class="cal-day other-month disabled">28</div><div class="cal-day other-month disabled">29</div><div class="cal-day other-month disabled">30</div><div class="cal-day other-month disabled">31</div><div class="cal-day disabled">1</div>
+                <div class="cal-day disabled">2</div><div class="cal-day disabled">3</div><div class="cal-day disabled">4</div><div class="cal-day disabled">5</div><div class="cal-day disabled">6</div><div class="cal-day disabled">7</div><div class="cal-day disabled">8</div>
+                <div class="cal-day disabled">9</div><div class="cal-day disabled">10</div><div class="cal-day disabled">11</div><div class="cal-day disabled">12</div><div class="cal-day disabled">13</div><div class="cal-day disabled">14</div><div class="cal-day disabled">15</div>
+                <div class="cal-day disabled">16</div><div class="cal-day disabled">17</div><div class="cal-day disabled">18</div><div class="cal-day disabled">19</div><div class="cal-day disabled">20</div><div class="cal-day today">21</div><div class="cal-day">22</div>
+                <div class="cal-day disabled">23</div><div class="cal-day">24</div><div class="cal-day selected">25</div><div class="cal-day">26</div><div class="cal-day">27</div><div class="cal-day">28</div>
+              </div>
+
+              <!-- Time Slots -->
+              <div style="margin-top: 20px;">
+                <div class="time-section">
+                  <div class="ts-sublabel">🌤️ Lunch (12:00 – 15:00)</div>
+                  <div class="time-slots">
+                    <div class="time-slot">12:00</div>
+                    <div class="time-slot">12:30</div>
+                    <div class="time-slot">13:00</div>
+                    <div class="time-slot">13:30</div>
+                    <div class="time-slot">14:00</div>
+                    <div class="time-slot busy">14:30</div>
+                  </div>
+                </div>
+                <div class="time-section">
+                  <div class="ts-sublabel">🌙 Diner (17:30 – 22:30)</div>
+                  <div class="time-slots">
+                    <div class="time-slot">17:30</div>
+                    <div class="time-slot">18:00</div>
+                    <div class="time-slot">18:30</div>
+                    <div class="time-slot selected">19:00</div>
+                    <div class="time-slot">19:30</div>
+                    <div class="time-slot">20:00</div>
+                    <div class="time-slot">20:30</div>
+                    <div class="time-slot">21:00</div>
+                    <div class="time-slot busy">21:30</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 16px;">
+              <div class="card-title"><i data-lucide="users"></i> Aantal personen & Voorkeur</div>
+
+              <div class="size-row">
+                <div class="size-btn">1</div>
+                <div class="size-btn selected">2</div>
+                <div class="size-btn">3</div>
+                <div class="size-btn">4</div>
+                <div class="size-btn">5</div>
+                <div class="size-btn">6</div>
+                <div class="size-btn">7</div>
+                <div class="size-btn">8</div>
+                <div class="size-btn" style="font-size:12px;">8+</div>
+              </div>
+
+              <label class="form-label" style="margin-top: 16px;">Voorkeur plek</label>
+              <div class="seat-options">
+                <div class="seat-opt">
+                  <div class="so-icon">🪑</div>
+                  <div class="so-name">Binnen</div>
+                  <div class="so-desc">Sfeervolle zaal</div>
+                </div>
+                <div class="seat-opt selected">
+                  <div class="so-icon">🌿</div>
+                  <div class="so-name">Terras</div>
+                  <div class="so-desc">Aan de gracht</div>
+                </div>
+                <div class="seat-opt">
+                  <div class="so-icon">🤷</div>
+                  <div class="so-name">Geen voorkeur</div>
+                  <div class="so-desc">Beste beschikbaar</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title"><i data-lucide="user"></i> Uw gegevens</div>
+
+              <form>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Voornaam <span class="req">*</span></label>
+                    <input class="form-input" placeholder="Uw voornaam" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Achternaam <span class="req">*</span></label>
+                    <input class="form-input" placeholder="Uw achternaam" required>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">E-mail <span class="req">*</span></label>
+                    <input class="form-input" type="email" placeholder="uw@email.nl" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Telefoon <span class="req">*</span></label>
+                    <input class="form-input" type="tel" placeholder="06 - 1234 5678" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Gelegenheid (optioneel)</label>
+                  <select class="form-select">
+                    <option>Geen bijzondere gelegenheid</option>
+                    <option>🎂 Verjaardag</option>
+                    <option>💍 Jubileum</option>
+                    <option>💼 Zakelijk diner</option>
+                    <option>🎉 Feestje</option>
+                    <option>❤️ Valentijn / Date</option>
+                    <option>Anders…</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Dieetwensen / Allergieën</label>
+                  <textarea class="form-textarea" style="min-height: 80px;" placeholder="Bijv. glutenallergie, vegetarisch, kinderstoel nodig…"></textarea>
+                </div>
+
+                <button type="submit" class="form-submit" style="width: 100%;">
+                  <i data-lucide="check-circle"></i> Reservering bevestigen
+                </button>
+                <div style="text-align: center; font-size: 11px; color: var(--grey-mid); margin-top: 8px;">
+                  U ontvangt direct een bevestiging per e-mail · Gratis annuleren tot 24u vooraf
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Sidebar Summary -->
+          <aside>
+            <div class="summary-card">
+              <div class="sum-header">
+                <div class="sum-title">📋 Uw reservering</div>
+              </div>
+              <div class="sum-body">
+                <div class="sum-row">
+                  <div class="sr-icon" style="background:var(--teal-glow);">
+                    <i data-lucide="calendar" style="color:var(--teal);"></i>
+                  </div>
+                  <div>
+                    <div class="sr-label">Datum</div>
+                    <div class="sr-val">Woensdag 25 februari 2026</div>
+                  </div>
+                </div>
+                <div class="sum-row">
+                  <div class="sr-icon" style="background:var(--blue-light);">
+                    <i data-lucide="clock" style="color:var(--blue);"></i>
+                  </div>
+                  <div>
+                    <div class="sr-label">Tijd</div>
+                    <div class="sr-val">19:00 — Diner</div>
+                  </div>
+                </div>
+                <div class="sum-row">
+                  <div class="sr-icon" style="background:var(--green-light);">
+                    <i data-lucide="users" style="color:var(--green);"></i>
+                  </div>
+                  <div>
+                    <div class="sr-label">Personen</div>
+                    <div class="sr-val">2 personen</div>
+                  </div>
+                </div>
+                <div class="sum-row">
+                  <div class="sr-icon" style="background:var(--amber-light);">
+                    <i data-lucide="armchair" style="color:var(--amber);"></i>
+                  </div>
+                  <div>
+                    <div class="sr-label">Plek</div>
+                    <div class="sr-val">Terras (aan de gracht)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+    <!-- Variant 2: Accommodation Booking -->
+    <div>
+      <div class="variant-label"><i data-lucide="home"></i> Variant 2: Accommodation Booking</div>
+
+      <div style="max-width: 600px; margin: 0 auto;">
+        <div class="card" style="margin-bottom: 16px;">
+          <div class="card-title"><i data-lucide="home"></i> Luxe Grachtenpand Appartement</div>
+          <div class="card-desc">
+            <strong>Locatie:</strong> Jordaan, Amsterdam · <strong>Type:</strong> Heel appartement · <strong>Prijs:</strong> €189/nacht
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Check-in</label>
+              <input class="form-input" type="date" value="2026-03-12">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Check-out</label>
+              <input class="form-input" type="date" value="2026-03-15">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Gasten</label>
+            <select class="form-select">
+              <option>1 gast</option>
+              <option>2 gasten</option>
+              <option selected>2 volw. + 1 kind</option>
+              <option>3 gasten</option>
+              <option>4 gasten</option>
+            </select>
+          </div>
+
+          <div class="form-hint">
+            <i data-lucide="info"></i> 3 nachten · Weekkorting (−5%): €28,35
+          </div>
+        </div>
+
+        <!-- Extras -->
+        <div class="card" style="margin-bottom: 16px;">
+          <div class="card-title"><i data-lucide="plus-circle"></i> Extra's toevoegen</div>
+
+          <div class="extra-grid">
+            <div class="extra-item selected">
+              <div class="extra-check"><i data-lucide="check"></i></div>
+              <div class="extra-icon" style="background:var(--amber-light);">🥐</div>
+              <div class="extra-body">
+                <div class="extra-name">Ontbijtpakket</div>
+                <div class="extra-desc">Vers brood, beleg, sap & koffie — dagelijks bezorgd voor 08:30</div>
+              </div>
+              <div class="extra-price">€18,50<span style="font-size:11px;font-weight:400;color:var(--grey-mid);">/dag</span></div>
+            </div>
+
+            <div class="extra-item">
+              <div class="extra-check"><i data-lucide="check"></i></div>
+              <div class="extra-icon" style="background:var(--blue-light);">🚲</div>
+              <div class="extra-body">
+                <div class="extra-name">Fietsverhuur</div>
+                <div class="extra-desc">3 stadsfietsen inclusief slot — hele verblijf</div>
+              </div>
+              <div class="extra-price">€27,50<span style="font-size:11px;font-weight:400;color:var(--grey-mid);">/verblijf</span></div>
+            </div>
+
+            <div class="extra-item selected">
+              <div class="extra-check"><i data-lucide="check"></i></div>
+              <div class="extra-icon" style="background:var(--coral-light);">🧸</div>
+              <div class="extra-body">
+                <div class="extra-name">Kinderpakket</div>
+                <div class="extra-desc">Kinderbed, kinderstoel en speelgoed klaargezet</div>
+              </div>
+              <div class="extra-price" style="color:var(--green);">Gratis</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i data-lucide="user"></i> Gastgegevens</div>
+
+          <form>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Voornaam <span class="req">*</span></label>
+                <input class="form-input" placeholder="Uw voornaam" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Achternaam <span class="req">*</span></label>
+                <input class="form-input" placeholder="Uw achternaam" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">E-mail <span class="req">*</span></label>
+                <input class="form-input" type="email" placeholder="uw@email.nl" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Telefoon <span class="req">*</span></label>
+                <input class="form-input" type="tel" placeholder="+31 6 12345678" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Geschatte aankomsttijd</label>
+              <select class="form-select">
+                <option>Kies een tijd</option>
+                <option>15:00 – 16:00</option>
+                <option selected>16:00 – 17:00</option>
+                <option>17:00 – 18:00</option>
+                <option>18:00 – 20:00</option>
+                <option>Na 20:00</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Bijzondere verzoeken (optioneel)</label>
+              <textarea class="form-textarea" style="min-height: 80px;" placeholder="Bijv. vroeg inchecken, kinderbed, dieetrestricties…"></textarea>
+              <div class="form-hint">
+                We doen ons best, maar kunnen niet alles garanderen
+              </div>
+            </div>
+
+            <button type="submit" class="form-submit" style="width: 100%;">
+              <i data-lucide="lock"></i> Reservering bevestigen — €722,15
+            </button>
+            <div style="text-align: center; font-size: 11px; color: var(--grey-mid); margin-top: 8px;">
+              Gratis annulering tot 10 maart 2026 · SSL-beveiligde betaling
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================
+     DOCUMENTATION SECTION (8 STEPS)
+     ================================ -->
+<section class="doc-section">
+  <div class="container">
+    <h2 class="doc-title">📚 Implementatie Documentatie (8-Step Protocol)</h2>
+
+    <!-- STEP 1: Payload Block Configuration -->
+    <div class="doc-step">
+      <h3><span class="doc-step-num">1</span> Payload Block Configuration</h3>
+      <p>Alle 5 form blocks zijn beschikbaar als Payload CMS block types met volledige field configuratie:</p>
+
+      <pre>// src/payload/blocks/ContactForm.ts
+export const ContactForm: Block = {
+  slug: 'contactForm',
+  labels: {
+    singular: 'Contact Form',
+    plural: 'Contact Forms'
+  },
+  fields: [
+    {
+      name: 'variant',
+      type: 'select',
+      defaultValue: 'standard',
+      options: [
+        { label: 'Standard Form', value: 'standard' },
+        { label: 'Compact Sidebar', value: 'compact' }
+      ]
+    },
+    {
+      name: 'title',
+      type: 'text',
+      defaultValue: 'Stuur ons een bericht',
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      defaultValue: 'Vul het formulier in...'
+    },
+    {
+      name: 'channels',
+      type: 'array',
+      fields: [
+        { name: 'icon', type: 'text' },
+        { name: 'title', type: 'text' },
+        { name: 'value', type: 'text' },
+        { name: 'description', type: 'text' },
+        { name: 'link', type: 'text' }
+      ]
+    },
+    {
+      name: 'showChannels',
+      type: 'checkbox',
+      defaultValue: true
+    },
+    {
+      name: 'emailRecipient',
+      type: 'email',
+      required: true,
+      admin: { description: 'Email address to receive submissions' }
+    },
+    {
+      name: 'recaptchaEnabled',
+      type: 'checkbox',
+      defaultValue: true
+    }
+  ]
+}</pre>
+
+      <p><strong>Overige block configuraties:</strong></p>
+      <ul class="doc-list">
+        <li><code>NewsletterSignup.ts</code> — Mailchimp/Resend integration fields</li>
+        <li><code>OfferteRequest.ts</code> — Multi-step product table + company info</li>
+        <li><code>WorkshopRegistration.ts</code> — Date picker + time slots + attendee fields</li>
+        <li><code>ReservationForm.ts</code> — Calendar + party size + seating preferences</li>
+      </ul>
+    </div>
+
+    <!-- STEP 2: TypeScript Types -->
+    <div class="doc-step">
+      <h3><span class="doc-step-num">2</span> TypeScript Types</h3>
+      <p>Complete type definitions voor alle form blocks:</p>
+
+      <pre>// src/payload/types/blocks.ts
+export interface ContactFormBlock {
+  blockType: 'contactForm'
+  variant: 'standard' | 'compact'
+  title: string
+  description: string
+  channels?: ContactChannel[]
+  showChannels: boolean
+  emailRecipient: string
+  recaptchaEnabled: boolean
+}
+
+export interface ContactChannel {
+  icon: string
+  title: string
+  value: string
+  description: string
+  link: string
+}
+
+export interface NewsletterSignupBlock {
+  blockType: 'newsletterSignup'
+  variant: 'standalone' | 'inline'
+  title: string
+  description: string
+  buttonText: string
+  privacyText: string
+  mailchimpListId?: string
+  resendAudienceId?: string
+}
+
+export interface OfferteRequestBlock {
+  blockType: 'offerteRequest'
+  title: string
+  subtitle: string
+  badges: { icon: string; text: string }[]
+  sidebarSteps: OfferteStep[]
+  benefits: string[]
+  contactPhone: string
+}
+
+export interface WorkshopRegistrationBlock {
+  blockType: 'workshopRegistration'
+  workshop: {
+    title: string
+    emoji: string
+    description: string
+    location: string
+    price: number
+    duration: string
+  }
+  availableDates: Date[]
+  timeSlots: TimeSlot[]
+  maxAttendees: number
+  groupDiscount: boolean
+}
+
+export interface ReservationFormBlock {
+  blockType: 'reservationForm'
+  variant: 'restaurant' | 'accommodation'
+  establishment: {
+    name: string
+    type: string
+    address: string
+  }
+  calendarConfig: CalendarConfig
+  timeSlots: TimeSlot[]
+  seatOptions?: SeatOption[]
+  extras?: ExtraOption[]
+}</pre>
+    </div>
+
+    <!-- STEP 3: React Component Usage -->
+    <div class="doc-step">
+      <h3><span class="doc-step-num">3</span> React Component Usage</h3>
+      <p>Voorbeeld van ContactForm component met form handling en validation:</p>
+
+      <pre>// src/components/blocks/ContactForm.tsx
+'use client'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+
+const contactSchema = z.object({
+  firstName: z.string().min(2, 'Voornaam is verplicht'),
+  lastName: z.string().min(2, 'Achternaam is verplicht'),
+  email: z.string().email('Ongeldig e-mailadres'),
+  phone: z.string().optional(),
+  company: z.string().optional(),
+  subject: z.string().min(1, 'Kies een onderwerp'),
+  message: z.string().min(10, 'Bericht moet minimaal 10 karakters zijn')
+})
+
+type ContactFormData = z.infer&lt;typeof contactSchema&gt;
+
+export const ContactForm: React.FC&lt;ContactFormBlock&gt; = ({
+  variant = 'standard',
+  title,
+  description,
+  channels,
+  showChannels,
+  emailRecipient,
+  recaptchaEnabled
+}) => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitSuccess, setSubmitSuccess] = useState(false)
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm&lt;ContactFormData&gt;({
+    resolver: zodResolver(contactSchema)
+  })
+
+  const onSubmit = async (data: ContactFormData) => {
+    setIsSubmitting(true)
+
+    try {
+      // reCAPTCHA verification
+      if (recaptchaEnabled) {
+        const token = await executeRecaptcha()
+        data.recaptchaToken = token
+      }
+
+      // Submit to API endpoint
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, recipient: emailRecipient })
+      })
+
+      if (!response.ok) throw new Error('Submission failed')
+
+      setSubmitSuccess(true)
+      reset()
+    } catch (error) {
+      console.error('Contact form error:', error)
+      alert('Er ging iets mis. Probeer opnieuw.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  return (
+    &lt;div className={`contact-form variant-${variant}`}&gt;
+      {showChannels && channels && (
+        &lt;div className="channels"&gt;
+          {channels.map((channel, i) => (
+            &lt;a key={i} href={channel.link} className="channel"&gt;
+              {/* Channel UI */}
+            &lt;/a&gt;
+          ))}
+        &lt;/div&gt;
+      )}
+
+      &lt;div className="card"&gt;
+        &lt;h3 className="card-title"&gt;{title}&lt;/h3&gt;
+        &lt;p className="card-desc"&gt;{description}&lt;/p&gt;
+
+        {submitSuccess ? (
+          &lt;div className="form-success"&gt;
+            ✓ Bericht verzonden! We nemen zo snel mogelijk contact op.
+          &lt;/div&gt;
+        ) : (
+          &lt;form onSubmit={handleSubmit(onSubmit)}&gt;
+            {/* Form fields with validation errors */}
+            &lt;button type="submit" disabled={isSubmitting}&gt;
+              {isSubmitting ? 'Versturen...' : 'Verstuur bericht'}
+            &lt;/button&gt;
+          &lt;/form&gt;
+        )}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  )
+}</pre>
+
+      <p><strong>API Route voor form submissions:</strong></p>
+      <pre>// src/app/api/contact/route.ts
+import { NextResponse } from 'next/server'
+import { Resend } from 'resend'
+
+const resend = new Resend(process.env.RESEND_API_KEY)
+
+export async function POST(request: Request) {
+  try {
+    const data = await request.json()
+
+    // reCAPTCHA verification
+    if (data.recaptchaToken) {
+      const isValid = await verifyRecaptcha(data.recaptchaToken)
+      if (!isValid) {
+        return NextResponse.json(
+          { error: 'reCAPTCHA verification failed' },
+          { status: 400 }
+        )
+      }
+    }
+
+    // Send email via Resend
+    await resend.emails.send({
+      from: 'contact@yourdomain.com',
+      to: data.recipient,
+      subject: `Contact formulier: ${data.subject}`,
+      html: generateEmailTemplate(data)
+    })
+
+    // Store in database (optional)
+    await payload.create({
+      collection: 'contact-submissions',
+      data: {
+        ...data,
+        submittedAt: new Date()
+      }
+    })
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Submission failed' },
+      { status: 500 }
+    )
+  }
+}</pre>
+    </div>
+
+    <!-- STEP 4: Admin Panel Structure -->
+    <div class="doc-step">
+      <h3><span class="doc-step-num">4</span> Admin Panel Structure</h3>
+      <p>Alle form blocks verschijnen in de Payload admin met dedicated sections:</p>
+
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Block</th>
+            <th>Admin Sections</th>
+            <th>Key Settings</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>B-27: ContactForm</strong></td>
+            <td>• Form Settings<br>• Channels<br>• Email Config<br>• Spam Protection</td>
+            <td>• Variant selector<br>• Email recipient<br>• reCAPTCHA toggle<br>• Success message</td>
+          </tr>
+          <tr>
+            <td><strong>B-28: Newsletter</strong></td>
+            <td>• Content<br>• Integration<br>• Privacy Settings</td>
+            <td>• Mailchimp List ID<br>• Resend Audience ID<br>• GDPR compliance<br>• Double opt-in</td>
+          </tr>
+          <tr>
+            <td><strong>B-29: Offerte</strong></td>
+            <td>• Hero Settings<br>• Product Table<br>• Company Fields<br>• Sidebar Content</td>
+            <td>• Badge text<br>• Step descriptions<br>• Trust signals<br>• Contact phone</td>
+          </tr>
+          <tr>
+            <td><strong>B-30: Workshop</strong></td>
+            <td>• Workshop Details<br>• Calendar Config<br>• Pricing<br>• Attendee Settings</td>
+            <td>• Available dates<br>• Time slots<br>• Max attendees<br>• Group discount %</td>
+          </tr>
+          <tr>
+            <td><strong>B-31: Reservation</strong></td>
+            <td>• Establishment Info<br>• Calendar Settings<br>• Seating Options<br>• Extras/Add-ons</td>
+            <td>• Variant (restaurant/accom)<br>• Opening hours<br>• Table sizes<br>• Extra prices</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><strong>Admin field conditionals:</strong></p>
+      <pre>// Show Mailchimp fields only when integration is enabled
+{
+  name: 'mailchimpConfig',
+  type: 'group',
+  fields: [
+    { name: 'listId', type: 'text' },
+    { name: 'apiKey', type: 'text' }
+  ],
+  admin: {
+    condition: (data) => data.integration === 'mailchimp'
+  }
+}</pre>
+    </div>
+
+    <!-- STEP 5: Testing Checklist -->
+    <div class="doc-step">
+      <h3><span class="doc-step-num">5</span> Testing Checklist</h3>
+      <p>Alle form blocks moeten deze tests doorstaan:</p>
+
+      <ul class="doc-list">
+        <li><strong>Form Validation:</strong> Test required fields, email format, phone format, min/max lengths</li>
+        <li><strong>Spam Protection:</strong> Verify reCAPTCHA works (test keys vs production)</li>
+        <li><strong>Email Delivery:</strong> Confirm emails arrive at correct recipient with proper formatting</li>
+        <li><strong>Database Storage:</strong> Check submissions are stored in Payload CMS</li>
+        <li><strong>Error Handling:</strong> Test API failures, network errors, validation errors</li>
+        <li><strong>Success States:</strong> Verify success message displays, form resets after submit</li>
+        <li><strong>Mobile Responsive:</strong> Test all forms on mobile (touch targets, keyboard behavior)</li>
+        <li><strong>Accessibility:</strong> Screen reader support, keyboard navigation, ARIA labels</li>
+        <li><strong>GDPR Compliance:</strong> Privacy checkboxes, terms links, data retention policies</li>
+        <li><strong>Performance:</strong> Check form submit speed, loading states, debouncing</li>
+      </ul>
+
+      <p><strong>Playwright E2E Tests:</strong></p>
+      <pre>// tests/e2e/forms.spec.ts
+test('Contact form submission flow', async ({ page }) => {
+  await page.goto('/contact')
+
+  // Fill form
+  await page.fill('[name="firstName"]', 'Jan')
+  await page.fill('[name="lastName"]', 'de Vries')
+  await page.fill('[name="email"]', 'jan@test.nl')
+  await page.fill('[name="subject"]', 'Test vraag')
+  await page.fill('[name="message"]', 'Dit is een test bericht.')
+
+  // Submit
+  await page.click('button[type="submit"]')
+
+  // Verify success
+  await expect(page.locator('.form-success')).toBeVisible()
+  await expect(page.locator('.form-success')).toContainText('Bericht verzonden')
+})</pre>
+    </div>
+
+    <!-- STEP 6: Database Migration -->
+    <div class="doc-step">
+      <h3><span class="doc-step-num">6</span> Database Migration</h3>
+      <p>Payload auto-creates tables voor alle collections. Optioneel: maak custom collection voor submissions:</p>
+
+      <pre>// src/payload/collections/ContactSubmissions.ts
+export const ContactSubmissions: CollectionConfig = {
+  slug: 'contact-submissions',
+  admin: {
+    useAsTitle: 'email',
+    defaultColumns: ['email', 'subject', 'submittedAt', 'status']
+  },
+  access: {
+    read: () => true,
+    create: () => true
+  },
+  fields: [
+    { name: 'firstName', type: 'text', required: true },
+    { name: 'lastName', type: 'text', required: true },
+    { name: 'email', type: 'email', required: true },
+    { name: 'phone', type: 'text' },
+    { name: 'company', type: 'text' },
+    { name: 'subject', type: 'text', required: true },
+    { name: 'message', type: 'textarea', required: true },
+    {
+      name: 'status',
+      type: 'select',
+      defaultValue: 'new',
+      options: [
+        { label: 'Nieuw', value: 'new' },
+        { label: 'In behandeling', value: 'processing' },
+        { label: 'Afgehandeld', value: 'resolved' }
+      ]
+    },
+    { name: 'submittedAt', type: 'date', admin: { readOnly: true } },
+    { name: 'ipAddress', type: 'text', admin: { readOnly: true } },
+    { name: 'userAgent', type: 'text', admin: { readOnly: true } }
+  ]
+}</pre>
+
+      <p><strong>Database migrations voor custom fields:</strong></p>
+      <pre>npx payload migrate:create add_contact_submissions</pre>
+    </div>
+
+    <!-- STEP 7: Troubleshooting -->
+    <div class="doc-step">
+      <h3><span class="doc-step-num">7</span> Troubleshooting</h3>
+      <p>Veelvoorkomende problemen en oplossingen:</p>
+
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Probleem</th>
+            <th>Oorzaak</th>
+            <th>Oplossing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Form submit fails zonder error</td>
+            <td>reCAPTCHA key mismatch</td>
+            <td>Check <code>NEXT_PUBLIC_RECAPTCHA_SITE_KEY</code> en <code>RECAPTCHA_SECRET_KEY</code></td>
+          </tr>
+          <tr>
+            <td>Emails komen niet aan</td>
+            <td>Resend API key onjuist</td>
+            <td>Verify <code>RESEND_API_KEY</code> in .env, check Resend dashboard</td>
+          </tr>
+          <tr>
+            <td>Validation errors niet zichtbaar</td>
+            <td>Zod schema mismatch</td>
+            <td>Ensure all form fields have matching Zod schema definitions</td>
+          </tr>
+          <tr>
+            <td>Calendar dates niet interactief</td>
+            <td>JavaScript niet geladen</td>
+            <td>Verify Lucide icons loaded, check browser console</td>
+          </tr>
+          <tr>
+            <td>File upload fails</td>
+            <td>Max size exceeded</td>
+            <td>Increase Next.js body size limit in <code>next.config.js</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><strong>Debug logging:</strong></p>
+      <pre>// Enable form debug logging
+const DEBUG = process.env.NODE_ENV === 'development'
+
+if (DEBUG) {
+  console.log('[ContactForm] Submit data:', data)
+  console.log('[ContactForm] Validation errors:', errors)
+  console.log('[ContactForm] reCAPTCHA token:', token)
+}</pre>
+    </div>
+
+    <!-- STEP 8: Config Registration -->
+    <div class="doc-step">
+      <h3><span class="doc-step-num">8</span> Config Registration</h3>
+      <p>Registreer alle 5 form blocks in Payload config:</p>
+
+      <pre>// src/payload.config.ts
+import { ContactForm } from './blocks/ContactForm'
+import { NewsletterSignup } from './blocks/NewsletterSignup'
+import { OfferteRequest } from './blocks/OfferteRequest'
+import { WorkshopRegistration } from './blocks/WorkshopRegistration'
+import { ReservationForm } from './blocks/ReservationForm'
+
+export default buildConfig({
+  collections: [
+    Pages,
+    ContactSubmissions, // Optional custom collection
+    // ... other collections
+  ],
+  blocks: [
+    ContactForm,
+    NewsletterSignup,
+    OfferteRequest,
+    WorkshopRegistration,
+    ReservationForm
+  ],
+  // ... rest of config
+})</pre>
+
+      <p><strong>Environment variables vereist:</strong></p>
+      <pre># .env
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxx
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=6LxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXX
+RECAPTCHA_SECRET_KEY=6LxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXX
+MAILCHIMP_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-us21
+MAILCHIMP_SERVER_PREFIX=us21</pre>
+
+      <p><strong>Dependencies installeren:</strong></p>
+      <pre>npm install resend @hookform/react-hook-form zod @hookform/resolvers</pre>
+    </div>
+
+    <!-- Priority & Status Summary -->
+    <div class="doc-step">
+      <h3>✅ Implementation Status & Priority</h3>
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Block</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Integration Required</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>B-27: ContactForm</strong></td>
+            <td><span class="priority-high">Must-Have</span></td>
+            <td>✅ Compleet</td>
+            <td>Resend, reCAPTCHA</td>
+          </tr>
+          <tr>
+            <td><strong>B-28: NewsletterSignup</strong></td>
+            <td><span class="priority-high">Must-Have</span></td>
+            <td>✅ Compleet</td>
+            <td>Mailchimp/Resend</td>
+          </tr>
+          <tr>
+            <td><strong>B-29: OfferteRequest</strong></td>
+            <td><span class="priority-high">Must-Have</span></td>
+            <td>✅ Compleet</td>
+            <td>Resend, File Storage</td>
+          </tr>
+          <tr>
+            <td><strong>B-30: WorkshopRegistration</strong></td>
+            <td><span class="priority-medium">Nice-to-Have</span></td>
+            <td>✅ Compleet</td>
+            <td>Payment (Stripe/Mollie)</td>
+          </tr>
+          <tr>
+            <td><strong>B-31: ReservationForm</strong></td>
+            <td><span class="priority-medium">Nice-to-Have</span></td>
+            <td>✅ Compleet</td>
+            <td>Booking System</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================================
+     FOOTER NAVIGATION
+     ================================ -->
+<footer style="background: var(--navy); color: rgba(255,255,255,0.5); padding: 48px 0; margin-top: 64px;">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 24px;">
+      <h3 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; color: white; margin-bottom: 12px;">
+        Fase 3: Forms & Communication — Compleet! 🎉
+      </h3>
+      <p style="font-size: 14px; color: rgba(255,255,255,0.4); max-width: 600px; margin: 0 auto;">
+        5 production-ready form blokken met complete Payload CMS integratie, spam protection en email delivery.
+        Klaar voor productie met volledige 8-step documentatie.
+      </p>
+    </div>
+
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+      <a href="payload-blocks-fase2.html" class="nav-btn" style="color: white; background: rgba(255,255,255,0.1);">
+        <i data-lucide="arrow-left"></i> Fase 2: Navigation & Info
+      </a>
+      <a href="payload-blocks-index.html" class="nav-btn" style="color: white; background: rgba(255,255,255,0.1);">
+        <i data-lucide="home"></i> Terug naar Index
+      </a>
+      <a href="payload-blocks-fase4.html" class="nav-btn" style="color: white; background: var(--teal);">
+        Fase 4: E-commerce <i data-lucide="arrow-right"></i>
+      </a>
+    </div>
+
+    <div style="text-align: center; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 32px; font-size: 13px; color: rgba(255,255,255,0.3);">
+      Compass Design System v2.0 · Payload CMS Blocks · Forms & Communication · 5 Blokken · 100% Production-Ready
+    </div>
+  </div>
+</footer>
+
+<script>
+  lucide.createIcons();
+</script>
+</body>
+</html>

@@ -168,11 +168,11 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-navy flex items-center gap-2">
           <ShoppingCart className="w-6 h-6 text-green" />
           E-commerce Setup
         </h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-sm text-grey-dark">
           Configureer je webshop instellingen, pricing strategie en product import.
         </p>
       </div>
@@ -194,16 +194,16 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
                 className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                   isSelected
                     ? 'border-green bg-green-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    : 'border-grey-light hover:border-grey-light'
                 }`}
               >
                 <div className="flex items-start gap-3">
                   <Icon
-                    className={`w-6 h-6 flex-shrink-0 ${isSelected ? 'text-green' : 'text-gray-400'}`}
+                    className={`w-6 h-6 flex-shrink-0 ${isSelected ? 'text-green' : 'text-grey-mid'}`}
                   />
                   <div className="flex-1">
                     <h3 className="font-semibold text-sm">{type.label}</h3>
-                    <p className="text-xs text-gray-600 mt-1">{type.description}</p>
+                    <p className="text-xs text-grey-dark mt-1">{type.description}</p>
                   </div>
                   {isSelected && (
                     <Badge variant="default" className="ml-2">
@@ -242,7 +242,7 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
                   <SelectItem key={strategy.value} value={strategy.value}>
                     <div className="flex flex-col">
                       <span className="font-medium">{strategy.label}</span>
-                      <span className="text-xs text-gray-500">{strategy.description}</span>
+                      <span className="text-xs text-grey-mid">{strategy.description}</span>
                     </div>
                   </SelectItem>
                 ))}
@@ -287,7 +287,7 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
                   .map((role, index) => (
                     <div
                       key={role.id}
-                      className={`p-3 border-2 rounded-lg ${role.isDefault ? 'border-teal bg-teal-50' : 'border-gray-200 bg-white'}`}
+                      className={`p-3 border-2 rounded-lg ${role.isDefault ? 'border-teal bg-teal-50' : 'border-grey-light bg-white'}`}
                     >
                       <div className="flex items-start gap-3">
                         <div className="flex flex-col gap-1">
@@ -436,8 +436,8 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
             )}
 
             {data.customRoles.length === 0 && !isAddingRole && (
-              <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg text-center">
-                <p className="text-sm text-gray-600">
+              <div className="p-4 bg-grey-light border border-grey-light rounded-lg text-center">
+                <p className="text-sm text-grey-dark">
                   Nog geen custom prijsrollen gedefinieerd.
                   <br />
                   Klik op "Voeg prijsrol toe" om te beginnen.
@@ -486,7 +486,7 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
             </div>
 
             <div className="space-y-3 pt-3 border-t">
-              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded">
+              <div className="flex items-center gap-2 p-3 bg-grey-light rounded">
                 <Checkbox
                   id="shipping"
                   checked={data.shippingEnabled}
@@ -497,13 +497,13 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
                     <Truck className="w-4 h-4" />
                     Verzending inschakelen
                   </Label>
-                  <p className="text-xs text-gray-500 mt-0.5">
+                  <p className="text-xs text-grey-mid mt-0.5">
                     Voeg verzendkosten en opties toe aan de checkout
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded">
+              <div className="flex items-center gap-2 p-3 bg-grey-light rounded">
                 <Checkbox
                   id="stock"
                   checked={data.stockManagement}
@@ -514,7 +514,7 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
                     <Package className="w-4 h-4" />
                     Voorraadbeheer inschakelen
                   </Label>
-                  <p className="text-xs text-gray-500 mt-0.5">
+                  <p className="text-xs text-grey-mid mt-0.5">
                     Track voorraad niveaus en toon "Op voorraad" / "Uitverkocht"
                   </p>
                 </div>

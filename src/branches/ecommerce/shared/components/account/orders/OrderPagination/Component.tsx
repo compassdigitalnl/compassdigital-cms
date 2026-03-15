@@ -16,7 +16,7 @@ export function OrderPagination({ page, totalPages, hasNextPage, hasPrevPage, on
         <span className="hidden lg:inline">Vorige</span>
       </button>
 
-      <div className="text-sm text-gray-500">
+      <div className="text-sm text-grey-mid">
         Pagina {page} van {totalPages}
       </div>
 

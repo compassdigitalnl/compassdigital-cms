@@ -62,6 +62,12 @@ import { beautyBlocks } from '@/branches/beauty/blocks'
 // Publishing blocks (conditional import)
 import { publishingBlocks } from '@/branches/publishing/blocks'
 
+// Vastgoed blocks (conditional import)
+import { vastgoedBlocks } from '@/branches/vastgoed/blocks'
+
+// Onderwijs blocks (conditional import)
+import { onderwijsBlocks } from '@/branches/onderwijs/blocks'
+
 // Hooks
 import { revalidatePage, revalidateDelete } from './hooks/revalidatePage'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
@@ -310,6 +316,16 @@ export const Pages: CollectionConfig = {
         // PUBLISHING BRANCH BLOCKS - Only if publishing feature enabled
         // ═══════════════════════════════════════════════════════════════════════════
         ...(!isFeatureEnabled('publishing') ? [] : publishingBlocks),
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // VASTGOED BRANCH BLOCKS - Only if real_estate feature enabled
+        // ═══════════════════════════════════════════════════════════════════════════
+        ...(!isFeatureEnabled('real_estate') ? [] : vastgoedBlocks),
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // ONDERWIJS BRANCH BLOCKS - Only if education feature enabled
+        // ═══════════════════════════════════════════════════════════════════════════
+        ...(!isFeatureEnabled('education') ? [] : onderwijsBlocks),
       ],
     },
 

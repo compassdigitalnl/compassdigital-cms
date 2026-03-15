@@ -56,7 +56,7 @@ export const VideoBlockComponent: React.FC<VideoBlockProps> = ({
           )}
 
           {/* 16:9 responsive container */}
-          <div className="relative w-full overflow-hidden rounded-xl bg-gray-900 shadow-lg" style={{ paddingBottom: '56.25%' }}>
+          <div className="relative w-full overflow-hidden rounded-xl bg-navy shadow-lg" style={{ paddingBottom: '56.25%' }}>
             <iframe
               src={embedUrl}
               title={title || 'Video'}
@@ -68,7 +68,7 @@ export const VideoBlockComponent: React.FC<VideoBlockProps> = ({
           </div>
 
           {caption && (
-            <p className="mt-4 text-center text-sm text-gray-500">{caption}</p>
+            <p className="mt-4 text-center text-sm text-grey-mid">{caption}</p>
           )}
         </div>
       </section>

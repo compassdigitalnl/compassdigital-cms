@@ -91,7 +91,7 @@ const RelatedCard: React.FC<{ experience: RelatedExperience }> = ({
         </h4>
 
         {/* Meta row */}
-        <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] text-gray-400">
+        <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] text-grey-mid">
           {duration && (
             <span className="inline-flex items-center gap-0.5">
               <Clock className="h-3 w-3" />
@@ -118,14 +118,14 @@ const RelatedCard: React.FC<{ experience: RelatedExperience }> = ({
         </div>
 
         {/* Price */}
-        <div className="mt-auto flex items-baseline gap-1 border-t border-gray-100 pt-2">
+        <div className="mt-auto flex items-baseline gap-1 border-t border-grey-light pt-2">
           <span
             className="text-sm font-bold"
             style={{ color: 'var(--color-navy, #1a2b4a)' }}
           >
             &euro;{pricePerPerson.toFixed(2).replace('.', ',')}
           </span>
-          <span className="text-[10px] text-gray-400">p.p.</span>
+          <span className="text-[10px] text-grey-mid">p.p.</span>
         </div>
       </div>
     </Link>

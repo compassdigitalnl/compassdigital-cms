@@ -44,7 +44,7 @@ export function BookingWizardTemplate({
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Main content - BookingForm */}
           <div className="lg:col-span-2">
-            <div className="rounded-xl border border-gray-200 bg-white p-6 md:p-8">
+            <div className="rounded-xl border border-grey-light bg-white p-6 md:p-8">
               <BookingForm
                 services={services}
                 stylists={stylists}

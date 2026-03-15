@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python voor Beginners - Complete Cursus 2026 | Compass Onderwijs</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Onderwijs Colors */
+      --blue: #2563EB;
+      --blue-light: #3B82F6;
+      --blue-dark: #1E40AF;
+      --sky: #0EA5E9;
+      --sky-light: #38BDF8;
+      --navy-deep: #0c1844;
+      --navy-deeper: #081028;
+
+      /* Status Colors */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(12,24,68,0.06);
+      --shadow-md: 0 8px 24px rgba(12,24,68,0.08);
+      --shadow-lg: 0 16px 48px rgba(12,24,68,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--navy-deep);
+      background: var(--bg);
+    }
+
+    /* Header */
+    .header {
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--blue);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn {
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline {
+      background: none;
+      border: 1.5px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      padding: 12px 24px;
+    }
+
+    .breadcrumbs-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .breadcrumb-link {
+      color: var(--grey-mid);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .breadcrumb-link:hover {
+      color: var(--blue);
+    }
+
+    .breadcrumb-separator {
+      color: var(--grey-mid);
+    }
+
+    .breadcrumb-current {
+      color: var(--navy-deep);
+      font-weight: 600;
+    }
+
+    /* Main Content */
+    .main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .content-column {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Course Hero */
+    .course-hero {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .course-video {
+      position: relative;
+      background: linear-gradient(135deg, var(--navy-deep), var(--navy-deeper));
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .course-video::before {
+      content: '';
+      position: absolute;
+      top: 30%;
+      right: 20%;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(14,165,233,0.15), transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .video-placeholder {
+      font-size: 120px;
+      opacity: 0.2;
+    }
+
+    .play-button {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+
+    .play-button i {
+      color: var(--blue);
+      width: 32px;
+      height: 32px;
+      margin-left: 4px;
+    }
+
+    .course-video:hover .play-button {
+      transform: scale(1.1);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+
+    .video-duration {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .course-header {
+      padding: 24px;
+    }
+
+    .course-category {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(37,99,235,0.08);
+      color: var(--blue);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 12px;
+    }
+
+    .course-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy-deep);
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+
+    .course-subtitle {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .course-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .course-rating {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--amber);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .course-rating i {
+      width: 16px;
+      height: 16px;
+    }
+
+    .rating-count {
+      color: var(--grey-mid);
+      font-weight: 500;
+      font-size: 12px;
+    }
+
+    .course-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--grey-dark);
+      font-size: 12px;
+    }
+
+    .course-meta-item i {
+      width: 14px;
+      height: 14px;
+      color: var(--grey-mid);
+    }
+
+    .course-instructor {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-top: 16px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .instructor-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--sky));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .instructor-info {
+      flex: 1;
+    }
+
+    .instructor-label {
+      font-size: 10px;
+      color: var(--grey-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .instructor-name {
+      font-weight: 700;
+      color: var(--navy-deep);
+      font-size: 13px;
+    }
+
+    /* Section */
+    .section {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+
+    .section-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy-deep);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title i {
+      color: var(--blue);
+      width: 24px;
+      height: 24px;
+    }
+
+    /* Learning Outcomes */
+    .outcomes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .outcome-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+    }
+
+    .outcome-icon {
+      width: 20px;
+      height: 20px;
+      background: var(--green-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .outcome-icon i {
+      width: 12px;
+      height: 12px;
+      color: var(--green);
+    }
+
+    .outcome-text {
+      font-size: 13px;
+      color: var(--navy-deep);
+      line-height: 1.5;
+    }
+
+    /* Curriculum */
+    .curriculum-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .curriculum-stats {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--grey-dark);
+    }
+
+    .curriculum-stat {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .curriculum-stat i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .curriculum-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .curriculum-section {
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .section-header {
+      padding: 16px 20px;
+      background: var(--bg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+    }
+
+    .section-header:hover {
+      background: var(--grey-light);
+    }
+
+    .section-info {
+      flex: 1;
+    }
+
+    .section-number {
+      font-size: 11px;
+      color: var(--grey-mid);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 4px;
+    }
+
+    .section-name {
+      font-weight: 700;
+      color: var(--navy-deep);
+      font-size: 14px;
+    }
+
+    .section-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .expand-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--grey-mid);
+      transition: var(--transition);
+    }
+
+    .curriculum-section.active .expand-icon {
+      transform: rotate(180deg);
+    }
+
+    .section-lessons {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .curriculum-section.active .section-lessons {
+      max-height: 1000px;
+    }
+
+    .lesson-item {
+      padding: 12px 20px;
+      border-top: 1px solid var(--grey);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: var(--transition);
+    }
+
+    .lesson-item:hover {
+      background: var(--bg);
+    }
+
+    .lesson-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--grey-light);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .lesson-icon i {
+      width: 16px;
+      height: 16px;
+      color: var(--grey-mid);
+    }
+
+    .lesson-icon.video {
+      background: rgba(37,99,235,0.08);
+    }
+
+    .lesson-icon.video i {
+      color: var(--blue);
+    }
+
+    .lesson-info {
+      flex: 1;
+    }
+
+    .lesson-name {
+      font-size: 13px;
+      color: var(--navy-deep);
+      margin-bottom: 2px;
+    }
+
+    .lesson-type {
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    .lesson-duration {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    .lesson-preview {
+      font-size: 11px;
+      color: var(--blue);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Requirements */
+    .requirements-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .requirement-item {
+      display: flex;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--navy-deep);
+    }
+
+    .requirement-icon {
+      width: 16px;
+      height: 16px;
+      color: var(--grey-mid);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Description */
+    .description-content {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+    }
+
+    .description-content p {
+      margin-bottom: 16px;
+    }
+
+    .description-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .description-content strong {
+      color: var(--navy-deep);
+      font-weight: 700;
+    }
+
+    /* Instructor Section */
+    .instructor-card {
+      display: flex;
+      gap: 20px;
+    }
+
+    .instructor-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--sky));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 36px;
+      flex-shrink: 0;
+    }
+
+    .instructor-details {
+      flex: 1;
+    }
+
+    .instructor-name-large {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy-deep);
+      margin-bottom: 4px;
+    }
+
+    .instructor-title {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 12px;
+    }
+
+    .instructor-stats {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+
+    .instructor-stat {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--grey-dark);
+    }
+
+    .instructor-stat i {
+      width: 14px;
+      height: 14px;
+      color: var(--grey-mid);
+    }
+
+    .instructor-stat strong {
+      color: var(--navy-deep);
+      font-weight: 700;
+    }
+
+    .instructor-bio {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--grey-dark);
+    }
+
+    /* Reviews */
+    .reviews-header {
+      display: flex;
+      gap: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--grey);
+      margin-bottom: 24px;
+    }
+
+    .reviews-summary {
+      text-align: center;
+    }
+
+    .reviews-average {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--navy-deep);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .reviews-stars {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .reviews-stars i {
+      width: 20px;
+      height: 20px;
+      color: var(--amber);
+    }
+
+    .reviews-count {
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .reviews-breakdown {
+      flex: 1;
+    }
+
+    .rating-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .rating-label {
+      font-size: 12px;
+      color: var(--grey-dark);
+      width: 60px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .rating-label i {
+      width: 12px;
+      height: 12px;
+      color: var(--amber);
+    }
+
+    .rating-progress {
+      flex: 1;
+      height: 8px;
+      background: var(--grey-light);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .rating-fill {
+      height: 100%;
+      background: var(--amber);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .rating-count {
+      font-size: 12px;
+      color: var(--grey-mid);
+      width: 40px;
+      text-align: right;
+    }
+
+    .reviews-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .review-item {
+      padding: 20px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+    }
+
+    .review-header {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .review-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .review-info {
+      flex: 1;
+    }
+
+    .review-author {
+      font-weight: 700;
+      color: var(--navy-deep);
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .review-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    .review-rating {
+      display: flex;
+      gap: 2px;
+    }
+
+    .review-rating i {
+      width: 12px;
+      height: 12px;
+      color: var(--amber);
+    }
+
+    .review-text {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--grey-dark);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: sticky;
+      top: 100px;
+    }
+
+    .enrollment-card {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .price-section {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .price-current {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--navy-deep);
+      margin-bottom: 4px;
+    }
+
+    .price-original {
+      font-size: 14px;
+      color: var(--grey-mid);
+      text-decoration: line-through;
+      margin-bottom: 4px;
+    }
+
+    .price-discount {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--coral-light);
+      color: var(--coral);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .price-expiry {
+      font-size: 11px;
+      color: var(--coral);
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .price-expiry i {
+      width: 12px;
+      height: 12px;
+    }
+
+    .btn-enroll {
+      width: 100%;
+      padding: 14px;
+      background: var(--blue);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 12px;
+    }
+
+    .btn-enroll:hover {
+      background: var(--blue-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-wishlist {
+      width: 100%;
+      padding: 10px;
+      background: none;
+      border: 1.5px solid var(--grey);
+      color: var(--grey-dark);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .btn-wishlist:hover {
+      border-color: var(--coral);
+      color: var(--coral);
+    }
+
+    .btn-wishlist i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .course-includes {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .includes-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy-deep);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 12px;
+    }
+
+    .includes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .include-item {
+      display: flex;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--grey-dark);
+    }
+
+    .include-item i {
+      width: 16px;
+      height: 16px;
+      color: var(--blue);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .guarantees {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .guarantee-item {
+      display: flex;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--grey-dark);
+    }
+
+    .guarantee-item i {
+      width: 14px;
+      height: 14px;
+      color: var(--green);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Related Courses */
+    .related-courses {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-top: 32px;
+    }
+
+    .related-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .related-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy-deep);
+    }
+
+    .view-all-link {
+      font-size: 12px;
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: var(--transition);
+    }
+
+    .view-all-link:hover {
+      gap: 8px;
+    }
+
+    .view-all-link i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .related-course {
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .related-course:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .related-image {
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, var(--navy-deep), var(--navy-deeper));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      opacity: 0.3;
+    }
+
+    .related-content {
+      padding: 16px;
+    }
+
+    .related-category {
+      font-size: 10px;
+      color: var(--blue);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 6px;
+    }
+
+    .related-name {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy-deep);
+      margin-bottom: 8px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .related-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .related-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--grey-dark);
+    }
+
+    .related-rating i {
+      width: 12px;
+      height: 12px;
+      color: var(--amber);
+    }
+
+    .related-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy-deep);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .main {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .sidebar {
+        position: static;
+        order: -1;
+      }
+
+      .outcomes-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .instructor-card {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .instructor-photo {
+        margin: 0 auto;
+      }
+
+      .instructor-stats {
+        justify-content: center;
+      }
+
+      .reviews-header {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .main {
+        padding: 24px 16px;
+      }
+
+      .section {
+        padding: 24px 16px;
+      }
+
+      .course-title {
+        font-size: 22px;
+      }
+
+      .section-title {
+        font-size: 18px;
+      }
+
+      .nav-actions {
+        gap: 8px;
+      }
+
+      .btn {
+        padding: 8px 12px;
+        font-size: 11px;
+      }
+
+      .related-grid {
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <a href="onderwijs-homepage.html" class="logo">
+        <i data-lucide="graduation-cap"></i>
+        Compass Onderwijs
+      </a>
+      <div class="nav-actions">
+        <a href="#" class="btn btn-outline">Inloggen</a>
+        <a href="#" class="btn btn-primary">Cursussen</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs">
+    <div class="breadcrumbs-content">
+      <a href="onderwijs-homepage.html" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-separator">›</span>
+      <a href="onderwijs-cursussen-overzicht.html" class="breadcrumb-link">Cursussen</a>
+      <span class="breadcrumb-separator">›</span>
+      <a href="#" class="breadcrumb-link">Development</a>
+      <span class="breadcrumb-separator">›</span>
+      <span class="breadcrumb-current">Python voor Beginners</span>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="content-column">
+      <!-- Course Hero -->
+      <div class="course-hero">
+        <div class="course-video" onclick="playPreview()">
+          <div class="video-placeholder">🎓</div>
+          <div class="play-button">
+            <i data-lucide="play"></i>
+          </div>
+          <div class="video-duration">Preview • 5:32</div>
+        </div>
+        <div class="course-header">
+          <div class="course-category">
+            <i data-lucide="code-2"></i>
+            Development
+          </div>
+          <h1 class="course-title">Python voor Beginners - Complete Cursus 2026</h1>
+          <p class="course-subtitle">Leer programmeren met Python van absolute beginner tot gevorderd niveau. Inclusief hands-on projecten en certificaat.</p>
+          <div class="course-meta">
+            <div class="course-rating">
+              <i data-lucide="star"></i>
+              <span>4.8</span>
+              <span class="rating-count">(3,241 reviews)</span>
+            </div>
+            <div class="course-meta-item">
+              <i data-lucide="users"></i>
+              <span>12.456 studenten</span>
+            </div>
+            <div class="course-meta-item">
+              <i data-lucide="clock"></i>
+              <span>18 uur totaal</span>
+            </div>
+            <div class="course-meta-item">
+              <i data-lucide="calendar"></i>
+              <span>Laatst geüpdatet maart 2026</span>
+            </div>
+          </div>
+          <div class="course-instructor">
+            <div class="instructor-avatar">SB</div>
+            <div class="instructor-info">
+              <div class="instructor-label">Docent</div>
+              <div class="instructor-name">Sophie Bakker</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- What You'll Learn -->
+      <section class="section">
+        <h2 class="section-title">
+          <i data-lucide="target"></i>
+          Wat je leert
+        </h2>
+        <div class="outcomes-grid">
+          <div class="outcome-item">
+            <div class="outcome-icon">
+              <i data-lucide="check"></i>
+            </div>
+            <div class="outcome-text">Beheers de fundamenten van Python programmeren</div>
+          </div>
+          <div class="outcome-item">
+            <div class="outcome-icon">
+              <i data-lucide="check"></i>
+            </div>
+            <div class="outcome-text">Werk met variabelen, loops, functies en classes</div>
+          </div>
+          <div class="outcome-item">
+            <div class="outcome-icon">
+              <i data-lucide="check"></i>
+            </div>
+            <div class="outcome-text">Bouw je eigen applicaties en scripts</div>
+          </div>
+          <div class="outcome-item">
+            <div class="outcome-icon">
+              <i data-lucide="check"></i>
+            </div>
+            <div class="outcome-text">Werk met populaire libraries zoals NumPy en Pandas</div>
+          </div>
+          <div class="outcome-item">
+            <div class="outcome-icon">
+              <i data-lucide="check"></i>
+            </div>
+            <div class="outcome-text">Begrijp Object Oriented Programming (OOP)</div>
+          </div>
+          <div class="outcome-item">
+            <div class="outcome-icon">
+              <i data-lucide="check"></i>
+            </div>
+            <div class="outcome-text">Leer best practices en code optimization</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Curriculum -->
+      <section class="section">
+        <div class="curriculum-header">
+          <h2 class="section-title">
+            <i data-lucide="book-open"></i>
+            Cursusinhoud
+          </h2>
+          <div class="curriculum-stats">
+            <div class="curriculum-stat">
+              <i data-lucide="layers"></i>
+              <span>8 secties</span>
+            </div>
+            <div class="curriculum-stat">
+              <i data-lucide="video"></i>
+              <span>127 lessen</span>
+            </div>
+            <div class="curriculum-stat">
+              <i data-lucide="clock"></i>
+              <span>18u 23m totaal</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="curriculum-sections">
+          <div class="curriculum-section active">
+            <div class="section-header" onclick="toggleSection(this)">
+              <div class="section-info">
+                <div class="section-number">Sectie 1</div>
+                <div class="section-name">Introductie tot Python</div>
+              </div>
+              <div class="section-meta">
+                <span>12 lessen</span>
+                <span>•</span>
+                <span>1u 24m</span>
+              </div>
+              <i class="expand-icon" data-lucide="chevron-down"></i>
+            </div>
+            <div class="section-lessons">
+              <div class="lesson-item">
+                <div class="lesson-icon video">
+                  <i data-lucide="play"></i>
+                </div>
+                <div class="lesson-info">
+                  <div class="lesson-name">Welkom bij de cursus</div>
+                  <div class="lesson-type">Video</div>
+                </div>
+                <div class="lesson-duration">3:42</div>
+                <div class="lesson-preview">Preview</div>
+              </div>
+              <div class="lesson-item">
+                <div class="lesson-icon video">
+                  <i data-lucide="play"></i>
+                </div>
+                <div class="lesson-info">
+                  <div class="lesson-name">Python installeren op Windows</div>
+                  <div class="lesson-type">Video</div>
+                </div>
+                <div class="lesson-duration">8:15</div>
+              </div>
+              <div class="lesson-item">
+                <div class="lesson-icon video">
+                  <i data-lucide="play"></i>
+                </div>
+                <div class="lesson-info">
+                  <div class="lesson-name">Python installeren op Mac</div>
+                  <div class="lesson-type">Video</div>
+                </div>
+                <div class="lesson-duration">6:32</div>
+              </div>
+              <div class="lesson-item">
+                <div class="lesson-icon">
+                  <i data-lucide="file-text"></i>
+                </div>
+                <div class="lesson-info">
+                  <div class="lesson-name">Course resources en downloads</div>
+                  <div class="lesson-type">Materiaal</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="curriculum-section">
+            <div class="section-header" onclick="toggleSection(this)">
+              <div class="section-info">
+                <div class="section-number">Sectie 2</div>
+                <div class="section-name">Variabelen en Data Types</div>
+              </div>
+              <div class="section-meta">
+                <span>18 lessen</span>
+                <span>•</span>
+                <span>2u 12m</span>
+              </div>
+              <i class="expand-icon" data-lucide="chevron-down"></i>
+            </div>
+            <div class="section-lessons">
+              <!-- Lessons would be here -->
+            </div>
+          </div>
+
+          <div class="curriculum-section">
+            <div class="section-header" onclick="toggleSection(this)">
+              <div class="section-info">
+                <div class="section-number">Sectie 3</div>
+                <div class="section-name">Control Flow: If, Elif, Else</div>
+              </div>
+              <div class="section-meta">
+                <span>15 lessen</span>
+                <span>•</span>
+                <span>1u 48m</span>
+              </div>
+              <i class="expand-icon" data-lucide="chevron-down"></i>
+            </div>
+            <div class="section-lessons">
+              <!-- Lessons would be here -->
+            </div>
+          </div>
+
+          <div class="curriculum-section">
+            <div class="section-header" onclick="toggleSection(this)">
+              <div class="section-info">
+                <div class="section-number">Sectie 4</div>
+                <div class="section-name">Loops en Iteraties</div>
+              </div>
+              <div class="section-meta">
+                <span>14 lessen</span>
+                <span>•</span>
+                <span>2u 05m</span>
+              </div>
+              <i class="expand-icon" data-lucide="chevron-down"></i>
+            </div>
+            <div class="section-lessons">
+              <!-- Lessons would be here -->
+            </div>
+          </div>
+
+          <div class="curriculum-section">
+            <div class="section-header" onclick="toggleSection(this)">
+              <div class="section-info">
+                <div class="section-number">Sectie 5</div>
+                <div class="section-name">Functies en Modules</div>
+              </div>
+              <div class="section-meta">
+                <span>22 lessen</span>
+                <span>•</span>
+                <span>3u 16m</span>
+              </div>
+              <i class="expand-icon" data-lucide="chevron-down"></i>
+            </div>
+            <div class="section-lessons">
+              <!-- Lessons would be here -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Requirements -->
+      <section class="section">
+        <h2 class="section-title">
+          <i data-lucide="alert-circle"></i>
+          Vereisten
+        </h2>
+        <div class="requirements-list">
+          <div class="requirement-item">
+            <i class="requirement-icon" data-lucide="check-circle"></i>
+            <div>Geen programmeerervaring vereist - we beginnen bij het absolute begin</div>
+          </div>
+          <div class="requirement-item">
+            <i class="requirement-icon" data-lucide="check-circle"></i>
+            <div>Een computer met Windows, Mac of Linux</div>
+          </div>
+          <div class="requirement-item">
+            <i class="requirement-icon" data-lucide="check-circle"></i>
+            <div>Ongeveer 2-3 uur per week om de cursus te volgen</div>
+          </div>
+          <div class="requirement-item">
+            <i class="requirement-icon" data-lucide="check-circle"></i>
+            <div>Passie om te leren programmeren!</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Description -->
+      <section class="section">
+        <h2 class="section-title">
+          <i data-lucide="file-text"></i>
+          Beschrijving
+        </h2>
+        <div class="description-content">
+          <p><strong>Welkom bij de meest complete Python cursus van 2026!</strong></p>
+          <p>Deze cursus is ontworpen voor absolute beginners die willen leren programmeren met Python. Of je nu een carrièreswitch wilt maken, je data science vaardigheden wilt verbeteren, of gewoon een nieuwe hobby wilt beginnen - deze cursus geeft je alle tools die je nodig hebt.</p>
+          <p><strong>Wat maakt deze cursus uniek?</strong></p>
+          <p>In tegenstelling tot andere cursussen die alleen theorie behandelen, leer je in deze cursus door te doen. Elke sectie bevat hands-on oefeningen en projecten die je direct kunt toepassen in de praktijk. Je bouwt echte applicaties, van eenvoudige calculators tot complexere data analysis tools.</p>
+          <p><strong>Voor wie is deze cursus?</strong></p>
+          <p>Deze cursus is perfect voor absolute beginners zonder programmeerervaring, studenten die Python willen leren voor hun studie, professionals die carrière willen maken in tech, en iedereen die geïnteresseerd is in programmeren.</p>
+        </div>
+      </section>
+
+      <!-- Instructor -->
+      <section class="section">
+        <h2 class="section-title">
+          <i data-lucide="user"></i>
+          Je docent
+        </h2>
+        <div class="instructor-card">
+          <div class="instructor-photo">SB</div>
+          <div class="instructor-details">
+            <div class="instructor-name-large">Sophie Bakker</div>
+            <div class="instructor-title">Senior Python Developer & Tech Educator</div>
+            <div class="instructor-stats">
+              <div class="instructor-stat">
+                <i data-lucide="star"></i>
+                <strong>4.9</strong> instructor rating
+              </div>
+              <div class="instructor-stat">
+                <i data-lucide="users"></i>
+                <strong>45.234</strong> studenten
+              </div>
+              <div class="instructor-stat">
+                <i data-lucide="video"></i>
+                <strong>12</strong> cursussen
+              </div>
+            </div>
+            <p class="instructor-bio">Sophie is een gepassioneerde developer met 10+ jaar ervaring in Python development. Ze heeft gewerkt voor bedrijven als Booking.com en Adyen, en helpt nu duizenden studenten om hun programmeervaardigheden te ontwikkelen. Haar missie is om programmeren toegankelijk te maken voor iedereen, ongeacht achtergrond of ervaring.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reviews -->
+      <section class="section">
+        <h2 class="section-title">
+          <i data-lucide="star"></i>
+          Reviews
+        </h2>
+        <div class="reviews-header">
+          <div class="reviews-summary">
+            <div class="reviews-average">4.8</div>
+            <div class="reviews-stars">
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+            </div>
+            <div class="reviews-count">3,241 reviews</div>
+          </div>
+          <div class="reviews-breakdown">
+            <div class="rating-bar">
+              <div class="rating-label">
+                <i data-lucide="star"></i>
+                5 sterren
+              </div>
+              <div class="rating-progress">
+                <div class="rating-fill" style="width: 78%;"></div>
+              </div>
+              <div class="rating-count">2,528</div>
+            </div>
+            <div class="rating-bar">
+              <div class="rating-label">
+                <i data-lucide="star"></i>
+                4 sterren
+              </div>
+              <div class="rating-progress">
+                <div class="rating-fill" style="width: 15%;"></div>
+              </div>
+              <div class="rating-count">486</div>
+            </div>
+            <div class="rating-bar">
+              <div class="rating-label">
+                <i data-lucide="star"></i>
+                3 sterren
+              </div>
+              <div class="rating-progress">
+                <div class="rating-fill" style="width: 5%;"></div>
+              </div>
+              <div class="rating-count">162</div>
+            </div>
+            <div class="rating-bar">
+              <div class="rating-label">
+                <i data-lucide="star"></i>
+                2 sterren
+              </div>
+              <div class="rating-progress">
+                <div class="rating-fill" style="width: 1%;"></div>
+              </div>
+              <div class="rating-count">32</div>
+            </div>
+            <div class="rating-bar">
+              <div class="rating-label">
+                <i data-lucide="star"></i>
+                1 ster
+              </div>
+              <div class="rating-progress">
+                <div class="rating-fill" style="width: 1%;"></div>
+              </div>
+              <div class="rating-count">33</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reviews-list">
+          <div class="review-item">
+            <div class="review-header">
+              <div class="review-avatar">MJ</div>
+              <div class="review-info">
+                <div class="review-author">Marieke Janssen</div>
+                <div class="review-meta">
+                  <div class="review-rating">
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                  </div>
+                  <span>•</span>
+                  <span>2 weken geleden</span>
+                </div>
+              </div>
+            </div>
+            <p class="review-text">Fantastische cursus! Sophie legt alles heel duidelijk uit en de praktijkopdrachten zijn erg leerzaam. Ik had geen enkele programmeerervaring, maar na deze cursus voel ik me echt zelfverzekerd om met Python te werken.</p>
+          </div>
+
+          <div class="review-item">
+            <div class="review-header">
+              <div class="review-avatar">TD</div>
+              <div class="review-info">
+                <div class="review-author">Thomas de Vries</div>
+                <div class="review-meta">
+                  <div class="review-rating">
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                  </div>
+                  <span>•</span>
+                  <span>1 maand geleden</span>
+                </div>
+              </div>
+            </div>
+            <p class="review-text">Deze cursus heeft me geholpen om over te stappen naar een carrière in data science. De uitleg is top en de projecten zijn relevant voor de praktijk. Absolute aanrader voor iedereen die serieus Python wil leren!</p>
+          </div>
+
+          <div class="review-item">
+            <div class="review-header">
+              <div class="review-avatar">LB</div>
+              <div class="review-info">
+                <div class="review-author">Lisa Bos</div>
+                <div class="review-meta">
+                  <div class="review-rating">
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                  </div>
+                  <span>•</span>
+                  <span>3 maanden geleden</span>
+                </div>
+              </div>
+            </div>
+            <p class="review-text">Ik heb meerdere Python cursussen geprobeerd, maar deze is verreweg de beste. Sophie's uitleg is glashelder en de cursus is goed gestructureerd. Het tempo is perfect - niet te snel, niet te langzaam.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="enrollment-card">
+        <div class="price-section">
+          <div class="price-current">€ 89</div>
+          <div class="price-original">€ 149</div>
+          <div class="price-discount">
+            <i data-lucide="tag"></i>
+            40% korting
+          </div>
+          <div class="price-expiry">
+            <i data-lucide="clock"></i>
+            Aanbieding eindigt over 2 dagen
+          </div>
+        </div>
+
+        <button class="btn-enroll" onclick="handleEnroll()">
+          Schrijf je nu in
+        </button>
+        <button class="btn-wishlist">
+          <i data-lucide="heart"></i>
+          Bewaar voor later
+        </button>
+
+        <div class="course-includes">
+          <div class="includes-title">Deze cursus bevat:</div>
+          <div class="includes-list">
+            <div class="include-item">
+              <i data-lucide="video"></i>
+              <span>18 uur on-demand video</span>
+            </div>
+            <div class="include-item">
+              <i data-lucide="file-text"></i>
+              <span>42 artikelen</span>
+            </div>
+            <div class="include-item">
+              <i data-lucide="download"></i>
+              <span>85 downloadable resources</span>
+            </div>
+            <div class="include-item">
+              <i data-lucide="infinity"></i>
+              <span>Levenslang toegang</span>
+            </div>
+            <div class="include-item">
+              <i data-lucide="smartphone"></i>
+              <span>Toegang op mobiel en TV</span>
+            </div>
+            <div class="include-item">
+              <i data-lucide="award"></i>
+              <span>Certificaat van voltooiing</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="guarantees">
+          <div class="guarantee-item">
+            <i data-lucide="shield-check"></i>
+            <span>30 dagen geld-terug-garantie</span>
+          </div>
+          <div class="guarantee-item">
+            <i data-lucide="headphones"></i>
+            <span>Directe support van docent</span>
+          </div>
+          <div class="guarantee-item">
+            <i data-lucide="users"></i>
+            <span>Toegang tot community forum</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Related Courses -->
+  <section class="related-courses" style="max-width: 1200px; margin: 0 auto 48px auto; margin-left: 24px; margin-right: 24px;">
+    <div class="related-header">
+      <h2 class="related-title">Studenten keken ook naar</h2>
+      <a href="onderwijs-cursussen-overzicht.html" class="view-all-link">
+        Bekijk alles
+        <i data-lucide="arrow-right"></i>
+      </a>
+    </div>
+    <div class="related-grid">
+      <div class="related-course">
+        <div class="related-image">💻</div>
+        <div class="related-content">
+          <div class="related-category">Development</div>
+          <div class="related-name">JavaScript: Van Beginner tot Expert</div>
+          <div class="related-footer">
+            <div class="related-rating">
+              <i data-lucide="star"></i>
+              <span>4.7</span>
+            </div>
+            <div class="related-price">€ 79</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="related-course">
+        <div class="related-image">📊</div>
+        <div class="related-content">
+          <div class="related-category">Data Science</div>
+          <div class="related-name">Data Analyse met Python & Pandas</div>
+          <div class="related-footer">
+            <div class="related-rating">
+              <i data-lucide="star"></i>
+              <span>4.9</span>
+            </div>
+            <div class="related-price">€ 99</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="related-course">
+        <div class="related-image">🤖</div>
+        <div class="related-content">
+          <div class="related-category">AI & ML</div>
+          <div class="related-name">Machine Learning voor Beginners</div>
+          <div class="related-footer">
+            <div class="related-rating">
+              <i data-lucide="star"></i>
+              <span>4.6</span>
+            </div>
+            <div class="related-price">€ 119</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Toggle curriculum section
+    function toggleSection(header) {
+      const section = header.parentElement;
+      section.classList.toggle('active');
+      setTimeout(() => lucide.createIcons(), 50);
+    }
+
+    // Play preview video
+    function playPreview() {
+      alert('Video preview zou hier worden afgespeeld.\n\nIn productie: integratie met video player (YouTube/Vimeo) of custom HTML5 video player.');
+    }
+
+    // Handle enrollment
+    function handleEnroll() {
+      // In production: redirect to enrollment form or checkout
+      window.location.href = 'onderwijs-inschrijfformulier.html';
+    }
+
+    /**
+     * PAYLOAD CMS INTEGRATION
+     *
+     * Collection: Course
+     * Fields:
+     * - title: text (required)
+     * - slug: text (auto-generated from title)
+     * - subtitle: textarea
+     * - category: relationship (to Category collection)
+     * - instructor: relationship (to User collection with instructor role)
+     * - thumbnail: upload (16:9 aspect ratio)
+     * - videoPreviewUrl: text (YouTube/Vimeo URL)
+     * - price: number (current price)
+     * - originalPrice: number (for discount display)
+     * - discountPercentage: number (calculated)
+     * - discountEndsAt: date
+     * - level: select (beginner | intermediate | advanced)
+     * - duration: number (total hours)
+     * - totalLessons: number
+     * - lastUpdated: date
+     * - rating: number (average, auto-calculated)
+     * - reviewCount: number (auto-calculated)
+     * - studentCount: number
+     * - learningOutcomes: array of text
+     * - requirements: array of text
+     * - description: richText
+     * - sections: array {
+     *     sectionNumber: number
+     *     title: text
+     *     lessons: array {
+     *       type: select (video | reading | quiz | assignment)
+     *       title: text
+     *       duration: text (for video/reading)
+     *       videoUrl: text (for video type)
+     *       content: richText (for reading type)
+     *       isPreview: checkbox (allow free preview)
+     *     }
+     *   }
+     * - includes: array of text (what's included in the course)
+     * - relatedCourses: relationship (to Course collection, multiple)
+     * - status: select (draft | published | archived)
+     *
+     * Collection: Review
+     * Fields:
+     * - course: relationship (to Course)
+     * - user: relationship (to User)
+     * - rating: number (1-5)
+     * - comment: textarea
+     * - createdAt: date (auto)
+     * - helpful: number (vote count)
+     * - verified: checkbox (purchased student)
+     */
+  </script>
+</body>
+</html>

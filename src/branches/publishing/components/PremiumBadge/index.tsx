@@ -93,7 +93,7 @@ export function PremiumBadge({
   // Variant classes
   const variantClasses = {
     solid: `
-      bg-gradient-to-r from-amber-500 to-orange-500
+      bg-gradient-to-r from-amber-500 to-amber-600
       text-white
       shadow-sm
     `,

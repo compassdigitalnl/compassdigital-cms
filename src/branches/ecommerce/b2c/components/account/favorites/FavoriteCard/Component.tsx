@@ -16,13 +16,13 @@ export function FavoriteCard({ favorite, onRemove }: FavoriteCardProps) {
   const image = typeof product === 'object' ? product?.featuredImage : null
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
-      <div className="relative aspect-square bg-gray-100">
+    <div className="bg-white border border-grey-light rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+      <div className="relative aspect-square bg-grey-light">
         {image && typeof image === 'object' && image.url ? (
           <img src={image.url} alt={title} className="w-full h-full object-cover" />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <Package className="w-16 h-16 text-gray-300" />
+            <Package className="w-16 h-16 text-grey-mid" />
           </div>
         )}
         <button
@@ -38,11 +38,11 @@ export function FavoriteCard({ favorite, onRemove }: FavoriteCardProps) {
         <Link href={slug ? `/product/${slug}` : '#'} className="hover:text-[var(--color-primary)] transition-colors">
           <h3 className="font-bold text-sm mb-1 line-clamp-2">{title}</h3>
         </Link>
-        {sku && <div className="text-xs text-gray-500 font-mono mb-3">{sku}</div>}
+        {sku && <div className="text-xs text-grey-mid font-mono mb-3">{sku}</div>}
         {price > 0 && (
           <div className="mb-4">
-            <div className="text-xl font-bold text-gray-900">€{formatPriceStr(price, (typeof product === 'object' ? product?.taxClass : undefined) as any)}</div>
-            <div className="text-xs text-gray-500">{vatLabel}</div>
+            <div className="text-xl font-bold text-navy">€{formatPriceStr(price, (typeof product === 'object' ? product?.taxClass : undefined) as any)}</div>
+            <div className="text-xs text-grey-mid">{vatLabel}</div>
           </div>
         )}
         <div className="space-y-2">

@@ -225,7 +225,7 @@ export async function ServiceDetailTemplate({ service }: ServiceDetailProps) {
                       }}
                     >
                       <summary
-                        className="flex cursor-pointer items-center justify-between p-5 text-base font-semibold transition-colors hover:bg-gray-50"
+                        className="flex cursor-pointer items-center justify-between p-5 text-base font-semibold transition-colors hover:bg-grey-light"
                         style={{ color: 'var(--color-navy, #1a2b4a)' }}
                       >
                         {item.question}

@@ -185,7 +185,7 @@ export function MegaNav({
                       onMouseEnter={() => handleL2Select(cat.id)}
                       className={cn(
                         'flex items-center gap-2.5 px-5 py-2.5 text-sm font-medium transition-all text-left group',
-                        activeL2 === cat.id ? '' : 'text-gray-700',
+                        activeL2 === cat.id ? '' : 'text-grey-dark',
                       )}
                       style={
                         activeL2 === cat.id
@@ -213,7 +213,7 @@ export function MegaNav({
                       />
                       {cat.name}
                       {showCount && cat.productCount && (
-                        <span className="ml-auto text-[11px] text-gray-400 group-hover:opacity-0 transition-opacity">
+                        <span className="ml-auto text-[11px] text-grey-mid group-hover:opacity-0 transition-opacity">
                           {cat.productCount}
                         </span>
                       )}
@@ -237,7 +237,7 @@ export function MegaNav({
                   </Link>
                 </>
               ) : (
-                <div className="px-5 py-4 text-sm text-gray-400">Geen subcategorieën</div>
+                <div className="px-5 py-4 text-sm text-grey-mid">Geen subcategorieën</div>
               )}
             </div>
 
@@ -245,10 +245,10 @@ export function MegaNav({
             <div className="flex-1 min-w-[340px] flex flex-col p-5">
               {l3Categories.length > 0 ? (
                 <>
-                  <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-3">
+                  <div className="flex items-center gap-1.5 text-xs text-grey-mid mb-3">
                     {rootCategories.find((c) => c.id === activeL1)?.name}
                     <ChevronRight className="w-3 h-3" />
-                    <span className="font-semibold text-gray-900">
+                    <span className="font-semibold text-navy">
                       {l2Categories.find((c) => c.id === activeL2)?.name}
                     </span>
                   </div>
@@ -258,7 +258,7 @@ export function MegaNav({
                         key={cat.id}
                         href={`/shop/${cat.slug}`}
                         onClick={onClose}
-                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 transition-all rounded-lg"
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-grey-dark transition-all rounded-lg"
                         style={{ color: 'var(--color-text-primary)' }}
                         onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
                           e.currentTarget.style.backgroundColor = 'var(--color-primary-glow)'
@@ -269,10 +269,10 @@ export function MegaNav({
                           e.currentTarget.style.color = 'var(--color-text-primary)'
                         }}
                       >
-                        <ChevronRight className="w-[17px] h-[17px] flex-shrink-0 text-gray-400" />
+                        <ChevronRight className="w-[17px] h-[17px] flex-shrink-0 text-grey-mid" />
                         {cat.name}
                         {showCount && cat.productCount && (
-                          <span className="ml-auto text-[11px] text-gray-400">
+                          <span className="ml-auto text-[11px] text-grey-mid">
                             {cat.productCount}
                           </span>
                         )}
@@ -290,7 +290,7 @@ export function MegaNav({
                   </Link>
                 </>
               ) : (
-                <div className="px-4 py-4 text-sm text-gray-400">
+                <div className="px-4 py-4 text-sm text-grey-mid">
                   Geen producten in deze categorie
                 </div>
               )}

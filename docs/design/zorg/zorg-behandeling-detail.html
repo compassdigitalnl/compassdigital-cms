@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manuele Therapie — FysioVitaal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--navy);text-decoration:none;display:flex;align-items:center;gap:8px;}.logo-mark{width:36px;height:36px;background:var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-size:18px;}.logo em{color:var(--teal);font-style:normal;}.nav{display:flex;gap:2px;}.nav-item{padding:10px 16px;font-size:13.5px;font-weight:600;color:var(--grey-dark);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--teal);background:var(--teal-glow);}.h-cta{height:42px;padding:0 20px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--transition);}.h-cta:hover{background:var(--navy);}.h-cta i{width:14px;height:14px;}
+
+  .service-hero{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:48px 0;position:relative;overflow:hidden;}
+  .service-hero::before{content:'';position:absolute;top:-80px;right:-40px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,137,123,.08),transparent 70%);border-radius:50%;}
+  .sh-inner{position:relative;z-index:2;}
+  .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;margin-bottom:10px;list-style:none;}.breadcrumb a{color:rgba(255,255,255,.3);text-decoration:none;}.breadcrumb .sep i{width:12px;height:12px;color:rgba(255,255,255,.1);}.breadcrumb .current{color:var(--teal-light);font-weight:600;}
+  .sh-grid{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:end;}
+  .sh-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(0,137,123,.1);border:1px solid rgba(0,137,123,.2);padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;color:var(--teal-light);margin-bottom:8px;}.sh-badge i{width:11px;height:11px;}
+  .sh-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:34px;font-weight:800;color:white;margin-bottom:6px;}.sh-title em{color:var(--teal-light);font-style:normal;}
+  .sh-desc{font-size:15px;color:rgba(255,255,255,.35);max-width:600px;margin-bottom:12px;}
+  .sh-chips{display:flex;gap:6px;flex-wrap:wrap;}
+  .sh-chip{display:flex;align-items:center;gap:4px;padding:5px 12px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:12px;color:rgba(255,255,255,.4);font-weight:600;}.sh-chip i{width:13px;height:13px;color:var(--teal);}
+  .sh-stats{display:flex;flex-direction:column;gap:8px;}
+  .sh-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px 16px;text-align:center;min-width:120px;}.sh-stat-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--teal-light);}.sh-stat-label{font-size:10px;color:rgba(255,255,255,.3);}
+
+  .page-layout{display:grid;grid-template-columns:1fr 360px;gap:24px;padding:28px 0 64px;align-items:start;}
+  .sc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:6px;}.sc-title i{width:20px;height:20px;color:var(--teal);}
+  .sc-text{font-size:14px;color:var(--grey-dark);line-height:1.7;margin-bottom:14px;}
+
+  /* Symptoms */
+  .symptoms-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:24px;}
+  .symptom{display:flex;align-items:center;gap:8px;padding:10px 12px;background:white;border:1.5px solid var(--grey);border-radius:10px;font-size:13px;font-weight:600;transition:all .12s;}.symptom:hover{border-color:var(--teal);}.symptom i{width:16px;height:16px;color:var(--teal);flex-shrink:0;}
+
+  /* Process */
+  .process{display:flex;flex-direction:column;gap:8px;margin-bottom:24px;}
+  .step{display:flex;gap:12px;padding:14px;background:white;border:1.5px solid var(--grey);border-radius:14px;transition:all .12s;}.step:hover{border-color:var(--teal);}
+  .step-num{width:36px;height:36px;border-radius:10px;background:var(--teal);color:white;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .step-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;margin-bottom:2px;}
+  .step-desc{font-size:12px;color:var(--grey-dark);line-height:1.4;}
+
+  /* Results */
+  .results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px;}
+  .result{background:white;border:1.5px solid var(--grey);border-radius:12px;padding:16px;text-align:center;transition:all .12s;}.result:hover{border-color:var(--teal);}
+  .res-icon{font-size:28px;margin-bottom:4px;}
+  .res-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--teal);}
+  .res-label{font-size:11px;color:var(--grey-mid);}
+
+  /* FAQ */
+  .faq-list{display:flex;flex-direction:column;gap:4px;margin-bottom:24px;}
+  .faq{background:white;border:1.5px solid var(--grey);border-radius:12px;overflow:hidden;}
+  .faq-q{padding:14px 16px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .12s;}.faq-q:hover{color:var(--teal);}.faq-q i{width:16px;height:16px;color:var(--grey-mid);transition:transform .2s;flex-shrink:0;}
+  .faq-a{padding:0 16px 14px;font-size:13px;color:var(--grey-dark);line-height:1.6;display:none;}
+  .faq.open .faq-a{display:block;}.faq.open .faq-q i{transform:rotate(180deg);color:var(--teal);}
+
+  /* Related */
+  .related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+  .rel{background:white;border:1.5px solid var(--grey);border-radius:12px;padding:14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .12s;text-decoration:none;color:var(--navy);}.rel:hover{border-color:var(--teal);}
+  .rel-icon{font-size:24px;flex-shrink:0;}
+  .rel-name{font-size:13px;font-weight:800;}.rel-desc{font-size:11px;color:var(--grey-mid);}
+  .rel-arrow{margin-left:auto;}.rel-arrow i{width:14px;height:14px;color:var(--grey-mid);}
+
+  /* Sidebar */
+  .sidebar{position:sticky;top:96px;}
+  .side-card{background:white;border:1.5px solid var(--grey);border-radius:16px;padding:18px;margin-bottom:10px;box-shadow:var(--shadow-sm);}
+  .sc-head{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:5px;}.sc-head i{width:16px;height:16px;color:var(--teal);}
+  .fg{margin-bottom:8px;}.fg-label{font-size:11px;font-weight:700;margin-bottom:3px;display:block;}.fg-req{color:var(--coral);}.fg-input{width:100%;height:42px;padding:0 12px;border:1.5px solid var(--grey);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--navy);outline:none;transition:all .12s;}.fg-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}.fg-select{appearance:none;background:white url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") right 12px center no-repeat;}.fg-textarea{height:60px;padding:8px 12px;resize:none;}
+  .fg-submit{width:100%;height:44px;background:var(--teal);color:white;border:none;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all var(--transition);box-shadow:0 4px 16px rgba(0,137,123,.3);}.fg-submit:hover{background:var(--navy);}.fg-submit i{width:15px;height:15px;}
+  .fg-note{text-align:center;font-size:10px;color:var(--grey-mid);margin-top:4px;}
+
+  .info-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--grey);font-size:13px;}.info-row:last-child{border-bottom:none;}.ir-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.ir-icon i{width:14px;height:14px;}.ir-label{font-size:10px;color:var(--grey-mid);}.ir-val{font-weight:700;}
+
+  .ins-list{display:flex;flex-wrap:wrap;gap:3px;}
+  .ins-tag{padding:4px 8px;border-radius:4px;font-size:10px;font-weight:700;background:var(--green-light);color:var(--green);display:flex;align-items:center;gap:3px;}.ins-tag i{width:10px;height:10px;}
+
+  .phone-card{background:var(--navy);border-radius:14px;padding:14px;display:flex;align-items:center;gap:10px;color:white;margin-bottom:10px;}.phc-icon{width:36px;height:36px;border-radius:10px;background:rgba(0,137,123,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;}.phc-icon i{width:16px;height:16px;color:var(--teal);}.phc-label{font-size:10px;color:rgba(255,255,255,.3);}.phc-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;}.phc-avail{font-size:10px;color:var(--teal);}
+
+  @media(max-width:900px){.page-layout{grid-template-columns:1fr;}.sidebar{position:static;}.symptoms-grid,.results-grid,.related-grid{grid-template-columns:1fr;}.sh-grid{grid-template-columns:1fr;}.sh-stats{flex-direction:row;}.nav{display:none;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo"><div class="logo-mark">🏥</div>Fysio<em>Vitaal</em></a><nav class="nav"><a href="#" class="nav-item">Home</a><a href="#" class="nav-item active">Behandelingen</a><a href="#" class="nav-item">Team</a><a href="#" class="nav-item">Tarieven</a><a href="#" class="nav-item">Patiënteninfo</a><a href="#" class="nav-item">Contact</a></nav><button class="h-cta"><i data-lucide="calendar"></i> Afspraak maken</button></div></header>
+
+<section class="service-hero"><div class="container"><div class="sh-inner">
+  <ol class="breadcrumb"><li><a href="#">Home</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li><a href="#">Behandelingen</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li class="current">Manuele therapie</li></ol>
+  <div class="sh-grid">
+    <div>
+      <div class="sh-badge"><i data-lucide="hand"></i> Specialisatie</div>
+      <h1 class="sh-title">Manuele <em>therapie</em></h1>
+      <p class="sh-desc">Gespecialiseerde behandeling van gewrichts-, spier- en zenuwklachten door middel van gerichte handgrepen, mobilisatie- en manipulatietechnieken.</p>
+      <div class="sh-chips"><span class="sh-chip"><i data-lucide="clock"></i> 30 minuten</span><span class="sh-chip"><i data-lucide="shield-check"></i> Vergoed</span><span class="sh-chip"><i data-lucide="zap"></i> Directe toegang</span><span class="sh-chip"><i data-lucide="user-check"></i> BIG-geregistreerd</span></div>
+    </div>
+    <div class="sh-stats">
+      <div class="sh-stat"><div class="sh-stat-num">93%</div><div class="sh-stat-label">Klachtenvrij na behandeling</div></div>
+      <div class="sh-stat"><div class="sh-stat-num">4-8</div><div class="sh-stat-label">Gem. behandelingen</div></div>
+    </div>
+  </div>
+</div></div></section>
+
+<div class="container"><div class="page-layout">
+  <div>
+    <div class="sc-title"><i data-lucide="info"></i> Wat is manuele therapie?</div>
+    <p class="sc-text">Manuele therapie is een specialisatie binnen de fysiotherapie gericht op het onderzoeken en behandelen van klachten aan het bewegingsapparaat. Onze manueel therapeuten hebben na hun basisopleiding fysiotherapie een 3-jarige post-HBO opleiding gevolgd.</p>
+    <p class="sc-text">Bij manuele therapie worden specifieke handgrepen gebruikt om gewrichten te mobiliseren, spieren te ontspannen en zenuwen te behandelen. De behandeling is veilig, wetenschappelijk onderbouwd en wordt volledig vergoed vanuit de aanvullende verzekering.</p>
+
+    <div class="sc-title"><i data-lucide="alert-circle"></i> Klachten die wij behandelen</div>
+    <div class="symptoms-grid">
+      <div class="symptom"><i data-lucide="check-circle"></i> Nekpijn en hoofdpijn</div>
+      <div class="symptom"><i data-lucide="check-circle"></i> Lage rugpijn en uitstraling</div>
+      <div class="symptom"><i data-lucide="check-circle"></i> Schouderklachten</div>
+      <div class="symptom"><i data-lucide="check-circle"></i> Tennisarm / golferselleboog</div>
+      <div class="symptom"><i data-lucide="check-circle"></i> Knieklachten</div>
+      <div class="symptom"><i data-lucide="check-circle"></i> Kaakklachten (CMD)</div>
+      <div class="symptom"><i data-lucide="check-circle"></i> Duizeligheid (cervicogeen)</div>
+      <div class="symptom"><i data-lucide="check-circle"></i> Hernia / uitstralende pijn</div>
+      <div class="symptom"><i data-lucide="check-circle"></i> Bekkenpijn</div>
+      <div class="symptom"><i data-lucide="check-circle"></i> Postoperatieve revalidatie</div>
+    </div>
+
+    <div class="sc-title"><i data-lucide="route"></i> Het behandeltraject</div>
+    <div class="process">
+      <div class="step"><div class="step-num">1</div><div><div class="step-title">Intake & onderzoek (45 min)</div><div class="step-desc">Uitgebreide anamnese en lichamelijk onderzoek. We brengen uw klacht in kaart, stellen een diagnose en bespreken het behandelplan.</div></div></div>
+      <div class="step"><div class="step-num">2</div><div><div class="step-title">Behandeling (30 min per sessie)</div><div class="step-desc">Gerichte manuele technieken gecombineerd met oefentherapie. U krijgt ook oefeningen voor thuis om het herstel te versnellen.</div></div></div>
+      <div class="step"><div class="step-num">3</div><div><div class="step-title">Evaluatie & bijstelling</div><div class="step-desc">Na elke 3-4 behandelingen evalueren we de voortgang en passen we het plan aan indien nodig.</div></div></div>
+      <div class="step"><div class="step-num">4</div><div><div class="step-title">Afronding & preventie</div><div class="step-desc">Bij het bereiken van de behandeldoelen krijgt u een persoonlijk preventie-advies om terugval te voorkomen.</div></div></div>
+    </div>
+
+    <div class="sc-title"><i data-lucide="bar-chart-3"></i> Verwachte resultaten</div>
+    <div class="results-grid">
+      <div class="result"><div class="res-icon">📉</div><div class="res-num">93%</div><div class="res-label">Pijnreductie na traject</div></div>
+      <div class="result"><div class="res-icon">⏱️</div><div class="res-num">4-8</div><div class="res-label">Behandelingen gemiddeld</div></div>
+      <div class="result"><div class="res-icon">⭐</div><div class="res-num">9.4</div><div class="res-label">Patiënttevredenheid</div></div>
+    </div>
+
+    <div class="sc-title"><i data-lucide="help-circle"></i> Veelgestelde vragen</div>
+    <div class="faq-list">
+      <div class="faq open"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Heb ik een verwijzing van de huisarts nodig? <i data-lucide="chevron-down"></i></div><div class="faq-a">Nee, sinds 2006 geldt directe toegang fysiotherapie (DTF). U kunt zonder verwijzing direct een afspraak maken. Wel kan een verwijzing nodig zijn voor vergoeding bij bepaalde verzekeraars — wij informeren u hierover.</div></div>
+      <div class="faq"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Wordt manuele therapie vergoed? <i data-lucide="chevron-down"></i></div><div class="faq-a">Manuele therapie valt onder fysiotherapie en wordt vergoed vanuit de aanvullende verzekering. Het aantal vergoede behandelingen verschilt per polis. Bij chronische indicaties wordt het vanuit de basisverzekering vergoed.</div></div>
+      <div class="faq"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Doet de behandeling pijn? <i data-lucide="chevron-down"></i></div><div class="faq-a">De behandeling is over het algemeen niet pijnlijk. U kunt wel kortstondig druk of een stretch voelen. Na de behandeling kan een lichte spierpijn optreden die binnen 24-48 uur verdwijnt.</div></div>
+      <div class="faq"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Hoeveel behandelingen heb ik nodig? <i data-lucide="chevron-down"></i></div><div class="faq-a">Gemiddeld zijn 4-8 behandelingen nodig. Bij acute klachten vaak minder, bij chronische klachten soms meer. Na de intake geven wij u een reële inschatting van het verwachte traject.</div></div>
+      <div class="faq"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Wat is het verschil met reguliere fysiotherapie? <i data-lucide="chevron-down"></i></div><div class="faq-a">Een manueel therapeut heeft een 3-jarige aanvullende opleiding gevolgd na de basisopleiding fysiotherapie. De focus ligt meer op gewrichtsmobilisatie en specifieke handgrepen, gecombineerd met oefentherapie.</div></div>
+    </div>
+
+    <div class="sc-title"><i data-lucide="grid"></i> Andere behandelingen</div>
+    <div class="related-grid">
+      <a href="#" class="rel"><div class="rel-icon">🏃</div><div><div class="rel-name">Sportfysiotherapie</div><div class="rel-desc">Blessures · Revalidatie</div></div><div class="rel-arrow"><i data-lucide="chevron-right"></i></div></a>
+      <a href="#" class="rel"><div class="rel-icon">🧠</div><div><div class="rel-name">Psychosomatische fysio</div><div class="rel-desc">Chronische pijn · Stress</div></div><div class="rel-arrow"><i data-lucide="chevron-right"></i></div></a>
+      <a href="#" class="rel"><div class="rel-icon">👶</div><div><div class="rel-name">Kinderfysiotherapie</div><div class="rel-desc">Motoriek · Ontwikkeling</div></div><div class="rel-arrow"><i data-lucide="chevron-right"></i></div></a>
+      <a href="#" class="rel"><div class="rel-icon">🔧</div><div><div class="rel-name">Dry needling</div><div class="rel-desc">Triggerpoints · Shockwave</div></div><div class="rel-arrow"><i data-lucide="chevron-right"></i></div></a>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="side-card">
+      <div class="sc-head"><i data-lucide="calendar"></i> Afspraak maken</div>
+      <div class="fg"><label class="fg-label">Naam <span class="fg-req">*</span></label><input class="fg-input" type="text" placeholder="Uw naam"></div>
+      <div class="fg"><label class="fg-label">Telefoon <span class="fg-req">*</span></label><input class="fg-input" type="tel" placeholder="06 - 1234 5678"></div>
+      <div class="fg"><label class="fg-label">E-mail</label><input class="fg-input" type="email" placeholder="uw@email.nl"></div>
+      <div class="fg"><label class="fg-label">Klacht / reden</label><select class="fg-input fg-select"><option>Nek-/rugklachten</option><option>Schouderklachten</option><option>Knieklachten</option><option>Sportblessure</option><option>Hoofdpijn</option><option>Anders</option></select></div>
+      <div class="fg"><label class="fg-label">Voorkeur dag/tijd</label><input class="fg-input" type="text" placeholder="Bijv. dinsdag ochtend"></div>
+      <button class="fg-submit"><i data-lucide="send"></i> Afspraak aanvragen</button>
+      <div class="fg-note">Binnen 4 uur bevestiging · Geen verwijzing nodig</div>
+    </div>
+
+    <div class="side-card">
+      <div class="sc-head"><i data-lucide="file-text"></i> Behandelgegevens</div>
+      <div class="info-row"><div class="ir-icon" style="background:var(--teal-glow);"><i data-lucide="clock" style="color:var(--teal);"></i></div><div><div class="ir-label">Duur</div><div class="ir-val">30 min (intake 45 min)</div></div></div>
+      <div class="info-row"><div class="ir-icon" style="background:var(--blue-light);"><i data-lucide="hash" style="color:var(--blue);"></i></div><div><div class="ir-label">Gemiddeld traject</div><div class="ir-val">4-8 behandelingen</div></div></div>
+      <div class="info-row"><div class="ir-icon" style="background:var(--green-light);"><i data-lucide="euro" style="color:var(--green);"></i></div><div><div class="ir-label">Tarief</div><div class="ir-val">€ 44,50 per sessie</div></div></div>
+      <div class="info-row"><div class="ir-icon" style="background:var(--amber-light);"><i data-lucide="shield-check" style="color:var(--amber);"></i></div><div><div class="ir-label">Vergoeding</div><div class="ir-val">Aanvullend verzekerd</div></div></div>
+    </div>
+
+    <div class="side-card">
+      <div class="sc-head"><i data-lucide="shield-check"></i> Gecontracteerde verzekeraars</div>
+      <div class="ins-list">
+        <span class="ins-tag"><i data-lucide="check"></i> Zilveren Kruis</span>
+        <span class="ins-tag"><i data-lucide="check"></i> CZ</span>
+        <span class="ins-tag"><i data-lucide="check"></i> VGZ</span>
+        <span class="ins-tag"><i data-lucide="check"></i> Menzis</span>
+        <span class="ins-tag"><i data-lucide="check"></i> ONVZ</span>
+        <span class="ins-tag"><i data-lucide="check"></i> DSW</span>
+        <span class="ins-tag"><i data-lucide="check"></i> a.s.r.</span>
+      </div>
+      <p style="font-size:10px;color:var(--grey-mid);margin-top:6px;">Wij declareren rechtstreeks bij uw verzekeraar. U hoeft niets voor te schieten.</p>
+    </div>
+
+    <div class="phone-card"><div class="phc-icon"><i data-lucide="phone"></i></div><div><div class="phc-label">Vragen?</div><div class="phc-num">020 - 345 67 89</div><div class="phc-avail">Ma-Vr 07:30-20:00</div></div></div>
+  </aside>
+</div></div>
+<script>lucide.createIcons();</script>
+</body>
+</html>

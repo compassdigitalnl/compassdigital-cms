@@ -12,7 +12,7 @@ const getStatusColor = (status: string) => {
     case 'paused':
       return { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', label: 'Gepauzeerd' }
     default:
-      return { bg: 'bg-gray-50', text: 'text-gray-700', border: 'border-gray-200', label: status }
+      return { bg: 'bg-grey-light', text: 'text-grey-dark', border: 'border-grey-light', label: status }
   }
 }
 
@@ -24,8 +24,8 @@ export function RecurringOrderCard({ order, onTogglePause, onDelete }: Recurring
     : 0
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
-      <div className="p-6 border-b border-gray-200">
+    <div className="bg-white border border-grey-light rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+      <div className="p-6 border-b border-grey-light">
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div className="flex items-start gap-4 flex-1">
             <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -38,7 +38,7 @@ export function RecurringOrderCard({ order, onTogglePause, onDelete }: Recurring
                   {statusColors.label}
                 </span>
               </div>
-              <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
+              <div className="flex items-center gap-4 text-sm text-grey-dark mb-2">
                 <div className="flex items-center gap-1">
                   <Calendar className="w-4 h-4" />
                   <span>{order.frequencyLabel}</span>
@@ -49,7 +49,7 @@ export function RecurringOrderCard({ order, onTogglePause, onDelete }: Recurring
                 </div>
               </div>
               {order.status === 'active' && order.nextDelivery && (
-                <div className="text-xs text-gray-600">
+                <div className="text-xs text-grey-dark">
                   Volgende levering: <span className="font-semibold">{new Date(order.nextDelivery).toLocaleDateString('nl-NL')}</span>
                   {daysUntilNext > 0 && ` (over ${daysUntilNext} dagen)`}
                 </div>
@@ -57,8 +57,8 @@ export function RecurringOrderCard({ order, onTogglePause, onDelete }: Recurring
             </div>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-gray-900">€{formatPriceStr(order.total)}</div>
-            <div className="text-xs text-gray-500">per bestelling ({vatLabel})</div>
+            <div className="text-2xl font-bold text-navy">€{formatPriceStr(order.total)}</div>
+            <div className="text-xs text-grey-mid">per bestelling ({vatLabel})</div>
           </div>
         </div>
       </div>

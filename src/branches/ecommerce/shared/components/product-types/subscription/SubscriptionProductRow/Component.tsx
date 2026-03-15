@@ -26,13 +26,13 @@ export const SubscriptionProductRow: React.FC<SubscriptionProductRowProps> = ({
 
   const badgeVariantStyles = {
     popular: 'bg-teal-100 text-teal-700',
-    personal: 'bg-gray-100 text-gray-700',
+    personal: 'bg-grey-light text-grey-dark',
     gift: 'bg-coral-50 text-coral',
   }
 
   return (
     <div
-      className={`product-row bg-white border-[1.5px] border-gray-200 rounded-[14px] p-4 px-5 transition-all hover:border-[var(--color-primary)] hover:shadow-md hover:-translate-y-px grid items-center gap-x-5 gap-y-1.5 ${className}`}
+      className={`product-row bg-white border-[1.5px] border-grey-light rounded-[14px] p-4 px-5 transition-all hover:border-[var(--color-primary)] hover:shadow-md hover:-translate-y-px grid items-center gap-x-5 gap-y-1.5 ${className}`}
       style={{
         gridTemplateColumns: '60px 1fr auto auto auto',
         gridTemplateRows: 'auto auto',
@@ -40,7 +40,7 @@ export const SubscriptionProductRow: React.FC<SubscriptionProductRowProps> = ({
     >
       {/* Column 1: Icon (spans both rows) */}
       <div
-        className="product-type-icon w-15 h-15 text-3xl flex items-center justify-center bg-gray-50 rounded-lg"
+        className="product-type-icon w-15 h-15 text-3xl flex items-center justify-center bg-grey-light rounded-lg"
         style={{ gridColumn: '1', gridRow: '1 / 3', alignSelf: 'center' }}
       >
         {emoji || icon || '📦'}
@@ -69,7 +69,7 @@ export const SubscriptionProductRow: React.FC<SubscriptionProductRowProps> = ({
 
       {/* Column 2: Edition count (row 2) */}
       <div
-        className="product-edition-count text-xs text-gray-600"
+        className="product-edition-count text-xs text-grey-dark"
         style={{ gridColumn: '2', gridRow: '2', alignSelf: 'start' }}
       >
         {title && <span className="font-bold mr-2">{title}</span>}
@@ -82,10 +82,10 @@ export const SubscriptionProductRow: React.FC<SubscriptionProductRowProps> = ({
           className="product-price-month text-center"
           style={{ gridColumn: '3', gridRow: '1 / 3', alignSelf: 'center' }}
         >
-          <div className="text-xl font-extrabold text-gray-900">
+          <div className="text-xl font-extrabold text-navy">
             €{formatPriceStr(pricePerMonth)}
           </div>
-          <div className="text-[10px] text-gray-500">per maand</div>
+          <div className="text-[10px] text-grey-mid">per maand</div>
         </div>
       )}
 
@@ -95,7 +95,7 @@ export const SubscriptionProductRow: React.FC<SubscriptionProductRowProps> = ({
         style={{ gridColumn: '4', gridRow: '1 / 3', alignSelf: 'center' }}
       >
         {totalPrice && (
-          <div className="text-sm font-bold text-gray-900 font-mono">
+          <div className="text-sm font-bold text-navy font-mono">
             €{formatPriceStr(totalPrice)}
           </div>
         )}

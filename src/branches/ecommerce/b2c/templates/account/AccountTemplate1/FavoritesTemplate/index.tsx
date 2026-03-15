@@ -44,8 +44,8 @@ export default function FavoritesTemplate({
     <div className="space-y-4 lg:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">Favorieten</h1>
-          <p className="text-sm lg:text-base text-gray-500">Je opgeslagen producten en wishlist</p>
+          <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-navy">Favorieten</h1>
+          <p className="text-sm lg:text-base text-grey-mid">Je opgeslagen producten en wishlist</p>
         </div>
 
         {/* Share Controls */}
@@ -57,7 +57,7 @@ export default function FavoritesTemplate({
               className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 shareEnabled
                   ? 'bg-teal-50 text-teal-700 border border-teal-200 hover:bg-teal-100'
-                  : 'bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100'
+                  : 'bg-grey-light text-grey-dark border border-grey-light hover:bg-grey-light'
               } ${isTogglingShare ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               {shareEnabled ? (
@@ -71,7 +71,7 @@ export default function FavoritesTemplate({
             {shareEnabled && fullShareUrl && (
               <button
                 onClick={handleCopyLink}
-                className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+                className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-grey-light rounded-lg text-sm text-grey-dark hover:bg-grey-light transition-colors"
               >
                 {copied ? (
                   <>
@@ -91,7 +91,7 @@ export default function FavoritesTemplate({
       </div>
 
       {favorites.length > 0 && (
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-grey-dark">
           <strong>{favorites.length}</strong> {favorites.length === 1 ? 'product' : 'producten'} in je favorieten
           {shareEnabled && (
             <span className="ml-2 inline-flex items-center gap-1 text-teal">

@@ -1,0 +1,3832 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payload CMS Blocks Master System - 43 Complete Blocks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ===================================
+       DESIGN TOKENS & GLOBAL STYLES
+    =================================== */
+    :root {
+      /* Primary Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Status Colors */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--bg);
+    }
+
+    /* Container */
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    /* Master Navigation */
+    .master-nav {
+      position: sticky;
+      top: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      padding: 16px 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .master-nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .master-nav h1 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .master-nav .stats {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--grey-dark);
+    }
+
+    .master-nav .stats span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .master-nav .stats strong {
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    /* Table of Contents */
+    .toc {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 48px 0;
+    }
+
+    .toc h2 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      color: var(--navy);
+    }
+
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .toc-category {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .toc-category h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toc-category h3 .icon {
+      width: 20px;
+      height: 20px;
+      color: var(--teal);
+    }
+
+    .toc-category ul {
+      list-style: none;
+    }
+
+    .toc-category li {
+      margin-bottom: 8px;
+    }
+
+    .toc-category a {
+      color: var(--grey-dark);
+      text-decoration: none;
+      font-size: 12px;
+      transition: color var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .toc-category a:hover {
+      color: var(--teal);
+    }
+
+    .toc-category .priority-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: auto;
+    }
+
+    .priority-badge.must {
+      background: var(--green-light);
+      color: #166534;
+    }
+
+    .priority-badge.nice {
+      background: var(--blue-light);
+      color: #1565C0;
+    }
+
+    /* Block Section */
+    .block-section {
+      margin: 80px 0;
+      scroll-margin-top: 80px;
+    }
+
+    .block-header {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .block-header::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, var(--teal-glow), transparent 70%);
+      pointer-events: none;
+    }
+
+    .block-header h2 {
+      font-size: 32px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .block-header p {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Individual Block Card */
+    .block-card {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      margin-bottom: 48px;
+      overflow: hidden;
+    }
+
+    .block-card-header {
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--grey);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .block-card-header h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .block-card-header .block-id {
+      display: inline-block;
+      padding: 4px 8px;
+      background: var(--teal);
+      color: white;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .block-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 11px;
+      color: var(--grey-dark);
+    }
+
+    .block-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Live Preview Area */
+    .live-preview {
+      padding: 48px 32px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .preview-label {
+      display: inline-block;
+      padding: 4px 10px;
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--grey-dark);
+      margin-bottom: 24px;
+    }
+
+    /* Documentation Area */
+    .block-documentation {
+      padding: 32px;
+    }
+
+    .doc-section {
+      margin-bottom: 32px;
+    }
+
+    .doc-section h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .doc-section h4 .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      background: var(--teal);
+      color: white;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .doc-section p, .doc-section ul {
+      color: var(--grey-dark);
+      font-size: 13px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .doc-section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .doc-section li {
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .doc-section li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    /* Code Blocks */
+    .code-block {
+      background: var(--navy);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin: 16px 0;
+      overflow-x: auto;
+    }
+
+    .code-block pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #E0E0E0;
+      margin: 0;
+    }
+
+    .code-block code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Variant Pills */
+    .variant-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .variant-pill {
+      padding: 4px 10px;
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    /* ===================================
+       BLOCK-SPECIFIC STYLES (LIVE PREVIEWS)
+    =================================== */
+
+    /* Hero Block Styles */
+    .hero-block {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+    }
+
+    .hero-default {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      padding: 80px 32px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-default::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, var(--teal-glow), transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal-light);
+      margin-bottom: 16px;
+    }
+
+    .hero-badge .icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 42px;
+      font-weight: 400;
+      color: white;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-description {
+      font-size: 15px;
+      color: rgba(255,255,255,0.7);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all var(--transition);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--teal);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border: 1.5px solid rgba(255,255,255,0.3);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    .btn .icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Hero Split Variant */
+    .hero-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      padding: 80px 48px;
+      border-radius: var(--radius);
+    }
+
+    .hero-split .hero-content {
+      text-align: left;
+    }
+
+    .hero-split .hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 120px;
+      filter: grayscale(0.3) opacity(0.9);
+    }
+
+    @media (max-width: 900px) {
+      .hero-split {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-split .hero-content {
+        text-align: center;
+      }
+
+      .hero-split .hero-buttons {
+        justify-content: center;
+      }
+    }
+
+    /* Two Column Content Block */
+    .two-column-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      padding: 64px 0;
+    }
+
+    .two-column-content h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 32px;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .two-column-content p {
+      color: var(--grey-dark);
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .two-column-content ul {
+      list-style: none;
+      margin: 24px 0;
+    }
+
+    .two-column-content li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+      color: var(--grey-dark);
+      font-size: 14px;
+    }
+
+    .two-column-content li .icon {
+      width: 20px;
+      height: 20px;
+      color: var(--teal);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .two-column-image {
+      background: var(--grey);
+      border-radius: var(--radius);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      filter: grayscale(0.2);
+    }
+
+    @media (max-width: 900px) {
+      .two-column-block {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .two-column-block.reverse {
+        direction: rtl;
+      }
+
+      .two-column-block.reverse > * {
+        direction: ltr;
+      }
+    }
+
+    /* Rich Text Block */
+    .rich-text-block {
+      max-width: 800px;
+      margin: 64px auto;
+      padding: 0 24px;
+    }
+
+    .rich-text-block h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 36px;
+      color: var(--navy);
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .rich-text-block p {
+      color: var(--grey-dark);
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .rich-text-block a {
+      color: var(--teal);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1.5px solid var(--teal-light);
+      transition: all var(--transition);
+    }
+
+    .rich-text-block a:hover {
+      color: var(--teal-dark);
+      border-bottom-color: var(--teal-dark);
+    }
+
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding: 64px 0;
+    }
+
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      transition: all var(--transition);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--teal-light);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--teal-glow);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .feature-icon .icon {
+      width: 24px;
+      height: 24px;
+      color: var(--teal);
+    }
+
+    .feature-card h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      color: var(--grey-dark);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 900px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+    }
+
+    /* Stats Bar */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      padding: 48px;
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      margin: 64px 0;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--teal);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--grey-dark);
+      font-weight: 500;
+    }
+
+    @media (max-width: 900px) {
+      .stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .stats-bar {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* CTA Block */
+    .cta-block {
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      padding: 64px 48px;
+      border-radius: var(--radius);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin: 64px 0;
+    }
+
+    .cta-block::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-block h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 36px;
+      color: white;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-block p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 32px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-block .btn-white {
+      background: white;
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .cta-block .btn-white:hover {
+      background: rgba(255,255,255,0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    /* Spacer */
+    .spacer {
+      height: 32px;
+    }
+
+    .spacer.small {
+      height: 16px;
+    }
+
+    .spacer.large {
+      height: 64px;
+    }
+
+    /* Info Box */
+    .info-box {
+      display: flex;
+      gap: 16px;
+      padding: 20px 24px;
+      border-radius: var(--radius-sm);
+      margin: 24px 0;
+    }
+
+    .info-box .icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .info-box-content h5 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .info-box-content p {
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .info-box.info {
+      background: var(--blue-light);
+      border: 1px solid #90CAF9;
+    }
+
+    .info-box.info .icon,
+    .info-box.info h5 {
+      color: #1565C0;
+    }
+
+    .info-box.info p {
+      color: #1976D2;
+    }
+
+    .info-box.success {
+      background: var(--green-light);
+      border: 1px solid #81C784;
+    }
+
+    .info-box.success .icon,
+    .info-box.success h5 {
+      color: #166534;
+    }
+
+    .info-box.success p {
+      color: #2E7D32;
+    }
+
+    .info-box.warning {
+      background: var(--amber-light);
+      border: 1px solid #FFD54F;
+    }
+
+    .info-box.warning .icon,
+    .info-box.warning h5 {
+      color: #92400E;
+    }
+
+    .info-box.warning p {
+      color: #F57C00;
+    }
+
+    .info-box.error {
+      background: var(--coral-light);
+      border: 1px solid #FF8A80;
+    }
+
+    .info-box.error .icon,
+    .info-box.error h5 {
+      color: #DC2626;
+    }
+
+    .info-box.error p {
+      color: #E53935;
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 0;
+      font-size: 12px;
+    }
+
+    .breadcrumbs a {
+      color: var(--grey-mid);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--teal);
+    }
+
+    .breadcrumbs .separator {
+      color: var(--grey);
+    }
+
+    .breadcrumbs .current {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* Responsive Utilities */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 32px;
+      }
+
+      .hero-description {
+        font-size: 14px;
+      }
+
+      .two-column-content h3 {
+        font-size: 24px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Master Navigation -->
+  <nav class="master-nav">
+    <div class="container">
+      <h1>Payload CMS Blocks Master System</h1>
+      <div class="stats">
+        <span><strong>43</strong> Blokken</span>
+        <span><strong>29</strong> Must-Have</span>
+        <span><strong>14</strong> Nice-to-Have</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Table of Contents -->
+  <div class="container">
+    <section class="toc">
+      <h2>📋 Inhoudsopgave - Alle 43 Blokken</h2>
+      <div class="toc-grid">
+        <!-- Category 1: Content & Media -->
+        <div class="toc-category">
+          <h3><i data-lucide="file-text" class="icon"></i> Content & Media (12)</h3>
+          <ul>
+            <li><a href="#block-01">1. Hero Block <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-02">2. Two Column Content <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-03">3. Rich Text Block <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-04">4. Media Block <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-05">5. Accordion Block <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-06">6. Stats Bar <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-07">7. Timeline Block <span class="priority-badge nice">Nice</span></a></li>
+            <li><a href="#block-08">8. Logo Bar <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-09">9. Features Grid <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-10">10. USP Cards <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-11">11. Image Gallery <span class="priority-badge nice">Nice</span></a></li>
+            <li><a href="#block-12">12. Code Block <span class="priority-badge nice">Nice</span></a></li>
+          </ul>
+        </div>
+
+        <!-- Category 2: E-commerce -->
+        <div class="toc-category">
+          <h3><i data-lucide="shopping-cart" class="icon"></i> E-commerce (14)</h3>
+          <ul>
+            <li><a href="#block-13">13. Product Grid <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-14">14. Product Embed <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-15">15. Category Grid <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-16">16. Pricing Table <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-17">17. Subscription Pricing <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-18">18. Quick Order Form <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-19">19. Staffel Pricing <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-20">20. Bundle Builder <span class="priority-badge nice">Nice</span></a></li>
+            <li><a href="#block-21">21. Mix & Match <span class="priority-badge nice">Nice</span></a></li>
+            <li><a href="#block-22">22. Product Configurator <span class="priority-badge nice">Nice</span></a></li>
+            <li><a href="#block-23">23. Subscription Options <span class="priority-badge nice">Nice</span></a></li>
+            <li><a href="#block-24">24. Digital Delivery <span class="priority-badge nice">Nice</span></a></li>
+            <li><a href="#block-25">25. Product Comparison <span class="priority-badge nice">Nice</span></a></li>
+            <li><a href="#block-26">26. Vendor Showcase <span class="priority-badge nice">Nice</span></a></li>
+          </ul>
+        </div>
+
+        <!-- Category 3: Forms & Communication -->
+        <div class="toc-category">
+          <h3><i data-lucide="mail" class="icon"></i> Forms & Communication (5)</h3>
+          <ul>
+            <li><a href="#block-27">27. Contact Form <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-28">28. Newsletter Signup <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-29">29. Offerte Request <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-30">30. Workshop Registration <span class="priority-badge nice">Nice</span></a></li>
+            <li><a href="#block-31">31. Reservation Form <span class="priority-badge nice">Nice</span></a></li>
+          </ul>
+        </div>
+
+        <!-- Category 4: Navigation & Info -->
+        <div class="toc-category">
+          <h3><i data-lucide="compass" class="icon"></i> Navigation & Info (6)</h3>
+          <ul>
+            <li><a href="#block-32">32. Blog/Article Grid <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-33">33. Info Box <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-34">34. Banner <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-35">35. Breadcrumbs <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-36">36. Pagination <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-37">37. Spacer <span class="priority-badge must">Must</span></a></li>
+          </ul>
+        </div>
+
+        <!-- Category 5: Social Proof -->
+        <div class="toc-category">
+          <h3><i data-lucide="star" class="icon"></i> Social Proof (6)</h3>
+          <ul>
+            <li><a href="#block-38">38. Testimonials <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-39">39. Reviews Widget <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-40">40. Trust Signals <span class="priority-badge must">Must</span></a></li>
+            <li><a href="#block-41">41. Social Proof Banner <span class="priority-badge nice">Nice</span></a></li>
+            <li><a href="#block-42">42. Customer Logo Bar <span class="priority-badge nice">Nice</span></a></li>
+            <li><a href="#block-43">43. Case Study Grid <span class="priority-badge nice">Nice</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         FASE 1: CONTENT & MEDIA BLOKKEN (9 blocks)
+         Starting with MUST-HAVE blocks
+    ============================================ -->
+    <div class="block-header">
+      <h2>📄 Fase 1: Content & Media Blokken</h2>
+      <p>Core content blocks voor alle pagina types - 9 essentiële blokken</p>
+    </div>
+
+    <!-- BLOCK 01: Hero Block -->
+    <article class="block-card" id="block-01">
+      <div class="block-card-header">
+        <h3>
+          <span class="block-id">B-01</span>
+          Hero Block
+        </h3>
+        <div class="block-meta">
+          <span><i data-lucide="layers"></i> 7 varianten</span>
+          <span><i data-lucide="check-circle"></i> Must-Have</span>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="live-preview">
+        <span class="preview-label">🎨 Live Preview - Default Variant</span>
+
+        <div class="hero-block">
+          <div class="hero-default">
+            <div class="hero-badge">
+              <i data-lucide="sparkles"></i>
+              Nieuw in 2026
+            </div>
+            <h1 class="hero-title">Welkom bij Compass Design System</h1>
+            <p class="hero-description">
+              Een compleet design system voor e-commerce platforms.
+              Gebouwd met Payload CMS, Next.js en Tailwind CSS.
+            </p>
+            <div class="hero-buttons">
+              <a href="#" class="btn btn-primary">
+                Aan de slag
+                <i data-lucide="arrow-right"></i>
+              </a>
+              <a href="#" class="btn btn-outline">
+                Meer informatie
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div style="height: 48px;"></div>
+
+        <span class="preview-label">🎨 Live Preview - Split Variant</span>
+
+        <div class="hero-block">
+          <div class="hero-split">
+            <div class="hero-content">
+              <div class="hero-badge">
+                <i data-lucide="zap"></i>
+                Featured
+              </div>
+              <h1 class="hero-title">Professionele medische producten</h1>
+              <p class="hero-description">
+                Al meer dan 25 jaar leverancier van hoogwaardige
+                medische producten voor zorgprofessionals.
+              </p>
+              <div class="hero-buttons">
+                <a href="#" class="btn btn-primary">
+                  Shop nu
+                  <i data-lucide="arrow-right"></i>
+                </a>
+                <a href="#" class="btn btn-outline">
+                  Catalogus bekijken
+                </a>
+              </div>
+            </div>
+            <div class="hero-visual">
+              🏥
+            </div>
+          </div>
+        </div>
+
+        <div class="variant-pills">
+          <span class="variant-pill">✓ Default (Centered)</span>
+          <span class="variant-pill">✓ Split (Content + Visual)</span>
+          <span class="variant-pill">Stats Overlay</span>
+          <span class="variant-pill">With Search Bar</span>
+          <span class="variant-pill">Background Image</span>
+          <span class="variant-pill">Gradient Background</span>
+          <span class="variant-pill">Compact</span>
+        </div>
+      </div>
+
+      <!-- Documentation -->
+      <div class="block-documentation">
+        <div class="doc-section">
+          <h4><span class="step-number">1</span> Payload Block Configuration</h4>
+          <div class="code-block"><pre><code>// src/payload/blocks/HeroBlock.ts
+import { Block } from 'payload/types'
+
+export const HeroBlock: Block = {
+  slug: 'hero',
+  labels: {
+    singular: 'Hero Block',
+    plural: 'Hero Blocks',
+  },
+  fields: [
+    {
+      name: 'variant',
+      type: 'select',
+      defaultValue: 'default',
+      options: [
+        { label: 'Default (Centered)', value: 'default' },
+        { label: 'Split (Content + Visual)', value: 'split' },
+        { label: 'With Stats Overlay', value: 'stats' },
+        { label: 'With Search Bar', value: 'search' },
+        { label: 'Background Image', value: 'image' },
+        { label: 'Gradient Background', value: 'gradient' },
+        { label: 'Compact', value: 'compact' },
+      ],
+      required: true,
+    },
+    {
+      name: 'badge',
+      type: 'group',
+      fields: [
+        {
+          name: 'show',
+          type: 'checkbox',
+          defaultValue: false,
+        },
+        {
+          name: 'icon',
+          type: 'text',
+          admin: {
+            description: 'Lucide icon name (e.g., sparkles, zap, star)',
+          },
+        },
+        {
+          name: 'text',
+          type: 'text',
+        },
+      ],
+    },
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+      admin: {
+        description: 'Main hero title (DM Serif Display, 42px)',
+      },
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      admin: {
+        description: 'Hero description text (max 600px width)',
+      },
+    },
+    {
+      name: 'buttons',
+      type: 'array',
+      maxRows: 2,
+      fields: [
+        {
+          name: 'label',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'url',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'style',
+          type: 'select',
+          defaultValue: 'primary',
+          options: [
+            { label: 'Primary (Teal)', value: 'primary' },
+            { label: 'Outline (White)', value: 'outline' },
+          ],
+        },
+        {
+          name: 'icon',
+          type: 'text',
+          admin: {
+            description: 'Optional Lucide icon name',
+          },
+        },
+      ],
+    },
+    {
+      name: 'visualEmoji',
+      type: 'text',
+      admin: {
+        condition: (data, siblingData) => siblingData.variant === 'split',
+        description: 'Emoji for split variant visual (e.g., 🏥, 🧤, 💊)',
+      },
+    },
+    {
+      name: 'backgroundImage',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        condition: (data, siblingData) => siblingData.variant === 'image',
+      },
+    },
+    {
+      name: 'stats',
+      type: 'array',
+      maxRows: 4,
+      admin: {
+        condition: (data, siblingData) => siblingData.variant === 'stats',
+      },
+      fields: [
+        { name: 'number', type: 'text', required: true },
+        { name: 'label', type: 'text', required: true },
+      ],
+    },
+  ],
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">2</span> TypeScript Types</h4>
+          <div class="code-block"><pre><code>// types/blocks.ts
+export interface HeroBlock {
+  blockType: 'hero'
+  variant: 'default' | 'split' | 'stats' | 'search' | 'image' | 'gradient' | 'compact'
+  badge?: {
+    show: boolean
+    icon?: string
+    text?: string
+  }
+  title: string
+  description?: string
+  buttons?: Array<{
+    label: string
+    url: string
+    style: 'primary' | 'outline'
+    icon?: string
+  }>
+  visualEmoji?: string
+  backgroundImage?: Media
+  stats?: Array<{
+    number: string
+    label: string
+  }>
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">3</span> React Component</h4>
+          <div class="code-block"><pre><code>// components/blocks/HeroBlock.tsx
+import React from 'react'
+import { HeroBlock as HeroBlockType } from '@/types/blocks'
+import * as LucideIcons from 'lucide-react'
+
+export const HeroBlock: React.FC<{ block: HeroBlockType }> = ({ block }) => {
+  const {
+    variant = 'default',
+    badge,
+    title,
+    description,
+    buttons,
+    visualEmoji,
+    stats,
+  } = block
+
+  // Get icon component dynamically
+  const BadgeIcon = badge?.icon && LucideIcons[badge.icon as keyof typeof LucideIcons]
+
+  if (variant === 'split') {
+    return (
+      <section className="hero-block">
+        <div className="hero-split">
+          <div className="hero-content">
+            {badge?.show && (
+              <div className="hero-badge">
+                {BadgeIcon && <BadgeIcon size={14} />}
+                {badge.text}
+              </div>
+            )}
+            <h1 className="hero-title">{title}</h1>
+            {description && <p className="hero-description">{description}</p>}
+            {buttons && buttons.length > 0 && (
+              <div className="hero-buttons">
+                {buttons.map((btn, idx) => {
+                  const BtnIcon = btn.icon && LucideIcons[btn.icon as keyof typeof LucideIcons]
+                  return (
+                    <a
+                      key={idx}
+                      href={btn.url}
+                      className={`btn btn-${btn.style}`}
+                    >
+                      {btn.label}
+                      {BtnIcon && <BtnIcon size={16} />}
+                    </a>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+          <div className="hero-visual">{visualEmoji}</div>
+        </div>
+      </section>
+    )
+  }
+
+  // Default variant
+  return (
+    <section className="hero-block">
+      <div className="hero-default">
+        {badge?.show && (
+          <div className="hero-badge">
+            {BadgeIcon && <BadgeIcon size={14} />}
+            {badge.text}
+          </div>
+        )}
+        <h1 className="hero-title">{title}</h1>
+        {description && <p className="hero-description">{description}</p>}
+        {buttons && buttons.length > 0 && (
+          <div className="hero-buttons">
+            {buttons.map((btn, idx) => {
+              const BtnIcon = btn.icon && LucideIcons[btn.icon as keyof typeof LucideIcons]
+              return (
+                <a key={idx} href={btn.url} className={`btn btn-${btn.style}`}>
+                  {btn.label}
+                  {BtnIcon && <BtnIcon size={16} />}
+                </a>
+              )
+            })}
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">4</span> Usage in Pages</h4>
+          <p>In any Payload page with a layout field:</p>
+          <div class="code-block"><pre><code>// app/(frontend)/[...slug]/page.tsx
+import { HeroBlock } from '@/components/blocks/HeroBlock'
+
+export default function Page({ params }: { params: { slug: string[] } }) {
+  const page = await getPageData(params.slug)
+
+  return (
+    <main>
+      {page.layout?.map((block, index) => {
+        switch (block.blockType) {
+          case 'hero':
+            return <HeroBlock key={index} block={block} />
+          // ... other blocks
+        }
+      })}
+    </main>
+  )
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">5</span> Key Features</h4>
+          <ul>
+            <li><strong>7 Variants:</strong> Default, Split, Stats Overlay, Search Bar, Background Image, Gradient, Compact</li>
+            <li><strong>Badge Support:</strong> Optional badge with icon and text (pill-shaped)</li>
+            <li><strong>Flexible Buttons:</strong> Up to 2 CTA buttons with primary/outline styles</li>
+            <li><strong>Typography:</strong> DM Serif Display for title (42px), Plus Jakarta Sans for body</li>
+            <li><strong>Decorative Glows:</strong> Radial gradient overlays for visual depth</li>
+            <li><strong>Responsive:</strong> Split variant stacks on mobile (<900px)</li>
+            <li><strong>Icon Integration:</strong> Lucide React icons for badges and buttons</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">6</span> Design Tokens Used</h4>
+          <ul>
+            <li><code>--navy</code>, <code>--navy-light</code> - Background gradients</li>
+            <li><code>--teal</code>, <code>--teal-light</code> - Primary button, badge, glows</li>
+            <li><code>--white</code> - Text on dark backgrounds</li>
+            <li><code>--radius</code> (12px) - Container border radius</li>
+            <li><code>--radius-sm</code> (8px) - Button border radius</li>
+            <li><code>--transition</code> - Hover/focus transitions</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">7</span> Accessibility</h4>
+          <ul>
+            <li>Semantic HTML: <code>&lt;section&gt;</code> with <code>&lt;h1&gt;</code> heading</li>
+            <li>Sufficient color contrast (white text on navy: 15.5:1)</li>
+            <li>Keyboard-accessible CTA buttons</li>
+            <li>Focus states with visible outlines</li>
+            <li>Icon-only badges include aria-label if text is missing</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">8</span> Related Components</h4>
+          <ul>
+            <li><strong>Stats Bar (B-06):</strong> Can be combined with Hero stats variant</li>
+            <li><strong>CTA Block:</strong> Similar structure but different visual style</li>
+            <li><strong>Breadcrumbs (B-35):</strong> Often appears above Hero</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- BLOCK 02: Two Column Content -->
+    <article class="block-card" id="block-02">
+      <div class="block-card-header">
+        <h3>
+          <span class="block-id">B-02</span>
+          Two Column Content
+        </h3>
+        <div class="block-meta">
+          <span><i data-lucide="columns"></i> 3 varianten</span>
+          <span><i data-lucide="check-circle"></i> Must-Have</span>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="live-preview">
+        <span class="preview-label">🎨 Live Preview - Image Right</span>
+
+        <div class="two-column-block">
+          <div class="two-column-content">
+            <h3>Professionele medische oplossingen</h3>
+            <p>
+              Al meer dan 25 jaar zijn wij specialist in het leveren van
+              hoogwaardige medische producten aan zorgprofessionals.
+              Onze expertise en betrouwbaarheid maken ons de partner
+              van keuze voor ziekenhuizen en klinieken.
+            </p>
+            <ul>
+              <li>
+                <i data-lucide="check-circle"></i>
+                Complete productcatalogus met 10.000+ items
+              </li>
+              <li>
+                <i data-lucide="check-circle"></i>
+                Levering binnen 24 uur mogelijk
+              </li>
+              <li>
+                <i data-lucide="check-circle"></i>
+                Persoonlijk accountmanagement
+              </li>
+              <li>
+                <i data-lucide="check-circle"></i>
+                Gecertificeerd volgens ISO 13485
+              </li>
+            </ul>
+            <a href="#" class="btn btn-primary">
+              Meer over ons
+              <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          <div class="two-column-image">
+            🏥
+          </div>
+        </div>
+
+        <div style="height: 48px;"></div>
+
+        <span class="preview-label">🎨 Live Preview - Image Left (Reverse)</span>
+
+        <div class="two-column-block reverse">
+          <div class="two-column-image">
+            🧤
+          </div>
+          <div class="two-column-content">
+            <h3>Steriele handschoenen voor elke situatie</h3>
+            <p>
+              Ons assortiment steriele handschoenen biedt bescherming
+              en comfort voor alle medische procedures. Van latex tot
+              nitril, wij hebben de juiste oplossing.
+            </p>
+            <a href="#" class="btn btn-primary">
+              Bekijk producten
+              <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="variant-pills">
+          <span class="variant-pill">✓ Image Right</span>
+          <span class="variant-pill">✓ Image Left (Reverse)</span>
+          <span class="variant-pill">Text Only (No Image)</span>
+        </div>
+      </div>
+
+      <!-- Documentation -->
+      <div class="block-documentation">
+        <div class="doc-section">
+          <h4><span class="step-number">1</span> Payload Block Configuration</h4>
+          <div class="code-block"><pre><code>// src/payload/blocks/TwoColumnBlock.ts
+import { Block } from 'payload/types'
+
+export const TwoColumnBlock: Block = {
+  slug: 'twoColumn',
+  labels: {
+    singular: 'Two Column Content',
+    plural: 'Two Column Contents',
+  },
+  fields: [
+    {
+      name: 'layout',
+      type: 'select',
+      defaultValue: 'imageRight',
+      options: [
+        { label: 'Image Right', value: 'imageRight' },
+        { label: 'Image Left', value: 'imageLeft' },
+        { label: 'Text Only', value: 'textOnly' },
+      ],
+      required: true,
+    },
+    {
+      name: 'content',
+      type: 'group',
+      fields: [
+        {
+          name: 'heading',
+          type: 'text',
+          required: true,
+          admin: {
+            description: 'H3 heading (DM Serif Display, 32px)',
+          },
+        },
+        {
+          name: 'richText',
+          type: 'richText',
+          required: true,
+        },
+        {
+          name: 'features',
+          type: 'array',
+          label: 'Feature List',
+          maxRows: 6,
+          fields: [
+            {
+              name: 'icon',
+              type: 'text',
+              defaultValue: 'check-circle',
+              admin: {
+                description: 'Lucide icon name',
+              },
+            },
+            {
+              name: 'text',
+              type: 'text',
+              required: true,
+            },
+          ],
+        },
+        {
+          name: 'button',
+          type: 'group',
+          fields: [
+            {
+              name: 'show',
+              type: 'checkbox',
+              defaultValue: false,
+            },
+            {
+              name: 'label',
+              type: 'text',
+            },
+            {
+              name: 'url',
+              type: 'text',
+            },
+            {
+              name: 'icon',
+              type: 'text',
+              defaultValue: 'arrow-right',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        condition: (data, siblingData) =>
+          siblingData.layout === 'imageRight' || siblingData.layout === 'imageLeft',
+      },
+    },
+    {
+      name: 'imageEmoji',
+      type: 'text',
+      admin: {
+        condition: (data, siblingData) =>
+          siblingData.layout === 'imageRight' || siblingData.layout === 'imageLeft',
+        description: 'Emoji placeholder for image (e.g., 🏥, 🧤, 💊)',
+      },
+    },
+  ],
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">2</span> TypeScript Types</h4>
+          <div class="code-block"><pre><code>// types/blocks.ts
+export interface TwoColumnBlock {
+  blockType: 'twoColumn'
+  layout: 'imageRight' | 'imageLeft' | 'textOnly'
+  content: {
+    heading: string
+    richText: any // Lexical JSON
+    features?: Array<{
+      icon: string
+      text: string
+    }>
+    button?: {
+      show: boolean
+      label?: string
+      url?: string
+      icon?: string
+    }
+  }
+  image?: Media
+  imageEmoji?: string
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">3</span> React Component</h4>
+          <div class="code-block"><pre><code>// components/blocks/TwoColumnBlock.tsx
+import React from 'react'
+import { TwoColumnBlock as TwoColumnBlockType } from '@/types/blocks'
+import * as LucideIcons from 'lucide-react'
+import { RichText } from '@/components/RichText'
+
+export const TwoColumnBlock: React.FC<{ block: TwoColumnBlockType }> = ({ block }) => {
+  const { layout, content, image, imageEmoji } = block
+
+  const FeatureIcon = (iconName: string) => {
+    const Icon = LucideIcons[iconName as keyof typeof LucideIcons]
+    return Icon ? <Icon size={20} /> : null
+  }
+
+  const ButtonIcon = content.button?.icon
+    ? LucideIcons[content.button.icon as keyof typeof LucideIcons]
+    : null
+
+  return (
+    <section className={`two-column-block ${layout === 'imageLeft' ? 'reverse' : ''}`}>
+      {layout !== 'textOnly' && (
+        <div className="two-column-image">
+          {imageEmoji || '🖼️'}
+        </div>
+      )}
+      <div className="two-column-content">
+        <h3>{content.heading}</h3>
+        <RichText content={content.richText} />
+        {content.features && content.features.length > 0 && (
+          <ul>
+            {content.features.map((feature, idx) => (
+              <li key={idx}>
+                {FeatureIcon(feature.icon)}
+                {feature.text}
+              </li>
+            ))}
+          </ul>
+        )}
+        {content.button?.show && (
+          <a href={content.button.url} className="btn btn-primary">
+            {content.button.label}
+            {ButtonIcon && <ButtonIcon size={16} />}
+          </a>
+        )}
+      </div>
+    </section>
+  )
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">4</span> Usage Example</h4>
+          <div class="code-block"><pre><code>// Example: About page with two column sections
+{
+  "layout": [
+    {
+      "blockType": "hero",
+      "title": "Over ons",
+      "variant": "compact"
+    },
+    {
+      "blockType": "twoColumn",
+      "layout": "imageRight",
+      "content": {
+        "heading": "Al 25 jaar uw medische partner",
+        "richText": "...",
+        "features": [
+          { "icon": "check-circle", "text": "ISO 13485 gecertificeerd" },
+          { "icon": "check-circle", "text": "24/7 klantenservice" }
+        ],
+        "button": {
+          "show": true,
+          "label": "Lees meer",
+          "url": "/over-ons"
+        }
+      }
+    }
+  ]
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">5</span> Key Features</h4>
+          <ul>
+            <li><strong>3 Layout Variants:</strong> Image right, image left (reverse), text only</li>
+            <li><strong>Rich Text Support:</strong> Full Payload Lexical editor integration</li>
+            <li><strong>Feature Lists:</strong> Optional icon + text lists with Lucide icons</li>
+            <li><strong>Optional CTA Button:</strong> Primary button with configurable icon</li>
+            <li><strong>Responsive:</strong> Stacks to single column on mobile (<900px)</li>
+            <li><strong>Flexible Aspect Ratio:</strong> Image uses 4:3 aspect ratio by default</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">6</span> Design Tokens Used</h4>
+          <ul>
+            <li><code>--navy</code> - Heading color</li>
+            <li><code>--grey-dark</code> - Body text color</li>
+            <li><code>--teal</code> - Icon and button color</li>
+            <li><code>--grey</code> - Image placeholder background</li>
+            <li><code>--radius</code> (12px) - Image border radius</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">7</span> Accessibility</h4>
+          <ul>
+            <li>Semantic <code>&lt;section&gt;</code> with proper heading hierarchy</li>
+            <li>Alt text required for images (not shown in placeholder)</li>
+            <li>List markup with <code>&lt;ul&gt;</code> and <code>&lt;li&gt;</code></li>
+            <li>Keyboard-accessible CTA button</li>
+            <li>Sufficient color contrast for text (4.5:1 minimum)</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">8</span> Related Components</h4>
+          <ul>
+            <li><strong>Media Block (B-04):</strong> Similar image + content pattern</li>
+            <li><strong>Features Grid (B-09):</strong> Alternative for feature lists</li>
+            <li><strong>Rich Text Block (B-03):</strong> For text-heavy content</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- BLOCK 03: Rich Text Block -->
+    <article class="block-card" id="block-03">
+      <div class="block-card-header">
+        <h3>
+          <span class="block-id">B-03</span>
+          Rich Text Block
+        </h3>
+        <div class="block-meta">
+          <span><i data-lucide="type"></i> 1 variant</span>
+          <span><i data-lucide="check-circle"></i> Must-Have</span>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="live-preview">
+        <span class="preview-label">🎨 Live Preview</span>
+
+        <div class="rich-text-block">
+          <h2>Onze toewijding aan kwaliteit</h2>
+          <p>
+            Bij Plastimed streven we naar excellentie in alles wat we doen.
+            Onze <a href="#">ISO 13485 certificering</a> bewijst onze toewijding
+            aan de hoogste kwaliteitsnormen in de medische sector.
+          </p>
+          <p>
+            Elk product in ons assortiment wordt zorgvuldig geselecteerd en
+            getest. We werken alleen samen met gerenommeerde fabrikanten die
+            dezelfde waarden delen als wij: kwaliteit, betrouwbaarheid en
+            innovatie.
+          </p>
+          <p>
+            Onze klanten waarderen onze persoonlijke aanpak en vakkennis.
+            Met een gemiddelde klanttevredenheid van 9.2 zijn we trots op
+            wat we hebben bereikt, maar blijven we voortdurend verbeteren.
+          </p>
+        </div>
+
+        <div class="variant-pills">
+          <span class="variant-pill">✓ Default (Centered, Max-Width 800px)</span>
+        </div>
+      </div>
+
+      <!-- Documentation -->
+      <div class="block-documentation">
+        <div class="doc-section">
+          <h4><span class="step-number">1</span> Payload Block Configuration</h4>
+          <div class="code-block"><pre><code>// src/payload/blocks/RichTextBlock.ts
+import { Block } from 'payload/types'
+
+export const RichTextBlock: Block = {
+  slug: 'richText',
+  labels: {
+    singular: 'Rich Text Block',
+    plural: 'Rich Text Blocks',
+  },
+  fields: [
+    {
+      name: 'heading',
+      type: 'text',
+      admin: {
+        description: 'Optional H2 heading (DM Serif Display, 36px)',
+      },
+    },
+    {
+      name: 'content',
+      type: 'richText',
+      required: true,
+      admin: {
+        description: 'Main content area with Lexical editor',
+      },
+    },
+    {
+      name: 'maxWidth',
+      type: 'select',
+      defaultValue: '800',
+      options: [
+        { label: '600px (Narrow)', value: '600' },
+        { label: '800px (Default)', value: '800' },
+        { label: '1000px (Wide)', value: '1000' },
+        { label: 'Full Width', value: 'full' },
+      ],
+    },
+    {
+      name: 'alignment',
+      type: 'select',
+      defaultValue: 'center',
+      options: [
+        { label: 'Center', value: 'center' },
+        { label: 'Left', value: 'left' },
+      ],
+    },
+  ],
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">2</span> TypeScript Types</h4>
+          <div class="code-block"><pre><code>// types/blocks.ts
+export interface RichTextBlock {
+  blockType: 'richText'
+  heading?: string
+  content: any // Lexical JSON
+  maxWidth: '600' | '800' | '1000' | 'full'
+  alignment: 'center' | 'left'
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">3</span> React Component</h4>
+          <div class="code-block"><pre><code>// components/blocks/RichTextBlock.tsx
+import React from 'react'
+import { RichTextBlock as RichTextBlockType } from '@/types/blocks'
+import { RichText } from '@/components/RichText'
+
+export const RichTextBlock: React.FC<{ block: RichTextBlockType }> = ({ block }) => {
+  const { heading, content, maxWidth, alignment } = block
+
+  const styles = {
+    maxWidth: maxWidth === 'full' ? '100%' : `${maxWidth}px`,
+    margin: alignment === 'center' ? '64px auto' : '64px 0',
+    textAlign: alignment,
+  }
+
+  return (
+    <section className="rich-text-block" style={styles}>
+      {heading && <h2>{heading}</h2>}
+      <RichText content={content} />
+    </section>
+  )
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">4</span> Usage Example</h4>
+          <div class="code-block"><pre><code>// Example: Privacy policy page
+{
+  "layout": [
+    {
+      "blockType": "richText",
+      "heading": "Privacy Beleid",
+      "content": {
+        // Lexical JSON...
+      },
+      "maxWidth": "800",
+      "alignment": "center"
+    }
+  ]
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">5</span> Key Features</h4>
+          <ul>
+            <li><strong>Full Lexical Editor:</strong> Complete Payload rich text support</li>
+            <li><strong>Optional Heading:</strong> H2 heading with DM Serif Display</li>
+            <li><strong>Configurable Width:</strong> 600px, 800px, 1000px, or full width</li>
+            <li><strong>Alignment Options:</strong> Center or left-aligned</li>
+            <li><strong>Link Styling:</strong> Teal color with underline on hover</li>
+            <li><strong>Typography:</strong> 15px body text, 1.8 line-height for readability</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">6</span> Design Tokens Used</h4>
+          <ul>
+            <li><code>--navy</code> - Heading color</li>
+            <li><code>--grey-dark</code> - Body text color</li>
+            <li><code>--teal</code>, <code>--teal-dark</code> - Link colors</li>
+            <li><code>--transition</code> - Link hover animation</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">7</span> Accessibility</h4>
+          <ul>
+            <li>Proper heading hierarchy (H2 for section heading)</li>
+            <li>Readable line-height (1.8) and font size (15px)</li>
+            <li>High contrast text (4.5:1 minimum)</li>
+            <li>Underlined links for visibility</li>
+            <li>Semantic HTML from Lexical editor</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">8</span> Related Components</h4>
+          <ul>
+            <li><strong>Two Column Content (B-02):</strong> For mixed image + text</li>
+            <li><strong>Accordion (B-05):</strong> For FAQ/collapsible content</li>
+            <li><strong>Code Block (B-12):</strong> For technical documentation</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- BLOCK 04: Media Block -->
+    <article class="block-card" id="block-04">
+      <div class="block-card-header">
+        <h3>
+          <span class="block-id">B-04</span>
+          Media Block
+        </h3>
+        <div class="block-meta">
+          <span><i data-lucide="image"></i> 3 varianten</span>
+          <span><i data-lucide="check-circle"></i> Must-Have</span>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="live-preview">
+        <span class="preview-label">🎨 Live Preview - Single Image with Caption</span>
+
+        <figure style="max-width: 800px; margin: 48px auto; text-align: center;">
+          <div style="background: var(--grey); border-radius: var(--radius); aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; font-size: 64px; margin-bottom: 16px;">
+            📸
+          </div>
+          <figcaption style="font-size: 13px; color: var(--grey-dark); font-style: italic;">
+            Moderne operatiezaal met geavanceerde medische apparatuur
+          </figcaption>
+        </figure>
+
+        <div style="height: 32px;"></div>
+
+        <span class="preview-label">🎨 Live Preview - Image Gallery (3 columns)</span>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 900px; margin: 0 auto;">
+          <div style="background: var(--grey); border-radius: var(--radius-sm); aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 48px;">🏥</div>
+          <div style="background: var(--grey); border-radius: var(--radius-sm); aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 48px;">🧤</div>
+          <div style="background: var(--grey); border-radius: var(--radius-sm); aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 48px;">💊</div>
+        </div>
+
+        <div class="variant-pills">
+          <span class="variant-pill">✓ Single Image</span>
+          <span class="variant-pill">✓ Image Gallery (2-4 columns)</span>
+          <span class="variant-pill">Video Embed</span>
+        </div>
+      </div>
+
+      <!-- Documentation -->
+      <div class="block-documentation">
+        <div class="doc-section">
+          <h4><span class="step-number">1</span> Payload Block Configuration</h4>
+          <div class="code-block"><pre><code>// src/payload/blocks/MediaBlock.ts
+import { Block } from 'payload/types'
+
+export const MediaBlock: Block = {
+  slug: 'media',
+  labels: {
+    singular: 'Media Block',
+    plural: 'Media Blocks',
+  },
+  fields: [
+    {
+      name: 'type',
+      type: 'select',
+      defaultValue: 'image',
+      options: [
+        { label: 'Single Image', value: 'image' },
+        { label: 'Image Gallery', value: 'gallery' },
+        { label: 'Video Embed', value: 'video' },
+      ],
+      required: true,
+    },
+    {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        condition: (data, siblingData) => siblingData.type === 'image',
+      },
+    },
+    {
+      name: 'caption',
+      type: 'text',
+      admin: {
+        condition: (data, siblingData) => siblingData.type === 'image',
+      },
+    },
+    {
+      name: 'gallery',
+      type: 'array',
+      maxRows: 12,
+      admin: {
+        condition: (data, siblingData) => siblingData.type === 'gallery',
+      },
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+        },
+        {
+          name: 'caption',
+          type: 'text',
+        },
+      ],
+    },
+    {
+      name: 'galleryColumns',
+      type: 'select',
+      defaultValue: '3',
+      options: [
+        { label: '2 Columns', value: '2' },
+        { label: '3 Columns', value: '3' },
+        { label: '4 Columns', value: '4' },
+      ],
+      admin: {
+        condition: (data, siblingData) => siblingData.type === 'gallery',
+      },
+    },
+    {
+      name: 'videoUrl',
+      type: 'text',
+      admin: {
+        condition: (data, siblingData) => siblingData.type === 'video',
+        description: 'YouTube or Vimeo URL',
+      },
+    },
+    {
+      name: 'videoCaption',
+      type: 'text',
+      admin: {
+        condition: (data, siblingData) => siblingData.type === 'video',
+      },
+    },
+  ],
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">2</span> TypeScript Types</h4>
+          <div class="code-block"><pre><code>// types/blocks.ts
+export interface MediaBlock {
+  blockType: 'media'
+  type: 'image' | 'gallery' | 'video'
+  image?: Media
+  caption?: string
+  gallery?: Array<{
+    image: Media
+    caption?: string
+  }>
+  galleryColumns?: '2' | '3' | '4'
+  videoUrl?: string
+  videoCaption?: string
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">3</span> React Component</h4>
+          <div class="code-block"><pre><code>// components/blocks/MediaBlock.tsx
+import React from 'react'
+import Image from 'next/image'
+import { MediaBlock as MediaBlockType } from '@/types/blocks'
+
+export const MediaBlock: React.FC<{ block: MediaBlockType }> = ({ block }) => {
+  const { type, image, caption, gallery, galleryColumns, videoUrl, videoCaption } = block
+
+  if (type === 'image' && image) {
+    return (
+      <figure className="media-block-single">
+        <Image
+          src={image.url}
+          alt={image.alt || ''}
+          width={1200}
+          height={675}
+          className="media-image"
+        />
+        {caption && <figcaption>{caption}</figcaption>}
+      </figure>
+    )
+  }
+
+  if (type === 'gallery' && gallery) {
+    return (
+      <div className={`media-block-gallery cols-${galleryColumns}`}>
+        {gallery.map((item, idx) => (
+          <figure key={idx}>
+            <Image
+              src={item.image.url}
+              alt={item.image.alt || ''}
+              width={600}
+              height={600}
+              className="gallery-image"
+            />
+            {item.caption && <figcaption>{item.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    )
+  }
+
+  if (type === 'video' && videoUrl) {
+    return (
+      <figure className="media-block-video">
+        <div className="video-embed">
+          {/* Video embed logic here */}
+        </div>
+        {videoCaption && <figcaption>{videoCaption}</figcaption>}
+      </figure>
+    )
+  }
+
+  return null
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">4</span> Usage Example</h4>
+          <div class="code-block"><pre><code>// Example: Product showcase page with gallery
+{
+  "blockType": "media",
+  "type": "gallery",
+  "gallery": [
+    { "image": "...", "caption": "Product view 1" },
+    { "image": "...", "caption": "Product view 2" },
+    { "image": "...", "caption": "Product view 3" }
+  ],
+  "galleryColumns": "3"
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">5</span> Key Features</h4>
+          <ul>
+            <li><strong>3 Media Types:</strong> Single image, image gallery, video embed</li>
+            <li><strong>Next.js Image:</strong> Automatic optimization with next/image</li>
+            <li><strong>Flexible Gallery:</strong> 2-4 column layouts, responsive</li>
+            <li><strong>Caption Support:</strong> Optional captions for all media types</li>
+            <li><strong>Video Embeds:</strong> YouTube/Vimeo integration</li>
+            <li><strong>Aspect Ratios:</strong> 16:9 for images, 1:1 for gallery</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">6</span> Design Tokens Used</h4>
+          <ul>
+            <li><code>--grey</code> - Placeholder background</li>
+            <li><code>--grey-dark</code> - Caption text color</li>
+            <li><code>--radius</code> (12px) - Single image border radius</li>
+            <li><code>--radius-sm</code> (8px) - Gallery image border radius</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">7</span> Accessibility</h4>
+          <ul>
+            <li>Semantic <code>&lt;figure&gt;</code> and <code>&lt;figcaption&gt;</code></li>
+            <li>Alt text required for all images</li>
+            <li>Captions provide context for visually impaired users</li>
+            <li>Video embeds include title attributes</li>
+            <li>Keyboard-accessible video controls</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">8</span> Related Components</h4>
+          <ul>
+            <li><strong>Two Column Content (B-02):</strong> For image + text layout</li>
+            <li><strong>Image Gallery (B-11):</strong> Advanced lightbox gallery</li>
+            <li><strong>Product Gallery:</strong> E-commerce product images</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- BLOCK 05: Accordion (FAQ) -->
+    <article class="block-card" id="block-05">
+      <div class="block-card-header">
+        <h3>
+          <span class="block-id">B-05</span>
+          Accordion Block (FAQ)
+        </h3>
+        <div class="block-meta">
+          <span><i data-lucide="chevron-down"></i> 1 variant</span>
+          <span><i data-lucide="check-circle"></i> Must-Have</span>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="live-preview">
+        <span class="preview-label">🎨 Live Preview</span>
+
+        <div style="max-width: 800px; margin: 0 auto;">
+          <div style="margin-bottom: 32px; text-align: center;">
+            <h2 style="font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy); margin-bottom: 12px;">
+              Veelgestelde vragen
+            </h2>
+            <p style="color: var(--grey-dark); font-size: 14px;">
+              Vind snel antwoorden op de meest gestelde vragen
+            </p>
+          </div>
+
+          <div style="border: 1px solid var(--grey); border-radius: var(--radius); overflow: hidden;">
+            <!-- FAQ Item 1 -->
+            <div style="border-bottom: 1px solid var(--grey);">
+              <button style="width: 100%; padding: 20px 24px; background: white; border: none; text-align: left; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--navy);">
+                <span>Hoe snel worden bestellingen geleverd?</span>
+                <i data-lucide="chevron-down" style="width: 18px; height: 18px; color: var(--teal);"></i>
+              </button>
+              <div style="padding: 0 24px 20px; color: var(--grey-dark); font-size: 13px; line-height: 1.7;">
+                Standaard levering duurt 2-3 werkdagen. Voor spoedeisende bestellingen bieden wij express levering binnen 24 uur aan.
+              </div>
+            </div>
+
+            <!-- FAQ Item 2 (Closed) -->
+            <div style="border-bottom: 1px solid var(--grey);">
+              <button style="width: 100%; padding: 20px 24px; background: white; border: none; text-align: left; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--navy);">
+                <span>Wat zijn de retourvoorwaarden?</span>
+                <i data-lucide="chevron-right" style="width: 18px; height: 18px; color: var(--grey-mid);"></i>
+              </button>
+            </div>
+
+            <!-- FAQ Item 3 (Closed) -->
+            <div>
+              <button style="width: 100%; padding: 20px 24px; background: white; border: none; text-align: left; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--navy);">
+                <span>Zijn jullie producten gecertificeerd?</span>
+                <i data-lucide="chevron-right" style="width: 18px; height: 18px; color: var(--grey-mid);"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="variant-pills">
+          <span class="variant-pill">✓ Default (Expandable)</span>
+        </div>
+      </div>
+
+      <!-- Documentation -->
+      <div class="block-documentation">
+        <div class="doc-section">
+          <h4><span class="step-number">1</span> Payload Block Configuration</h4>
+          <div class="code-block"><pre><code>// src/payload/blocks/AccordionBlock.ts
+import { Block } from 'payload/types'
+
+export const AccordionBlock: Block = {
+  slug: 'accordion',
+  labels: {
+    singular: 'Accordion Block',
+    plural: 'Accordion Blocks',
+  },
+  fields: [
+    {
+      name: 'heading',
+      type: 'text',
+      admin: {
+        description: 'Optional section heading (e.g., "Veelgestelde vragen")',
+      },
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      admin: {
+        description: 'Optional description below heading',
+      },
+    },
+    {
+      name: 'items',
+      type: 'array',
+      minRows: 1,
+      maxRows: 20,
+      fields: [
+        {
+          name: 'question',
+          type: 'text',
+          required: true,
+          admin: {
+            description: 'Question/heading text',
+          },
+        },
+        {
+          name: 'answer',
+          type: 'richText',
+          required: true,
+          admin: {
+            description: 'Answer content (supports rich text)',
+          },
+        },
+        {
+          name: 'defaultOpen',
+          type: 'checkbox',
+          defaultValue: false,
+          admin: {
+            description: 'Open this item by default?',
+          },
+        },
+      ],
+    },
+    {
+      name: 'allowMultiple',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description: 'Allow multiple items to be open at once?',
+      },
+    },
+  ],
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">2</span> TypeScript Types</h4>
+          <div class="code-block"><pre><code>// types/blocks.ts
+export interface AccordionBlock {
+  blockType: 'accordion'
+  heading?: string
+  description?: string
+  items: Array<{
+    question: string
+    answer: any // Lexical JSON
+    defaultOpen: boolean
+  }>
+  allowMultiple: boolean
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">3</span> React Component</h4>
+          <div class="code-block"><pre><code>// components/blocks/AccordionBlock.tsx
+'use client'
+
+import React, { useState } from 'react'
+import { AccordionBlock as AccordionBlockType } from '@/types/blocks'
+import { ChevronDown } from 'lucide-react'
+import { RichText } from '@/components/RichText'
+
+export const AccordionBlock: React.FC<{ block: AccordionBlockType }> = ({ block }) => {
+  const { heading, description, items, allowMultiple } = block
+  const [openItems, setOpenItems] = useState<number[]>(
+    items.map((item, idx) => (item.defaultOpen ? idx : -1)).filter((i) => i >= 0)
+  )
+
+  const toggleItem = (index: number) => {
+    if (allowMultiple) {
+      setOpenItems((prev) =>
+        prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+      )
+    } else {
+      setOpenItems((prev) => (prev.includes(index) ? [] : [index]))
+    }
+  }
+
+  return (
+    <section className="accordion-block">
+      {heading && (
+        <div className="accordion-header">
+          <h2>{heading}</h2>
+          {description && <p>{description}</p>}
+        </div>
+      )}
+      <div className="accordion-container">
+        {items.map((item, idx) => (
+          <div key={idx} className="accordion-item">
+            <button
+              onClick={() => toggleItem(idx)}
+              className="accordion-button"
+              aria-expanded={openItems.includes(idx)}
+            >
+              <span>{item.question}</span>
+              <ChevronDown
+                size={18}
+                className={`accordion-icon ${openItems.includes(idx) ? 'open' : ''}`}
+              />
+            </button>
+            {openItems.includes(idx) && (
+              <div className="accordion-content">
+                <RichText content={item.answer} />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">4</span> Usage Example</h4>
+          <div class="code-block"><pre><code>// Example: FAQ page
+{
+  "blockType": "accordion",
+  "heading": "Veelgestelde vragen",
+  "description": "Vind snel antwoorden op de meest gestelde vragen",
+  "items": [
+    {
+      "question": "Hoe snel worden bestellingen geleverd?",
+      "answer": { /* Lexical content */ },
+      "defaultOpen": true
+    },
+    {
+      "question": "Wat zijn de retourvoorwaarden?",
+      "answer": { /* Lexical content */ },
+      "defaultOpen": false
+    }
+  ],
+  "allowMultiple": false
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">5</span> Key Features</h4>
+          <ul>
+            <li><strong>Collapsible Items:</strong> Click to expand/collapse answers</li>
+            <li><strong>Rich Text Support:</strong> Answers can include formatted text, links, lists</li>
+            <li><strong>Single/Multiple Open:</strong> Control if multiple items can be open</li>
+            <li><strong>Default Open State:</strong> Configure which items start expanded</li>
+            <li><strong>Animated Chevron:</strong> Rotates 180° when open</li>
+            <li><strong>Keyboard Accessible:</strong> Proper ARIA attributes</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">6</span> Design Tokens Used</h4>
+          <ul>
+            <li><code>--navy</code> - Question text color</li>
+            <li><code>--grey-dark</code> - Answer text color</li>
+            <li><code>--teal</code> - Active chevron color</li>
+            <li><code>--grey</code> - Border color</li>
+            <li><code>--white</code> - Item background</li>
+            <li><code>--radius</code> (12px) - Container border radius</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">7</span> Accessibility</h4>
+          <ul>
+            <li><code>aria-expanded</code> on accordion buttons</li>
+            <li>Semantic <code>&lt;button&gt;</code> elements</li>
+            <li>Keyboard navigation (Enter/Space to toggle)</li>
+            <li>Focus states with visible outlines</li>
+            <li>Screen reader friendly expand/collapse</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">8</span> Related Components</h4>
+          <ul>
+            <li><strong>Rich Text Block (B-03):</strong> For non-collapsible content</li>
+            <li><strong>Info Box (B-33):</strong> For highlighted information</li>
+            <li><strong>FAQ Schema:</strong> Add JSON-LD for Google rich snippets</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- BLOCK 06: Stats Bar -->
+    <article class="block-card" id="block-06">
+      <div class="block-card-header">
+        <h3>
+          <span class="block-id">B-06</span>
+          Stats Bar
+        </h3>
+        <div class="block-meta">
+          <span><i data-lucide="bar-chart"></i> 2 varianten</span>
+          <span><i data-lucide="check-circle"></i> Must-Have</span>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="live-preview">
+        <span class="preview-label">🎨 Live Preview - Default (4 Stats)</span>
+
+        <div class="stats-bar">
+          <div class="stat-item">
+            <div class="stat-number">25+</div>
+            <div class="stat-label">Jaar ervaring</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">10.000+</div>
+            <div class="stat-label">Producten</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">500+</div>
+            <div class="stat-label">Zorgklanten</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">9.2</div>
+            <div class="stat-label">Klanttevredenheid</div>
+          </div>
+        </div>
+
+        <div style="height: 32px;"></div>
+
+        <span class="preview-label">🎨 Live Preview - Compact (3 Stats)</span>
+
+        <div class="stats-bar" style="grid-template-columns: repeat(3, 1fr); padding: 32px;">
+          <div class="stat-item">
+            <div class="stat-number" style="font-size: 36px;">24/7</div>
+            <div class="stat-label">Klantenservice</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" style="font-size: 36px;">100%</div>
+            <div class="stat-label">Tevredenheid</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" style="font-size: 36px;">ISO</div>
+            <div class="stat-label">Gecertificeerd</div>
+          </div>
+        </div>
+
+        <div class="variant-pills">
+          <span class="variant-pill">✓ Default (4 columns)</span>
+          <span class="variant-pill">✓ Compact (2-3 columns)</span>
+        </div>
+      </div>
+
+      <!-- Documentation -->
+      <div class="block-documentation">
+        <div class="doc-section">
+          <h4><span class="step-number">1</span> Payload Block Configuration</h4>
+          <div class="code-block"><pre><code>// src/payload/blocks/StatsBarBlock.ts
+import { Block } from 'payload/types'
+
+export const StatsBarBlock: Block = {
+  slug: 'statsBar',
+  labels: {
+    singular: 'Stats Bar',
+    plural: 'Stats Bars',
+  },
+  fields: [
+    {
+      name: 'variant',
+      type: 'select',
+      defaultValue: 'default',
+      options: [
+        { label: 'Default (Large numbers)', value: 'default' },
+        { label: 'Compact (Smaller)', value: 'compact' },
+      ],
+    },
+    {
+      name: 'stats',
+      type: 'array',
+      minRows: 2,
+      maxRows: 6,
+      fields: [
+        {
+          name: 'number',
+          type: 'text',
+          required: true,
+          admin: {
+            description: 'Number/value (e.g., "25+", "10.000+", "9.2")',
+          },
+        },
+        {
+          name: 'label',
+          type: 'text',
+          required: true,
+          admin: {
+            description: 'Label below number (e.g., "Jaar ervaring")',
+          },
+        },
+        {
+          name: 'icon',
+          type: 'text',
+          admin: {
+            description: 'Optional Lucide icon name',
+          },
+        },
+      ],
+    },
+    {
+      name: 'columns',
+      type: 'select',
+      defaultValue: 'auto',
+      options: [
+        { label: 'Auto (based on stat count)', value: 'auto' },
+        { label: '2 Columns', value: '2' },
+        { label: '3 Columns', value: '3' },
+        { label: '4 Columns', value: '4' },
+      ],
+    },
+  ],
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">2</span> TypeScript Types</h4>
+          <div class="code-block"><pre><code>// types/blocks.ts
+export interface StatsBarBlock {
+  blockType: 'statsBar'
+  variant: 'default' | 'compact'
+  stats: Array<{
+    number: string
+    label: string
+    icon?: string
+  }>
+  columns: 'auto' | '2' | '3' | '4'
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">3</span> React Component</h4>
+          <div class="code-block"><pre><code>// components/blocks/StatsBarBlock.tsx
+import React from 'react'
+import { StatsBarBlock as StatsBarBlockType } from '@/types/blocks'
+import * as LucideIcons from 'lucide-react'
+
+export const StatsBarBlock: React.FC<{ block: StatsBarBlockType }> = ({ block }) => {
+  const { variant, stats, columns } = block
+
+  const colCount =
+    columns === 'auto'
+      ? Math.min(stats.length, 4)
+      : parseInt(columns)
+
+  const styles = {
+    gridTemplateColumns: `repeat(${colCount}, 1fr)`,
+    padding: variant === 'compact' ? '32px' : '48px',
+  }
+
+  return (
+    <section className="stats-bar" style={styles}>
+      {stats.map((stat, idx) => {
+        const Icon = stat.icon && LucideIcons[stat.icon as keyof typeof LucideIcons]
+
+        return (
+          <div key={idx} className="stat-item">
+            {Icon && <Icon size={24} className="stat-icon" />}
+            <div
+              className="stat-number"
+              style={{
+                fontSize: variant === 'compact' ? '36px' : '48px',
+              }}
+            >
+              {stat.number}
+            </div>
+            <div className="stat-label">{stat.label}</div>
+          </div>
+        )
+      })}
+    </section>
+  )
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">4</span> Usage Example</h4>
+          <div class="code-block"><pre><code>// Example: About page with company stats
+{
+  "blockType": "statsBar",
+  "variant": "default",
+  "stats": [
+    { "number": "25+", "label": "Jaar ervaring" },
+    { "number": "10.000+", "label": "Producten" },
+    { "number": "500+", "label": "Zorgklanten" },
+    { "number": "9.2", "label": "Klanttevredenheid" }
+  ],
+  "columns": "auto"
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">5</span> Key Features</h4>
+          <ul>
+            <li><strong>2 Variants:</strong> Default (large 48px) and Compact (36px)</li>
+            <li><strong>Flexible Columns:</strong> 2-4 columns or auto-detect based on stat count</li>
+            <li><strong>Optional Icons:</strong> Add Lucide icons above numbers</li>
+            <li><strong>Responsive:</strong> 4→2→1 columns on mobile</li>
+            <li><strong>Number Formatting:</strong> Supports suffixes (+, K, M) and decimals</li>
+            <li><strong>Center-Aligned:</strong> Stats centered within each column</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">6</span> Design Tokens Used</h4>
+          <ul>
+            <li><code>--teal</code> - Number color (stat-number)</li>
+            <li><code>--grey-dark</code> - Label color (stat-label)</li>
+            <li><code>--white</code> - Background</li>
+            <li><code>--grey</code> - Border color</li>
+            <li><code>--radius</code> (12px) - Container border radius</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">7</span> Accessibility</h4>
+          <ul>
+            <li>Semantic structure with meaningful labels</li>
+            <li>High contrast numbers (teal on white: 4.5:1)</li>
+            <li>Readable font sizes (48px/36px for numbers)</li>
+            <li>No interactive elements (static display)</li>
+            <li>Optional screen reader descriptions for context</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">8</span> Related Components</h4>
+          <ul>
+            <li><strong>Hero Block (B-01):</strong> Can include stats overlay variant</li>
+            <li><strong>USP Cards (B-10):</strong> Alternative for highlighting features</li>
+            <li><strong>Features Grid (B-09):</strong> More detailed feature display</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- BLOCK 09: Features Grid -->
+    <article class="block-card" id="block-09">
+      <div class="block-card-header">
+        <h3>
+          <span class="block-id">B-09</span>
+          Features Grid
+        </h3>
+        <div class="block-meta">
+          <span><i data-lucide="grid"></i> 3-column grid</span>
+          <span><i data-lucide="check-circle"></i> Must-Have</span>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="live-preview">
+        <span class="preview-label">🎨 Live Preview</span>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i data-lucide="truck"></i>
+            </div>
+            <h4>Snelle levering</h4>
+            <p>
+              Levering binnen 24 uur mogelijk. Standaard verzending binnen 2-3 werkdagen.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i data-lucide="shield-check"></i>
+            </div>
+            <h4>ISO gecertificeerd</h4>
+            <p>
+              Alle producten voldoen aan de hoogste kwaliteitsnormen volgens ISO 13485.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i data-lucide="headphones"></i>
+            </div>
+            <h4>24/7 support</h4>
+            <p>
+              Onze klantenservice staat altijd voor u klaar met persoonlijk advies.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i data-lucide="package"></i>
+            </div>
+            <h4>Groot assortiment</h4>
+            <p>
+              Meer dan 10.000 medische producten direct uit voorraad leverbaar.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i data-lucide="award"></i>
+            </div>
+            <h4>25 jaar ervaring</h4>
+            <p>
+              Al meer dan een kwarteeuw dé specialist in medische benodigdheden.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i data-lucide="lock"></i>
+            </div>
+            <h4>Veilige betaling</h4>
+            <p>
+              SSL beveiligde betalingen met alle gangbare betaalmethoden.
+            </p>
+          </div>
+        </div>
+
+        <div class="variant-pills">
+          <span class="variant-pill">✓ 3-Column Grid</span>
+        </div>
+      </div>
+
+      <!-- Documentation -->
+      <div class="block-documentation">
+        <div class="doc-section">
+          <h4><span class="step-number">1</span> Payload Block Configuration</h4>
+          <div class="code-block"><pre><code>// src/payload/blocks/FeaturesGridBlock.ts
+import { Block } from 'payload/types'
+
+export const FeaturesGridBlock: Block = {
+  slug: 'featuresGrid',
+  labels: {
+    singular: 'Features Grid',
+    plural: 'Features Grids',
+  },
+  fields: [
+    {
+      name: 'heading',
+      type: 'text',
+      admin: {
+        description: 'Optional section heading',
+      },
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      admin: {
+        description: 'Optional description below heading',
+      },
+    },
+    {
+      name: 'features',
+      type: 'array',
+      minRows: 3,
+      maxRows: 12,
+      fields: [
+        {
+          name: 'icon',
+          type: 'text',
+          required: true,
+          admin: {
+            description: 'Lucide icon name (e.g., truck, shield-check, headphones)',
+          },
+        },
+        {
+          name: 'title',
+          type: 'text',
+          required: true,
+          admin: {
+            description: 'Feature title (H4, 16px)',
+          },
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          required: true,
+          admin: {
+            description: 'Feature description (13px)',
+          },
+        },
+        {
+          name: 'link',
+          type: 'group',
+          fields: [
+            {
+              name: 'show',
+              type: 'checkbox',
+              defaultValue: false,
+            },
+            {
+              name: 'label',
+              type: 'text',
+            },
+            {
+              name: 'url',
+              type: 'text',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'columns',
+      type: 'select',
+      defaultValue: '3',
+      options: [
+        { label: '2 Columns', value: '2' },
+        { label: '3 Columns', value: '3' },
+        { label: '4 Columns', value: '4' },
+      ],
+    },
+  ],
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">2</span> TypeScript Types</h4>
+          <div class="code-block"><pre><code>// types/blocks.ts
+export interface FeaturesGridBlock {
+  blockType: 'featuresGrid'
+  heading?: string
+  description?: string
+  features: Array<{
+    icon: string
+    title: string
+    description: string
+    link?: {
+      show: boolean
+      label?: string
+      url?: string
+    }
+  }>
+  columns: '2' | '3' | '4'
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">3</span> React Component</h4>
+          <div class="code-block"><pre><code>// components/blocks/FeaturesGridBlock.tsx
+import React from 'react'
+import { FeaturesGridBlock as FeaturesGridBlockType } from '@/types/blocks'
+import * as LucideIcons from 'lucide-react'
+import Link from 'next/link'
+
+export const FeaturesGridBlock: React.FC<{ block: FeaturesGridBlockType }> = ({ block }) => {
+  const { heading, description, features, columns } = block
+
+  return (
+    <section className="features-grid-section">
+      {heading && (
+        <div className="section-header">
+          <h2>{heading}</h2>
+          {description && <p>{description}</p>}
+        </div>
+      )}
+      <div
+        className="features-grid"
+        style={{
+          gridTemplateColumns: `repeat(${columns}, 1fr)`,
+        }}
+      >
+        {features.map((feature, idx) => {
+          const Icon = LucideIcons[feature.icon as keyof typeof LucideIcons]
+
+          return (
+            <div key={idx} className="feature-card">
+              <div className="feature-icon">
+                {Icon && <Icon size={24} />}
+              </div>
+              <h4>{feature.title}</h4>
+              <p>{feature.description}</p>
+              {feature.link?.show && (
+                <Link href={feature.link.url || '#'} className="feature-link">
+                  {feature.link.label}
+                  <ArrowRight size={14} />
+                </Link>
+              )}
+            </div>
+          )
+        })}
+      </div>
+    </section>
+  )
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">4</span> Usage Example</h4>
+          <div class="code-block"><pre><code>// Example: Homepage with USP features
+{
+  "blockType": "featuresGrid",
+  "heading": "Waarom Plastimed?",
+  "description": "De voordelen van werken met ons",
+  "features": [
+    {
+      "icon": "truck",
+      "title": "Snelle levering",
+      "description": "Levering binnen 24 uur mogelijk.",
+      "link": { "show": false }
+    },
+    {
+      "icon": "shield-check",
+      "title": "ISO gecertificeerd",
+      "description": "Alle producten volgens ISO 13485.",
+      "link": { "show": false }
+    }
+  ],
+  "columns": "3"
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">5</span> Key Features</h4>
+          <ul>
+            <li><strong>3 Column Layouts:</strong> 2, 3, or 4 columns (3 is default)</li>
+            <li><strong>Icon Integration:</strong> Lucide icons with teal background circles</li>
+            <li><strong>Hover Effects:</strong> Card lifts 4px with shadow on hover</li>
+            <li><strong>Optional Links:</strong> Add "Learn more" links to cards</li>
+            <li><strong>Section Header:</strong> Optional heading + description</li>
+            <li><strong>Responsive:</strong> Stacks to single column on mobile</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">6</span> Design Tokens Used</h4>
+          <ul>
+            <li><code>--teal</code> - Icon color</li>
+            <li><code>--teal-glow</code> - Icon background (rgba(0,137,123,0.12))</li>
+            <li><code>--navy</code> - Title color</li>
+            <li><code>--grey-dark</code> - Description color</li>
+            <li><code>--white</code> - Card background</li>
+            <li><code>--grey</code> - Card border</li>
+            <li><code>--radius</code> (12px), <code>--radius-sm</code> (8px)</li>
+            <li><code>--shadow-md</code> - Hover shadow</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">7</span> Accessibility</h4>
+          <ul>
+            <li>Semantic heading hierarchy (H2 section, H4 cards)</li>
+            <li>Icon labels with aria-hidden on decorative icons</li>
+            <li>Keyboard-accessible links in cards</li>
+            <li>Focus states with visible outlines</li>
+            <li>Sufficient color contrast (4.5:1 minimum)</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">8</span> Related Components</h4>
+          <ul>
+            <li><strong>USP Cards (B-10):</strong> Similar but with different styling</li>
+            <li><strong>Stats Bar (B-06):</strong> For numerical highlights</li>
+            <li><strong>Two Column Content (B-02):</strong> For detailed feature descriptions</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- BLOCK 33: Info Box -->
+    <article class="block-card" id="block-33">
+      <div class="block-card-header">
+        <h3>
+          <span class="block-id">B-33</span>
+          Info Box
+        </h3>
+        <div class="block-meta">
+          <span><i data-lucide="info"></i> 4 varianten</span>
+          <span><i data-lucide="check-circle"></i> Must-Have</span>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="live-preview">
+        <span class="preview-label">🎨 Live Preview - Info Variant</span>
+
+        <div class="info-box info">
+          <i data-lucide="info"></i>
+          <div class="info-box-content">
+            <h5>Let op</h5>
+            <p>
+              Deze producten zijn alleen verkrijgbaar voor gecertificeerde zorgprofessionals
+              met een geldig BTW-nummer.
+            </p>
+          </div>
+        </div>
+
+        <div style="height: 16px;"></div>
+
+        <span class="preview-label">🎨 Live Preview - Success Variant</span>
+
+        <div class="info-box success">
+          <i data-lucide="check-circle"></i>
+          <div class="info-box-content">
+            <h5>Gelukt!</h5>
+            <p>
+              Uw bestelling is succesvol geplaatst. U ontvangt binnen enkele minuten
+              een bevestigingsmail.
+            </p>
+          </div>
+        </div>
+
+        <div style="height: 16px;"></div>
+
+        <span class="preview-label">🎨 Live Preview - Warning Variant</span>
+
+        <div class="info-box warning">
+          <i data-lucide="alert-triangle"></i>
+          <div class="info-box-content">
+            <h5>Opgelet</h5>
+            <p>
+              Dit product is bijna uitverkocht. Bestel snel om teleurstelling te voorkomen.
+            </p>
+          </div>
+        </div>
+
+        <div style="height: 16px;"></div>
+
+        <span class="preview-label">🎨 Live Preview - Error Variant</span>
+
+        <div class="info-box error">
+          <i data-lucide="x-circle"></i>
+          <div class="info-box-content">
+            <h5>Foutmelding</h5>
+            <p>
+              Er is een fout opgetreden bij het verwerken van uw betaling.
+              Probeer het opnieuw of neem contact op met onze klantenservice.
+            </p>
+          </div>
+        </div>
+
+        <div class="variant-pills">
+          <span class="variant-pill">✓ Info (Blue)</span>
+          <span class="variant-pill">✓ Success (Green)</span>
+          <span class="variant-pill">✓ Warning (Amber)</span>
+          <span class="variant-pill">✓ Error (Coral)</span>
+        </div>
+      </div>
+
+      <!-- Documentation -->
+      <div class="block-documentation">
+        <div class="doc-section">
+          <h4><span class="step-number">1</span> Payload Block Configuration</h4>
+          <div class="code-block"><pre><code>// src/payload/blocks/InfoBoxBlock.ts
+import { Block } from 'payload/types'
+
+export const InfoBoxBlock: Block = {
+  slug: 'infoBox',
+  labels: {
+    singular: 'Info Box',
+    plural: 'Info Boxes',
+  },
+  fields: [
+    {
+      name: 'variant',
+      type: 'select',
+      defaultValue: 'info',
+      options: [
+        { label: 'Info (Blue)', value: 'info' },
+        { label: 'Success (Green)', value: 'success' },
+        { label: 'Warning (Amber)', value: 'warning' },
+        { label: 'Error (Coral)', value: 'error' },
+      ],
+      required: true,
+    },
+    {
+      name: 'title',
+      type: 'text',
+      admin: {
+        description: 'Box title (H5, 14px, bold)',
+      },
+    },
+    {
+      name: 'content',
+      type: 'richText',
+      required: true,
+      admin: {
+        description: 'Box content (supports rich text)',
+      },
+    },
+    {
+      name: 'icon',
+      type: 'text',
+      admin: {
+        description: 'Optional custom icon (defaults based on variant)',
+      },
+    },
+    {
+      name: 'dismissible',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description: 'Show close button to dismiss box?',
+      },
+    },
+  ],
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">2</span> TypeScript Types</h4>
+          <div class="code-block"><pre><code>// types/blocks.ts
+export interface InfoBoxBlock {
+  blockType: 'infoBox'
+  variant: 'info' | 'success' | 'warning' | 'error'
+  title?: string
+  content: any // Lexical JSON
+  icon?: string
+  dismissible: boolean
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">3</span> React Component</h4>
+          <div class="code-block"><pre><code>// components/blocks/InfoBoxBlock.tsx
+'use client'
+
+import React, { useState } from 'react'
+import { InfoBoxBlock as InfoBoxBlockType } from '@/types/blocks'
+import * as LucideIcons from 'lucide-react'
+import { RichText } from '@/components/RichText'
+
+const defaultIcons = {
+  info: 'Info',
+  success: 'CheckCircle',
+  warning: 'AlertTriangle',
+  error: 'XCircle',
+}
+
+export const InfoBoxBlock: React.FC<{ block: InfoBoxBlockType }> = ({ block }) => {
+  const { variant, title, content, icon, dismissible } = block
+  const [dismissed, setDismissed] = useState(false)
+
+  if (dismissed) return null
+
+  const iconName = icon || defaultIcons[variant]
+  const Icon = LucideIcons[iconName as keyof typeof LucideIcons]
+
+  return (
+    <div className={`info-box ${variant}`}>
+      {Icon && <Icon size={20} />}
+      <div className="info-box-content">
+        {title && <h5>{title}</h5>}
+        <RichText content={content} />
+      </div>
+      {dismissible && (
+        <button
+          onClick={() => setDismissed(true)}
+          className="info-box-dismiss"
+          aria-label="Sluiten"
+        >
+          <LucideIcons.X size={16} />
+        </button>
+      )}
+    </div>
+  )
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">4</span> Usage Example</h4>
+          <div class="code-block"><pre><code>// Example: B2B product page with purchase restriction info
+{
+  "blockType": "infoBox",
+  "variant": "info",
+  "title": "Let op",
+  "content": {
+    // Lexical JSON
+  },
+  "dismissible": false
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">5</span> Key Features</h4>
+          <ul>
+            <li><strong>4 Variants:</strong> Info (blue), Success (green), Warning (amber), Error (coral)</li>
+            <li><strong>Auto Icons:</strong> Default icons per variant or custom override</li>
+            <li><strong>Rich Text Support:</strong> Content can include links, lists, formatting</li>
+            <li><strong>Optional Title:</strong> H5 heading with bold weight</li>
+            <li><strong>Dismissible:</strong> Optional close button (persists with localStorage)</li>
+            <li><strong>Color-Coded:</strong> Background, border, icon, and text colors match variant</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">6</span> Design Tokens Used</h4>
+          <ul>
+            <li><strong>Info:</strong> <code>--blue-light</code> bg, <code>#1565C0</code> text/icon</li>
+            <li><strong>Success:</strong> <code>--green-light</code> bg, <code>#166534</code> text/icon</li>
+            <li><strong>Warning:</strong> <code>--amber-light</code> bg, <code>#92400E</code> text/icon</li>
+            <li><strong>Error:</strong> <code>--coral-light</code> bg, <code>#DC2626</code> text/icon</li>
+            <li><code>--radius-sm</code> (8px) - Border radius</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">7</span> Accessibility</h4>
+          <ul>
+            <li>Semantic markup with proper color contrast</li>
+            <li>Icons include aria-label or aria-hidden</li>
+            <li>Dismissible button has aria-label "Sluiten"</li>
+            <li>Keyboard accessible close button</li>
+            <li>Role="alert" for error/warning variants</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">8</span> Related Components</h4>
+          <ul>
+            <li><strong>Banner (B-34):</strong> Full-width notification bars</li>
+            <li><strong>Toast System (C17):</strong> Temporary notifications</li>
+            <li><strong>Accordion (B-05):</strong> For collapsible information</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- BLOCK 35: Breadcrumbs -->
+    <article class="block-card" id="block-35">
+      <div class="block-card-header">
+        <h3>
+          <span class="block-id">B-35</span>
+          Breadcrumbs
+        </h3>
+        <div class="block-meta">
+          <span><i data-lucide="chevron-right"></i> Auto-generated</span>
+          <span><i data-lucide="check-circle"></i> Must-Have</span>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="live-preview">
+        <span class="preview-label">🎨 Live Preview</span>
+
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span class="separator">›</span>
+          <a href="/producten">Producten</a>
+          <span class="separator">›</span>
+          <a href="/producten/handschoenen">Handschoenen</a>
+          <span class="separator">›</span>
+          <span class="current">Steriele onderzoekshandschoenen</span>
+        </nav>
+
+        <div class="variant-pills">
+          <span class="variant-pill">✓ Auto-Generated from URL</span>
+        </div>
+      </div>
+
+      <!-- Documentation -->
+      <div class="block-documentation">
+        <div class="doc-section">
+          <h4><span class="step-number">1</span> Payload Block Configuration</h4>
+          <div class="code-block"><pre><code>// src/payload/blocks/BreadcrumbsBlock.ts
+import { Block } from 'payload/types'
+
+export const BreadcrumbsBlock: Block = {
+  slug: 'breadcrumbs',
+  labels: {
+    singular: 'Breadcrumbs',
+    plural: 'Breadcrumbs',
+  },
+  fields: [
+    {
+      name: 'autoGenerate',
+      type: 'checkbox',
+      defaultValue: true,
+      admin: {
+        description: 'Automatically generate from page URL?',
+      },
+    },
+    {
+      name: 'customCrumbs',
+      type: 'array',
+      admin: {
+        condition: (data, siblingData) => !siblingData.autoGenerate,
+        description: 'Custom breadcrumb items (only if auto-generate is disabled)',
+      },
+      fields: [
+        {
+          name: 'label',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'url',
+          type: 'text',
+          required: true,
+        },
+      ],
+    },
+    {
+      name: 'showHome',
+      type: 'checkbox',
+      defaultValue: true,
+      admin: {
+        description: 'Include "Home" as first crumb?',
+      },
+    },
+  ],
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">2</span> TypeScript Types</h4>
+          <div class="code-block"><pre><code>// types/blocks.ts
+export interface BreadcrumbsBlock {
+  blockType: 'breadcrumbs'
+  autoGenerate: boolean
+  customCrumbs?: Array<{
+    label: string
+    url: string
+  }>
+  showHome: boolean
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">3</span> React Component</h4>
+          <div class="code-block"><pre><code>// components/blocks/BreadcrumbsBlock.tsx
+'use client'
+
+import React from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { BreadcrumbsBlock as BreadcrumbsBlockType } from '@/types/blocks'
+
+export const BreadcrumbsBlock: React.FC<{ block: BreadcrumbsBlockType }> = ({ block }) => {
+  const pathname = usePathname()
+  const { autoGenerate, customCrumbs, showHome } = block
+
+  const generateCrumbs = () => {
+    if (!autoGenerate && customCrumbs) {
+      return customCrumbs
+    }
+
+    // Auto-generate from URL
+    const segments = pathname.split('/').filter(Boolean)
+    const crumbs = []
+
+    if (showHome) {
+      crumbs.push({ label: 'Home', url: '/' })
+    }
+
+    let path = ''
+    segments.forEach((segment) => {
+      path += `/${segment}`
+      crumbs.push({
+        label: segment.charAt(0).toUpperCase() + segment.slice(1),
+        url: path,
+      })
+    })
+
+    return crumbs
+  }
+
+  const crumbs = generateCrumbs()
+
+  return (
+    <nav className="breadcrumbs" aria-label="Breadcrumb">
+      {crumbs.map((crumb, idx) => (
+        <React.Fragment key={idx}>
+          {idx > 0 && <span className="separator">›</span>}
+          {idx === crumbs.length - 1 ? (
+            <span className="current">{crumb.label}</span>
+          ) : (
+            <Link href={crumb.url}>{crumb.label}</Link>
+          )}
+        </React.Fragment>
+      ))}
+    </nav>
+  )
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">4</span> Usage Example</h4>
+          <div class="code-block"><pre><code>// Example: Product page with auto-generated breadcrumbs
+{
+  "blockType": "breadcrumbs",
+  "autoGenerate": true,
+  "showHome": true
+}
+
+// Renders: Home › Producten › Handschoenen › Current Page</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">5</span> Key Features</h4>
+          <ul>
+            <li><strong>Auto-Generation:</strong> Automatically creates breadcrumbs from URL path</li>
+            <li><strong>Custom Crumbs:</strong> Override with manual breadcrumb items</li>
+            <li><strong>Optional Home:</strong> Include/exclude "Home" as first crumb</li>
+            <li><strong>Current Page:</strong> Last crumb is non-clickable (aria-current)</li>
+            <li><strong>SEO-Friendly:</strong> Semantic nav with proper aria-label</li>
+            <li><strong>Separator:</strong> Chevron (›) separators between crumbs</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">6</span> Design Tokens Used</h4>
+          <ul>
+            <li><code>--grey-mid</code> - Link color</li>
+            <li><code>--teal</code> - Link hover color</li>
+            <li><code>--navy</code> - Current page color (bold)</li>
+            <li><code>--grey</code> - Separator color</li>
+            <li><code>--transition</code> - Hover animation</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">7</span> Accessibility</h4>
+          <ul>
+            <li>Semantic <code>&lt;nav&gt;</code> with <code>aria-label="Breadcrumb"</code></li>
+            <li>Current page has <code>aria-current="page"</code></li>
+            <li>Links are keyboard-focusable</li>
+            <li>Separators use aria-hidden (decorative)</li>
+            <li>Clear visual hierarchy with color and weight</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">8</span> Related Components</h4>
+          <ul>
+            <li><strong>Hero Block (B-01):</strong> Often appears above hero</li>
+            <li><strong>Pagination (B-36):</strong> Navigation for lists</li>
+            <li><strong>Mega Navigation (C14):</strong> Primary site navigation</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- BLOCK 37: Spacer -->
+    <article class="block-card" id="block-37">
+      <div class="block-card-header">
+        <h3>
+          <span class="block-id">B-37</span>
+          Spacer
+        </h3>
+        <div class="block-meta">
+          <span><i data-lucide="move-vertical"></i> 3 sizes</span>
+          <span><i data-lucide="check-circle"></i> Must-Have</span>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="live-preview">
+        <span class="preview-label">🎨 Live Preview - Small (16px)</span>
+        <div class="spacer small" style="background: repeating-linear-gradient(90deg, var(--grey) 0px, var(--grey) 10px, transparent 10px, transparent 20px);"></div>
+
+        <div style="height: 24px;"></div>
+
+        <span class="preview-label">🎨 Live Preview - Default (32px)</span>
+        <div class="spacer" style="background: repeating-linear-gradient(90deg, var(--grey) 0px, var(--grey) 10px, transparent 10px, transparent 20px);"></div>
+
+        <div style="height: 24px;"></div>
+
+        <span class="preview-label">🎨 Live Preview - Large (64px)</span>
+        <div class="spacer large" style="background: repeating-linear-gradient(90deg, var(--grey) 0px, var(--grey) 10px, transparent 10px, transparent 20px);"></div>
+
+        <div class="variant-pills">
+          <span class="variant-pill">✓ Small (16px)</span>
+          <span class="variant-pill">✓ Default (32px)</span>
+          <span class="variant-pill">✓ Large (64px)</span>
+        </div>
+      </div>
+
+      <!-- Documentation -->
+      <div class="block-documentation">
+        <div class="doc-section">
+          <h4><span class="step-number">1</span> Payload Block Configuration</h4>
+          <div class="code-block"><pre><code>// src/payload/blocks/SpacerBlock.ts
+import { Block } from 'payload/types'
+
+export const SpacerBlock: Block = {
+  slug: 'spacer',
+  labels: {
+    singular: 'Spacer',
+    plural: 'Spacers',
+  },
+  fields: [
+    {
+      name: 'size',
+      type: 'select',
+      defaultValue: 'default',
+      options: [
+        { label: 'Small (16px)', value: 'small' },
+        { label: 'Default (32px)', value: 'default' },
+        { label: 'Large (64px)', value: 'large' },
+      ],
+      required: true,
+    },
+    {
+      name: 'customHeight',
+      type: 'number',
+      admin: {
+        description: 'Optional custom height in pixels (overrides size)',
+      },
+    },
+  ],
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">2</span> TypeScript Types</h4>
+          <div class="code-block"><pre><code>// types/blocks.ts
+export interface SpacerBlock {
+  blockType: 'spacer'
+  size: 'small' | 'default' | 'large'
+  customHeight?: number
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">3</span> React Component</h4>
+          <div class="code-block"><pre><code>// components/blocks/SpacerBlock.tsx
+import React from 'react'
+import { SpacerBlock as SpacerBlockType } from '@/types/blocks'
+
+const sizeMap = {
+  small: 16,
+  default: 32,
+  large: 64,
+}
+
+export const SpacerBlock: React.FC<{ block: SpacerBlockType }> = ({ block }) => {
+  const { size, customHeight } = block
+
+  const height = customHeight || sizeMap[size]
+
+  return (
+    <div
+      className={`spacer ${size}`}
+      style={{ height: `${height}px` }}
+      aria-hidden="true"
+    />
+  )
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">4</span> Usage Example</h4>
+          <div class="code-block"><pre><code>// Example: Add spacing between sections
+{
+  "layout": [
+    {
+      "blockType": "hero",
+      "title": "Welcome"
+    },
+    {
+      "blockType": "spacer",
+      "size": "large"
+    },
+    {
+      "blockType": "featuresGrid",
+      "features": [...]
+    }
+  ]
+}</code></pre></div>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">5</span> Key Features</h4>
+          <ul>
+            <li><strong>3 Preset Sizes:</strong> Small (16px), Default (32px), Large (64px)</li>
+            <li><strong>Custom Height:</strong> Override with any pixel value</li>
+            <li><strong>Invisible:</strong> No visual element, just vertical space</li>
+            <li><strong>aria-hidden:</strong> Hidden from screen readers (decorative)</li>
+            <li><strong>Simple Implementation:</strong> Just a div with height</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">6</span> Design Tokens Used</h4>
+          <ul>
+            <li>None - spacer is invisible (no colors/borders)</li>
+            <li>Heights: 16px, 32px, 64px (from 4px grid system)</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">7</span> Accessibility</h4>
+          <ul>
+            <li><code>aria-hidden="true"</code> - Hidden from assistive technology</li>
+            <li>No semantic meaning (purely presentational)</li>
+            <li>Does not affect tab order or focus</li>
+          </ul>
+        </div>
+
+        <div class="doc-section">
+          <h4><span class="step-number">8</span> Related Components</h4>
+          <ul>
+            <li><strong>All Blocks:</strong> Use spacer to control vertical rhythm</li>
+            <li><strong>CSS Margins:</strong> Alternative to spacer blocks (margin-bottom)</li>
+            <li><strong>Section Padding:</strong> Each block has its own padding rules</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- Progress Indicator -->
+    <div style="margin: 80px 0; padding: 48px; background: linear-gradient(135deg, var(--teal), var(--teal-dark)); border-radius: var(--radius); text-align: center;">
+      <h2 style="font-family: 'DM Serif Display', serif; font-size: 36px; color: white; margin-bottom: 16px;">
+        🎉 Fase 1 Compleet! 9/43 Blokken Geïmplementeerd
+      </h2>
+      <p style="color: rgba(255,255,255,0.9); font-size: 15px; margin-bottom: 24px;">
+        Alle Content & Media blokken zijn volledig gedocumenteerd met live previews,<br>
+        Payload configuratie, TypeScript types, React components en accessibility guidelines.
+      </p>
+      <div style="display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;">
+        <div style="text-align: center;">
+          <div style="font-size: 48px; font-weight: 800; color: white; line-height: 1;">9/43</div>
+          <div style="font-size: 13px; color: rgba(255,255,255,0.8);">Blokken Compleet</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 48px; font-weight: 800; color: white; line-height: 1;">21%</div>
+          <div style="font-size: 13px; color: rgba(255,255,255,0.8);">Totale Voortgang</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 48px; font-weight: 800; color: white; line-height: 1;">8</div>
+          <div style="font-size: 13px; color: rgba(255,255,255,0.8);">Documentatie Steps</div>
+        </div>
+      </div>
+    </div>
+
+    <p style="text-align: center; padding: 48px 0; color: var(--grey-dark); font-size: 14px;">
+      🚀 <strong>Volgende Fase:</strong> E-commerce Blokken (B-13 t/m B-26)<br>
+      14 essentiële e-commerce componenten voor shop functionaliteit
+    </p>
+
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>

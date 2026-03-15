@@ -99,7 +99,7 @@ export async function SiteFooter() {
         : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
 
   return (
-    <footer className="bg-navy-900 overflow-hidden text-gray-400 mt-12">
+    <footer className="bg-navy-900 overflow-hidden text-grey-mid mt-12">
       {/* Top Section */}
       <div className={`p-8 md:p-12 grid ${gridCols} gap-9 border-b border-white/5`}>
         {/* Brand Column */}
@@ -193,7 +193,7 @@ export async function SiteFooter() {
           {trustBadges.map((badge: any, i: number) => {
             const Icon = trustIcons[badge.icon] || Check
             return (
-              <div key={i} className="flex items-center gap-2 text-xs text-gray-400">
+              <div key={i} className="flex items-center gap-2 text-xs text-grey-mid">
                 <Icon className="w-3.5 h-3.5 text-green" />
                 {badge.text}
               </div>

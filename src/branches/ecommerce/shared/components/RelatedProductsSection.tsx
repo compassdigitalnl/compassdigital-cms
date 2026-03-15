@@ -23,10 +23,10 @@ function ProductCard({ product, badge }: { product: Product; badge?: string }) {
   return (
     <Link
       href={`/${product.slug}`}
-      className="group block bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+      className="group block bg-white rounded-lg border border-grey-light overflow-hidden hover:shadow-lg transition-shadow"
     >
       {/* Image */}
-      <div className="relative aspect-square bg-gray-100">
+      <div className="relative aspect-square bg-grey-light">
         {imageUrl ? (
           <img
             src={imageUrl}
@@ -34,7 +34,7 @@ function ProductCard({ product, badge }: { product: Product; badge?: string }) {
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-400">
+          <div className="w-full h-full flex items-center justify-center text-grey-mid">
             <ShoppingBag className="w-12 h-12" />
           </div>
         )}
@@ -47,20 +47,20 @@ function ProductCard({ product, badge }: { product: Product; badge?: string }) {
 
       {/* Info */}
       <div className="p-4">
-        <h3 className="font-semibold text-gray-900 text-sm mb-1 line-clamp-2 group-hover:text-teal transition-colors">
+        <h3 className="font-semibold text-navy text-sm mb-1 line-clamp-2 group-hover:text-teal transition-colors">
           {product.title}
         </h3>
         {product.shortDescription && (
-          <p className="text-xs text-gray-600 line-clamp-1 mb-2">
+          <p className="text-xs text-grey-dark line-clamp-1 mb-2">
             {product.shortDescription}
           </p>
         )}
         <div className="flex items-baseline gap-2">
-          <span className="text-lg font-bold text-gray-900">
+          <span className="text-lg font-bold text-navy">
             €{formatPriceStr(rawPrice, product.taxClass as any)}
           </span>
           {hasDiscount && (
-            <span className="text-sm text-gray-400 line-through">
+            <span className="text-sm text-grey-mid line-through">
               €{formatPriceStr(product.compareAtPrice, product.taxClass as any)}
             </span>
           )}
@@ -93,11 +93,11 @@ export function RelatedProductsSection({
         <div className="bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl p-6 border border-teal-200">
           <div className="flex items-center gap-2 mb-4">
             <ArrowUpRight className="w-5 h-5 text-teal" />
-            <h2 className="text-xl font-bold text-gray-900">
+            <h2 className="text-xl font-bold text-navy">
               Upgrade naar een betere optie
             </h2>
           </div>
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-sm text-grey-dark mb-4">
             Deze alternatieven bieden meer mogelijkheden en betere prestaties
           </p>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -112,12 +112,12 @@ export function RelatedProductsSection({
       {crossSellProducts.length > 0 && (
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <ShoppingBag className="w-5 h-5 text-gray-700" />
-            <h2 className="text-xl font-bold text-gray-900">
+            <ShoppingBag className="w-5 h-5 text-grey-dark" />
+            <h2 className="text-xl font-bold text-navy">
               Vaak samen gekocht
             </h2>
           </div>
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-sm text-grey-dark mb-4">
             Klanten die dit product kochten, kochten ook:
           </p>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -132,12 +132,12 @@ export function RelatedProductsSection({
       {accessoryProducts.length > 0 && (
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <Wrench className="w-5 h-5 text-gray-700" />
-            <h2 className="text-xl font-bold text-gray-900">
+            <Wrench className="w-5 h-5 text-grey-dark" />
+            <h2 className="text-xl font-bold text-navy">
               Bijpassende accessoires
             </h2>
           </div>
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-sm text-grey-dark mb-4">
             Vergroot de functionaliteit met deze accessoires
           </p>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

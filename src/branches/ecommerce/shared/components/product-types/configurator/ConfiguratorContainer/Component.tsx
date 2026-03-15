@@ -145,7 +145,7 @@ export function ConfiguratorContainer({ product, className = '' }: ConfiguratorC
 
   if (steps.length === 0) {
     return (
-      <div className={`p-6 text-center text-gray-500 ${className}`}>
+      <div className={`p-6 text-center text-grey-mid ${className}`}>
         <p className="text-sm">Geen configuratiestappen beschikbaar voor dit product.</p>
       </div>
     )
@@ -174,7 +174,7 @@ export function ConfiguratorContainer({ product, className = '' }: ConfiguratorC
             <button
               type="button"
               onClick={handlePrevious}
-              className="px-6 py-3 rounded-lg text-sm font-bold border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-6 py-3 rounded-lg text-sm font-bold border border-grey-light text-grey-dark hover:bg-grey-light transition-colors"
             >
               Terug
             </button>
@@ -226,8 +226,8 @@ export function ConfiguratorContainer({ product, className = '' }: ConfiguratorC
           />
 
           {/* Running total */}
-          <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-4 py-3">
-            <span className="text-sm text-gray-600">Tussentotaal</span>
+          <div className="flex items-center justify-between rounded-lg border border-grey-light bg-grey-light px-4 py-3">
+            <span className="text-sm text-grey-dark">Tussentotaal</span>
             <span className="text-lg font-bold" style={{ color: 'var(--color-primary, #0D4F4F)' }}>
               {formatPriceStr(totalPrice)}
             </span>

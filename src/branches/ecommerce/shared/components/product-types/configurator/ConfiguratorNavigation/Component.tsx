@@ -31,7 +31,7 @@ export const ConfiguratorNavigation: React.FC<ConfiguratorNavigationProps> = ({
     <div
       className={`
         configurator-navigation
-        border-t-2 border-gray-200 bg-white
+        border-t-2 border-grey-light bg-white
         ${className}
       `}
     >
@@ -51,9 +51,9 @@ export const ConfiguratorNavigation: React.FC<ConfiguratorNavigationProps> = ({
         <div className="flex items-center gap-3">
           {/* Step Counter */}
           <div className="text-center">
-            <p className="text-[13px] text-gray-500 mb-0.5">Stap</p>
-            <p className="text-[16px] font-bold text-gray-900">
-              {currentStep} <span className="text-gray-400">van</span> {totalSteps}
+            <p className="text-[13px] text-grey-mid mb-0.5">Stap</p>
+            <p className="text-[16px] font-bold text-navy">
+              {currentStep} <span className="text-grey-mid">van</span> {totalSteps}
             </p>
           </div>
 

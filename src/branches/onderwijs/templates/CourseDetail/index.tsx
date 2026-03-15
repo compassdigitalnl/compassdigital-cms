@@ -204,7 +204,7 @@ export async function CourseDetailTemplate({ course }: CourseDetailProps) {
             <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-white/80">
               {course.rating > 0 && (
                 <span className="flex items-center gap-1">
-                  <span className="font-semibold text-yellow-300">{formatRating(course.rating)}</span>
+                  <span className="font-semibold text-amber-300">{formatRating(course.rating)}</span>
                   <StarRating rating={course.rating} />
                   {course.reviewCount > 0 && (
                     <span className="text-white/60">({course.reviewCount} reviews)</span>

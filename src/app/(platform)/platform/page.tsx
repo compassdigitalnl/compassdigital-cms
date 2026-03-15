@@ -12,8 +12,8 @@ export default function PlatformDashboard() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Platform Dashboard</h1>
-        <p className="text-gray-600 mt-2">
+        <h1 className="text-3xl font-bold text-navy">Platform Dashboard</h1>
+        <p className="text-grey-dark mt-2">
           Monitor and manage your multi-tenant platform
         </p>
       </div>

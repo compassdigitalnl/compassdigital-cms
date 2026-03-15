@@ -7,7 +7,7 @@ export function AddressesWidget({ addresses }: AddressesWidgetProps) {
   return (
     <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
       <div className="flex items-center justify-between mb-4 lg:mb-5">
-        <h2 className="text-base lg:text-lg font-extrabold text-gray-900">Adressen</h2>
+        <h2 className="text-base lg:text-lg font-extrabold text-navy">Adressen</h2>
         <Link
           href="/account/addresses"
           className="flex items-center gap-1 lg:gap-2 text-sm font-semibold transition-colors"
@@ -28,7 +28,7 @@ export function AddressesWidget({ addresses }: AddressesWidgetProps) {
             <div className="flex items-start justify-between mb-2 lg:mb-3">
               <div className="flex items-center gap-2 flex-wrap">
                 <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--color-primary)' }} />
-                <span className="text-sm font-bold text-gray-900">{address.typeLabel}</span>
+                <span className="text-sm font-bold text-navy">{address.typeLabel}</span>
                 {address.isDefault && (
                   <span
                     className="px-2 py-0.5 rounded-full text-xs font-semibold"
@@ -43,7 +43,7 @@ export function AddressesWidget({ addresses }: AddressesWidgetProps) {
               </div>
             </div>
 
-            <div className="text-xs lg:text-sm text-gray-900 leading-relaxed">
+            <div className="text-xs lg:text-sm text-navy leading-relaxed">
               <div className="font-semibold">{address.name}</div>
               <div>{address.street}</div>
               <div>

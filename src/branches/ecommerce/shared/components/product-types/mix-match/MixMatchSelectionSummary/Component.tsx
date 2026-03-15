@@ -23,7 +23,7 @@ export const MixMatchSelectionSummary: React.FC<MixMatchSelectionSummaryProps> =
       {items.map((item) => (
         <div
           key={item.id}
-          className="bi flex items-center gap-2 p-1.5 px-2 rounded-lg transition-colors hover:bg-gray-100"
+          className="bi flex items-center gap-2 p-1.5 px-2 rounded-lg transition-colors hover:bg-grey-light"
         >
           {/* Icon/Emoji */}
           <div className="bi-icon text-lg flex-shrink-0">
@@ -36,14 +36,14 @@ export const MixMatchSelectionSummary: React.FC<MixMatchSelectionSummaryProps> =
               {item.name}
             </div>
             {item.detail && (
-              <div className="bi-detail text-[10px] text-gray-500">
+              <div className="bi-detail text-[10px] text-grey-mid">
                 {item.detail}
               </div>
             )}
           </div>
 
           {/* Quantity */}
-          <div className="bi-qty font-mono text-[11px] font-bold bg-gray-100 px-1.5 py-0.5 rounded flex-shrink-0">
+          <div className="bi-qty font-mono text-[11px] font-bold bg-grey-light px-1.5 py-0.5 rounded flex-shrink-0">
             ×{item.quantity}
           </div>
 
@@ -66,7 +66,7 @@ export const MixMatchSelectionSummary: React.FC<MixMatchSelectionSummaryProps> =
       ))}
 
       {items.length === 0 && (
-        <div className="text-center py-8 text-sm text-gray-400">
+        <div className="text-center py-8 text-sm text-grey-mid">
           Nog geen items geselecteerd
         </div>
       )}

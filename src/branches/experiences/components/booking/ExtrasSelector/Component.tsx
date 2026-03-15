@@ -79,7 +79,7 @@ const ExtraCard: React.FC<{
         </span>
 
         {/* Description */}
-        <span className="mb-2 text-xs text-gray-500">
+        <span className="mb-2 text-xs text-grey-mid">
           {extra.description}
         </span>
 

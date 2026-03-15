@@ -111,7 +111,7 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
         </h3>
 
         {/* Meta row */}
-        <div className="mb-3 flex flex-wrap items-center gap-3 text-[12px] text-gray-500">
+        <div className="mb-3 flex flex-wrap items-center gap-3 text-[12px] text-grey-mid">
           {duration && (
             <span className="inline-flex items-center gap-1">
               <Clock className="h-3.5 w-3.5" />
@@ -147,7 +147,7 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
               ))}
             </div>
             {reviewCount !== undefined && reviewCount > 0 && (
-              <span className="text-[11px] text-gray-400">
+              <span className="text-[11px] text-grey-mid">
                 ({reviewCount})
               </span>
             )}
@@ -155,8 +155,8 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
         )}
 
         {/* Price */}
-        <div className="mt-auto flex items-baseline gap-1 pt-2 border-t border-gray-100">
-          <span className="text-[11px] text-gray-400">{pricePrefix}</span>
+        <div className="mt-auto flex items-baseline gap-1 pt-2 border-t border-grey-light">
+          <span className="text-[11px] text-grey-mid">{pricePrefix}</span>
           <span
             className="text-lg font-bold"
             style={{ color: 'var(--color-navy, #1a2b4a)' }}
@@ -164,7 +164,7 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({
             &euro;{pricePerPerson.toFixed(2).replace('.', ',')}
           </span>
           {priceSuffix && (
-            <span className="text-[11px] text-gray-400">{priceSuffix}</span>
+            <span className="text-[11px] text-grey-mid">{priceSuffix}</span>
           )}
         </div>
       </div>

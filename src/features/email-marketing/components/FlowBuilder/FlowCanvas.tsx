@@ -144,10 +144,10 @@ function FlowCanvasInner({
         <Background color="#e2e8f0" gap={20} size={1} />
         <Controls
           showInteractive={false}
-          className="!bg-white !border !border-gray-200 !rounded-lg !shadow-sm"
+          className="!bg-white !border !border-grey-light !rounded-lg !shadow-sm"
         />
         <MiniMap
-          className="!bg-gray-50 !border !border-gray-200 !rounded-lg"
+          className="!bg-grey-light !border !border-grey-light !rounded-lg"
           nodeColor={(node) => {
             const colors: Record<string, string> = {
               triggerNode: '#0a1628',

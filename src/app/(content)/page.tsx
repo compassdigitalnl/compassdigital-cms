@@ -61,17 +61,17 @@ export default async function Homepage() {
   if (!page) {
     // If no 'home' page exists, show setup message
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6">
+      <div className="min-h-screen flex items-center justify-center bg-grey-light px-6">
         <div className="max-w-2xl text-center">
           <h1 className="text-4xl font-extrabold text-navy mb-4">
             Welkom
           </h1>
-          <p className="text-lg text-gray-600 mb-8">
+          <p className="text-lg text-grey-dark mb-8">
             De homepage is nog niet geconfigureerd. Volg deze stappen om te beginnen:
           </p>
           <div className="bg-white border-2 border-teal-600 rounded-2xl p-8 text-left">
             <h2 className="text-xl font-bold text-navy mb-4">Setup Checklist:</h2>
-            <ol className="space-y-3 text-gray-700">
+            <ol className="space-y-3 text-grey-dark">
               <li className="flex items-start gap-3">
                 <span className="text-teal-600 font-bold">1.</span>
                 <span>
@@ -85,7 +85,7 @@ export default async function Homepage() {
                 <span className="text-teal-600 font-bold">2.</span>
                 <span>
                   Ga naar <strong>Collections → Pages</strong> en maak een nieuwe pagina aan met
-                  slug: <code className="bg-gray-100 px-2 py-1 rounded">home</code>
+                  slug: <code className="bg-grey-light px-2 py-1 rounded">home</code>
                 </span>
               </li>
               <li className="flex items-start gap-3">
@@ -96,7 +96,7 @@ export default async function Homepage() {
                 <span className="text-teal-600 font-bold">4.</span>
                 <span>
                   Lees de setup guide:{' '}
-                  <code className="bg-gray-100 px-2 py-1 rounded text-xs">
+                  <code className="bg-grey-light px-2 py-1 rounded text-xs">
                     /docs/HOMEPAGE_SETUP.md
                   </code>
                 </span>
@@ -119,7 +119,7 @@ export default async function Homepage() {
         <RenderBlocks blocks={page.layout} />
       ) : (
         <div className="min-h-[50vh] flex items-center justify-center">
-          <div className="text-center text-gray-500">
+          <div className="text-center text-grey-mid">
             <p className="text-lg">De homepage heeft nog geen content blocks.</p>
             <p className="mt-2">
               Ga naar{' '}

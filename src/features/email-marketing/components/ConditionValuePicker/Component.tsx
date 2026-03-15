@@ -5,7 +5,7 @@ import type { ConditionValuePickerProps } from './types'
 import { getFieldDefinition } from '../../lib/segmentation/condition-types'
 
 const INPUT_CLASSES =
-  'w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm focus:border-teal focus:outline-none focus:ring-1 focus:ring-teal'
+  'w-full rounded border border-grey-light bg-white px-3 py-2 text-sm focus:border-teal focus:outline-none focus:ring-1 focus:ring-teal'
 
 export function ConditionValuePicker({
   field,
@@ -116,7 +116,7 @@ export function ConditionValuePicker({
           placeholder="Van"
           className={INPUT_CLASSES}
         />
-        <span className="shrink-0 text-sm text-gray-400">en</span>
+        <span className="shrink-0 text-sm text-grey-mid">en</span>
         <input
           type={inputType}
           value={String(valueEnd ?? '')}

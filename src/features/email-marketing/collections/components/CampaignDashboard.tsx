@@ -105,19 +105,19 @@ export const CampaignDashboard: React.FC<{ field: Field; data: CampaignData }> =
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'draft':
-        return 'bg-gray-500'
+        return 'bg-grey-mid'
       case 'scheduled':
         return 'bg-teal'
       case 'running':
         return 'bg-green'
       case 'paused':
-        return 'bg-yellow-500'
+        return 'bg-amber-500'
       case 'finished':
         return 'bg-teal'
       case 'cancelled':
         return 'bg-coral'
       default:
-        return 'bg-gray-500'
+        return 'bg-grey-mid'
     }
   }
 

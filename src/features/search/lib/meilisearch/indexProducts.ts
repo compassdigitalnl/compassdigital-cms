@@ -22,6 +22,11 @@ export type BrandMap = Map<number, { name: string; level: number; parentName: st
  * @param brandMap - Optional pre-built brand hierarchy map (used during batch reindex)
  */
 export function transformProductForSearch(product: Product, brandMap?: BrandMap) {
+  // Extract vendor info
+  const vendorObj = typeof (product as any).vendor === 'object' && (product as any).vendor !== null ? (product as any).vendor : null
+  const vendorName = vendorObj?.name || null
+  const vendorId = vendorObj?.id || (typeof (product as any).vendor === 'number' ? (product as any).vendor : null)
+
   // Extract brand info
   const brandObj = typeof product.brand === 'object' && product.brand !== null ? product.brand : null
   const brandName = brandObj?.name || null
@@ -183,6 +188,8 @@ export function transformProductForSearch(product: Product, brandMap?: BrandMap)
     specs,
     specsFlatSearch,
     ...flatSpecs, // Flat spec fields for Meilisearch faceting
+    vendorId,
+    vendorName,
     collection: 'products' as const,
     createdAt: product.createdAt,
     updatedAt: product.updatedAt,

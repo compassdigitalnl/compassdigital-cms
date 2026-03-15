@@ -67,7 +67,7 @@ export function SegmentConditionRow({ condition, onChange, onDelete }: SegmentCo
       <select
         value={condition.field}
         onChange={handleFieldChange}
-        className="w-44 shrink-0 rounded border border-gray-300 bg-white px-3 py-2 text-sm focus:border-teal focus:outline-none focus:ring-1 focus:ring-teal"
+        className="w-44 shrink-0 rounded border border-grey-light bg-white px-3 py-2 text-sm focus:border-teal focus:outline-none focus:ring-1 focus:ring-teal"
       >
         {groups.map((group) => (
           <optgroup key={group} label={group}>
@@ -84,7 +84,7 @@ export function SegmentConditionRow({ condition, onChange, onDelete }: SegmentCo
       <select
         value={condition.operator}
         onChange={handleOperatorChange}
-        className="w-40 shrink-0 rounded border border-gray-300 bg-white px-3 py-2 text-sm focus:border-teal focus:outline-none focus:ring-1 focus:ring-teal"
+        className="w-40 shrink-0 rounded border border-grey-light bg-white px-3 py-2 text-sm focus:border-teal focus:outline-none focus:ring-1 focus:ring-teal"
       >
         {allowedOperators.map((op) => (
           <option key={op} value={op}>
@@ -110,7 +110,7 @@ export function SegmentConditionRow({ condition, onChange, onDelete }: SegmentCo
       <button
         type="button"
         onClick={onDelete}
-        className="shrink-0 rounded p-2 text-gray-400 transition-colors hover:bg-coral-50 hover:text-coral"
+        className="shrink-0 rounded p-2 text-grey-mid transition-colors hover:bg-coral-50 hover:text-coral"
         title="Voorwaarde verwijderen"
       >
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

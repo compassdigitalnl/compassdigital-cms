@@ -138,6 +138,15 @@ export const basicInfoTab: Tab = {
         },
       ],
     },
+    ...featureField('vendors', {
+      name: 'vendor',
+      type: 'relationship',
+      relationTo: 'vendors',
+      label: 'Leverancier',
+      admin: {
+        description: 'Welke leverancier levert dit product?',
+      },
+    }),
     {
       name: 'categories',
       type: 'relationship',

@@ -17,8 +17,8 @@ export default function RecurringOrdersTemplate({
   return (
     <div className="space-y-4 lg:space-y-6">
       <div>
-        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">Terugkerende Bestellingen</h1>
-        <p className="text-sm lg:text-base text-gray-500">Beheer je automatische bestellingen en bezorgfrequentie</p>
+        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-navy">Terugkerende Bestellingen</h1>
+        <p className="text-sm lg:text-base text-grey-mid">Beheer je automatische bestellingen en bezorgfrequentie</p>
       </div>
 
       {recurringOrders.length > 0 && (

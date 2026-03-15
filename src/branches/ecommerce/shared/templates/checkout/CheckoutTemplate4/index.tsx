@@ -122,10 +122,10 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
   // Empty cart redirect
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-grey-light flex items-center justify-center">
         <div className="max-w-md text-center px-4">
-          <ShoppingBag className="w-16 h-16 mx-auto mb-6 text-gray-300" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+          <ShoppingBag className="w-16 h-16 mx-auto mb-6 text-grey-mid" />
+          <h1 className="text-2xl font-bold text-navy mb-4">
             Je winkelwagen is leeg
           </h1>
           <Link
@@ -289,8 +289,8 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
           <div className="t4-main">
             {/* Step 1: Contact */}
             {currentStep === 1 && (
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Contact informatie</h2>
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-grey-light">
+                <h2 className="text-xl font-bold text-navy mb-4">Contact informatie</h2>
 
                 {user ? (
                   /* Logged-in user: welkom terug + trust badges */
@@ -351,7 +351,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
 
                 {/* Shipping address toggle */}
                 <label
-                  className="flex items-center gap-3 p-4 bg-white rounded-lg border border-gray-200 cursor-pointer select-none hover:border-gray-300 transition-colors"
+                  className="flex items-center gap-3 p-4 bg-white rounded-lg border border-grey-light cursor-pointer select-none hover:border-grey-light transition-colors"
                 >
                   <input
                     type="checkbox"
@@ -363,7 +363,7 @@ export default function CheckoutTemplate4({ settings }: CheckoutTemplate4Props) 
                     className="w-4 h-4 rounded"
                     style={{ accentColor: 'var(--color-primary)' }}
                   />
-                  <span className="text-sm font-medium text-gray-700">
+                  <span className="text-sm font-medium text-grey-dark">
                     Afleveradres wijkt af van factuuradres
                   </span>
                 </label>

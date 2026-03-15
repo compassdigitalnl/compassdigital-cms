@@ -121,8 +121,8 @@ export function WizardStep5Generate({ wizardData }: Props) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">🚀 CMS Provisionen & Deployen</h2>
-        <p className="mt-1 text-sm text-gray-600">
+        <h2 className="text-2xl font-bold text-navy">🚀 CMS Provisionen & Deployen</h2>
+        <p className="mt-1 text-sm text-grey-dark">
           Klaar om uw gepersonaliseerde CMS live te zetten? Dit duurt ongeveer 5-10 minuten.
         </p>
       </div>
@@ -134,12 +134,12 @@ export function WizardStep5Generate({ wizardData }: Props) {
             <h3 className="font-semibold text-lg mb-4">📋 Samenvatting</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-600">Bedrijf:</span>
+                <span className="text-grey-dark">Bedrijf:</span>
                 <span className="font-medium">{wizardData.companyInfo.name}</span>
               </div>
               {wizardData.siteGoal?.primaryType && (
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Site type:</span>
+                  <span className="text-grey-dark">Site type:</span>
                   <span className="font-medium capitalize">
                     {wizardData.siteGoal.primaryType}
                     {wizardData.siteGoal.websiteSubType && ` — ${wizardData.siteGoal.websiteSubType}`}
@@ -148,19 +148,19 @@ export function WizardStep5Generate({ wizardData }: Props) {
                 </div>
               )}
               <div className="flex justify-between">
-                <span className="text-gray-600">Industrie:</span>
+                <span className="text-grey-dark">Industrie:</span>
                 <span className="font-medium">{wizardData.companyInfo.industry}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Taal:</span>
+                <span className="text-grey-dark">Taal:</span>
                 <span className="font-medium">{wizardData.content.language.toUpperCase()}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Design stijl:</span>
+                <span className="text-grey-dark">Design stijl:</span>
                 <span className="font-medium capitalize">{wizardData.design?.style}</span>
               </div>
               <div className="flex justify-between items-start">
-                <span className="text-gray-600">Pagina's:</span>
+                <span className="text-grey-dark">Pagina's:</span>
                 <div className="flex flex-wrap gap-1 justify-end">
                   {wizardData.content.pages.map((page) => (
                     <Badge key={page} variant="secondary" className="text-xs">
@@ -170,7 +170,7 @@ export function WizardStep5Generate({ wizardData }: Props) {
                 </div>
               </div>
               <div className="flex justify-between items-start">
-                <span className="text-gray-600">Features:</span>
+                <span className="text-grey-dark">Features:</span>
                 <div className="flex flex-wrap gap-1 justify-end">
                   {Object.entries(wizardData.features)
                     .filter(([_, enabled]) => enabled)
@@ -200,7 +200,7 @@ export function WizardStep5Generate({ wizardData }: Props) {
                 <Loader2 className="w-6 h-6 text-teal animate-spin" />
                 <div className="flex-1">
                   <h3 className="font-semibold text-lg">Uw website wordt gegenereerd...</h3>
-                  <p className="text-sm text-gray-600">{getCurrentProgressLabel()}</p>
+                  <p className="text-sm text-grey-dark">{getCurrentProgressLabel()}</p>
                 </div>
                 <Badge variant="default" className="text-lg px-4 py-2">
                   {progress}%
@@ -208,7 +208,7 @@ export function WizardStep5Generate({ wizardData }: Props) {
               </div>
 
               {/* Progress Bar */}
-              <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+              <div className="w-full bg-grey-light rounded-full h-4 overflow-hidden">
                 <div
                   className="bg-gradient-to-r from-teal to-teal h-4 transition-all duration-500 ease-out flex items-center justify-end pr-2"
                   style={{ width: `${progress}%` }}
@@ -221,7 +221,7 @@ export function WizardStep5Generate({ wizardData }: Props) {
 
               {/* Estimated Time */}
               <div className="p-3 bg-teal-50 rounded-lg text-sm">
-                <p className="text-gray-600">
+                <p className="text-grey-dark">
                   ⏱️ Geschatte tijd: 5-10 minuten (database + Ploi deployment + DNS)
                 </p>
               </div>
@@ -307,9 +307,9 @@ export function WizardStep5Generate({ wizardData }: Props) {
             CMS Provisionen & Deployen
           </Button>
 
-          <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-            <div className="text-sm text-gray-700">
+          <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+            <div className="text-sm text-grey-dark">
               <p className="font-semibold mb-1">Let op:</p>
               <ul className="list-disc list-inside space-y-1 text-xs">
                 <li>Dit proces kan 5-10 minuten duren (database + deployment + DNS)</li>

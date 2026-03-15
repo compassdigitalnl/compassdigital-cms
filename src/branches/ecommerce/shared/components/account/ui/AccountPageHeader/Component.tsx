@@ -23,8 +23,8 @@ export function AccountPageHeader({
             {backLabel}
           </Link>
         )}
-        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">{title}</h1>
-        {subtitle && <p className="text-sm lg:text-base text-gray-500">{subtitle}</p>}
+        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-navy">{title}</h1>
+        {subtitle && <p className="text-sm lg:text-base text-grey-mid">{subtitle}</p>}
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
     </div>

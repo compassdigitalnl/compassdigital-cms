@@ -70,7 +70,7 @@ export function ReviewForm({ caseSlug, serviceSlug, className }: ReviewFormProps
     <form onSubmit={handleSubmit} className={`space-y-5 ${className || ''}`}>
       {/* Name */}
       <div>
-        <label htmlFor="review-name" className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="review-name" className="mb-1 block text-sm font-medium text-grey-dark">
           Uw naam <span className="text-coral">*</span>
         </label>
         <input
@@ -80,13 +80,13 @@ export function ReviewForm({ caseSlug, serviceSlug, className }: ReviewFormProps
           onChange={(e) => setClientName(e.target.value)}
           placeholder="Uw volledige naam"
           required
-          className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="w-full rounded-lg border border-grey-light px-4 py-2.5 text-sm transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
         />
       </div>
 
       {/* Role */}
       <div>
-        <label htmlFor="review-role" className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="review-role" className="mb-1 block text-sm font-medium text-grey-dark">
           Uw functie / rol
         </label>
         <input
@@ -95,13 +95,13 @@ export function ReviewForm({ caseSlug, serviceSlug, className }: ReviewFormProps
           value={clientRole}
           onChange={(e) => setClientRole(e.target.value)}
           placeholder="Bijv. 'Directeur', 'Financieel manager'"
-          className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="w-full rounded-lg border border-grey-light px-4 py-2.5 text-sm transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
         />
       </div>
 
       {/* Star Rating */}
       <div>
-        <label className="mb-2 block text-sm font-medium text-gray-700">
+        <label className="mb-2 block text-sm font-medium text-grey-dark">
           Beoordeling <span className="text-coral">*</span>
         </label>
         <div className="flex gap-1">
@@ -119,7 +119,7 @@ export function ReviewForm({ caseSlug, serviceSlug, className }: ReviewFormProps
                 className={`h-8 w-8 ${
                   star <= (hoverRating || rating)
                     ? 'text-amber-400'
-                    : 'text-gray-300'
+                    : 'text-grey-mid'
                 }`}
                 fill="currentColor"
                 viewBox="0 0 24 24"
@@ -129,14 +129,14 @@ export function ReviewForm({ caseSlug, serviceSlug, className }: ReviewFormProps
             </button>
           ))}
           {rating > 0 && (
-            <span className="ml-2 self-center text-sm text-gray-500">{rating}/5</span>
+            <span className="ml-2 self-center text-sm text-grey-mid">{rating}/5</span>
           )}
         </div>
       </div>
 
       {/* Review text */}
       <div>
-        <label htmlFor="review-quote" className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="review-quote" className="mb-1 block text-sm font-medium text-grey-dark">
           Uw review <span className="text-coral">*</span>
         </label>
         <textarea
@@ -146,7 +146,7 @@ export function ReviewForm({ caseSlug, serviceSlug, className }: ReviewFormProps
           placeholder="Vertel over uw ervaring..."
           required
           rows={4}
-          className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="w-full rounded-lg border border-grey-light px-4 py-2.5 text-sm transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
         />
       </div>
 
@@ -166,7 +166,7 @@ export function ReviewForm({ caseSlug, serviceSlug, className }: ReviewFormProps
         {status === 'submitting' ? 'Versturen...' : 'Review plaatsen'}
       </button>
 
-      <p className="text-xs text-gray-500">
+      <p className="text-xs text-grey-mid">
         Uw review wordt na goedkeuring door ons team gepubliceerd.
       </p>
     </form>

@@ -75,18 +75,18 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-6 border-b border-grey-light">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-900">Add New Client</h2>
+            <h2 className="text-2xl font-bold text-navy">Add New Client</h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-2xl"
+              className="text-grey-mid hover:text-grey-dark text-2xl"
               disabled={loading}
             >
               ×
             </button>
           </div>
-          <p className="text-gray-600 mt-2">
+          <p className="text-grey-dark mt-2">
             Provision a new client site. This will create a database, deploy to Vercel, and setup
             the admin user.
           </p>
@@ -106,10 +106,10 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
 
           {/* Client Information */}
           <div className="space-y-4">
-            <h3 className="font-medium text-gray-900">Client Information</h3>
+            <h3 className="font-medium text-navy">Client Information</h3>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-grey-dark mb-1">
                 Client Name *
               </label>
               <input
@@ -120,12 +120,12 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
                 required
                 disabled={loading}
                 placeholder="ACME Corp"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-gray-100"
+                className="w-full px-4 py-2 border border-grey-light rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-grey-light"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Domain *</label>
+              <label className="block text-sm font-medium text-grey-dark mb-1">Domain *</label>
               <div className="flex items-center gap-2">
                 <input
                   type="text"
@@ -136,18 +136,18 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
                   disabled={loading}
                   placeholder="acme"
                   pattern="[a-z0-9-]+"
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-gray-100"
+                  className="flex-1 px-4 py-2 border border-grey-light rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-grey-light"
                 />
-                <span className="text-gray-500">.yourplatform.com</span>
+                <span className="text-grey-mid">.yourplatform.com</span>
               </div>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-grey-mid mt-1">
                 Lowercase letters, numbers, and hyphens only
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-grey-dark mb-1">
                   Contact Email *
                 </label>
                 <input
@@ -158,12 +158,12 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
                   required
                   disabled={loading}
                   placeholder="admin@acme.com"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-gray-100"
+                  className="w-full px-4 py-2 border border-grey-light rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-grey-light"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-grey-dark mb-1">
                   Contact Name
                 </label>
                 <input
@@ -173,7 +173,7 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
                   onChange={handleChange}
                   disabled={loading}
                   placeholder="John Doe"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-gray-100"
+                  className="w-full px-4 py-2 border border-grey-light rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-grey-light"
                 />
               </div>
             </div>
@@ -181,17 +181,17 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
 
           {/* Template Selection */}
           <div className="space-y-4">
-            <h3 className="font-medium text-gray-900">Template & Plan</h3>
+            <h3 className="font-medium text-navy">Template & Plan</h3>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Template *</label>
+              <label className="block text-sm font-medium text-grey-dark mb-1">Template *</label>
               <select
                 name="template"
                 value={formData.template}
                 onChange={handleChange}
                 required
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-gray-100"
+                className="w-full px-4 py-2 border border-grey-light rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-grey-light"
               >
                 <option value="ecommerce">E-commerce Store</option>
                 <option value="blog">Blog & Magazine</option>
@@ -202,7 +202,7 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-grey-dark mb-1">
                 Subscription Plan *
               </label>
               <select
@@ -211,7 +211,7 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
                 onChange={handleChange}
                 required
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-gray-100"
+                className="w-full px-4 py-2 border border-grey-light rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-grey-light"
               >
                 <option value="free">Free - €0/month</option>
                 <option value="starter">Starter - €25/month</option>
@@ -227,7 +227,7 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
               type="button"
               onClick={onClose}
               disabled={loading}
-              className="flex-1 px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium disabled:opacity-50"
+              className="flex-1 px-6 py-3 border border-grey-light rounded-lg hover:bg-grey-light transition-colors font-medium disabled:opacity-50"
             >
               Cancel
             </button>

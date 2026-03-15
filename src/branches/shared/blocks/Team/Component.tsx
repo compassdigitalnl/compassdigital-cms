@@ -49,7 +49,7 @@ export const TeamBlockComponent: React.FC<TeamBlockProps> = ({
                 </h2>
               )}
               {subtitle && (
-                <p className="mt-3 text-base text-gray-500 md:text-lg">{subtitle}</p>
+                <p className="mt-3 text-base text-grey-mid md:text-lg">{subtitle}</p>
               )}
             </div>
           )}
@@ -102,7 +102,7 @@ const MemberCard: React.FC<{ member: TeamMember }> = ({ member }) => {
           loading="lazy"
         />
       ) : (
-        <div className="mx-auto flex h-28 w-28 items-center justify-center rounded-full bg-gray-100 text-2xl font-bold text-gray-400 md:h-36 md:w-36">
+        <div className="mx-auto flex h-28 w-28 items-center justify-center rounded-full bg-grey-light text-2xl font-bold text-grey-mid md:h-36 md:w-36">
           {getInitials(member.name)}
         </div>
       )}
@@ -111,7 +111,7 @@ const MemberCard: React.FC<{ member: TeamMember }> = ({ member }) => {
         <p className="mt-1 text-sm font-medium text-teal">{member.role}</p>
       )}
       {member.bio && (
-        <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-gray-500">
+        <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-grey-mid">
           {member.bio}
         </p>
       )}
@@ -131,7 +131,7 @@ const MemberRow: React.FC<{ member: TeamMember }> = ({ member }) => {
   const photoUrl = getPhotoUrl(member.photo)
 
   return (
-    <div className="flex items-start gap-6 rounded-lg border border-gray-100 bg-white p-6 shadow-sm">
+    <div className="flex items-start gap-6 rounded-lg border border-grey-light bg-white p-6 shadow-sm">
       {photoUrl ? (
         <img
           src={photoUrl}
@@ -140,7 +140,7 @@ const MemberRow: React.FC<{ member: TeamMember }> = ({ member }) => {
           loading="lazy"
         />
       ) : (
-        <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 text-xl font-bold text-gray-400 md:h-24 md:w-24">
+        <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-grey-light text-xl font-bold text-grey-mid md:h-24 md:w-24">
           {getInitials(member.name)}
         </div>
       )}
@@ -150,7 +150,7 @@ const MemberRow: React.FC<{ member: TeamMember }> = ({ member }) => {
           <p className="mt-0.5 text-sm font-medium text-teal">{member.role}</p>
         )}
         {member.bio && (
-          <p className="mt-2 text-sm leading-relaxed text-gray-500">{member.bio}</p>
+          <p className="mt-2 text-sm leading-relaxed text-grey-mid">{member.bio}</p>
         )}
         {member.links && member.links.length > 0 && (
           <div className="mt-3 flex items-center gap-3">
@@ -173,7 +173,7 @@ const SocialLink: React.FC<{ link: TeamMemberLink }> = ({ link }) => {
       href={href}
       target={link.platform === 'email' ? undefined : '_blank'}
       rel={link.platform === 'email' ? undefined : 'noopener noreferrer'}
-      className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-teal hover:text-white"
+      className="flex h-8 w-8 items-center justify-center rounded-full bg-grey-light text-grey-mid transition-colors hover:bg-teal hover:text-white"
       aria-label={link.platform}
     >
       {link.platform === 'linkedin' && (

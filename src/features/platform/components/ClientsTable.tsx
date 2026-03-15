@@ -53,14 +53,14 @@ export default function ClientsTable() {
   const getStatusBadge = (status: string) => {
     const styles: Record<string, string> = {
       active: 'bg-green-100 text-green-800',
-      pending: 'bg-yellow-100 text-yellow-800',
+      pending: 'bg-amber-50 text-amber-900',
       provisioning: 'bg-teal-100 text-blue-800',
       deploying: 'bg-teal-100 text-blue-800',
       failed: 'bg-red-100 text-red-800',
-      suspended: 'bg-gray-100 text-gray-800',
-      archived: 'bg-gray-100 text-gray-600',
+      suspended: 'bg-grey-light text-navy',
+      archived: 'bg-grey-light text-grey-dark',
     }
-    return styles[status] || 'bg-gray-100 text-gray-800'
+    return styles[status] || 'bg-grey-light text-navy'
   }
 
   const getHealthBadge = (health: string) => {
@@ -85,7 +85,7 @@ export default function ClientsTable() {
       <div className="bg-white rounded-lg shadow p-8">
         <div className="animate-pulse space-y-4">
           {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="h-16 bg-gray-200 rounded"></div>
+            <div key={i} className="h-16 bg-grey-light rounded"></div>
           ))}
         </div>
       </div>
@@ -95,7 +95,7 @@ export default function ClientsTable() {
   return (
     <div className="bg-white rounded-lg shadow">
       {/* Filters */}
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-6 border-b border-grey-light">
         <div className="flex flex-col md:flex-row gap-4">
           {/* Search */}
           <div className="flex-1">
@@ -104,7 +104,7 @@ export default function ClientsTable() {
               placeholder="Search clients..."
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent"
+              className="w-full px-4 py-2 border border-grey-light rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent"
             />
           </div>
 
@@ -112,7 +112,7 @@ export default function ClientsTable() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent"
+            className="px-4 py-2 border border-grey-light rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent"
           >
             <option value="all">All Status</option>
             <option value="active">Active</option>
@@ -127,46 +127,46 @@ export default function ClientsTable() {
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-200">
+          <thead className="bg-grey-light border-b border-grey-light">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-grey-mid uppercase tracking-wider">
                 Client
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-grey-mid uppercase tracking-wider">
                 Template
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-grey-mid uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-grey-mid uppercase tracking-wider">
                 Health
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-grey-mid uppercase tracking-wider">
                 Uptime
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-grey-mid uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-grey-light">
             {filteredClients.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
+                <td colSpan={6} className="px-6 py-12 text-center text-grey-mid">
                   {filter ? 'No clients match your search' : 'No clients yet. Add your first client!'}
                 </td>
               </tr>
             ) : (
               filteredClients.map((client) => (
-                <tr key={client.id} className="hover:bg-gray-50">
+                <tr key={client.id} className="hover:bg-grey-light">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>
-                      <div className="font-medium text-gray-900">{client.name}</div>
-                      <div className="text-sm text-gray-500">{client.domain}</div>
+                      <div className="font-medium text-navy">{client.name}</div>
+                      <div className="text-sm text-grey-mid">{client.domain}</div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-sm text-gray-900 capitalize">{client.template}</span>
+                    <span className="text-sm text-navy capitalize">{client.template}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
@@ -179,7 +179,7 @@ export default function ClientsTable() {
                     <span className="text-2xl">{getHealthBadge(client.healthStatus)}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-sm text-gray-900">
+                    <span className="text-sm text-navy">
                       {client.uptimePercentage ? `${client.uptimePercentage.toFixed(1)}%` : '-'}
                     </span>
                   </td>

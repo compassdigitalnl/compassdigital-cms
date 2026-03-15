@@ -1,0 +1,270 @@
+ook <!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prijzen — CloudFlow</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--shadow-lg:0 16px 48px rgba(10,22,40,0.12);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:64px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--navy);text-decoration:none;}.logo em{color:var(--teal);font-style:normal;}
+  .nav{display:flex;gap:4px;}.nav-item{padding:8px 14px;font-size:14px;font-weight:600;color:var(--grey-mid);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--teal);background:var(--teal-glow);}
+  .ha{display:flex;gap:6px;}.ha-btn{height:40px;padding:0 18px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all var(--transition);text-decoration:none;display:flex;align-items:center;gap:5px;border:none;}.ha-btn.ghost{background:transparent;color:var(--navy);}.ha-btn.ghost:hover{background:var(--grey-light);}.ha-btn.primary{background:var(--teal);color:white;}.ha-btn.primary:hover{background:var(--navy);}.ha-btn i{width:15px;height:15px;}
+
+  /* Hero */
+  .hero{text-align:center;padding:52px 20px 36px;position:relative;}
+  .hero-badge{display:inline-flex;align-items:center;gap:5px;background:var(--teal-glow);border:1px solid rgba(0,137,123,0.15);padding:5px 14px;border-radius:100px;font-size:12px;font-weight:700;color:var(--teal);margin-bottom:12px;}.hero-badge i{width:13px;height:13px;}
+  .hero h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:42px;font-weight:800;line-height:1.15;margin-bottom:8px;}
+  .hero h1 em{color:var(--teal);font-style:normal;}
+  .hero p{font-size:17px;color:var(--grey-dark);max-width:560px;margin:0 auto;line-height:1.6;}
+
+  /* Billing toggle */
+  .toggle-wrap{display:flex;justify-content:center;margin:28px 0 32px;gap:12px;align-items:center;}
+  .toggle-label{font-size:14px;font-weight:600;color:var(--grey-mid);}.toggle-label.active{color:var(--navy);}
+  .toggle{width:52px;height:28px;background:var(--teal);border-radius:100px;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;}
+  .toggle-knob{position:absolute;top:3px;right:3px;width:22px;height:22px;background:white;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,0.15);transition:right .2s;}
+  .save-badge{padding:3px 10px;background:var(--green-light);border-radius:100px;font-size:11px;font-weight:700;color:var(--green);}
+
+  /* Plans grid */
+  .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:48px;}
+  .plan{background:white;border:2px solid var(--grey);border-radius:20px;padding:28px;display:flex;flex-direction:column;transition:all .25s;position:relative;}
+  .plan:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:transparent;}
+  .plan.featured{border-color:var(--teal);box-shadow:var(--shadow-lg);transform:scale(1.02);}
+  .plan.featured:hover{transform:scale(1.02) translateY(-4px);}
+  .plan-pop{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--teal),#00695C);color:white;padding:4px 16px;border-radius:100px;font-size:11px;font-weight:800;white-space:nowrap;}
+  .plan-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;}
+  .plan-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;margin-bottom:2px;}
+  .plan-desc{font-size:13px;color:var(--grey-mid);margin-bottom:16px;line-height:1.4;}
+  .plan-price{margin-bottom:16px;}
+  .pp-amount{font-family:'Plus Jakarta Sans',sans-serif;font-size:40px;font-weight:800;line-height:1;}
+  .pp-unit{font-size:14px;font-weight:400;color:var(--grey-mid);}
+  .pp-billed{font-size:12px;color:var(--grey-mid);margin-top:2px;}
+  .pp-was{font-size:13px;color:var(--grey-mid);text-decoration:line-through;}
+
+  .plan-btn{width:100%;height:48px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:18px;border:none;}
+  .plan-btn.outline{background:white;color:var(--navy);border:1.5px solid var(--grey);}.plan-btn.outline:hover{border-color:var(--teal);color:var(--teal);}
+  .plan-btn.fill{background:var(--teal);color:white;box-shadow:0 4px 12px rgba(0,137,123,0.3);}.plan-btn.fill:hover{background:var(--navy);}
+  .plan-btn.navy{background:var(--navy);color:white;}.plan-btn.navy:hover{background:var(--teal);}
+  .plan-btn i{width:16px;height:16px;}
+
+  .plan-features{flex:1;display:flex;flex-direction:column;gap:6px;}
+  .pf{display:flex;align-items:start;gap:6px;font-size:13px;color:var(--grey-dark);line-height:1.35;}.pf i{width:15px;height:15px;flex-shrink:0;margin-top:1px;}
+  .pf.yes i{color:var(--green);}.pf.no i{color:var(--grey);}.pf.no{color:var(--grey-mid);}
+  .pf.highlight{font-weight:700;color:var(--navy);}
+
+  /* Social proof */
+  .social-proof{text-align:center;padding:24px 0 40px;border-top:1px solid var(--grey);}
+  .sp-row{display:flex;justify-content:center;gap:24px;align-items:center;margin-bottom:10px;}
+  .sp-logo{font-size:22px;opacity:0.3;}
+  .sp-text{font-size:14px;color:var(--grey-mid);}
+  .sp-stats{display:flex;justify-content:center;gap:40px;margin-top:12px;}
+  .sp-stat{text-align:center;}.sp-stat-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--navy);}.sp-stat-label{font-size:12px;color:var(--grey-mid);}
+
+  /* Feature comparison */
+  .comp-section{margin-bottom:48px;}
+  .comp-header{text-align:center;margin-bottom:24px;}
+  .comp-header h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:800;}
+  .comp-header p{font-size:14px;color:var(--grey-mid);}
+  .comp-table{width:100%;background:white;border:1px solid var(--grey);border-radius:16px;overflow:hidden;border-collapse:collapse;}
+  .comp-table thead th{padding:14px 16px;text-align:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;background:var(--grey-light);border-bottom:2px solid var(--grey);}
+  .comp-table thead th:first-child{text-align:left;width:260px;}
+  .comp-table thead th.feat-col{background:var(--teal-glow);color:var(--teal);}
+  .comp-table tbody tr{border-bottom:1px solid var(--grey);}.comp-table tbody tr:last-child{border-bottom:none;}
+  .comp-table td{padding:12px 16px;text-align:center;font-size:13px;}
+  .comp-table td:first-child{text-align:left;font-weight:600;color:var(--navy);}
+  .comp-table .cat-row{background:var(--grey-light);}.comp-table .cat-row td{font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--grey-dark);padding:10px 16px;}
+  .comp-table .check{color:var(--green);font-weight:700;}.comp-table .dash{color:var(--grey);}.comp-table .feat-hi{background:rgba(0,137,123,0.03);}
+  .comp-table .val{font-weight:600;color:var(--navy);}
+
+  /* FAQ */
+  .faq{max-width:740px;margin:0 auto 48px;}
+  .faq-header{text-align:center;margin-bottom:20px;}.faq-header h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:800;}
+  .faq-item{background:white;border:1px solid var(--grey);border-radius:14px;margin-bottom:8px;overflow:hidden;}
+  .faq-q{padding:16px 20px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:background .12s;}.faq-q:hover{background:var(--grey-light);}.faq-q i{width:18px;height:18px;color:var(--grey-mid);transition:transform .2s;}
+  .faq-item.open .faq-q i{transform:rotate(180deg);color:var(--teal);}
+  .faq-a{padding:0 20px 16px;font-size:14px;color:var(--grey-dark);line-height:1.6;display:none;}
+  .faq-item.open .faq-a{display:block;}
+
+  /* Enterprise CTA */
+  .ent-cta{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:24px;padding:48px;display:flex;align-items:center;justify-content:space-between;gap:32px;margin-bottom:48px;position:relative;overflow:hidden;}
+  .ent-cta::before{content:'';position:absolute;top:-80px;right:0;width:400px;height:400px;background:radial-gradient(circle,rgba(0,137,123,0.08),transparent 70%);border-radius:50%;}
+  .ent-left{position:relative;z-index:2;}.ent-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:5px 14px;border-radius:100px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:10px;}.ent-badge i{width:13px;height:13px;}
+  .ent-left h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:800;color:white;margin-bottom:6px;}
+  .ent-left p{font-size:15px;color:rgba(255,255,255,0.4);max-width:480px;line-height:1.5;}
+  .ent-features{display:flex;gap:16px;margin-top:14px;}.ef{display:flex;align-items:center;gap:5px;font-size:13px;color:rgba(255,255,255,0.5);}.ef i{width:14px;height:14px;color:var(--teal-light);}
+  .ent-right{display:flex;gap:8px;position:relative;z-index:2;}
+  .ent-btn{padding:14px 28px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;transition:all var(--transition);text-decoration:none;display:flex;align-items:center;gap:6px;border:none;white-space:nowrap;}
+  .ent-btn.fill{background:var(--teal);color:white;}.ent-btn.fill:hover{background:white;color:var(--teal);}
+  .ent-btn.outline{background:transparent;color:white;border:1.5px solid rgba(255,255,255,0.15);}.ent-btn.outline:hover{border-color:white;}
+  .ent-btn i{width:16px;height:16px;}
+
+  @media(max-width:1000px){.plans{grid-template-columns:1fr 1fr;}.plan.featured{transform:none;}.comp-table{font-size:12px;}}
+  @media(max-width:700px){.plans{grid-template-columns:1fr;}.ent-cta{flex-direction:column;text-align:center;padding:32px;}.ent-features{flex-wrap:wrap;justify-content:center;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo">cloud<em>flow</em></a><nav class="nav"><a href="#" class="nav-item">Product</a><a href="#" class="nav-item active">Prijzen</a><a href="#" class="nav-item">Integraties</a><a href="#" class="nav-item">Docs</a></nav><div class="ha"><a href="#" class="ha-btn ghost">Inloggen</a><a href="#" class="ha-btn primary"><i data-lucide="zap"></i> Start gratis</a></div></div></header>
+
+<div class="container">
+  <div class="hero">
+    <div class="hero-badge"><i data-lucide="sparkles"></i> Transparante prijzen, geen verrassingen</div>
+    <h1>Het juiste plan voor <em>elk team</em></h1>
+    <p>Start gratis en schaal mee naarmate je groeit. Alle plannen inclusief 14 dagen gratis proefperiode.</p>
+  </div>
+
+  <!-- Billing toggle -->
+  <div class="toggle-wrap">
+    <span class="toggle-label">Maandelijks</span>
+    <div class="toggle"><div class="toggle-knob"></div></div>
+    <span class="toggle-label active">Jaarlijks</span>
+    <span class="save-badge">Bespaar 20%</span>
+  </div>
+
+  <!-- Plans -->
+  <div class="plans">
+    <!-- Free -->
+    <div class="plan">
+      <div class="plan-icon" style="background:var(--grey-light);">🆓</div>
+      <div class="plan-name">Free</div>
+      <div class="plan-desc">Voor individuen die CloudFlow willen uitproberen.</div>
+      <div class="plan-price"><div class="pp-amount">€0</div><div class="pp-unit">/maand</div><div class="pp-billed">Altijd gratis</div></div>
+      <button class="plan-btn outline"><i data-lucide="user-plus"></i> Gratis starten</button>
+      <div class="plan-features">
+        <div class="pf yes"><i data-lucide="check"></i> 1 gebruiker</div>
+        <div class="pf yes"><i data-lucide="check"></i> 3 projecten</div>
+        <div class="pf yes"><i data-lucide="check"></i> 1 GB opslag</div>
+        <div class="pf yes"><i data-lucide="check"></i> Community support</div>
+        <div class="pf no"><i data-lucide="x"></i> <span>Geen API access</span></div>
+        <div class="pf no"><i data-lucide="x"></i> <span>Geen integraties</span></div>
+      </div>
+    </div>
+
+    <!-- Starter -->
+    <div class="plan">
+      <div class="plan-icon" style="background:var(--blue-light);">🚀</div>
+      <div class="plan-name">Starter</div>
+      <div class="plan-desc">Voor kleine teams die productief willen worden.</div>
+      <div class="plan-price"><div class="pp-was">€19/mnd</div><div class="pp-amount">€15</div><div class="pp-unit">/gebruiker/maand</div><div class="pp-billed">Jaarlijks gefactureerd</div></div>
+      <button class="plan-btn outline"><i data-lucide="arrow-right"></i> Start proefperiode</button>
+      <div class="plan-features">
+        <div class="pf yes highlight"><i data-lucide="check"></i> Tot 10 gebruikers</div>
+        <div class="pf yes"><i data-lucide="check"></i> Onbeperkte projecten</div>
+        <div class="pf yes"><i data-lucide="check"></i> 25 GB opslag</div>
+        <div class="pf yes"><i data-lucide="check"></i> E-mail support</div>
+        <div class="pf yes"><i data-lucide="check"></i> API access (10K/mnd)</div>
+        <div class="pf yes"><i data-lucide="check"></i> 5 integraties</div>
+        <div class="pf no"><i data-lucide="x"></i> <span>Geen AI features</span></div>
+      </div>
+    </div>
+
+    <!-- Professional — featured -->
+    <div class="plan featured">
+      <div class="plan-pop">⭐ Meest gekozen</div>
+      <div class="plan-icon" style="background:var(--teal-glow);">⚡</div>
+      <div class="plan-name">Professional</div>
+      <div class="plan-desc">Voor groeiende teams met geavanceerde behoeften.</div>
+      <div class="plan-price"><div class="pp-was">€39/mnd</div><div class="pp-amount">€29</div><div class="pp-unit">/gebruiker/maand</div><div class="pp-billed">Jaarlijks gefactureerd</div></div>
+      <button class="plan-btn fill"><i data-lucide="zap"></i> Start proefperiode</button>
+      <div class="plan-features">
+        <div class="pf yes highlight"><i data-lucide="check"></i> Tot 50 gebruikers</div>
+        <div class="pf yes"><i data-lucide="check"></i> Onbeperkte projecten</div>
+        <div class="pf yes"><i data-lucide="check"></i> 250 GB opslag</div>
+        <div class="pf yes"><i data-lucide="check"></i> Priority support (4u SLA)</div>
+        <div class="pf yes"><i data-lucide="check"></i> API access (100K/mnd)</div>
+        <div class="pf yes"><i data-lucide="check"></i> Onbeperkte integraties</div>
+        <div class="pf yes highlight"><i data-lucide="check"></i> AI Automation</div>
+        <div class="pf yes"><i data-lucide="check"></i> Analytics dashboard</div>
+        <div class="pf yes"><i data-lucide="check"></i> Custom workflows</div>
+      </div>
+    </div>
+
+    <!-- Enterprise -->
+    <div class="plan">
+      <div class="plan-icon" style="background:var(--purple-light);">🏢</div>
+      <div class="plan-name">Enterprise</div>
+      <div class="plan-desc">Voor grote organisaties met enterprise-eisen.</div>
+      <div class="plan-price"><div class="pp-amount">Op maat</div><div class="pp-billed" style="margin-top:6px;">Neem contact op voor pricing</div></div>
+      <button class="plan-btn navy"><i data-lucide="message-circle"></i> Contact sales</button>
+      <div class="plan-features">
+        <div class="pf yes highlight"><i data-lucide="check"></i> Onbeperkte gebruikers</div>
+        <div class="pf yes"><i data-lucide="check"></i> Alles uit Professional</div>
+        <div class="pf yes"><i data-lucide="check"></i> Onbeperkte opslag</div>
+        <div class="pf yes"><i data-lucide="check"></i> Dedicated support + CSM</div>
+        <div class="pf yes"><i data-lucide="check"></i> Onbeperkte API calls</div>
+        <div class="pf yes highlight"><i data-lucide="check"></i> SSO/SAML + SCIM</div>
+        <div class="pf yes"><i data-lucide="check"></i> Advanced AI + custom models</div>
+        <div class="pf yes"><i data-lucide="check"></i> Audit logging</div>
+        <div class="pf yes"><i data-lucide="check"></i> SLA 99,99%</div>
+        <div class="pf yes"><i data-lucide="check"></i> On-premise optie</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Social proof -->
+  <div class="social-proof">
+    <div class="sp-row"><div class="sp-logo">🏦</div><div class="sp-logo">🏗️</div><div class="sp-logo">🛒</div><div class="sp-logo">🎓</div><div class="sp-logo">🏥</div><div class="sp-logo">✈️</div></div>
+    <div class="sp-text">Vertrouwd door 2.400+ bedrijven wereldwijd</div>
+    <div class="sp-stats">
+      <div class="sp-stat"><div class="sp-stat-num">2.400+</div><div class="sp-stat-label">Bedrijven</div></div>
+      <div class="sp-stat"><div class="sp-stat-num">85.000+</div><div class="sp-stat-label">Gebruikers</div></div>
+      <div class="sp-stat"><div class="sp-stat-num">4.8/5</div><div class="sp-stat-label">Rating</div></div>
+      <div class="sp-stat"><div class="sp-stat-num">99,9%</div><div class="sp-stat-label">Uptime</div></div>
+    </div>
+  </div>
+
+  <!-- Feature comparison -->
+  <div class="comp-section">
+    <div class="comp-header"><h2>Vergelijk alle functies</h2><p>Gedetailleerd overzicht van wat elk plan bevat</p></div>
+    <table class="comp-table">
+      <thead><tr><th></th><th>Free</th><th>Starter</th><th class="feat-col">Professional</th><th>Enterprise</th></tr></thead>
+      <tbody>
+        <tr class="cat-row"><td colspan="5">Basis</td></tr>
+        <tr><td>Gebruikers</td><td class="val">1</td><td class="val">10</td><td class="val feat-hi"><strong>50</strong></td><td class="val">Onbeperkt</td></tr>
+        <tr><td>Projecten</td><td class="val">3</td><td class="val">Onbeperkt</td><td class="val feat-hi">Onbeperkt</td><td class="val">Onbeperkt</td></tr>
+        <tr><td>Opslag</td><td class="val">1 GB</td><td class="val">25 GB</td><td class="val feat-hi"><strong>250 GB</strong></td><td class="val">Onbeperkt</td></tr>
+        <tr class="cat-row"><td colspan="5">Features</td></tr>
+        <tr><td>API Access</td><td class="dash">—</td><td class="val">10K/mnd</td><td class="val feat-hi"><strong>100K/mnd</strong></td><td class="val">Onbeperkt</td></tr>
+        <tr><td>Integraties</td><td class="dash">—</td><td class="val">5</td><td class="val feat-hi">Onbeperkt</td><td class="val">Onbeperkt</td></tr>
+        <tr><td>AI Automation</td><td class="dash">—</td><td class="dash">—</td><td class="check feat-hi">✓</td><td class="check">✓</td></tr>
+        <tr><td>Custom workflows</td><td class="dash">—</td><td class="dash">—</td><td class="check feat-hi">✓</td><td class="check">✓</td></tr>
+        <tr><td>Analytics dashboard</td><td class="dash">—</td><td class="dash">—</td><td class="check feat-hi">✓</td><td class="check">✓</td></tr>
+        <tr class="cat-row"><td colspan="5">Security & Compliance</td></tr>
+        <tr><td>SSO / SAML</td><td class="dash">—</td><td class="dash">—</td><td class="dash feat-hi">—</td><td class="check">✓</td></tr>
+        <tr><td>SCIM provisioning</td><td class="dash">—</td><td class="dash">—</td><td class="dash feat-hi">—</td><td class="check">✓</td></tr>
+        <tr><td>Audit logging</td><td class="dash">—</td><td class="dash">—</td><td class="check feat-hi">✓</td><td class="check">✓</td></tr>
+        <tr><td>SLA</td><td class="dash">—</td><td class="val">99,5%</td><td class="val feat-hi"><strong>99,9%</strong></td><td class="val">99,99%</td></tr>
+        <tr class="cat-row"><td colspan="5">Support</td></tr>
+        <tr><td>Community forum</td><td class="check">✓</td><td class="check">✓</td><td class="check feat-hi">✓</td><td class="check">✓</td></tr>
+        <tr><td>E-mail support</td><td class="dash">—</td><td class="check">✓</td><td class="check feat-hi">✓</td><td class="check">✓</td></tr>
+        <tr><td>Priority support</td><td class="dash">—</td><td class="dash">—</td><td class="check feat-hi">✓ (4u SLA)</td><td class="check">✓ (1u SLA)</td></tr>
+        <tr><td>Dedicated CSM</td><td class="dash">—</td><td class="dash">—</td><td class="dash feat-hi">—</td><td class="check">✓</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq">
+    <div class="faq-header"><h2>Veelgestelde vragen</h2></div>
+    <div class="faq-item open" onclick="this.classList.toggle('open')"><div class="faq-q">Kan ik op elk moment upgraden of downgraden? <i data-lucide="chevron-down"></i></div><div class="faq-a">Ja, je kunt op elk moment je plan wijzigen. Bij een upgrade wordt het verschil pro-rata verrekend. Bij een downgrade wordt je tegoed verrekend met de volgende factuur.</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Hoe werkt de 14 dagen proefperiode? <i data-lucide="chevron-down"></i></div><div class="faq-a">Je krijgt volledige toegang tot alle functies van het gekozen plan zonder creditcard. Na 14 dagen kun je kiezen om door te gaan of terug te gaan naar het gratis plan.</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Wat gebeurt er als ik mijn limiet overschrijd? <i data-lucide="chevron-down"></i></div><div class="faq-a">Je ontvangt een waarschuwing bij 80% en 90% gebruik. Bij overschrijding blijft alles werken, maar we nemen contact op om je plan aan te passen. Geen verrassingskosten.</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Welke betaalmethoden accepteren jullie? <i data-lucide="chevron-down"></i></div><div class="faq-a">We accepteren iDEAL, creditcard (Visa, Mastercard, Amex), SEPA-incasso en bankoverschrijving (alleen jaarlijkse plannen). Enterprise klanten kunnen ook op factuur betalen.</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Is er een geld-terug-garantie? <i data-lucide="chevron-down"></i></div><div class="faq-a">Ja, we bieden 30 dagen geld-terug-garantie op alle betaalde plannen. Geen vragen, geen gedoe. Neem contact op met support en je ontvangt binnen 5 werkdagen je geld terug.</div></div>
+  </div>
+
+  <!-- Enterprise CTA -->
+  <div class="ent-cta">
+    <div class="ent-left">
+      <div class="ent-badge"><i data-lucide="building"></i> Enterprise</div>
+      <h2>Groter dan 50 gebruikers?</h2>
+      <p>Krijg een plan op maat met dedicated support, SLA-garanties, SSO, compliance en meer. Onze sales-engineers helpen je graag.</p>
+      <div class="ent-features"><div class="ef"><i data-lucide="check-circle"></i> Custom pricing</div><div class="ef"><i data-lucide="check-circle"></i> Dedicated CSM</div><div class="ef"><i data-lucide="check-circle"></i> SLA 99,99%</div><div class="ef"><i data-lucide="check-circle"></i> On-premise</div></div>
+    </div>
+    <div class="ent-right"><button class="ent-btn fill"><i data-lucide="message-circle"></i> Neem contact op</button><button class="ent-btn outline"><i data-lucide="calendar"></i> Plan een demo</button></div>
+  </div>
+</div>
+<script>lucide.createIcons();</script>
+</body>
+</html>

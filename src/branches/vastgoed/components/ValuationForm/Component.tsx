@@ -129,7 +129,7 @@ export const ValuationForm: React.FC<ValuationFormProps> = ({ className = '' }) 
         {/* Adres */}
         <div>
           <label className="mb-2 block text-xs font-semibold text-white/90">
-            Adres <span className="text-red-400">*</span>
+            Adres <span className="text-coral">*</span>
           </label>
           <div className="relative">
             <svg
@@ -159,7 +159,7 @@ export const ValuationForm: React.FC<ValuationFormProps> = ({ className = '' }) 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
             <label className="mb-2 block text-xs font-semibold text-white/90">
-              Woningtype <span className="text-red-400">*</span>
+              Woningtype <span className="text-coral">*</span>
             </label>
             <select
               required
@@ -199,7 +199,7 @@ export const ValuationForm: React.FC<ValuationFormProps> = ({ className = '' }) 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
             <label className="mb-2 block text-xs font-semibold text-white/90">
-              Naam <span className="text-red-400">*</span>
+              Naam <span className="text-coral">*</span>
             </label>
             <input
               type="text"
@@ -212,7 +212,7 @@ export const ValuationForm: React.FC<ValuationFormProps> = ({ className = '' }) 
           </div>
           <div>
             <label className="mb-2 block text-xs font-semibold text-white/90">
-              E-mail <span className="text-red-400">*</span>
+              E-mail <span className="text-coral">*</span>
             </label>
             <input
               type="email"
@@ -265,7 +265,7 @@ export const ValuationForm: React.FC<ValuationFormProps> = ({ className = '' }) 
 
         {/* Error message */}
         {error && (
-          <div className="rounded-lg bg-red-500/20 px-4 py-3 text-sm text-red-200">
+          <div className="rounded-lg bg-coral/20 px-4 py-3 text-sm text-coral/20">
             {error}
           </div>
         )}

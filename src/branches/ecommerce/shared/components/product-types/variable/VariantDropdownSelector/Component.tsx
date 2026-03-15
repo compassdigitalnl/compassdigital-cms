@@ -34,7 +34,7 @@ export function VariantDropdownSelector({
   return (
     <div className={cn('space-y-2', className)}>
       {/* Option Label */}
-      <label htmlFor={`variant-${option.optionName}`} className="block text-sm font-medium text-gray-900">
+      <label htmlFor={`variant-${option.optionName}`} className="block text-sm font-medium text-navy">
         {option.optionName}
         {option.required && <span className="ml-1 text-coral">*</span>}
       </label>
@@ -46,9 +46,9 @@ export function VariantDropdownSelector({
           value={selectedValue?.value || ''}
           onChange={handleChange}
           className={cn(
-            'block w-full appearance-none rounded-lg border-2 border-gray-300 bg-white px-4 py-3 pr-10 text-base text-gray-900 transition-colors',
+            'block w-full appearance-none rounded-lg border-2 border-grey-light bg-white px-4 py-3 pr-10 text-base text-navy transition-colors',
             'focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/20',
-            !selectedValue && 'text-gray-500',
+            !selectedValue && 'text-grey-mid',
           )}
           required={option.required}
         >
@@ -91,7 +91,7 @@ export function VariantDropdownSelector({
         {/* Dropdown Arrow Icon */}
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <svg
-            className="h-5 w-5 text-gray-400"
+            className="h-5 w-5 text-grey-mid"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -108,9 +108,9 @@ export function VariantDropdownSelector({
 
       {/* Selected Value Info */}
       {selectedValue && (
-        <div className="rounded-md bg-gray-50 p-3 text-sm">
+        <div className="rounded-md bg-grey-light p-3 text-sm">
           <div className="flex items-center justify-between">
-            <span className="font-medium text-gray-900">{selectedValue.label}</span>
+            <span className="font-medium text-navy">{selectedValue.label}</span>
             <div className="flex items-center gap-2">
               {/* Price Modifier */}
               {selectedValue.priceModifier !== undefined &&
@@ -130,7 +130,7 @@ export function VariantDropdownSelector({
                     selectedValue.stock > 5
                       ? 'bg-green-100 text-green-800'
                       : selectedValue.stock > 0
-                        ? 'bg-amber-50 text-orange-800'
+                        ? 'bg-amber-50 text-amber-900'
                         : 'bg-red-100 text-red-800',
                   )}
                 >
@@ -148,7 +148,7 @@ export function VariantDropdownSelector({
 
       {/* Required Field Helper Text */}
       {option.required && !selectedValue && (
-        <p className="text-xs text-gray-500">Please select a {option.optionName.toLowerCase()}</p>
+        <p className="text-xs text-grey-mid">Please select a {option.optionName.toLowerCase()}</p>
       )}
     </div>
   )

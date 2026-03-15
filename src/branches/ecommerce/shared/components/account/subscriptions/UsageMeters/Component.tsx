@@ -26,7 +26,7 @@ function UsageMeter({ label, icon, current, limit, formatValue }: MeterProps) {
 
   return (
     <div
-      className={`bg-white border rounded-lg p-4 ${isWarning ? 'border-amber-400' : 'border-gray-200'}`}
+      className={`bg-white border rounded-lg p-4 ${isWarning ? 'border-amber-400' : 'border-grey-light'}`}
     >
       <div className="flex justify-between items-center mb-2">
         <div className="flex items-center gap-2 text-sm font-bold">
@@ -39,13 +39,13 @@ function UsageMeter({ label, icon, current, limit, formatValue }: MeterProps) {
           {pct}%
         </div>
       </div>
-      <div className="h-2 bg-gray-100 rounded-full overflow-hidden mb-1">
+      <div className="h-2 bg-grey-light rounded-full overflow-hidden mb-1">
         <div
           className={`h-full rounded-full transition-all ${getBarColor(pct)}`}
           style={{ width: `${pct}%` }}
         />
       </div>
-      <div className="flex justify-between text-xs text-gray-500">
+      <div className="flex justify-between text-xs text-grey-mid">
         <span>{formatValue(current)} gebruikt</span>
         <span>{formatValue(limit)} limiet</span>
       </div>

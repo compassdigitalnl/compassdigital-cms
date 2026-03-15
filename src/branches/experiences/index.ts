@@ -16,9 +16,8 @@ export const branchMetadata = {
   displayName: 'Ervaringen',
   description: 'Complete template voor ervaringen en belevenissen aanbieders',
   collections: [
-    'experience-categories',
-    'experiences',
-    'experience-reviews',
+    'content-activities',
+    'content-reviews',
   ],
   routes: [
     '/(experiences)/ervaringen',

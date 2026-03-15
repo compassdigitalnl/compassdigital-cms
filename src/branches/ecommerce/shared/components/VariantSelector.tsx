@@ -76,10 +76,10 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
 
         return (
           <div key={option.optionName} className="space-y-3">
-            <label className="text-sm font-semibold text-gray-900">
+            <label className="text-sm font-semibold text-navy">
               {option.optionName}
               {currentSelection && (
-                <span className="ml-2 text-gray-500 font-normal">
+                <span className="ml-2 text-grey-mid font-normal">
                   - {currentSelection.label}
                 </span>
               )}
@@ -96,7 +96,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                       relative w-10 h-10 rounded-full border-2 transition-all
                       ${currentSelection?.value === value.value
                         ? 'border-teal ring-2 ring-teal ring-offset-2'
-                        : 'border-gray-300 hover:border-gray-400'
+                        : 'border-grey-light hover:border-grey-light'
                       }
                       ${value.stockLevel === 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
                     `}
@@ -123,7 +123,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                       px-4 py-2 rounded-lg border-2 text-sm font-medium transition-all
                       ${currentSelection?.value === value.value
                         ? 'border-teal bg-teal-50 text-teal-700'
-                        : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
+                        : 'border-grey-light bg-white text-grey-dark hover:border-grey-light'
                       }
                       ${value.stockLevel === 0 ? 'opacity-50 cursor-not-allowed line-through' : 'cursor-pointer'}
                     `}
@@ -143,7 +143,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                   const value = option.values?.find((v: VariantOptionValue) => v.value === e.target.value)
                   if (value) handleSelection(option.optionName || '', value)
                 }}
-                className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-teal"
+                className="w-full md:w-64 px-4 py-2 border border-grey-light rounded-lg focus:ring-2 focus:ring-teal focus:border-teal"
               >
                 <option value="">Selecteer {option.optionName}</option>
                 {option.values?.map((value: VariantOptionValue) => (
@@ -174,7 +174,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                         relative aspect-square rounded-lg border-2 overflow-hidden transition-all
                         ${currentSelection?.value === value.value
                           ? 'border-teal ring-2 ring-teal'
-                          : 'border-gray-300 hover:border-gray-400'
+                          : 'border-grey-light hover:border-grey-light'
                         }
                         ${value.stockLevel === 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
                       `}
@@ -187,7 +187,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full bg-gray-100 flex items-center justify-center text-xs text-gray-400">
+                        <div className="w-full h-full bg-grey-light flex items-center justify-center text-xs text-grey-mid">
                           {value.label}
                         </div>
                       )}
@@ -212,7 +212,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                       flex items-center p-3 border rounded-lg cursor-pointer transition-all
                       ${currentSelection?.value === value.value
                         ? 'border-teal bg-teal-50'
-                        : 'border-gray-300 hover:border-gray-400'
+                        : 'border-grey-light hover:border-grey-light'
                       }
                       ${value.stockLevel === 0 ? 'opacity-50 cursor-not-allowed' : ''}
                     `}
@@ -237,7 +237,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                     <span className="ml-3 flex-1">
                       {value.label}
                       {value.priceModifier && value.priceModifier > 0 && (
-                        <span className="ml-2 text-sm text-gray-500">
+                        <span className="ml-2 text-sm text-grey-mid">
                           +€{formatPriceStr(value.priceModifier, product.taxClass ?? undefined)}
                         </span>
                       )}
@@ -249,7 +249,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
 
             {/* Stock indicator */}
             {currentSelection && currentSelection.stockLevel !== undefined && currentSelection.stockLevel !== null && (
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-grey-dark">
                 {currentSelection.stockLevel > 0 ? (
                   <span className="text-green">
                     ✓ Op voorraad ({currentSelection.stockLevel} beschikbaar)
@@ -267,16 +267,16 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
 
       {/* Configuration Summary */}
       {extProduct.configuratorSettings?.showConfigSummary && Object.keys(selections).length > 0 && (
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <h3 className="text-sm font-semibold text-gray-900 mb-2">
+        <div className="mt-6 p-4 bg-grey-light rounded-lg border border-grey-light">
+          <h3 className="text-sm font-semibold text-navy mb-2">
             Uw configuratie:
           </h3>
           <ul className="space-y-1">
             {Object.entries(selections).map(([optionName, value]) => (
-              <li key={optionName} className="text-sm text-gray-700">
+              <li key={optionName} className="text-sm text-grey-dark">
                 <span className="font-medium">{optionName}:</span> {value.label}
                 {value.priceModifier && value.priceModifier > 0 && (
-                  <span className="text-gray-500 ml-1">
+                  <span className="text-grey-mid ml-1">
                     (+€{formatPriceStr(value.priceModifier, product.taxClass ?? undefined)})
                   </span>
                 )}
@@ -284,20 +284,20 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
             ))}
           </ul>
           {extProduct.configuratorSettings?.showPriceBreakdown && (
-            <div className="mt-3 pt-3 border-t border-gray-300">
+            <div className="mt-3 pt-3 border-t border-grey-light">
               <div className="flex justify-between text-sm">
                 <span>Basisprijs:</span>
                 <span>€{formatPriceStr(product.price || 0, product.taxClass ?? undefined)}</span>
               </div>
               {Object.values(selections).map((value) =>
                 value.priceModifier && value.priceModifier > 0 ? (
-                  <div key={value.value} className="flex justify-between text-sm text-gray-600">
+                  <div key={value.value} className="flex justify-between text-sm text-grey-dark">
                     <span>{value.label}:</span>
                     <span>+€{formatPriceStr(value.priceModifier, product.taxClass ?? undefined)}</span>
                   </div>
                 ) : null
               )}
-              <div className="flex justify-between text-base font-bold mt-2 pt-2 border-t border-gray-300">
+              <div className="flex justify-between text-base font-bold mt-2 pt-2 border-t border-grey-light">
                 <span>Totaal:</span>
                 <span>€{formatPriceStr(calculateTotalPriceExcl(), product.taxClass ?? undefined)}</span>
               </div>

@@ -34,7 +34,7 @@ export default function BudgetPage() {
   if (!budget) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">Geen budgetinformatie beschikbaar.</p>
+        <p className="text-grey-mid">Geen budgetinformatie beschikbaar.</p>
       </div>
     )
   }

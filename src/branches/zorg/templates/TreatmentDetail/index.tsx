@@ -110,7 +110,7 @@ export async function TreatmentDetailTemplate({ item }: TreatmentDetailProps) {
                       }}
                     >
                       <summary
-                        className="flex cursor-pointer items-center justify-between p-5 text-base font-semibold transition-colors hover:bg-gray-50"
+                        className="flex cursor-pointer items-center justify-between p-5 text-base font-semibold transition-colors hover:bg-grey-light"
                         style={{ color: 'var(--color-navy, #1a2b4a)' }}
                       >
                         {faqItem.question}
@@ -252,7 +252,7 @@ export async function TreatmentDetailTemplate({ item }: TreatmentDetailProps) {
                       <li key={related.id}>
                         <Link
                           href={'/behandelingen/' + related.slug}
-                          className="flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-gray-50"
+                          className="flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-grey-light"
                         >
                           <div>
                             <div

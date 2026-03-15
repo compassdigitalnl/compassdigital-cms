@@ -31,16 +31,16 @@ export const VariantToolbar: React.FC<VariantToolbarProps> = ({
     <div
       className={`
         variant-toolbar
-        flex items-center justify-between gap-4 px-0 py-3 border-b-2 border-gray-300
+        flex items-center justify-between gap-4 px-0 py-3 border-b-2 border-grey-light
         ${className}
       `}
     >
       {/* Left: Variant Count */}
       <div className="flex items-center gap-2">
-        <span className="text-[15px] font-bold text-gray-900">
+        <span className="text-[15px] font-bold text-navy">
           {totalVariants}
         </span>
-        <span className="text-[15px] text-gray-600">
+        <span className="text-[15px] text-grey-dark">
           {totalVariants === 1 ? 'variant beschikbaar' : 'varianten beschikbaar'}
         </span>
 
@@ -55,7 +55,7 @@ export const VariantToolbar: React.FC<VariantToolbarProps> = ({
       {/* Right: View Toggle + Bulk Actions */}
       <div className="flex items-center gap-3">
         {/* View Toggle */}
-        <div className="flex items-center bg-gray-100 rounded-lg p-0.5">
+        <div className="flex items-center bg-grey-light rounded-lg p-0.5">
           {/* Grid View Button */}
           <button
             type="button"

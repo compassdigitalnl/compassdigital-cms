@@ -15,7 +15,7 @@ const getStatusColor = (status: string) => {
     case 'failed':
       return { bg: 'bg-coral-50', text: 'text-coral-700', border: 'border-coral/20', label: 'Mislukt' }
     default:
-      return { bg: 'bg-gray-50', text: 'text-gray-700', border: 'border-gray-200', label: status }
+      return { bg: 'bg-grey-light', text: 'text-grey-dark', border: 'border-grey-light', label: status }
   }
 }
 
@@ -24,7 +24,7 @@ export function InvoiceRow({ invoice }: InvoiceRowProps) {
   const statusColors = getStatusColor(invoice.paymentStatus)
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+    <div className="bg-white border border-grey-light rounded-xl p-4 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div className="flex items-start gap-4 flex-1 min-w-0">
           <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -37,7 +37,7 @@ export function InvoiceRow({ invoice }: InvoiceRowProps) {
                 {statusColors.label}
               </span>
             </div>
-            <div className="text-xs text-gray-600 space-y-0.5">
+            <div className="text-xs text-grey-dark space-y-0.5">
               <div className="flex items-center gap-1">
                 <Calendar className="w-3 h-3" />
                 <span>{new Date(invoice.createdAt).toLocaleDateString('nl-NL')}</span>
@@ -53,7 +53,7 @@ export function InvoiceRow({ invoice }: InvoiceRowProps) {
           <div className="flex items-center gap-2">
             <Link
               href={`/account/orders/${invoice.id}`}
-              className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 text-grey-dark hover:bg-grey-light rounded-lg transition-colors"
               title="Bekijk bestelling"
             >
               <Eye className="w-4 h-4" />

@@ -126,17 +126,17 @@ const docCategories = [
 const colorClasses: Record<string, { bg: string; border: string; icon: string; hover: string; badge: string }> = {
   blue: {
     bg: 'bg-teal-50',
-    border: 'border-blue-200',
-    icon: 'bg-blue-100 text-teal',
-    hover: 'hover:border-blue-300',
-    badge: 'bg-blue-100 text-teal-700',
+    border: 'border-teal-200',
+    icon: 'bg-teal-100 text-teal',
+    hover: 'hover:border-teal-300',
+    badge: 'bg-teal-100 text-teal-700',
   },
   red: {
     bg: 'bg-coral-50',
     border: 'border-coral/20',
-    icon: 'bg-red-100 text-coral',
-    hover: 'hover:border-red-300',
-    badge: 'bg-red-100 text-coral-700',
+    icon: 'bg-coral-100 text-coral',
+    hover: 'hover:border-coral-300',
+    badge: 'bg-coral-100 text-coral-700',
   },
   green: {
     bg: 'bg-green-50',
@@ -146,39 +146,39 @@ const colorClasses: Record<string, { bg: string; border: string; icon: string; h
     badge: 'bg-green-100 text-green-700',
   },
   purple: {
-    bg: 'bg-purple-50',
-    border: 'border-purple-200',
-    icon: 'bg-purple-100 text-teal',
-    hover: 'hover:border-purple-300',
-    badge: 'bg-purple-100 text-purple-700',
+    bg: 'bg-teal-50',
+    border: 'border-teal-200',
+    icon: 'bg-teal-100 text-teal',
+    hover: 'hover:border-teal-300',
+    badge: 'bg-teal-100 text-teal-700',
   },
   orange: {
-    bg: 'bg-orange-50',
-    border: 'border-orange-200',
-    icon: 'bg-orange-100 text-orange-600',
-    hover: 'hover:border-orange-300',
-    badge: 'bg-orange-100 text-orange-700',
+    bg: 'bg-amber-50',
+    border: 'border-amber-200',
+    icon: 'bg-amber-100 text-amber-600',
+    hover: 'hover:border-amber-300',
+    badge: 'bg-amber-100 text-amber-700',
   },
   pink: {
-    bg: 'bg-pink-50',
-    border: 'border-pink-200',
-    icon: 'bg-pink-100 text-pink-600',
-    hover: 'hover:border-pink-300',
-    badge: 'bg-pink-100 text-pink-700',
+    bg: 'bg-teal-50',
+    border: 'border-teal-200',
+    icon: 'bg-teal-100 text-teal',
+    hover: 'hover:border-teal-300',
+    badge: 'bg-teal-100 text-teal-700',
   },
   indigo: {
-    bg: 'bg-indigo-50',
-    border: 'border-indigo-200',
-    icon: 'bg-indigo-100 text-indigo-600',
-    hover: 'hover:border-indigo-300',
-    badge: 'bg-indigo-100 text-indigo-700',
+    bg: 'bg-teal-50',
+    border: 'border-teal-200',
+    icon: 'bg-teal-100 text-teal',
+    hover: 'hover:border-teal-300',
+    badge: 'bg-teal-100 text-teal-700',
   },
   gray: {
-    bg: 'bg-gray-50',
-    border: 'border-gray-200',
-    icon: 'bg-gray-100 text-gray-600',
-    hover: 'hover:border-gray-300',
-    badge: 'bg-gray-100 text-gray-700',
+    bg: 'bg-grey-light',
+    border: 'border-grey-light',
+    icon: 'bg-grey-light text-grey-dark',
+    hover: 'hover:border-grey-light',
+    badge: 'bg-grey-light text-grey-dark',
   },
   teal: {
     bg: 'bg-teal-50',
@@ -188,27 +188,27 @@ const colorClasses: Record<string, { bg: string; border: string; icon: string; h
     badge: 'bg-teal-100 text-teal-700',
   },
   yellow: {
-    bg: 'bg-yellow-50',
-    border: 'border-yellow-200',
-    icon: 'bg-yellow-100 text-yellow-600',
-    hover: 'hover:border-yellow-300',
-    badge: 'bg-yellow-100 text-yellow-700',
+    bg: 'bg-amber-50',
+    border: 'border-amber-200',
+    icon: 'bg-amber-100 text-amber-600',
+    hover: 'hover:border-amber-300',
+    badge: 'bg-amber-100 text-amber-700',
   },
 }
 
 export default function DocsPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-grey-light to-white">
       <div className="container max-w-7xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-teal-100 rounded-full mb-4">
             <Book className="w-8 h-8 text-teal" />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-navy mb-4">
             Documentation
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-grey-dark max-w-3xl mx-auto">
             Complete guides, tutorials, and API reference for SiteForge.
             <br />
             Everything you need to build, deploy, and maintain your application.
@@ -216,14 +216,14 @@ export default function DocsPage() {
         </div>
 
         {/* Quick Links */}
-        <div className="bg-gradient-to-r from-teal-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-6 mb-12">
+        <div className="bg-gradient-to-r from-teal-50 to-teal-50 border-2 border-teal-200 rounded-2xl p-6 mb-12">
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">
               <CheckCircle2 className="w-6 h-6 text-teal" />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-bold text-gray-900 mb-2">New to SiteForge?</h2>
-              <p className="text-gray-700 mb-4">Start with the Setup Guide to get your production environment ready in 30-60 minutes!</p>
+              <h2 className="text-lg font-bold text-navy mb-2">New to SiteForge?</h2>
+              <p className="text-grey-dark mb-4">Start with the Setup Guide to get your production environment ready in 30-60 minutes!</p>
               <a 
                 href="/setup/"
                 className="inline-flex items-center gap-2 bg-teal text-white px-4 py-2 rounded-lg font-semibold hover:bg-teal-700 transition-colors"
@@ -242,16 +242,16 @@ export default function DocsPage() {
             const Icon = category.icon
 
             return (
-              <div key={category.title} className="bg-white border-2 border-gray-200 rounded-2xl p-8 shadow-sm">
+              <div key={category.title} className="bg-white border-2 border-grey-light rounded-2xl p-8 shadow-sm">
                 <div className="flex items-start gap-4 mb-6">
                   <div className={`w-12 h-12 ${colors.icon} rounded-xl flex items-center justify-center flex-shrink-0`}>
                     <Icon className="w-6 h-6" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-1">
+                    <h2 className="text-2xl font-bold text-navy mb-1">
                       {category.title}
                     </h2>
-                    <p className="text-gray-600">
+                    <p className="text-grey-dark">
                       {category.description}
                     </p>
                   </div>
@@ -267,7 +267,7 @@ export default function DocsPage() {
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                            <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                               {doc.name}
                             </h3>
                             {doc.badge && (
@@ -276,11 +276,11 @@ export default function DocsPage() {
                               </span>
                             )}
                           </div>
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm text-grey-dark">
                             {doc.description}
                           </p>
                         </div>
-                        <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors flex-shrink-0 mt-0.5" />
+                        <ArrowRight className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors flex-shrink-0 mt-0.5" />
                       </div>
                     </a>
                   ))}
@@ -292,12 +292,12 @@ export default function DocsPage() {
 
         {/* Footer */}
         <div className="mt-12 text-center">
-          <div className="inline-flex items-center gap-4 bg-gray-50 border border-gray-200 rounded-xl p-6">
-            <FileText className="w-8 h-8 text-gray-600" />
+          <div className="inline-flex items-center gap-4 bg-grey-light border border-grey-light rounded-xl p-6">
+            <FileText className="w-8 h-8 text-grey-dark" />
             <div className="text-left">
-              <div className="font-semibold text-gray-900">Need more help?</div>
-              <div className="text-sm text-gray-600">
-                All documentation is also available in the <code className="bg-white px-2 py-0.5 rounded text-xs border border-gray-200">docs/</code> folder
+              <div className="font-semibold text-navy">Need more help?</div>
+              <div className="text-sm text-grey-dark">
+                All documentation is also available in the <code className="bg-white px-2 py-0.5 rounded text-xs border border-grey-light">docs/</code> folder
               </div>
             </div>
           </div>

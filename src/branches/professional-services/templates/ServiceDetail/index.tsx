@@ -224,7 +224,7 @@ export async function ServiceDetailTemplate({ service }: ServiceDetailProps) {
                       }}
                     >
                       <summary
-                        className="flex cursor-pointer items-center justify-between p-5 text-base font-semibold transition-colors hover:bg-gray-50"
+                        className="flex cursor-pointer items-center justify-between p-5 text-base font-semibold transition-colors hover:bg-grey-light"
                         style={{ color: 'var(--color-navy, #1a2b4a)' }}
                       >
                         {item.question}
@@ -326,7 +326,7 @@ export async function ServiceDetailTemplate({ service }: ServiceDetailProps) {
                       <a
                         key={rs.id}
                         href={`/dienstverlening/${rs.slug}`}
-                        className="flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-gray-50"
+                        className="flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-grey-light"
                       >
                         {rs.icon && <span className="text-xl">{rs.icon}</span>}
                         <span

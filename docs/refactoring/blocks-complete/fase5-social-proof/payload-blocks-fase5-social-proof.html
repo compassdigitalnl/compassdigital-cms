@@ -1,0 +1,3101 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fase 5: Social Proof Blokken (38-43) — Payload CMS Blocks</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  /* ========================================
+     MASTER DESIGN SYSTEM CSS
+     (Complete CSS Variables + Base Styles)
+     ======================================== */
+  :root {
+    /* Primary Colors */
+    --navy: #0A1628;
+    --navy-light: #121F33;
+    --teal: #00897B;
+    --teal-light: #26A69A;
+    --teal-dark: #00695C;
+    --teal-glow: rgba(0, 137, 123, 0.12);
+
+    /* Status Colors */
+    --green: #00C853;
+    --green-light: #E8F5E9;
+    --coral: #FF6B6B;
+    --coral-light: #FFF0F0;
+    --amber: #F59E0B;
+    --amber-light: #FFF8E1;
+    --amber-dark: #92400E;
+    --blue: #2196F3;
+    --blue-light: #E3F2FD;
+    --purple: #7C3AED;
+    --purple-light: #EDE9FE;
+
+    /* Neutral Colors */
+    --white: #FAFBFC;
+    --bg: #F5F7FA;
+    --grey: #E8ECF1;
+    --grey-light: #F1F4F8;
+    --grey-mid: #94A3B8;
+    --grey-dark: #64748B;
+
+    /* System Tokens */
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+    --shadow-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+    --shadow-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --container: 1240px;
+    --gutter: 24px;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--navy);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  /* ========================================
+     NAVIGATION & HEADER
+     ======================================== */
+  .top-nav {
+    background: var(--navy);
+    padding: 14px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow-md);
+  }
+
+  .nav-inner {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-brand {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: white;
+    text-decoration: none;
+  }
+
+  .nav-brand em {
+    color: var(--teal-light);
+    font-style: normal;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 6px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all var(--transition);
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: white;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .page-header {
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    padding: 48px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 137, 123, 0.08), transparent 70%);
+    border-radius: 50%;
+  }
+
+  .header-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 137, 123, 0.15);
+    border: 1px solid rgba(0, 137, 123, 0.25);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--teal-light);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+  }
+
+  .header-badge i {
+    width: 12px;
+    height: 12px;
+  }
+
+  .page-header h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 40px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  .page-header p {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.45);
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* ========================================
+     SECTION UTILITIES
+     ======================================== */
+  .section {
+    padding: 64px 0;
+  }
+
+  .section-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title i {
+    width: 28px;
+    height: 28px;
+    color: var(--teal);
+  }
+
+  .block-preview {
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: 20px;
+    padding: 48px;
+    margin-bottom: 80px;
+  }
+
+  .preview-label {
+    display: inline-block;
+    background: var(--teal-glow);
+    color: var(--teal);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 20px;
+  }
+
+  .variant-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    border-bottom: 2px solid var(--grey);
+    padding-bottom: 0;
+  }
+
+  .variant-tab {
+    padding: 10px 18px;
+    border: none;
+    background: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--grey-mid);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all var(--transition);
+  }
+
+  .variant-tab:hover {
+    color: var(--navy);
+  }
+
+  .variant-tab.active {
+    color: var(--teal);
+    border-bottom-color: var(--teal);
+  }
+
+  .variant-content {
+    display: none;
+  }
+
+  .variant-content.active {
+    display: block;
+  }
+
+  /* ========================================
+     B-38: TESTIMONIALS
+     ======================================== */
+
+  /* Single Testimonial Card */
+  .testimonial-single {
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    max-width: 680px;
+    margin: 0 auto;
+    transition: all var(--transition);
+  }
+
+  .testimonial-single:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--teal-light);
+  }
+
+  /* Grid Layout (3 columns) */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin: 48px 0;
+  }
+
+  .testimonial-card {
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    transition: all var(--transition);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .testimonial-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--teal-light);
+    transform: translateY(-2px);
+  }
+
+  /* Carousel Layout */
+  .testimonials-carousel {
+    position: relative;
+    overflow: hidden;
+    padding: 32px 0;
+  }
+
+  .carousel-track {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel-item {
+    flex: 0 0 480px;
+    scroll-snap-align: start;
+  }
+
+  .carousel-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--grey);
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .carousel-btn:hover {
+    border-color: var(--teal);
+    background: var(--teal-glow);
+  }
+
+  .carousel-btn i {
+    width: 18px;
+    height: 18px;
+    color: var(--navy);
+  }
+
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--grey);
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .carousel-dot.active {
+    background: var(--teal);
+    width: 24px;
+    border-radius: 4px;
+  }
+
+  /* Testimonial Content */
+  .testimonial-stars {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+
+  .testimonial-stars .icon {
+    width: 16px;
+    height: 16px;
+    color: var(--amber);
+    fill: var(--amber);
+  }
+
+  .testimonial-quote {
+    font-size: 15px;
+    color: var(--grey-dark);
+    line-height: 1.7;
+    margin-bottom: 24px;
+    font-style: italic;
+    flex: 1;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+  }
+
+  .testimonial-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--teal-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--teal);
+    flex-shrink: 0;
+  }
+
+  .author-info {
+    flex: 1;
+  }
+
+  .testimonial-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+
+  .testimonial-role {
+    font-size: 12px;
+    color: var(--grey-mid);
+  }
+
+  /* ========================================
+     B-39: REVIEWS WIDGET
+     ======================================== */
+  .reviews-widget {
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: var(--radius);
+    padding: 36px;
+    margin: 48px 0;
+  }
+
+  /* Summary Section */
+  .reviews-summary {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--grey);
+    margin-bottom: 32px;
+  }
+
+  .reviews-score {
+    text-align: center;
+  }
+
+  .reviews-average {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 64px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .reviews-stars-large {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .reviews-stars-large .icon {
+    width: 24px;
+    height: 24px;
+    color: var(--amber);
+    fill: var(--amber);
+  }
+
+  .reviews-count {
+    font-size: 13px;
+    color: var(--grey-mid);
+    font-weight: 600;
+  }
+
+  /* Distribution Bars */
+  .reviews-distribution {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .distribution-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .distribution-label {
+    font-size: 13px;
+    color: var(--grey-dark);
+    font-weight: 600;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .distribution-label .icon {
+    width: 14px;
+    height: 14px;
+    color: var(--amber);
+    fill: var(--amber);
+  }
+
+  .distribution-bar {
+    flex: 1;
+    height: 10px;
+    background: var(--grey);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .distribution-fill {
+    height: 100%;
+    background: var(--amber);
+    transition: width var(--transition);
+  }
+
+  .distribution-count {
+    font-size: 12px;
+    color: var(--grey-mid);
+    font-weight: 600;
+    width: 54px;
+    text-align: right;
+  }
+
+  /* Review Items */
+  .reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .review-item {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--grey);
+  }
+
+  .review-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .review-author-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .review-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--teal-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--teal);
+    flex-shrink: 0;
+  }
+
+  .review-author-details {
+    flex: 1;
+  }
+
+  .review-author-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+
+  .review-stars {
+    display: flex;
+    gap: 3px;
+  }
+
+  .review-stars .icon {
+    width: 13px;
+    height: 13px;
+    color: var(--amber);
+    fill: var(--amber);
+  }
+
+  .review-date {
+    font-size: 12px;
+    color: var(--grey-mid);
+  }
+
+  .review-text {
+    font-size: 14px;
+    color: var(--grey-dark);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .review-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--grey-mid);
+  }
+
+  .verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    background: var(--green-light);
+    color: #166534;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .verified-badge i {
+    width: 11px;
+    height: 11px;
+  }
+
+  .review-helpful {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .helpful-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border: 1px solid var(--grey);
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--grey-dark);
+  }
+
+  .helpful-btn:hover {
+    border-color: var(--teal);
+    background: var(--teal-glow);
+    color: var(--teal);
+  }
+
+  .helpful-btn i {
+    width: 13px;
+    height: 13px;
+  }
+
+  /* ========================================
+     B-40: TRUST SIGNALS
+     ======================================== */
+
+  /* Icon Row (3 columns) */
+  .trust-signals {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 64px;
+    padding: 32px 24px;
+  }
+
+  .trust-signal {
+    text-align: center;
+    flex: 0 0 auto;
+  }
+
+  .trust-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 14px;
+    color: var(--grey-mid);
+  }
+
+  .trust-text {
+    font-size: 13px;
+    color: var(--grey-dark);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  /* Card Layout */
+  .trust-signals-card {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 32px 0;
+  }
+
+  .trust-card {
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    transition: all var(--transition);
+  }
+
+  .trust-card:hover {
+    border-color: var(--teal);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .trust-card-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 12px;
+    color: var(--teal);
+  }
+
+  .trust-card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .trust-card-text {
+    font-size: 12px;
+    color: var(--grey-mid);
+    line-height: 1.5;
+  }
+
+  /* ========================================
+     B-41: SOCIAL PROOF BANNER
+     ======================================== */
+  .social-proof-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: var(--blue-light);
+    border: 1px solid #90CAF9;
+    border-radius: var(--radius-sm);
+    margin: 24px 0;
+  }
+
+  .social-proof-banner .icon {
+    width: 22px;
+    height: 22px;
+    color: #1565C0;
+    flex-shrink: 0;
+  }
+
+  .social-proof-text {
+    font-size: 14px;
+    color: #1565C0;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .social-proof-banner.fire {
+    background: var(--coral-light);
+    border-color: #FF8A80;
+  }
+
+  .social-proof-banner.fire .icon,
+  .social-proof-banner.fire .social-proof-text {
+    color: #DC2626;
+  }
+
+  .social-proof-banner.purple {
+    background: var(--purple-light);
+    border-color: #C4B5FD;
+  }
+
+  .social-proof-banner.purple .icon,
+  .social-proof-banner.purple .social-proof-text {
+    color: #6D28D9;
+  }
+
+  .social-proof-banner.green {
+    background: var(--green-light);
+    border-color: #81C784;
+  }
+
+  .social-proof-banner.green .icon,
+  .social-proof-banner.green .social-proof-text {
+    color: #166534;
+  }
+
+  .social-proof-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  /* ========================================
+     B-42: CUSTOMER LOGO BAR
+     ======================================== */
+  .logo-bar {
+    padding: 56px 0;
+    overflow: hidden;
+    background: white;
+    border-top: 1px solid var(--grey);
+    border-bottom: 1px solid var(--grey);
+  }
+
+  .logo-bar-heading {
+    text-align: center;
+    font-size: 13px;
+    color: var(--grey-mid);
+    font-weight: 700;
+    margin-bottom: 36px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .logo-scroll-wrapper {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .logo-scroll {
+    display: flex;
+    gap: 80px;
+    animation: scroll 40s linear infinite;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .logo-scroll:hover {
+    animation-play-state: paused;
+  }
+
+  .logo-item {
+    flex-shrink: 0;
+    width: 140px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 52px;
+    filter: grayscale(1) opacity(0.4);
+    transition: all var(--transition);
+  }
+
+  .logo-item:hover {
+    filter: grayscale(0) opacity(1);
+    transform: scale(1.08);
+  }
+
+  /* ========================================
+     B-43: CASE STUDY GRID
+     ======================================== */
+
+  /* Grid Layout (2 columns) */
+  .case-study-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    margin: 48px 0;
+  }
+
+  .case-study-card {
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: all var(--transition);
+    text-decoration: none;
+    display: block;
+  }
+
+  .case-study-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--teal);
+  }
+
+  .case-study-image {
+    width: 100%;
+    aspect-ratio: 16/10;
+    background: var(--grey-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 72px;
+    position: relative;
+  }
+
+  .case-study-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    background: var(--teal);
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .case-study-content {
+    padding: 32px;
+  }
+
+  .case-study-client {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .case-study-logo {
+    width: 44px;
+    height: 44px;
+    background: var(--teal-glow);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .case-study-client-info {
+    flex: 1;
+  }
+
+  .case-study-client-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+
+  .case-study-client-industry {
+    font-size: 11px;
+    color: var(--grey-mid);
+  }
+
+  .case-study-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .case-study-description {
+    font-size: 14px;
+    color: var(--grey-dark);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .case-study-results {
+    display: flex;
+    gap: 32px;
+  }
+
+  .case-study-stat {
+    text-align: center;
+  }
+
+  .case-study-stat-number {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--teal);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .case-study-stat-label {
+    font-size: 11px;
+    color: var(--grey-mid);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* Featured Case (Full Width) */
+  .case-study-featured {
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: 48px 0;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    transition: all var(--transition);
+  }
+
+  .case-study-featured:hover {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--teal);
+  }
+
+  .case-study-featured .case-study-image {
+    aspect-ratio: 4/3;
+  }
+
+  .case-study-featured .case-study-content {
+    padding: 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .case-study-featured .case-study-title {
+    font-size: 26px;
+    margin-bottom: 16px;
+  }
+
+  .case-study-featured .case-study-description {
+    font-size: 15px;
+    margin-bottom: 32px;
+  }
+
+  .case-study-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 20px;
+    background: var(--teal);
+    color: white;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all var(--transition);
+    width: fit-content;
+  }
+
+  .case-study-cta:hover {
+    background: var(--navy);
+    transform: translateX(4px);
+  }
+
+  .case-study-cta i {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* ========================================
+     DOCUMENTATION SECTION
+     ======================================== */
+  .docs-section {
+    background: white;
+    border: 1px solid var(--grey);
+    border-radius: 20px;
+    padding: 48px;
+    margin-bottom: 64px;
+  }
+
+  .docs-section h2 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 24px;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .docs-section h2 i {
+    width: 24px;
+    height: 24px;
+    color: var(--teal);
+  }
+
+  .docs-section h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    color: var(--navy);
+  }
+
+  .docs-section h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    color: var(--navy);
+  }
+
+  .docs-section p {
+    font-size: 14px;
+    color: var(--grey-dark);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  .docs-section ul,
+  .docs-section ol {
+    font-size: 14px;
+    color: var(--grey-dark);
+    line-height: 1.7;
+    margin-bottom: 16px;
+    padding-left: 24px;
+  }
+
+  .docs-section li {
+    margin-bottom: 8px;
+  }
+
+  .docs-section code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    background: var(--grey-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--navy);
+  }
+
+  .docs-section pre {
+    background: var(--navy);
+    color: var(--teal-light);
+    padding: 20px;
+    border-radius: var(--radius);
+    overflow-x: auto;
+    margin-bottom: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .info-box {
+    background: var(--blue-light);
+    border-left: 4px solid var(--blue);
+    padding: 16px 20px;
+    border-radius: var(--radius-sm);
+    margin: 24px 0;
+  }
+
+  .info-box p {
+    margin: 0;
+    color: #1565C0;
+    font-size: 13px;
+  }
+
+  .warning-box {
+    background: var(--amber-light);
+    border-left: 4px solid var(--amber);
+    padding: 16px 20px;
+    border-radius: var(--radius-sm);
+    margin: 24px 0;
+  }
+
+  .warning-box p {
+    margin: 0;
+    color: var(--amber-dark);
+    font-size: 13px;
+  }
+
+  /* ========================================
+     RESPONSIVE DESIGN
+     ======================================== */
+  @media (max-width: 900px) {
+    .page-header h1 {
+      font-size: 28px;
+    }
+
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .carousel-item {
+      flex: 0 0 340px;
+    }
+
+    .reviews-summary {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .trust-signals {
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .trust-signals-card {
+      grid-template-columns: 1fr;
+    }
+
+    .case-study-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .case-study-featured {
+      grid-template-columns: 1fr;
+    }
+
+    .logo-scroll {
+      gap: 48px;
+    }
+
+    .logo-item {
+      width: 100px;
+      height: 50px;
+      font-size: 36px;
+    }
+
+    .nav-links {
+      display: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">Payload<em>Blocks</em></a>
+    <ul class="nav-links">
+      <li><a href="payload-blocks-fase1-layout.html">Fase 1: Layout</a></li>
+      <li><a href="payload-blocks-fase2-content.html">Fase 2: Content</a></li>
+      <li><a href="payload-blocks-fase3-ecommerce.html">Fase 3: E-commerce</a></li>
+      <li><a href="payload-blocks-fase4-forms.html">Fase 4: Forms</a></li>
+      <li><a href="#" class="active">Fase 5: Social Proof</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Page Header -->
+<header class="page-header">
+  <div class="container">
+    <div class="header-content">
+      <div class="header-badge">
+        <i data-lucide="award"></i>
+        Fase 5 — Laatste fase!
+      </div>
+      <h1>Social Proof Blokken (38-43)</h1>
+      <p>
+        Testimonials, reviews, trust signals, social proof banners, customer logos en case studies.
+        Bouw vertrouwen en overtuig bezoekers met sociale bewijs-elementen.
+      </p>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+
+  <!-- ========================================
+       B-38: TESTIMONIALS
+       ======================================== -->
+  <div class="section" id="b38">
+    <h2 class="section-title">
+      <i data-lucide="message-circle"></i>
+      B-38: Testimonials
+    </h2>
+
+    <div class="block-preview">
+      <div class="preview-label">Live Preview — 3 Varianten</div>
+
+      <!-- Variant Tabs -->
+      <div class="variant-tabs">
+        <button class="variant-tab active" onclick="switchVariant(this, 'b38-v1')">Variant 1: Single Card</button>
+        <button class="variant-tab" onclick="switchVariant(this, 'b38-v2')">Variant 2: Grid 3-col</button>
+        <button class="variant-tab" onclick="switchVariant(this, 'b38-v3')">Variant 3: Carousel</button>
+      </div>
+
+      <!-- Variant 1: Single Card -->
+      <div id="b38-v1" class="variant-content active">
+        <div class="testimonial-single">
+          <div class="testimonial-stars">
+            <i data-lucide="star" class="icon"></i>
+            <i data-lucide="star" class="icon"></i>
+            <i data-lucide="star" class="icon"></i>
+            <i data-lucide="star" class="icon"></i>
+            <i data-lucide="star" class="icon"></i>
+          </div>
+          <p class="testimonial-quote">
+            "De samenwerking met dit team was vanaf dag één prettig en professioneel. Ze luisterden naar onze wensen en kwamen met creatieve oplossingen die we zelf niet hadden bedacht. Het eindresultaat overtrof onze verwachtingen."
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">MK</div>
+            <div class="author-info">
+              <div class="testimonial-name">Mark Kokkelkoren</div>
+              <div class="testimonial-role">CEO, TechCorp Nederland</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Variant 2: Grid 3-col -->
+      <div id="b38-v2" class="variant-content">
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="testimonial-stars">
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+            </div>
+            <p class="testimonial-quote">
+              "Snelle levering, uitstekende kwaliteit en een team dat altijd bereikbaar is. Precies waar we naar op zoek waren."
+            </p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">SV</div>
+              <div class="author-info">
+                <div class="testimonial-name">Sophie van Dam</div>
+                <div class="testimonial-role">Praktijkmanager</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-stars">
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+            </div>
+            <p class="testimonial-quote">
+              "De staffelkortingen zijn eerlijk en transparant. We besparen maandelijks 20% op ons inkoopbudget. Echt een verschil!"
+            </p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">PJ</div>
+              <div class="author-info">
+                <div class="testimonial-name">Peter Janssen</div>
+                <div class="testimonial-role">Inkoper, Huisartsenpraktijk</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-stars">
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+            </div>
+            <p class="testimonial-quote">
+              "Persoonlijk contact via een vaste accountmanager maakt het verschil. Ze denken actief mee en adviseren proactief."
+            </p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">LB</div>
+              <div class="author-info">
+                <div class="testimonial-name">Lisa Bakker</div>
+                <div class="testimonial-role">Eigenaar, Fysiotherapie Centrum</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Variant 3: Carousel -->
+      <div id="b38-v3" class="variant-content">
+        <div class="testimonials-carousel">
+          <div class="carousel-track" id="testimonial-carousel">
+            <div class="carousel-item">
+              <div class="testimonial-card">
+                <div class="testimonial-stars">
+                  <i data-lucide="star" class="icon"></i>
+                  <i data-lucide="star" class="icon"></i>
+                  <i data-lucide="star" class="icon"></i>
+                  <i data-lucide="star" class="icon"></i>
+                  <i data-lucide="star" class="icon"></i>
+                </div>
+                <p class="testimonial-quote">
+                  "Al 8 jaar klant en nog steeds even tevreden. De productkwaliteit is consistent en de service voorbeeldig."
+                </p>
+                <div class="testimonial-author">
+                  <div class="testimonial-avatar">MH</div>
+                  <div class="author-info">
+                    <div class="testimonial-name">Michael Hendriks</div>
+                    <div class="testimonial-role">Tandarts, Tandartspraktijk Utrecht</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="carousel-item">
+              <div class="testimonial-card">
+                <div class="testimonial-stars">
+                  <i data-lucide="star" class="icon"></i>
+                  <i data-lucide="star" class="icon"></i>
+                  <i data-lucide="star" class="icon"></i>
+                  <i data-lucide="star" class="icon"></i>
+                  <i data-lucide="star" class="icon"></i>
+                </div>
+                <p class="testimonial-quote">
+                  "De kennisbank artikelen helpen ons bij productkeuzevragen. Echt een meerwaarde bovenop het bestelgemak."
+                </p>
+                <div class="testimonial-author">
+                  <div class="testimonial-avatar">EV</div>
+                  <div class="author-info">
+                    <div class="testimonial-name">Emma Visser</div>
+                    <div class="testimonial-role">Verloskundige, Amsterdam</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="carousel-item">
+              <div class="testimonial-card">
+                <div class="testimonial-stars">
+                  <i data-lucide="star" class="icon"></i>
+                  <i data-lucide="star" class="icon"></i>
+                  <i data-lucide="star" class="icon"></i>
+                  <i data-lucide="star" class="icon"></i>
+                  <i data-lucide="star" class="icon"></i>
+                </div>
+                <p class="testimonial-quote">
+                  "Bestellijsten functie is perfect voor terugkerende bestellingen. Bespaart ons uren werk per maand!"
+                </p>
+                <div class="testimonial-author">
+                  <div class="testimonial-avatar">RD</div>
+                  <div class="author-info">
+                    <div class="testimonial-name">Rob de Jong</div>
+                    <div class="testimonial-role">Manager, Thuiszorg Organisatie</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-nav">
+            <button class="carousel-btn" onclick="scrollCarousel('testimonial-carousel', -1)">
+              <i data-lucide="chevron-left"></i>
+            </button>
+            <button class="carousel-btn" onclick="scrollCarousel('testimonial-carousel', 1)">
+              <i data-lucide="chevron-right"></i>
+            </button>
+          </div>
+
+          <div class="carousel-dots">
+            <div class="carousel-dot active"></div>
+            <div class="carousel-dot"></div>
+            <div class="carousel-dot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8-Step Documentation for B-38 -->
+    <div class="docs-section">
+      <h2><i data-lucide="book-open"></i> B-38: Testimonials — Complete Documentatie</h2>
+
+      <h3>STEP 1: Component Overzicht</h3>
+      <p><strong>Doel:</strong> Testimonials van klanten tonen om vertrouwen en geloofwaardigheid op te bouwen.</p>
+      <p><strong>Varianten:</strong></p>
+      <ul>
+        <li><strong>Variant 1: Single Card</strong> — Eén prominente testimonial (hero section, homepage)</li>
+        <li><strong>Variant 2: Grid 3-col</strong> — Drie testimonials naast elkaar (standaard layout)</li>
+        <li><strong>Variant 3: Carousel</strong> — Scrollbare testimonials met navigatie (meer dan 3 testimonials)</li>
+      </ul>
+
+      <h3>STEP 2: Wanneer Gebruiken?</h3>
+      <ul>
+        <li>✅ <strong>Homepage:</strong> Sociale bewijs direct zichtbaar maken</li>
+        <li>✅ <strong>About pagina:</strong> Klantverhalen en ervaringen delen</li>
+        <li>✅ <strong>Product pages:</strong> Productspecifieke reviews/testimonials</li>
+        <li>✅ <strong>Contact pagina:</strong> Vertrouwen opbouwen voor acquisitie</li>
+        <li>✅ <strong>Landing pages:</strong> Conversie-optimalisatie door sociale bewijs</li>
+      </ul>
+
+      <h3>STEP 3: Design Tokens</h3>
+      <p><strong>Kleuren:</strong></p>
+      <ul>
+        <li>Sterren: <code>--amber</code> (#F59E0B) — 5-star rating</li>
+        <li>Quote tekst: <code>--grey-dark</code> (#64748B) — leesbare body tekst</li>
+        <li>Naam: <code>--navy</code> (#0A1628) — prominent auteur naam</li>
+        <li>Avatar: <code>--teal-glow</code> background + <code>--teal</code> text</li>
+        <li>Hover border: <code>--teal-light</code> (#26A69A)</li>
+      </ul>
+      <p><strong>Typografie:</strong></p>
+      <ul>
+        <li>Quote: 15px, italic, line-height 1.7</li>
+        <li>Naam: 14px, 700 weight</li>
+        <li>Rol: 12px, grey-mid</li>
+      </ul>
+      <p><strong>Spacing:</strong></p>
+      <ul>
+        <li>Card padding: 28px 24px (grid), 32px 28px (single)</li>
+        <li>Gap tussen cards: 24px</li>
+        <li>Gap tussen sterren: 4px</li>
+      </ul>
+      <p><strong>Icons:</strong></p>
+      <ul>
+        <li><code>star</code> (filled) — 16px voor rating</li>
+        <li><code>chevron-left/right</code> — carousel navigatie</li>
+      </ul>
+
+      <h3>STEP 4: Props & Configuratie</h3>
+      <pre>
+{
+  slug: 'testimonials',
+  fields: [
+    {
+      name: 'variant',
+      type: 'select',
+      options: ['single', 'grid', 'carousel'],
+      defaultValue: 'grid',
+      admin: { description: 'Layout variant: single card, 3-col grid, of carousel' }
+    },
+    {
+      name: 'testimonials',
+      type: 'array',
+      minRows: 1,
+      maxRows: 12,
+      fields: [
+        { name: 'quote', type: 'textarea', required: true },
+        { name: 'rating', type: 'number', min: 1, max: 5, defaultValue: 5 },
+        { name: 'authorName', type: 'text', required: true },
+        { name: 'authorRole', type: 'text', required: true },
+        { name: 'authorInitials', type: 'text', maxLength: 3 },
+        { name: 'authorImage', type: 'upload', relationTo: 'media' }
+      ]
+    }
+  ]
+}
+      </pre>
+
+      <h3>STEP 5: Layout Rules</h3>
+      <ul>
+        <li><strong>Grid:</strong> 3 kolommen (1fr 1fr 1fr) met 24px gap → 1 kolom op mobile</li>
+        <li><strong>Carousel:</strong> Horizontal scroll met scroll-snap, 480px item width (340px mobile)</li>
+        <li><strong>Card height:</strong> Flexbox met <code>flex-direction: column</code> + <code>margin-top: auto</code> op author voor bottom alignment</li>
+        <li><strong>Avatar:</strong> 48px circle met initials fallback als geen foto</li>
+        <li><strong>Hover state:</strong> Border color teal + shadow-md + translateY(-2px)</li>
+      </ul>
+
+      <h3>STEP 6: Accessibility</h3>
+      <ul>
+        <li>✅ <code>&lt;blockquote&gt;</code> semantics voor testimonial quotes</li>
+        <li>✅ ARIA: <code>aria-label="Customer testimonials"</code> op container</li>
+        <li>✅ Carousel: <code>role="region"</code> + <code>aria-roledescription="carousel"</code></li>
+        <li>✅ Carousel buttons: <code>aria-label="Previous testimonial"</code></li>
+        <li>✅ Rating: <code>aria-label="5 out of 5 stars"</code> op star container</li>
+        <li>✅ Keyboard: Arrow keys voor carousel navigatie</li>
+      </ul>
+
+      <h3>STEP 7: Implementation Notes</h3>
+      <h4>React Component Structure:</h4>
+      <pre>
+export const TestimonialsBlock = ({ variant, testimonials }) => {
+  if (variant === 'single') {
+    return <TestimonialSingle data={testimonials[0]} />;
+  }
+
+  if (variant === 'carousel') {
+    return <TestimonialsCarousel items={testimonials} />;
+  }
+
+  return (
+    <div className="testimonials-grid">
+      {testimonials.slice(0, 3).map(t => (
+        <TestimonialCard key={t.id} data={t} />
+      ))}
+    </div>
+  );
+};
+      </pre>
+
+      <h4>Avatar Logic:</h4>
+      <pre>
+// Gebruik initials als fallback voor foto
+const getInitials = (name) => {
+  return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+};
+
+&lt;div className="testimonial-avatar"&gt;
+  {authorImage ? (
+    &lt;img src={authorImage.url} alt={authorName} /&gt;
+  ) : (
+    getInitials(authorName)
+  )}
+&lt;/div&gt;
+      </pre>
+
+      <h4>Carousel Scroll Logic:</h4>
+      <pre>
+const scrollCarousel = (carouselId, direction) => {
+  const carousel = document.getElementById(carouselId);
+  const scrollAmount = 480 + 24; // item width + gap
+  carousel.scrollBy({
+    left: direction * scrollAmount,
+    behavior: 'smooth'
+  });
+};
+      </pre>
+
+      <div class="info-box">
+        <p><strong>💡 Pro Tip:</strong> Maximaal 3 testimonials in grid variant. Bij meer testimonials gebruik carousel of multiple grids verspreid over de pagina.</p>
+      </div>
+
+      <h3>STEP 8: Varianten & Gerelateerde Components</h3>
+      <p><strong>Gerelateerde blokken:</strong></p>
+      <ul>
+        <li><strong>B-39: Reviews Widget</strong> — Gedetailleerde productreviews met rating bars</li>
+        <li><strong>B-40: Trust Signals</strong> — USPs en vertrouwensindicatoren</li>
+        <li><strong>B-42: Logo Bar</strong> — Klant logo's als sociale bewijs</li>
+        <li><strong>B-43: Case Studies</strong> — Uitgebreide klantverhalen met resultaten</li>
+      </ul>
+
+      <p><strong>Design variaties:</strong></p>
+      <ul>
+        <li>Video testimonials (iframe embed in card)</li>
+        <li>Tweet-style met Twitter/X logo</li>
+        <li>Verified badge voor officiële klanten</li>
+        <li>Company logo naast avatar</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ========================================
+       B-39: REVIEWS WIDGET
+       ======================================== -->
+  <div class="section" id="b39">
+    <h2 class="section-title">
+      <i data-lucide="star"></i>
+      B-39: Reviews Widget
+    </h2>
+
+    <div class="block-preview">
+      <div class="preview-label">Live Preview — Complete Reviews Widget</div>
+
+      <div class="reviews-widget">
+        <!-- Summary -->
+        <div class="reviews-summary">
+          <div class="reviews-score">
+            <div class="reviews-average">4.8</div>
+            <div class="reviews-stars-large">
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+              <i data-lucide="star" class="icon"></i>
+            </div>
+            <div class="reviews-count">Gebaseerd op 214 beoordelingen</div>
+          </div>
+
+          <div class="reviews-distribution">
+            <div class="distribution-row">
+              <div class="distribution-label">
+                <i data-lucide="star" class="icon"></i> 5
+              </div>
+              <div class="distribution-bar">
+                <div class="distribution-fill" style="width: 78%;"></div>
+              </div>
+              <div class="distribution-count">167</div>
+            </div>
+
+            <div class="distribution-row">
+              <div class="distribution-label">
+                <i data-lucide="star" class="icon"></i> 4
+              </div>
+              <div class="distribution-bar">
+                <div class="distribution-fill" style="width: 15%;"></div>
+              </div>
+              <div class="distribution-count">32</div>
+            </div>
+
+            <div class="distribution-row">
+              <div class="distribution-label">
+                <i data-lucide="star" class="icon"></i> 3
+              </div>
+              <div class="distribution-bar">
+                <div class="distribution-fill" style="width: 5%;"></div>
+              </div>
+              <div class="distribution-count">11</div>
+            </div>
+
+            <div class="distribution-row">
+              <div class="distribution-label">
+                <i data-lucide="star" class="icon"></i> 2
+              </div>
+              <div class="distribution-bar">
+                <div class="distribution-fill" style="width: 1%;"></div>
+              </div>
+              <div class="distribution-count">3</div>
+            </div>
+
+            <div class="distribution-row">
+              <div class="distribution-label">
+                <i data-lucide="star" class="icon"></i> 1
+              </div>
+              <div class="distribution-bar">
+                <div class="distribution-fill" style="width: 0.5%;"></div>
+              </div>
+              <div class="distribution-count">1</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reviews List -->
+        <div class="reviews-list">
+          <div class="review-item">
+            <div class="review-header">
+              <div class="review-author-info">
+                <div class="review-avatar">SV</div>
+                <div class="review-author-details">
+                  <div class="review-author-name">Sophie van Dam</div>
+                  <div class="review-stars">
+                    <i data-lucide="star" class="icon"></i>
+                    <i data-lucide="star" class="icon"></i>
+                    <i data-lucide="star" class="icon"></i>
+                    <i data-lucide="star" class="icon"></i>
+                    <i data-lucide="star" class="icon"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="review-date">3 dagen geleden</div>
+            </div>
+            <p class="review-text">
+              Uitstekende kwaliteit handschoenen! Bestellen voor 16:00 uur, volgende dag in huis.
+              Het team is altijd bereikbaar voor vragen en advies. Nu al 2 jaar vaste klant en zeer tevreden.
+            </p>
+            <div class="review-meta">
+              <span class="verified-badge">
+                <i data-lucide="shield-check"></i>
+                Geverifieerde aankoop
+              </span>
+              <div class="review-helpful">
+                <span>Was dit nuttig?</span>
+                <button class="helpful-btn">
+                  <i data-lucide="thumbs-up"></i>
+                  Ja (12)
+                </button>
+                <button class="helpful-btn">
+                  <i data-lucide="thumbs-down"></i>
+                  Nee (0)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-item">
+            <div class="review-header">
+              <div class="review-author-info">
+                <div class="review-avatar">PJ</div>
+                <div class="review-author-details">
+                  <div class="review-author-name">Peter Janssen</div>
+                  <div class="review-stars">
+                    <i data-lucide="star" class="icon"></i>
+                    <i data-lucide="star" class="icon"></i>
+                    <i data-lucide="star" class="icon"></i>
+                    <i data-lucide="star" class="icon"></i>
+                    <i data-lucide="star" class="icon"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="review-date">1 week geleden</div>
+            </div>
+            <p class="review-text">
+              De staffelkortingen zijn eerlijk en transparant geprijsd. We bestellen maandelijks grote hoeveelheden
+              en besparen gemiddeld 20% op onze inkoopkosten. Aanrader voor elke praktijk!
+            </p>
+            <div class="review-meta">
+              <span class="verified-badge">
+                <i data-lucide="shield-check"></i>
+                Geverifieerde aankoop
+              </span>
+              <div class="review-helpful">
+                <span>Was dit nuttig?</span>
+                <button class="helpful-btn">
+                  <i data-lucide="thumbs-up"></i>
+                  Ja (8)
+                </button>
+                <button class="helpful-btn">
+                  <i data-lucide="thumbs-down"></i>
+                  Nee (1)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-item">
+            <div class="review-header">
+              <div class="review-author-info">
+                <div class="review-avatar">LB</div>
+                <div class="review-author-details">
+                  <div class="review-author-name">Lisa Bakker</div>
+                  <div class="review-stars">
+                    <i data-lucide="star" class="icon"></i>
+                    <i data-lucide="star" class="icon"></i>
+                    <i data-lucide="star" class="icon"></i>
+                    <i data-lucide="star" class="icon"></i>
+                    <i data-lucide="star" class="icon"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="review-date">2 weken geleden</div>
+            </div>
+            <p class="review-text">
+              Persoonlijk contact met een vaste accountmanager maakt het verschil. Ze denken proactief mee
+              over ons assortiment en adviseren over nieuwe producten. Top service!
+            </p>
+            <div class="review-meta">
+              <span class="verified-badge">
+                <i data-lucide="shield-check"></i>
+                Geverifieerde aankoop
+              </span>
+              <div class="review-helpful">
+                <span>Was dit nuttig?</span>
+                <button class="helpful-btn">
+                  <i data-lucide="thumbs-up"></i>
+                  Ja (15)
+                </button>
+                <button class="helpful-btn">
+                  <i data-lucide="thumbs-down"></i>
+                  Nee (0)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8-Step Documentation for B-39 -->
+    <div class="docs-section">
+      <h2><i data-lucide="book-open"></i> B-39: Reviews Widget — Complete Documentatie</h2>
+
+      <h3>STEP 1: Component Overzicht</h3>
+      <p><strong>Doel:</strong> Uitgebreide review sectie met gemiddelde score, rating verdeling en individuele reviews.</p>
+      <p><strong>Onderdelen:</strong></p>
+      <ul>
+        <li><strong>Summary:</strong> Gemiddelde score (groot getal) + sterren + totaal aantal</li>
+        <li><strong>Distribution bars:</strong> Visuele weergave van 5-1 star verdeling</li>
+        <li><strong>Review list:</strong> Individuele reviews met avatar, sterren, tekst, helpful voting</li>
+      </ul>
+
+      <h3>STEP 2: Wanneer Gebruiken?</h3>
+      <ul>
+        <li>✅ <strong>Product pages:</strong> Onder product tabs (standaard "Reviews" tab)</li>
+        <li>✅ <strong>Service pages:</strong> Behandeling/dienst reviews</li>
+        <li>❌ <strong>NIET op homepage</strong> — gebruik B-38 (Testimonials) voor algemene social proof</li>
+        <li>❌ <strong>NIET op cart/checkout</strong> — te veel distraction</li>
+      </ul>
+
+      <h3>STEP 3: Design Tokens</h3>
+      <p><strong>Kleuren:</strong></p>
+      <ul>
+        <li>Sterren: <code>--amber</code> (#F59E0B) + fill</li>
+        <li>Distribution bars: <code>--grey</code> background, <code>--amber</code> fill</li>
+        <li>Verified badge: <code>--green-light</code> bg + <code>#166534</code> text</li>
+        <li>Avatar: <code>--teal-glow</code> bg + <code>--teal</code> text</li>
+      </ul>
+      <p><strong>Layout:</strong></p>
+      <ul>
+        <li>Summary grid: 220px (score) + 1fr (distribution)</li>
+        <li>Distribution bar: 10px height, 5px border-radius</li>
+        <li>Review padding: 24px 0, border-bottom 1px grey</li>
+      </ul>
+
+      <h3>STEP 4: Props & Configuratie</h3>
+      <pre>
+{
+  slug: 'reviews-widget',
+  fields: [
+    { name: 'productId', type: 'relationship', relationTo: 'products' },
+    { name: 'averageRating', type: 'number', admin: { readOnly: true } },
+    { name: 'totalReviews', type: 'number', admin: { readOnly: true } },
+    {
+      name: 'distribution',
+      type: 'group',
+      fields: [
+        { name: 'fiveStar', type: 'number', defaultValue: 0 },
+        { name: 'fourStar', type: 'number', defaultValue: 0 },
+        { name: 'threeStar', type: 'number', defaultValue: 0 },
+        { name: 'twoStar', type: 'number', defaultValue: 0 },
+        { name: 'oneStar', type: 'number', defaultValue: 0 }
+      ]
+    },
+    {
+      name: 'reviews',
+      type: 'array',
+      fields: [
+        { name: 'authorName', type: 'text', required: true },
+        { name: 'rating', type: 'number', min: 1, max: 5, required: true },
+        { name: 'reviewText', type: 'textarea', required: true },
+        { name: 'verified', type: 'checkbox', defaultValue: false },
+        { name: 'helpfulYes', type: 'number', defaultValue: 0 },
+        { name: 'helpfulNo', type: 'number', defaultValue: 0 },
+        { name: 'createdAt', type: 'date', required: true }
+      ]
+    }
+  ]
+}
+      </pre>
+
+      <h3>STEP 5: Layout Rules</h3>
+      <ul>
+        <li><strong>Summary grid:</strong> 220px fixed (score) + 1fr fluid (bars) → stack op mobile</li>
+        <li><strong>Distribution bars:</strong> Flex row (label 50px, bar flex-1, count 54px)</li>
+        <li><strong>Bar fill:</strong> Dynamic width via inline style <code>style="width: {percentage}%"</code></li>
+        <li><strong>Reviews:</strong> Max 5 zichtbaar, rest via "Load more" button</li>
+        <li><strong>Sorting:</strong> Dropdown (Most helpful, Newest, Highest rating, Lowest rating)</li>
+      </ul>
+
+      <h3>STEP 6: Accessibility</h3>
+      <ul>
+        <li>✅ ARIA: <code>role="region" aria-label="Customer reviews"</code></li>
+        <li>✅ Rating: <code>aria-label="Rated 5 out of 5 stars"</code></li>
+        <li>✅ Verified badge: <code>aria-label="Verified purchase"</code></li>
+        <li>✅ Helpful buttons: <code>aria-label="Mark review as helpful"</code></li>
+        <li>✅ Distribution bars: <code>aria-label="78% of reviews are 5 stars"</code></li>
+      </ul>
+
+      <h3>STEP 7: Implementation Notes</h3>
+      <h4>Average Score Calculation:</h4>
+      <pre>
+const calculateAverage = (distribution) => {
+  const { fiveStar, fourStar, threeStar, twoStar, oneStar } = distribution;
+  const total = fiveStar + fourStar + threeStar + twoStar + oneStar;
+  const sum = (fiveStar * 5) + (fourStar * 4) + (threeStar * 3) + (twoStar * 2) + (oneStar * 1);
+  return (sum / total).toFixed(1);
+};
+      </pre>
+
+      <h4>Distribution Bar Percentage:</h4>
+      <pre>
+const getPercentage = (count, total) => {
+  return ((count / total) * 100).toFixed(1);
+};
+
+// Usage:
+&lt;div className="distribution-fill"
+     style={{ width: `${getPercentage(fiveStar, totalReviews)}%` }} /&gt;
+      </pre>
+
+      <h4>Helpful Voting (Optimistic UI):</h4>
+      <pre>
+const handleHelpfulVote = async (reviewId, voteType) => {
+  // Optimistic update
+  setReviews(prev => prev.map(r =>
+    r.id === reviewId
+      ? { ...r, [voteType]: r[voteType] + 1 }
+      : r
+  ));
+
+  // API call
+  await fetch(`/api/reviews/${reviewId}/vote`, {
+    method: 'POST',
+    body: JSON.stringify({ vote: voteType })
+  });
+};
+      </pre>
+
+      <div class="warning-box">
+        <p><strong>⚠️ Let op:</strong> Reviews Widget kan zwaar zijn bij 100+ reviews. Implementeer pagination (5-10 per pagina) of lazy loading voor performance.</p>
+      </div>
+
+      <h3>STEP 8: Varianten & Gerelateerde Components</h3>
+      <p><strong>Gerelateerde blokken:</strong></p>
+      <ul>
+        <li><strong>B-38: Testimonials</strong> — Algemene klantverhalen (homepage)</li>
+        <li><strong>C10: Review Widget</strong> — Vergelijkbaar component (legacy)</li>
+      </ul>
+
+      <p><strong>Extra features:</strong></p>
+      <ul>
+        <li>Filter op rating (bijv. alleen 5-star reviews)</li>
+        <li>Search binnen reviews</li>
+        <li>Sort opties (helpful, newest, rating)</li>
+        <li>Photo reviews (upload klantfoto's bij review)</li>
+        <li>Response from owner (admin reply op reviews)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ========================================
+       B-40: TRUST SIGNALS
+       ======================================== -->
+  <div class="section" id="b40">
+    <h2 class="section-title">
+      <i data-lucide="shield-check"></i>
+      B-40: Trust Signals
+    </h2>
+
+    <div class="block-preview">
+      <div class="preview-label">Live Preview — 2 Varianten</div>
+
+      <!-- Variant Tabs -->
+      <div class="variant-tabs">
+        <button class="variant-tab active" onclick="switchVariant(this, 'b40-v1')">Variant 1: Icon Row</button>
+        <button class="variant-tab" onclick="switchVariant(this, 'b40-v2')">Variant 2: Card Layout</button>
+      </div>
+
+      <!-- Variant 1: Icon Row -->
+      <div id="b40-v1" class="variant-content active">
+        <div class="trust-signals">
+          <div class="trust-signal">
+            <i data-lucide="shield-check" class="trust-icon"></i>
+            <div class="trust-text">SSL beveiligde<br>betaling</div>
+          </div>
+
+          <div class="trust-signal">
+            <i data-lucide="rotate-ccw" class="trust-icon"></i>
+            <div class="trust-text">14 dagen<br>retourrecht</div>
+          </div>
+
+          <div class="trust-signal">
+            <i data-lucide="truck" class="trust-icon"></i>
+            <div class="trust-text">Gratis verzending<br>vanaf €60</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Variant 2: Card Layout -->
+      <div id="b40-v2" class="variant-content">
+        <div class="trust-signals-card">
+          <div class="trust-card">
+            <i data-lucide="shield-check" class="trust-card-icon"></i>
+            <div class="trust-card-title">Veilig betalen</div>
+            <div class="trust-card-text">
+              SSL beveiligde checkout met iDEAL, creditcard en PayPal
+            </div>
+          </div>
+
+          <div class="trust-card">
+            <i data-lucide="rotate-ccw" class="trust-card-icon"></i>
+            <div class="trust-card-title">14 dagen bedenktijd</div>
+            <div class="trust-card-text">
+              Niet tevreden? Retourneer eenvoudig binnen 14 dagen
+            </div>
+          </div>
+
+          <div class="trust-card">
+            <i data-lucide="truck" class="trust-card-icon"></i>
+            <div class="trust-card-title">Snelle levering</div>
+            <div class="trust-card-text">
+              Vandaag voor 16:00 besteld, morgen gratis in huis
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8-Step Documentation for B-40 -->
+    <div class="docs-section">
+      <h2><i data-lucide="book-open"></i> B-40: Trust Signals — Complete Documentatie</h2>
+
+      <h3>STEP 1: Component Overzicht</h3>
+      <p><strong>Doel:</strong> USPs en vertrouwensindicatoren tonen om conversie te verhogen.</p>
+      <p><strong>Varianten:</strong></p>
+      <ul>
+        <li><strong>Variant 1: Icon Row</strong> — Compacte horizontale rij (footer, product pages)</li>
+        <li><strong>Variant 2: Card Layout</strong> — Uitgebreid met tekst uitleg (homepage, checkout)</li>
+      </ul>
+
+      <h3>STEP 2: Wanneer Gebruiken?</h3>
+      <ul>
+        <li>✅ <strong>Product pages:</strong> Onder add-to-cart button (variant 1)</li>
+        <li>✅ <strong>Cart page:</strong> Boven order summary (variant 1)</li>
+        <li>✅ <strong>Checkout:</strong> Sidebar naast formulier (variant 2)</li>
+        <li>✅ <strong>Homepage:</strong> Onder hero section (variant 2)</li>
+        <li>✅ <strong>Footer:</strong> Boven copyright bar (variant 1)</li>
+      </ul>
+
+      <h3>STEP 3: Design Tokens</h3>
+      <p><strong>Kleuren:</strong></p>
+      <ul>
+        <li>Icons: <code>--grey-mid</code> (row) of <code>--teal</code> (cards)</li>
+        <li>Text: <code>--grey-dark</code> (body)</li>
+        <li>Card hover: border <code>--teal</code> + shadow-md</li>
+      </ul>
+      <p><strong>Layout:</strong></p>
+      <ul>
+        <li>Row: flex gap 64px, justify-center</li>
+        <li>Cards: grid 3-col (repeat(3, 1fr)), gap 20px</li>
+        <li>Icons: 52px (row), 48px (cards)</li>
+      </ul>
+
+      <h3>STEP 4: Props & Configuratie</h3>
+      <pre>
+{
+  slug: 'trust-signals',
+  fields: [
+    {
+      name: 'variant',
+      type: 'select',
+      options: ['row', 'card'],
+      defaultValue: 'row'
+    },
+    {
+      name: 'signals',
+      type: 'array',
+      minRows: 3,
+      maxRows: 6,
+      fields: [
+        { name: 'icon', type: 'select', options: ['shield-check', 'rotate-ccw', 'truck', 'lock', 'award', 'phone', 'clock', 'heart'] },
+        { name: 'title', type: 'text', required: true },
+        { name: 'description', type: 'textarea', admin: { condition: (data) => data.variant === 'card' } }
+      ]
+    }
+  ]
+}
+      </pre>
+
+      <h3>STEP 5: Layout Rules</h3>
+      <ul>
+        <li><strong>Row variant:</strong> Flexbox, gap 64px → stack verticaal (gap 32px) op mobile</li>
+        <li><strong>Card variant:</strong> Grid 3-col → 1-col op mobile (&lt;900px)</li>
+        <li><strong>Max signals:</strong> 3-4 voor row, 3-6 voor cards</li>
+        <li><strong>Icon consistency:</strong> Gebruik dezelfde Lucide icon set (shield-check, truck, rotate-ccw, lock, award, phone)</li>
+      </ul>
+
+      <h3>STEP 6: Accessibility</h3>
+      <ul>
+        <li>✅ ARIA: <code>role="list"</code> op container, <code>role="listitem"</code> per signal</li>
+        <li>✅ Icon decoratief: <code>aria-hidden="true"</code> (tekst is voldoende)</li>
+        <li>✅ Card links: Maak gehele card clickable met <code>cursor: pointer</code> + <code>tabindex="0"</code></li>
+      </ul>
+
+      <h3>STEP 7: Implementation Notes</h3>
+      <h4>Dynamic Icon Rendering:</h4>
+      <pre>
+const iconMap = {
+  'shield-check': ShieldCheck,
+  'rotate-ccw': RotateCcw,
+  'truck': Truck,
+  'lock': Lock,
+  'award': Award,
+  'phone': Phone,
+  'clock': Clock,
+  'heart': Heart
+};
+
+const TrustSignal = ({ icon, title, description }) => {
+  const Icon = iconMap[icon] || ShieldCheck;
+
+  return (
+    &lt;div className="trust-signal"&gt;
+      &lt;Icon className="trust-icon" /&gt;
+      &lt;div className="trust-text"&gt;{title}&lt;/div&gt;
+      {description && &lt;p&gt;{description}&lt;/p&gt;}
+    &lt;/div&gt;
+  );
+};
+      </pre>
+
+      <h4>Responsive Stacking:</h4>
+      <pre>
+// CSS Media Query
+@media (max-width: 900px) {
+  .trust-signals {
+    flex-direction: column;
+    gap: 32px;
+    text-align: center;
+  }
+
+  .trust-signals-card {
+    grid-template-columns: 1fr;
+  }
+}
+      </pre>
+
+      <div class="info-box">
+        <p><strong>💡 Best Practices:</strong> Kies trust signals die relevant zijn voor je doelgroep. B2B: ISO certificering, AVG compliance. B2C: Gratis verzending, retourrecht.</p>
+      </div>
+
+      <h3>STEP 8: Varianten & Gerelateerde Components</h3>
+      <p><strong>Gerelateerde blokken:</strong></p>
+      <ul>
+        <li><strong>C9: Trust Signals</strong> — Vergelijkbaar component (legacy, EC09)</li>
+        <li><strong>B-41: Social Proof Banner</strong> — Live activiteit banners</li>
+      </ul>
+
+      <p><strong>Veelgebruikte trust signals:</strong></p>
+      <ul>
+        <li><strong>Verzending:</strong> Gratis verzending, volgende dag levering, track & trace</li>
+        <li><strong>Retour:</strong> 14/30 dagen bedenktijd, gratis retour, geen vragen</li>
+        <li><strong>Betaling:</strong> SSL veilig, iDEAL/creditcard, achteraf betalen</li>
+        <li><strong>Certificering:</strong> ISO, AVG/GDPR, Thuiswinkel Waarborg</li>
+        <li><strong>Service:</strong> 24/7 klantenservice, live chat, nederlandstalig</li>
+        <li><strong>Garantie:</strong> 2 jaar garantie, lifetime support, tevredenheidsgarantie</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ========================================
+       B-41: SOCIAL PROOF BANNER
+       ======================================== -->
+  <div class="section" id="b41">
+    <h2 class="section-title">
+      <i data-lucide="eye"></i>
+      B-41: Social Proof Banner
+    </h2>
+
+    <div class="block-preview">
+      <div class="preview-label">Live Preview — Real-time Activity Banners</div>
+
+      <!-- Blue: Viewing -->
+      <div class="social-proof-banner">
+        <i data-lucide="eye" class="icon"></i>
+        <span class="social-proof-text">
+          <strong>18 mensen</strong> bekijken dit product nu
+        </span>
+      </div>
+
+      <!-- Coral: Sales -->
+      <div class="social-proof-banner fire">
+        <i data-lucide="flame" class="icon"></i>
+        <span class="social-proof-text social-proof-pulse">
+          <strong>37 verkocht</strong> in de afgelopen 24 uur
+        </span>
+      </div>
+
+      <!-- Purple: Cart -->
+      <div class="social-proof-banner purple">
+        <i data-lucide="shopping-cart" class="icon"></i>
+        <span class="social-proof-text">
+          <strong>12 mensen</strong> hebben dit in winkelwagen
+        </span>
+      </div>
+
+      <!-- Green: Stock -->
+      <div class="social-proof-banner green">
+        <i data-lucide="package" class="icon"></i>
+        <span class="social-proof-text">
+          <strong>Nog 8 stuks</strong> op voorraad — bestel snel!
+        </span>
+      </div>
+    </div>
+
+    <!-- 8-Step Documentation for B-41 -->
+    <div class="docs-section">
+      <h2><i data-lucide="book-open"></i> B-41: Social Proof Banner — Complete Documentatie</h2>
+
+      <h3>STEP 1: Component Overzicht</h3>
+      <p><strong>Doel:</strong> Live activiteit tonen om urgentie en FOMO (fear of missing out) te creëren.</p>
+      <p><strong>Types:</strong></p>
+      <ul>
+        <li><strong>Viewing:</strong> Aantal bezoekers op product (blue bg)</li>
+        <li><strong>Sales:</strong> Verkopen laatste 24u (coral bg, pulse animation)</li>
+        <li><strong>Cart:</strong> Product in winkelwagentjes (purple bg)</li>
+        <li><strong>Stock:</strong> Beperkte voorraad (green bg)</li>
+      </ul>
+
+      <h3>STEP 2: Wanneer Gebruiken?</h3>
+      <ul>
+        <li>✅ <strong>Product pages:</strong> Boven fold, direct zichtbaar bij product info</li>
+        <li>✅ <strong>Quick view modal:</strong> Onder product naam</li>
+        <li>❌ <strong>NIET overdrijven:</strong> Max 1-2 banners tegelijk (anders spammy)</li>
+        <li>❌ <strong>NIET fake data:</strong> Gebruik echte real-time stats (Websockets, polling API)</li>
+      </ul>
+
+      <h3>STEP 3: Design Tokens</h3>
+      <p><strong>Kleuren per type:</strong></p>
+      <ul>
+        <li><strong>Viewing (blue):</strong> <code>--blue-light</code> bg (#E3F2FD) + <code>#1565C0</code> text</li>
+        <li><strong>Sales (coral):</strong> <code>--coral-light</code> bg (#FFF0F0) + <code>#DC2626</code> text</li>
+        <li><strong>Cart (purple):</strong> <code>--purple-light</code> bg (#EDE9FE) + <code>#6D28D9</code> text</li>
+        <li><strong>Stock (green):</strong> <code>--green-light</code> bg (#E8F5E9) + <code>#166534</code> text</li>
+      </ul>
+      <p><strong>Layout:</strong></p>
+      <ul>
+        <li>Padding: 14px 20px</li>
+        <li>Border-radius: 8px (--radius-sm)</li>
+        <li>Border: 1px solid (lighter shade of bg color)</li>
+        <li>Icon: 22px, flex-shrink: 0</li>
+        <li>Gap: 12px between icon and text</li>
+      </ul>
+
+      <h3>STEP 4: Props & Configuratie</h3>
+      <pre>
+{
+  slug: 'social-proof-banner',
+  fields: [
+    {
+      name: 'type',
+      type: 'select',
+      options: ['viewing', 'sales', 'cart', 'stock'],
+      required: true
+    },
+    {
+      name: 'count',
+      type: 'number',
+      required: true,
+      admin: { description: 'Dynamic value — updates real-time via API' }
+    },
+    {
+      name: 'message',
+      type: 'text',
+      admin: {
+        description: 'Use {count} placeholder for dynamic number',
+        placeholder: 'bijv: {count} mensen bekijken dit nu'
+      }
+    },
+    {
+      name: 'enablePulse',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: { description: 'Pulse animation voor extra urgentie (sales type)' }
+    },
+    {
+      name: 'updateInterval',
+      type: 'number',
+      defaultValue: 30,
+      admin: { description: 'Refresh interval in seconden (30-120)' }
+    }
+  ]
+}
+      </pre>
+
+      <h3>STEP 5: Layout Rules</h3>
+      <ul>
+        <li><strong>Position:</strong> Sticky onder product naam/rating (z-index: 50)</li>
+        <li><strong>Width:</strong> Full width van content area (max-width: 100%)</li>
+        <li><strong>Stack multiple:</strong> Vertical gap 8px tussen banners</li>
+        <li><strong>Mobile:</strong> Font-size 13px (vs 14px desktop), smaller padding (12px 16px)</li>
+      </ul>
+
+      <h3>STEP 6: Accessibility</h3>
+      <ul>
+        <li>✅ ARIA: <code>role="status" aria-live="polite"</code> voor real-time updates</li>
+        <li>✅ Icon: <code>aria-hidden="true"</code> (decoratief)</li>
+        <li>✅ Strong tag: Semantisch belangrijke getallen <code>&lt;strong&gt;18 mensen&lt;/strong&gt;</code></li>
+        <li>✅ Screen reader: Lees "18 mensen bekijken dit product nu" (zonder "pulse" animation)</li>
+      </ul>
+
+      <h3>STEP 7: Implementation Notes</h3>
+      <h4>Real-time Data Fetching (Polling):</h4>
+      <pre>
+const [viewerCount, setViewerCount] = useState(0);
+
+useEffect(() => {
+  const fetchViewers = async () => {
+    const res = await fetch(`/api/products/${productId}/viewers`);
+    const data = await res.json();
+    setViewerCount(data.count);
+  };
+
+  // Initial fetch
+  fetchViewers();
+
+  // Poll every 30 seconds
+  const interval = setInterval(fetchViewers, 30000);
+
+  return () => clearInterval(interval);
+}, [productId]);
+      </pre>
+
+      <h4>Websocket Alternative (Real-time):</h4>
+      <pre>
+useEffect(() => {
+  const ws = new WebSocket('wss://api.example.com/live-stats');
+
+  ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    if (data.productId === productId) {
+      setViewerCount(data.viewers);
+    }
+  };
+
+  return () => ws.close();
+}, [productId]);
+      </pre>
+
+      <h4>Pulse Animation:</h4>
+      <pre>
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.social-proof-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+      </pre>
+
+      <div class="warning-box">
+        <p><strong>⚠️ Privacy Alert:</strong> Zorg dat je GDPR-compliant bent. Toon alleen aggregated data, geen individuele gebruikers. Geef optie om tracking uit te zetten.</p>
+      </div>
+
+      <h3>STEP 8: Varianten & Gerelateerde Components</h3>
+      <p><strong>Gerelateerde blokken:</strong></p>
+      <ul>
+        <li><strong>B-40: Trust Signals</strong> — Statische USPs (geen real-time)</li>
+        <li><strong>C8: BackInStock</strong> — Alternatief voor out-of-stock products</li>
+        <li><strong>EC04: StockIndicator</strong> — Stock status dots (ok/low/out)</li>
+      </ul>
+
+      <p><strong>Extra varianten:</strong></p>
+      <ul>
+        <li><strong>Recently viewed:</strong> "Laatst bekeken door 42 bezoekers" (cookie-based)</li>
+        <li><strong>Reviews surge:</strong> "14 nieuwe reviews deze week"</li>
+        <li><strong>Delivery countdown:</strong> "Bestel binnen 4u 23m voor levering morgen"</li>
+        <li><strong>Location-based:</strong> "3 mensen uit Amsterdam bekijken dit nu"</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ========================================
+       B-42: CUSTOMER LOGO BAR
+       ======================================== -->
+  <div class="section" id="b42">
+    <h2 class="section-title">
+      <i data-lucide="award"></i>
+      B-42: Customer Logo Bar
+    </h2>
+
+    <div class="block-preview">
+      <div class="preview-label">Live Preview — Infinite Scroll Logo Bar</div>
+
+      <div class="logo-bar">
+        <div class="logo-bar-heading">
+          Vertrouwd door 2.500+ zorgprofessionals
+        </div>
+
+        <div class="logo-scroll-wrapper">
+          <div class="logo-scroll">
+            <!-- First set -->
+            <div class="logo-item">🏥</div>
+            <div class="logo-item">🩺</div>
+            <div class="logo-item">⚕️</div>
+            <div class="logo-item">🦷</div>
+            <div class="logo-item">💉</div>
+            <div class="logo-item">🏃</div>
+            <div class="logo-item">🤰</div>
+            <div class="logo-item">👶</div>
+
+            <!-- Duplicate for seamless loop -->
+            <div class="logo-item">🏥</div>
+            <div class="logo-item">🩺</div>
+            <div class="logo-item">⚕️</div>
+            <div class="logo-item">🦷</div>
+            <div class="logo-item">💉</div>
+            <div class="logo-item">🏃</div>
+            <div class="logo-item">🤰</div>
+            <div class="logo-item">👶</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8-Step Documentation for B-42 -->
+    <div class="docs-section">
+      <h2><i data-lucide="book-open"></i> B-42: Customer Logo Bar — Complete Documentatie</h2>
+
+      <h3>STEP 1: Component Overzicht</h3>
+      <p><strong>Doel:</strong> Logo's van klanten/partners tonen als sociale bewijs (social proof).</p>
+      <p><strong>Features:</strong></p>
+      <ul>
+        <li>Infinite scroll animatie (smooth loop)</li>
+        <li>Grayscale filter (hover → color)</li>
+        <li>Pause on hover</li>
+        <li>Responsive (8 logos → 6 → 4 op mobile)</li>
+      </ul>
+
+      <h3>STEP 2: Wanneer Gebruiken?</h3>
+      <ul>
+        <li>✅ <strong>Homepage:</strong> Onder hero of boven testimonials</li>
+        <li>✅ <strong>About page:</strong> "Onze klanten" sectie</li>
+        <li>✅ <strong>Pricing page:</strong> "Vertrouwd door deze bedrijven"</li>
+        <li>✅ <strong>Landing pages:</strong> Credibility boost voor acquisitie</li>
+      </ul>
+
+      <h3>STEP 3: Design Tokens</h3>
+      <p><strong>Kleuren:</strong></p>
+      <ul>
+        <li>Background: <code>white</code> met border top/bottom <code>--grey</code></li>
+        <li>Heading: <code>--grey-mid</code> (#94A3B8)</li>
+        <li>Logos: grayscale(1) opacity(0.4) → grayscale(0) opacity(1) on hover</li>
+      </ul>
+      <p><strong>Layout:</strong></p>
+      <ul>
+        <li>Padding: 56px 0 (vertical spacing)</li>
+        <li>Logo size: 140px width × 70px height (desktop), 100px × 50px (mobile)</li>
+        <li>Gap: 80px (desktop), 48px (mobile)</li>
+        <li>Animation: 40s linear infinite scroll</li>
+      </ul>
+
+      <h3>STEP 4: Props & Configuratie</h3>
+      <pre>
+{
+  slug: 'logo-bar',
+  fields: [
+    {
+      name: 'heading',
+      type: 'text',
+      defaultValue: 'Vertrouwd door meer dan X klanten'
+    },
+    {
+      name: 'logos',
+      type: 'array',
+      minRows: 6,
+      maxRows: 16,
+      fields: [
+        { name: 'logoImage', type: 'upload', relationTo: 'media', required: true },
+        { name: 'companyName', type: 'text', required: true },
+        { name: 'link', type: 'text', admin: { description: 'Optional: link naar klant case study' } }
+      ]
+    },
+    {
+      name: 'animationSpeed',
+      type: 'select',
+      options: ['slow', 'normal', 'fast'],
+      defaultValue: 'normal',
+      admin: { description: 'Scroll speed: slow (60s), normal (40s), fast (30s)' }
+    }
+  ]
+}
+      </pre>
+
+      <h3>STEP 5: Layout Rules</h3>
+      <ul>
+        <li><strong>Seamless loop:</strong> Duplicate logo set (2x in HTML) voor infinite scroll zonder jump</li>
+        <li><strong>Width calculation:</strong> <code>(logoWidth + gap) × logoCount = total width</code></li>
+        <li><strong>Animation:</strong> <code>translateX(0) → translateX(-50%)</code> (50% = single set width)</li>
+        <li><strong>Overflow:</strong> <code>overflow: hidden</code> op wrapper, <code>display: flex</code> op scroll container</li>
+      </ul>
+
+      <h3>STEP 6: Accessibility</h3>
+      <ul>
+        <li>✅ ARIA: <code>role="list"</code> op logo-scroll, <code>role="listitem"</code> per logo</li>
+        <li>✅ Alt text: <code>alt="[Company Name] logo"</code></li>
+        <li>✅ Reduced motion: <code>@media (prefers-reduced-motion: reduce)</code> → disable animation</li>
+        <li>✅ Focus state: Outline op hover/focus voor keyboard navigation</li>
+      </ul>
+
+      <h3>STEP 7: Implementation Notes</h3>
+      <h4>Infinite Scroll Animation:</h4>
+      <pre>
+.logo-scroll {
+  display: flex;
+  gap: 80px;
+  animation: scroll 40s linear infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.logo-scroll:hover {
+  animation-play-state: paused;
+}
+      </pre>
+
+      <h4>React Component:</h4>
+      <pre>
+export const LogoBar = ({ heading, logos, animationSpeed }) => {
+  const speedMap = { slow: 60, normal: 40, fast: 30 };
+  const duration = speedMap[animationSpeed];
+
+  return (
+    &lt;div className="logo-bar"&gt;
+      &lt;div className="logo-bar-heading"&gt;{heading}&lt;/div&gt;
+      &lt;div className="logo-scroll-wrapper"&gt;
+        &lt;div
+          className="logo-scroll"
+          style={{ animationDuration: `${duration}s` }}
+        &gt;
+          {/* Original set */}
+          {logos.map((logo, i) => (
+            &lt;LogoItem key={i} {...logo} /&gt;
+          ))}
+          {/* Duplicate for seamless loop */}
+          {logos.map((logo, i) => (
+            &lt;LogoItem key={`dup-${i}`} {...logo} /&gt;
+          ))}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+      </pre>
+
+      <h4>Responsive Logo Count:</h4>
+      <pre>
+// Show 8 logos on desktop, 6 on tablet, 4 on mobile
+@media (max-width: 1200px) {
+  .logo-item:nth-child(n+7) { display: none; }
+}
+
+@media (max-width: 768px) {
+  .logo-item:nth-child(n+5) { display: none; }
+}
+      </pre>
+
+      <div class="info-box">
+        <p><strong>💡 Performance Tip:</strong> Use <code>will-change: transform</code> op .logo-scroll voor GPU acceleration. Remove after animation starts met JS.</p>
+      </div>
+
+      <h3>STEP 8: Varianten & Gerelateerde Components</h3>
+      <p><strong>Gerelateerde blokken:</strong></p>
+      <ul>
+        <li><strong>B-43: Case Studies</strong> — Uitgebreide klant verhalen (na logo bar)</li>
+        <li><strong>B-38: Testimonials</strong> — Klant quotes (combineert goed met logo bar)</li>
+      </ul>
+
+      <p><strong>Alternatieve layouts:</strong></p>
+      <ul>
+        <li><strong>Static grid:</strong> 2-4 rijen × 4-6 kolommen, no animation (simple display)</li>
+        <li><strong>Categorized:</strong> Group logos per industry/vertical</li>
+        <li><strong>Marquee plugin:</strong> Use library like react-fast-marquee voor advanced features</li>
+        <li><strong>Vertical scroll:</strong> Alternatieve richting (top → bottom)</li>
+      </ul>
+
+      <p><strong>Best practices:</strong></p>
+      <ul>
+        <li>Min 8 logos voor smooth loop effect</li>
+        <li>SVG format voor crisp scaling</li>
+        <li>Consistent size/aspect ratio per logo</li>
+        <li>Permission van klanten om logo te gebruiken</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ========================================
+       B-43: CASE STUDY GRID
+       ======================================== -->
+  <div class="section" id="b43">
+    <h2 class="section-title">
+      <i data-lucide="briefcase"></i>
+      B-43: Case Study Grid
+    </h2>
+
+    <div class="block-preview">
+      <div class="preview-label">Live Preview — 2 Varianten</div>
+
+      <!-- Variant Tabs -->
+      <div class="variant-tabs">
+        <button class="variant-tab active" onclick="switchVariant(this, 'b43-v1')">Variant 1: Grid Layout</button>
+        <button class="variant-tab" onclick="switchVariant(this, 'b43-v2')">Variant 2: Featured Case</button>
+      </div>
+
+      <!-- Variant 1: Grid Layout (2 columns) -->
+      <div id="b43-v1" class="variant-content active">
+        <div class="case-study-grid">
+          <!-- Case 1 -->
+          <a href="#" class="case-study-card">
+            <div class="case-study-image" style="background: linear-gradient(135deg, var(--teal-glow), var(--grey-light));">
+              <div class="case-study-badge">B2B E-COMMERCE</div>
+              🏥
+            </div>
+            <div class="case-study-content">
+              <div class="case-study-client">
+                <div class="case-study-logo">🏥</div>
+                <div class="case-study-client-info">
+                  <div class="case-study-client-name">Medisch Centrum Amsterdam</div>
+                  <div class="case-study-client-industry">Gezondheidszorg</div>
+                </div>
+              </div>
+              <h3 class="case-study-title">
+                20% kostenbesparing door geoptimaliseerde inkoop
+              </h3>
+              <p class="case-study-description">
+                Door slim gebruik van staffelkortingen en automatische bestellijsten heeft MCA hun jaarlijkse inkoopkosten met 20% verlaagd bij gelijkblijvende kwaliteit.
+              </p>
+              <div class="case-study-results">
+                <div class="case-study-stat">
+                  <div class="case-study-stat-number">20%</div>
+                  <div class="case-study-stat-label">Besparing</div>
+                </div>
+                <div class="case-study-stat">
+                  <div class="case-study-stat-number">4u</div>
+                  <div class="case-study-stat-label">Per week</div>
+                </div>
+                <div class="case-study-stat">
+                  <div class="case-study-stat-number">98%</div>
+                  <div class="case-study-stat-label">Tevredenheid</div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Case 2 -->
+          <a href="#" class="case-study-card">
+            <div class="case-study-image" style="background: linear-gradient(135deg, var(--purple-light), var(--grey-light));">
+              <div class="case-study-badge">DIGITALISERING</div>
+              🦷
+            </div>
+            <div class="case-study-content">
+              <div class="case-study-client">
+                <div class="case-study-logo">🦷</div>
+                <div class="case-study-client-info">
+                  <div class="case-study-client-name">Tandartspraktijk Utrecht</div>
+                  <div class="case-study-client-industry">Mondzorg</div>
+                </div>
+              </div>
+              <h3 class="case-study-title">
+                Volledig digitale voorraadplanning binnen 6 weken
+              </h3>
+              <p class="case-study-description">
+                Van Excel-chaos naar een compleet geautomatiseerd voorraadsysteem. Real-time inzicht in stock levels en automatische aanvulling bij low-stock alerts.
+              </p>
+              <div class="case-study-results">
+                <div class="case-study-stat">
+                  <div class="case-study-stat-number">6</div>
+                  <div class="case-study-stat-label">Weken setup</div>
+                </div>
+                <div class="case-study-stat">
+                  <div class="case-study-stat-number">0</div>
+                  <div class="case-study-stat-label">Stock-outs</div>
+                </div>
+                <div class="case-study-stat">
+                  <div class="case-study-stat-number">12u</div>
+                  <div class="case-study-stat-label">Bespaart/mnd</div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Variant 2: Featured Case (Full Width) -->
+      <div id="b43-v2" class="variant-content">
+        <div class="case-study-featured">
+          <div class="case-study-image" style="background: linear-gradient(135deg, var(--teal-glow), var(--grey-light));">
+            <div class="case-study-badge">SUCCESS STORY</div>
+            🏃
+          </div>
+          <div class="case-study-content">
+            <div class="case-study-client">
+              <div class="case-study-logo">🏃</div>
+              <div class="case-study-client-info">
+                <div class="case-study-client-name">Fysiotherapie Centrum Rotterdam</div>
+                <div class="case-study-client-industry">Gezondheidszorg • 8 locaties</div>
+              </div>
+            </div>
+            <h3 class="case-study-title">
+              Multi-locatie inkoop gestroomlijnd: van 8 leveranciers naar 1 platform
+            </h3>
+            <p class="case-study-description">
+              FCR had 8 locaties met elk hun eigen leveranciers en inkoopprocessen. Door centralisatie via ons platform bespaart FCR nu maandelijks €4.200 en 20 uur administratie. Elke locatie heeft toegang tot dezelfde producten tegen uniforme prijzen.
+            </p>
+            <div class="case-study-results">
+              <div class="case-study-stat">
+                <div class="case-study-stat-number">€4.2K</div>
+                <div class="case-study-stat-label">Maand besparing</div>
+              </div>
+              <div class="case-study-stat">
+                <div class="case-study-stat-number">20u</div>
+                <div class="case-study-stat-label">Minder admin</div>
+              </div>
+              <div class="case-study-stat">
+                <div class="case-study-stat-number">8</div>
+                <div class="case-study-stat-label">Locaties</div>
+              </div>
+            </div>
+            <a href="#" class="case-study-cta">
+              Lees het volledige verhaal
+              <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8-Step Documentation for B-43 -->
+    <div class="docs-section">
+      <h2><i data-lucide="book-open"></i> B-43: Case Study Grid — Complete Documentatie</h2>
+
+      <h3>STEP 1: Component Overzicht</h3>
+      <p><strong>Doel:</strong> Gedetailleerde klantverhalen met meetbare resultaten tonen.</p>
+      <p><strong>Varianten:</strong></p>
+      <ul>
+        <li><strong>Variant 1: Grid Layout</strong> — 2 kolommen, compact (max 4-6 cases per pagina)</li>
+        <li><strong>Variant 2: Featured Case</strong> — Full-width hero, uitgebreid (1-2 featured stories)</li>
+      </ul>
+
+      <h3>STEP 2: Wanneer Gebruiken?</h3>
+      <ul>
+        <li>✅ <strong>Homepage:</strong> Featured case als hero element</li>
+        <li>✅ <strong>Dedicated case studies page:</strong> Grid met alle verhalen</li>
+        <li>✅ <strong>Industry pages:</strong> Relevante cases per vertical</li>
+        <li>✅ <strong>About page:</strong> "Onze impact" sectie</li>
+      </ul>
+
+      <h3>STEP 3: Design Tokens</h3>
+      <p><strong>Kleuren:</strong></p>
+      <ul>
+        <li>Badge: <code>--teal</code> bg + white text</li>
+        <li>Client logo: <code>--teal-glow</code> bg + 44px size</li>
+        <li>Stats: <code>--teal</code> numbers (#00897B)</li>
+        <li>Hover: border <code>--teal</code> + shadow-lg + translateY(-4px)</li>
+      </ul>
+      <p><strong>Typografie:</strong></p>
+      <ul>
+        <li>Title: 20px (grid), 26px (featured), Plus Jakarta Sans 800</li>
+        <li>Description: 14px (grid), 15px (featured), line-height 1.6</li>
+        <li>Stats: 32px numbers, 11px labels (uppercase)</li>
+      </ul>
+
+      <h3>STEP 4: Props & Configuratie</h3>
+      <pre>
+{
+  slug: 'case-study-grid',
+  fields: [
+    {
+      name: 'variant',
+      type: 'select',
+      options: ['grid', 'featured'],
+      defaultValue: 'grid'
+    },
+    {
+      name: 'caseStudies',
+      type: 'relationship',
+      relationTo: 'case-studies',
+      hasMany: true,
+      maxRows: 6,
+      admin: { description: 'Grid: max 6 cases, Featured: max 1' }
+    }
+  ]
+}
+
+// Separate Case Study Collection:
+{
+  slug: 'case-studies',
+  fields: [
+    { name: 'clientName', type: 'text', required: true },
+    { name: 'clientIndustry', type: 'text', required: true },
+    { name: 'clientLogo', type: 'upload', relationTo: 'media', required: true },
+    { name: 'badge', type: 'text', defaultValue: 'SUCCESS STORY' },
+    { name: 'heroImage', type: 'upload', relationTo: 'media', required: true },
+    { name: 'title', type: 'text', required: true },
+    { name: 'excerpt', type: 'textarea', maxLength: 200 },
+    { name: 'fullStory', type: 'richText' },
+    {
+      name: 'results',
+      type: 'array',
+      minRows: 2,
+      maxRows: 4,
+      fields: [
+        { name: 'number', type: 'text', required: true },
+        { name: 'label', type: 'text', required: true }
+      ]
+    },
+    { name: 'publishedDate', type: 'date' },
+    { name: 'featured', type: 'checkbox', defaultValue: false }
+  ]
+}
+      </pre>
+
+      <h3>STEP 5: Layout Rules</h3>
+      <ul>
+        <li><strong>Grid:</strong> 2 kolommen (repeat(2, 1fr)), gap 32px → 1 kolom op mobile</li>
+        <li><strong>Featured:</strong> 1.2fr (image) + 1fr (content) → stack verticaal op mobile</li>
+        <li><strong>Image aspect:</strong> 16:10 (grid), 4:3 (featured)</li>
+        <li><strong>Stats layout:</strong> Flexbox gap 32px, center aligned</li>
+        <li><strong>Clickable cards:</strong> Hele card is <code>&lt;a&gt;</code> tag (wrap entire card)</li>
+      </ul>
+
+      <h3>STEP 6: Accessibility</h3>
+      <ul>
+        <li>✅ Semantic: <code>&lt;article&gt;</code> voor case study cards</li>
+        <li>✅ ARIA: <code>aria-label="Read full case study"</code> op card link</li>
+        <li>✅ Focus state: <code>outline: 3px solid var(--teal)</code></li>
+        <li>✅ Alt text: <code>alt="[Client Name] success story featured image"</code></li>
+      </ul>
+
+      <h3>STEP 7: Implementation Notes</h3>
+      <h4>Dynamic Stats Rendering:</h4>
+      <pre>
+const CaseStudyStats = ({ results }) => (
+  &lt;div className="case-study-results"&gt;
+    {results.map((stat, i) => (
+      &lt;div key={i} className="case-study-stat"&gt;
+        &lt;div className="case-study-stat-number"&gt;{stat.number}&lt;/div&gt;
+        &lt;div className="case-study-stat-label"&gt;{stat.label}&lt;/div&gt;
+      &lt;/div&gt;
+    ))}
+  &lt;/div&gt;
+);
+      </pre>
+
+      <h4>Featured Case Selection:</h4>
+      <pre>
+// Automatisch select meest recente featured case:
+const featuredCase = caseStudies
+  .filter(c => c.featured)
+  .sort((a, b) => new Date(b.publishedDate) - new Date(a.publishedDate))[0];
+
+// Of via admin panel select met dropdown
+      </pre>
+
+      <h4>Excerpt Truncation:</h4>
+      <pre>
+const truncate = (text, maxLength) => {
+  if (text.length <= maxLength) return text;
+  return text.substring(0, maxLength).trim() + '...';
+};
+
+// Usage:
+&lt;p className="case-study-description"&gt;
+  {truncate(fullStory, 200)}
+&lt;/p&gt;
+      </pre>
+
+      <div class="info-box">
+        <p><strong>💡 Content Tip:</strong> Goede case studies volgen storytelling structuur: Challenge → Solution → Results. Gebruik specifieke getallen (20% besparing, 4u/week) in plaats van vage claims.</p>
+      </div>
+
+      <h3>STEP 8: Varianten & Gerelateerde Components</h3>
+      <p><strong>Gerelateerde blokken:</strong></p>
+      <ul>
+        <li><strong>B-38: Testimonials</strong> — Korte quotes (na case studies)</li>
+        <li><strong>B-42: Logo Bar</strong> — Klant logo's (voor case studies)</li>
+      </ul>
+
+      <p><strong>Extended features:</strong></p>
+      <ul>
+        <li><strong>Video embed:</strong> Client testimonial video in hero image</li>
+        <li><strong>Industry filter:</strong> Filter cases per vertical (zorg, bouw, horeca)</li>
+        <li><strong>Search:</strong> Zoek op keywords binnen case studies</li>
+        <li><strong>Related cases:</strong> "Vergelijkbare success stories" onder full article</li>
+        <li><strong>PDF download:</strong> Case study als downloadable PDF</li>
+      </ul>
+
+      <p><strong>Full case study page structuur:</strong></p>
+      <ol>
+        <li>Hero: Client logo + title + stats</li>
+        <li>Challenge: Probleemsituatie beschrijven</li>
+        <li>Solution: Jouw aanpak + implementatie</li>
+        <li>Results: Meetbare resultaten met getallen</li>
+        <li>Testimonial: Quote van klant</li>
+        <li>Related cases: 2-3 vergelijkbare stories</li>
+        <li>CTA: "Ook dit resultaat behalen?" + contact form</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ========================================
+       FINAL SECTION: COMPLETION MESSAGE
+       ======================================== -->
+  <div class="section" style="text-align: center; padding: 80px 0;">
+    <div style="display: inline-flex; align-items: center; gap: 12px; background: linear-gradient(135deg, var(--teal), var(--teal-light)); padding: 12px 28px; border-radius: 100px; margin-bottom: 24px;">
+      <i data-lucide="check-circle" style="width: 24px; height: 24px; color: white;"></i>
+      <span style="font-size: 14px; font-weight: 800; color: white; text-transform: uppercase; letter-spacing: 0.04em;">Fase 5 Compleet!</span>
+    </div>
+
+    <h2 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 36px; font-weight: 800; color: var(--navy); margin-bottom: 12px;">
+      🎉 Alle 43 Payload Blokken Klaar!
+    </h2>
+
+    <p style="font-size: 16px; color: var(--grey-dark); max-width: 600px; margin: 0 auto 32px;">
+      Fase 5 (Social Proof) compleet met 6 blokken. Je hebt nu een complete bibliotheek van 43 productie-ready Payload CMS blokken!
+    </p>
+
+    <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 48px;">
+      <a href="payload-blocks-fase4-forms.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; background: var(--grey-light); color: var(--navy); border-radius: var(--radius); font-size: 14px; font-weight: 700; text-decoration: none; transition: all var(--transition);">
+        <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i>
+        Terug naar Fase 4
+      </a>
+      <a href="payload-blocks-index.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; background: var(--teal); color: white; border-radius: var(--radius); font-size: 14px; font-weight: 700; text-decoration: none; transition: all var(--transition);">
+        <i data-lucide="grid" style="width: 16px; height: 16px;"></i>
+        Alle Blokken Overzicht
+      </a>
+    </div>
+
+    <!-- Summary Stats -->
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 800px; margin: 0 auto;">
+      <div style="background: white; border: 1px solid var(--grey); border-radius: 16px; padding: 24px; text-align: center;">
+        <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 32px; font-weight: 800; color: var(--teal); margin-bottom: 4px;">43</div>
+        <div style="font-size: 12px; color: var(--grey-mid); font-weight: 600;">Totaal Blokken</div>
+      </div>
+      <div style="background: white; border: 1px solid var(--grey); border-radius: 16px; padding: 24px; text-align: center;">
+        <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 32px; font-weight: 800; color: var(--teal); margin-bottom: 4px;">5</div>
+        <div style="font-size: 12px; color: var(--grey-mid); font-weight: 600;">Fases Compleet</div>
+      </div>
+      <div style="background: white; border: 1px solid var(--grey); border-radius: 16px; padding: 24px; text-align: center;">
+        <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 32px; font-weight: 800; color: var(--teal); margin-bottom: 4px;">100%</div>
+        <div style="font-size: 12px; color: var(--grey-mid); font-weight: 600;">Gedocumenteerd</div>
+      </div>
+      <div style="background: white; border: 1px solid var(--grey); border-radius: 16px; padding: 24px; text-align: center;">
+        <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 32px; font-weight: 800; color: var(--teal); margin-bottom: 4px;">✓</div>
+        <div style="font-size: 12px; color: var(--grey-mid); font-weight: 600;">Production Ready</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- JavaScript -->
+<script>
+  // Initialize Lucide icons
+  lucide.createIcons();
+
+  // Variant Switcher
+  function switchVariant(button, variantId) {
+    // Update tabs
+    const tabs = button.parentElement.querySelectorAll('.variant-tab');
+    tabs.forEach(tab => tab.classList.remove('active'));
+    button.classList.add('active');
+
+    // Update content
+    const contents = button.parentElement.parentElement.querySelectorAll('.variant-content');
+    contents.forEach(content => content.classList.remove('active'));
+    document.getElementById(variantId).classList.add('active');
+
+    // Reinitialize icons
+    lucide.createIcons();
+  }
+
+  // Carousel Scroll
+  function scrollCarousel(carouselId, direction) {
+    const carousel = document.getElementById(carouselId);
+    const scrollAmount = 480 + 24; // item width + gap
+
+    carousel.scrollBy({
+      left: direction * scrollAmount,
+      behavior: 'smooth'
+    });
+
+    // Update dots (simplified)
+    const dots = carousel.parentElement.nextElementSibling?.querySelectorAll('.carousel-dot');
+    if (dots) {
+      const currentIndex = Math.round(carousel.scrollLeft / scrollAmount);
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentIndex);
+      });
+    }
+  }
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -23,7 +23,7 @@ export function ActivityTicker({ items, className = '' }: ActivityTickerProps) {
               className="flex items-center gap-1.5 whitespace-nowrap flex-shrink-0"
             >
               <span className="text-sm">{item.icon}</span>
-              <span className="text-xs text-gray-700">
+              <span className="text-xs text-grey-dark">
                 {parts.length > 1 ? (
                   <>
                     {parts[0]}

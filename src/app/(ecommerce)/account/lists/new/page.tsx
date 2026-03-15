@@ -370,7 +370,7 @@ export default function NewOrderListPage() {
           <button
             type="button"
             onClick={() => router.push('/account/lists')}
-            className="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold transition-all hover:bg-gray-50"
+            className="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold transition-all hover:bg-grey-light"
             style={{
               background: 'white',
               color: COLORS.navy,

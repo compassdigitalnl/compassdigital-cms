@@ -92,7 +92,7 @@ export const StickyAddToCartBar: React.FC<StickyAddToCartBarProps> = ({
   return (
     <div
       className={`
-        sticky-bar fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[300]
+        sticky-bar fixed bottom-0 left-0 right-0 bg-white border-t border-grey-light z-[300]
         transition-transform duration-[350ms] ease-[cubic-bezier(0.4,0,0.2,1)]
         shadow-[0_-4px_20px_rgba(10,22,40,0.08)] py-3
         ${isVisible ? 'translate-y-0' : 'translate-y-full'}
@@ -106,7 +106,7 @@ export const StickyAddToCartBar: React.FC<StickyAddToCartBarProps> = ({
         {/* Product Info */}
         <div className="sb-product flex items-center gap-3 flex-1 min-w-0">
           {/* Thumbnail */}
-          <div className="sb-img w-11 h-11 bg-gray-100 rounded-[10px] flex items-center justify-center flex-shrink-0 overflow-hidden">
+          <div className="sb-img w-11 h-11 bg-grey-light rounded-[10px] flex items-center justify-center flex-shrink-0 overflow-hidden">
             {product.image ? (
               <Image
                 src={product.image}
@@ -126,7 +126,7 @@ export const StickyAddToCartBar: React.FC<StickyAddToCartBarProps> = ({
               {product.name}
             </div>
             {product.meta && (
-              <div className="sb-meta text-xs text-gray-500 hidden sm:block">{product.meta}</div>
+              <div className="sb-meta text-xs text-grey-mid hidden sm:block">{product.meta}</div>
             )}
           </div>
         </div>
@@ -150,7 +150,7 @@ export const StickyAddToCartBar: React.FC<StickyAddToCartBarProps> = ({
                   ${
                     currentVariantId === variant.id
                       ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)] text-[var(--color-primary)]'
-                      : 'border-gray-300 hover:border-[var(--color-primary)]'
+                      : 'border-grey-light hover:border-[var(--color-primary)]'
                   }
                   ${variant.available === false ? 'opacity-40 cursor-not-allowed' : ''}
                 `}

@@ -47,8 +47,8 @@ export function VariantComparisonTable({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-base font-semibold text-gray-900">Compare Variants</h3>
-          <p className="text-sm text-gray-600">
+          <h3 className="text-base font-semibold text-navy">Compare Variants</h3>
+          <p className="text-sm text-grey-dark">
             Select up to {maxCompare} variants to compare side-by-side
           </p>
         </div>
@@ -58,8 +58,8 @@ export function VariantComparisonTable({
       </div>
 
       {/* Variant Selector */}
-      <div className="rounded-lg border-2 border-gray-200 p-4">
-        <div className="mb-3 text-sm font-medium text-gray-700">Select Variants to Compare:</div>
+      <div className="rounded-lg border-2 border-grey-light p-4">
+        <div className="mb-3 text-sm font-medium text-grey-dark">Select Variants to Compare:</div>
         <div className="flex flex-wrap gap-2">
           {availableVariants.map(variant => {
             const isSelected = selectedVariants.includes(variant.value)
@@ -79,7 +79,7 @@ export function VariantComparisonTable({
                   'rounded-lg border-2 px-4 py-2 text-sm font-medium transition-all',
                   isSelected
                     ? 'border-teal bg-teal-50 text-navy'
-                    : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400 hover:bg-gray-50',
+                    : 'border-grey-light bg-white text-grey-dark hover:border-grey-light hover:bg-grey-light',
                   isDisabled && 'cursor-not-allowed opacity-50',
                 )}
               >
@@ -93,11 +93,11 @@ export function VariantComparisonTable({
 
       {/* Comparison Table */}
       {selectedVariants.length > 0 && (
-        <div className="overflow-x-auto rounded-lg border-2 border-gray-200">
+        <div className="overflow-x-auto rounded-lg border-2 border-grey-light">
           <table className="w-full">
             <thead>
-              <tr className="bg-gray-50">
-                <th className="sticky left-0 z-10 border-b-2 border-r-2 border-gray-200 bg-gray-50 px-4 py-3 text-left text-sm font-semibold text-gray-700">
+              <tr className="bg-grey-light">
+                <th className="sticky left-0 z-10 border-b-2 border-r-2 border-grey-light bg-grey-light px-4 py-3 text-left text-sm font-semibold text-grey-dark">
                   Feature
                 </th>
                 {selectedVariants.map(variantValue => {
@@ -105,7 +105,7 @@ export function VariantComparisonTable({
                   return (
                     <th
                       key={variantValue}
-                      className="border-b-2 border-gray-200 px-4 py-3 text-center text-sm font-semibold text-gray-900"
+                      className="border-b-2 border-grey-light px-4 py-3 text-center text-sm font-semibold text-navy"
                     >
                       <div className="flex flex-col items-center gap-1">
                         <span>{variant?.label}</span>
@@ -122,10 +122,10 @@ export function VariantComparisonTable({
                 })}
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-grey-light">
               {/* Price Row */}
-              <tr className="hover:bg-gray-50">
-                <td className="sticky left-0 z-10 border-r-2 border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700">
+              <tr className="hover:bg-grey-light">
+                <td className="sticky left-0 z-10 border-r-2 border-grey-light bg-white px-4 py-3 text-sm font-medium text-grey-dark">
                   Price Modifier
                 </td>
                 {selectedVariants.map(variantValue => {
@@ -139,7 +139,7 @@ export function VariantComparisonTable({
                             ? 'text-coral'
                             : variant?.priceModifier && variant.priceModifier < 0
                               ? 'text-green'
-                              : 'text-gray-600',
+                              : 'text-grey-dark',
                         )}
                       >
                         {variant?.priceModifier !== undefined &&
@@ -154,8 +154,8 @@ export function VariantComparisonTable({
               </tr>
 
               {/* Stock Row */}
-              <tr className="hover:bg-gray-50">
-                <td className="sticky left-0 z-10 border-r-2 border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700">
+              <tr className="hover:bg-grey-light">
+                <td className="sticky left-0 z-10 border-r-2 border-grey-light bg-white px-4 py-3 text-sm font-medium text-grey-dark">
                   Stock Availability
                 </td>
                 {selectedVariants.map(variantValue => {
@@ -171,7 +171,7 @@ export function VariantComparisonTable({
                           'inline-block rounded-full px-3 py-1 text-xs font-medium',
                           hasStock
                             ? isLowStock
-                              ? 'bg-orange-100 text-orange-800'
+                              ? 'bg-amber-50 text-amber-900'
                               : 'bg-green-100 text-green-800'
                             : 'bg-red-100 text-red-800',
                         )}
@@ -191,8 +191,8 @@ export function VariantComparisonTable({
 
               {/* Color Row (if applicable) */}
               {options[0].values?.some(v => v.colorHex) && (
-                <tr className="hover:bg-gray-50">
-                  <td className="sticky left-0 z-10 border-r-2 border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700">
+                <tr className="hover:bg-grey-light">
+                  <td className="sticky left-0 z-10 border-r-2 border-grey-light bg-white px-4 py-3 text-sm font-medium text-grey-dark">
                     Color
                   </td>
                   {selectedVariants.map(variantValue => {
@@ -203,10 +203,10 @@ export function VariantComparisonTable({
                           {variant?.colorHex && (
                             <>
                               <div
-                                className="h-8 w-8 rounded-full border-2 border-gray-300"
+                                className="h-8 w-8 rounded-full border-2 border-grey-light"
                                 style={{ backgroundColor: variant.colorHex }}
                               />
-                              <span className="text-xs text-gray-600">{variant.colorHex}</span>
+                              <span className="text-xs text-grey-dark">{variant.colorHex}</span>
                             </>
                           )}
                         </div>
@@ -217,8 +217,8 @@ export function VariantComparisonTable({
               )}
 
               {/* Status Row */}
-              <tr className="hover:bg-gray-50">
-                <td className="sticky left-0 z-10 border-r-2 border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700">
+              <tr className="hover:bg-grey-light">
+                <td className="sticky left-0 z-10 border-r-2 border-grey-light bg-white px-4 py-3 text-sm font-medium text-grey-dark">
                   Status
                 </td>
                 {selectedVariants.map(variantValue => {
@@ -231,7 +231,7 @@ export function VariantComparisonTable({
                       <span
                         className={cn(
                           'inline-block rounded-full px-3 py-1 text-xs font-medium',
-                          isDisabled ? 'bg-gray-100 text-gray-800' : 'bg-teal-100 text-teal-800',
+                          isDisabled ? 'bg-grey-light text-navy' : 'bg-teal-100 text-teal-800',
                         )}
                       >
                         {isDisabled ? 'Unavailable' : 'Available'}
@@ -243,13 +243,13 @@ export function VariantComparisonTable({
 
               {/* Additional features from other options */}
               {options.slice(1).map(option => (
-                <tr key={option.optionName} className="hover:bg-gray-50">
-                  <td className="sticky left-0 z-10 border-r-2 border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700">
+                <tr key={option.optionName} className="hover:bg-grey-light">
+                  <td className="sticky left-0 z-10 border-r-2 border-grey-light bg-white px-4 py-3 text-sm font-medium text-grey-dark">
                     {option.optionName}
                   </td>
                   {selectedVariants.map(variantValue => (
                     <td key={variantValue} className="px-4 py-3 text-center">
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-grey-dark">
                         {option.values?.[0]?.label || '-'}
                       </span>
                     </td>
@@ -305,9 +305,9 @@ export function VariantComparisonTable({
 
       {/* Empty State */}
       {selectedVariants.length === 0 && (
-        <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-12 text-center">
+        <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-grey-light p-12 text-center">
           <svg
-            className="mb-3 h-12 w-12 text-gray-400"
+            className="mb-3 h-12 w-12 text-grey-mid"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -319,8 +319,8 @@ export function VariantComparisonTable({
               d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
             />
           </svg>
-          <h4 className="text-sm font-medium text-gray-900">No variants selected</h4>
-          <p className="mt-1 text-sm text-gray-600">
+          <h4 className="text-sm font-medium text-navy">No variants selected</h4>
+          <p className="mt-1 text-sm text-grey-dark">
             Select variants above to compare their features side-by-side
           </p>
         </div>

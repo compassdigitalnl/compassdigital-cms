@@ -130,7 +130,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
           <button
             type="button"
             onClick={onResetAll}
-            className="flex items-center gap-2 justify-center w-full py-3.5 text-[13px] font-semibold text-[var(--color-text-muted)] hover:text-red-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:ring-offset-2 rounded-lg"
+            className="flex items-center gap-2 justify-center w-full py-3.5 text-[13px] font-semibold text-[var(--color-text-muted)] hover:text-coral transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-coral/30 focus:ring-offset-2 rounded-lg"
             aria-label="Wis alle filters"
           >
             <XCircle className="w-3.5 h-3.5" />

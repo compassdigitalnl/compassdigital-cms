@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Afrekenen — Plastimed.nl</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    --navy: #0A1628; --navy-light: #121F33;
+    --teal: #00897B; --teal-light: #26A69A; --teal-glow: rgba(0,137,123,0.15); --teal-dark: #00695C;
+    --white: #FAFBFC; --grey: #E8ECF1; --grey-mid: #94A3B8; --grey-dark: #64748B;
+    --green: #00C853; --green-light: #E8F5E9;
+    --coral: #FF6B6B; --coral-light: #FFF0F0;
+    --amber: #F59E0B; --amber-light: #FFF8E1;
+    --bg: #F5F7FA;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--navy); -webkit-font-smoothing:antialiased; }
+  .container { max-width:1240px; margin:0 auto; padding:0 24px; }
+
+  /* ═══ HEADER (simplified for checkout) ═══ */
+  .checkout-header { background:white; border-bottom:1px solid var(--grey); padding:16px 0; }
+  .checkout-header .container { display:flex; align-items:center; justify-content:space-between; }
+  .logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .logo-icon { width:42px; height:42px; background:linear-gradient(135deg,var(--teal),var(--teal-light)); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-size:20px; font-weight:800; font-family:'Plus Jakarta Sans',sans-serif; box-shadow:0 4px 12px rgba(0,137,123,0.3); }
+  .logo-text { font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:22px; color:var(--navy); }
+  .logo-text em { color:var(--teal); font-style:normal; }
+  .secure-badge { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--grey-mid); }
+  .secure-badge i { width:16px; height:16px; color:var(--green); }
+  .back-to-cart { display:flex; align-items:center; gap:6px; color:var(--grey-mid); text-decoration:none; font-size:13px; font-weight:500; transition:color .2s; }
+  .back-to-cart:hover { color:var(--teal); }
+  .back-to-cart i { width:16px; height:16px; }
+
+  /* ═══ PROGRESS STEPS ═══ */
+  .progress-bar { background:white; border-bottom:1px solid var(--grey); padding:20px 0; }
+  .steps { display:flex; align-items:center; justify-content:center; gap:0; max-width:600px; margin:0 auto; }
+  .step { display:flex; align-items:center; gap:10px; }
+  .step-num { width:32px; height:32px; border-radius:50%; border:2px solid var(--grey); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:var(--grey-mid); transition:all .3s; flex-shrink:0; }
+  .step.active .step-num { background:var(--teal); border-color:var(--teal); color:white; }
+  .step.done .step-num { background:var(--green); border-color:var(--green); color:white; }
+  .step-label { font-size:13px; font-weight:600; color:var(--grey-mid); white-space:nowrap; }
+  .step.active .step-label { color:var(--navy); }
+  .step.done .step-label { color:var(--green); }
+  .step-line { width:60px; height:2px; background:var(--grey); margin:0 12px; flex-shrink:0; }
+  .step-line.done { background:var(--green); }
+
+  /* ═══ CHECKOUT LAYOUT ═══ */
+  .checkout-layout { display:grid; grid-template-columns:1fr 400px; gap:32px; padding:32px 0 80px; align-items:start; }
+
+  /* ═══ FORM SECTIONS ═══ */
+  .form-section { background:white; border:1px solid var(--grey); border-radius:16px; padding:28px; margin-bottom:20px; }
+  .form-section-title { font-family:'Plus Jakarta Sans',sans-serif; font-size:18px; font-weight:800; color:var(--navy); margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+  .form-section-title i { width:22px; height:22px; color:var(--teal); }
+  .form-section-title .optional { font-size:12px; color:var(--grey-mid); font-weight:400; font-family:'DM Sans',sans-serif; }
+
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .form-grid.full { grid-template-columns:1fr; }
+  .form-group { display:flex; flex-direction:column; gap:6px; }
+  .form-group.span-2 { grid-column:span 2; }
+  .form-label { font-size:13px; font-weight:600; color:var(--navy); }
+  .form-label .req { color:var(--coral); }
+  .form-input {
+    padding:12px 14px; border:1.5px solid var(--grey); border-radius:10px;
+    font-family:'DM Sans',sans-serif; font-size:14px; color:var(--navy);
+    transition:all .2s; outline:none; background:white;
+  }
+  .form-input:focus { border-color:var(--teal); box-shadow:0 0 0 3px var(--teal-glow); }
+  .form-input::placeholder { color:var(--grey-mid); }
+  select.form-input { appearance:none; background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:36px; cursor:pointer; }
+  textarea.form-input { resize:vertical; min-height:80px; }
+
+  /* Toggle for B2B */
+  .toggle-row { display:flex; align-items:center; gap:12px; padding:14px 18px; background:var(--bg); border-radius:10px; margin-bottom:16px; cursor:pointer; }
+  .toggle-switch { width:44px; height:24px; background:var(--grey); border-radius:12px; position:relative; transition:background .2s; flex-shrink:0; }
+  .toggle-switch::after { content:''; position:absolute; top:3px; left:3px; width:18px; height:18px; background:white; border-radius:50%; transition:transform .2s; box-shadow:0 1px 3px rgba(0,0,0,0.1); }
+  .toggle-row.active .toggle-switch { background:var(--teal); }
+  .toggle-row.active .toggle-switch::after { transform:translateX(20px); }
+  .toggle-label { font-size:14px; font-weight:600; color:var(--navy); }
+  .toggle-sub { font-size:12px; color:var(--grey-mid); font-weight:400; }
+  .b2b-fields { display:none; }
+  .b2b-fields.show { display:grid; }
+
+  /* ═══ DELIVERY OPTIONS ═══ */
+  .delivery-options { display:flex; flex-direction:column; gap:10px; }
+  .delivery-option {
+    display:flex; align-items:center; gap:16px; padding:18px 20px;
+    border:1.5px solid var(--grey); border-radius:12px; cursor:pointer; transition:all .2s;
+  }
+  .delivery-option:hover { border-color:rgba(0,137,123,0.3); background:rgba(0,137,123,0.02); }
+  .delivery-option.selected { border-color:var(--teal); background:var(--teal-glow); }
+  .do-radio { width:20px; height:20px; border:2px solid var(--grey); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all .2s; }
+  .delivery-option.selected .do-radio { border-color:var(--teal); }
+  .delivery-option.selected .do-radio::after { content:''; width:10px; height:10px; background:var(--teal); border-radius:50%; }
+  .do-icon { width:44px; height:44px; background:var(--bg); border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .do-icon i { width:22px; height:22px; color:var(--teal); }
+  .do-info { flex:1; }
+  .do-title { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:2px; }
+  .do-desc { font-size:13px; color:var(--grey-mid); }
+  .do-price { font-family:'Plus Jakarta Sans',sans-serif; font-size:16px; font-weight:800; color:var(--navy); flex-shrink:0; }
+  .do-price.free { color:var(--green); }
+
+  /* ═══ PAYMENT OPTIONS ═══ */
+  .payment-options { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .payment-option {
+    display:flex; align-items:center; gap:12px; padding:16px 18px;
+    border:1.5px solid var(--grey); border-radius:12px; cursor:pointer; transition:all .2s;
+  }
+  .payment-option:hover { border-color:rgba(0,137,123,0.3); }
+  .payment-option.selected { border-color:var(--teal); background:var(--teal-glow); }
+  .po-radio { width:18px; height:18px; border:2px solid var(--grey); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .payment-option.selected .po-radio { border-color:var(--teal); }
+  .payment-option.selected .po-radio::after { content:''; width:8px; height:8px; background:var(--teal); border-radius:50%; }
+  .po-icon { font-size:20px; flex-shrink:0; }
+  .po-name { font-size:14px; font-weight:600; color:var(--navy); }
+  .po-name small { font-size:12px; color:var(--grey-mid); font-weight:400; display:block; }
+
+  .ideal-bank-select { margin-top:12px; display:none; }
+  .ideal-bank-select.show { display:block; }
+
+  /* ═══ ORDER REVIEW SIDEBAR ═══ */
+  .order-sidebar { background:white; border:1px solid var(--grey); border-radius:16px; padding:28px; position:sticky; top:20px; }
+  .os-title { font-family:'Plus Jakarta Sans',sans-serif; font-size:18px; font-weight:800; color:var(--navy); margin-bottom:20px; display:flex; align-items:center; gap:8px; }
+  .os-title i { width:20px; height:20px; color:var(--teal); }
+
+  .os-items { margin-bottom:16px; }
+  .os-item { display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--grey); }
+  .os-item:last-child { border-bottom:none; }
+  .os-item-img { width:56px; height:56px; background:var(--bg); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
+  .os-item-info { flex:1; min-width:0; }
+  .os-item-name { font-size:13px; font-weight:600; color:var(--navy); line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .os-item-meta { font-size:11px; color:var(--grey-mid); margin-top:2px; }
+  .os-item-price { font-family:'Plus Jakarta Sans',sans-serif; font-size:14px; font-weight:800; color:var(--navy); flex-shrink:0; }
+
+  .os-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; font-size:14px; }
+  .os-row .label { color:var(--grey-dark); }
+  .os-row .value { font-weight:600; color:var(--navy); }
+  .os-row.discount .value { color:var(--green); }
+  .os-divider { border:none; border-top:1px solid var(--grey); margin:6px 0; }
+  .os-total { display:flex; justify-content:space-between; align-items:baseline; padding:14px 0 4px; }
+  .os-total .label { font-size:16px; font-weight:700; }
+  .os-total .value { font-family:'Plus Jakarta Sans',sans-serif; font-size:24px; font-weight:800; }
+  .os-total-sub { text-align:right; font-size:12px; color:var(--grey-mid); margin-bottom:16px; }
+
+  .btn-place-order { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:16px; background:linear-gradient(135deg,var(--teal),var(--teal-light)); color:white; border:none; border-radius:12px; font-family:'DM Sans',sans-serif; font-size:16px; font-weight:700; cursor:pointer; transition:all .3s; box-shadow:0 4px 20px rgba(0,137,123,0.4); }
+  .btn-place-order:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(0,137,123,0.5); }
+  .btn-place-order i { width:20px; height:20px; }
+
+  .os-agree { font-size:12px; color:var(--grey-mid); text-align:center; margin-top:12px; line-height:1.5; }
+  .os-agree a { color:var(--teal); text-decoration:none; }
+
+  .os-trust { display:flex; flex-wrap:wrap; gap:12px; margin-top:20px; padding-top:16px; border-top:1px solid var(--grey); }
+  .os-trust-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--grey-mid); }
+  .os-trust-item i { width:14px; height:14px; color:var(--teal); }
+
+  /* Edit link */
+  .edit-link { font-size:13px; color:var(--teal); text-decoration:none; font-weight:600; margin-left:auto; display:flex; align-items:center; gap:4px; }
+  .edit-link i { width:14px; height:14px; }
+
+  /* ═══ FOOTER (simplified) ═══ */
+  .checkout-footer { background:white; border-top:1px solid var(--grey); padding:20px 0; text-align:center; font-size:13px; color:var(--grey-mid); }
+  .checkout-footer a { color:var(--teal); text-decoration:none; }
+
+  @media (max-width:900px) {
+    .checkout-layout { grid-template-columns:1fr; }
+    .order-sidebar { position:static; order:-1; }
+    .form-grid { grid-template-columns:1fr; }
+    .form-group.span-2 { grid-column:span 1; }
+    .payment-options { grid-template-columns:1fr; }
+    .steps { gap:0; }
+    .step-label { display:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CHECKOUT HEADER -->
+<header class="checkout-header"><div class="container">
+  <a href="#" class="back-to-cart"><i data-lucide="arrow-left"></i> Terug naar winkelwagen</a>
+  <a href="#" class="logo"><div class="logo-icon">P</div><div class="logo-text">plasti<em>med</em></div></a>
+  <div class="secure-badge"><i data-lucide="shield-check"></i> Beveiligde checkout</div>
+</div></header>
+
+<!-- PROGRESS STEPS -->
+<div class="progress-bar"><div class="container">
+  <div class="steps">
+    <div class="step done"><div class="step-num"><i data-lucide="check" style="width:14px;height:14px;"></i></div><span class="step-label">Winkelwagen</span></div>
+    <div class="step-line done"></div>
+    <div class="step active"><div class="step-num">2</div><span class="step-label">Gegevens & betaling</span></div>
+    <div class="step-line"></div>
+    <div class="step"><div class="step-num">3</div><span class="step-label">Bevestiging</span></div>
+  </div>
+</div></div>
+
+<div class="container">
+  <div class="checkout-layout">
+
+    <!-- LEFT: FORMS -->
+    <div class="checkout-forms">
+
+      <!-- CONTACT -->
+      <div class="form-section">
+        <h2 class="form-section-title"><i data-lucide="user"></i> Contactgegevens</h2>
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">E-mailadres <span class="req">*</span></label><input class="form-input" type="email" placeholder="naam@bedrijf.nl" value="j.devries@huisartsen-beverwijk.nl"></div>
+          <div class="form-group"><label class="form-label">Telefoonnummer <span class="req">*</span></label><input class="form-input" type="tel" placeholder="06-12345678" value="06-18293847"></div>
+        </div>
+      </div>
+
+      <!-- B2B TOGGLE + FIELDS -->
+      <div class="form-section">
+        <h2 class="form-section-title"><i data-lucide="building-2"></i> Bedrijfsgegevens <span class="optional">— optioneel</span></h2>
+        <div class="toggle-row active" onclick="this.classList.toggle('active'); document.getElementById('b2bFields').classList.toggle('show')">
+          <div class="toggle-switch"></div>
+          <div><div class="toggle-label">Zakelijke bestelling</div><div class="toggle-sub">Bestellen op bedrijfsnaam met BTW-factuur</div></div>
+        </div>
+        <div class="form-grid b2b-fields show" id="b2bFields">
+          <div class="form-group"><label class="form-label">Bedrijfsnaam <span class="req">*</span></label><input class="form-input" value="Huisartsenpraktijk De Vries"></div>
+          <div class="form-group"><label class="form-label">KVK-nummer</label><input class="form-input" value="12345678"></div>
+          <div class="form-group"><label class="form-label">BTW-nummer</label><input class="form-input" placeholder="NL123456789B01" value="NL123456789B01"></div>
+          <div class="form-group"><label class="form-label">Afdelingsnaam</label><input class="form-input" placeholder="Bijv. Receptie, Inkoop"></div>
+          <div class="form-group span-2"><label class="form-label">Referentienummer / PO-nummer</label><input class="form-input" placeholder="Uw interne referentie voor op de factuur"></div>
+        </div>
+      </div>
+
+      <!-- SHIPPING ADDRESS -->
+      <div class="form-section">
+        <h2 class="form-section-title"><i data-lucide="map-pin"></i> Afleveradres</h2>
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">Voornaam <span class="req">*</span></label><input class="form-input" value="Jan"></div>
+          <div class="form-group"><label class="form-label">Achternaam <span class="req">*</span></label><input class="form-input" value="de Vries"></div>
+          <div class="form-group"><label class="form-label">Straat + huisnummer <span class="req">*</span></label><input class="form-input" value="Breestraat 42"></div>
+          <div class="form-group"><label class="form-label">Toevoeging</label><input class="form-input" placeholder="Bijv. A, 2e etage"></div>
+          <div class="form-group"><label class="form-label">Postcode <span class="req">*</span></label><input class="form-input" value="1941 EK"></div>
+          <div class="form-group"><label class="form-label">Plaats <span class="req">*</span></label><input class="form-input" value="Beverwijk"></div>
+          <div class="form-group span-2"><label class="form-label">Land</label>
+            <select class="form-input"><option>Nederland</option><option>België</option><option>Duitsland</option></select>
+          </div>
+        </div>
+      </div>
+
+      <!-- DELIVERY -->
+      <div class="form-section">
+        <h2 class="form-section-title"><i data-lucide="truck"></i> Bezorgmethode</h2>
+        <div class="delivery-options">
+          <div class="delivery-option selected" onclick="selectDelivery(this)">
+            <div class="do-radio"></div>
+            <div class="do-icon"><i data-lucide="truck"></i></div>
+            <div class="do-info"><div class="do-title">Standaard bezorging</div><div class="do-desc">Morgen geleverd · besteld voor 16:00</div></div>
+            <div class="do-price">€7,50</div>
+          </div>
+          <div class="delivery-option" onclick="selectDelivery(this)">
+            <div class="do-radio"></div>
+            <div class="do-icon"><i data-lucide="zap"></i></div>
+            <div class="do-info"><div class="do-title">Express bezorging</div><div class="do-desc">Vandaag nog geleverd · besteld voor 12:00</div></div>
+            <div class="do-price">€14,95</div>
+          </div>
+          <div class="delivery-option" onclick="selectDelivery(this)">
+            <div class="do-radio"></div>
+            <div class="do-icon"><i data-lucide="package"></i></div>
+            <div class="do-info"><div class="do-title">Ophalen in Beverwijk</div><div class="do-desc">Binnen 2 uur klaar · Parallelweg 124</div></div>
+            <div class="do-price free">Gratis</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAYMENT -->
+      <div class="form-section">
+        <h2 class="form-section-title"><i data-lucide="credit-card"></i> Betaalmethode</h2>
+        <div class="payment-options">
+          <div class="payment-option selected" onclick="selectPayment(this)">
+            <div class="po-radio"></div>
+            <div class="po-icon">🏦</div>
+            <div class="po-name">iDEAL<small>Direct betalen via uw bank</small></div>
+          </div>
+          <div class="payment-option" onclick="selectPayment(this)">
+            <div class="po-radio"></div>
+            <div class="po-icon">📄</div>
+            <div class="po-name">Op rekening<small>Betaal binnen 30 dagen</small></div>
+          </div>
+          <div class="payment-option" onclick="selectPayment(this)">
+            <div class="po-radio"></div>
+            <div class="po-icon">💳</div>
+            <div class="po-name">Creditcard<small>Visa, Mastercard, AMEX</small></div>
+          </div>
+          <div class="payment-option" onclick="selectPayment(this)">
+            <div class="po-radio"></div>
+            <div class="po-icon">🔄</div>
+            <div class="po-name">SEPA Incasso<small>Automatische incasso</small></div>
+          </div>
+        </div>
+
+        <div class="ideal-bank-select show">
+          <div class="form-group" style="margin-top:16px;">
+            <label class="form-label">Selecteer uw bank</label>
+            <select class="form-input">
+              <option>Kies uw bank…</option><option>ABN AMRO</option><option>ASN Bank</option>
+              <option>Bunq</option><option>ING</option><option>Knab</option>
+              <option>Rabobank</option><option>RegioBank</option><option>SNS</option>
+              <option>Triodos Bank</option><option>Van Lanschot</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTES -->
+      <div class="form-section">
+        <h2 class="form-section-title"><i data-lucide="message-square"></i> Opmerkingen <span class="optional">— optioneel</span></h2>
+        <div class="form-grid full">
+          <div class="form-group"><textarea class="form-input" placeholder="Bijv. specifieke leverinstructies, gewenste levertijd, of andere opmerkingen…"></textarea></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: ORDER SIDEBAR -->
+    <aside class="order-sidebar">
+      <h2 class="os-title"><i data-lucide="receipt"></i> Uw bestelling <a href="#" class="edit-link"><i data-lucide="pencil"></i> Wijzig</a></h2>
+
+      <div class="os-items">
+        <div class="os-item">
+          <div class="os-item-img">🧤</div>
+          <div class="os-item-info">
+            <div class="os-item-name">Peha-soft Nitrile Fino — M</div>
+            <div class="os-item-meta">5× €8,25 · Art. 942210</div>
+          </div>
+          <div class="os-item-price">€41,25</div>
+        </div>
+        <div class="os-item">
+          <div class="os-item-img">🧤</div>
+          <div class="os-item-info">
+            <div class="os-item-name">Peha-soft Nitrile Fino — L</div>
+            <div class="os-item-meta">3× €8,25 · Art. 942210</div>
+          </div>
+          <div class="os-item-price">€24,75</div>
+        </div>
+        <div class="os-item">
+          <div class="os-item-img">🧴</div>
+          <div class="os-item-info">
+            <div class="os-item-name">Baktolan Protect+ Pure 100ml</div>
+            <div class="os-item-meta">2× €5,95 · Art. 232451</div>
+          </div>
+          <div class="os-item-price">€11,90</div>
+        </div>
+      </div>
+
+      <div class="os-row"><span class="label">Subtotaal</span><span class="value">€85,70</span></div>
+      <div class="os-row discount"><span class="label">Staffelkorting</span><span class="value">− €7,80</span></div>
+      <div class="os-row"><span class="label">Verzending</span><span class="value">€7,50</span></div>
+      <hr class="os-divider">
+      <div class="os-row"><span class="label">Subtotaal excl. BTW</span><span class="value">€85,40</span></div>
+      <div class="os-row"><span class="label">BTW (21%)</span><span class="value">€17,93</span></div>
+      <hr class="os-divider">
+      <div class="os-total"><span class="label">Totaal</span><span class="value">€103,33</span></div>
+      <div class="os-total-sub">Incl. BTW</div>
+
+      <button class="btn-place-order"><i data-lucide="lock"></i> Bestelling plaatsen</button>
+      <div class="os-agree">Door te bestellen gaat u akkoord met onze <a href="#">algemene voorwaarden</a> en <a href="#">privacybeleid</a>.</div>
+
+      <div class="os-trust">
+        <div class="os-trust-item"><i data-lucide="shield-check"></i> SSL beveiligd</div>
+        <div class="os-trust-item"><i data-lucide="lock"></i> Veilig betalen</div>
+        <div class="os-trust-item"><i data-lucide="undo-2"></i> 30 dagen retour</div>
+        <div class="os-trust-item"><i data-lucide="headphones"></i> 0251-247233</div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="checkout-footer"><div class="container">© 2026 Plastimed B.V. — <a href="#">Algemene voorwaarden</a> · <a href="#">Privacybeleid</a> · <a href="#">Klantenservice</a></div></footer>
+
+<script>
+  lucide.createIcons();
+  function selectDelivery(el) { document.querySelectorAll('.delivery-option').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); }
+  function selectPayment(el) { document.querySelectorAll('.payment-option').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); }
+</script>
+</body>
+</html>

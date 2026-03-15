@@ -36,17 +36,17 @@ export const ParticipantSelector: React.FC<ParticipantSelectorProps> = ({
   }
 
   return (
-    <div className={`participant-selector bg-white border border-gray-200 rounded-xl p-5 ${className}`}>
+    <div className={`participant-selector bg-white border border-grey-light rounded-xl p-5 ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Users className="w-5 h-5 text-[var(--color-primary)]" />
-          <h3 className="text-base font-extrabold text-gray-900">
+          <h3 className="text-base font-extrabold text-navy">
             Aantal deelnemers
           </h3>
         </div>
         {totalCapacity && (
-          <div className="text-xs font-semibold text-gray-500">
+          <div className="text-xs font-semibold text-grey-mid">
             {totalParticipants} / {totalCapacity}
           </div>
         )}
@@ -63,15 +63,15 @@ export const ParticipantSelector: React.FC<ParticipantSelectorProps> = ({
           return (
             <div
               key={category.id}
-              className="participant-category flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors"
+              className="participant-category flex items-center justify-between p-3 rounded-lg border border-grey-light hover:border-grey-light transition-colors"
             >
               {/* Left: Label & Description */}
               <div className="flex-1">
-                <div className="text-sm font-bold text-gray-900">
+                <div className="text-sm font-bold text-navy">
                   {category.label}
                 </div>
                 {category.description && (
-                  <div className="text-xs text-gray-500 mt-0.5">
+                  <div className="text-xs text-grey-mid mt-0.5">
                     {category.description}
                   </div>
                 )}
@@ -90,10 +90,10 @@ export const ParticipantSelector: React.FC<ParticipantSelectorProps> = ({
                   className="btn btn-outline-neutral btn-sm w-8 h-8 flex items-center justify-center"
                   aria-label={`Decrease ${category.label}`}
                 >
-                  <Minus className="w-4 h-4 text-gray-700" />
+                  <Minus className="w-4 h-4 text-grey-dark" />
                 </button>
 
-                <div className="w-10 text-center font-mono text-base font-bold text-gray-900">
+                <div className="w-10 text-center font-mono text-base font-bold text-navy">
                   {category.count}
                 </div>
 
@@ -103,7 +103,7 @@ export const ParticipantSelector: React.FC<ParticipantSelectorProps> = ({
                   className="btn btn-outline-neutral btn-sm w-8 h-8 flex items-center justify-center"
                   aria-label={`Increase ${category.label}`}
                 >
-                  <Plus className="w-4 h-4 text-gray-700" />
+                  <Plus className="w-4 h-4 text-grey-dark" />
                 </button>
               </div>
             </div>

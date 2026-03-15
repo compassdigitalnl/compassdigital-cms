@@ -32,7 +32,7 @@ export function VariantCheckboxAddons({
     <div className={cn('space-y-3', className)}>
       {/* Option Label & Total */}
       <div className="flex items-center justify-between">
-        <label className="text-sm font-medium text-gray-900">
+        <label className="text-sm font-medium text-navy">
           {option.optionName}
           {option.required && selectedValues.length === 0 && (
             <span className="ml-1 text-coral">*</span>
@@ -61,7 +61,7 @@ export function VariantCheckboxAddons({
                 'flex cursor-pointer items-center gap-3 rounded-lg border-2 p-4 transition-all',
                 isSelected
                   ? 'border-teal bg-teal-50'
-                  : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50',
+                  : 'border-grey-light bg-white hover:border-grey-light hover:bg-grey-light',
                 isDisabled && 'cursor-not-allowed opacity-60',
               )}
             >
@@ -71,7 +71,7 @@ export function VariantCheckboxAddons({
                 checked={isSelected}
                 onChange={() => !isDisabled && onToggle(value)}
                 disabled={isDisabled}
-                className="h-5 w-5 rounded border-gray-300 text-teal focus:ring-2 focus:ring-teal focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
+                className="h-5 w-5 rounded border-grey-light text-teal focus:ring-2 focus:ring-teal focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
               />
 
               {/* Content */}
@@ -81,8 +81,8 @@ export function VariantCheckboxAddons({
                   <span
                     className={cn(
                       'text-sm font-medium',
-                      isSelected ? 'text-navy' : 'text-gray-900',
-                      isDisabled && 'text-gray-500',
+                      isSelected ? 'text-navy' : 'text-navy',
+                      isDisabled && 'text-grey-mid',
                     )}
                   >
                     {value.label}
@@ -116,7 +116,7 @@ export function VariantCheckboxAddons({
                     <span
                       className={cn(
                         'text-sm font-semibold',
-                        isSelected ? 'text-teal' : 'text-gray-600',
+                        isSelected ? 'text-teal' : 'text-grey-dark',
                       )}
                     >
                       {value.priceModifier > 0 ? '+' : ''}€{formatPriceStr(value.priceModifier)}
@@ -164,7 +164,7 @@ export function VariantCheckboxAddons({
 
       {/* Optional Helper Text */}
       {!option.required && selectedValues.length === 0 && (
-        <p className="text-xs text-gray-500">Optional add-ons - select any that you want</p>
+        <p className="text-xs text-grey-mid">Optional add-ons - select any that you want</p>
       )}
     </div>
   )

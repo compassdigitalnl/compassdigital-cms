@@ -89,7 +89,7 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
         <button
           type="button"
           onClick={onPrevMonth}
-          className="flex h-8 w-8 items-center justify-center rounded-lg border transition-colors hover:bg-gray-50"
+          className="flex h-8 w-8 items-center justify-center rounded-lg border transition-colors hover:bg-grey-light"
           style={{ borderColor: 'var(--color-border, #e5e7eb)' }}
           aria-label="Vorige maand"
         >
@@ -104,7 +104,7 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
         <button
           type="button"
           onClick={onNextMonth}
-          className="flex h-8 w-8 items-center justify-center rounded-lg border transition-colors hover:bg-gray-50"
+          className="flex h-8 w-8 items-center justify-center rounded-lg border transition-colors hover:bg-grey-light"
           style={{ borderColor: 'var(--color-border, #e5e7eb)' }}
           aria-label="Volgende maand"
         >
@@ -117,7 +117,7 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
         {DAY_NAMES.map((name) => (
           <div
             key={name}
-            className="flex h-8 items-center justify-center text-[10px] font-bold uppercase tracking-wider text-gray-400"
+            className="flex h-8 items-center justify-center text-[10px] font-bold uppercase tracking-wider text-grey-mid"
           >
             {name}
           </div>
@@ -165,7 +165,7 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
       </div>
 
       {/* Legend */}
-      <div className="mt-4 flex items-center gap-4 text-[11px] text-gray-500">
+      <div className="mt-4 flex items-center gap-4 text-[11px] text-grey-mid">
         <span className="inline-flex items-center gap-1.5">
           <span
             className="inline-block h-2.5 w-2.5 rounded-full"

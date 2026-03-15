@@ -96,7 +96,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
         <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-5">
           {/* Address Type */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Type adres</label>
+            <label className="block text-sm font-medium text-grey-dark mb-2">Type adres</label>
             <div className="grid grid-cols-3 gap-2">
               <button
                 type="button"
@@ -136,7 +136,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
 
           {/* Name */}
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="name" className="block text-sm font-medium text-grey-dark mb-2">
               Adres naam <span className="text-coral">*</span>
             </label>
             <input
@@ -146,13 +146,13 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
               value={formData.name}
               onChange={(e) => handleChange('name', e.target.value)}
               placeholder="Bijv. Thuis, Werk, etc."
-              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-grey-light text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
             />
           </div>
 
           {/* Company (Optional) */}
           <div>
-            <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="company" className="block text-sm font-medium text-grey-dark mb-2">
               Bedrijfsnaam (optioneel)
             </label>
             <input
@@ -161,14 +161,14 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
               value={formData.company}
               onChange={(e) => handleChange('company', e.target.value)}
               placeholder="Uw bedrijfsnaam"
-              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-grey-light text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
             />
           </div>
 
           {/* Street Address */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-4">
             <div className="lg:col-span-2">
-              <label htmlFor="street" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="street" className="block text-sm font-medium text-grey-dark mb-2">
                 Straatnaam <span className="text-coral">*</span>
               </label>
               <input
@@ -178,11 +178,11 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
                 value={formData.street}
                 onChange={(e) => handleChange('street', e.target.value)}
                 placeholder="Straatnaam"
-                className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+                className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-grey-light text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
               />
             </div>
             <div>
-              <label htmlFor="houseNumber" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="houseNumber" className="block text-sm font-medium text-grey-dark mb-2">
                 Huisnr. <span className="text-coral">*</span>
               </label>
               <div className="flex gap-2">
@@ -193,7 +193,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
                   value={formData.houseNumber}
                   onChange={(e) => handleChange('houseNumber', e.target.value)}
                   placeholder="123"
-                  className="w-20 px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+                  className="w-20 px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-grey-light text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
                 />
                 <input
                   type="text"
@@ -201,7 +201,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
                   value={formData.houseNumberAddition}
                   onChange={(e) => handleChange('houseNumberAddition', e.target.value)}
                   placeholder="A"
-                  className="flex-1 px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+                  className="flex-1 px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-grey-light text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
                 />
               </div>
             </div>
@@ -210,7 +210,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
           {/* Postal Code & City */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
             <div>
-              <label htmlFor="postalCode" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="postalCode" className="block text-sm font-medium text-grey-dark mb-2">
                 Postcode <span className="text-coral">*</span>
               </label>
               <input
@@ -220,11 +220,11 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
                 value={formData.postalCode}
                 onChange={(e) => handleChange('postalCode', e.target.value)}
                 placeholder="1234 AB"
-                className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+                className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-grey-light text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
               />
             </div>
             <div>
-              <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="city" className="block text-sm font-medium text-grey-dark mb-2">
                 Plaats <span className="text-coral">*</span>
               </label>
               <input
@@ -234,14 +234,14 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
                 value={formData.city}
                 onChange={(e) => handleChange('city', e.target.value)}
                 placeholder="Amsterdam"
-                className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+                className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-grey-light text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
               />
             </div>
           </div>
 
           {/* Country */}
           <div>
-            <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="country" className="block text-sm font-medium text-grey-dark mb-2">
               Land <span className="text-coral">*</span>
             </label>
             <select
@@ -249,7 +249,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
               required
               value={formData.country}
               onChange={(e) => handleChange('country', e.target.value)}
-              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-grey-light text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
             >
               <option value="Nederland">Nederland</option>
               <option value="België">België</option>
@@ -260,7 +260,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
 
           {/* Phone */}
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="phone" className="block text-sm font-medium text-grey-dark mb-2">
               Telefoonnummer <span className="text-coral">*</span>
             </label>
             <input
@@ -270,7 +270,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
               value={formData.phone}
               onChange={(e) => handleChange('phone', e.target.value)}
               placeholder="+31 6 12345678"
-              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+              className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl border border-grey-light text-sm focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
             />
           </div>
 
@@ -281,9 +281,9 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
               id="isDefault"
               checked={formData.isDefault}
               onChange={(e) => handleChange('isDefault', e.target.checked)}
-              className="w-4 h-4 text-[var(--color-primary)] border-gray-300 rounded focus:ring-[var(--color-primary)]"
+              className="w-4 h-4 text-[var(--color-primary)] border-grey-light rounded focus:ring-[var(--color-primary)]"
             />
-            <label htmlFor="isDefault" className="text-sm text-gray-700">
+            <label htmlFor="isDefault" className="text-sm text-grey-dark">
               Instellen als standaard adres
             </label>
           </div>

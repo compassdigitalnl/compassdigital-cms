@@ -159,7 +159,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
   if (selections.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow-sm p-8 text-center">
-        <p className="text-gray-500">Geen sub-producten beschikbaar.</p>
+        <p className="text-grey-mid">Geen sub-producten beschikbaar.</p>
       </div>
     )
   }
@@ -168,7 +168,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b">
+          <thead className="bg-grey-light border-b">
             <tr>
               <th className="px-6 py-4 text-left">
                 <input
@@ -181,25 +181,25 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                   className="w-4 h-4 text-[var(--color-primary)] rounded focus:ring-[var(--color-primary)]"
                 />
               </th>
-              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
+              <th className="px-6 py-4 text-left text-sm font-semibold text-navy">
                 Product
               </th>
-              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
+              <th className="px-6 py-4 text-left text-sm font-semibold text-navy">
                 SKU / EAN
               </th>
-              <th className="px-6 py-4 text-right text-sm font-semibold text-gray-900">Prijs</th>
-              <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">
+              <th className="px-6 py-4 text-right text-sm font-semibold text-navy">Prijs</th>
+              <th className="px-6 py-4 text-center text-sm font-semibold text-navy">
                 Voorraad
               </th>
-              <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">
+              <th className="px-6 py-4 text-center text-sm font-semibold text-navy">
                 Aantal
               </th>
-              <th className="px-6 py-4 text-right text-sm font-semibold text-gray-900">
+              <th className="px-6 py-4 text-right text-sm font-semibold text-navy">
                 Subtotaal
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-grey-light">
             {selections.map((selection) => {
               let imageUrl: string | null =
                 typeof selection.product.images?.[0] === 'object' &&
@@ -228,7 +228,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
               return (
                 <tr
                   key={selection.product.id}
-                  className={`hover:bg-gray-50 transition-colors ${!selection.selected ? 'opacity-50' : ''}`}
+                  className={`hover:bg-grey-light transition-colors ${!selection.selected ? 'opacity-50' : ''}`}
                 >
                   <td className="px-6 py-4">
                     <input
@@ -248,9 +248,9 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                           className="w-16 h-16 object-cover rounded border"
                         />
                       ) : (
-                        <div className="w-16 h-16 bg-gray-100 rounded border flex items-center justify-center">
+                        <div className="w-16 h-16 bg-grey-light rounded border flex items-center justify-center">
                           <svg
-                            className="w-8 h-8 text-gray-300"
+                            className="w-8 h-8 text-grey-mid"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -265,9 +265,9 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                         </div>
                       )}
                       <div>
-                        <p className="font-medium text-gray-900">{selection.product.title}</p>
+                        <p className="font-medium text-navy">{selection.product.title}</p>
                         {selection.product.shortDescription && (
-                          <p className="text-sm text-gray-500 mt-1 line-clamp-2">
+                          <p className="text-sm text-grey-mid mt-1 line-clamp-2">
                             {selection.product.shortDescription}
                           </p>
                         )}
@@ -275,13 +275,13 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-grey-dark">
                       {selection.product.sku && <div>SKU: {selection.product.sku}</div>}
                       {selection.product.ean && <div>EAN: {selection.product.ean}</div>}
                     </div>
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <span className="font-semibold text-gray-900">
+                    <span className="font-semibold text-navy">
                       {selection.product.price != null
                         ? `€${formatPriceStr(selection.product.price, selection.product.taxClass as any)}`
                         : 'Op aanvraag'}
@@ -314,7 +314,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                       <button
                         onClick={() => updateQuantity(selection.product.id, -1)}
                         disabled={!selection.selected || !isInStock}
-                        className="p-1 rounded hover:bg-gray-200 disabled:opacity-30 disabled:hover:bg-transparent"
+                        className="p-1 rounded hover:bg-grey-light disabled:opacity-30 disabled:hover:bg-transparent"
                       >
                         <Minus className="w-4 h-4" />
                       </button>
@@ -326,7 +326,7 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                           updateQuantity(selection.product.id, val - selection.quantity)
                         }}
                         disabled={!selection.selected || !isInStock}
-                        className="w-16 text-center border rounded px-2 py-1 disabled:bg-gray-100"
+                        className="w-16 text-center border rounded px-2 py-1 disabled:bg-grey-light"
                         min={selection.product.minOrderQuantity || 1}
                         max={selection.product.maxOrderQuantity || (selection.product.stock ?? 0)}
                         step={selection.product.orderMultiple || 1}
@@ -334,25 +334,25 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                       <button
                         onClick={() => updateQuantity(selection.product.id, 1)}
                         disabled={!selection.selected || !isInStock}
-                        className="p-1 rounded hover:bg-gray-200 disabled:opacity-30 disabled:hover:bg-transparent"
+                        className="p-1 rounded hover:bg-grey-light disabled:opacity-30 disabled:hover:bg-transparent"
                       >
                         <Plus className="w-4 h-4" />
                       </button>
                     </div>
                     {selection.product.minOrderQuantity && selection.product.minOrderQuantity > 1 && (
-                      <p className="text-xs text-gray-500 text-center mt-1">
+                      <p className="text-xs text-grey-mid text-center mt-1">
                         Min: {selection.product.minOrderQuantity}
                       </p>
                     )}
                     {selection.product.orderMultiple && selection.product.orderMultiple > 1 && (
-                      <p className="text-xs text-gray-500 text-center mt-1">
+                      <p className="text-xs text-grey-mid text-center mt-1">
                         Veelvoud van: {selection.product.orderMultiple}
                       </p>
                     )}
                   </td>
                   <td className="px-6 py-4 text-right">
                     {selection.selected && selection.product.price != null && (
-                      <span className="font-semibold text-gray-900">
+                      <span className="font-semibold text-navy">
                         €{formatPriceStr((selection.product.price ?? 0) * selection.quantity, selection.product.taxClass as any)}
                       </span>
                     )}
@@ -365,10 +365,10 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
       </div>
 
       {/* Footer with actions */}
-      <div className="bg-gray-50 px-6 py-4 border-t">
+      <div className="bg-grey-light px-6 py-4 border-t">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-600">{selectedCount} product(en) geselecteerd</p>
+            <p className="text-sm text-grey-dark">{selectedCount} product(en) geselecteerd</p>
             <button
               onClick={handleAddAll}
               className="btn btn-ghost btn-sm mt-1"
@@ -378,8 +378,8 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
           </div>
           <div className="flex items-center gap-6">
             <div className="text-right">
-              <p className="text-sm text-gray-600">Totaal</p>
-              <p className="text-2xl font-bold text-gray-900">€{formatPriceStr(subtotal)}</p>
+              <p className="text-sm text-grey-dark">Totaal</p>
+              <p className="text-2xl font-bold text-navy">€{formatPriceStr(subtotal)}</p>
             </div>
             <button
               onClick={handleAddToCart}

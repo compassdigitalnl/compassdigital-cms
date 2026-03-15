@@ -57,7 +57,7 @@ export async function ExperienceSocialProofComponent(props: any) {
                 >
                   {stat.value}
                 </div>
-                <div className="text-sm text-gray-600">{stat.label}</div>
+                <div className="text-sm text-grey-dark">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -94,7 +94,7 @@ export async function ExperienceSocialProofComponent(props: any) {
                   )}
 
                   {/* Quote */}
-                  <p className="text-sm text-gray-700 mb-4 leading-relaxed">"{t.quote}"</p>
+                  <p className="text-sm text-grey-dark mb-4 leading-relaxed">"{t.quote}"</p>
 
                   {/* Author */}
                   <div className="flex items-center gap-3">
@@ -112,7 +112,7 @@ export async function ExperienceSocialProofComponent(props: any) {
                       <div className="text-sm font-bold" style={{ color: 'var(--color-navy, #1a2b4a)' }}>
                         {t.author}
                       </div>
-                      {t.role && <div className="text-xs text-gray-500">{t.role}</div>}
+                      {t.role && <div className="text-xs text-grey-mid">{t.role}</div>}
                     </div>
                   </div>
                 </div>

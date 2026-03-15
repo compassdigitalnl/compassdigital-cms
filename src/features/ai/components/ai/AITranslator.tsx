@@ -204,7 +204,7 @@ export const AITranslator: React.FC<AITranslatorProps> = ({
                 </TabsList>
 
                 <TabsContent value="original" className="mt-4">
-                  <div className="rounded-lg border border-gray-200 p-4 bg-gray-50">
+                  <div className="rounded-lg border border-grey-light p-4 bg-grey-light">
                     <p className="text-sm whitespace-pre-wrap">{content}</p>
                   </div>
                 </TabsContent>
@@ -256,7 +256,7 @@ export const AITranslator: React.FC<AITranslatorProps> = ({
             <div className="flex items-center justify-center py-12">
               <div className="text-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal mx-auto mb-4"></div>
-                <p className="text-sm text-gray-600">Vertalen naar {LANGUAGES.find(l => l.code === targetLanguage)?.name}...</p>
+                <p className="text-sm text-grey-dark">Vertalen naar {LANGUAGES.find(l => l.code === targetLanguage)?.name}...</p>
               </div>
             </div>
           )}

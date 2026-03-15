@@ -55,11 +55,11 @@ export const AIGenerationModal: React.FC<AIGenerationModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
+        <div className="flex items-center justify-between p-6 border-b border-grey-light">
+          <h2 className="text-2xl font-bold text-navy">{title}</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-grey-mid hover:text-grey-dark transition-colors"
           >
             <X size={24} />
           </button>
@@ -80,7 +80,7 @@ export const AIGenerationModal: React.FC<AIGenerationModalProps> = ({
             <div className="flex items-center justify-center py-12">
               <div className="text-center space-y-4">
                 <div className="animate-spin rounded-full h-12 w-12 border-4 border-teal/20 border-t-teal mx-auto" />
-                <p className="text-gray-600">AI is aan het genereren...</p>
+                <p className="text-grey-dark">AI is aan het genereren...</p>
               </div>
             </div>
           )}
@@ -97,14 +97,14 @@ export const AIGenerationModal: React.FC<AIGenerationModalProps> = ({
           {!loading && !error && generatedContent && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-grey-dark">
                   Gegenereerde content:
                 </label>
                 <div className="flex gap-2">
                   {onRegenerate && (
                     <button
                       onClick={onRegenerate}
-                      className="inline-flex items-center gap-1 px-3 py-1 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                      className="inline-flex items-center gap-1 px-3 py-1 text-sm text-grey-dark hover:text-navy transition-colors"
                     >
                       <RefreshCw size={14} />
                       Regenereer
@@ -112,7 +112,7 @@ export const AIGenerationModal: React.FC<AIGenerationModalProps> = ({
                   )}
                   <button
                     onClick={handleCopy}
-                    className="inline-flex items-center gap-1 px-3 py-1 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                    className="inline-flex items-center gap-1 px-3 py-1 text-sm text-grey-dark hover:text-navy transition-colors"
                   >
                     {copied ? (
                       <>
@@ -131,10 +131,10 @@ export const AIGenerationModal: React.FC<AIGenerationModalProps> = ({
               <textarea
                 value={editedContent}
                 onChange={(e) => setEditedContent(e.target.value)}
-                className="w-full min-h-[200px] p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent resize-y font-mono text-sm"
+                className="w-full min-h-[200px] p-4 border border-grey-light rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent resize-y font-mono text-sm"
                 placeholder="Gegenereerde content verschijnt hier..."
               />
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-grey-mid">
                 Je kunt de content bewerken voordat je deze accepteert
               </p>
             </div>
@@ -142,10 +142,10 @@ export const AIGenerationModal: React.FC<AIGenerationModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50">
+        <div className="flex items-center justify-end gap-3 p-6 border-t border-grey-light bg-grey-light">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            className="px-4 py-2 text-grey-dark bg-white border border-grey-light rounded-lg hover:bg-grey-light transition-colors"
           >
             Annuleer
           </button>

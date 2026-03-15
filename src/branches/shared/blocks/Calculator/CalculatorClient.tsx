@@ -93,11 +93,11 @@ export function CalculatorClient({
           return (
             <div key={slider.id || idx}>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-sm font-medium text-gray-700">{slider.label}</label>
+                <label className="text-sm font-medium text-grey-dark">{slider.label}</label>
                 <span className="text-sm font-bold text-teal">
                   {formatValue(value, unit)}
                   {unit === 'hours' && (
-                    <span className="text-xs font-normal text-gray-400 ml-1">
+                    <span className="text-xs font-normal text-grey-mid ml-1">
                       = &euro;{(value * (slider.hourlyRate ?? 75)).toLocaleString('nl-NL')}
                     </span>
                   )}
@@ -110,11 +110,11 @@ export function CalculatorClient({
                 step={step}
                 value={value}
                 onChange={(e) => handleChange(idx, Number(e.target.value))}
-                className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-teal bg-gray-200"
+                className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-teal bg-grey-light"
               />
               <div className="flex justify-between mt-1">
-                <span className="text-xs text-gray-400">{formatValue(min, unit)}</span>
-                <span className="text-xs text-gray-400">{formatValue(max, unit)}</span>
+                <span className="text-xs text-grey-mid">{formatValue(min, unit)}</span>
+                <span className="text-xs text-grey-mid">{formatValue(max, unit)}</span>
               </div>
             </div>
           )
@@ -126,31 +126,31 @@ export function CalculatorClient({
         <div>
           {/* Current costs */}
           <div className="flex items-center justify-between mb-4">
-            <span className="text-gray-600">Huidige kosten</span>
-            <span className="text-lg font-semibold text-gray-800">
+            <span className="text-grey-dark">Huidige kosten</span>
+            <span className="text-lg font-semibold text-navy">
               &euro;{currentTotal.toLocaleString('nl-NL')}
-              <span className="text-sm font-normal text-gray-400"> /mnd</span>
+              <span className="text-sm font-normal text-grey-mid"> /mnd</span>
             </span>
           </div>
 
           {/* Our price */}
           <div className="flex items-center justify-between mb-4">
-            <span className="text-gray-600">CompassDigital</span>
+            <span className="text-grey-dark">CompassDigital</span>
             <span className="text-lg font-semibold text-teal">
               &euro;{ourMonthlyPrice.toLocaleString('nl-NL')}
-              <span className="text-sm font-normal text-gray-400"> /mnd</span>
+              <span className="text-sm font-normal text-grey-mid"> /mnd</span>
             </span>
           </div>
 
           {/* Divider */}
-          <hr className="border-gray-200 my-4" />
+          <hr className="border-grey-light my-4" />
 
           {/* Monthly savings */}
           <div className="text-center mb-2">
             <div className="text-3xl md:text-4xl font-bold text-green">
               &euro;{savings.toLocaleString('nl-NL')}
             </div>
-            <div className="text-sm text-gray-500 mt-1">besparing per maand</div>
+            <div className="text-sm text-grey-mid mt-1">besparing per maand</div>
           </div>
 
           {/* Yearly savings */}

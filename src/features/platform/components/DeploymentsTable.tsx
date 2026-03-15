@@ -51,10 +51,10 @@ export default function DeploymentsTable() {
       success: 'bg-green-100 text-green-800',
       failed: 'bg-red-100 text-red-800',
       in_progress: 'bg-teal-100 text-blue-800',
-      pending: 'bg-yellow-100 text-yellow-800',
-      rolled_back: 'bg-orange-100 text-orange-800',
+      pending: 'bg-amber-50 text-amber-900',
+      rolled_back: 'bg-amber-50 text-amber-900',
     }
-    return styles[status] || 'bg-gray-100 text-gray-800'
+    return styles[status] || 'bg-grey-light text-navy'
   }
 
   const formatDuration = (seconds: number) => {
@@ -77,18 +77,18 @@ export default function DeploymentsTable() {
   return (
     <div className="bg-white rounded-lg shadow">
       {/* Filters */}
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-6 border-b border-grey-light">
         <div className="flex gap-4">
-          <select className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent">
+          <select className="px-4 py-2 border border-grey-light rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent">
             <option value="all">All Clients</option>
           </select>
-          <select className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent">
+          <select className="px-4 py-2 border border-grey-light rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent">
             <option value="all">All Status</option>
             <option value="success">Success</option>
             <option value="failed">Failed</option>
             <option value="in_progress">In Progress</option>
           </select>
-          <select className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent">
+          <select className="px-4 py-2 border border-grey-light rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent">
             <option value="all">All Types</option>
             <option value="initial">Initial</option>
             <option value="update">Update</option>
@@ -101,34 +101,34 @@ export default function DeploymentsTable() {
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-200">
+          <thead className="bg-grey-light border-b border-grey-light">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-grey-mid uppercase tracking-wider">
                 Client
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-grey-mid uppercase tracking-wider">
                 Type
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-grey-mid uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-grey-mid uppercase tracking-wider">
                 Version
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-grey-mid uppercase tracking-wider">
                 Environment
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-grey-mid uppercase tracking-wider">
                 Duration
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-grey-mid uppercase tracking-wider">
                 Time
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-grey-light">
             {deployments.map((deployment) => (
-              <tr key={deployment.id} className="hover:bg-gray-50">
+              <tr key={deployment.id} className="hover:bg-grey-light">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <a
                     href={`/platform/clients/${deployment.clientId}`}
@@ -138,7 +138,7 @@ export default function DeploymentsTable() {
                   </a>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="text-sm text-gray-900 capitalize">{deployment.type}</span>
+                  <span className="text-sm text-navy capitalize">{deployment.type}</span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
@@ -148,17 +148,17 @@ export default function DeploymentsTable() {
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="text-sm text-gray-900">{deployment.version}</span>
+                  <span className="text-sm text-navy">{deployment.version}</span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="text-sm text-gray-900 capitalize">{deployment.environment}</span>
+                  <span className="text-sm text-navy capitalize">{deployment.environment}</span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="text-sm text-gray-900">
+                  <span className="text-sm text-navy">
                     {formatDuration(deployment.duration)}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-grey-mid">
                   {formatTime(deployment.startedAt)}
                 </td>
               </tr>
@@ -168,18 +168,18 @@ export default function DeploymentsTable() {
       </div>
 
       {/* Pagination */}
-      <div className="p-4 border-t border-gray-200 flex items-center justify-between">
-        <p className="text-sm text-gray-600">Showing 1-{deployments.length} of {deployments.length} deployments</p>
+      <div className="p-4 border-t border-grey-light flex items-center justify-between">
+        <p className="text-sm text-grey-dark">Showing 1-{deployments.length} of {deployments.length} deployments</p>
         <div className="flex gap-2">
           <button
             disabled
-            className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 border border-grey-light rounded-lg hover:bg-grey-light disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Previous
           </button>
           <button
             disabled
-            className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 border border-grey-light rounded-lg hover:bg-grey-light disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Next
           </button>

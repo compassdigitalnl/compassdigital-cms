@@ -6,13 +6,13 @@ import type { RetourConfirmationProps } from './types'
 export function RetourConfirmation({ items, onSubmit, onPrev, submitting }: RetourConfirmationProps) {
   return (
     <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
-      <h2 className="text-base lg:text-lg font-extrabold mb-4 text-gray-900">Bevestig retour</h2>
+      <h2 className="text-base lg:text-lg font-extrabold mb-4 text-navy">Bevestig retour</h2>
       <div className="space-y-3 mb-6">
         {items.map((item) => (
-          <div key={item.id} className="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+          <div key={item.id} className="flex items-center justify-between p-3 rounded-xl bg-grey-light">
             <div>
-              <div className="text-sm font-bold text-gray-900">{item.title}</div>
-              <div className="text-xs text-gray-500">
+              <div className="text-sm font-bold text-navy">{item.title}</div>
+              <div className="text-xs text-grey-mid">
                 {item.quantity}x - {returnReasons.find((r) => r.value === item.reason)?.label}
               </div>
             </div>

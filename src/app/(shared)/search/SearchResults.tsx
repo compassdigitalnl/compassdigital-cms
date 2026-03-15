@@ -68,15 +68,15 @@ export function SearchResults() {
     <div className="container mx-auto px-6 py-8">
       {/* Search Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-extrabold text-gray-900 mb-2">
+        <h1 className="text-3xl font-extrabold text-navy mb-2">
           Zoekresultaten voor{' '}
           <mark className="bg-teal-100 text-teal-900 px-2 rounded">{query}</mark>
         </h1>
         {!loading && productTotal > 0 && (
-          <p className="text-gray-600">
+          <p className="text-grey-dark">
             <strong>{productTotal.toLocaleString('nl-NL')}</strong> producten gevonden
             {data?.processingTimeMs && (
-              <span className="text-gray-400 ml-2">
+              <span className="text-grey-mid ml-2">
                 ({data.processingTimeMs}ms)
               </span>
             )}
@@ -88,25 +88,25 @@ export function SearchResults() {
       {loading && (
         <div className="text-center py-20">
           <div className="inline-block w-8 h-8 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mb-4" />
-          <p className="text-gray-600">Zoeken...</p>
+          <p className="text-grey-dark">Zoeken...</p>
         </div>
       )}
 
       {/* No Query */}
       {!loading && !query && (
         <div className="text-center py-20">
-          <Search className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Start met zoeken</h2>
-          <p className="text-gray-600">Voer een zoekterm in om producten te vinden</p>
+          <Search className="w-16 h-16 mx-auto text-grey-mid mb-4" />
+          <h2 className="text-2xl font-bold text-navy mb-2">Start met zoeken</h2>
+          <p className="text-grey-dark">Voer een zoekterm in om producten te vinden</p>
         </div>
       )}
 
       {/* No Results */}
       {!loading && query && productHits.length === 0 && (
         <div className="text-center py-20">
-          <Package className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Geen resultaten gevonden</h2>
-          <p className="text-gray-600 mb-6">
+          <Package className="w-16 h-16 mx-auto text-grey-mid mb-4" />
+          <h2 className="text-2xl font-bold text-navy mb-2">Geen resultaten gevonden</h2>
+          <p className="text-grey-dark mb-6">
             Probeer een andere zoekterm of verwijder enkele filters
           </p>
           <Link
@@ -126,10 +126,10 @@ export function SearchResults() {
             <Link
               key={hit.id}
               href={`/${hit.slug}`}
-              className="group bg-white border border-gray-200 rounded-2xl p-5 hover:border-teal-500 hover:shadow-lg transition-all"
+              className="group bg-white border border-grey-light rounded-2xl p-5 hover:border-teal-500 hover:shadow-lg transition-all"
             >
               {/* Product Image */}
-              <div className="w-full aspect-square bg-gray-100 rounded-xl flex items-center justify-center text-6xl mb-4 group-hover:bg-teal-50 transition-colors">
+              <div className="w-full aspect-square bg-grey-light rounded-xl flex items-center justify-center text-6xl mb-4 group-hover:bg-teal-50 transition-colors">
                 🧤
               </div>
 
@@ -142,28 +142,28 @@ export function SearchResults() {
 
               {/* Title */}
               <h3
-                className="font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-teal-600 transition-colors"
+                className="font-bold text-navy mb-2 line-clamp-2 group-hover:text-teal-600 transition-colors"
                 dangerouslySetInnerHTML={{ __html: hit._formatted?.title || hit.title }}
               />
 
               {/* SKU */}
               {hit.sku && (
-                <p className="text-xs text-gray-500 font-mono mb-3">
+                <p className="text-xs text-grey-mid font-mono mb-3">
                   SKU: {hit.sku}
                 </p>
               )}
 
               {/* Description */}
               {hit.description && (
-                <p className="text-sm text-gray-600 line-clamp-2 mb-4">
+                <p className="text-sm text-grey-dark line-clamp-2 mb-4">
                   {hit.description}
                 </p>
               )}
 
               {/* Price & Stock */}
-              <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
+              <div className="flex items-center justify-between mt-auto pt-4 border-t border-grey-light">
                 {hit.price !== undefined && (
-                  <div className="font-extrabold text-lg text-gray-900">
+                  <div className="font-extrabold text-lg text-navy">
                     €{formatPriceStr(hit.price)}
                   </div>
                 )}

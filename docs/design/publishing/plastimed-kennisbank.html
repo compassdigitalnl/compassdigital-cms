@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plastimed — Kennisbank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a2647;
+    --navy-deep: #061a33;
+    --navy-light: #0d3059;
+    --teal: #00897b;
+    --teal-light: #26a69a;
+    --teal-dark: #00695c;
+    --teal-bg: #e0f2f1;
+    --coral: #e94560;
+    --gold: #f59e0b;
+    --gold-dark: #d97706;
+    --gold-bg: #fffbeb;
+    --gold-border: #fde68a;
+    --bg: #f8f9fb;
+    --white: #ffffff;
+    --gray-50: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-400: #94a3b8;
+    --gray-500: #64748b;
+    --gray-600: #475569;
+    --gray-700: #334155;
+    --text: #1e293b;
+    --green: #16a34a;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --radius-lg: 20px;
+    --shadow-sm: 0 1px 3px rgba(10,38,71,0.06);
+    --shadow-md: 0 4px 20px rgba(10,38,71,0.08);
+    --shadow-lg: 0 8px 40px rgba(10,38,71,0.12);
+    --font: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    --font-display: 'DM Serif Display', Georgia, serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); }
+
+  /* ─── TOPBAR ─── */
+  .topbar {
+    background: var(--navy-deep); color: rgba(255,255,255,0.7);
+    font-size: 12px; padding: 8px 0;
+  }
+  .topbar .container { display: flex; justify-content: space-between; align-items: center; }
+  .topbar-left { display: flex; gap: 24px; }
+  .topbar-right { display: flex; gap: 16px; }
+  .topbar-right a { color: rgba(255,255,255,0.7); text-decoration: none; }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--navy); padding: 16px 0;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+  }
+  .header .container { display: flex; align-items: center; gap: 32px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-icon {
+    width: 38px; height: 38px; background: var(--teal);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 18px;
+  }
+  .logo-text { color: white; font-size: 22px; font-weight: 700; }
+  .logo-text span { color: var(--teal-light); }
+  .header-actions { display: flex; gap: 8px; margin-left: auto; }
+  .header-btn {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+    color: white; padding: 8px 14px; border-radius: var(--radius-sm);
+    cursor: pointer; font-size: 14px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .header-btn.premium {
+    background: linear-gradient(135deg, var(--gold), #d97706);
+    border: none; font-weight: 700;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* ─── HERO ─── */
+  .kb-hero {
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 60%, #041526 100%);
+    padding: 60px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kb-hero::before {
+    content: '';
+    position: absolute;
+    top: -30%; right: -5%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,137,123,0.1) 0%, transparent 60%);
+    border-radius: 50%;
+  }
+  .kb-hero-content {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 40px; position: relative;
+  }
+  .kb-hero-left { max-width: 520px; }
+  .kb-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,137,123,0.15); border: 1px solid rgba(0,137,123,0.25);
+    padding: 5px 14px; border-radius: 20px;
+    color: var(--teal-light); font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 16px;
+  }
+  .kb-title {
+    font-family: var(--font-display);
+    font-size: 40px; color: white;
+    line-height: 1.2; margin-bottom: 14px;
+  }
+  .kb-title .accent { color: var(--teal-light); }
+  .kb-desc {
+    font-size: 16px; color: rgba(255,255,255,0.55);
+    line-height: 1.7; margin-bottom: 28px;
+  }
+
+  /* Search */
+  .kb-search {
+    position: relative; max-width: 480px;
+  }
+  .kb-search input {
+    width: 100%; padding: 14px 18px 14px 48px;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius-sm);
+    background: rgba(255,255,255,0.06);
+    color: white; font-family: var(--font); font-size: 15px;
+    outline: none; transition: all 0.2s;
+  }
+  .kb-search input:focus {
+    border-color: var(--teal);
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 0 0 3px rgba(0,137,123,0.15);
+  }
+  .kb-search input::placeholder { color: rgba(255,255,255,0.35); }
+  .kb-search .search-icon {
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    color: rgba(255,255,255,0.4); font-size: 18px;
+  }
+
+  /* Stats */
+  .kb-hero-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .stat-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 32px; color: var(--teal-light);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px; color: rgba(255,255,255,0.45);
+    margin-top: 4px; font-weight: 600;
+  }
+
+  /* ─── CATEGORY FILTERS ─── */
+  .filters-bar {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 14px 0;
+    position: sticky; top: 68px; z-index: 90;
+    box-shadow: var(--shadow-sm);
+  }
+  .filter-pills {
+    display: flex; gap: 8px; overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .filter-pills::-webkit-scrollbar { display: none; }
+  .filter-pill {
+    padding: 8px 18px;
+    background: var(--gray-50);
+    border: 1.5px solid var(--gray-200);
+    border-radius: 20px;
+    font-family: var(--font); font-size: 13px; font-weight: 600;
+    color: var(--gray-600);
+    cursor: pointer; transition: all 0.2s;
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .filter-pill:hover { border-color: var(--teal); color: var(--teal); }
+  .filter-pill.active {
+    background: var(--teal); color: white; border-color: var(--teal);
+  }
+  .filter-pill .count {
+    background: rgba(0,0,0,0.08);
+    padding: 1px 6px; border-radius: 8px;
+    font-size: 10px; font-weight: 800;
+  }
+  .filter-pill.active .count { background: rgba(255,255,255,0.25); }
+
+  .type-toggle {
+    display: flex; gap: 4px; margin-left: auto;
+    background: var(--gray-100); border-radius: 8px;
+    padding: 3px;
+  }
+  .type-btn {
+    padding: 6px 14px; border-radius: 6px;
+    font-family: var(--font); font-size: 12px; font-weight: 700;
+    background: none; border: none; color: var(--gray-500);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .type-btn.active { background: var(--white); color: var(--navy); box-shadow: var(--shadow-sm); }
+
+  /* ─── FEATURED ARTICLE ─── */
+  .featured-section { padding: 40px 0; }
+  .featured-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .featured-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+  .featured-img {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 80px;
+    position: relative;
+    min-height: 280px;
+  }
+  .featured-img::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(0,137,123,0.15), transparent 60%);
+  }
+  .featured-overlay {
+    position: absolute;
+    top: 16px; left: 16px;
+    display: flex; gap: 6px;
+  }
+  .featured-tag {
+    padding: 4px 10px; border-radius: 6px;
+    font-size: 10px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .featured-tag.premium { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: white; }
+  .featured-tag.new { background: var(--teal); color: white; }
+
+  .featured-body {
+    padding: 36px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .featured-cat {
+    font-size: 11px; font-weight: 700; color: var(--teal);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .featured-title {
+    font-family: var(--font-display);
+    font-size: 26px; color: var(--navy);
+    line-height: 1.25; margin-bottom: 12px;
+  }
+  .featured-excerpt {
+    font-size: 14px; color: var(--gray-500);
+    line-height: 1.7; margin-bottom: 20px;
+  }
+  .featured-meta {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 12px; color: var(--gray-400);
+  }
+  .featured-author {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .f-avatar {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--teal); display: flex; align-items: center;
+    justify-content: center; color: white; font-size: 10px; font-weight: 700;
+  }
+  .featured-read-btn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: var(--teal); color: white;
+    border: none; border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+    width: fit-content;
+  }
+  .featured-read-btn:hover { background: var(--teal-dark); }
+
+  /* ─── ARTICLES GRID ─── */
+  .articles-section { padding: 0 0 60px; }
+  .articles-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 24px;
+  }
+  .articles-title {
+    font-family: var(--font-display);
+    font-size: 24px; color: var(--navy);
+  }
+  .articles-count {
+    font-size: 13px; color: var(--gray-400); font-weight: 600;
+  }
+
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .article-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex; flex-direction: column;
+  }
+  .article-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+    border-color: var(--gray-300);
+  }
+
+  .card-thumb {
+    height: 140px;
+    background: linear-gradient(135deg, var(--gray-100), var(--gray-200));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px;
+    position: relative;
+  }
+  .card-thumb.dark {
+    background: linear-gradient(135deg, var(--navy), var(--navy-deep));
+  }
+  .card-tags {
+    position: absolute;
+    top: 10px; left: 10px;
+    display: flex; gap: 4px;
+  }
+  .card-tag {
+    padding: 3px 8px; border-radius: 4px;
+    font-size: 9px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .card-tag.free { background: var(--teal-bg); color: var(--teal-dark); }
+  .card-tag.premium { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: white; }
+  .card-tag.video { background: var(--coral); color: white; }
+  .card-tag.pdf { background: var(--navy); color: white; }
+
+  .card-body {
+    padding: 18px; flex: 1;
+    display: flex; flex-direction: column;
+  }
+  .card-cat {
+    font-size: 10px; font-weight: 700; color: var(--teal);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .card-title {
+    font-size: 15px; font-weight: 700; color: var(--navy);
+    line-height: 1.35; margin-bottom: 8px;
+  }
+  .card-excerpt {
+    font-size: 13px; color: var(--gray-500);
+    line-height: 1.6;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-footer {
+    padding: 12px 18px;
+    border-top: 1px solid var(--gray-100);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 11px; color: var(--gray-400);
+  }
+  .card-footer-left {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .card-time { font-weight: 600; }
+
+  /* ─── PREMIUM BANNER ─── */
+  .premium-banner {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 32px;
+    margin: 20px 0 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .premium-banner::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -10%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(245,158,11,0.1), transparent 60%);
+    border-radius: 50%;
+  }
+  .premium-banner-left { position: relative; }
+  .premium-banner-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    padding: 4px 12px; border-radius: 12px;
+    font-size: 10px; font-weight: 800; color: white;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .premium-banner-title {
+    font-family: var(--font-display);
+    font-size: 24px; color: white;
+    margin-bottom: 8px;
+  }
+  .premium-banner-desc {
+    font-size: 14px; color: rgba(255,255,255,0.5);
+    max-width: 400px;
+  }
+  .premium-banner-right { position: relative; display: flex; gap: 12px; }
+  .premium-banner-btn {
+    padding: 14px 28px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: white; border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .premium-banner-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(245,158,11,0.3);
+  }
+  .premium-banner-btn.ghost {
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+  }
+  .premium-banner-btn.ghost:hover {
+    border-color: rgba(255,255,255,0.4);
+    color: white;
+    box-shadow: none;
+  }
+
+  /* ─── LOAD MORE ─── */
+  .load-more {
+    text-align: center;
+    padding: 20px 0 60px;
+  }
+  .load-more-btn {
+    padding: 14px 40px;
+    background: var(--white);
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 14px; font-weight: 700;
+    color: var(--gray-600);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .load-more-btn:hover {
+    border-color: var(--teal); color: var(--teal);
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (max-width: 900px) {
+    .kb-hero-content { flex-direction: column; text-align: center; }
+    .kb-hero-left { max-width: 100%; }
+    .kb-search { max-width: 100%; }
+    .kb-hero-stats { grid-template-columns: repeat(4, 1fr); }
+    .featured-card { grid-template-columns: 1fr; }
+    .articles-grid { grid-template-columns: 1fr; }
+    .premium-banner { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-left">
+      <span>✓ Voordelige B2B prijzen</span>
+      <span>🚚 Gratis verzending vanaf €150</span>
+    </div>
+    <div class="topbar-right">
+      <a href="#">Klant worden</a>
+      <a href="#">Help & Contact</a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="container">
+    <a href="#" class="logo">
+      <div class="logo-icon">P</div>
+      <div class="logo-text">plasti<span>med</span></div>
+    </a>
+    <div class="header-actions">
+      <button class="header-btn">📞 0251-247233</button>
+      <button class="header-btn">👤</button>
+      <button class="header-btn premium">⭐ Pro</button>
+      <button class="header-btn">🛒</button>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="kb-hero">
+  <div class="container">
+    <div class="kb-hero-content">
+      <div class="kb-hero-left">
+        <div class="kb-badge">📚 Kennisbank</div>
+        <h1 class="kb-title">Vakkennis voor <span class="accent">zorgprofessionals</span></h1>
+        <p class="kb-desc">Productgidsen, vergelijkingen, e-learning en best practices. Geschreven door experts, voor de dagelijkse zorgpraktijk.</p>
+        <div class="kb-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" placeholder="Zoek artikelen, gidsen of onderwerpen...">
+        </div>
+      </div>
+      <div class="kb-hero-stats">
+        <div class="stat-card">
+          <div class="stat-num">47</div>
+          <div class="stat-label">Artikelen</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">12</div>
+          <div class="stat-label">Productgidsen</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">8</div>
+          <div class="stat-label">E-learning</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">23</div>
+          <div class="stat-label">Downloads</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="filters-bar">
+  <div class="container" style="display:flex;align-items:center;gap:12px;">
+    <div class="filter-pills">
+      <button class="filter-pill active">Alles <span class="count">47</span></button>
+      <button class="filter-pill">🩺 Diagnostiek <span class="count">12</span></button>
+      <button class="filter-pill">🏥 EHBO <span class="count">6</span></button>
+      <button class="filter-pill">💉 Injectiemateriaal <span class="count">8</span></button>
+      <button class="filter-pill">✂️ Instrumentarium <span class="count">5</span></button>
+      <button class="filter-pill">🩹 Verbandmiddelen <span class="count">7</span></button>
+      <button class="filter-pill">📦 Verbruiksmateriaal <span class="count">9</span></button>
+    </div>
+    <div class="type-toggle">
+      <button class="type-btn active">Alle</button>
+      <button class="type-btn">Gratis</button>
+      <button class="type-btn">⭐ Pro</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- FEATURED -->
+  <div class="featured-section">
+    <div class="featured-card">
+      <div class="featured-img">
+        🔬
+        <div class="featured-overlay">
+          <span class="featured-tag premium">⭐ Premium</span>
+          <span class="featured-tag new">Nieuw</span>
+        </div>
+      </div>
+      <div class="featured-body">
+        <div class="featured-cat">📊 Productgids · Diagnostiek</div>
+        <h2 class="featured-title">De complete gids: bloeddrukmeters vergelijken voor uw praktijk</h2>
+        <p class="featured-excerpt">Uitgebreide vergelijking van de top 5 bloeddrukmeters, inclusief hands-on tests, kostenvergelijking over 5 jaar, en specifieke aanbevelingen per zorgomgeving.</p>
+        <div class="featured-meta">
+          <div class="featured-author">
+            <div class="f-avatar">JV</div>
+            Dr. Jan van der Berg
+          </div>
+          <span>•</span>
+          <span>12 min leestijd</span>
+          <span>•</span>
+          <span>18 feb 2026</span>
+        </div>
+        <button class="featured-read-btn">Lees artikel →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARTICLES GRID -->
+  <div class="articles-section">
+    <div class="articles-header">
+      <h2 class="articles-title">Alle artikelen</h2>
+      <span class="articles-count">47 artikelen · Sorteer: Nieuwste eerst</span>
+    </div>
+
+    <div class="articles-grid">
+
+      <div class="article-card">
+        <div class="card-thumb">🌡️
+          <div class="card-tags"><span class="card-tag free">Gratis</span></div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">Diagnostiek</div>
+          <div class="card-title">Koortsthermometers: welk type kiest u voor uw praktijk?</div>
+          <p class="card-excerpt">Oor, voorhoofd of rectaal? We vergelijken de meest gebruikte koortsthermometers op nauwkeurigheid, snelheid en hygiëne.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-footer-left">
+            <span class="card-time">⏱ 6 min</span>
+            <span>📅 14 feb</span>
+          </div>
+          <span>Gratis</span>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <div class="card-thumb dark">🩺
+          <div class="card-tags"><span class="card-tag premium">⭐ Pro</span></div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">Diagnostiek</div>
+          <div class="card-title">Stethoscopen: Littmann vs. alternatieven — uitgebreide test</div>
+          <p class="card-excerpt">Is een Littmann de investering waard? We testen 8 stethoscopen van €30 tot €300 en beoordelen op akoestiek, comfort en duurzaamheid.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-footer-left">
+            <span class="card-time">⏱ 15 min</span>
+            <span>📅 10 feb</span>
+          </div>
+          <span style="color:var(--gold-dark);font-weight:700;">⭐ Pro</span>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <div class="card-thumb">🧤
+          <div class="card-tags"><span class="card-tag free">Gratis</span></div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">Verbruiksmateriaal</div>
+          <div class="card-title">Handschoenen kiezen: nitril, latex of vinyl?</div>
+          <p class="card-excerpt">Een overzicht van de verschillen tussen de drie meest gebruikte soorten onderzoekshandschoenen, inclusief allergierisico's.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-footer-left">
+            <span class="card-time">⏱ 8 min</span>
+            <span>📅 8 feb</span>
+          </div>
+          <span>Gratis</span>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <div class="card-thumb dark">💉
+          <div class="card-tags"><span class="card-tag premium">⭐ Pro</span><span class="card-tag pdf">PDF</span></div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">Injectiemateriaal</div>
+          <div class="card-title">Injectiespuiten & naalden: keuzehulp per toepassing</div>
+          <p class="card-excerpt">Van vaccinatie tot infuus: welke spuit-naald combinatie is optimaal? Inclusief downloadbare keuzehulp poster voor op de behandelkamer.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-footer-left">
+            <span class="card-time">⏱ 10 min</span>
+            <span>📅 5 feb</span>
+          </div>
+          <span style="color:var(--gold-dark);font-weight:700;">⭐ Pro</span>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <div class="card-thumb">🏥
+          <div class="card-tags"><span class="card-tag free">Gratis</span><span class="card-tag video">Video</span></div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">EHBO</div>
+          <div class="card-title">EHBO-koffer samenstellen: wat moet erin volgens de norm?</div>
+          <p class="card-excerpt">BHV-norm 2026 vereist specifieke inhoud. We lopen de vereisten door en tonen hoe u een conforme koffer samenstelt.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-footer-left">
+            <span class="card-time">⏱ 5 min + video</span>
+            <span>📅 2 feb</span>
+          </div>
+          <span>Gratis</span>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <div class="card-thumb dark">📊
+          <div class="card-tags"><span class="card-tag premium">⭐ Pro</span></div>
+        </div>
+        <div class="card-body">
+          <div class="card-cat">Kostenvergelijking</div>
+          <div class="card-title">Total Cost of Ownership: AED's voor de huisartsenpraktijk</div>
+          <p class="card-excerpt">Een AED kopen lijkt eenvoudig, maar onderhoud, elektroden en training lopen snel op. We berekenen de werkelijke kosten over 10 jaar.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-footer-left">
+            <span class="card-time">⏱ 14 min</span>
+            <span>📅 29 jan</span>
+          </div>
+          <span style="color:var(--gold-dark);font-weight:700;">⭐ Pro</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PREMIUM BANNER -->
+  <div class="premium-banner">
+    <div class="premium-banner-left">
+      <div class="premium-banner-badge">⭐ Plastimed Pro</div>
+      <h3 class="premium-banner-title">Ontgrendel alle 47 artikelen</h3>
+      <p class="premium-banner-desc">Plus downloadbare PDF-gidsen, e-learning modules met certificaat, en exclusieve staffelprijzen op 4.000+ producten.</p>
+    </div>
+    <div class="premium-banner-right">
+      <button class="premium-banner-btn">14 dagen gratis proberen</button>
+      <button class="premium-banner-btn ghost">Bekijk plannen</button>
+    </div>
+  </div>
+
+  <!-- LOAD MORE -->
+  <div class="load-more">
+    <button class="load-more-btn">Meer artikelen laden (41 resterend)</button>
+  </div>
+
+</div>
+
+</body>
+</html>

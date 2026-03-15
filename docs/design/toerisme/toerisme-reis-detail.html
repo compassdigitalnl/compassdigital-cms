@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bali Highlights - 8 Dagen | Compass Reizen</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      /* Toerisme Colors */
+      --cyan: #00BCD4;
+      --cyan-light: #4DD0E1;
+      --cyan-dark: #0097A7;
+      --cyan-glow: rgba(0, 188, 212, 0.12);
+      --ocean: #0a2e36;
+      --ocean-light: #0f3d47;
+
+      /* Neutrals */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Status Colors */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Header Placeholder */
+    .header-placeholder {
+      height: 70px;
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--grey-mid);
+      font-size: 12px;
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--grey-mid);
+    }
+
+    .breadcrumbs a {
+      color: var(--grey-mid);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--cyan);
+    }
+
+    .breadcrumbs .separator {
+      color: var(--grey);
+    }
+
+    .breadcrumbs .current {
+      color: var(--navy);
+      font-weight: 500;
+    }
+
+    /* Hero Gallery Section */
+    .hero-gallery {
+      max-width: 1200px;
+      margin: 0 auto 32px;
+      padding: 0 24px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 300px 300px;
+      gap: 8px;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .gallery-main {
+      grid-row: 1 / 3;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .gallery-main img,
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .gallery-main:hover img,
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .gallery-item {
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      background: var(--grey);
+    }
+
+    .view-all-photos {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid var(--grey);
+    }
+
+    .view-all-photos:hover {
+      background: var(--white);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .view-all-photos i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Main Content Layout */
+    .content-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* Left Column */
+    .tour-content {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Tour Header */
+    .tour-header {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tour-meta-badges {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .badge.bestseller {
+      background: var(--green-light);
+      color: #166534;
+    }
+
+    .badge.small-group {
+      background: var(--amber-light);
+      color: #92400E;
+    }
+
+    .badge i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .tour-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+
+    .tour-location {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--grey-dark);
+      font-size: 15px;
+    }
+
+    .tour-location i {
+      width: 18px;
+      height: 18px;
+      color: var(--cyan);
+    }
+
+    .tour-rating {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stars {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .stars i {
+      width: 16px;
+      height: 16px;
+      color: var(--amber);
+      fill: var(--amber);
+    }
+
+    .rating-text {
+      font-size: 14px;
+      color: var(--grey-dark);
+    }
+
+    .rating-text strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* Quick Info Bar */
+    .quick-info {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .info-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--grey-mid);
+    }
+
+    .info-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .info-value i {
+      width: 18px;
+      height: 18px;
+      color: var(--cyan);
+    }
+
+    /* Section Card */
+    .section-card {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+
+    .section-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    .section-description {
+      color: var(--grey-dark);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    /* Highlights Grid */
+    .highlights-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .highlight-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .highlight-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      background: var(--cyan-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .highlight-icon i {
+      width: 20px;
+      height: 20px;
+      color: var(--cyan);
+    }
+
+    .highlight-content h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .highlight-content p {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.5;
+    }
+
+    /* Itinerary */
+    .itinerary-day {
+      border-bottom: 1px solid var(--grey);
+      padding: 24px 0;
+    }
+
+    .itinerary-day:last-child {
+      border-bottom: none;
+    }
+
+    .day-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .day-number {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .day-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--cyan-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--cyan);
+    }
+
+    .day-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .expand-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--grey-mid);
+      transition: var(--transition);
+    }
+
+    .itinerary-day.active .expand-icon {
+      transform: rotate(180deg);
+      color: var(--cyan);
+    }
+
+    .day-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .itinerary-day.active .day-content {
+      max-height: 500px;
+    }
+
+    .day-content-inner {
+      padding: 20px 0 0 64px;
+      color: var(--grey-dark);
+      line-height: 1.7;
+    }
+
+    .day-meals {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--grey-mid);
+    }
+
+    .day-meals i {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Inclusions/Exclusions */
+    .inclusion-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      margin-top: 20px;
+    }
+
+    .inclusion-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .inclusion-list h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .inclusion-list h4 i {
+      width: 18px;
+      height: 18px;
+    }
+
+    .inclusion-list.included h4 {
+      color: #166534;
+    }
+
+    .inclusion-list.included h4 i {
+      color: var(--green);
+    }
+
+    .inclusion-list.excluded h4 {
+      color: #DC2626;
+    }
+
+    .inclusion-list.excluded h4 i {
+      color: var(--coral);
+    }
+
+    .inclusion-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .inclusion-item i {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .inclusion-list.included .inclusion-item i {
+      color: var(--green);
+    }
+
+    .inclusion-list.excluded .inclusion-item i {
+      color: var(--coral);
+    }
+
+    /* Reviews Section */
+    .reviews-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .reviews-summary {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .review-score {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-sm);
+      background: var(--cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--white);
+    }
+
+    .review-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .review-stars {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .review-stars i {
+      width: 18px;
+      height: 18px;
+      color: var(--amber);
+      fill: var(--amber);
+    }
+
+    .review-count {
+      font-size: 13px;
+      color: var(--grey-mid);
+    }
+
+    .review-card {
+      border-top: 1px solid var(--grey);
+      padding-top: 24px;
+      margin-bottom: 24px;
+    }
+
+    .review-card:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .review-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .reviewer-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .reviewer-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .reviewer-details h5 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
+
+    .reviewer-details p {
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .review-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .review-rating i {
+      width: 14px;
+      height: 14px;
+      color: var(--amber);
+      fill: var(--amber);
+    }
+
+    .review-text {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.7;
+    }
+
+    /* Right Column - Booking Sidebar */
+    .booking-sidebar {
+      position: sticky;
+      top: 90px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .booking-card {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .price-display {
+      margin-bottom: 20px;
+    }
+
+    .price-label {
+      font-size: 13px;
+      color: var(--grey-mid);
+      margin-bottom: 4px;
+    }
+
+    .price {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .price-period {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--grey-mid);
+    }
+
+    .booking-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .form-input,
+    .form-select {
+      padding: 10px 14px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--navy);
+      transition: var(--transition);
+      background: var(--white);
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px var(--cyan-glow);
+    }
+
+    .travelers-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 14px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn.primary {
+      background: var(--cyan);
+      color: var(--white);
+    }
+
+    .btn.primary:hover {
+      background: var(--cyan-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--cyan);
+      border: 1.5px solid var(--cyan);
+    }
+
+    .btn.secondary:hover {
+      background: var(--cyan-glow);
+    }
+
+    .btn i {
+      width: 18px;
+      height: 18px;
+    }
+
+    .guarantee-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-top: 20px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .guarantee-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .guarantee-item i {
+      width: 18px;
+      height: 18px;
+      color: var(--green);
+    }
+
+    /* Contact Card */
+    .contact-card {
+      background: linear-gradient(135deg, var(--ocean), var(--ocean-light));
+      border: 1px solid rgba(0, 188, 212, 0.2);
+      border-radius: var(--radius);
+      padding: 24px;
+      color: var(--white);
+    }
+
+    .contact-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .contact-card p {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 16px;
+    }
+
+    .contact-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contact-method {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .contact-method i {
+      width: 18px;
+      height: 18px;
+      color: var(--cyan-light);
+    }
+
+    /* Related Tours */
+    .related-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px;
+      background: var(--white);
+    }
+
+    .related-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .related-header h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .related-header p {
+      font-size: 15px;
+      color: var(--grey-dark);
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    /* Tour Card (reused from overview) */
+    .tour-card {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .tour-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .tour-card-image {
+      width: 100%;
+      height: 220px;
+      background: var(--grey);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tour-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .tour-card-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: var(--white);
+      color: var(--navy);
+    }
+
+    .tour-card-content {
+      padding: 20px;
+    }
+
+    .tour-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .tour-card-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tour-card-meta-item i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .tour-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .tour-card-price {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .tour-card-price-label {
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .tour-card-price-value {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--cyan);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 250px 250px;
+      }
+
+      .gallery-main {
+        grid-column: 1 / 3;
+        grid-row: 1;
+      }
+
+      .content-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .booking-sidebar {
+        position: static;
+        order: -1;
+      }
+
+      .quick-info {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .highlights-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .inclusion-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .travelers-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: 250px 150px 150px 150px;
+      }
+
+      .gallery-main {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .quick-info {
+        grid-template-columns: 1fr;
+      }
+
+      .tour-title {
+        font-size: 24px;
+      }
+
+      .section-card {
+        padding: 20px;
+      }
+
+      .price {
+        font-size: 28px;
+      }
+
+      .day-content-inner {
+        padding-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Placeholder -->
+  <div class="header-placeholder">
+    [ Header Navigation - Reuse from homepage ]
+  </div>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="/">Home</a>
+    <span class="separator">/</span>
+    <a href="/reizen">Reizen</a>
+    <span class="separator">/</span>
+    <a href="/reizen?continent=azie">Azië</a>
+    <span class="separator">/</span>
+    <span class="current">Bali Highlights</span>
+  </div>
+
+  <!-- Hero Gallery -->
+  <div class="hero-gallery">
+    <div class="gallery-grid">
+      <div class="gallery-main">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Crect fill='%23E8ECF1' width='800' height='600'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E🏝️%3C/text%3E%3C/svg%3E" alt="Bali Highlights Main">
+        <div class="view-all-photos">
+          <i data-lucide="images"></i>
+          Bekijk alle foto's (24)
+        </div>
+      </div>
+      <div class="gallery-item">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23E8ECF1' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='36' fill='%2394A3B8'%3E🌾%3C/text%3E%3C/svg%3E" alt="Rice Terraces">
+      </div>
+      <div class="gallery-item">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23E8ECF1' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='36' fill='%2394A3B8'%3E⛩️%3C/text%3E%3C/svg%3E" alt="Temple">
+      </div>
+      <div class="gallery-item">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23E8ECF1' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='36' fill='%2394A3B8'%3E🏖️%3C/text%3E%3C/svg%3E" alt="Beach">
+      </div>
+      <div class="gallery-item">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23E8ECF1' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='36' fill='%2394A3B8'%3E🌋%3C/text%3E%3C/svg%3E" alt="Volcano">
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content-layout">
+
+    <!-- Left Column -->
+    <div class="tour-content">
+
+      <!-- Tour Header -->
+      <div class="tour-header">
+        <div class="tour-meta-badges">
+          <div class="badge bestseller">
+            <i data-lucide="award"></i>
+            Bestseller
+          </div>
+          <div class="badge small-group">
+            <i data-lucide="users"></i>
+            Max 12 personen
+          </div>
+        </div>
+
+        <h1 class="tour-title">Bali Highlights - Cultuur, Natuur & Strand</h1>
+
+        <div class="tour-location">
+          <i data-lucide="map-pin"></i>
+          <span>Bali, Indonesië</span>
+        </div>
+
+        <div class="tour-rating">
+          <div class="stars">
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+          </div>
+          <span class="rating-text"><strong>4.9</strong> · 127 beoordelingen</span>
+        </div>
+      </div>
+
+      <!-- Quick Info -->
+      <div class="quick-info">
+        <div class="info-item">
+          <div class="info-label">Duur</div>
+          <div class="info-value">
+            <i data-lucide="calendar"></i>
+            8 dagen
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Groepsgrootte</div>
+          <div class="info-value">
+            <i data-lucide="users"></i>
+            Max 12
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Moeilijkheidsgraad</div>
+          <div class="info-value">
+            <i data-lucide="activity"></i>
+            Gemiddeld
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Minimumleeftijd</div>
+          <div class="info-value">
+            <i data-lucide="user-check"></i>
+            16 jaar
+          </div>
+        </div>
+      </div>
+
+      <!-- Tour Overview -->
+      <div class="section-card">
+        <h2 class="section-title">Over deze reis</h2>
+        <p class="section-description">
+          Ontdek het betoverende Bali tijdens deze 8-daagse rondreis. Van de culturele rijkdom van Ubud tot de serene rijstterrassen van Tegallalang, van spirituele tempels tot witte zandstranden – deze reis biedt een perfecte balans tussen avontuur, cultuur en ontspanning.
+        </p>
+        <p class="section-description">
+          Je verblijft in zorgvuldig geselecteerde hotels, reist in kleine groepen (max 12 personen) en wordt begeleid door een ervaren Nederlandstalige gids. Onderweg proef je de authentieke Balinese keuken en ontmoet je lokale ambachtslieden.
+        </p>
+
+        <div class="highlights-grid">
+          <div class="highlight-item">
+            <div class="highlight-icon">
+              <i data-lucide="sunrise"></i>
+            </div>
+            <div class="highlight-content">
+              <h4>Zonsopgang bij Mount Batur</h4>
+              <p>Beklim de vulkaan voor een onvergetelijk uitzicht</p>
+            </div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-icon">
+              <i data-lucide="sparkles"></i>
+            </div>
+            <div class="highlight-content">
+              <h4>Tirta Empul tempelbezoek</h4>
+              <p>Ervaar een traditionele zuiveringsceremonie</p>
+            </div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-icon">
+              <i data-lucide="palmtree"></i>
+            </div>
+            <div class="highlight-content">
+              <h4>Tegallalang rijstterrassen</h4>
+              <p>Wandel door iconische groene velden</p>
+            </div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-icon">
+              <i data-lucide="waves"></i>
+            </div>
+            <div class="highlight-content">
+              <h4>Strandrelax in Sanur</h4>
+              <p>2 dagen ontspannen aan het strand</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Day-by-Day Itinerary -->
+      <div class="section-card">
+        <h2 class="section-title">Dag voor dag programma</h2>
+
+        <div class="itinerary-day active">
+          <div class="day-header" onclick="toggleDay(this)">
+            <div class="day-number">
+              <div class="day-badge">1</div>
+              <div class="day-title">Aankomst in Denpasar & transfer naar Ubud</div>
+            </div>
+            <i class="expand-icon" data-lucide="chevron-down"></i>
+          </div>
+          <div class="day-content">
+            <div class="day-content-inner">
+              <p>Welkom op Bali! Na aankomst op de luchthaven van Denpasar word je opgewacht door onze gids. Transfer naar Ubud (ca. 1,5 uur), het culturele hart van Bali. Check-in bij je hotel en vrije tijd om te acclimatiseren. In de avond: welkomsdiner met de groep op een gezellig terras met uitzicht op de rijstvelden.</p>
+              <div class="day-meals">
+                <span><i data-lucide="utensils"></i> Diner</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="itinerary-day">
+          <div class="day-header" onclick="toggleDay(this)">
+            <div class="day-number">
+              <div class="day-badge">2</div>
+              <div class="day-title">Ubud - Rijstterrassen & Heilige Apen Bos</div>
+            </div>
+            <i class="expand-icon" data-lucide="chevron-down"></i>
+          </div>
+          <div class="day-content">
+            <div class="day-content-inner">
+              <p>Vandaag ontdekken we het groene Ubud. Start met een bezoek aan de iconische Tegallalang rijstterrassen. Wandel door de groene velden en leer over het traditionele irrigatiesysteem 'subak'. Daarna bezoek aan het Heilige Apen Bos, waar honderden makaken vrij rondlopen tussen oude tempels. Middag: workshop Balinese kookkunst bij een lokale familie. Avond vrij om Ubud centrum te verkennen.</p>
+              <div class="day-meals">
+                <span><i data-lucide="coffee"></i> Ontbijt</span>
+                <span><i data-lucide="utensils"></i> Lunch</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="itinerary-day">
+          <div class="day-header" onclick="toggleDay(this)">
+            <div class="day-number">
+              <div class="day-badge">3</div>
+              <div class="day-title">Mount Batur zonsopgang & Tirta Empul tempel</div>
+            </div>
+            <i class="expand-icon" data-lucide="chevron-down"></i>
+          </div>
+          <div class="day-content">
+            <div class="day-content-inner">
+              <p>Vroege start (03:00) voor de Mount Batur zonsopgangstrek. De 2-urige klim wordt beloond met een spectaculair uitzicht over het meer en de omliggende bergen. Ontbijt op de top. Terug bij het hotel voor rust en douche. Middag: bezoek aan de heilige Tirta Empul tempel, waar lokale gelovigen zich zuiveren in de heilige bronnen. Je mag zelf ook deelnemen aan deze ceremonie. Avond vrij.</p>
+              <div class="day-meals">
+                <span><i data-lucide="coffee"></i> Ontbijt</span>
+                <span><i data-lucide="utensils"></i> Lunch</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="itinerary-day">
+          <div class="day-header" onclick="toggleDay(this)">
+            <div class="day-number">
+              <div class="day-badge">4</div>
+              <div class="day-title">Tempelroute - Tanah Lot & Uluwatu</div>
+            </div>
+            <i class="expand-icon" data-lucide="chevron-down"></i>
+          </div>
+          <div class="day-content">
+            <div class="day-content-inner">
+              <p>Dag vol spirituele hoogtepunten. Ochtend: bezoek aan de Tanah Lot tempel, spectaculair gelegen op een rots in zee. Perfect voor foto's! Middag: doorrit naar het zuiden van Bali. Stop bij lokale koffie plantage voor proeverij. Avond: Uluwatu tempel tijdens zonsondergang, gevolgd door een traditionele Kecak vuurceremonie. Diner met verse vis aan het strand.</p>
+              <div class="day-meals">
+                <span><i data-lucide="coffee"></i> Ontbijt</span>
+                <span><i data-lucide="utensils"></i> Diner</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="itinerary-day">
+          <div class="day-header" onclick="toggleDay(this)">
+            <div class="day-number">
+              <div class="day-badge">5</div>
+              <div class="day-title">Transfer naar Sanur - Stranddag</div>
+            </div>
+            <i class="expand-icon" data-lucide="chevron-down"></i>
+          </div>
+          <div class="day-content">
+            <div class="day-content-inner">
+              <p>Ochtend transfer naar Sanur (ca. 1 uur), een rustig strand dorp aan de oostkust. Check-in bij je strandhotel. Rest van de dag vrij om te ontspannen op het strand, te zwemmen of optioneel een massage te boeken. Sanur is perfect voor wie wat rust zoekt na de actieve dagen. Diner op eigen gelegenheid (veel restaurants aan de boulevard).</p>
+              <div class="day-meals">
+                <span><i data-lucide="coffee"></i> Ontbijt</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="itinerary-day">
+          <div class="day-header" onclick="toggleDay(this)">
+            <div class="day-number">
+              <div class="day-badge">6</div>
+              <div class="day-title">Optioneel: Nusa Penida eiland excursie</div>
+            </div>
+            <i class="expand-icon" data-lucide="chevron-down"></i>
+          </div>
+          <div class="day-content">
+            <div class="day-content-inner">
+              <p>Keuze uit twee opties: (1) Vrije dag in Sanur voor strand & ontspanning, of (2) Dagtocht naar Nusa Penida eiland (optioneel, €95 pp). Bezoek aan Kelingking Beach (T-Rex viewpoint), Angel's Billabong, Broken Beach en Crystal Bay. Lunch inclusief. Terug in Sanur rond 18:00. Avond vrij.</p>
+              <div class="day-meals">
+                <span><i data-lucide="coffee"></i> Ontbijt</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="itinerary-day">
+          <div class="day-header" onclick="toggleDay(this)">
+            <div class="day-number">
+              <div class="day-badge">7</div>
+              <div class="day-title">Vrije dag Sanur - Optionele activiteiten</div>
+            </div>
+            <i class="expand-icon" data-lucide="chevron-down"></i>
+          </div>
+          <div class="day-content">
+            <div class="day-content-inner">
+              <p>Laatste volledige dag op Bali. Kies uit verschillende optionele activiteiten: snorkelen, SUP les, Balinese massage, yoga class, fietstocht door de omgeving, of gewoon relaxen op het strand. Avond: afscheidsdiner met de groep aan zee. Tijd om ervaringen te delen en contactgegevens uit te wisselen.</p>
+              <div class="day-meals">
+                <span><i data-lucide="coffee"></i> Ontbijt</span>
+                <span><i data-lucide="utensils"></i> Diner</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="itinerary-day">
+          <div class="day-header" onclick="toggleDay(this)">
+            <div class="day-number">
+              <div class="day-badge">8</div>
+              <div class="day-title">Transfer & vertrek</div>
+            </div>
+            <i class="expand-icon" data-lucide="chevron-down"></i>
+          </div>
+          <div class="day-content">
+            <div class="day-content-inner">
+              <p>Check-out uit je hotel (afhankelijk van je vluchtschema). Transfer naar de luchthaven van Denpasar. Als je vlucht 's avonds is, mogelijkheid voor late check-out of dagkamer (op aanvraag, meerprijs). Einde van een onvergetelijke reis!</p>
+              <div class="day-meals">
+                <span><i data-lucide="coffee"></i> Ontbijt</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Inclusions/Exclusions -->
+      <div class="section-card">
+        <h2 class="section-title">Wat is inbegrepen?</h2>
+
+        <div class="inclusion-grid">
+          <div class="inclusion-list included">
+            <h4>
+              <i data-lucide="check-circle"></i>
+              Inclusief
+            </h4>
+            <div class="inclusion-item">
+              <i data-lucide="check"></i>
+              <span>7 nachten accommodatie (3* hotels, ontbijt inclusief)</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="check"></i>
+              <span>Alle transfers in comfortabele minibus met airco</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="check"></i>
+              <span>Nederlandstalige reisleider tijdens hele tour</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="check"></i>
+              <span>Entreekosten alle vermelde tempels & attracties</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="check"></i>
+              <span>3 lunches + 3 diners zoals vermeld in programma</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="check"></i>
+              <span>Mount Batur zonsopgangstrek met gids</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="check"></i>
+              <span>Balinese kookworkshop met lokale familie</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="check"></i>
+              <span>Kecak vuurceremonie bij Uluwatu tempel</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="check"></i>
+              <span>24/7 noodhulplijn tijdens de reis</span>
+            </div>
+          </div>
+
+          <div class="inclusion-list excluded">
+            <h4>
+              <i data-lucide="x-circle"></i>
+              Niet inclusief
+            </h4>
+            <div class="inclusion-item">
+              <i data-lucide="x"></i>
+              <span>Internationale vluchten naar/van Bali</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="x"></i>
+              <span>Maaltijden niet vermeld in programma</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="x"></i>
+              <span>Optionele activiteiten (Nusa Penida €95)</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="x"></i>
+              <span>Drankjes bij maaltijden</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="x"></i>
+              <span>Persoonlijke uitgaven & souvenirs</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="x"></i>
+              <span>Fooien voor gids en chauffeur</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="x"></i>
+              <span>Reisverzekering (sterk aanbevolen)</span>
+            </div>
+            <div class="inclusion-item">
+              <i data-lucide="x"></i>
+              <span>Visum (gratis bij aankomst voor NL paspoort)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="section-card">
+        <div class="reviews-header">
+          <h2 class="section-title" style="margin-bottom: 0;">Beoordelingen</h2>
+          <div class="reviews-summary">
+            <div class="review-score">4.9</div>
+            <div class="review-stats">
+              <div class="review-stars">
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+              </div>
+              <div class="review-count">127 beoordelingen</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-info">
+              <div class="reviewer-avatar">SV</div>
+              <div class="reviewer-details">
+                <h5>Sophie van den Berg</h5>
+                <p>Februari 2026</p>
+              </div>
+            </div>
+            <div class="review-rating">
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+            </div>
+          </div>
+          <p class="review-text">
+            Onvergetelijke ervaring! De combinatie van cultuur, natuur en strand was perfect. Onze gids Lisa was super kundig en enthousiast. De Mount Batur zonsopgang was een hoogtepunt – zwaar maar de moeite meer dan waard. Hotels waren schoon en goed gelegen. Groepsgrootte (wij waren met 10) was ideaal. Aanrader!
+          </p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-info">
+              <div class="reviewer-avatar">MJ</div>
+              <div class="reviewer-details">
+                <h5>Mark Janssen</h5>
+                <p>Januari 2026</p>
+              </div>
+            </div>
+            <div class="review-rating">
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+            </div>
+          </div>
+          <p class="review-text">
+            Fantastische reis! Alles was tot in de puntjes geregeld. De kookworkshop in Ubud was super leuk, net als de Kecak dans bij Uluwatu. De extra excursie naar Nusa Penida (zeer aan te raden!) maakte het compleet. Enige minpuntje: wat vroege starts, maar dat hoort erbij. 5 sterren!
+          </p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-info">
+              <div class="reviewer-avatar">LD</div>
+              <div class="reviewer-details">
+                <h5>Laura de Vries</h5>
+                <p>December 2025</p>
+              </div>
+            </div>
+            <div class="review-rating">
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+            </div>
+          </div>
+          <p class="review-text">
+            Perfect voor wie Bali wil ontdekken zonder alles zelf te organiseren. De mix van actief (trekking, wandelen) en relaxen (strand) was goed in balans. Nederlandstalige begeleiding was een pre. Groep was gezellig (leeftijd 25-55). Prijs-kwaliteit uitstekend. We komen zeker terug voor jullie Java tour!
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Right Column - Booking Sidebar -->
+    <div class="booking-sidebar">
+
+      <!-- Booking Card -->
+      <div class="booking-card">
+        <div class="price-display">
+          <div class="price-label">Vanaf</div>
+          <div class="price">
+            € 1.395<span class="price-period"> p.p.</span>
+          </div>
+        </div>
+
+        <form class="booking-form" onsubmit="handleBooking(event)">
+          <div class="form-group">
+            <label class="form-label">Vertrekdatum</label>
+            <select class="form-select" required>
+              <option value="">Kies een datum...</option>
+              <option value="2026-05-15">15 mei 2026</option>
+              <option value="2026-06-12">12 juni 2026</option>
+              <option value="2026-07-03">3 juli 2026</option>
+              <option value="2026-08-14">14 augustus 2026</option>
+              <option value="2026-09-11">11 september 2026</option>
+              <option value="2026-10-09">9 oktober 2026</option>
+            </select>
+          </div>
+
+          <div class="travelers-grid">
+            <div class="form-group">
+              <label class="form-label">Volwassenen</label>
+              <select class="form-select" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kinderen</label>
+              <select class="form-select">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn primary">
+            <i data-lucide="calendar-check"></i>
+            Boek nu
+          </button>
+
+          <button type="button" class="btn secondary" onclick="handleInquiry()">
+            <i data-lucide="mail"></i>
+            Vraag info aan
+          </button>
+        </form>
+
+        <div class="guarantee-badges">
+          <div class="guarantee-item">
+            <i data-lucide="shield-check"></i>
+            <span>Gratis annuleren tot 30 dagen</span>
+          </div>
+          <div class="guarantee-item">
+            <i data-lucide="check-circle"></i>
+            <span>Beste prijs garantie</span>
+          </div>
+          <div class="guarantee-item">
+            <i data-lucide="clock"></i>
+            <span>Direct bevestiging</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Card -->
+      <div class="contact-card">
+        <h3>Vragen over deze reis?</h3>
+        <p>Onze reisexperts helpen je graag verder</p>
+        <div class="contact-methods">
+          <div class="contact-method">
+            <i data-lucide="phone"></i>
+            <span>020 - 123 4567</span>
+          </div>
+          <div class="contact-method">
+            <i data-lucide="mail"></i>
+            <span>info@compassreizen.nl</span>
+          </div>
+          <div class="contact-method">
+            <i data-lucide="message-circle"></i>
+            <span>WhatsApp: +31 6 1234 5678</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Related Tours Section -->
+  <div class="related-section">
+    <div class="related-header">
+      <h2>Andere reizen die je misschien leuk vindt</h2>
+      <p>Vergelijkbare bestemmingen en ervaringen</p>
+    </div>
+
+    <div class="related-grid">
+
+      <div class="tour-card">
+        <div class="tour-card-image">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 240'%3E%3Crect fill='%23E8ECF1' width='400' height='240'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E🏔️%3C/text%3E%3C/svg%3E" alt="Java Vulkanen">
+          <div class="tour-card-badge">NIEUW</div>
+        </div>
+        <div class="tour-card-content">
+          <div class="tour-card-meta">
+            <div class="tour-card-meta-item">
+              <i data-lucide="calendar"></i>
+              <span>10 dagen</span>
+            </div>
+            <div class="tour-card-meta-item">
+              <i data-lucide="star"></i>
+              <span>4.8</span>
+            </div>
+          </div>
+          <h3>Java Vulkanen & Tempels</h3>
+          <div class="tour-card-price">
+            <span class="tour-card-price-label">Vanaf</span>
+            <span class="tour-card-price-value">€ 1.595</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tour-card">
+        <div class="tour-card-image">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 240'%3E%3Crect fill='%23E8ECF1' width='400' height='240'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E🐉%3C/text%3E%3C/svg%3E" alt="Komodo Dragons">
+        </div>
+        <div class="tour-card-content">
+          <div class="tour-card-meta">
+            <div class="tour-card-meta-item">
+              <i data-lucide="calendar"></i>
+              <span>7 dagen</span>
+            </div>
+            <div class="tour-card-meta-item">
+              <i data-lucide="star"></i>
+              <span>4.9</span>
+            </div>
+          </div>
+          <h3>Komodo Eilanden Avontuur</h3>
+          <div class="tour-card-price">
+            <span class="tour-card-price-label">Vanaf</span>
+            <span class="tour-card-price-value">€ 1.895</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tour-card">
+        <div class="tour-card-image">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 240'%3E%3Crect fill='%23E8ECF1' width='400' height='240'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E🏖️%3C/text%3E%3C/svg%3E" alt="Gili Islands">
+        </div>
+        <div class="tour-card-content">
+          <div class="tour-card-meta">
+            <div class="tour-card-meta-item">
+              <i data-lucide="calendar"></i>
+              <span>5 dagen</span>
+            </div>
+            <div class="tour-card-meta-item">
+              <i data-lucide="star"></i>
+              <span>4.7</span>
+            </div>
+          </div>
+          <h3>Gili Eilanden Paradijs</h3>
+          <div class="tour-card-price">
+            <span class="tour-card-price-label">Vanaf</span>
+            <span class="tour-card-price-value">€ 895</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Toggle itinerary day
+    function toggleDay(header) {
+      const day = header.parentElement;
+      day.classList.toggle('active');
+
+      // Re-init icons after DOM change
+      setTimeout(() => lucide.createIcons(), 50);
+    }
+
+    // Handle booking form
+    function handleBooking(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      // In production: redirect to checkout page with tour data
+      alert('Bedankt voor je boeking! Je wordt doorgestuurd naar het boekingsformulier...');
+      // window.location.href = '/toerisme-boekingsformulier?tour=bali-highlights';
+    }
+
+    // Handle inquiry
+    function handleInquiry() {
+      alert('Een contactformulier wordt geopend...');
+      // In production: open modal or redirect to contact page
+    }
+
+    // Auto-expand first itinerary day
+    document.addEventListener('DOMContentLoaded', () => {
+      const firstDay = document.querySelector('.itinerary-day');
+      if (firstDay) {
+        firstDay.classList.add('active');
+      }
+    });
+
+    /*
+    PAYLOAD CMS INTEGRATION:
+
+    Collection: tours
+    Fields:
+    - title (text, required)
+    - slug (text, unique, indexed)
+    - continent (relationship to continents)
+    - country (text)
+    - location (text)
+    - duration (number, days)
+    - groupSize (number, max persons)
+    - difficulty (select: easy|medium|hard)
+    - minAge (number)
+    - price (number, euros)
+    - rating (number, 0-5)
+    - reviewCount (number)
+    - badges (array: bestseller|small-group|new)
+    - heroImages (array of uploads, min 5)
+    - shortDescription (richText)
+    - highlights (array of objects: icon, title, description)
+    - itinerary (array of objects: day, title, content, meals)
+    - inclusions (array of text)
+    - exclusions (array of text)
+    - accommodation (richText)
+    - reviews (relationship to reviews collection)
+    - relatedTours (relationship to tours, array)
+    - departureDates (array of date objects)
+    - status (select: published|draft|archived)
+    - metaTitle (text)
+    - metaDescription (text)
+    - createdAt (date, auto)
+    - updatedAt (date, auto)
+    */
+  </script>
+
+</body>
+</html>

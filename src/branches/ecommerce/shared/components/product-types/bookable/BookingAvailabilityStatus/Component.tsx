@@ -39,9 +39,9 @@ export const BookingAvailabilityStatus: React.FC<BookingAvailabilityStatusProps>
     },
     unavailable: {
       icon: Clock,
-      color: 'text-gray-500',
-      bgColor: 'bg-gray-50',
-      borderColor: 'border-gray-200',
+      color: 'text-grey-mid',
+      bgColor: 'bg-grey-light',
+      borderColor: 'border-grey-light',
       defaultMessage: 'Niet beschikbaar',
     },
   }
@@ -63,7 +63,7 @@ export const BookingAvailabilityStatus: React.FC<BookingAvailabilityStatusProps>
         {displayMessage}
       </span>
       {totalSpots && spotsLeft !== undefined && variant === 'banner' && (
-        <span className="ml-auto text-xs text-gray-500 font-mono">
+        <span className="ml-auto text-xs text-grey-mid font-mono">
           {spotsLeft}/{totalSpots}
         </span>
       )}

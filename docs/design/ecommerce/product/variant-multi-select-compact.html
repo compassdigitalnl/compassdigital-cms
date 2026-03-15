@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variant Multi-Select — Compact Versies | Plastimed</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&family=DM+Serif+Display:wght@400&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --white: #FAFBFC;
+  --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-sm: 8px;
+  --radius: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--grey-light);
+  color: var(--navy);
+  line-height: 1.6;
+  padding: 48px 24px;
+}
+
+.demo-section {
+  max-width: 1200px;
+  margin: 0 auto 64px;
+  background: white;
+  border-radius: 14px;
+  padding: 32px;
+  border: 1.5px solid var(--grey);
+}
+
+.demo-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: var(--navy);
+}
+
+.demo-desc {
+  font-size: 14px;
+  color: var(--grey-dark);
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--grey);
+}
+
+/* ============================================
+   SHARED: Compact Components
+   ============================================ */
+
+/* Compact Grid Cards */
+.variant-grid-compact {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+/* Force 6 columns on desktop for consistent layout */
+@media (min-width: 1024px) {
+  .variant-grid-compact {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.variant-card-compact {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 10px;
+  padding: 12px;
+  transition: all var(--transition);
+  position: relative;
+  cursor: pointer;
+}
+
+.variant-card-compact:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.variant-card-compact.selected {
+  border-color: var(--teal);
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.variant-checkbox-compact {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--grey);
+  border-radius: 4px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  z-index: 10;
+}
+
+.variant-checkbox-compact.checked {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+
+.variant-checkbox-compact.checked i {
+  width: 12px;
+  height: 12px;
+  color: white;
+}
+
+.variant-name-compact {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy);
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.variant-fullname-compact {
+  font-size: 11px;
+  color: var(--grey-dark);
+  text-align: center;
+  margin-bottom: 8px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.variant-price-compact {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.variant-price-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+  display: block;
+}
+
+.variant-price-note {
+  font-size: 9px;
+  color: var(--grey-mid);
+}
+
+.stock-indicator-compact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 6px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.stock-indicator-compact.in-stock {
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.stock-indicator-compact.low-stock {
+  background: var(--amber-light);
+  color: var(--amber);
+}
+
+.stock-indicator-compact.pre-order {
+  background: var(--purple-light);
+  color: var(--purple);
+}
+
+.stock-dot-compact {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Standard Quantity Stepper (matches pt1-single-product.html) */
+.qty-stepper-compact {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--grey);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.qty-btn-compact {
+  width: 40px;
+  height: 44px;
+  border: none;
+  background: white;
+  color: var(--grey-dark);
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  transition: all var(--transition);
+}
+
+.qty-btn-compact:hover:not(:disabled) {
+  background: var(--teal);
+  color: white;
+}
+
+.qty-btn-compact:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.qty-input-compact {
+  width: 60px;
+  height: 44px;
+  border: none;
+  border-left: 1px solid var(--grey);
+  border-right: 1px solid var(--grey);
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--navy);
+}
+
+.qty-input-compact:focus {
+  outline: none;
+  background: var(--grey-light);
+}
+
+/* Compact List Rows */
+.variant-list-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.variant-row-compact {
+  display: grid;
+  grid-template-columns: 24px 80px 1fr auto auto 110px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 10px;
+  transition: all var(--transition);
+}
+
+.variant-row-compact:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-sm);
+}
+
+.variant-row-compact.selected {
+  border-color: var(--teal);
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.variant-row-compact .variant-checkbox-compact {
+  position: static;
+}
+
+.variant-name-row {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+  text-align: center;
+}
+
+.variant-fullname-row {
+  font-size: 13px;
+  color: var(--grey-dark);
+}
+
+.variant-price-row {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  text-align: right;
+}
+
+.stock-badge-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.stock-badge-inline.in-stock {
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.stock-badge-inline.low-stock {
+  background: var(--amber-light);
+  color: var(--amber);
+}
+
+.stock-badge-inline.pre-order {
+  background: var(--purple-light);
+  color: var(--purple);
+}
+
+.stock-dot-inline {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Standard Quantity Stepper - Inline (matches pt1-single-product.html) */
+.qty-stepper-inline {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--grey);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.qty-btn-inline {
+  width: 40px;
+  height: 44px;
+  border: none;
+  background: white;
+  color: var(--grey-dark);
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  transition: all var(--transition);
+}
+
+.qty-btn-inline:hover:not(:disabled) {
+  background: var(--teal);
+  color: white;
+}
+
+.qty-btn-inline:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.qty-input-inline {
+  width: 60px;
+  height: 44px;
+  border: none;
+  border-left: 1px solid var(--grey);
+  border-right: 1px solid var(--grey);
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--navy);
+}
+
+.qty-input-inline:focus {
+  outline: none;
+  background: var(--grey-light);
+}
+
+/* Toolbar */
+.variant-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.toolbar-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.view-toggle {
+  display: flex;
+  gap: 4px;
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 6px;
+  padding: 3px;
+}
+
+.view-btn {
+  padding: 5px 10px;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--grey-dark);
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.view-btn i {
+  width: 14px;
+  height: 14px;
+}
+
+.view-btn.active {
+  background: var(--teal);
+  color: white;
+}
+
+.bulk-btn {
+  padding: 6px 12px;
+  border: 1.5px solid var(--grey);
+  background: white;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--grey-dark);
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.bulk-btn i {
+  width: 13px;
+  height: 13px;
+}
+
+.bulk-btn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+
+/* ============================================
+   VARIANT 1: INLINE COMPACT (50/50 Layout)
+   ============================================ */
+
+.product-inline-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.product-image-section {
+  position: sticky;
+  top: 24px;
+}
+
+.product-main-image {
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--grey-light);
+  border-radius: 14px;
+  border: 1.5px solid var(--grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 120px;
+  margin-bottom: 16px;
+}
+
+.product-thumbnails {
+  display: flex;
+  gap: 8px;
+}
+
+.product-thumb {
+  width: 80px;
+  height: 80px;
+  background: var(--grey-light);
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.product-thumb:hover {
+  border-color: var(--teal);
+}
+
+.product-details-section h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px;
+  margin-bottom: 8px;
+  color: var(--navy);
+}
+
+.product-sku {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--grey-mid);
+  margin-bottom: 16px;
+}
+
+.product-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 20px;
+}
+
+.product-description {
+  font-size: 14px;
+  color: var(--grey-dark);
+  line-height: 1.7;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--grey);
+}
+
+/* Inline variant selector styles */
+.variant-selector-inline {
+  margin-bottom: 24px;
+}
+
+.selection-summary-inline {
+  background: var(--grey-light);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 4px;
+  color: var(--grey-dark);
+}
+
+.summary-line:last-child {
+  margin-bottom: 0;
+}
+
+.summary-line.total {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  padding-top: 8px;
+  margin-top: 8px;
+  border-top: 1px solid var(--grey);
+}
+
+.summary-line.total .value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+}
+
+.add-to-cart-inline {
+  width: 100%;
+  padding: 14px 24px;
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.add-to-cart-inline i {
+  width: 18px;
+  height: 18px;
+}
+
+.add-to-cart-inline:hover:not(:disabled) {
+  background: var(--navy);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.add-to-cart-inline:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cart-note {
+  font-size: 11px;
+  color: var(--grey-mid);
+  text-align: center;
+  margin-top: 12px;
+}
+
+
+/* ============================================
+   VARIANT 2: ARCHIVE COMPACT (with Sidebar)
+   ============================================ */
+
+.archive-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  align-items: start;
+}
+
+.selection-sidebar {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 12px;
+  padding: 20px;
+  position: sticky;
+  top: 24px;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--grey);
+}
+
+.sidebar-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-title i {
+  width: 16px;
+  height: 16px;
+  color: var(--teal);
+}
+
+.sidebar-count {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--teal);
+  background: var(--teal-glow);
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+
+.selected-items-list {
+  margin-bottom: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.selected-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: var(--grey-light);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+}
+
+.selected-item-size {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+  min-width: 28px;
+  text-align: center;
+}
+
+.selected-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.selected-item-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.selected-item-qty {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--grey-mid);
+}
+
+.selected-item-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.selected-item-remove {
+  padding: 4px;
+  border: none;
+  background: none;
+  color: var(--coral);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected-item-remove i {
+  width: 14px;
+  height: 14px;
+}
+
+.selected-item-remove:hover {
+  background: var(--coral-light);
+}
+
+.price-breakdown {
+  padding: 12px 0;
+  border-top: 1px solid var(--grey);
+  border-bottom: 1px solid var(--grey);
+  margin-bottom: 16px;
+}
+
+.price-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.price-line:last-child {
+  margin-bottom: 0;
+}
+
+.price-line-label {
+  color: var(--grey-mid);
+}
+
+.price-line-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.price-line.total {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--grey);
+}
+
+.price-line.total .price-line-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.price-line.total .price-line-value {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.sidebar-cta {
+  width: 100%;
+  padding: 12px 20px;
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 10px;
+}
+
+.sidebar-cta i {
+  width: 16px;
+  height: 16px;
+}
+
+.sidebar-cta:hover:not(:disabled) {
+  background: var(--navy);
+}
+
+.sidebar-cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sidebar-note {
+  font-size: 10px;
+  color: var(--grey-mid);
+  text-align: center;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--grey-mid);
+}
+
+.empty-state i {
+  width: 40px;
+  height: 40px;
+  color: var(--grey);
+  margin-bottom: 12px;
+}
+
+.empty-state p {
+  font-size: 13px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .product-inline-layout,
+  .archive-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .selection-sidebar {
+    position: static;
+  }
+
+  .variant-grid-compact {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .variant-grid-compact {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .variant-row-compact {
+    grid-template-columns: 24px 1fr;
+    gap: 8px;
+  }
+
+  .variant-row-compact > *:nth-child(n+3) {
+    grid-column: 2;
+    margin-top: 8px;
+  }
+}
+
+.hidden {
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     DEMO 1: INLINE COMPACT (50/50 Layout)
+     Grid + List view voor naast product
+     ============================================ -->
+<div class="demo-section">
+  <h2 class="demo-title">Variant 1: Inline Compact (Productpagina)</h2>
+  <p class="demo-desc">
+    Voor 50/50 layout op productpagina. Compact grid of list view rechts naast afbeelding.
+    Summary + CTA onderaan (geen sidebar).
+  </p>
+
+  <div class="product-inline-layout">
+    <!-- Left: Product Image -->
+    <div class="product-image-section">
+      <div class="product-main-image">🧤</div>
+      <div class="product-thumbnails">
+        <div class="product-thumb">🧤</div>
+        <div class="product-thumb">📦</div>
+        <div class="product-thumb">✋</div>
+      </div>
+    </div>
+
+    <!-- Right: Product Details + Variant Selector -->
+    <div class="product-details-section">
+      <h1>Ansell Micro-Touch Nitra-Tex</h1>
+      <p class="product-sku">SKU: ANS-MT-NT</p>
+      <div class="product-price">€4,50</div>
+
+      <p class="product-description">
+        Onderzoekshandschoenen poedervrij, nitril, blauw. Hypoallergeen en zeer comfortabel.
+        Geschikt voor medisch onderzoek en chirurgische handelingen.
+      </p>
+
+      <!-- Variant Selector -->
+      <div class="variant-selector-inline">
+        <!-- Toolbar -->
+        <div class="variant-toolbar">
+          <div class="toolbar-title">Selecteer maten</div>
+          <div class="toolbar-actions">
+            <div class="view-toggle">
+              <button class="view-btn active" data-view="inline-grid" data-context="inline">
+                <i data-lucide="grid-2x2"></i>
+                Grid
+              </button>
+              <button class="view-btn" data-view="inline-list" data-context="inline">
+                <i data-lucide="list"></i>
+                Lijst
+              </button>
+            </div>
+            <button class="bulk-btn" id="inlineSelectAll">
+              <i data-lucide="check-square"></i>
+              Alles
+            </button>
+            <button class="bulk-btn" id="inlineDeselectAll">
+              <i data-lucide="square"></i>
+              Wissen
+            </button>
+          </div>
+        </div>
+
+        <!-- Grid View -->
+        <div class="variant-grid-compact" id="inlineGridView">
+          <div class="variant-card-compact" data-variant-id="inline-xs" data-price="4.50">
+            <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+            <div class="variant-name-compact">XS</div>
+            <div class="variant-fullname-compact">Extra Small</div>
+            <div class="variant-price-compact">
+              <span class="variant-price-value">€4,50</span>
+              <div class="variant-price-note">excl. btw</div>
+            </div>
+            <div class="stock-indicator-compact pre-order">
+              <span class="stock-dot-compact"></span>
+              Pre-order
+            </div>
+            <div class="qty-stepper-compact">
+              <button class="qty-btn-compact minus" disabled>−</button>
+              <input type="number" class="qty-input-compact" value="0" min="0" max="999">
+              <button class="qty-btn-compact plus">+</button>
+            </div>
+          </div>
+
+          <div class="variant-card-compact" data-variant-id="inline-s" data-price="4.50">
+            <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+            <div class="variant-name-compact">S</div>
+            <div class="variant-fullname-compact">Small</div>
+            <div class="variant-price-compact">
+              <span class="variant-price-value">€4,50</span>
+              <div class="variant-price-note">excl. btw</div>
+            </div>
+            <div class="stock-indicator-compact in-stock">
+              <span class="stock-dot-compact"></span>
+              Op voorraad
+            </div>
+            <div class="qty-stepper-compact">
+              <button class="qty-btn-compact minus" disabled>−</button>
+              <input type="number" class="qty-input-compact" value="0" min="0" max="999">
+              <button class="qty-btn-compact plus">+</button>
+            </div>
+          </div>
+
+          <div class="variant-card-compact" data-variant-id="inline-m" data-price="4.50">
+            <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+            <div class="variant-name-compact">M</div>
+            <div class="variant-fullname-compact">Medium</div>
+            <div class="variant-price-compact">
+              <span class="variant-price-value">€4,50</span>
+              <div class="variant-price-note">excl. btw</div>
+            </div>
+            <div class="stock-indicator-compact in-stock">
+              <span class="stock-dot-compact"></span>
+              Op voorraad
+            </div>
+            <div class="qty-stepper-compact">
+              <button class="qty-btn-compact minus" disabled>−</button>
+              <input type="number" class="qty-input-compact" value="0" min="0" max="999">
+              <button class="qty-btn-compact plus">+</button>
+            </div>
+          </div>
+
+          <div class="variant-card-compact" data-variant-id="inline-l" data-price="4.50">
+            <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+            <div class="variant-name-compact">L</div>
+            <div class="variant-fullname-compact">Large</div>
+            <div class="variant-price-compact">
+              <span class="variant-price-value">€4,50</span>
+              <div class="variant-price-note">excl. btw</div>
+            </div>
+            <div class="stock-indicator-compact in-stock">
+              <span class="stock-dot-compact"></span>
+              Op voorraad
+            </div>
+            <div class="qty-stepper-compact">
+              <button class="qty-btn-compact minus" disabled>−</button>
+              <input type="number" class="qty-input-compact" value="0" min="0" max="999">
+              <button class="qty-btn-compact plus">+</button>
+            </div>
+          </div>
+
+          <div class="variant-card-compact" data-variant-id="inline-xl" data-price="4.50">
+            <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+            <div class="variant-name-compact">XL</div>
+            <div class="variant-fullname-compact">Extra Large</div>
+            <div class="variant-price-compact">
+              <span class="variant-price-value">€4,50</span>
+              <div class="variant-price-note">excl. btw</div>
+            </div>
+            <div class="stock-indicator-compact in-stock">
+              <span class="stock-dot-compact"></span>
+              Op voorraad
+            </div>
+            <div class="qty-stepper-compact">
+              <button class="qty-btn-compact minus" disabled>−</button>
+              <input type="number" class="qty-input-compact" value="0" min="0" max="999">
+              <button class="qty-btn-compact plus">+</button>
+            </div>
+          </div>
+
+          <div class="variant-card-compact" data-variant-id="inline-xxl" data-price="4.75">
+            <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+            <div class="variant-name-compact">XXL</div>
+            <div class="variant-fullname-compact">2X Large</div>
+            <div class="variant-price-compact">
+              <span class="variant-price-value">€4,75</span>
+              <div class="variant-price-note">excl. btw · +€0,25</div>
+            </div>
+            <div class="stock-indicator-compact low-stock">
+              <span class="stock-dot-compact"></span>
+              Beperkt
+            </div>
+            <div class="qty-stepper-compact">
+              <button class="qty-btn-compact minus" disabled>−</button>
+              <input type="number" class="qty-input-compact" value="0" min="0" max="999">
+              <button class="qty-btn-compact plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- List View -->
+        <div class="variant-list-compact hidden" id="inlineListView">
+          <div class="variant-row-compact" data-variant-id="inline-xs" data-price="4.50">
+            <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+            <div class="variant-name-row">XS</div>
+            <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex - XS</div>
+            <div class="variant-price-row">€4,50</div>
+            <div class="stock-badge-inline pre-order">
+              <span class="stock-dot-inline"></span>
+              Pre-order
+            </div>
+            <div class="qty-stepper-inline">
+              <button class="qty-btn-inline minus" disabled>−</button>
+              <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+              <button class="qty-btn-inline plus">+</button>
+            </div>
+          </div>
+
+          <div class="variant-row-compact" data-variant-id="inline-s" data-price="4.50">
+            <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+            <div class="variant-name-row">S</div>
+            <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex - S</div>
+            <div class="variant-price-row">€4,50</div>
+            <div class="stock-badge-inline in-stock">
+              <span class="stock-dot-inline"></span>
+              Op voorraad
+            </div>
+            <div class="qty-stepper-inline">
+              <button class="qty-btn-inline minus" disabled>−</button>
+              <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+              <button class="qty-btn-inline plus">+</button>
+            </div>
+          </div>
+
+          <div class="variant-row-compact" data-variant-id="inline-m" data-price="4.50">
+            <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+            <div class="variant-name-row">M</div>
+            <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex - M</div>
+            <div class="variant-price-row">€4,50</div>
+            <div class="stock-badge-inline in-stock">
+              <span class="stock-dot-inline"></span>
+              Op voorraad
+            </div>
+            <div class="qty-stepper-inline">
+              <button class="qty-btn-inline minus" disabled>−</button>
+              <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+              <button class="qty-btn-inline plus">+</button>
+            </div>
+          </div>
+
+          <div class="variant-row-compact" data-variant-id="inline-l" data-price="4.50">
+            <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+            <div class="variant-name-row">L</div>
+            <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex - L</div>
+            <div class="variant-price-row">€4,50</div>
+            <div class="stock-badge-inline in-stock">
+              <span class="stock-dot-inline"></span>
+              Op voorraad
+            </div>
+            <div class="qty-stepper-inline">
+              <button class="qty-btn-inline minus" disabled>−</button>
+              <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+              <button class="qty-btn-inline plus">+</button>
+            </div>
+          </div>
+
+          <div class="variant-row-compact" data-variant-id="inline-xl" data-price="4.50">
+            <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+            <div class="variant-name-row">XL</div>
+            <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex - XL</div>
+            <div class="variant-price-row">€4,50</div>
+            <div class="stock-badge-inline in-stock">
+              <span class="stock-dot-inline"></span>
+              Op voorraad
+            </div>
+            <div class="qty-stepper-inline">
+              <button class="qty-btn-inline minus" disabled>−</button>
+              <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+              <button class="qty-btn-inline plus">+</button>
+            </div>
+          </div>
+
+          <div class="variant-row-compact" data-variant-id="inline-xxl" data-price="4.75">
+            <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+            <div class="variant-name-row">XXL</div>
+            <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex - XXL</div>
+            <div class="variant-price-row">€4,75</div>
+            <div class="stock-badge-inline low-stock">
+              <span class="stock-dot-inline"></span>
+              Beperkt
+            </div>
+            <div class="qty-stepper-inline">
+              <button class="qty-btn-inline minus" disabled>−</button>
+              <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+              <button class="qty-btn-inline plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary + CTA (onderaan, geen sidebar) -->
+        <div class="selection-summary-inline">
+          <div class="summary-line">
+            <span>Varianten:</span>
+            <span id="inlineVariantCount">0</span>
+          </div>
+          <div class="summary-line">
+            <span>Totaal aantal:</span>
+            <span id="inlineTotalQty">0 stuks</span>
+          </div>
+          <div class="summary-line total">
+            <span>Totaal:</span>
+            <span class="value" id="inlineTotal">€0,00</span>
+          </div>
+        </div>
+
+        <button class="add-to-cart-inline" id="inlineAddBtn" disabled>
+          <i data-lucide="shopping-cart"></i>
+          In Winkelwand
+        </button>
+        <p class="cart-note">Gratis verzending vanaf €60 · 24-48u levering</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================
+     DEMO 2: ARCHIVE COMPACT (with Sidebar)
+     Grid + List view met sticky sidebar rechts
+     ============================================ -->
+<div class="demo-section">
+  <h2 class="demo-title">Variant 2: Archive Compact (Shop Archive)</h2>
+  <p class="demo-desc">
+    Voor shop archive pages. Compact grid (6 kolommen) of list view, met sticky sidebar rechts.
+    Perfect voor veel variants tonen met selectie overzicht.
+  </p>
+
+  <!-- Toolbar -->
+  <div class="variant-toolbar">
+    <div class="toolbar-title">Selecteer maten</div>
+    <div class="toolbar-actions">
+      <div class="view-toggle">
+        <button class="view-btn active" data-view="archive-grid" data-context="archive">
+          <i data-lucide="grid-2x2"></i>
+          Grid
+        </button>
+        <button class="view-btn" data-view="archive-list" data-context="archive">
+          <i data-lucide="list"></i>
+          Lijst
+        </button>
+      </div>
+      <button class="bulk-btn" id="archiveSelectAll">
+        <i data-lucide="check-square"></i>
+        Alles
+      </button>
+      <button class="bulk-btn" id="archiveDeselectAll">
+        <i data-lucide="square"></i>
+        Wissen
+      </button>
+    </div>
+  </div>
+
+  <div class="archive-layout">
+    <!-- Variants Section -->
+    <div>
+      <!-- Grid View -->
+      <div class="variant-grid-compact" id="archiveGridView">
+        <div class="variant-card-compact" data-variant-id="archive-xs" data-price="4.50">
+          <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+            <i data-lucide="check" style="display: none;"></i>
+          </div>
+          <div class="variant-name-compact">XS</div>
+          <div class="variant-fullname-compact">Extra Small</div>
+          <div class="variant-price-compact">
+            <span class="variant-price-value">€4,50</span>
+            <div class="variant-price-note">excl. btw</div>
+          </div>
+          <div class="stock-indicator-compact pre-order">
+            <span class="stock-dot-compact"></span>
+            Pre-order
+          </div>
+          <div class="qty-stepper-compact">
+            <button class="qty-btn-compact minus" disabled>−</button>
+            <input type="number" class="qty-input-compact" value="0" min="0" max="999">
+            <button class="qty-btn-compact plus">+</button>
+          </div>
+        </div>
+
+        <div class="variant-card-compact" data-variant-id="archive-s" data-price="4.50">
+          <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+            <i data-lucide="check" style="display: none;"></i>
+          </div>
+          <div class="variant-name-compact">S</div>
+          <div class="variant-fullname-compact">Small</div>
+          <div class="variant-price-compact">
+            <span class="variant-price-value">€4,50</span>
+            <div class="variant-price-note">excl. btw</div>
+          </div>
+          <div class="stock-indicator-compact in-stock">
+            <span class="stock-dot-compact"></span>
+            Op voorraad
+          </div>
+          <div class="qty-stepper-compact">
+            <button class="qty-btn-compact minus" disabled>−</button>
+            <input type="number" class="qty-input-compact" value="0" min="0" max="999">
+            <button class="qty-btn-compact plus">+</button>
+          </div>
+        </div>
+
+        <div class="variant-card-compact" data-variant-id="archive-m" data-price="4.50">
+          <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+            <i data-lucide="check" style="display: none;"></i>
+          </div>
+          <div class="variant-name-compact">M</div>
+          <div class="variant-fullname-compact">Medium</div>
+          <div class="variant-price-compact">
+            <span class="variant-price-value">€4,50</span>
+            <div class="variant-price-note">excl. btw</div>
+          </div>
+          <div class="stock-indicator-compact in-stock">
+            <span class="stock-dot-compact"></span>
+            Op voorraad
+          </div>
+          <div class="qty-stepper-compact">
+            <button class="qty-btn-compact minus" disabled>−</button>
+            <input type="number" class="qty-input-compact" value="0" min="0" max="999">
+            <button class="qty-btn-compact plus">+</button>
+          </div>
+        </div>
+
+        <div class="variant-card-compact" data-variant-id="archive-l" data-price="4.50">
+          <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+            <i data-lucide="check" style="display: none;"></i>
+          </div>
+          <div class="variant-name-compact">L</div>
+          <div class="variant-fullname-compact">Large</div>
+          <div class="variant-price-compact">
+            <span class="variant-price-value">€4,50</span>
+            <div class="variant-price-note">excl. btw</div>
+          </div>
+          <div class="stock-indicator-compact in-stock">
+            <span class="stock-dot-compact"></span>
+            Op voorraad
+          </div>
+          <div class="qty-stepper-compact">
+            <button class="qty-btn-compact minus" disabled>−</button>
+            <input type="number" class="qty-input-compact" value="0" min="0" max="999">
+            <button class="qty-btn-compact plus">+</button>
+          </div>
+        </div>
+
+        <div class="variant-card-compact" data-variant-id="archive-xl" data-price="4.50">
+          <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+            <i data-lucide="check" style="display: none;"></i>
+          </div>
+          <div class="variant-name-compact">XL</div>
+          <div class="variant-fullname-compact">Extra Large</div>
+          <div class="variant-price-compact">
+            <span class="variant-price-value">€4,50</span>
+            <div class="variant-price-note">excl. btw</div>
+          </div>
+          <div class="stock-indicator-compact in-stock">
+            <span class="stock-dot-compact"></span>
+            Op voorraad
+          </div>
+          <div class="qty-stepper-compact">
+            <button class="qty-btn-compact minus" disabled>−</button>
+            <input type="number" class="qty-input-compact" value="0" min="0" max="999">
+            <button class="qty-btn-compact plus">+</button>
+          </div>
+        </div>
+
+        <div class="variant-card-compact" data-variant-id="archive-xxl" data-price="4.75">
+          <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+            <i data-lucide="check" style="display: none;"></i>
+          </div>
+          <div class="variant-name-compact">XXL</div>
+          <div class="variant-fullname-compact">2X Large</div>
+          <div class="variant-price-compact">
+            <span class="variant-price-value">€4,75</span>
+            <div class="variant-price-note">excl. btw · +€0,25</div>
+          </div>
+          <div class="stock-indicator-compact low-stock">
+            <span class="stock-dot-compact"></span>
+            Beperkt
+          </div>
+          <div class="qty-stepper-compact">
+            <button class="qty-btn-compact minus" disabled>−</button>
+            <input type="number" class="qty-input-compact" value="0" min="0" max="999">
+            <button class="qty-btn-compact plus">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- List View -->
+      <div class="variant-list-compact hidden" id="archiveListView">
+        <div class="variant-row-compact" data-variant-id="archive-xs" data-price="4.50">
+          <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+            <i data-lucide="check" style="display: none;"></i>
+          </div>
+          <div class="variant-name-row">XS</div>
+          <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - XS</div>
+          <div class="variant-price-row">€4,50</div>
+          <div class="stock-badge-inline pre-order">
+            <span class="stock-dot-inline"></span>
+            Pre-order
+          </div>
+          <div class="qty-stepper-inline">
+            <button class="qty-btn-inline minus" disabled>−</button>
+            <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+            <button class="qty-btn-inline plus">+</button>
+          </div>
+        </div>
+
+        <div class="variant-row-compact" data-variant-id="archive-s" data-price="4.50">
+          <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+            <i data-lucide="check" style="display: none;"></i>
+          </div>
+          <div class="variant-name-row">S</div>
+          <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - S</div>
+          <div class="variant-price-row">€4,50</div>
+          <div class="stock-badge-inline in-stock">
+            <span class="stock-dot-inline"></span>
+            Op voorraad
+          </div>
+          <div class="qty-stepper-inline">
+            <button class="qty-btn-inline minus" disabled>−</button>
+            <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+            <button class="qty-btn-inline plus">+</button>
+          </div>
+        </div>
+
+        <div class="variant-row-compact" data-variant-id="archive-m" data-price="4.50">
+          <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+            <i data-lucide="check" style="display: none;"></i>
+          </div>
+          <div class="variant-name-row">M</div>
+          <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - M</div>
+          <div class="variant-price-row">€4,50</div>
+          <div class="stock-badge-inline in-stock">
+            <span class="stock-dot-inline"></span>
+            Op voorraad
+          </div>
+          <div class="qty-stepper-inline">
+            <button class="qty-btn-inline minus" disabled>−</button>
+            <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+            <button class="qty-btn-inline plus">+</button>
+          </div>
+        </div>
+
+        <div class="variant-row-compact" data-variant-id="archive-l" data-price="4.50">
+          <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+            <i data-lucide="check" style="display: none;"></i>
+          </div>
+          <div class="variant-name-row">L</div>
+          <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - L</div>
+          <div class="variant-price-row">€4,50</div>
+          <div class="stock-badge-inline in-stock">
+            <span class="stock-dot-inline"></span>
+            Op voorraad
+          </div>
+          <div class="qty-stepper-inline">
+            <button class="qty-btn-inline minus" disabled>−</button>
+            <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+            <button class="qty-btn-inline plus">+</button>
+          </div>
+        </div>
+
+        <div class="variant-row-compact" data-variant-id="archive-xl" data-price="4.50">
+          <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+            <i data-lucide="check" style="display: none;"></i>
+          </div>
+          <div class="variant-name-row">XL</div>
+          <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - XL</div>
+          <div class="variant-price-row">€4,50</div>
+          <div class="stock-badge-inline in-stock">
+            <span class="stock-dot-inline"></span>
+            Op voorraad
+          </div>
+          <div class="qty-stepper-inline">
+            <button class="qty-btn-inline minus" disabled>−</button>
+            <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+            <button class="qty-btn-inline plus">+</button>
+          </div>
+        </div>
+
+        <div class="variant-row-compact" data-variant-id="archive-xxl" data-price="4.75">
+          <div class="variant-checkbox-compact" role="checkbox" aria-checked="false" tabindex="0">
+            <i data-lucide="check" style="display: none;"></i>
+          </div>
+          <div class="variant-name-row">XXL</div>
+          <div class="variant-fullname-row">Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - XXL</div>
+          <div class="variant-price-row">€4,75</div>
+          <div class="stock-badge-inline low-stock">
+            <span class="stock-dot-inline"></span>
+            Beperkt
+          </div>
+          <div class="qty-stepper-inline">
+            <button class="qty-btn-inline minus" disabled>−</button>
+            <input type="number" class="qty-input-inline" value="0" min="0" max="999">
+            <button class="qty-btn-inline plus">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky Sidebar -->
+    <div class="selection-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">
+          <i data-lucide="shopping-bag"></i>
+          Selectie
+        </div>
+        <span class="sidebar-count" id="archiveCount">0</span>
+      </div>
+
+      <div class="selected-items-list" id="archiveItemsList">
+        <div class="empty-state">
+          <i data-lucide="package-open"></i>
+          <p>Selecteer varianten</p>
+        </div>
+      </div>
+
+      <div class="price-breakdown">
+        <div class="price-line">
+          <span class="price-line-label">Totaal aantal</span>
+          <span class="price-line-value" id="archiveTotalQty">0 stuks</span>
+        </div>
+        <div class="price-line total">
+          <span class="price-line-label">Totaal</span>
+          <span class="price-line-value" id="archiveTotal">€0,00</span>
+        </div>
+      </div>
+
+      <button class="sidebar-cta" id="archiveAddBtn" disabled>
+        <i data-lucide="shopping-cart"></i>
+        In Winkelwand
+      </button>
+      <p class="sidebar-note">Gratis verzending vanaf €60</p>
+    </div>
+  </div>
+</div>
+
+<script>
+lucide.createIcons();
+
+// State
+const states = {
+  inline: { selected: {} },
+  archive: { selected: {} }
+};
+
+const variants = [
+  { id: 'xs', name: 'XS', fullName: 'Extra Small', price: 4.50 },
+  { id: 's', name: 'S', fullName: 'Small', price: 4.50 },
+  { id: 'm', name: 'M', fullName: 'Medium', price: 4.50 },
+  { id: 'l', name: 'L', fullName: 'Large', price: 4.50 },
+  { id: 'xl', name: 'XL', fullName: 'Extra Large', price: 4.50 },
+  { id: 'xxl', name: 'XXL', fullName: '2X Large', price: 4.75 }
+];
+
+// View toggles
+document.querySelectorAll('.view-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const view = btn.dataset.view;
+    const context = btn.dataset.context;
+
+    // Update active state
+    btn.parentElement.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    if (context === 'inline') {
+      if (view === 'inline-grid') {
+        document.getElementById('inlineGridView').classList.remove('hidden');
+        document.getElementById('inlineListView').classList.add('hidden');
+      } else {
+        document.getElementById('inlineGridView').classList.add('hidden');
+        document.getElementById('inlineListView').classList.remove('hidden');
+      }
+    } else if (context === 'archive') {
+      if (view === 'archive-grid') {
+        document.getElementById('archiveGridView').classList.remove('hidden');
+        document.getElementById('archiveListView').classList.add('hidden');
+      } else {
+        document.getElementById('archiveGridView').classList.add('hidden');
+        document.getElementById('archiveListView').classList.remove('hidden');
+      }
+    }
+  });
+});
+
+// Setup checkboxes and steppers
+function setupContext(context) {
+  const prefix = context === 'inline' ? 'inline-' : 'archive-';
+
+  // Checkboxes
+  document.querySelectorAll(`[data-variant-id^="${prefix}"] .variant-checkbox-compact`).forEach(checkbox => {
+    const container = checkbox.closest('[data-variant-id]');
+    const variantId = container.dataset.variantId;
+
+    checkbox.addEventListener('click', () => toggleVariant(context, variantId));
+  });
+
+  // Steppers
+  document.querySelectorAll(`[data-variant-id^="${prefix}"] input[type="number"]`).forEach(input => {
+    const container = input.closest('[data-variant-id]');
+    const variantId = container.dataset.variantId;
+    const stepper = input.closest('.qty-stepper-compact, .qty-stepper-inline');
+    const minusBtn = stepper.querySelector('.minus');
+    const plusBtn = stepper.querySelector('.plus');
+
+    minusBtn.addEventListener('click', () => {
+      const val = parseInt(input.value) || 0;
+      if (val > 0) {
+        input.value = val - 1;
+        updateQty(context, variantId, val - 1);
+      }
+    });
+
+    plusBtn.addEventListener('click', () => {
+      const val = parseInt(input.value) || 0;
+      input.value = val + 1;
+      updateQty(context, variantId, val + 1);
+    });
+
+    input.addEventListener('change', () => {
+      const val = Math.max(0, parseInt(input.value) || 0);
+      input.value = val;
+      updateQty(context, variantId, val);
+    });
+  });
+}
+
+function toggleVariant(context, variantId) {
+  const containers = document.querySelectorAll(`[data-variant-id="${variantId}"]`);
+
+  containers.forEach(container => {
+    const checkbox = container.querySelector('.variant-checkbox-compact');
+    const checkIcon = checkbox.querySelector('i');
+    const input = container.querySelector('input[type="number"]');
+    const isChecked = checkbox.getAttribute('aria-checked') === 'true';
+
+    if (!isChecked) {
+      checkbox.classList.add('checked');
+      checkbox.setAttribute('aria-checked', 'true');
+      checkIcon.style.display = 'block';
+      container.classList.add('selected');
+
+      if (parseInt(input.value) === 0) {
+        input.value = 1;
+        updateQty(context, variantId, 1);
+      }
+    } else {
+      checkbox.classList.remove('checked');
+      checkbox.setAttribute('aria-checked', 'false');
+      checkIcon.style.display = 'none';
+      container.classList.remove('selected');
+
+      input.value = 0;
+      updateQty(context, variantId, 0);
+    }
+  });
+
+  lucide.createIcons();
+}
+
+function updateQty(context, variantId, qty) {
+  const baseId = variantId.replace(/^(inline-|archive-)/, '');
+  const variant = variants.find(v => v.id === baseId);
+  const containers = document.querySelectorAll(`[data-variant-id="${variantId}"]`);
+
+  if (qty > 0) {
+    states[context].selected[variantId] = { ...variant, quantity: qty };
+
+    containers.forEach(container => {
+      const checkbox = container.querySelector('.variant-checkbox-compact');
+      const checkIcon = checkbox.querySelector('i');
+      const minusBtn = container.querySelector('.minus');
+
+      if (checkbox.getAttribute('aria-checked') !== 'true') {
+        checkbox.classList.add('checked');
+        checkbox.setAttribute('aria-checked', 'true');
+        checkIcon.style.display = 'block';
+        container.classList.add('selected');
+      }
+      minusBtn.disabled = false;
+    });
+  } else {
+    delete states[context].selected[variantId];
+
+    containers.forEach(container => {
+      const checkbox = container.querySelector('.variant-checkbox-compact');
+      const checkIcon = checkbox.querySelector('i');
+      const minusBtn = container.querySelector('.minus');
+
+      checkbox.classList.remove('checked');
+      checkbox.setAttribute('aria-checked', 'false');
+      checkIcon.style.display = 'none';
+      container.classList.remove('selected');
+      minusBtn.disabled = true;
+    });
+  }
+
+  updateSummary(context);
+  lucide.createIcons();
+}
+
+function updateSummary(context) {
+  const selected = Object.values(states[context].selected);
+  const count = selected.length;
+  const totalQty = selected.reduce((sum, v) => sum + v.quantity, 0);
+  const totalPrice = selected.reduce((sum, v) => sum + (v.price * v.quantity), 0);
+
+  if (context === 'inline') {
+    document.getElementById('inlineVariantCount').textContent = count;
+    document.getElementById('inlineTotalQty').textContent = `${totalQty} stuks`;
+    document.getElementById('inlineTotal').textContent = `€${totalPrice.toFixed(2)}`;
+    document.getElementById('inlineAddBtn').disabled = count === 0;
+  } else if (context === 'archive') {
+    document.getElementById('archiveCount').textContent = count;
+    document.getElementById('archiveTotalQty').textContent = `${totalQty} stuks`;
+    document.getElementById('archiveTotal').textContent = `€${totalPrice.toFixed(2)}`;
+    document.getElementById('archiveAddBtn').disabled = count === 0;
+
+    const itemsList = document.getElementById('archiveItemsList');
+
+    if (count === 0) {
+      itemsList.innerHTML = `
+        <div class="empty-state">
+          <i data-lucide="package-open"></i>
+          <p>Selecteer varianten</p>
+        </div>
+      `;
+    } else {
+      itemsList.innerHTML = selected.map(v => `
+        <div class="selected-item">
+          <div class="selected-item-size">${v.name}</div>
+          <div class="selected-item-info">
+            <div class="selected-item-name">Maat ${v.name}</div>
+            <div class="selected-item-qty">${v.quantity}× stuks</div>
+          </div>
+          <div class="selected-item-price">€${(v.price * v.quantity).toFixed(2)}</div>
+          <button class="selected-item-remove" data-variant-id="archive-${v.id}">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+      `).join('');
+
+      itemsList.querySelectorAll('.selected-item-remove').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const variantId = btn.dataset.variantId;
+          const containers = document.querySelectorAll(`[data-variant-id="${variantId}"]`);
+          containers.forEach(container => {
+            const input = container.querySelector('input[type="number"]');
+            input.value = 0;
+            updateQty('archive', variantId, 0);
+          });
+        });
+      });
+    }
+
+    lucide.createIcons();
+  }
+}
+
+// Bulk actions
+document.getElementById('inlineSelectAll').addEventListener('click', () => {
+  document.querySelectorAll('[data-variant-id^="inline-"]').forEach(container => {
+    const input = container.querySelector('input[type="number"]');
+    if (parseInt(input.value) === 0) {
+      input.value = 1;
+      updateQty('inline', container.dataset.variantId, 1);
+    }
+  });
+});
+
+document.getElementById('inlineDeselectAll').addEventListener('click', () => {
+  document.querySelectorAll('[data-variant-id^="inline-"]').forEach(container => {
+    const input = container.querySelector('input[type="number"]');
+    input.value = 0;
+    updateQty('inline', container.dataset.variantId, 0);
+  });
+});
+
+document.getElementById('archiveSelectAll').addEventListener('click', () => {
+  document.querySelectorAll('[data-variant-id^="archive-"]').forEach(container => {
+    const input = container.querySelector('input[type="number"]');
+    if (parseInt(input.value) === 0) {
+      input.value = 1;
+      updateQty('archive', container.dataset.variantId, 1);
+    }
+  });
+});
+
+document.getElementById('archiveDeselectAll').addEventListener('click', () => {
+  document.querySelectorAll('[data-variant-id^="archive-"]').forEach(container => {
+    const input = container.querySelector('input[type="number"]');
+    input.value = 0;
+    updateQty('archive', container.dataset.variantId, 0);
+  });
+});
+
+// Add to cart
+document.getElementById('inlineAddBtn').addEventListener('click', () => {
+  const selected = Object.values(states.inline.selected);
+  alert(`${selected.length} varianten toegevoegd!\n\n${selected.map(v => `${v.quantity}× Maat ${v.name}`).join('\n')}`);
+
+  // Clear
+  document.querySelectorAll('[data-variant-id^="inline-"]').forEach(container => {
+    const input = container.querySelector('input[type="number"]');
+    input.value = 0;
+    updateQty('inline', container.dataset.variantId, 0);
+  });
+});
+
+document.getElementById('archiveAddBtn').addEventListener('click', () => {
+  const selected = Object.values(states.archive.selected);
+  alert(`${selected.length} varianten toegevoegd!\n\n${selected.map(v => `${v.quantity}× Maat ${v.name}`).join('\n')}`);
+
+  // Clear
+  document.querySelectorAll('[data-variant-id^="archive-"]').forEach(container => {
+    const input = container.querySelector('input[type="number"]');
+    input.value = 0;
+    updateQty('archive', container.dataset.variantId, 0);
+  });
+});
+
+// Initialize
+setupContext('inline');
+setupContext('archive');
+updateSummary('inline');
+updateSummary('archive');
+</script>
+
+</body>
+</html>

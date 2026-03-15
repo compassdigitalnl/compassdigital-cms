@@ -108,7 +108,7 @@ export function VariantBulkSelector({
     <div className={cn('space-y-4', className)}>
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-semibold text-gray-900">Select Quantities</h3>
+        <h3 className="text-base font-semibold text-navy">Select Quantities</h3>
         {totalItems > 0 && (
           <span className="text-sm font-medium text-teal">
             {totalItems} {totalItems === 1 ? 'item' : 'items'} selected
@@ -117,28 +117,28 @@ export function VariantBulkSelector({
       </div>
 
       {/* Bulk Selector Table */}
-      <div className="overflow-x-auto rounded-lg border-2 border-gray-200">
+      <div className="overflow-x-auto rounded-lg border-2 border-grey-light">
         <table className="w-full">
-          <thead className="bg-gray-50">
+          <thead className="bg-grey-light">
             <tr>
-              <th className="border-b-2 border-gray-200 px-4 py-3 text-left text-sm font-semibold text-gray-700">
+              <th className="border-b-2 border-grey-light px-4 py-3 text-left text-sm font-semibold text-grey-dark">
                 Variant
               </th>
-              <th className="border-b-2 border-gray-200 px-4 py-3 text-center text-sm font-semibold text-gray-700">
+              <th className="border-b-2 border-grey-light px-4 py-3 text-center text-sm font-semibold text-grey-dark">
                 Price
               </th>
-              <th className="border-b-2 border-gray-200 px-4 py-3 text-center text-sm font-semibold text-gray-700">
+              <th className="border-b-2 border-grey-light px-4 py-3 text-center text-sm font-semibold text-grey-dark">
                 Stock
               </th>
-              <th className="border-b-2 border-gray-200 px-4 py-3 text-center text-sm font-semibold text-gray-700">
+              <th className="border-b-2 border-grey-light px-4 py-3 text-center text-sm font-semibold text-grey-dark">
                 Quantity
               </th>
-              <th className="border-b-2 border-gray-200 px-4 py-3 text-right text-sm font-semibold text-gray-700">
+              <th className="border-b-2 border-grey-light px-4 py-3 text-right text-sm font-semibold text-grey-dark">
                 Subtotal
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-grey-light">
             {variants.map(variant => {
               const quantity = variantQuantities[variant.key] || 0
               const subtotal = quantity * variant.priceModifier
@@ -150,17 +150,17 @@ export function VariantBulkSelector({
                   key={variant.key}
                   className={cn(
                     'transition-colors',
-                    isDisabled ? 'bg-gray-50 opacity-50' : 'hover:bg-gray-50',
+                    isDisabled ? 'bg-grey-light opacity-50' : 'hover:bg-grey-light',
                   )}
                 >
                   {/* Variant Label */}
                   <td className="px-4 py-3">
-                    <div className="text-sm font-medium text-gray-900">{variant.label}</div>
+                    <div className="text-sm font-medium text-navy">{variant.label}</div>
                   </td>
 
                   {/* Price Modifier */}
                   <td className="px-4 py-3 text-center">
-                    <span className="text-sm text-gray-700">
+                    <span className="text-sm text-grey-dark">
                       {variant.priceModifier > 0 ? '+' : ''}€{formatPriceStr(variant.priceModifier)}
                     </span>
                   </td>
@@ -174,14 +174,14 @@ export function VariantBulkSelector({
                           variant.stock === 0
                             ? 'bg-red-100 text-red-800'
                             : isLowStock
-                              ? 'bg-orange-100 text-orange-800'
+                              ? 'bg-amber-50 text-amber-900'
                               : 'bg-green-100 text-green-800',
                         )}
                       >
                         {variant.stock === 0 ? 'Out' : `${variant.stock} left`}
                       </span>
                     ) : (
-                      <span className="text-sm text-gray-500">∞</span>
+                      <span className="text-sm text-grey-mid">∞</span>
                     )}
                   </td>
 
@@ -193,10 +193,10 @@ export function VariantBulkSelector({
                         onClick={() => handleDecrement(variant.key, quantity)}
                         disabled={isDisabled || quantity <= minQuantity}
                         className={cn(
-                          'flex h-8 w-8 items-center justify-center rounded border-2 border-gray-300 text-gray-600 transition-colors',
+                          'flex h-8 w-8 items-center justify-center rounded border-2 border-grey-light text-grey-dark transition-colors',
                           isDisabled || quantity <= minQuantity
                             ? 'cursor-not-allowed opacity-50'
-                            : 'hover:border-gray-400 hover:bg-gray-50',
+                            : 'hover:border-grey-light hover:bg-grey-light',
                         )}
                         aria-label="Decrease quantity"
                       >
@@ -215,8 +215,8 @@ export function VariantBulkSelector({
                         min={minQuantity}
                         max={variant.stock !== undefined ? Math.min(maxQuantity, variant.stock) : maxQuantity}
                         className={cn(
-                          'w-16 rounded border-2 border-gray-300 px-2 py-1 text-center text-sm',
-                          isDisabled && 'cursor-not-allowed bg-gray-100',
+                          'w-16 rounded border-2 border-grey-light px-2 py-1 text-center text-sm',
+                          isDisabled && 'cursor-not-allowed bg-grey-light',
                         )}
                       />
 
@@ -229,12 +229,12 @@ export function VariantBulkSelector({
                           quantity >= maxQuantity
                         }
                         className={cn(
-                          'flex h-8 w-8 items-center justify-center rounded border-2 border-gray-300 text-gray-600 transition-colors',
+                          'flex h-8 w-8 items-center justify-center rounded border-2 border-grey-light text-grey-dark transition-colors',
                           isDisabled ||
                             (variant.stock !== undefined && quantity >= variant.stock) ||
                             quantity >= maxQuantity
                             ? 'cursor-not-allowed opacity-50'
-                            : 'hover:border-gray-400 hover:bg-gray-50',
+                            : 'hover:border-grey-light hover:bg-grey-light',
                         )}
                         aria-label="Increase quantity"
                       >
@@ -252,7 +252,7 @@ export function VariantBulkSelector({
 
                   {/* Subtotal */}
                   <td className="px-4 py-3 text-right">
-                    <span className={cn('text-sm font-medium', quantity > 0 ? 'text-teal' : 'text-gray-400')}>
+                    <span className={cn('text-sm font-medium', quantity > 0 ? 'text-teal' : 'text-grey-mid')}>
                       {subtotal > 0 ? '+' : ''}€{formatPriceStr(subtotal)}
                     </span>
                   </td>

@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="nl-NL">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Occasions overzicht | Premium Automotive</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ========== DESIGN TOKENS ========== */
+    :root {
+      /* Automotive Colors */
+      --orange: #FF5722;
+      --orange-light: #FF7043;
+      --orange-dark: #E64A19;
+      --orange-glow: rgba(255, 87, 34, 0.12);
+      --carbon: #1a1a1a;
+      --carbon-light: #2a2a2a;
+      --carbon-dark: #0a0a0a;
+
+      /* Core Colors (shared) */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Status Colors */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+    }
+
+    /* ========== RESET & BASE ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.2;
+      font-weight: 800;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px var(--orange-glow);
+    }
+
+    /* ========== LAYOUT ========== */
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    .page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    /* ========== HEADER ========== */
+    .header {
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-top {
+      background: var(--carbon);
+      color: var(--white);
+      font-size: 11px;
+      padding: 8px 0;
+    }
+
+    .header-top .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-usps {
+      display: flex;
+      gap: 24px;
+    }
+
+    .header-usp {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .header-usp i {
+      width: 14px;
+      height: 14px;
+      color: var(--orange);
+    }
+
+    .header-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .header-links a {
+      color: rgba(255,255,255,0.8);
+    }
+
+    .header-links a:hover {
+      color: var(--orange);
+    }
+
+    .header-main {
+      padding: 16px 0;
+    }
+
+    .header-main .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--carbon);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo i {
+      color: var(--orange);
+      width: 28px;
+      height: 28px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 32px;
+    }
+
+    .nav a {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--grey-dark);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav a:hover {
+      color: var(--orange);
+    }
+
+    .nav a.active {
+      color: var(--orange);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      background: var(--grey-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--grey-dark);
+    }
+
+    .btn-icon:hover {
+      background: var(--orange);
+      color: var(--white);
+    }
+
+    .btn-icon i {
+      width: 18px;
+      height: 18px;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: var(--white);
+      padding: 11px 24px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ========== BREADCRUMBS ========== */
+    .breadcrumbs {
+      background: var(--bg);
+      padding: 12px 0;
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .breadcrumbs-list {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .breadcrumbs-list a {
+      color: var(--grey-mid);
+    }
+
+    .breadcrumbs-list a:hover {
+      color: var(--orange);
+    }
+
+    .breadcrumbs-list .current {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ========== PAGE LAYOUT ========== */
+    .page-content {
+      padding: 32px 0 64px;
+    }
+
+    .vehicles-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* ========== FILTER SIDEBAR ========== */
+    .filter-sidebar {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 24px;
+      position: sticky;
+      top: 100px;
+    }
+
+    .filter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .filter-header h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--carbon);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-header h3 i {
+      width: 18px;
+      height: 18px;
+      color: var(--orange);
+    }
+
+    .filter-reset {
+      font-size: 12px;
+      color: var(--grey-mid);
+      background: none;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+    }
+
+    .filter-reset:hover {
+      color: var(--orange);
+      background: var(--orange-glow);
+    }
+
+    .filter-group {
+      margin-bottom: 24px;
+    }
+
+    .filter-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .filter-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--grey-dark);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .filter-input {
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    .filter-range {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .filter-range input {
+      flex: 1;
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+
+    .filter-range-separator {
+      color: var(--grey-mid);
+      font-weight: 600;
+    }
+
+    .filter-select {
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 13px;
+      background: var(--white);
+      cursor: pointer;
+    }
+
+    .filter-checkbox-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .filter-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+
+    .filter-checkbox:hover {
+      background: var(--grey-light);
+    }
+
+    .filter-checkbox input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      accent-color: var(--orange);
+    }
+
+    .filter-checkbox label {
+      flex: 1;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .filter-checkbox-count {
+      font-size: 11px;
+      color: var(--grey-mid);
+      font-weight: 600;
+    }
+
+    .filter-slider {
+      margin-top: 8px;
+    }
+
+    .filter-slider input[type="range"] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--grey);
+      outline: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .filter-slider input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--orange);
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    .filter-slider input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--orange);
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    .filter-slider-value {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: 4px;
+    }
+
+    .btn-filter-apply {
+      width: 100%;
+      background: var(--orange);
+      color: var(--white);
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 13px;
+      margin-top: 24px;
+    }
+
+    .btn-filter-apply:hover {
+      background: var(--orange-dark);
+    }
+
+    /* ========== VEHICLES CONTENT ========== */
+    .vehicles-content {
+      min-height: 600px;
+    }
+
+    .vehicles-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .vehicles-count {
+      font-size: 14px;
+      color: var(--grey-dark);
+    }
+
+    .vehicles-count strong {
+      font-weight: 800;
+      color: var(--orange);
+      font-size: 18px;
+    }
+
+    .vehicles-sort {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .vehicles-sort label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    .vehicles-sort select {
+      padding: 8px 32px 8px 12px;
+      font-size: 13px;
+      background: var(--white);
+      cursor: pointer;
+      min-width: 180px;
+    }
+
+    /* ========== VEHICLE CARD GRID ========== */
+    .vehicles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    /* A1: VehicleCard Component */
+    .vehicle-card {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .vehicle-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+      border-color: var(--orange);
+    }
+
+    .vc-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--grey-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      overflow: hidden;
+    }
+
+    .vc-favorite {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.95);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .vc-favorite:hover {
+      background: var(--white);
+      transform: scale(1.1);
+    }
+
+    .vc-favorite i {
+      width: 18px;
+      height: 18px;
+      color: var(--grey-mid);
+    }
+
+    .vc-favorite.active i {
+      color: var(--coral);
+      fill: var(--coral);
+    }
+
+    .vc-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .vc-badge.new {
+      background: var(--green);
+      color: var(--white);
+    }
+
+    .vc-badge.dealer {
+      background: var(--orange);
+      color: var(--white);
+    }
+
+    .vc-badge i {
+      width: 12px;
+      height: 12px;
+    }
+
+    .vc-content {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .vc-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--carbon);
+      margin-bottom: 8px;
+    }
+
+    .vc-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--carbon);
+      margin-bottom: 4px;
+    }
+
+    .vc-variant {
+      font-size: 12px;
+      color: var(--grey-mid);
+      margin-bottom: 12px;
+    }
+
+    .vc-specs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--grey-mid);
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .vc-specs span {
+      white-space: nowrap;
+    }
+
+    .vc-dealer {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--grey);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    .vc-dealer i {
+      width: 14px;
+      height: 14px;
+      color: var(--orange);
+    }
+
+    /* ========== PAGINATION ========== */
+    .pagination {
+      margin-top: 48px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pagination-button {
+      min-width: 36px;
+      height: 36px;
+      padding: 0 12px;
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      border: 1px solid var(--grey);
+      color: var(--grey-dark);
+      font-weight: 600;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pagination-button:hover:not(:disabled) {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: var(--white);
+    }
+
+    .pagination-button.active {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: var(--white);
+    }
+
+    .pagination-button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .pagination-button i {
+      width: 16px;
+      height: 16px;
+    }
+
+    .pagination-ellipsis {
+      padding: 0 4px;
+      color: var(--grey-mid);
+    }
+
+    /* ========== FOOTER ========== */
+    .footer {
+      background: var(--carbon);
+      color: rgba(255,255,255,0.8);
+      padding: 48px 0 24px;
+      margin-top: 64px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+
+    .footer-column h4 {
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-links a:hover {
+      color: var(--orange);
+    }
+
+    .footer-links i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .footer-bottom {
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+    }
+
+    .footer-social a {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .footer-social a:hover {
+      background: var(--orange);
+      color: var(--white);
+    }
+
+    .footer-social i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .vehicles-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-sidebar {
+        position: static;
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header-usps,
+      .header-links {
+        display: none;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .vehicles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .vehicles-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- HEADER -->
+    <header class="header">
+      <!-- Top Bar -->
+      <div class="header-top">
+        <div class="container">
+          <div class="header-usps">
+            <div class="header-usp">
+              <i data-lucide="shield-check"></i>
+              <span>100% kwaliteitscontrole</span>
+            </div>
+            <div class="header-usp">
+              <i data-lucide="clock"></i>
+              <span>24/7 service</span>
+            </div>
+            <div class="header-usp">
+              <i data-lucide="headphones"></i>
+              <span>Gratis advies</span>
+            </div>
+          </div>
+          <div class="header-links">
+            <a href="#">Mijn account</a>
+            <a href="#">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Header -->
+      <div class="header-main">
+        <div class="container">
+          <a href="#" class="logo">
+            <i data-lucide="car"></i>
+            <span>Premium Automotive</span>
+          </a>
+
+          <nav class="nav">
+            <a href="#" class="active">
+              <span>Occasions</span>
+              <i data-lucide="chevron-down"></i>
+            </a>
+            <a href="#">Nieuw</a>
+            <a href="#">Inruilen</a>
+            <a href="#">Financiering</a>
+            <a href="#">Werkplaats</a>
+            <a href="#">Over ons</a>
+          </nav>
+
+          <div class="header-actions">
+            <button class="btn-icon">
+              <i data-lucide="search"></i>
+            </button>
+            <button class="btn-icon">
+              <i data-lucide="heart"></i>
+            </button>
+            <a href="#" class="btn-primary">
+              <i data-lucide="phone"></i>
+              <span>020 - 123 4567</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- BREADCRUMBS -->
+    <div class="breadcrumbs">
+      <div class="container">
+        <ul class="breadcrumbs-list">
+          <li><a href="#">Home</a></li>
+          <li>›</li>
+          <li class="current">Occasions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="page-content">
+      <div class="container">
+        <div class="vehicles-layout">
+          <!-- FILTER SIDEBAR -->
+          <aside class="filter-sidebar">
+            <div class="filter-header">
+              <h3>
+                <i data-lucide="sliders-horizontal"></i>
+                <span>Filters</span>
+              </h3>
+              <button class="filter-reset">Reset alle</button>
+            </div>
+
+            <!-- Price Range -->
+            <div class="filter-group">
+              <label class="filter-label">Prijs</label>
+              <div class="filter-range">
+                <input type="number" placeholder="€ Min" value="">
+                <span class="filter-range-separator">—</span>
+                <input type="number" placeholder="€ Max" value="">
+              </div>
+            </div>
+
+            <!-- Brand -->
+            <div class="filter-group">
+              <label class="filter-label">Merk</label>
+              <div class="filter-checkbox-list">
+                <div class="filter-checkbox">
+                  <input type="checkbox" id="brand-audi">
+                  <label for="brand-audi">
+                    <span>Audi</span>
+                    <span class="filter-checkbox-count">23</span>
+                  </label>
+                </div>
+                <div class="filter-checkbox">
+                  <input type="checkbox" id="brand-bmw">
+                  <label for="brand-bmw">
+                    <span>BMW</span>
+                    <span class="filter-checkbox-count">18</span>
+                  </label>
+                </div>
+                <div class="filter-checkbox">
+                  <input type="checkbox" id="brand-mercedes">
+                  <label for="brand-mercedes">
+                    <span>Mercedes-Benz</span>
+                    <span class="filter-checkbox-count">31</span>
+                  </label>
+                </div>
+                <div class="filter-checkbox">
+                  <input type="checkbox" id="brand-volkswagen">
+                  <label for="brand-volkswagen">
+                    <span>Volkswagen</span>
+                    <span class="filter-checkbox-count">27</span>
+                  </label>
+                </div>
+                <div class="filter-checkbox">
+                  <input type="checkbox" id="brand-volvo">
+                  <label for="brand-volvo">
+                    <span>Volvo</span>
+                    <span class="filter-checkbox-count">14</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fuel Type -->
+            <div class="filter-group">
+              <label class="filter-label">Brandstof</label>
+              <div class="filter-checkbox-list">
+                <div class="filter-checkbox">
+                  <input type="checkbox" id="fuel-benzine">
+                  <label for="fuel-benzine">
+                    <span>Benzine</span>
+                    <span class="filter-checkbox-count">68</span>
+                  </label>
+                </div>
+                <div class="filter-checkbox">
+                  <input type="checkbox" id="fuel-diesel">
+                  <label for="fuel-diesel">
+                    <span>Diesel</span>
+                    <span class="filter-checkbox-count">45</span>
+                  </label>
+                </div>
+                <div class="filter-checkbox">
+                  <input type="checkbox" id="fuel-hybrid">
+                  <label for="fuel-hybrid">
+                    <span>Hybride</span>
+                    <span class="filter-checkbox-count">28</span>
+                  </label>
+                </div>
+                <div class="filter-checkbox">
+                  <input type="checkbox" id="fuel-electric">
+                  <label for="fuel-electric">
+                    <span>Elektrisch</span>
+                    <span class="filter-checkbox-count">12</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Transmission -->
+            <div class="filter-group">
+              <label class="filter-label">Transmissie</label>
+              <div class="filter-checkbox-list">
+                <div class="filter-checkbox">
+                  <input type="checkbox" id="trans-automaat">
+                  <label for="trans-automaat">
+                    <span>Automaat</span>
+                    <span class="filter-checkbox-count">89</span>
+                  </label>
+                </div>
+                <div class="filter-checkbox">
+                  <input type="checkbox" id="trans-handgeschakeld">
+                  <label for="trans-handgeschakeld">
+                    <span>Handgeschakeld</span>
+                    <span class="filter-checkbox-count">64</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Year Range -->
+            <div class="filter-group">
+              <label class="filter-label">Bouwjaar</label>
+              <div class="filter-range">
+                <input type="number" placeholder="Van" value="">
+                <span class="filter-range-separator">—</span>
+                <input type="number" placeholder="Tot" value="">
+              </div>
+            </div>
+
+            <!-- Mileage -->
+            <div class="filter-group">
+              <label class="filter-label">Kilometerstand (max)</label>
+              <div class="filter-slider">
+                <input type="range" min="0" max="200000" value="100000" step="10000">
+                <div class="filter-slider-value">
+                  <span>0 km</span>
+                  <span id="mileage-value">100.000 km</span>
+                  <span>200.000 km</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Body Type -->
+            <div class="filter-group">
+              <label class="filter-label">Carrosserie</label>
+              <select class="filter-select">
+                <option value="">Alle types</option>
+                <option value="sedan">Sedan</option>
+                <option value="hatchback">Hatchback</option>
+                <option value="suv">SUV</option>
+                <option value="stationwagen">Stationwagen</option>
+                <option value="coupe">Coupé</option>
+                <option value="cabriolet">Cabriolet</option>
+                <option value="mpv">MPV</option>
+              </select>
+            </div>
+
+            <button class="btn-filter-apply">Toon resultaten</button>
+          </aside>
+
+          <!-- VEHICLES CONTENT -->
+          <div class="vehicles-content">
+            <!-- Header with count and sort -->
+            <div class="vehicles-header">
+              <div class="vehicles-count">
+                <strong>153</strong> occasions gevonden
+              </div>
+
+              <div class="vehicles-sort">
+                <label>Sorteer op:</label>
+                <select>
+                  <option value="relevant">Meest relevant</option>
+                  <option value="price-low">Prijs: laag - hoog</option>
+                  <option value="price-high">Prijs: hoog - laag</option>
+                  <option value="year-new">Bouwjaar: nieuw - oud</option>
+                  <option value="year-old">Bouwjaar: oud - nieuw</option>
+                  <option value="mileage-low">Kilometerstand: laag - hoog</option>
+                  <option value="mileage-high">Kilometerstand: hoog - laag</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Vehicle Cards Grid -->
+            <div class="vehicles-grid">
+              <!-- Vehicle 1 -->
+              <a href="#" class="vehicle-card">
+                <div class="vc-image">
+                  🚗
+                  <button class="vc-favorite">
+                    <i data-lucide="heart"></i>
+                  </button>
+                  <span class="vc-badge new">
+                    <i data-lucide="sparkles"></i>
+                    Nieuw
+                  </span>
+                </div>
+                <div class="vc-content">
+                  <div class="vc-price">€ 28.950</div>
+                  <h3 class="vc-title">Audi A3 Sportback</h3>
+                  <div class="vc-variant">1.5 TFSI Pro Line Plus</div>
+                  <div class="vc-specs">
+                    <span>2021</span>
+                    <span>•</span>
+                    <span>42.850 km</span>
+                    <span>•</span>
+                    <span>Benzine</span>
+                    <span>•</span>
+                    <span>Automaat</span>
+                  </div>
+                  <div class="vc-dealer">
+                    <i data-lucide="store"></i>
+                    <span>Premium Auto Amsterdam</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Vehicle 2 -->
+              <a href="#" class="vehicle-card">
+                <div class="vc-image">
+                  🚙
+                  <button class="vc-favorite active">
+                    <i data-lucide="heart"></i>
+                  </button>
+                  <span class="vc-badge dealer">
+                    <i data-lucide="award"></i>
+                    Topdealer
+                  </span>
+                </div>
+                <div class="vc-content">
+                  <div class="vc-price">€ 45.750</div>
+                  <h3 class="vc-title">BMW X3 xDrive30i</h3>
+                  <div class="vc-variant">High Executive M Sport</div>
+                  <div class="vc-specs">
+                    <span>2020</span>
+                    <span>•</span>
+                    <span>58.200 km</span>
+                    <span>•</span>
+                    <span>Benzine</span>
+                    <span>•</span>
+                    <span>Automaat</span>
+                  </div>
+                  <div class="vc-dealer">
+                    <i data-lucide="store"></i>
+                    <span>Premium Auto Amsterdam</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Vehicle 3 -->
+              <a href="#" class="vehicle-card">
+                <div class="vc-image">
+                  🚐
+                  <button class="vc-favorite">
+                    <i data-lucide="heart"></i>
+                  </button>
+                </div>
+                <div class="vc-content">
+                  <div class="vc-price">€ 52.900</div>
+                  <h3 class="vc-title">Mercedes-Benz GLC-Klasse</h3>
+                  <div class="vc-variant">250 4MATIC Business Solution AMG</div>
+                  <div class="vc-specs">
+                    <span>2022</span>
+                    <span>•</span>
+                    <span>28.450 km</span>
+                    <span>•</span>
+                    <span>Benzine</span>
+                    <span>•</span>
+                    <span>Automaat</span>
+                  </div>
+                  <div class="vc-dealer">
+                    <i data-lucide="store"></i>
+                    <span>Premium Auto Amsterdam</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Vehicle 4 -->
+              <a href="#" class="vehicle-card">
+                <div class="vc-image">
+                  🚗
+                  <button class="vc-favorite">
+                    <i data-lucide="heart"></i>
+                  </button>
+                </div>
+                <div class="vc-content">
+                  <div class="vc-price">€ 24.450</div>
+                  <h3 class="vc-title">Volkswagen Golf</h3>
+                  <div class="vc-variant">1.5 eTSI Style</div>
+                  <div class="vc-specs">
+                    <span>2020</span>
+                    <span>•</span>
+                    <span>65.300 km</span>
+                    <span>•</span>
+                    <span>Hybride</span>
+                    <span>•</span>
+                    <span>Automaat</span>
+                  </div>
+                  <div class="vc-dealer">
+                    <i data-lucide="store"></i>
+                    <span>Premium Auto Amsterdam</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Vehicle 5 -->
+              <a href="#" class="vehicle-card">
+                <div class="vc-image">
+                  🚙
+                  <button class="vc-favorite">
+                    <i data-lucide="heart"></i>
+                  </button>
+                  <span class="vc-badge new">
+                    <i data-lucide="sparkles"></i>
+                    Nieuw
+                  </span>
+                </div>
+                <div class="vc-content">
+                  <div class="vc-price">€ 38.900</div>
+                  <h3 class="vc-title">Volvo XC40 Recharge</h3>
+                  <div class="vc-variant">Pure Electric Core</div>
+                  <div class="vc-specs">
+                    <span>2021</span>
+                    <span>•</span>
+                    <span>32.100 km</span>
+                    <span>•</span>
+                    <span>Elektrisch</span>
+                    <span>•</span>
+                    <span>Automaat</span>
+                  </div>
+                  <div class="vc-dealer">
+                    <i data-lucide="store"></i>
+                    <span>Premium Auto Amsterdam</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Vehicle 6 -->
+              <a href="#" class="vehicle-card">
+                <div class="vc-image">
+                  🚗
+                  <button class="vc-favorite">
+                    <i data-lucide="heart"></i>
+                  </button>
+                  <span class="vc-badge dealer">
+                    <i data-lucide="award"></i>
+                    Topdealer
+                  </span>
+                </div>
+                <div class="vc-content">
+                  <div class="vc-price">€ 31.750</div>
+                  <h3 class="vc-title">Audi A4 Avant</h3>
+                  <div class="vc-variant">35 TFSI Advanced Pro Line</div>
+                  <div class="vc-specs">
+                    <span>2021</span>
+                    <span>•</span>
+                    <span>48.900 km</span>
+                    <span>•</span>
+                    <span>Benzine</span>
+                    <span>•</span>
+                    <span>Automaat</span>
+                  </div>
+                  <div class="vc-dealer">
+                    <i data-lucide="store"></i>
+                    <span>Premium Auto Amsterdam</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Vehicle 7 -->
+              <a href="#" class="vehicle-card">
+                <div class="vc-image">
+                  🚙
+                  <button class="vc-favorite">
+                    <i data-lucide="heart"></i>
+                  </button>
+                </div>
+                <div class="vc-content">
+                  <div class="vc-price">€ 49.950</div>
+                  <h3 class="vc-title">BMW 3 Serie</h3>
+                  <div class="vc-variant">320i High Executive M Sport</div>
+                  <div class="vc-specs">
+                    <span>2022</span>
+                    <span>•</span>
+                    <span>25.400 km</span>
+                    <span>•</span>
+                    <span>Benzine</span>
+                    <span>•</span>
+                    <span>Automaat</span>
+                  </div>
+                  <div class="vc-dealer">
+                    <i data-lucide="store"></i>
+                    <span>Premium Auto Amsterdam</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Vehicle 8 -->
+              <a href="#" class="vehicle-card">
+                <div class="vc-image">
+                  🚐
+                  <button class="vc-favorite">
+                    <i data-lucide="heart"></i>
+                  </button>
+                  <span class="vc-badge new">
+                    <i data-lucide="sparkles"></i>
+                    Nieuw
+                  </span>
+                </div>
+                <div class="vc-content">
+                  <div class="vc-price">€ 27.450</div>
+                  <h3 class="vc-title">Volkswagen Tiguan</h3>
+                  <div class="vc-variant">1.5 TSI Life Business R</div>
+                  <div class="vc-specs">
+                    <span>2020</span>
+                    <span>•</span>
+                    <span>72.800 km</span>
+                    <span>•</span>
+                    <span>Benzine</span>
+                    <span>•</span>
+                    <span>Automaat</span>
+                  </div>
+                  <div class="vc-dealer">
+                    <i data-lucide="store"></i>
+                    <span>Premium Auto Amsterdam</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Vehicle 9 -->
+              <a href="#" class="vehicle-card">
+                <div class="vc-image">
+                  🚗
+                  <button class="vc-favorite">
+                    <i data-lucide="heart"></i>
+                  </button>
+                </div>
+                <div class="vc-content">
+                  <div class="vc-price">€ 55.900</div>
+                  <h3 class="vc-title">Mercedes-Benz E-Klasse</h3>
+                  <div class="vc-variant">200 Limousine Business Solution AMG</div>
+                  <div class="vc-specs">
+                    <span>2021</span>
+                    <span>•</span>
+                    <span>38.650 km</span>
+                    <span>•</span>
+                    <span>Benzine</span>
+                    <span>•</span>
+                    <span>Automaat</span>
+                  </div>
+                  <div class="vc-dealer">
+                    <i data-lucide="store"></i>
+                    <span>Premium Auto Amsterdam</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Vehicle 10 -->
+              <a href="#" class="vehicle-card">
+                <div class="vc-image">
+                  🚙
+                  <button class="vc-favorite">
+                    <i data-lucide="heart"></i>
+                  </button>
+                  <span class="vc-badge dealer">
+                    <i data-lucide="award"></i>
+                    Topdealer
+                  </span>
+                </div>
+                <div class="vc-content">
+                  <div class="vc-price">€ 33.750</div>
+                  <h3 class="vc-title">Volvo V60</h3>
+                  <div class="vc-variant">2.0 T5 Inscription</div>
+                  <div class="vc-specs">
+                    <span>2020</span>
+                    <span>•</span>
+                    <span>54.200 km</span>
+                    <span>•</span>
+                    <span>Benzine</span>
+                    <span>•</span>
+                    <span>Automaat</span>
+                  </div>
+                  <div class="vc-dealer">
+                    <i data-lucide="store"></i>
+                    <span>Premium Auto Amsterdam</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Vehicle 11 -->
+              <a href="#" class="vehicle-card">
+                <div class="vc-image">
+                  🚗
+                  <button class="vc-favorite">
+                    <i data-lucide="heart"></i>
+                  </button>
+                </div>
+                <div class="vc-content">
+                  <div class="vc-price">€ 22.900</div>
+                  <h3 class="vc-title">Audi A1 Sportback</h3>
+                  <div class="vc-variant">30 TFSI S Line Edition</div>
+                  <div class="vc-specs">
+                    <span>2019</span>
+                    <span>•</span>
+                    <span>68.500 km</span>
+                    <span>•</span>
+                    <span>Benzine</span>
+                    <span>•</span>
+                    <span>Automaat</span>
+                  </div>
+                  <div class="vc-dealer">
+                    <i data-lucide="store"></i>
+                    <span>Premium Auto Amsterdam</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Vehicle 12 -->
+              <a href="#" class="vehicle-card">
+                <div class="vc-image">
+                  🚙
+                  <button class="vc-favorite">
+                    <i data-lucide="heart"></i>
+                  </button>
+                  <span class="vc-badge new">
+                    <i data-lucide="sparkles"></i>
+                    Nieuw
+                  </span>
+                </div>
+                <div class="vc-content">
+                  <div class="vc-price">€ 41.950</div>
+                  <h3 class="vc-title">BMW X1 xDrive20i</h3>
+                  <div class="vc-variant">High Executive M Sport</div>
+                  <div class="vc-specs">
+                    <span>2021</span>
+                    <span>•</span>
+                    <span>35.800 km</span>
+                    <span>•</span>
+                    <span>Benzine</span>
+                    <span>•</span>
+                    <span>Automaat</span>
+                  </div>
+                  <div class="vc-dealer">
+                    <i data-lucide="store"></i>
+                    <span>Premium Auto Amsterdam</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+              <button class="pagination-button" disabled>
+                <i data-lucide="chevron-left"></i>
+              </button>
+              <button class="pagination-button active">1</button>
+              <button class="pagination-button">2</button>
+              <button class="pagination-button">3</button>
+              <button class="pagination-button">4</button>
+              <span class="pagination-ellipsis">...</span>
+              <button class="pagination-button">13</button>
+              <button class="pagination-button">
+                <i data-lucide="chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-column">
+            <h4>Premium Automotive</h4>
+            <ul class="footer-links">
+              <li><a href="#">Over ons</a></li>
+              <li><a href="#">Ons team</a></li>
+              <li><a href="#">Locatie & openingstijden</a></li>
+              <li><a href="#">Vacatures</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h4>Occasions</h4>
+            <ul class="footer-links">
+              <li><a href="#">Alle occasions</a></li>
+              <li><a href="#">Nieuw binnen</a></li>
+              <li><a href="#">Populaire modellen</a></li>
+              <li><a href="#">Topdealer occasions</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h4>Service</h4>
+            <ul class="footer-links">
+              <li><a href="#">Inruilen</a></li>
+              <li><a href="#">Financiering</a></li>
+              <li><a href="#">Leasing</a></li>
+              <li><a href="#">Werkplaats</a></li>
+              <li><a href="#">Garantie</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h4>Contact</h4>
+            <ul class="footer-links">
+              <li>
+                <a href="tel:0201234567">
+                  <i data-lucide="phone"></i>
+                  <span>020 - 123 4567</span>
+                </a>
+              </li>
+              <li>
+                <a href="mailto:info@premiumauto.nl">
+                  <i data-lucide="mail"></i>
+                  <span>info@premiumauto.nl</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i data-lucide="map-pin"></i>
+                  <span>Autoweg 123, Amsterdam</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div>
+            <p>&copy; 2026 Premium Automotive. Alle rechten voorbehouden.</p>
+          </div>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook">
+              <i data-lucide="facebook"></i>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <i data-lucide="instagram"></i>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <i data-lucide="linkedin"></i>
+            </a>
+            <a href="#" aria-label="YouTube">
+              <i data-lucide="youtube"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Mileage slider update
+    const mileageSlider = document.querySelector('input[type="range"]');
+    const mileageValue = document.getElementById('mileage-value');
+
+    if (mileageSlider && mileageValue) {
+      mileageSlider.addEventListener('input', function() {
+        const value = parseInt(this.value).toLocaleString('nl-NL');
+        mileageValue.textContent = value + ' km';
+      });
+    }
+
+    // Favorite button toggle
+    document.querySelectorAll('.vc-favorite').forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>

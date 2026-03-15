@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sityzr Pricing Plan — Q2 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--void:#09090B;--surface:#18181B;--border:#27272A;--violet:#7C3AED;--violet-light:#A78BFA;--violet-glow:rgba(124,58,237,0.08);--white:#FAFAFA;--zinc-100:#F4F4F5;--zinc-200:#E4E4E7;--zinc-400:#A1A1AA;--zinc-500:#71717A;--zinc-600:#52525B;--zinc-800:#27272A;--green:#10B981;--green-light:#ECFDF5;--amber:#F59E0B;--amber-light:#FFFBEB;--red:#EF4444}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--white);color:var(--void);-webkit-font-smoothing:antialiased;line-height:1.6}
+.container{max-width:1120px;margin:0 auto;padding:0 32px}
+
+/* Cover */
+.cover{background:var(--void);color:var(--white);padding:80px 0 60px;position:relative;overflow:hidden}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 30%,rgba(124,58,237,0.06),transparent 50%)}
+.cover-inner{position:relative;z-index:1}
+.cover-badge{display:inline-block;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--violet);margin-bottom:20px}
+.cover h1{font-size:48px;font-weight:800;letter-spacing:-1.5px;margin-bottom:12px}
+.cover h1 span{color:var(--violet-light)}
+.cover p{font-size:17px;color:var(--zinc-400);max-width:600px;margin-bottom:32px}
+.cover-meta{display:flex;gap:40px;padding-top:24px;border-top:1px solid var(--border)}
+.cover-meta-item{display:flex;flex-direction:column;gap:2px}
+.cover-meta-item .label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--zinc-600)}
+.cover-meta-item .value{font-size:14px;font-weight:500;color:var(--zinc-400)}
+
+/* Sections */
+.section{padding:56px 0;border-bottom:1px solid var(--zinc-200)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--violet);margin-bottom:8px}
+.section h2{font-size:32px;font-weight:800;letter-spacing:-0.5px;margin-bottom:8px}
+.section .subtitle{font-size:15px;color:var(--zinc-500);margin-bottom:32px}
+
+/* Pricing Cards */
+.pricing-grid{display:grid;gap:20px;margin-bottom:32px}
+.pricing-grid-3{grid-template-columns:repeat(3,1fr)}
+.pricing-grid-2{grid-template-columns:repeat(2,1fr)}
+.pricing-card{background:#fff;border:2px solid var(--zinc-200);border-radius:12px;padding:28px;position:relative;transition:all .2s}
+.pricing-card:hover{border-color:var(--violet);box-shadow:0 8px 32px rgba(124,58,237,0.08)}
+.pricing-card.featured{border-color:var(--violet);box-shadow:0 4px 20px rgba(124,58,237,0.1)}
+.pricing-card.featured::before{content:attr(data-badge);position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--violet);color:#fff;padding:4px 16px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
+.card-name{font-size:18px;font-weight:700;margin-bottom:4px}
+.card-price{font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:2px}
+.card-price span{font-size:15px;font-weight:500;color:var(--zinc-400)}
+.card-desc{font-size:13px;color:var(--zinc-500);margin-bottom:20px;min-height:40px}
+.card-features{list-style:none;margin-bottom:24px}
+.card-features li{font-size:13px;padding:6px 0;border-bottom:1px solid var(--zinc-100);display:flex;align-items:center;gap:8px}
+.card-features li:last-child{border-bottom:none}
+.card-features .check{color:var(--green);font-weight:700;font-size:14px}
+.card-features .cross{color:var(--zinc-400);font-size:14px}
+.card-features .new{background:var(--violet-glow);color:var(--violet);font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:auto}
+.card-ideal{font-size:12px;color:var(--zinc-500);padding-top:16px;border-top:1px solid var(--zinc-100);margin-top:auto}
+.card-ideal strong{color:var(--void)}
+.card-btn{display:block;width:100%;padding:12px;border:none;border-radius:8px;font-family:'Inter';font-size:14px;font-weight:600;cursor:pointer;text-align:center;transition:all .2s;margin-top:16px}
+.btn-primary{background:var(--violet);color:#fff}.btn-primary:hover{background:#6D28D9}
+.btn-secondary{background:var(--void);color:var(--white)}.btn-secondary:hover{background:var(--surface)}
+.btn-outline{background:transparent;color:var(--void);border:1.5px solid var(--zinc-200)}.btn-outline:hover{border-color:var(--violet)}
+
+/* Branch modules */
+.module-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.module-card{background:#fff;border:1px solid var(--zinc-200);border-radius:12px;padding:24px;transition:all .2s}
+.module-card:hover{border-color:var(--violet-light);background:var(--violet-glow)}
+.module-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.module-name{font-size:16px;font-weight:700}
+.module-price{font-size:16px;font-weight:700;color:var(--violet)}
+
+/* Price tier badge */
+.module-tier{display:inline-block;font-size:10px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;padding:2px 8px;border-radius:4px;margin-left:8px}
+.tier-basic{background:#ECFDF5;color:#059669}
+.tier-mid{background:var(--violet-glow);color:var(--violet)}
+.tier-premium{background:#FEF3C7;color:#D97706}
+
+.module-desc{font-size:13px;color:var(--zinc-500);line-height:1.6}
+
+/* Add-ons */
+.addon-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.addon-card{background:#fff;border:1px solid var(--zinc-200);border-radius:12px;padding:24px;display:flex;gap:16px;align-items:flex-start;transition:all .2s}
+.addon-card:hover{border-color:var(--violet-light)}
+.addon-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.addon-info{flex:1}
+.addon-name{font-size:15px;font-weight:700;margin-bottom:2px}
+.addon-price{font-size:13px;font-weight:600;color:var(--violet);margin-bottom:4px}
+.addon-desc{font-size:12px;color:var(--zinc-500);line-height:1.5}
+
+/* Examples */
+.example-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.example-card{background:var(--zinc-100);border-radius:12px;padding:24px}
+.example-type{font-size:12px;font-weight:600;color:var(--violet);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.example-name{font-size:16px;font-weight:700;margin-bottom:12px}
+.example-lines{list-style:none;margin-bottom:16px}
+.example-lines li{font-size:13px;padding:4px 0;display:flex;justify-content:space-between;color:var(--zinc-600)}
+.example-lines li span{font-weight:600;color:var(--void)}
+.example-total{font-size:20px;font-weight:800;color:var(--violet);padding-top:12px;border-top:2px solid var(--zinc-200)}
+
+/* Comparison */
+.compare-table{width:100%;border-collapse:collapse;font-size:13px}
+.compare-table th{text-align:left;padding:12px 16px;background:var(--void);color:var(--white);font-weight:600}
+.compare-table th:first-child{border-radius:8px 0 0 0}
+.compare-table th:last-child{border-radius:0 8px 0 0}
+.compare-table td{padding:10px 16px;border-bottom:1px solid var(--zinc-100)}
+.compare-table tr:hover td{background:var(--violet-glow)}
+.compare-table .platform{font-weight:600}
+.compare-table .price{font-weight:600;color:var(--violet)}
+.compare-table .sityzr-row{background:var(--violet-glow)}
+.compare-table .sityzr-row td{font-weight:600}
+
+/* Advice box */
+.advice-box{background:var(--void);color:var(--white);border-radius:16px;padding:40px;margin:32px 0;position:relative;overflow:hidden}
+.advice-box::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,58,237,0.15),transparent 60%)}
+.advice-box h3{font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:12px;position:relative}
+.advice-box p{font-size:14px;color:var(--zinc-400);line-height:1.8;position:relative;margin-bottom:8px}
+.advice-box .highlight{color:var(--violet-light);font-weight:600}
+
+/* Strategy callout */
+.strategy-box{background:linear-gradient(135deg,var(--void) 0%,#1a1a2e 100%);color:var(--white);border-radius:16px;padding:40px;margin:32px 0;position:relative;overflow:hidden}
+.strategy-box::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(124,58,237,0.12),transparent 60%)}
+.strategy-box h3{font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:16px;position:relative}
+.strategy-points{list-style:none;position:relative}
+.strategy-points li{font-size:14px;color:var(--zinc-400);line-height:1.8;padding:8px 0;padding-left:28px;position:relative}
+.strategy-points li::before{content:'';position:absolute;left:0;top:16px;width:16px;height:16px;border-radius:50%;border:2px solid var(--violet);background:transparent}
+.strategy-points li strong{color:var(--violet-light)}
+
+/* Responsive */
+@media(max-width:900px){.pricing-grid-3,.example-grid{grid-template-columns:1fr}.pricing-grid-2,.module-grid,.addon-grid{grid-template-columns:1fr}.cover h1{font-size:36px}.cover-meta{flex-direction:column;gap:16px}}
+@media print{body{font-size:12px}.cover{padding:40px 0 30px}.section{padding:32px 0}.pricing-card{break-inside:avoid}@page{size:A4;margin:10mm 12mm}}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover"><div class="container cover-inner">
+  <div class="cover-badge">Pricing Plan · Q2 2026</div>
+  <h1>sityzr <span>pricing</span></h1>
+  <p>Compleet overzicht van alle productlijnen, branch-modules en add-ons. Transparant, all-inclusive, en eerlijk gepositioneerd in de markt.</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><span class="label">Product</span><span class="value">Sityzr — Multi-Tenant CMS Platform</span></div>
+    <div class="cover-meta-item"><span class="label">Versie</span><span class="value">Q2 2026 — v2</span></div>
+    <div class="cover-meta-item"><span class="label">Valuta</span><span class="value">EUR (excl. BTW)</span></div>
+    <div class="cover-meta-item"><span class="label">Status</span><span class="value">Concept</span></div>
+  </div>
+</div></div>
+
+<!-- STRATEGY -->
+<div class="section" style="background:var(--void);border-bottom:1px solid var(--border)"><div class="container">
+  <div class="section-label" style="color:var(--violet-light)">Strategie</div>
+  <h2 style="color:var(--white)">Lage instap, groei mee</h2>
+  <p class="subtitle" style="color:var(--zinc-400)">De pricing volgt een land-and-expand model: maak de drempel zo laag mogelijk, verdien op upgrades en modules.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px">
+      <div style="font-size:28px;font-weight:800;color:var(--violet-light);margin-bottom:4px">€49</div>
+      <div style="font-size:13px;color:var(--zinc-400)">Laagste instap. Concurreert met Wix/Squarespace. Geen drempel voor starters.</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px">
+      <div style="font-size:28px;font-weight:800;color:var(--violet-light);margin-bottom:4px">€118</div>
+      <div style="font-size:13px;color:var(--zinc-400)">Kapper of restaurant met branche-module. Betaalbaar voor elke ZZP'er.</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px">
+      <div style="font-size:28px;font-weight:800;color:var(--violet-light);margin-bottom:4px">€0</div>
+      <div style="font-size:13px;color:var(--zinc-400)">Geen transactiekosten. Geen commissie per boeking. Vast maandbedrag.</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px">
+      <div style="font-size:28px;font-weight:800;color:var(--violet-light);margin-bottom:4px">+60%</div>
+      <div style="font-size:13px;color:var(--zinc-400)">Upsell potentieel. Gemiddelde klant groeit naar hogere tier + add-ons.</div>
+    </div>
+  </div>
+</div></div>
+
+<!-- 1. WEBSITE -->
+<div class="section"><div class="container">
+  <div class="section-label">Productlijn A</div>
+  <h2>Website</h2>
+  <p class="subtitle">Voor bedrijven zonder e-commerce. CMS, hosting, SEO en support — alles inbegrepen.</p>
+
+  <div class="pricing-grid pricing-grid-3">
+    <div class="pricing-card">
+      <div class="card-name">Starter</div>
+      <div class="card-price">€49 <span>/maand</span></div>
+      <div class="card-desc">Perfect voor starters en ZZP'ers die een professionele website willen.</div>
+      <ul class="card-features">
+        <li><span class="check">✓</span> 10 pagina's</li>
+        <li><span class="check">✓</span> CMS & page builder</li>
+        <li><span class="check">✓</span> SEO-tools</li>
+        <li><span class="check">✓</span> SSL & hosting</li>
+        <li><span class="check">✓</span> Dagelijkse backups</li>
+        <li><span class="check">✓</span> Custom domein</li>
+        <li><span class="cross">—</span> Blog</li>
+        <li><span class="cross">—</span> Formulieren & leads</li>
+        <li><span class="cross">—</span> AI-content tools</li>
+      </ul>
+      <div class="card-ideal"><strong>Ideaal voor:</strong> Starters, ZZP, lokale bedrijven</div>
+      <button class="card-btn btn-outline">Start nu</button>
+    </div>
+
+    <div class="pricing-card featured" data-badge="Meest gekozen">
+      <div class="card-name">Pro</div>
+      <div class="card-price">€149 <span>/maand</span></div>
+      <div class="card-desc">Voor groeiende bedrijven die meer willen dan een visitekaartje.</div>
+      <ul class="card-features">
+        <li><span class="check">✓</span> Onbeperkt pagina's</li>
+        <li><span class="check">✓</span> Alles uit Starter</li>
+        <li><span class="check">✓</span> Blog & content</li>
+        <li><span class="check">✓</span> Formulieren & leads</li>
+        <li><span class="check">✓</span> Analytics dashboard</li>
+        <li><span class="check">✓</span> AI-content tools</li>
+        <li><span class="check">✓</span> Telefoon support</li>
+        <li><span class="check">✓</span> 99.9% SLA</li>
+      </ul>
+      <div class="card-ideal"><strong>Ideaal voor:</strong> MKB, groeiende bedrijven</div>
+      <button class="card-btn btn-primary">Kies Pro</button>
+    </div>
+
+    <div class="pricing-card">
+      <div class="card-name">Business</div>
+      <div class="card-price">€299 <span>/maand</span></div>
+      <div class="card-desc">Alle features voor middelgrote organisaties met hoge eisen.</div>
+      <ul class="card-features">
+        <li><span class="check">✓</span> Alles uit Pro</li>
+        <li><span class="check">✓</span> Multi-taal</li>
+        <li><span class="check">✓</span> Geavanceerde analytics</li>
+        <li><span class="check">✓</span> Priority support</li>
+        <li><span class="check">✓</span> Dedicated manager</li>
+        <li><span class="check">✓</span> 99.9% SLA</li>
+        <li><span class="check">✓</span> Maandelijkse optimalisatie</li>
+      </ul>
+      <div class="card-ideal"><strong>Ideaal voor:</strong> Middelgrote organisaties</div>
+      <button class="card-btn btn-secondary">Neem contact op</button>
+    </div>
+  </div>
+</div></div>
+
+<!-- 2. E-COMMERCE -->
+<div class="section"><div class="container">
+  <div class="section-label">Productlijn B</div>
+  <h2>E-commerce (B2C)</h2>
+  <p class="subtitle">Van startende webshop tot volledig uitgeruste online winkel. Alle plans inclusief Website Pro.</p>
+
+  <div class="pricing-grid pricing-grid-2">
+    <div class="pricing-card">
+      <div class="card-name">E-commerce Basic</div>
+      <div class="card-price">€199 <span>/maand</span></div>
+      <div class="card-desc">Alles wat je nodig hebt om online te verkopen. Tot 500 producten.</div>
+      <ul class="card-features">
+        <li><span class="check">✓</span> Website Pro inbegrepen</li>
+        <li><span class="check">✓</span> Productcatalogus (tot 500)</li>
+        <li><span class="check">✓</span> Winkelwagen & checkout</li>
+        <li><span class="check">✓</span> iDEAL, creditcard, Bancontact</li>
+        <li><span class="check">✓</span> Voorraadbeheer</li>
+        <li><span class="check">✓</span> Orderverwerking</li>
+        <li><span class="check">✓</span> Klantaccounts</li>
+        <li><span class="cross">—</span> Productreviews</li>
+        <li><span class="cross">—</span> Wishlists & vergelijken</li>
+        <li><span class="cross">—</span> Promoties & kortingscodes</li>
+        <li><span class="cross">—</span> Variabele producten</li>
+      </ul>
+      <div class="card-ideal"><strong>Ideaal voor:</strong> Startende webshops, niche-winkels</div>
+      <button class="card-btn btn-outline">Start nu</button>
+    </div>
+
+    <div class="pricing-card featured" data-badge="Aanbevolen">
+      <div class="card-name">E-commerce Compleet</div>
+      <div class="card-price">€399 <span>/maand</span></div>
+      <div class="card-desc">De complete B2C webshop. Onbeperkt producten, alle features.</div>
+      <ul class="card-features">
+        <li><span class="check">✓</span> Alles uit E-commerce Basic</li>
+        <li><span class="check">✓</span> Onbeperkt producten</li>
+        <li><span class="check">✓</span> Productreviews</li>
+        <li><span class="check">✓</span> Wishlists & vergelijken</li>
+        <li><span class="check">✓</span> Promoties & kortingscodes</li>
+        <li><span class="check">✓</span> Variabele producten</li>
+        <li><span class="check">✓</span> Cadeaubonnen</li>
+        <li><span class="check">✓</span> Geavanceerde analytics</li>
+        <li><span class="check">✓</span> Dedicated manager</li>
+        <li><span class="check">✓</span> 99.9% SLA</li>
+      </ul>
+      <div class="card-ideal"><strong>Ideaal voor:</strong> Gevestigde B2C webshops</div>
+      <button class="card-btn btn-primary">Kies Compleet</button>
+    </div>
+  </div>
+</div></div>
+
+<!-- 3. B2B E-COMMERCE -->
+<div class="section" style="background:var(--zinc-100)"><div class="container">
+  <div class="section-label">Productlijn C</div>
+  <h2>B2B E-commerce</h2>
+  <p class="subtitle">Voor groothandels, distributeurs en productiebedrijven. Inclusief alle B2C features.</p>
+
+  <div class="pricing-grid pricing-grid-2">
+    <div class="pricing-card">
+      <div class="card-name">B2B Standaard</div>
+      <div class="card-price">€599 <span>/maand</span></div>
+      <div class="card-desc">Alles uit E-commerce Compleet + essentiële B2B functionaliteit.</div>
+      <ul class="card-features">
+        <li><span class="check">✓</span> E-commerce Compleet inbegrepen</li>
+        <li><span class="check">✓</span> Klantgroepen & autorisatie</li>
+        <li><span class="check">✓</span> Staffelprijzen / volumekorting</li>
+        <li><span class="check">✓</span> Bestelhistorie & herhalingen</li>
+        <li><span class="check">✓</span> Snelbestelformulier</li>
+        <li><span class="check">✓</span> Offerteaanvragen</li>
+        <li><span class="check">✓</span> Factuuroverzicht</li>
+        <li><span class="check">✓</span> Bedrijfsaccounts met rollen</li>
+        <li><span class="check">✓</span> Meerdere afleveradressen</li>
+        <li><span class="check">✓</span> API (read-only)</li>
+        <li><span class="check">✓</span> 2 uur onboarding</li>
+        <li><span class="cross">—</span> Barcode scanner</li>
+        <li><span class="cross">—</span> Goedkeuringsworkflows</li>
+        <li><span class="cross">—</span> ERP-koppeling</li>
+      </ul>
+      <div class="card-ideal"><strong>Ideaal voor:</strong> Groothandels, distributeurs</div>
+      <button class="card-btn btn-secondary">Neem contact op</button>
+    </div>
+
+    <div class="pricing-card featured" data-badge="Maximale controle">
+      <div class="card-name">B2B Enterprise</div>
+      <div class="card-price">€999 <span>/maand</span></div>
+      <div class="card-desc">De complete B2B oplossing met ERP-integratie en enterprise features.</div>
+      <ul class="card-features">
+        <li><span class="check">✓</span> Alles uit B2B Standaard</li>
+        <li><span class="check">✓</span> Barcode scanner</li>
+        <li><span class="check">✓</span> Goedkeuringsworkflows</li>
+        <li><span class="check">✓</span> ERP-koppeling (basis)</li>
+        <li><span class="check">✓</span> Volledige API-toegang</li>
+        <li><span class="check">✓</span> 8 uur dedicated onboarding</li>
+        <li><span class="check">✓</span> Dedicated manager + 4u SLA</li>
+        <li><span class="check">✓</span> 99.95% SLA</li>
+      </ul>
+      <div class="card-ideal"><strong>Ideaal voor:</strong> Enterprise B2B, productie, groot volume</div>
+      <button class="card-btn btn-primary">Plan een demo</button>
+    </div>
+  </div>
+
+  <div class="advice-box">
+    <h3>Waarom B2B apart en hoger geprijsd?</h3>
+    <p>B2B e-commerce genereert typisch <span class="highlight">€100K-1M+/jaar</span> aan omzet. €599-999/mo is minder dan 1.5% daarvan. Vergelijk: Sana Commerce rekent €2.000-5.000/mo, Intershop €3.000+/mo. Sityzr biedt enterprise-functionaliteit die <span class="highlight">2-5x goedkoper</span> is dan de concurrentie.</p>
+    <p>B2B klanten vragen <span class="highlight">3-5x meer support</span> door complexe pricing, integraties en workflows. De hogere prijs reflecteert die realiteit — en is nog steeds zeer competitief.</p>
+  </div>
+</div></div>
+
+<!-- 4. BRANCH MODULES -->
+<div class="section"><div class="container">
+  <div class="section-label">Branch-modules</div>
+  <h2>Branche-specifieke functionaliteit</h2>
+  <p class="subtitle">Combineerbaar met elke productlijn. Voegt sector-specifieke features toe aan je website of webshop.</p>
+
+  <div class="module-grid">
+    <div class="module-card">
+      <div class="module-header"><span class="module-name">Beauty & Wellness <span class="module-tier tier-mid">€69</span></span><span class="module-price">+€69/mo</span></div>
+      <div class="module-desc">Online boekingssysteem, behandelingscatalogus, medewerkerplanning, automatische herinneringen, no-show tracking</div>
+    </div>
+    <div class="module-card">
+      <div class="module-header"><span class="module-name">Horeca & Restaurant <span class="module-tier tier-mid">€69</span></span><span class="module-price">+€69/mo</span></div>
+      <div class="module-desc">Digitale menukaart, online reserveringen, QR-code menu's, evenementenbeheer, tafelmanagement</div>
+    </div>
+    <div class="module-card">
+      <div class="module-header"><span class="module-name">Bouw & Constructie <span class="module-tier tier-mid">€69</span></span><span class="module-price">+€69/mo</span></div>
+      <div class="module-desc">Projectportfolio, offertemodule, voortgangsmonitoring, certificaten- en licentiebeheer</div>
+    </div>
+    <div class="module-card">
+      <div class="module-header"><span class="module-name">Zorg & Gezondheid <span class="module-tier tier-premium">€99</span></span><span class="module-price">+€99/mo</span></div>
+      <div class="module-desc">Patiëntenportaal, online afspraken, AVG-compliance toolkit, verwijzingssysteem, verzekeraarsintegratie</div>
+    </div>
+    <div class="module-card">
+      <div class="module-header"><span class="module-name">Vastgoed & Makelaardij <span class="module-tier tier-premium">€99</span></span><span class="module-price">+€99/mo</span></div>
+      <div class="module-desc">Woningpresentaties, virtuele tours, bezichtigingsplanning, Funda-koppeling (basis), waardebepalingen</div>
+    </div>
+    <div class="module-card">
+      <div class="module-header"><span class="module-name">Ervaringen & Events <span class="module-tier tier-mid">€69</span></span><span class="module-price">+€69/mo</span></div>
+      <div class="module-desc">Ticketverkoop, interactieve routes, inschrijfsystemen, capaciteitsbeheer, weergaranties</div>
+    </div>
+    <div class="module-card">
+      <div class="module-header"><span class="module-name">Publishing & Media <span class="module-tier tier-premium">€99</span></span><span class="module-price">+€99/mo</span></div>
+      <div class="module-desc">Digitale magazines, abonneebeheer, paywalls, digitale bibliotheek, auteursbeheer</div>
+    </div>
+    <div class="module-card">
+      <div class="module-header"><span class="module-name">Prof. Dienstverlening <span class="module-tier tier-basic">€49</span></span><span class="module-price">+€49/mo</span></div>
+      <div class="module-desc">Expertise-showcase, kennisbank, lead-generatie formulieren, case study management</div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;padding:20px;background:var(--zinc-100);border-radius:12px;display:flex;gap:32px;font-size:13px;color:var(--zinc-500)">
+    <div><span class="module-tier tier-basic">€49</span> Puur content-gedreven</div>
+    <div><span class="module-tier tier-mid">€69</span> 1 kernfunctionaliteit (booking, reservering)</div>
+    <div><span class="module-tier tier-premium">€99</span> Complexe integraties / compliance</div>
+  </div>
+</div></div>
+
+<!-- 5. ADD-ONS -->
+<div class="section" style="background:var(--zinc-100)"><div class="container">
+  <div class="section-label">Platform Add-ons</div>
+  <h2>Extra functionaliteit</h2>
+  <p class="subtitle">Optionele modules die je op elk moment kunt toevoegen of verwijderen. Geen contract.</p>
+
+  <div class="addon-grid">
+    <div class="addon-card">
+      <div class="addon-icon" style="background:var(--violet-glow)">🔍</div>
+      <div class="addon-info">
+        <div class="addon-name">Meilisearch (Geavanceerd Zoeken)</div>
+        <div class="addon-price">+€49/maand</div>
+        <div class="addon-desc">Typo-tolerant zoeken, facetten, filters, real-time indexering. Tot 50.000 documenten.</div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon" style="background:var(--violet-glow)">🤖</div>
+      <div class="addon-info">
+        <div class="addon-name">AI Chatbot</div>
+        <div class="addon-price">+€79/maand</div>
+        <div class="addon-desc">Getraind op je content, 24/7 beschikbaar, lead-capture, handoff naar email. Tot 1.000 gesprekken/maand.</div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon" style="background:var(--violet-glow)">📧</div>
+      <div class="addon-info">
+        <div class="addon-name">E-mail Marketing</div>
+        <div class="addon-price">+€99/maand</div>
+        <div class="addon-desc">Campagnes, flows, segmentatie, templates, A/B testing. 5.000 contacten, 25.000 emails/maand.</div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon" style="background:var(--violet-glow)">📧</div>
+      <div class="addon-info">
+        <div class="addon-name">E-mail Marketing Pro</div>
+        <div class="addon-price">+€199/maand</div>
+        <div class="addon-desc">25.000 contacten, 100.000 emails/maand, geavanceerde automatisering, dedicated IP.</div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon" style="background:var(--violet-glow)">📱</div>
+      <div class="addon-info">
+        <div class="addon-name">Social Media Publishing</div>
+        <div class="addon-price">+€69/maand <span class="new">NIEUW</span></div>
+        <div class="addon-desc">Plan, publiceer en analyseer posts op Instagram, Facebook, LinkedIn, X. Content calendar, analytics.</div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon" style="background:var(--violet-glow)">📱</div>
+      <div class="addon-info">
+        <div class="addon-name">Social Media Publishing Pro</div>
+        <div class="addon-price">+€129/maand <span class="new">NIEUW</span></div>
+        <div class="addon-desc">+ TikTok, Pinterest, Google Business, bulk scheduling, AI-caption generator, team approval workflow.</div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon" style="background:var(--violet-glow)">🌐</div>
+      <div class="addon-info">
+        <div class="addon-name">Multi-taal</div>
+        <div class="addon-price">+€49/maand</div>
+        <div class="addon-desc">Automatische vertaling + handmatige correctie. Tot 5 talen. Inclusief hreflang SEO.</div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon" style="background:var(--violet-glow)">🔔</div>
+      <div class="addon-info">
+        <div class="addon-name">Push Notificaties (PWA)</div>
+        <div class="addon-price">+€39/maand</div>
+        <div class="addon-desc">Web push notificaties, segmentatie, automatische triggers bij nieuwe content/producten.</div>
+      </div>
+      <div class="addon-card">
+        <div class="addon-name">Advertenties</div>
+        <div class="addon-price">+€69/maand</div>
+        <div class="addon-desc">Google Ad Manager integratie, ad zones beheer in CMS, display & native ads, rapportage. Tot 100K pageviews/maand.</div>
+      </div>
+      <div class="addon-card">
+        <div class="addon-name">Advertenties Pro</div>
+        <div class="addon-price">+€129/maand</div>
+        <div class="addon-desc">+ Programmatic (header bidding), yield optimization, video ads, A/B testing, revenue dashboard. Onbeperkt pageviews.</div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- 6. EXAMPLES -->
+<div class="section"><div class="container">
+  <div class="section-label">Rekenvoorbeelden</div>
+  <h2>Wat betaal je per klanttype?</h2>
+  <p class="subtitle">Concrete voorbeelden zodat je weet wat je klanten betalen.</p>
+
+  <div class="example-grid">
+    <div class="example-card">
+      <div class="example-type">Beauty</div>
+      <div class="example-name">Kapsalon / Schoonheidssalon</div>
+      <ul class="example-lines">
+        <li>Website Starter <span>€49</span></li>
+        <li>Beauty module <span>€69</span></li>
+      </ul>
+      <div class="example-total">€118/mo</div>
+    </div>
+    <div class="example-card">
+      <div class="example-type">E-commerce</div>
+      <div class="example-name">B2C Webshop + Marketing</div>
+      <ul class="example-lines">
+        <li>E-commerce Compleet <span>€399</span></li>
+        <li>Meilisearch <span>€49</span></li>
+        <li>E-mail Marketing <span>€99</span></li>
+      </ul>
+      <div class="example-total">€547/mo</div>
+    </div>
+    <div class="example-card">
+      <div class="example-type">B2B</div>
+      <div class="example-name">Medische Groothandel</div>
+      <ul class="example-lines">
+        <li>B2B Enterprise <span>€999</span></li>
+        <li>Meilisearch <span>€49</span></li>
+        <li>E-mail Marketing Pro <span>€199</span></li>
+        <li>AI Chatbot <span>€79</span></li>
+      </ul>
+      <div class="example-total">€1.326/mo</div>
+    </div>
+    <div class="example-card">
+      <div class="example-type">Vastgoed</div>
+      <div class="example-name">Makelaarskantoor</div>
+      <ul class="example-lines">
+        <li>Website Pro <span>€149</span></li>
+        <li>Vastgoed module <span>€99</span></li>
+        <li>Social Media <span>€69</span></li>
+      </ul>
+      <div class="example-total">€317/mo</div>
+    </div>
+    <div class="example-card">
+      <div class="example-type">Horeca</div>
+      <div class="example-name">Restaurant</div>
+      <ul class="example-lines">
+        <li>Website Starter <span>€49</span></li>
+        <li>Horeca module <span>€69</span></li>
+      </ul>
+      <div class="example-total">€118/mo</div>
+    </div>
+    <div class="example-card">
+      <div class="example-type">Zorg</div>
+      <div class="example-name">Fysiotherapiepraktijk</div>
+      <ul class="example-lines">
+        <li>Website Pro <span>€149</span></li>
+        <li>Zorg module <span>€99</span></li>
+        <li>Push notificaties <span>€39</span></li>
+      </ul>
+      <div class="example-total">€287/mo</div>
+    </div>
+  </div>
+</div></div>
+
+<!-- 7. MARKET COMPARISON -->
+<div class="section" style="background:var(--zinc-100)"><div class="container">
+  <div class="section-label">Marktvergelijking</div>
+  <h2>Sityzr vs. de concurrentie</h2>
+  <p class="subtitle">Hoe onze pricing zich verhoudt tot vergelijkbare platformen.</p>
+
+  <table class="compare-table">
+    <thead>
+      <tr><th>Platform</th><th>Vergelijkbaar met</th><th>Prijs/mo</th><th>Sityzr verschil</th></tr>
+    </thead>
+    <tbody>
+      <tr class="sityzr-row"><td class="platform">Sityzr Starter</td><td>Basis website</td><td class="price">€49</td><td>Managed CMS, branche-modules beschikbaar</td></tr>
+      <tr><td class="platform">Squarespace Business</td><td>Basis website</td><td>€33</td><td>Goedkoper, maar geen branche-functionaliteit</td></tr>
+      <tr><td class="platform">Wix Business</td><td>Basis website</td><td>€17-45</td><td>Goedkoper, maar beperkt CMS, minder flexibel</td></tr>
+      <tr class="sityzr-row"><td class="platform">Sityzr E-commerce Basic</td><td>B2C webshop</td><td class="price">€199</td><td>All-inclusive, geen transactiekosten</td></tr>
+      <tr><td class="platform">Shopify Basic + apps</td><td>B2C webshop</td><td>€36 + €100-200 apps</td><td>Vergelijkbare totaalkosten, maar generiek</td></tr>
+      <tr class="sityzr-row"><td class="platform">Sityzr B2B Standaard</td><td>B2B webshop</td><td class="price">€599</td><td>Enterprise features tegen MKB-prijs</td></tr>
+      <tr><td class="platform">Lightspeed B2B</td><td>B2B webshop</td><td>€999+</td><td>Duurder, minder flexibel</td></tr>
+      <tr><td class="platform">Sana Commerce</td><td>B2B webshop</td><td>€2.000-5.000</td><td>3-8x duurder dan Sityzr</td></tr>
+      <tr class="sityzr-row"><td class="platform">Sityzr + Beauty</td><td>Boekingsplatform</td><td class="price">€118</td><td>Volledige website + booking, geen commissie</td></tr>
+      <tr><td class="platform">Treatwell</td><td>Boekingsplatform</td><td>€89-199 + commissie</td><td>Commissie per boeking, geen eigen website</td></tr>
+      <tr><td class="platform">WordPress + WooCommerce</td><td>DIY webshop</td><td>€50-200 + developer</td><td>Goedkoper, maar plugin-chaos en afhankelijkheid</td></tr>
+    </tbody>
+  </table>
+</div></div>
+
+<!-- 8. DISCOUNTS -->
+<div class="section"><div class="container">
+  <div class="section-label">Kortingsstructuur</div>
+  <h2>Volume & loyaliteitskortingen</h2>
+
+  <div class="module-grid">
+    <div class="module-card">
+      <div class="module-header"><span class="module-name">Jaarcontract</span><span class="module-price">-10%</span></div>
+      <div class="module-desc">Vooruitbetaling per jaar. Automatische verlenging.</div>
+    </div>
+    <div class="module-card">
+      <div class="module-header"><span class="module-name">2-jarig contract</span><span class="module-price">-15%</span></div>
+      <div class="module-desc">Langere commitment, hogere korting.</div>
+    </div>
+    <div class="module-card">
+      <div class="module-header"><span class="module-name">Bureau-partner</span><span class="module-price">-20%</span></div>
+      <div class="module-desc">Minimum 3 actieve sites, partner-agreement vereist.</div>
+    </div>
+    <div class="module-card">
+      <div class="module-header"><span class="module-name">Startups</span><span class="module-price">-30% (6 mnd)</span></div>
+      <div class="module-desc">KvK &lt; 1 jaar, max 5 FTE. Eerste 6 maanden.</div>
+    </div>
+  </div>
+</div></div>
+
+<!-- FOOTER -->
+<div style="background:var(--void);color:var(--zinc-400);padding:32px 0">
+  <div class="container" style="display:flex;justify-content:space-between;align-items:center">
+    <div style="font-size:14px;font-weight:600;color:var(--white)">sityzr <span style="color:var(--zinc-600);font-weight:400">· Compass Digital</span></div>
+    <div style="font-size:12px">Concept v2 — Q2 2026 · Alle prijzen excl. BTW</div>
+  </div>
+</div>
+
+</body>
+</html>

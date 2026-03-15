@@ -616,6 +616,96 @@ export const Clients: CollectionConfig = {
               ],
             },
 
+            // ═══ MULTISTORE ═══
+            {
+              type: 'collapsible',
+              label: '🔗 Multistore',
+              admin: {
+                initCollapsed: true,
+                description: 'Multi-webshop beheer: centraal productcatalogus, orders en voorraad',
+              },
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'multistoreHub',
+                      type: 'checkbox',
+                      label: 'Multistore Hub',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Deze site is een centraal beheerpunt (Hub) voor meerdere webshops',
+                      },
+                    },
+                    {
+                      name: 'multistoreChild',
+                      type: 'checkbox',
+                      label: 'Multistore Child',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Deze site ontvangt producten van een Hub',
+                      },
+                    },
+                  ],
+                },
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'multistoreProducts',
+                      type: 'checkbox',
+                      label: 'Product Sync',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Producten synchroniseren',
+                      },
+                    },
+                    {
+                      name: 'multistoreOrders',
+                      type: 'checkbox',
+                      label: 'Order Sync',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Bestellingen aggregeren',
+                      },
+                    },
+                    {
+                      name: 'multistoreInventory',
+                      type: 'checkbox',
+                      label: 'Voorraad Sync',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Voorraad synchroniseren',
+                      },
+                    },
+                  ],
+                },
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'multistoreFulfillment',
+                      type: 'checkbox',
+                      label: 'Fulfillment',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Pick/pack/ship workflow',
+                      },
+                    },
+                    {
+                      name: 'multistoreReports',
+                      type: 'checkbox',
+                      label: 'Rapportages',
+                      defaultValue: false,
+                      admin: {
+                        description: 'Omzet- en commissierapportages',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+
             // ═══ GEAVANCEERD ═══
             {
               type: 'collapsible',

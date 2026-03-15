@@ -12,31 +12,31 @@ export function OrdersTable({ orders }: OrdersTableProps) {
   return (
     <div className="hidden lg:block overflow-x-auto">
       <table className="w-full">
-        <thead className="bg-gray-50 border-b border-gray-200">
+        <thead className="bg-grey-light border-b border-grey-light">
           <tr>
-            <th className="text-left px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wide">Bestelnummer</th>
-            <th className="text-left px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wide">Datum</th>
-            <th className="text-left px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wide">Producten</th>
-            <th className="text-left px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wide">Status</th>
-            <th className="text-right px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wide">Totaal</th>
-            <th className="text-right px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wide">Acties</th>
+            <th className="text-left px-6 py-4 text-xs font-bold text-grey-mid uppercase tracking-wide">Bestelnummer</th>
+            <th className="text-left px-6 py-4 text-xs font-bold text-grey-mid uppercase tracking-wide">Datum</th>
+            <th className="text-left px-6 py-4 text-xs font-bold text-grey-mid uppercase tracking-wide">Producten</th>
+            <th className="text-left px-6 py-4 text-xs font-bold text-grey-mid uppercase tracking-wide">Status</th>
+            <th className="text-right px-6 py-4 text-xs font-bold text-grey-mid uppercase tracking-wide">Totaal</th>
+            <th className="text-right px-6 py-4 text-xs font-bold text-grey-mid uppercase tracking-wide">Acties</th>
           </tr>
         </thead>
         <tbody>
           {orders.map((order) => (
-            <tr key={order.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
+            <tr key={order.id} className="border-b border-grey-light last:border-0 hover:bg-grey-light transition-colors">
               <td className="px-6 py-4">
-                <span className="text-sm font-bold text-gray-900 font-mono">{order.orderNumber}</span>
+                <span className="text-sm font-bold text-navy font-mono">{order.orderNumber}</span>
               </td>
               <td className="px-6 py-4">
-                <span className="text-sm text-gray-900">
+                <span className="text-sm text-navy">
                   {new Date(order.createdAt).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' })}
                 </span>
               </td>
               <td className="px-6 py-4">
                 <div className="flex items-center gap-2">
-                  <Package className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm text-gray-900">
+                  <Package className="w-4 h-4 text-grey-mid" />
+                  <span className="text-sm text-navy">
                     {order.items?.length || 0} {(order.items?.length || 0) === 1 ? 'product' : 'producten'}
                   </span>
                 </div>
@@ -45,7 +45,7 @@ export function OrdersTable({ orders }: OrdersTableProps) {
                 <StatusBadge status={order.status} />
               </td>
               <td className="px-6 py-4 text-right">
-                <span className="text-sm font-bold text-gray-900">€{formatPriceStr(order.total)}</span>
+                <span className="text-sm font-bold text-navy">€{formatPriceStr(order.total)}</span>
               </td>
               <td className="px-6 py-4 text-right">
                 <Link

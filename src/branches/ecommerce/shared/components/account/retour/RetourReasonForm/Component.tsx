@@ -7,17 +7,17 @@ export function RetourReasonForm({ items, onSetReason, onNext, onPrev }: RetourR
 
   return (
     <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
-      <h2 className="text-base lg:text-lg font-extrabold mb-4 text-gray-900">
+      <h2 className="text-base lg:text-lg font-extrabold mb-4 text-navy">
         Reden van retour
       </h2>
       <div className="space-y-4">
         {items.map((item) => (
-          <div key={item.id} className="p-4 rounded-xl border border-gray-200">
-            <div className="text-sm font-bold text-gray-900 mb-3">{item.title} ({item.quantity}x)</div>
+          <div key={item.id} className="p-4 rounded-xl border border-grey-light">
+            <div className="text-sm font-bold text-navy mb-3">{item.title} ({item.quantity}x)</div>
             <select
               value={item.reason || ''}
               onChange={(e) => onSetReason(item.id, e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl text-sm outline-none border border-gray-200 bg-gray-50"
+              className="w-full px-4 py-2.5 rounded-xl text-sm outline-none border border-grey-light bg-grey-light"
             >
               <option value="">Selecteer een reden...</option>
               {returnReasons.map((reason) => (

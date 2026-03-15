@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FysioVitaal — Fysiotherapie & Revalidatie</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--shadow-lg:0 16px 48px rgba(10,22,40,0.12);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  /* Topbar */
+  .topbar{background:var(--navy);padding:8px 0;font-size:12px;color:rgba(255,255,255,.35);}.topbar .container{display:flex;justify-content:space-between;align-items:center;}.tb-left{display:flex;gap:16px;}.tb-item{display:flex;align-items:center;gap:4px;}.tb-item i{width:12px;height:12px;color:var(--teal);}.tb-right{display:flex;gap:6px;}.tb-badge{display:flex;align-items:center;gap:3px;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;background:rgba(0,137,123,.1);color:var(--teal-light);}.tb-badge i{width:10px;height:10px;}
+
+  /* Header */
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:flex;align-items:center;justify-content:space-between;}
+  .logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--navy);text-decoration:none;display:flex;align-items:center;gap:8px;}.logo-mark{width:36px;height:36px;background:var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-size:18px;}.logo em{color:var(--teal);font-style:normal;}
+  .nav{display:flex;gap:2px;}.nav-item{padding:10px 16px;font-size:13.5px;font-weight:600;color:var(--grey-dark);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--teal);background:var(--teal-glow);}
+  .header-right{display:flex;align-items:center;gap:8px;}
+  .h-phone{display:flex;align-items:center;gap:5px;font-size:14px;font-weight:700;color:var(--navy);text-decoration:none;}.h-phone i{width:16px;height:16px;color:var(--teal);}
+  .h-cta{height:42px;padding:0 20px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--transition);}.h-cta:hover{background:var(--navy);}.h-cta i{width:14px;height:14px;}
+
+  .section{padding:56px 0;}
+  .section-header{text-align:center;margin-bottom:28px;}
+  .section-badge{display:inline-flex;align-items:center;gap:5px;background:var(--teal-glow);border:1px solid rgba(0,137,123,.15);padding:5px 14px;border-radius:100px;font-size:12px;font-weight:700;color:var(--teal);margin-bottom:6px;}.section-badge i{width:13px;height:13px;}
+  .section-header h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:800;line-height:1.15;}
+  .section-header p{font-size:14px;color:var(--grey-dark);max-width:520px;margin:4px auto 0;}
+
+  /* Hero */
+  .hero{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:72px 0 96px;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;top:-100px;right:-60px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,137,123,.08),transparent 70%);border-radius:50%;}
+  .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:100px;background:linear-gradient(to top,var(--bg),transparent);}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;position:relative;z-index:2;}
+  .hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(0,137,123,.1);border:1px solid rgba(0,137,123,.2);padding:5px 14px;border-radius:100px;font-size:12px;font-weight:700;color:var(--teal-light);margin-bottom:10px;}.hero-badge i{width:12px;height:12px;}
+  .hero h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:42px;font-weight:800;color:white;line-height:1.1;margin-bottom:10px;}.hero h1 em{color:var(--teal-light);font-style:normal;}
+  .hero-desc{font-size:15px;color:rgba(255,255,255,.35);line-height:1.6;margin-bottom:20px;max-width:480px;}
+  .hero-ctas{display:flex;gap:8px;margin-bottom:20px;}
+  .hero-btn{height:50px;padding:0 26px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--transition);border:none;text-decoration:none;}
+  .hero-btn.primary{background:var(--teal);color:white;box-shadow:0 4px 16px rgba(0,137,123,.3);}.hero-btn.primary:hover{background:white;color:var(--navy);}
+  .hero-btn.outline{background:transparent;color:white;border:1.5px solid rgba(255,255,255,.12);}.hero-btn.outline:hover{border-color:var(--teal);color:var(--teal);}
+  .hero-btn i{width:16px;height:16px;}
+  .hero-trust{display:flex;gap:14px;flex-wrap:wrap;}
+  .ht{display:flex;align-items:center;gap:5px;font-size:12px;color:rgba(255,255,255,.3);}.ht i{width:14px;height:14px;color:var(--teal);}
+  .hero-visual{display:flex;justify-content:center;}.hero-img{width:100%;max-width:440px;aspect-ratio:4/3;border-radius:20px;background:rgba(0,137,123,.04);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:100px;position:relative;}
+  .hero-float{position:absolute;background:white;border-radius:14px;padding:10px 14px;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:8px;}.hf-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;}.hf-icon i{width:16px;height:16px;}.hf-text{font-size:12px;font-weight:800;}.hf-sub{font-size:10px;color:var(--grey-mid);}
+  .hf-1{bottom:30px;left:-10px;}.hf-2{top:30px;right:-10px;}
+
+  /* Urgency bar */
+  .urgency-bar{margin-top:-40px;position:relative;z-index:10;margin-bottom:20px;}
+  .ub-card{background:white;border:1.5px solid var(--grey);border-radius:18px;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow-md);}
+  .ub-left{display:flex;align-items:center;gap:10px;}.ub-dot{width:10px;height:10px;border-radius:50%;background:var(--green);animation:blink 2s infinite;flex-shrink:0;}@keyframes blink{0%,100%{opacity:1;}50%{opacity:.4;}}
+  .ub-text{font-size:14px;font-weight:700;}.ub-sub{font-size:12px;color:var(--grey-mid);}
+  .ub-btn{height:40px;padding:0 18px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .12s;}.ub-btn:hover{background:var(--navy);}.ub-btn i{width:14px;height:14px;}
+
+  /* Services */
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .service{background:white;border:1.5px solid var(--grey);border-radius:16px;padding:24px;transition:all .15s;cursor:pointer;}.service:hover{border-color:var(--teal);transform:translateY(-3px);box-shadow:var(--shadow-md);}
+  .sv-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:24px;}
+  .sv-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;margin-bottom:4px;}
+  .sv-desc{font-size:13px;color:var(--grey-dark);line-height:1.5;margin-bottom:8px;}
+  .sv-meta{display:flex;gap:8px;font-size:11px;color:var(--grey-mid);}.sv-meta span{display:flex;align-items:center;gap:3px;}.sv-meta i{width:11px;height:11px;color:var(--teal);}
+  .sv-link{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--teal);margin-top:8px;cursor:pointer;}.sv-link i{width:14px;height:14px;}
+
+  /* Why us */
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;}
+  .why-img{aspect-ratio:4/3;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:80px;background:var(--grey-light);}
+  .why-content h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;margin-bottom:8px;line-height:1.15;}
+  .why-content>p{font-size:14px;color:var(--grey-dark);line-height:1.6;margin-bottom:14px;}
+  .why-points{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .wp{display:flex;align-items:start;gap:8px;padding:10px;background:var(--grey-light);border-radius:10px;}.wp-icon{width:28px;height:28px;border-radius:8px;background:var(--teal-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0;}.wp-icon i{width:14px;height:14px;color:var(--teal);}
+  .wp-title{font-size:12px;font-weight:800;}.wp-desc{font-size:11px;color:var(--grey-mid);}
+
+  /* Team */
+  .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .member{background:white;border:1.5px solid var(--grey);border-radius:16px;overflow:hidden;text-align:center;transition:all .12s;}.member:hover{border-color:var(--teal);}
+  .mem-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:56px;background:var(--grey-light);position:relative;}
+  .mem-badge{position:absolute;top:8px;right:8px;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700;background:var(--teal);color:white;}
+  .mem-body{padding:14px;}
+  .mem-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;}
+  .mem-role{font-size:12px;color:var(--teal);font-weight:600;margin-bottom:2px;}
+  .mem-spec{font-size:11px;color:var(--grey-mid);}
+
+  /* Reviews */
+  .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .review{background:white;border:1.5px solid var(--grey);border-radius:16px;padding:20px;transition:all .12s;}.review:hover{border-color:var(--teal);}
+  .rev-platform{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--grey-mid);margin-bottom:4px;}.rev-platform i{width:12px;height:12px;}
+  .rev-stars{color:var(--amber);font-size:14px;margin-bottom:6px;}
+  .rev-text{font-size:13px;color:var(--grey-dark);line-height:1.6;font-style:italic;margin-bottom:10px;}
+  .rev-author{display:flex;align-items:center;gap:8px;}.ra-av{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:white;flex-shrink:0;}.ra-name{font-size:12px;font-weight:700;}.ra-detail{font-size:10px;color:var(--grey-mid);}
+
+  /* Insurance logos */
+  .insurance{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;padding:20px 0;}
+  .ins{display:flex;align-items:center;gap:6px;padding:8px 16px;border:1.5px solid var(--grey);border-radius:8px;font-size:12px;font-weight:700;color:var(--grey-mid);background:white;}.ins i{width:16px;height:16px;color:var(--teal);}
+
+  /* Info grid */
+  .info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .info-card{background:white;border:1.5px solid var(--grey);border-radius:16px;padding:22px;text-align:center;}
+  .ic-icon{font-size:28px;margin-bottom:6px;}
+  .ic-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;margin-bottom:4px;}
+  .ic-text{font-size:13px;color:var(--grey-dark);line-height:1.5;}
+  .ic-link{display:inline-flex;align-items:center;gap:3px;font-size:12px;font-weight:700;color:var(--teal);margin-top:6px;cursor:pointer;}.ic-link i{width:12px;height:12px;}
+
+  /* CTA */
+  .cta-banner{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:20px;padding:40px;display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;}
+  .ctb-left{color:white;}.ctb-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;margin-bottom:4px;}.ctb-desc{font-size:14px;color:rgba(255,255,255,.35);}
+  .ctb-btns{display:flex;gap:8px;}
+  .ctb-btn{height:48px;padding:0 24px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;border:none;transition:all var(--transition);}.ctb-btn i{width:16px;height:16px;}
+  .ctb-btn.fill{background:var(--teal);color:white;box-shadow:0 4px 16px rgba(0,137,123,.3);}.ctb-btn.fill:hover{background:white;color:var(--navy);}
+  .ctb-btn.ghost{background:transparent;color:white;border:1.5px solid rgba(255,255,255,.12);}.ctb-btn.ghost:hover{border-color:var(--teal);}
+
+  /* Footer */
+  .footer{background:var(--navy);padding:44px 0 20px;color:rgba(255,255,255,.3);}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px;margin-bottom:24px;}
+  .footer-brand .logo{display:inline-flex;margin-bottom:8px;color:white;}.footer-desc{font-size:13px;line-height:1.6;margin-bottom:8px;}
+  .footer h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;color:white;margin-bottom:8px;}
+  .footer-links{display:flex;flex-direction:column;gap:4px;}.fl{font-size:13px;color:rgba(255,255,255,.3);text-decoration:none;transition:color .1s;display:flex;align-items:center;gap:4px;}.fl:hover{color:var(--teal);}.fl i{width:12px;height:12px;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:16px;display:flex;align-items:center;justify-content:space-between;font-size:12px;}
+
+  @media(max-width:900px){.hero-grid,.why-grid{grid-template-columns:1fr;}.hero-visual,.why-img{display:none;}.services-grid,.reviews-grid{grid-template-columns:1fr;}.team-grid{grid-template-columns:1fr 1fr;}.info-grid{grid-template-columns:1fr;}.cta-banner{flex-direction:column;gap:16px;text-align:center;}.nav,.topbar{display:none;}.footer-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="container"><div class="tb-left"><span class="tb-item"><i data-lucide="map-pin"></i> Gezondheidscentrum Rivierenwijk, Amsterdam-Zuid</span><span class="tb-item"><i data-lucide="clock"></i> Ma-Vr 07:30-20:00 · Za 09:00-13:00</span><span class="tb-item"><i data-lucide="phone"></i> 020 - 345 67 89</span></div><div class="tb-right"><span class="tb-badge"><i data-lucide="shield-check"></i> BIG-geregistreerd</span><span class="tb-badge"><i data-lucide="shield-check"></i> KNGF Keurmerk</span></div></div></div>
+
+<header class="header"><div class="container"><a href="#" class="logo"><div class="logo-mark">🏥</div>Fysio<em>Vitaal</em></a><nav class="nav"><a href="#" class="nav-item active">Home</a><a href="#" class="nav-item">Behandelingen</a><a href="#" class="nav-item">Team</a><a href="#" class="nav-item">Tarieven</a><a href="#" class="nav-item">Patiënteninfo</a><a href="#" class="nav-item">Contact</a></nav><div class="header-right"><a class="h-phone" href="tel:0203456789"><i data-lucide="phone"></i> 020 - 345 67 89</a><button class="h-cta"><i data-lucide="calendar"></i> Afspraak maken</button></div></div></header>
+
+<!-- Hero -->
+<section class="hero"><div class="container"><div class="hero-grid">
+  <div>
+    <div class="hero-badge"><i data-lucide="heart-pulse"></i> Gespecialiseerde fysiotherapie</div>
+    <h1>Weer <em>pijnvrij</em> bewegen begint hier</h1>
+    <p class="hero-desc">Persoonlijke fysiotherapie en revalidatie door BIG-geregistreerde therapeuten. Directe toegang — geen verwijzing nodig. Vergoed door alle zorgverzekeraars.</p>
+    <div class="hero-ctas">
+      <button class="hero-btn primary"><i data-lucide="calendar"></i> Afspraak maken</button>
+      <button class="hero-btn outline"><i data-lucide="phone"></i> Bel 020 - 345 67 89</button>
+    </div>
+    <div class="hero-trust">
+      <div class="ht"><i data-lucide="shield-check"></i> BIG-geregistreerd</div>
+      <div class="ht"><i data-lucide="check-circle"></i> Directe toegang</div>
+      <div class="ht"><i data-lucide="heart"></i> Alle verzekeraars</div>
+      <div class="ht"><i data-lucide="clock"></i> Binnen 48u terecht</div>
+    </div>
+  </div>
+  <div class="hero-visual"><div class="hero-img" style="background:linear-gradient(135deg,rgba(0,137,123,.06),rgba(0,137,123,.02));">🧑‍⚕️
+    <div class="hero-float hf-1"><div class="hf-icon" style="background:var(--green-light);"><i data-lucide="star" style="color:var(--green);"></i></div><div><div class="hf-text">9.4 / 10</div><div class="hf-sub">Patiënttevredenheid</div></div></div>
+    <div class="hero-float hf-2"><div class="hf-icon" style="background:var(--teal-glow);"><i data-lucide="users" style="color:var(--teal);"></i></div><div><div class="hf-text">4.200+ patiënten</div><div class="hf-sub">Succesvol behandeld</div></div></div>
+  </div></div>
+</div></div></section>
+
+<!-- Urgency -->
+<div class="container"><div class="urgency-bar"><div class="ub-card">
+  <div class="ub-left"><div class="ub-dot"></div><div><div class="ub-text">Vandaag nog terecht voor een intake</div><div class="ub-sub">Geen verwijzing nodig · Directe toegang fysiotherapie</div></div></div>
+  <button class="ub-btn"><i data-lucide="calendar"></i> Direct inplannen</button>
+</div></div></div>
+
+<!-- Services -->
+<section class="section"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="stethoscope"></i> Behandelingen</div><h2>Gespecialiseerde zorg voor elk klacht</h2><p>Wij bieden een breed scala aan behandelingen, altijd op basis van de laatste wetenschappelijke inzichten.</p></div>
+  <div class="services-grid">
+    <div class="service"><div class="sv-icon" style="background:var(--teal-glow);">🦴</div><div class="sv-title">Manuele therapie</div><div class="sv-desc">Behandeling van gewrichts- en spierklachten door gespecialiseerde handgrepen en mobilisatietechnieken.</div><div class="sv-meta"><span><i data-lucide="clock"></i> 30 min</span><span><i data-lucide="shield-check"></i> Vergoed</span></div><div class="sv-link"><i data-lucide="arrow-right"></i> Meer informatie</div></div>
+    <div class="service"><div class="sv-icon" style="background:var(--blue-light);">🏃</div><div class="sv-title">Sportfysiotherapie</div><div class="sv-desc">Behandeling en preventie van sportblessures. Revalidatie na operaties en blessures met sportspecifiek programma.</div><div class="sv-meta"><span><i data-lucide="clock"></i> 30-45 min</span><span><i data-lucide="shield-check"></i> Vergoed</span></div><div class="sv-link"><i data-lucide="arrow-right"></i> Meer informatie</div></div>
+    <div class="service"><div class="sv-icon" style="background:var(--purple-light);">🧠</div><div class="sv-title">Psychosomatische fysio</div><div class="sv-desc">Bij chronische pijn, stress- en spanningsklachten. Behandeling van de relatie tussen lichaam en geest.</div><div class="sv-meta"><span><i data-lucide="clock"></i> 45 min</span><span><i data-lucide="shield-check"></i> Vergoed</span></div><div class="sv-link"><i data-lucide="arrow-right"></i> Meer informatie</div></div>
+    <div class="service"><div class="sv-icon" style="background:var(--amber-light);">👶</div><div class="sv-title">Kinderfysiotherapie</div><div class="sv-desc">Motorische ontwikkeling, houdingsafwijkingen en revalidatie bij kinderen van 0-18 jaar.</div><div class="sv-meta"><span><i data-lucide="clock"></i> 30 min</span><span><i data-lucide="shield-check"></i> Vergoed</span></div><div class="sv-link"><i data-lucide="arrow-right"></i> Meer informatie</div></div>
+    <div class="service"><div class="sv-icon" style="background:var(--green-light);">💪</div><div class="sv-title">Revalidatie & training</div><div class="sv-desc">Herstel na operatie, langdurige inactiviteit of ziekte. Persoonlijk trainingsschema in onze oefenzaal.</div><div class="sv-meta"><span><i data-lucide="clock"></i> 30-60 min</span><span><i data-lucide="shield-check"></i> Deels vergoed</span></div><div class="sv-link"><i data-lucide="arrow-right"></i> Meer informatie</div></div>
+    <div class="service"><div class="sv-icon" style="background:var(--coral-light);">🔧</div><div class="sv-title">Dry needling & shockwave</div><div class="sv-desc">Triggerpoint-therapie en shockwave voor hardnekkige spier- en peesklachten. Snelle resultaten.</div><div class="sv-meta"><span><i data-lucide="clock"></i> 20-30 min</span><span><i data-lucide="shield-check"></i> Vergoed</span></div><div class="sv-link"><i data-lucide="arrow-right"></i> Meer informatie</div></div>
+  </div>
+</div></section>
+
+<!-- Why us -->
+<section class="section" style="background:white;"><div class="container">
+  <div class="why-grid">
+    <div class="why-img">🏥</div>
+    <div class="why-content">
+      <div class="section-badge"><i data-lucide="award"></i> Waarom FysioVitaal</div>
+      <h2>Persoonlijke zorg met bewezen resultaat</h2>
+      <p>Bij FysioVitaal combineren wij jarenlange ervaring met de nieuwste behandelmethoden. U krijgt altijd een vast aanspreekpunt en een persoonlijk behandelplan.</p>
+      <div class="why-points">
+        <div class="wp"><div class="wp-icon"><i data-lucide="user-check"></i></div><div><div class="wp-title">Vast aanspreekpunt</div><div class="wp-desc">Altijd dezelfde therapeut</div></div></div>
+        <div class="wp"><div class="wp-icon"><i data-lucide="zap"></i></div><div><div class="wp-title">Snel terecht</div><div class="wp-desc">Binnen 48 uur een afspraak</div></div></div>
+        <div class="wp"><div class="wp-icon"><i data-lucide="shield-check"></i></div><div><div class="wp-title">Geregistreerd</div><div class="wp-desc">Alle therapeuten BIG & KNGF</div></div></div>
+        <div class="wp"><div class="wp-icon"><i data-lucide="heart"></i></div><div><div class="wp-title">Volledig vergoed</div><div class="wp-desc">Door alle zorgverzekeraars</div></div></div>
+        <div class="wp"><div class="wp-icon"><i data-lucide="clock"></i></div><div><div class="wp-title">Ruime openingstijden</div><div class="wp-desc">Ma-Vr 07:30-20:00</div></div></div>
+        <div class="wp"><div class="wp-icon"><i data-lucide="map-pin"></i></div><div><div class="wp-title">Moderne praktijk</div><div class="wp-desc">Oefenzaal & behandelkamers</div></div></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- Team -->
+<section class="section"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="users"></i> Ons team</div><h2>Uw behandelteam</h2></div>
+  <div class="team-grid">
+    <div class="member"><div class="mem-img">👨‍⚕️<div class="mem-badge">Praktijkhouder</div></div><div class="mem-body"><div class="mem-name">drs. Sander Vos</div><div class="mem-role">Manueel therapeut</div><div class="mem-spec">Rug- en nekklachten · Sport</div></div></div>
+    <div class="member"><div class="mem-img">👩‍⚕️</div><div class="mem-body"><div class="mem-name">Lisa Hendriks MSc</div><div class="mem-role">Sportfysiotherapeut</div><div class="mem-spec">Sportblessures · Revalidatie</div></div></div>
+    <div class="member"><div class="mem-img">👨‍⚕️</div><div class="mem-body"><div class="mem-name">Yusuf Demir</div><div class="mem-role">Kinderfysiotherapeut</div><div class="mem-spec">Motoriek · Ontwikkeling</div></div></div>
+    <div class="member"><div class="mem-img">👩‍⚕️</div><div class="mem-body"><div class="mem-name">Eva Bakker MSc</div><div class="mem-role">Psychosomatisch fysio</div><div class="mem-spec">Chronische pijn · Stress</div></div></div>
+  </div>
+</div></section>
+
+<!-- Reviews -->
+<section class="section" style="background:white;"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="star"></i> Ervaringen</div><h2>Wat patiënten zeggen</h2></div>
+  <div class="reviews-grid">
+    <div class="review"><div class="rev-platform"><i data-lucide="map-pin"></i> ZorgkaartNederland</div><div class="rev-stars">★★★★★</div><div class="rev-text">"Na maanden rugpijn bij Sander terechtgekomen. In 6 behandelingen volledig pijnvrij. Heel fijne en deskundige therapeut die goed uitlegt."</div><div class="rev-author"><div class="ra-av" style="background:var(--teal);">MK</div><div><div class="ra-name">Marion K.</div><div class="ra-detail">Rugklachten · 6 behandelingen</div></div></div></div>
+    <div class="review"><div class="rev-platform"><i data-lucide="star"></i> Google Reviews</div><div class="rev-stars">★★★★★</div><div class="rev-text">"Mijn zoon van 4 werd hier behandeld voor motorische achterstand. Yusuf is fantastisch met kinderen. Enorme vooruitgang in korte tijd!"</div><div class="rev-author"><div class="ra-av" style="background:var(--amber);">PV</div><div><div class="ra-name">Priya V.</div><div class="ra-detail">Kinderfysiotherapie</div></div></div></div>
+    <div class="review"><div class="rev-platform"><i data-lucide="map-pin"></i> ZorgkaartNederland</div><div class="rev-stars">★★★★★</div><div class="rev-text">"Na een kruisbandblessure hier gerevalideerd. Lisa heeft mij stap voor stap weer wedstrijdfit gekregen. Topzorg en persoonlijke aanpak."</div><div class="rev-author"><div class="ra-av" style="background:var(--blue);">JB</div><div><div class="ra-name">Joost B.</div><div class="ra-detail">Sportrevalidatie · 12 behandelingen</div></div></div></div>
+  </div>
+</div></section>
+
+<!-- Insurance logos -->
+<div class="container"><div class="insurance">
+  <div class="ins"><i data-lucide="shield-check"></i> Achmea / Zilveren Kruis</div>
+  <div class="ins"><i data-lucide="shield-check"></i> CZ</div>
+  <div class="ins"><i data-lucide="shield-check"></i> VGZ</div>
+  <div class="ins"><i data-lucide="shield-check"></i> Menzis</div>
+  <div class="ins"><i data-lucide="shield-check"></i> ONVZ</div>
+  <div class="ins"><i data-lucide="shield-check"></i> DSW</div>
+  <div class="ins"><i data-lucide="shield-check"></i> a.s.r.</div>
+</div></div>
+
+<!-- Info cards -->
+<section class="section"><div class="container">
+  <div class="info-grid">
+    <div class="info-card"><div class="ic-icon">📍</div><div class="ic-title">Locatie & bereikbaarheid</div><div class="ic-text">Gezondheidscentrum Rivierenwijk<br>Amsteldijk 80, 1074 JB Amsterdam<br>Gratis parkeren · Metro 52 (2 min)</div><div class="ic-link"><i data-lucide="navigation"></i> Route plannen</div></div>
+    <div class="info-card"><div class="ic-icon">🕐</div><div class="ic-title">Openingstijden</div><div class="ic-text">Maandag t/m Vrijdag: 07:30 – 20:00<br>Zaterdag: 09:00 – 13:00<br>Zondag: Gesloten</div><div class="ic-link"><i data-lucide="calendar"></i> Afspraak maken</div></div>
+    <div class="info-card"><div class="ic-icon">💰</div><div class="ic-title">Tarieven & vergoeding</div><div class="ic-text">Fysiotherapie wordt vergoed vanuit de aanvullende verzekering. Directe toegang — geen verwijzing nodig.</div><div class="ic-link"><i data-lucide="file-text"></i> Tarieven bekijken</div></div>
+  </div>
+</div></section>
+
+<!-- CTA -->
+<div class="container"><div class="cta-banner">
+  <div class="ctb-left"><div class="ctb-title">Last van pijn of bewegingsbeperking?</div><div class="ctb-desc">Maak vandaag nog een afspraak. Geen verwijzing nodig, binnen 48 uur terecht.</div></div>
+  <div class="ctb-btns"><button class="ctb-btn fill"><i data-lucide="calendar"></i> Afspraak maken</button><button class="ctb-btn ghost"><i data-lucide="phone"></i> 020 - 345 67 89</button></div>
+</div></div>
+
+<!-- Footer -->
+<footer class="footer"><div class="container">
+  <div class="footer-grid">
+    <div class="footer-brand"><a href="#" class="logo"><div class="logo-mark">🏥</div>Fysio<em>Vitaal</em></a><div class="footer-desc">Gespecialiseerde fysiotherapie en revalidatie in Amsterdam-Zuid. BIG-geregistreerd, KNGF Keurmerk, gecontracteerd bij alle zorgverzekeraars.</div></div>
+    <div><h4>Behandelingen</h4><div class="footer-links"><a class="fl" href="#">Manuele therapie</a><a class="fl" href="#">Sportfysiotherapie</a><a class="fl" href="#">Kinderfysiotherapie</a><a class="fl" href="#">Psychosomatisch</a><a class="fl" href="#">Revalidatie</a></div></div>
+    <div><h4>Praktijk</h4><div class="footer-links"><a class="fl" href="#"><i data-lucide="map-pin"></i> Amsteldijk 80, Amsterdam</a><a class="fl" href="#"><i data-lucide="phone"></i> 020 - 345 67 89</a><a class="fl" href="#"><i data-lucide="mail"></i> info@fysiovitaal.nl</a></div></div>
+    <div><h4>Informatie</h4><div class="footer-links"><a class="fl" href="#">Over ons</a><a class="fl" href="#">Tarieven</a><a class="fl" href="#">Vergoedingen</a><a class="fl" href="#">Patiënteninfo</a><a class="fl" href="#">Klachtenregeling</a></div></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 FysioVitaal · AGB-code 0400-12345 · KvK 87654321</span><span>Privacy · AVG · Klachtenregeling</span></div>
+</div></footer>
+<script>lucide.createIcons();</script>
+</body>
+</html>

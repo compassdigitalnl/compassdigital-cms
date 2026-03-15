@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tennis-voordeel — CompassDigital Voorstel</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    padding: 40px 20px;
+  }
+
+  .page {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  /* ─── HEADER ─── */
+  .hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    border-radius: 24px;
+    padding: 60px 48px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(132,204,22,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(132,204,22,0.15);
+    border: 1px solid rgba(132,204,22,0.3);
+    color: #bef264;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    letter-spacing: -1px;
+  }
+  .hero h1 span { color: #a3e635; }
+  .hero p {
+    font-size: 18px;
+    color: #94a3b8;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  /* ─── PLUGIN COUNT BANNER ─── */
+  .plugin-banner {
+    background: linear-gradient(135deg, #fef2f2, #fff1f2);
+    border: 2px solid #fecaca;
+    border-radius: 16px;
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .plugin-count {
+    font-size: 56px;
+    font-weight: 900;
+    color: #dc2626;
+    line-height: 1;
+  }
+  .plugin-banner-text h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #991b1b;
+    margin-bottom: 4px;
+  }
+  .plugin-banner-text p {
+    font-size: 14px;
+    color: #b91c1c;
+  }
+
+  /* ─── PRICING CARDS ─── */
+  .pricing-row {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    gap: 0;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  .price-card {
+    background: white;
+    border-radius: 20px;
+    padding: 36px;
+    border: 2px solid #e2e8f0;
+    position: relative;
+  }
+  .price-card.highlight {
+    border-color: #65a30d;
+    box-shadow: 0 8px 40px rgba(101,163,13,0.12);
+  }
+  .price-card.highlight::before {
+    content: 'AANBEVOLEN';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #65a30d, #84cc16);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 16px;
+    border-radius: 100px;
+    letter-spacing: 1px;
+  }
+  .price-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .price-amount {
+    font-size: 48px;
+    font-weight: 900;
+    color: #0f172a;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .price-amount span { font-size: 20px; font-weight: 600; color: #94a3b8; }
+  .price-sub { font-size: 14px; color: #64748b; }
+  .price-arrow {
+    text-align: center;
+    font-size: 28px;
+    color: #cbd5e1;
+  }
+
+  /* ─── REPLACE TABLE ─── */
+  .section-title {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  .section-sub {
+    font-size: 15px;
+    color: #64748b;
+    margin-bottom: 24px;
+  }
+
+  .replace-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .replace-card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px 24px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .replace-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .replace-icon.old { background: #fef2f2; }
+  .replace-icon.new { background: #f7fee7; }
+  .replace-name { font-weight: 600; font-size: 14px; }
+  .replace-desc { font-size: 12px; color: #64748b; margin-top: 2px; }
+
+  /* ─── WHAT'S INCLUDED ─── */
+  .included-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .included-card {
+    background: white;
+    border-radius: 14px;
+    padding: 24px;
+    border: 1px solid #e2e8f0;
+  }
+  .included-card .icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #f7fee7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  .included-card h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .included-card p {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.5;
+  }
+
+  /* ─── COMPARISON ─── */
+  .compare-table {
+    width: 100%;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 40px;
+    border-collapse: collapse;
+  }
+  .compare-table th, .compare-table td {
+    padding: 14px 20px;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .compare-table thead th {
+    background: #f8fafc;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+  }
+  .compare-table thead th:nth-child(3) {
+    color: #65a30d;
+  }
+  .compare-table td:first-child { font-weight: 500; }
+  .compare-table td:nth-child(2) { color: #94a3b8; }
+  .compare-table td:nth-child(3) { color: #65a30d; font-weight: 600; }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:last-child { background: #f7fee7; }
+  .compare-table tr:last-child td { font-weight: 700; font-size: 15px; }
+
+  /* ─── TIMELINE ─── */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-bottom: 40px;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+  }
+  .timeline-step {
+    padding: 24px;
+    position: relative;
+    border-right: 1px solid #e2e8f0;
+  }
+  .timeline-step:last-child { border-right: none; }
+  .timeline-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #65a30d, #84cc16);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .timeline-step h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .timeline-step p { font-size: 11px; color: #64748b; line-height: 1.5; }
+
+  /* ─── YEARLY OVERVIEW ─── */
+  .yearly {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .yearly-card {
+    background: white;
+    border-radius: 14px;
+    padding: 28px;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+  }
+  .yearly-card.accent {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+    border: none;
+  }
+  .yearly-card .year { font-size: 13px; font-weight: 600; color: #64748b; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+  .yearly-card.accent .year { color: #bef264; }
+  .yearly-card .amount { font-size: 36px; font-weight: 900; letter-spacing: -1px; }
+  .yearly-card.accent .amount { color: white; }
+  .yearly-card .detail { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+
+  /* ─── KLAVIYO NOTE ─── */
+  .note-banner {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 14px;
+    padding: 20px 28px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .note-banner .note-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .note-banner h4 { font-size: 14px; font-weight: 700; color: #92400e; margin-bottom: 4px; }
+  .note-banner p { font-size: 13px; color: #a16207; line-height: 1.5; }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    text-align: center;
+    padding: 32px;
+    color: #94a3b8;
+    font-size: 13px;
+  }
+  .footer strong { color: #0f172a; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">Voorstel maart 2026</div>
+    <h1>Tennis-voordeel<br>&amp; Padel-voordeel &rarr; <span>CompassDigital</span></h1>
+    <p>2 webshops, 30+ plugins, WooMultistore, Klaviyo &rarr; &eacute;&eacute;n modern multi-store platform met email marketing. Sneller, veiliger, en zonder plugin-chaos.</p>
+  </div>
+
+  <!-- PLUGIN COUNT -->
+  <div class="plugin-banner">
+    <div class="plugin-count">30+</div>
+    <div class="plugin-banner-text">
+      <h3>Actieve plugins op dit moment</h3>
+      <p>Elke plugin is een risico op conflicten, security-issues en performance-verlies. CompassDigital vervangt ze allemaal.</p>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="pricing-row">
+    <div class="price-card">
+      <div class="price-label">Eenmalige Setup</div>
+      <div class="price-amount">&euro;6.500</div>
+      <div class="price-sub">2 shops, migratie, product sync, configuratie, training</div>
+    </div>
+    <div class="price-arrow">&plus;</div>
+    <div class="price-card highlight">
+      <div class="price-label">Maandelijks (2 shops)</div>
+      <div class="price-amount">&euro;728<span>/mo</span></div>
+      <div class="price-sub">All-inclusive: 2x hosting, multi-store, email marketing, alle features, support</div>
+    </div>
+  </div>
+
+  <!-- WHAT YOU REPLACE -->
+  <h2 class="section-title">Wat je vervangt</h2>
+  <p class="section-sub">2 shops + 30 plugins + WooMultistore &rarr; 1 ge&iuml;ntegreerd multi-store platform</p>
+
+  <div class="replace-grid">
+    <div class="replace-card" style="grid-column: span 2; background: #f0fdf4; border-color: #86efac;">
+      <div class="replace-icon new">&#9889;</div>
+      <div>
+        <div class="replace-name">WooMultistore &rarr; Native Multi-Store</div>
+        <div class="replace-desc">Tennis-voordeel + Padel-voordeel als 2 shops op &eacute;&eacute;n platform. Producten 1x beheren, padel-subset automatisch gesynchrooniseerd. Eigen design &amp; zoekindex per shop.</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">Searchanise &rarr; Meilisearch</div>
+        <div class="replace-desc">Razendsnelle zoek, filters, autocomplete, previews &mdash; per shop</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">Premmerce Filter &rarr; Native Facets</div>
+        <div class="replace-desc">Productfilters op merk, prijs, kleur, maat &mdash; alles ingebouwd</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">BeRocket Brands &rarr; Native Brands</div>
+        <div class="replace-desc">Merkenpagina&rsquo;s met logo&rsquo;s, filter op merk, SEO-vriendelijk</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">Elementor Pro &rarr; Block Builder</div>
+        <div class="replace-desc">Drag &amp; drop pagebuilder, 20+ blokken, responsive</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">Flux Checkout &rarr; Native Checkout</div>
+        <div class="replace-desc">Geoptimaliseerde checkout flow, Mollie, postcode check</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">Tiered Pricing &rarr; Staffelprijzen</div>
+        <div class="replace-desc">Kwantumkorting per product(groep), native in platform</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">Labels + Swatches &rarr; Native</div>
+        <div class="replace-desc">Product badges, kleur/maat swatches &mdash; alles ingebouwd</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">Gift Cards + Add-ons &rarr; Native</div>
+        <div class="replace-desc">Cadeaubonnen, product-opties &mdash; volledig ge&iuml;ntegreerd</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">SmartCrawl &rarr; SEO Analyzer</div>
+        <div class="replace-desc">Real-time SEO score, JSON-LD schema&rsquo;s, sitemap, meta tags</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">Gravity Forms &rarr; Formulieren</div>
+        <div class="replace-desc">Contactformulieren, offerteaanvragen met email notificaties</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">MyParcel &rarr; MyParcel API</div>
+        <div class="replace-desc">Verzendlabels &amp; tracking, native ge&iuml;ntegreerd</div>
+      </div>
+    </div>
+    <div class="replace-card" style="grid-column: span 2; background: #f0fdf4; border-color: #86efac;">
+      <div class="replace-icon new">&#9993;</div>
+      <div>
+        <div class="replace-name">Klaviyo / Mailchimp &rarr; Email Marketing Engine</div>
+        <div class="replace-desc">Listmonk + GrapesJS: nieuwsbrieven, automations, drag &amp; drop templates, subscriber management &mdash; per shop. Besparing &euro;61/mo t.o.v. Klaviyo.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INCLUDED FEATURES -->
+  <h2 class="section-title">Alles inbegrepen bij &euro;728/mo</h2>
+  <p class="section-sub">2 webshops + email marketing, geen verrassingen, geen extra plugin-kosten</p>
+
+  <div class="included-grid">
+    <div class="included-card">
+      <div class="icon">&#127760;</div>
+      <h4>Multi-Store (2 shops)</h4>
+      <p>Tennis-voordeel + Padel-voordeel, eigen domein &amp; design per shop</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#128257;</div>
+      <h4>Product Sync</h4>
+      <p>Producten 1x invoeren, padel-subset automatisch in Padel-voordeel</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#128640;</div>
+      <h4>2x Enterprise Hosting</h4>
+      <p>CDN, SSL, backups per shop, 99.5% uptime SLA</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#128269;</div>
+      <h4>Meilisearch (per shop)</h4>
+      <p>Zoeken, filters, autocomplete &mdash; eigen index per shop</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#128176;</div>
+      <h4>E-commerce Pro</h4>
+      <p>Checkout, staffelprijzen, gift cards, product add-ons</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#127991;</div>
+      <h4>Brands &amp; Labels</h4>
+      <p>Merkenpagina&rsquo;s, product badges, variatie swatches</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#128666;</div>
+      <h4>MyParcel &amp; Mollie</h4>
+      <p>Verzending, tracking, betalingen &mdash; native ge&iuml;ntegreerd</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#128200;</div>
+      <h4>SEO &amp; Analytics</h4>
+      <p>SEO analyzer, schema&rsquo;s, sitemap, GA4 &mdash; per shop</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#9993;</div>
+      <h4>Email Marketing</h4>
+      <p>Nieuwsbrieven, automations, drag &amp; drop templates (Listmonk + GrapesJS) &mdash; per shop</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#128272;</div>
+      <h4>Security &amp; Updates</h4>
+      <p>Automatische patches voor beide shops, geen 60 plugin-risico&rsquo;s</p>
+    </div>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <h2 class="section-title">Vergelijking</h2>
+  <p class="section-sub">2x WooCommerce + WooMultistore + 30 plugins vs. CompassDigital multi-store</p>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Onderdeel</th>
+        <th>WooCommerce (nu)</th>
+        <th>CompassDigital</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Hosting (2 shops)</td>
+        <td>&euro;100/mo (SiteGround)</td>
+        <td>Inbegrepen</td>
+      </tr>
+      <tr>
+        <td>Multi-Store koppeling</td>
+        <td>&euro;15/mo (WooMultistore)</td>
+        <td>Inbegrepen (native)</td>
+      </tr>
+      <tr>
+        <td>Zoeken &amp; Filters</td>
+        <td>&euro;17-48/mo (Searchanise + Premmerce)</td>
+        <td>Inbegrepen (Meilisearch)</td>
+      </tr>
+      <tr>
+        <td>Checkout + Pagebuilder</td>
+        <td>&euro;18/mo (Flux + Elementor Pro)</td>
+        <td>Inbegrepen</td>
+      </tr>
+      <tr>
+        <td>E-commerce plugins (8+)</td>
+        <td>&euro;45-55/mo</td>
+        <td>Inbegrepen</td>
+      </tr>
+      <tr>
+        <td>Overige plugins</td>
+        <td>&euro;30-40/mo</td>
+        <td>Inbegrepen</td>
+      </tr>
+      <tr>
+        <td>Email Marketing</td>
+        <td>&euro;240/mo (Klaviyo/Mailchimp)</td>
+        <td>&euro;179/mo (Listmonk + GrapesJS, inbegrepen)</td>
+      </tr>
+      <tr>
+        <td>Onderhoud &amp; updates</td>
+        <td>Zelf doen, 2 shops! (4-8 uur/mo)</td>
+        <td>Fully managed</td>
+      </tr>
+      <tr>
+        <td><strong>Totaal</strong></td>
+        <td><strong>&euro;505-555/mo + eigen tijd</strong></td>
+        <td><strong>&euro;728/mo all-inclusive</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- TIMELINE -->
+  <h2 class="section-title">Doorlooptijd</h2>
+  <p class="section-sub">Van start tot live in 3-4 weken</p>
+
+  <div class="timeline">
+    <div class="timeline-step">
+      <div class="timeline-num">1</div>
+      <h4>Week 1</h4>
+      <p>Kickoff, design per shop, deployment Tennis-voordeel + Padel-voordeel</p>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-num">2</div>
+      <h4>Week 2-3</h4>
+      <p>Data migratie, product sync configuratie, brands, variaties</p>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-num">3</div>
+      <h4>Week 3-4</h4>
+      <p>Meilisearch per shop, filters, Mollie, MyParcel, testen</p>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-num">4</div>
+      <h4>Week 5</h4>
+      <p>SEO redirects (2x), training, final QA, DNS switch, live!</p>
+    </div>
+  </div>
+
+  <!-- YEARLY OVERVIEW -->
+  <h2 class="section-title">Investering</h2>
+  <p class="section-sub">Transparant en voorspelbaar</p>
+
+  <div class="yearly">
+    <div class="yearly-card accent">
+      <div class="year">Jaar 1</div>
+      <div class="amount">&euro;15.236</div>
+      <div class="detail">&euro;6.500 setup + 12 &times; &euro;728</div>
+    </div>
+    <div class="yearly-card">
+      <div class="year">Jaar 2</div>
+      <div class="amount">&euro;8.736</div>
+      <div class="detail">12 &times; &euro;728/mo</div>
+    </div>
+    <div class="yearly-card">
+      <div class="year">Jaar 3</div>
+      <div class="amount">&euro;8.736</div>
+      <div class="detail">12 &times; &euro;728/mo</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <strong>CompassDigital</strong> &mdash; Twee shops, &eacute;&eacute;n platform, nul plugin-chaos.<br>
+    Voorstel geldig tot 4 april 2026
+  </div>
+
+</div>
+</body>
+</html>

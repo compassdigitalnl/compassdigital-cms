@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aboland — CompassDigital Voorstel</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    padding: 40px 20px;
+  }
+
+  .page {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  /* ─── HEADER ─── */
+  .hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    border-radius: 24px;
+    padding: 60px 48px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0,137,123,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,137,123,0.15);
+    border: 1px solid rgba(0,137,123,0.3);
+    color: #5eead4;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    letter-spacing: -1px;
+  }
+  .hero h1 span { color: #2dd4bf; }
+  .hero p {
+    font-size: 18px;
+    color: #94a3b8;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  /* ─── PRICING CARDS ─── */
+  .pricing-row {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    gap: 0;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  .price-card {
+    background: white;
+    border-radius: 20px;
+    padding: 36px;
+    border: 2px solid #e2e8f0;
+    position: relative;
+  }
+  .price-card.highlight {
+    border-color: #0d9488;
+    box-shadow: 0 8px 40px rgba(13,148,136,0.12);
+  }
+  .price-card.highlight::before {
+    content: 'AANBEVOLEN';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #0d9488, #14b8a6);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 16px;
+    border-radius: 100px;
+    letter-spacing: 1px;
+  }
+  .price-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .price-amount {
+    font-size: 48px;
+    font-weight: 900;
+    color: #0f172a;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .price-amount span { font-size: 20px; font-weight: 600; color: #94a3b8; }
+  .price-sub { font-size: 14px; color: #64748b; }
+  .price-arrow {
+    text-align: center;
+    font-size: 28px;
+    color: #cbd5e1;
+  }
+
+  /* ─── REPLACE TABLE ─── */
+  .section-title {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  .section-sub {
+    font-size: 15px;
+    color: #64748b;
+    margin-bottom: 24px;
+  }
+
+  .replace-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .replace-card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px 24px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .replace-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .replace-icon.old { background: #fef2f2; }
+  .replace-icon.new { background: #f0fdfa; }
+  .replace-name { font-weight: 600; font-size: 14px; }
+  .replace-desc { font-size: 12px; color: #64748b; margin-top: 2px; }
+  .replace-arrow-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #0d9488;
+    grid-column: span 2;
+    padding: 4px 0;
+  }
+
+  /* ─── WHAT'S INCLUDED ─── */
+  .included-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .included-card {
+    background: white;
+    border-radius: 14px;
+    padding: 24px;
+    border: 1px solid #e2e8f0;
+  }
+  .included-card .icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #f0fdfa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  .included-card h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .included-card p {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.5;
+  }
+
+  /* ─── COMPARISON ─── */
+  .compare-table {
+    width: 100%;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 40px;
+  }
+  .compare-table th, .compare-table td {
+    padding: 14px 20px;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .compare-table thead th {
+    background: #f8fafc;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+  }
+  .compare-table thead th:nth-child(3) {
+    color: #0d9488;
+  }
+  .compare-table td:first-child { font-weight: 500; }
+  .compare-table td:nth-child(2) { color: #94a3b8; }
+  .compare-table td:nth-child(3) { color: #0d9488; font-weight: 600; }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:last-child { background: #f0fdfa; }
+  .compare-table tr:last-child td { font-weight: 700; font-size: 15px; }
+
+  /* ─── TIMELINE ─── */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-bottom: 40px;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+  }
+  .timeline-step {
+    padding: 24px;
+    position: relative;
+    border-right: 1px solid #e2e8f0;
+  }
+  .timeline-step:last-child { border-right: none; }
+  .timeline-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #0d9488, #14b8a6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .timeline-step h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .timeline-step p { font-size: 11px; color: #64748b; line-height: 1.5; }
+
+  /* ─── YEARLY OVERVIEW ─── */
+  .yearly {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .yearly-card {
+    background: white;
+    border-radius: 14px;
+    padding: 28px;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+  }
+  .yearly-card.accent {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+    border: none;
+  }
+  .yearly-card .year { font-size: 13px; font-weight: 600; color: #64748b; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+  .yearly-card.accent .year { color: #5eead4; }
+  .yearly-card .amount { font-size: 36px; font-weight: 900; letter-spacing: -1px; }
+  .yearly-card.accent .amount { color: white; }
+  .yearly-card .detail { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    text-align: center;
+    padding: 32px;
+    color: #94a3b8;
+    font-size: 13px;
+  }
+  .footer strong { color: #0f172a; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">Voorstel februari 2026</div>
+    <h1>Aboland &rarr; <span>CompassDigital</span></h1>
+    <p>Van 10+ losse WordPress plugins naar een alles-in-een e-commerce platform. Sneller, veiliger, en zonder plugin-chaos.</p>
+  </div>
+
+  <!-- PRICING -->
+  <div class="pricing-row">
+    <div class="price-card">
+      <div class="price-label">Eenmalige Setup</div>
+      <div class="price-amount">&euro;4.500</div>
+      <div class="price-sub">Migratie, configuratie, THOR CRM, training</div>
+    </div>
+    <div class="price-arrow">&plus;</div>
+    <div class="price-card highlight">
+      <div class="price-label">Maandelijks</div>
+      <div class="price-amount">&euro;628<span>/mo</span></div>
+      <div class="price-sub">All-inclusive: hosting, features, email marketing, support, updates</div>
+    </div>
+  </div>
+
+  <!-- WHAT YOU REPLACE -->
+  <h2 class="section-title">Wat je vervangt</h2>
+  <p class="section-sub">11+ losse tools &rarr; 1 ge&iuml;ntegreerd platform</p>
+
+  <div class="replace-grid">
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">Nitropack &rarr; Native Performance</div>
+        <div class="replace-desc">Ingebouwde Next.js optimalisatie, geen externe cache nodig</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">DooFinder &rarr; Meilisearch</div>
+        <div class="replace-desc">Razendsnelle zoek, filters, autocomplete &mdash; ingebouwd</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">RankMath &rarr; SEO Analyzer</div>
+        <div class="replace-desc">Real-time SEO score, JSON-LD schema&rsquo;s, meta tags</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">Elementor &rarr; Block Builder</div>
+        <div class="replace-desc">Drag &amp; drop pagebuilder, 20+ blokken, responsive</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">TranslatePress &rarr; Multi-language</div>
+        <div class="replace-desc">Native tweetalig (NL + EN), geen plugin nodig</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">Gravity Forms &rarr; Formulieren</div>
+        <div class="replace-desc">Contactformulieren met email notificaties</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">WP Export/Import &rarr; Built-in</div>
+        <div class="replace-desc">Data import/export direct vanuit het CMS</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon old">&#10060;</div>
+      <div>
+        <div class="replace-name">Mailchimp &rarr; Email Engine</div>
+        <div class="replace-desc">Listmonk + GrapesJS: nieuwsbrieven, automations, drag &amp; drop templates</div>
+      </div>
+    </div>
+    <div class="replace-card">
+      <div class="replace-icon new">&#9889;</div>
+      <div>
+        <div class="replace-name">NIEUW: THOR CRM Integratie</div>
+        <div class="replace-desc">Abonnementen beheren via Mijn Account &mdash; live sync</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INCLUDED FEATURES -->
+  <h2 class="section-title">Alles inbegrepen bij &euro;628/mo</h2>
+  <p class="section-sub">Geen verrassingen, geen extra plugin-kosten</p>
+
+  <div class="included-grid">
+    <div class="included-card">
+      <div class="icon">&#128640;</div>
+      <h4>Enterprise Hosting</h4>
+      <p>CDN, SSL, automatische backups, 99.5% uptime SLA</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#128269;</div>
+      <h4>Meilisearch</h4>
+      <p>Zoeken, filters, autocomplete, facets &mdash; razendsnel</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#128176;</div>
+      <h4>E-commerce</h4>
+      <p>Shop, checkout, subscriptions, gift vouchers, loyalty</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#127760;</div>
+      <h4>Multi-language</h4>
+      <p>Nederlands + Engels, native ondersteuning</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#128279;</div>
+      <h4>THOR CRM API</h4>
+      <p>Abonnementenbeheer via Mijn Account, live sync</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#128200;</div>
+      <h4>SEO &amp; Analytics</h4>
+      <p>Real-time SEO analyzer, schema's, sitemap, OG tags</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#9993;</div>
+      <h4>Email Marketing</h4>
+      <p>Nieuwsbrieven, automations, drag &amp; drop templates (Listmonk + GrapesJS)</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#128272;</div>
+      <h4>Security</h4>
+      <p>Automatische patches, geen plugin-kwetsbaarheden</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#128230;</div>
+      <h4>Platform Updates</h4>
+      <p>Maandelijks nieuwe features, wij regelen alles</p>
+    </div>
+    <div class="included-card">
+      <div class="icon">&#128172;</div>
+      <h4>Support</h4>
+      <p>Email support, response binnen 24 uur op werkdagen</p>
+    </div>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <h2 class="section-title">Vergelijking</h2>
+  <p class="section-sub">WooCommerce + plugins vs. CompassDigital all-inclusive</p>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Onderdeel</th>
+        <th>WooCommerce (nu)</th>
+        <th>CompassDigital</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Hosting &amp; platform</td>
+        <td>&euro;50-100/mo</td>
+        <td>Inbegrepen</td>
+      </tr>
+      <tr>
+        <td>Performance (Nitropack)</td>
+        <td>&euro;21-176/mo</td>
+        <td>Inbegrepen (native)</td>
+      </tr>
+      <tr>
+        <td>Zoeken (DooFinder)</td>
+        <td>&euro;75/mo</td>
+        <td>Inbegrepen (Meilisearch)</td>
+      </tr>
+      <tr>
+        <td>SEO (RankMath)</td>
+        <td>&euro;10/mo</td>
+        <td>Inbegrepen</td>
+      </tr>
+      <tr>
+        <td>Vertalingen</td>
+        <td>&euro;12/mo</td>
+        <td>Inbegrepen</td>
+      </tr>
+      <tr>
+        <td>Formulieren + Pagebuilder</td>
+        <td>&euro;16/mo</td>
+        <td>Inbegrepen</td>
+      </tr>
+      <tr>
+        <td>E-commerce extensies</td>
+        <td>&euro;30-50/mo</td>
+        <td>Inbegrepen</td>
+      </tr>
+      <tr>
+        <td>Email Marketing</td>
+        <td>&euro;317/mo (Mailchimp, 20k contacten)</td>
+        <td>&euro;179/mo (25k contacten)</td>
+      </tr>
+      <tr>
+        <td>THOR CRM integratie</td>
+        <td>Niet beschikbaar</td>
+        <td>Inbegrepen</td>
+      </tr>
+      <tr>
+        <td>Onderhoud &amp; updates</td>
+        <td>Zelf doen</td>
+        <td>Fully managed</td>
+      </tr>
+      <tr>
+        <td><strong>Totaal</strong></td>
+        <td><strong>&euro;560-785/mo + eigen tijd</strong></td>
+        <td><strong>&euro;628/mo all-inclusive</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- TIMELINE -->
+  <h2 class="section-title">Doorlooptijd</h2>
+  <p class="section-sub">Van start tot live in 3-4 weken</p>
+
+  <div class="timeline">
+    <div class="timeline-step">
+      <div class="timeline-num">1</div>
+      <h4>Week 1</h4>
+      <p>Kickoff, design, platform deployment, THOR CRM analyse</p>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-num">2</div>
+      <h4>Week 2</h4>
+      <p>Data migratie, producten, content, categorieën</p>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-num">3</div>
+      <h4>Week 3</h4>
+      <p>THOR API integratie, Meilisearch, multi-language, testen</p>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-num">4</div>
+      <h4>Week 4</h4>
+      <p>Training, final QA, DNS switch, live!</p>
+    </div>
+  </div>
+
+  <!-- YEARLY OVERVIEW -->
+  <h2 class="section-title">Investering</h2>
+  <p class="section-sub">Transparant en voorspelbaar</p>
+
+  <div class="yearly">
+    <div class="yearly-card accent">
+      <div class="year">Jaar 1</div>
+      <div class="amount">&euro;12.036</div>
+      <div class="detail">&euro;4.500 setup + 12 &times; &euro;628</div>
+    </div>
+    <div class="yearly-card">
+      <div class="year">Jaar 2</div>
+      <div class="amount">&euro;7.536</div>
+      <div class="detail">12 &times; &euro;628/mo</div>
+    </div>
+    <div class="yearly-card">
+      <div class="year">Jaar 3</div>
+      <div class="amount">&euro;7.536</div>
+      <div class="detail">12 &times; &euro;628/mo</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <strong>CompassDigital</strong> &mdash; Modern e-commerce, zonder gedoe.<br>
+    Voorstel geldig tot 22 maart 2026
+  </div>
+
+</div>
+</body>
+</html>

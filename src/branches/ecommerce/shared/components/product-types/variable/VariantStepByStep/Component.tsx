@@ -68,12 +68,12 @@ export function VariantStepByStep({
       {showProgressBar && (
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
-            <span className="font-medium text-gray-700">
+            <span className="font-medium text-grey-dark">
               Step {currentStep + 1} of {options.length}
             </span>
-            <span className="text-gray-600">{Math.round(progressPercentage)}% Complete</span>
+            <span className="text-grey-dark">{Math.round(progressPercentage)}% Complete</span>
           </div>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
+          <div className="h-2 w-full overflow-hidden rounded-full bg-grey-light">
             <div
               className="h-full bg-teal transition-all duration-300"
               style={{ width: `${progressPercentage}%` }}
@@ -100,7 +100,7 @@ export function VariantStepByStep({
                     ? 'bg-teal text-white ring-4 ring-teal-200'
                     : isComplete || isPast
                       ? 'bg-green text-white hover:bg-green'
-                      : 'bg-gray-200 text-gray-600 hover:bg-gray-300',
+                      : 'bg-grey-light text-grey-dark hover:bg-grey-light',
                 )}
                 aria-label={`Go to step ${index + 1}: ${option.optionName}`}
                 aria-current={isCurrent ? 'step' : undefined}
@@ -121,7 +121,7 @@ export function VariantStepByStep({
                 <div
                   className={cn(
                     'h-1 w-8 rounded-full transition-all',
-                    isPast ? 'bg-green' : 'bg-gray-200',
+                    isPast ? 'bg-green' : 'bg-grey-light',
                   )}
                 />
               )}
@@ -131,15 +131,15 @@ export function VariantStepByStep({
       </div>
 
       {/* Current Step Content */}
-      <div className="rounded-lg border-2 border-gray-200 bg-white p-6">
+      <div className="rounded-lg border-2 border-grey-light bg-white p-6">
         {/* Step Header */}
         <div className="mb-6">
-          <h3 className="text-lg font-bold text-gray-900">
+          <h3 className="text-lg font-bold text-navy">
             {currentOption.optionName}
             {currentOption.required && <span className="ml-1 text-coral">*</span>}
           </h3>
           {currentOption.description && (
-            <p className="mt-1 text-sm text-gray-600">{currentOption.description}</p>
+            <p className="mt-1 text-sm text-grey-dark">{currentOption.description}</p>
           )}
         </div>
 
@@ -170,11 +170,11 @@ export function VariantStepByStep({
                           'h-12 w-12 rounded-full border-2',
                           isSelected
                             ? 'border-teal ring-2 ring-teal ring-offset-2'
-                            : 'border-gray-300',
+                            : 'border-grey-light',
                         )}
                         style={{ backgroundColor: colorHex }}
                       />
-                      <span className="text-xs text-gray-700">{value.label}</span>
+                      <span className="text-xs text-grey-dark">{value.label}</span>
                     </button>
                   )
                 })}
@@ -196,7 +196,7 @@ export function VariantStepByStep({
                         'relative flex flex-col items-center justify-center gap-2 rounded-lg border-2 p-4 transition-all',
                         isSelected
                           ? 'border-teal bg-teal-50'
-                          : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50',
+                          : 'border-grey-light hover:border-grey-light hover:bg-grey-light',
                         isDisabled && 'cursor-not-allowed opacity-50',
                       )}
                     >
@@ -211,11 +211,11 @@ export function VariantStepByStep({
                           </svg>
                         </div>
                       )}
-                      <span className={cn('text-sm font-medium', isSelected ? 'text-navy' : 'text-gray-900')}>
+                      <span className={cn('text-sm font-medium', isSelected ? 'text-navy' : 'text-navy')}>
                         {value.label}
                       </span>
                       {value.priceModifier !== undefined && value.priceModifier !== null && value.priceModifier !== 0 && (
-                        <span className="text-xs text-gray-600">
+                        <span className="text-xs text-grey-dark">
                           {value.priceModifier > 0 ? '+' : ''}€{formatPriceStr(value.priceModifier)}
                         </span>
                       )}
@@ -225,7 +225,7 @@ export function VariantStepByStep({
               </div>
             )
           ) : (
-            <p className="text-sm text-gray-500">No options available</p>
+            <p className="text-sm text-grey-mid">No options available</p>
           )}
         </div>
 

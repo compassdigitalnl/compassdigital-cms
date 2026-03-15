@@ -12,7 +12,7 @@ export function ExperienceTabs({
   return (
     <div className={className}>
       {/* Tab Bar */}
-      <div className="flex border-b border-gray-200">
+      <div className="flex border-b border-grey-light">
         {tabs.map((tab) => {
           const isActive = tab.id === activeTab
 
@@ -23,7 +23,7 @@ export function ExperienceTabs({
               className={`relative flex items-center gap-1.5 px-4 py-3 text-sm font-semibold transition-colors ${
                 isActive
                   ? 'text-[var(--color-teal)]'
-                  : 'text-gray-500 hover:text-[var(--color-navy)]'
+                  : 'text-grey-mid hover:text-[var(--color-navy)]'
               }`}
             >
               {/* Icon */}
@@ -38,7 +38,7 @@ export function ExperienceTabs({
                   className={`inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-bold ${
                     isActive
                       ? 'bg-[var(--color-teal)] text-white'
-                      : 'bg-gray-200 text-gray-600'
+                      : 'bg-grey-light text-grey-dark'
                   }`}
                 >
                   {tab.count}

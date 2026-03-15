@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function RegisterPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-grey-light">
       {/* AuthTemplate - starts on register tab */}
       <AuthTemplate defaultTab="register" />
     </div>

@@ -69,7 +69,7 @@ export async function ExperienceArchiveTemplate({
         >
           Alle {routeLabel.toLowerCase()}
         </h1>
-        <p className="text-gray-600">
+        <p className="text-grey-dark">
           {experiencesResult.totalDocs} {routeLabel.toLowerCase()} beschikbaar
         </p>
       </div>

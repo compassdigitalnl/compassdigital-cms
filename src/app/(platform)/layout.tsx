@@ -17,7 +17,7 @@ export const metadata = {
 
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-grey-light">
       {/* Sidebar */}
       <PlatformSidebar />
 

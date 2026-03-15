@@ -86,9 +86,9 @@ export async function TreatmentDetailTemplate({ treatment }: TreatmentDetailProp
                   {treatment.faq.map((item: any, index: number) => (
                     <details
                       key={index}
-                      className="group overflow-hidden rounded-xl border border-gray-200 bg-white"
+                      className="group overflow-hidden rounded-xl border border-grey-light bg-white"
                     >
-                      <summary className="flex cursor-pointer items-center justify-between p-5 text-base font-semibold text-navy transition-colors hover:bg-gray-50">
+                      <summary className="flex cursor-pointer items-center justify-between p-5 text-base font-semibold text-navy transition-colors hover:bg-grey-light">
                         {item.question}
                         <svg
                           className="h-5 w-5 shrink-0 transition-transform group-open:rotate-180"
@@ -133,7 +133,7 @@ export async function TreatmentDetailTemplate({ treatment }: TreatmentDetailProp
           <div className="lg:col-span-1">
             <div className="sticky top-20 space-y-6">
               {/* Price box */}
-              <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <div className="rounded-xl border border-grey-light bg-white p-6">
                 {treatment.price && (
                   <div className="mb-4">
                     <div className="text-sm text-grey-mid">
@@ -166,7 +166,7 @@ export async function TreatmentDetailTemplate({ treatment }: TreatmentDetailProp
 
               {/* Related treatments */}
               {relatedTreatments.length > 0 && (
-                <div className="rounded-xl border border-gray-200 bg-white p-6">
+                <div className="rounded-xl border border-grey-light bg-white p-6">
                   <h3 className="mb-4 text-lg font-semibold text-navy">
                     Andere behandelingen
                   </h3>
@@ -175,7 +175,7 @@ export async function TreatmentDetailTemplate({ treatment }: TreatmentDetailProp
                       <li key={related.id}>
                         <Link
                           href={'/behandelingen/' + related.slug}
-                          className="flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-gray-50"
+                          className="flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-grey-light"
                         >
                           {related.icon && (
                             <span className="text-lg">{related.icon}</span>

@@ -83,7 +83,7 @@ export default async function EcommerceLayout({ children }: { children: ReactNod
                 <HeaderClient header={headerGlobal} theme={themeGlobal} settings={settingsGlobal} />
 
                 {/* Main Content */}
-                <main className={`bg-gray-50 ${dmSans.variable}`} style={{ fontFamily: 'var(--font-dm-sans), sans-serif' }}>{children}</main>
+                <main className={`bg-grey-light ${dmSans.variable}`} style={{ fontFamily: 'var(--font-dm-sans), sans-serif' }}>{children}</main>
 
                 {/* Footer (CMS-driven) */}
                 <Footer />

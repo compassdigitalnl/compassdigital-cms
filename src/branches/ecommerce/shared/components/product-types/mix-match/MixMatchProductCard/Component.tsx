@@ -87,12 +87,12 @@ export const MixMatchProductCard: React.FC<MixMatchProductCardProps> = ({
       className={`mm-product bg-white border-[1.5px] rounded-2xl overflow-hidden transition-all duration-150 relative cursor-pointer ${
         isSelected || quantity > 0
           ? 'border-[var(--color-primary)] shadow-[0_0_0_2px_var(--color-primary-glow)]'
-          : 'border-gray-200 hover:border-[var(--color-primary)]'
+          : 'border-grey-light hover:border-[var(--color-primary)]'
       } hover:-translate-y-0.5 hover:shadow-sm ${className}`}
       onClick={handleCardClick}
     >
       {/* Image area */}
-      <div className="mmp-img h-32 flex items-center justify-center text-5xl relative bg-gray-50">
+      <div className="mmp-img h-32 flex items-center justify-center text-5xl relative bg-grey-light">
         {image && <img src={image} alt={name} className="w-full h-full object-cover" />}
         {emoji && !image && <span>{emoji}</span>}
 
@@ -123,7 +123,7 @@ export const MixMatchProductCard: React.FC<MixMatchProductCardProps> = ({
 
         {/* Meta information */}
         {displayMetadata.length > 0 && (
-          <div className="mmp-meta text-[10px] text-gray-500 mb-1.5 flex gap-1.5">
+          <div className="mmp-meta text-[10px] text-grey-mid mb-1.5 flex gap-1.5">
             {displayMetadata.map((meta, index) => (
               <span key={index} className="flex items-center gap-0.5">
                 {meta.icon}
@@ -148,7 +148,7 @@ export const MixMatchProductCard: React.FC<MixMatchProductCardProps> = ({
 
           {/* Quantity stepper or Add button */}
           {quantity > 0 ? (
-            <div className="mmp-qty flex items-center gap-0 border-[1.5px] border-gray-200 rounded-lg overflow-hidden">
+            <div className="mmp-qty flex items-center gap-0 border-[1.5px] border-grey-light rounded-lg overflow-hidden">
               <button
                 onClick={handleDecrement}
                 className="btn btn-ghost btn-sm mmp-qty-btn w-7 h-7 flex items-center justify-center"

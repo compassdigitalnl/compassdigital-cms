@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renovatie — VanderBouw</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--shadow-lg:0 16px 48px rgba(10,22,40,0.12);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  /* Header */
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--navy);text-decoration:none;}.logo em{color:var(--teal);font-style:normal;}.nav{display:flex;gap:4px;}.nav-item{padding:10px 16px;font-size:14px;font-weight:600;color:var(--grey-dark);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--teal);background:var(--teal-glow);}.header-cta{display:flex;align-items:center;gap:8px;}.cta-btn{height:44px;padding:0 22px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--transition);}.cta-btn:hover{background:var(--navy);}.cta-btn i{width:16px;height:16px;}
+
+  /* Service hero */
+  .svc-hero{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:64px 0;position:relative;overflow:hidden;}
+  .svc-hero::before{content:'';position:absolute;top:-80px;right:-50px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,137,123,.08),transparent 70%);border-radius:50%;}
+  .sh-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;z-index:2;}
+  .sh-breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,.3);margin-bottom:10px;}.sh-breadcrumb a{color:rgba(255,255,255,.3);text-decoration:none;}.sh-breadcrumb i{width:13px;height:13px;}
+  .sh-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(0,137,123,.12);border:1px solid rgba(0,137,123,.2);padding:4px 12px;border-radius:100px;font-size:12px;font-weight:700;color:var(--teal-light);margin-bottom:10px;}.sh-badge i{width:13px;height:13px;}
+  .svc-hero h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:40px;font-weight:800;color:white;line-height:1.1;margin-bottom:10px;}
+  .sh-desc{font-size:16px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:18px;}
+  .sh-features{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+  .shf{display:flex;align-items:center;gap:5px;padding:6px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);border-radius:8px;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);}.shf i{width:13px;height:13px;color:var(--teal-light);}
+  .sh-ctas{display:flex;gap:8px;}
+  .sh-btn{height:48px;padding:0 24px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;border:none;transition:all var(--transition);text-decoration:none;}
+  .sh-btn.primary{background:var(--teal);color:white;}.sh-btn.primary:hover{background:white;color:var(--teal);}
+  .sh-btn.outline{background:transparent;color:white;border:1.5px solid rgba(255,255,255,.15);}.sh-btn.outline:hover{border-color:white;}
+  .sh-btn i{width:16px;height:16px;}
+  .sh-visual{display:flex;justify-content:center;}.sh-img{width:100%;max-width:440px;aspect-ratio:4/3;border-radius:20px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:100px;}
+
+  /* Main layout */
+  .detail-layout{display:grid;grid-template-columns:1fr 360px;gap:24px;padding:32px 0 48px;align-items:start;}
+
+  .sec-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:6px;}.sec-title i{width:18px;height:18px;color:var(--teal);}
+
+  /* Content blocks */
+  .content-block{margin-bottom:28px;}
+  .cb-text{font-size:15px;color:var(--grey-dark);line-height:1.7;}
+  .cb-text p{margin-bottom:10px;}
+
+  /* Process steps */
+  .steps{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:28px;}
+  .step{background:white;border:1.5px solid var(--grey);border-radius:16px;padding:20px;transition:all .15s;position:relative;overflow:hidden;}.step:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:var(--shadow-sm);}
+  .step-num{position:absolute;top:10px;right:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:48px;font-weight:800;color:var(--grey-light);line-height:1;}
+  .step-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}.step-icon i{width:20px;height:20px;}
+  .step-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;margin-bottom:4px;}
+  .step-desc{font-size:13px;color:var(--grey-dark);line-height:1.5;}
+
+  /* Types grid */
+  .types-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:28px;}
+  .type{display:flex;align-items:center;gap:10px;padding:12px;background:white;border:1px solid var(--grey);border-radius:10px;transition:all .12s;}.type:hover{border-color:var(--teal);}
+  .type-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .type-name{font-size:13px;font-weight:700;}.type-desc{font-size:11px;color:var(--grey-mid);}
+
+  /* USP bar */
+  .usp-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:28px;}
+  .usp-item{background:white;border:1.5px solid var(--grey);border-radius:14px;padding:18px;text-align:center;transition:all .12s;}.usp-item:hover{border-color:var(--teal);}
+  .usp-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;}.usp-icon i{width:20px;height:20px;}
+  .usp-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;margin-bottom:2px;}
+  .usp-desc{font-size:12px;color:var(--grey-mid);line-height:1.4;}
+
+  /* FAQ */
+  .faq-list{display:flex;flex-direction:column;gap:6px;margin-bottom:28px;}
+  .faq{background:white;border:1.5px solid var(--grey);border-radius:12px;overflow:hidden;transition:border-color .12s;}
+  .faq.open{border-color:var(--teal);}
+  .faq-q{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;font-size:14px;font-weight:700;}.faq-q i{width:18px;height:18px;color:var(--grey-mid);transition:transform .2s;flex-shrink:0;}
+  .faq.open .faq-q i{transform:rotate(180deg);color:var(--teal);}
+  .faq-a{padding:0 18px 14px;font-size:13px;color:var(--grey-dark);line-height:1.6;display:none;}
+  .faq.open .faq-a{display:block;}
+
+  /* CTA bottom */
+  .cta-bottom{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:20px;padding:40px;text-align:center;color:white;margin-bottom:28px;}
+  .ctb-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;margin-bottom:6px;}
+  .ctb-desc{font-size:14px;color:rgba(255,255,255,.35);margin-bottom:16px;}
+  .ctb-btns{display:flex;gap:8px;justify-content:center;}
+  .ctb-btn{height:48px;padding:0 24px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;border:none;transition:all var(--transition);}.ctb-btn i{width:16px;height:16px;}
+  .ctb-btn.fill{background:var(--teal);color:white;}.ctb-btn.fill:hover{background:white;color:var(--teal);}
+  .ctb-btn.ghost{background:transparent;color:white;border:1.5px solid rgba(255,255,255,.15);}.ctb-btn.ghost:hover{border-color:white;}
+
+  /* Sidebar */
+  .sidebar{position:sticky;top:96px;}
+  .side-form{background:white;border:1.5px solid var(--grey);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:12px;}
+  .sf-header{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:18px;color:white;text-align:center;}
+  .sfh-icon{width:40px;height:40px;border-radius:10px;background:rgba(0,137,123,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 4px;}.sfh-icon i{width:18px;height:18px;color:var(--teal-light);}
+  .sfh-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;}
+  .sfh-desc{font-size:11px;color:rgba(255,255,255,.35);}
+  .sf-body{padding:16px;}
+  .fg{margin-bottom:8px;}.fg-label{font-size:11px;font-weight:700;margin-bottom:3px;display:block;}
+  .fg-input{width:100%;height:40px;padding:0 10px;border:1.5px solid var(--grey);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--navy);outline:none;}.fg-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+  .fg-select{appearance:none;background:white url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") right 10px center no-repeat;}
+  .fg-textarea{height:64px;padding:8px 10px;resize:none;}
+  .fg-submit{width:100%;height:44px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all var(--transition);box-shadow:0 4px 16px rgba(0,137,123,.3);margin-top:4px;}.fg-submit:hover{background:var(--navy);}.fg-submit i{width:16px;height:16px;}
+  .fg-note{text-align:center;font-size:10px;color:var(--grey-mid);margin-top:4px;}
+
+  /* Phone card */
+  .phone-card{background:white;border:1.5px solid var(--grey);border-radius:14px;padding:14px;display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+  .pc-icon{width:40px;height:40px;border-radius:10px;background:var(--teal-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0;}.pc-icon i{width:18px;height:18px;color:var(--teal);}
+  .pc-label{font-size:10px;color:var(--grey-mid);font-weight:600;}.pc-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;}.pc-avail{font-size:10px;color:var(--green);font-weight:600;}
+
+  /* Related services */
+  .rel-svc{background:white;border:1.5px solid var(--grey);border-radius:14px;padding:14px;}
+  .rs-title{font-size:13px;font-weight:800;margin-bottom:8px;}
+  .rs-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--grey);font-size:13px;font-weight:600;cursor:pointer;transition:color .12s;}.rs-item:last-child{border-bottom:none;}.rs-item:hover{color:var(--teal);}
+  .rs-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+  .rs-arrow{margin-left:auto;}.rs-arrow i{width:14px;height:14px;color:var(--grey-mid);}
+
+  @media(max-width:900px){.sh-grid{grid-template-columns:1fr;}.sh-visual{display:none;}.detail-layout{grid-template-columns:1fr;}.sidebar{position:static;}.steps{grid-template-columns:1fr;}.types-grid{grid-template-columns:1fr;}.usp-bar{grid-template-columns:1fr;}.nav{display:none;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo">Vander<em>Bouw</em></a><nav class="nav"><a href="#" class="nav-item">Home</a><a href="#" class="nav-item active">Diensten</a><a href="#" class="nav-item">Projecten</a><a href="#" class="nav-item">Over ons</a><a href="#" class="nav-item">Contact</a></nav><div class="header-cta"><button class="cta-btn"><i data-lucide="file-text"></i> Gratis offerte</button></div></div></header>
+
+<!-- Service hero -->
+<section class="svc-hero"><div class="container"><div class="sh-grid">
+  <div>
+    <div class="sh-breadcrumb"><a href="#">Home</a><i data-lucide="chevron-right"></i><a href="#">Diensten</a><i data-lucide="chevron-right"></i><span style="color:rgba(255,255,255,.5);">Renovatie</span></div>
+    <div class="sh-badge"><i data-lucide="hammer"></i> Populairste dienst</div>
+    <h1>Renovatie & Verbouwing</h1>
+    <p class="sh-desc">Van een nieuwe badkamer tot een complete metamorfose. Wij renoveren uw woning vakkundig, netjes en binnen de afgesproken planning en begroting.</p>
+    <div class="sh-features">
+      <div class="shf"><i data-lucide="check-circle"></i> Vaste prijs garantie</div>
+      <div class="shf"><i data-lucide="check-circle"></i> 10 jaar garantie</div>
+      <div class="shf"><i data-lucide="check-circle"></i> Op tijd opgeleverd</div>
+      <div class="shf"><i data-lucide="check-circle"></i> 1 aanspreekpunt</div>
+    </div>
+    <div class="sh-ctas">
+      <button class="sh-btn primary"><i data-lucide="file-text"></i> Offerte aanvragen</button>
+      <button class="sh-btn outline"><i data-lucide="image"></i> Bekijk projecten</button>
+    </div>
+  </div>
+  <div class="sh-visual"><div class="sh-img">🔨</div></div>
+</div></div></section>
+
+<div class="container"><div class="detail-layout">
+  <!-- LEFT -->
+  <div>
+    <!-- Intro -->
+    <div class="content-block">
+      <div class="sec-title"><i data-lucide="file-text"></i> Over renovatie</div>
+      <div class="cb-text">
+        <p>Een renovatie is meer dan alleen vernieuwing — het is het herontdekken van uw woning. Of het nu gaat om een moderne keuken, een luxe badkamer of een complete herinrichting: wij zorgen dat het resultaat uw verwachtingen overtreft.</p>
+        <p>Ons team bestaat uit ervaren vakmensen die werken volgens een vast procesplan. U weet vooraf precies wat het kost, wanneer het klaar is en wie uw aanspreekpunt is. Geen verrassingen, wél een prachtig resultaat.</p>
+      </div>
+    </div>
+
+    <!-- Process steps -->
+    <div class="sec-title"><i data-lucide="route"></i> Onze werkwijze</div>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><div class="step-icon" style="background:var(--teal-glow);"><i data-lucide="message-circle" style="color:var(--teal);"></i></div><div class="step-title">Gratis adviesgesprek</div><div class="step-desc">We komen bij u langs, bespreken uw wensen en ideeën en nemen de situatie op. Geheel vrijblijvend.</div></div>
+      <div class="step"><div class="step-num">02</div><div class="step-icon" style="background:var(--blue-light);"><i data-lucide="pencil-ruler" style="color:var(--blue);"></i></div><div class="step-title">Ontwerp & offerte</div><div class="step-desc">Wij maken een gedetailleerd plan met materialen, planning en een vaste prijsofferte. Geen open einde.</div></div>
+      <div class="step"><div class="step-num">03</div><div class="step-icon" style="background:var(--amber-light);"><i data-lucide="hammer" style="color:var(--amber);"></i></div><div class="step-title">Uitvoering</div><div class="step-desc">Ons team gaat aan de slag. Wekelijkse updates, netjes werken en minimale overlast. Eén vaste projectleider.</div></div>
+      <div class="step"><div class="step-num">04</div><div class="step-icon" style="background:var(--green-light);"><i data-lucide="check-circle" style="color:var(--green);"></i></div><div class="step-title">Oplevering & garantie</div><div class="step-desc">Gezamenlijke eindinspectie, opleverdossier en 10 jaar garantie. Plus 3 maanden gratis nazorg.</div></div>
+    </div>
+
+    <!-- Types of renovation -->
+    <div class="sec-title"><i data-lucide="layers"></i> Soorten renovatie</div>
+    <div class="types-grid">
+      <div class="type"><div class="type-icon" style="background:var(--teal-glow);">🍳</div><div><div class="type-name">Keukenrenovatie</div><div class="type-desc">Compleet nieuwe keuken met apparatuur</div></div></div>
+      <div class="type"><div class="type-icon" style="background:var(--blue-light);">🚿</div><div><div class="type-name">Badkamerrenovatie</div><div class="type-desc">Inloopdouche, bad, tegels & sanitair</div></div></div>
+      <div class="type"><div class="type-icon" style="background:var(--amber-light);">🏠</div><div><div class="type-name">Complete woning</div><div class="type-desc">Totaalrenovatie van vloer tot plafond</div></div></div>
+      <div class="type"><div class="type-icon" style="background:var(--purple-light);">🏢</div><div><div class="type-name">Commercieel</div><div class="type-desc">Winkels, kantoren & horeca</div></div></div>
+      <div class="type"><div class="type-icon" style="background:var(--green-light);">🏚️</div><div><div class="type-name">Restauratie</div><div class="type-desc">Monumenten & historische panden</div></div></div>
+      <div class="type"><div class="type-icon" style="background:var(--coral-light);">⚡</div><div><div class="type-name">Installaties</div><div class="type-desc">Elektra, loodgieterswerk & verwarming</div></div></div>
+    </div>
+
+    <!-- USPs -->
+    <div class="sec-title"><i data-lucide="shield-check"></i> Onze garanties</div>
+    <div class="usp-bar">
+      <div class="usp-item"><div class="usp-icon" style="background:var(--teal-glow);"><i data-lucide="lock" style="color:var(--teal);"></i></div><div class="usp-title">Vaste prijs</div><div class="usp-desc">Geen meerwerk tenzij u zelf wijzigt</div></div>
+      <div class="usp-item"><div class="usp-icon" style="background:var(--green-light);"><i data-lucide="calendar-check" style="color:var(--green);"></i></div><div class="usp-title">Op tijd klaar</div><div class="usp-desc">98% op of voor deadline opgeleverd</div></div>
+      <div class="usp-item"><div class="usp-icon" style="background:var(--amber-light);"><i data-lucide="shield-check" style="color:var(--amber);"></i></div><div class="usp-title">10 jaar garantie</div><div class="usp-desc">Standaard op al ons werk</div></div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="sec-title"><i data-lucide="help-circle"></i> Veelgestelde vragen</div>
+    <div class="faq-list">
+      <div class="faq open"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Wat kost een gemiddelde renovatie?<i data-lucide="chevron-down"></i></div><div class="faq-a">De kosten variëren sterk per project. Een badkamerrenovatie begint bij ca. €8.000, een keuken bij ca. €12.000 en een complete woningrenovatie bij ca. €40.000. Wij maken altijd een gedetailleerde offerte op maat, zodat u exact weet waar u aan toe bent. Er zijn geen verborgen kosten.</div></div>
+      <div class="faq"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Hoe lang duurt een renovatie?<i data-lucide="chevron-down"></i></div><div class="faq-a">Een badkamerrenovatie duurt gemiddeld 2-3 weken, een keuken 2-4 weken. Een complete woningrenovatie kan 2-6 maanden duren, afhankelijk van de omvang. Wij stellen vooraf een gedetailleerde planning op en houden u wekelijks op de hoogte.</div></div>
+      <div class="faq"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Kunnen wij in het huis blijven wonen tijdens de renovatie?<i data-lucide="chevron-down"></i></div><div class="faq-a">Bij kleinere projecten (badkamer, keuken) is dat vaak mogelijk. Bij een complete renovatie adviseren wij soms om tijdelijk elders te verblijven. Wij bespreken dit altijd vooraf en zorgen voor stofschermen en goede afscherming om overlast te minimaliseren.</div></div>
+      <div class="faq"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Wat als er onvoorziene zaken aan het licht komen?<i data-lucide="chevron-down"></i></div><div class="faq-a">Bij oudere woningen kan het voorkomen dat er verborgen gebreken zijn (bijv. asbest, vochtproblemen). Wij informeren u direct, bespreken de opties en geven altijd eerst een prijsindicatie voordat we extra werk uitvoeren. U beslist altijd zelf.</div></div>
+      <div class="faq"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Regelen jullie ook vergunningen?<i data-lucide="chevron-down"></i></div><div class="faq-a">Ja, wij nemen het volledige vergunningstraject uit handen. Van de aanvraag bij de gemeente tot eventuele technische tekeningen en constructieberekeningen. U hoeft zich nergens druk om te maken.</div></div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="cta-bottom">
+      <div class="ctb-title">Klaar om uw woning te transformeren?</div>
+      <div class="ctb-desc">Ontvang binnen 5 werkdagen een vrijblijvende offerte op maat. Gratis adviesgesprek inbegrepen.</div>
+      <div class="ctb-btns">
+        <button class="ctb-btn fill"><i data-lucide="file-text"></i> Offerte aanvragen</button>
+        <button class="ctb-btn ghost"><i data-lucide="phone"></i> 020 - 123 45 67</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Sidebar -->
+  <aside class="sidebar">
+    <div class="side-form">
+      <div class="sf-header"><div class="sfh-icon"><i data-lucide="sparkles"></i></div><div class="sfh-title">Gratis offerte aanvragen</div><div class="sfh-desc">Reactie binnen 24 uur</div></div>
+      <div class="sf-body">
+        <div class="fg"><label class="fg-label">Naam *</label><input class="fg-input" type="text" placeholder="Uw naam"></div>
+        <div class="fg"><label class="fg-label">Telefoon *</label><input class="fg-input" type="tel" placeholder="06 - 1234 5678"></div>
+        <div class="fg"><label class="fg-label">E-mail</label><input class="fg-input" type="email" placeholder="uw@email.nl"></div>
+        <div class="fg"><label class="fg-label">Type renovatie</label><select class="fg-input fg-select"><option>Badkamer</option><option>Keuken</option><option>Complete woning</option><option>Commercieel</option><option>Restauratie</option><option>Anders</option></select></div>
+        <div class="fg"><label class="fg-label">Bericht</label><textarea class="fg-input fg-textarea" placeholder="Vertel kort over uw plannen…"></textarea></div>
+        <button class="fg-submit"><i data-lucide="send"></i> Verstuur aanvraag</button>
+        <div class="fg-note">100% vrijblijvend · Geen verplichtingen</div>
+      </div>
+    </div>
+
+    <div class="phone-card">
+      <div class="pc-icon"><i data-lucide="phone"></i></div>
+      <div><div class="pc-label">Direct bellen</div><div class="pc-num">020 - 123 45 67</div><div class="pc-avail">Ma-Vr 07:30-17:00</div></div>
+    </div>
+
+    <div class="rel-svc">
+      <div class="rs-title">Overige diensten</div>
+      <div class="rs-item"><div class="rs-icon" style="background:var(--teal-glow);">🏠</div> Nieuwbouw <div class="rs-arrow"><i data-lucide="chevron-right"></i></div></div>
+      <div class="rs-item"><div class="rs-icon" style="background:var(--green-light);">🌱</div> Verduurzaming <div class="rs-arrow"><i data-lucide="chevron-right"></i></div></div>
+      <div class="rs-item"><div class="rs-icon" style="background:var(--purple-light);">📐</div> Aanbouw & Opbouw <div class="rs-arrow"><i data-lucide="chevron-right"></i></div></div>
+      <div class="rs-item"><div class="rs-icon" style="background:var(--amber-light);">🏢</div> Utiliteitsbouw <div class="rs-arrow"><i data-lucide="chevron-right"></i></div></div>
+    </div>
+  </aside>
+</div></div>
+<script>lucide.createIcons();</script>
+</body>
+</html>

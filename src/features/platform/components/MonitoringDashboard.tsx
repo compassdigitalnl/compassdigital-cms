@@ -49,7 +49,7 @@ export default function MonitoringDashboard() {
   }
 
   if (loading) {
-    return <div className="text-center py-12 text-gray-600">Loading monitoring data...</div>
+    return <div className="text-center py-12 text-grey-dark">Loading monitoring data...</div>
   }
 
   const healthPercentage =
@@ -63,7 +63,7 @@ export default function MonitoringDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Overall Health */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-sm font-medium text-gray-600 mb-2">Overall Health</h3>
+          <h3 className="text-sm font-medium text-grey-dark mb-2">Overall Health</h3>
           <div className="flex items-center gap-3">
             <div className="relative w-16 h-16">
               <svg className="w-16 h-16 transform -rotate-90">
@@ -90,42 +90,42 @@ export default function MonitoringDashboard() {
               </div>
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-2xl font-bold text-navy">
                 {data?.healthyClients || 0}/{data?.totalClients || 0}
               </p>
-              <p className="text-xs text-gray-500">Healthy clients</p>
+              <p className="text-xs text-grey-mid">Healthy clients</p>
             </div>
           </div>
         </div>
 
         {/* Average Uptime */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-sm font-medium text-gray-600 mb-2">Average Uptime</h3>
-          <p className="text-3xl font-bold text-gray-900">
+          <h3 className="text-sm font-medium text-grey-dark mb-2">Average Uptime</h3>
+          <p className="text-3xl font-bold text-navy">
             {data?.averageUptime ? `${data.averageUptime.toFixed(2)}%` : '-'}
           </p>
-          <p className="text-xs text-gray-500 mt-1">Last 30 days</p>
+          <p className="text-xs text-grey-mid mt-1">Last 30 days</p>
         </div>
 
         {/* Average Response Time */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-sm font-medium text-gray-600 mb-2">Avg Response Time</h3>
-          <p className="text-3xl font-bold text-gray-900">
+          <h3 className="text-sm font-medium text-grey-dark mb-2">Avg Response Time</h3>
+          <p className="text-3xl font-bold text-navy">
             {data?.averageResponseTime ? `${data.averageResponseTime}ms` : '-'}
           </p>
-          <p className="text-xs text-gray-500 mt-1">All clients</p>
+          <p className="text-xs text-grey-mid mt-1">All clients</p>
         </div>
 
         {/* Issues */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-sm font-medium text-gray-600 mb-2">Issues</h3>
+          <h3 className="text-sm font-medium text-grey-dark mb-2">Issues</h3>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">🟡 Warning</span>
+              <span className="text-sm text-grey-dark">🟡 Warning</span>
               <span className="font-medium">{data?.warningClients || 0}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">🔴 Critical</span>
+              <span className="text-sm text-grey-dark">🔴 Critical</span>
               <span className="font-medium">{data?.criticalClients || 0}</span>
             </div>
           </div>
@@ -134,44 +134,44 @@ export default function MonitoringDashboard() {
 
       {/* Status by Client */}
       <div className="bg-white rounded-lg shadow">
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-6 border-b border-grey-light">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-gray-900">Client Status</h2>
-            <div className="text-sm text-gray-500">
+            <h2 className="text-xl font-bold text-navy">Client Status</h2>
+            <div className="text-sm text-grey-mid">
               Last updated: {lastUpdate.toLocaleTimeString()}
             </div>
           </div>
         </div>
         <div className="p-6">
           {data?.totalClients === 0 ? (
-            <p className="text-center text-gray-500 py-8">No clients to monitor</p>
+            <p className="text-center text-grey-mid py-8">No clients to monitor</p>
           ) : (
             <div className="space-y-4">
               <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">🟢</span>
                   <div>
-                    <p className="font-medium text-gray-900">Healthy</p>
-                    <p className="text-sm text-gray-600">
+                    <p className="font-medium text-navy">Healthy</p>
+                    <p className="text-sm text-grey-dark">
                       All systems operational
                     </p>
                   </div>
                 </div>
-                <span className="text-2xl font-bold text-gray-900">
+                <span className="text-2xl font-bold text-navy">
                   {data?.healthyClients || 0}
                 </span>
               </div>
 
               {(data?.warningClients || 0) > 0 && data && (
-                <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-amber-50 rounded-lg">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">🟡</span>
                     <div>
-                      <p className="font-medium text-gray-900">Warning</p>
-                      <p className="text-sm text-gray-600">Needs attention</p>
+                      <p className="font-medium text-navy">Warning</p>
+                      <p className="text-sm text-grey-dark">Needs attention</p>
                     </div>
                   </div>
-                  <span className="text-2xl font-bold text-gray-900">
+                  <span className="text-2xl font-bold text-navy">
                     {data.warningClients}
                   </span>
                 </div>
@@ -182,11 +182,11 @@ export default function MonitoringDashboard() {
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">🔴</span>
                     <div>
-                      <p className="font-medium text-gray-900">Critical</p>
-                      <p className="text-sm text-gray-600">Immediate action required</p>
+                      <p className="font-medium text-navy">Critical</p>
+                      <p className="text-sm text-grey-dark">Immediate action required</p>
                     </div>
                   </div>
-                  <span className="text-2xl font-bold text-gray-900">
+                  <span className="text-2xl font-bold text-navy">
                     {data.criticalClients}
                   </span>
                 </div>
@@ -198,19 +198,19 @@ export default function MonitoringDashboard() {
 
       {/* Recent Incidents */}
       <div className="bg-white rounded-lg shadow">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-xl font-bold text-gray-900">Recent Incidents</h2>
+        <div className="p-6 border-b border-grey-light">
+          <h2 className="text-xl font-bold text-navy">Recent Incidents</h2>
         </div>
         <div className="p-6">
           {data?.recentIncidents && data.recentIncidents.length > 0 ? (
             <div className="space-y-4">
               {data.recentIncidents.map((incident: any, i: number) => (
-                <div key={i} className="p-4 border border-gray-200 rounded-lg">
+                <div key={i} className="p-4 border border-grey-light rounded-lg">
                   <div className="flex items-start justify-between">
                     <div>
-                      <p className="font-medium text-gray-900">{incident.client}</p>
-                      <p className="text-sm text-gray-600 mt-1">{incident.message}</p>
-                      <p className="text-xs text-gray-500 mt-1">{incident.time}</p>
+                      <p className="font-medium text-navy">{incident.client}</p>
+                      <p className="text-sm text-grey-dark mt-1">{incident.message}</p>
+                      <p className="text-xs text-grey-mid mt-1">{incident.time}</p>
                     </div>
                     <span className={`text-2xl`}>
                       {incident.severity === 'critical' ? '🔴' : '🟡'}
@@ -220,7 +220,7 @@ export default function MonitoringDashboard() {
               ))}
             </div>
           ) : (
-            <p className="text-center text-gray-500 py-8">No recent incidents 🎉</p>
+            <p className="text-center text-grey-mid py-8">No recent incidents 🎉</p>
           )}
         </div>
       </div>

@@ -43,9 +43,9 @@ export function LegalLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-grey-light">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <header className="bg-white border-b border-grey-light sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between">
           <Link href="/" className="flex items-center">
             <span className="text-xl font-extrabold text-navy-900">
@@ -54,7 +54,7 @@ export function LegalLayout({
           </Link>
           <Link
             href="/"
-            className="flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-[var(--color-primary)] transition-colors"
+            className="flex items-center gap-2 text-sm font-semibold text-grey-mid hover:text-[var(--color-primary)] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Terug naar winkel
@@ -63,7 +63,7 @@ export function LegalLayout({
       </header>
 
       {/* Breadcrumb */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-grey-light">
         <div className="max-w-4xl mx-auto px-6 py-4">
           <Breadcrumb items={breadcrumbItems} />
         </div>
@@ -73,7 +73,7 @@ export function LegalLayout({
       <div className="max-w-4xl mx-auto px-6 py-8">
         <h1 className="text-3xl font-extrabold text-navy-900 mb-2">{title}</h1>
 
-        <div className="flex items-center gap-4 mb-6 text-sm text-gray-500">
+        <div className="flex items-center gap-4 mb-6 text-sm text-grey-mid">
           <span className="flex items-center gap-1.5">
             <Calendar className="w-3.5 h-3.5" />
             Laatste update: {lastUpdated}
@@ -95,7 +95,7 @@ export function LegalLayout({
 
         <div className="grid grid-cols-[220px_1fr] gap-8 items-start">
           {/* TOC Sidebar */}
-          <nav className="sticky top-24 bg-white border border-gray-200 rounded-2xl p-4">
+          <nav className="sticky top-24 bg-white border border-grey-light rounded-2xl p-4">
             <div className="text-xs font-extrabold text-navy-900 mb-2.5">
               Inhoud
             </div>
@@ -106,7 +106,7 @@ export function LegalLayout({
                 className={`block px-2.5 py-1.5 text-xs rounded-lg mb-0.5 transition-all ${
                   activeSection === item.id
                     ? 'bg-[var(--color-primary-glow)] text-[var(--color-primary)] font-semibold'
-                    : 'text-gray-600 hover:bg-[var(--color-primary-glow)] hover:text-[var(--color-primary)]'
+                    : 'text-grey-dark hover:bg-[var(--color-primary-glow)] hover:text-[var(--color-primary)]'
                 }`}
               >
                 {item.label}

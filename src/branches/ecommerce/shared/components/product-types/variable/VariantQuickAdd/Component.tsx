@@ -65,7 +65,7 @@ export function VariantQuickAdd({
     <div className={cn('space-y-4', className)}>
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-semibold text-gray-900">Quick Add to Cart</h3>
+        <h3 className="text-base font-semibold text-navy">Quick Add to Cart</h3>
         {totalSelectedItems > 0 && (
           <button
             type="button"
@@ -82,7 +82,7 @@ export function VariantQuickAdd({
       <div
         className={cn(
           'space-y-3',
-          compactMode ? 'divide-y divide-gray-200' : 'grid gap-3 sm:grid-cols-2',
+          compactMode ? 'divide-y divide-grey-light' : 'grid gap-3 sm:grid-cols-2',
         )}
       >
         {variants.map(variant => {
@@ -97,7 +97,7 @@ export function VariantQuickAdd({
               key={variant.value}
               className={cn(
                 'rounded-lg border-2 transition-all',
-                compactMode ? 'border-0 border-b-2 p-3 last:border-b-0' : 'border-gray-200 p-4',
+                compactMode ? 'border-0 border-b-2 p-3 last:border-b-0' : 'border-grey-light p-4',
                 quantity > 0 && 'border-teal bg-teal-50',
                 isDisabled && 'opacity-50',
               )}
@@ -107,7 +107,7 @@ export function VariantQuickAdd({
                 {showImages && variant.image && (
                   <div
                     className={cn(
-                      'relative shrink-0 overflow-hidden rounded-lg border-2 border-gray-200',
+                      'relative shrink-0 overflow-hidden rounded-lg border-2 border-grey-light',
                       compactMode ? 'h-12 w-12' : 'h-16 w-16',
                     )}
                   >
@@ -118,7 +118,7 @@ export function VariantQuickAdd({
                         className="h-full w-full object-cover"
                       />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-gray-100 text-xs text-gray-400">
+                      <div className="flex h-full w-full items-center justify-center bg-grey-light text-xs text-grey-mid">
                         No Img
                       </div>
                     )}
@@ -129,7 +129,7 @@ export function VariantQuickAdd({
                 {!showImages && variant.colorHex && (
                   <div
                     className={cn(
-                      'shrink-0 rounded-full border-2 border-gray-300',
+                      'shrink-0 rounded-full border-2 border-grey-light',
                       compactMode ? 'h-8 w-8' : 'h-10 w-10',
                     )}
                     style={{ backgroundColor: variant.colorHex }}
@@ -142,7 +142,7 @@ export function VariantQuickAdd({
                     <div className="flex-1 min-w-0">
                       <h4
                         className={cn(
-                          'font-medium text-gray-900',
+                          'font-medium text-navy',
                           compactMode ? 'text-sm' : 'text-base',
                         )}
                       >
@@ -156,7 +156,7 @@ export function VariantQuickAdd({
                               'text-xs font-medium',
                               hasStock
                                 ? isLowStock
-                                  ? 'text-orange-600'
+                                  ? 'text-amber-600'
                                   : 'text-green'
                                 : 'text-coral',
                             )}
@@ -172,7 +172,7 @@ export function VariantQuickAdd({
                         {variant.priceModifier !== undefined &&
                           variant.priceModifier !== null &&
                           variant.priceModifier !== 0 && (
-                            <span className="text-xs font-semibold text-gray-600">
+                            <span className="text-xs font-semibold text-grey-dark">
                               {variant.priceModifier > 0 ? '+' : ''}€
                               {variant.priceModifier.toFixed(2)}
                             </span>
@@ -186,12 +186,12 @@ export function VariantQuickAdd({
                 {!isDisabled && (
                   <div className="flex items-center gap-2">
                     {/* Quantity Input Group */}
-                    <div className="flex items-center rounded-lg border-2 border-gray-300">
+                    <div className="flex items-center rounded-lg border-2 border-grey-light">
                       <button
                         type="button"
                         onClick={() => handleQuantityChange(variant.value, quantity - 1)}
                         disabled={quantity <= 0}
-                        className="flex h-8 w-8 items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-8 w-8 items-center justify-center text-grey-dark transition-colors hover:bg-grey-light disabled:cursor-not-allowed disabled:opacity-50"
                         aria-label="Decrease quantity"
                       >
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -207,14 +207,14 @@ export function VariantQuickAdd({
                         }
                         min={0}
                         max={maxQuantity}
-                        className="w-12 border-x-2 border-gray-300 px-2 py-1 text-center text-sm focus:outline-none"
+                        className="w-12 border-x-2 border-grey-light px-2 py-1 text-center text-sm focus:outline-none"
                       />
 
                       <button
                         type="button"
                         onClick={() => handleQuantityChange(variant.value, quantity + 1)}
                         disabled={quantity >= maxQuantity}
-                        className="flex h-8 w-8 items-center justify-center text-gray-600 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-8 w-8 items-center justify-center text-grey-dark transition-colors hover:bg-grey-light disabled:cursor-not-allowed disabled:opacity-50"
                         aria-label="Increase quantity"
                       >
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -244,7 +244,7 @@ export function VariantQuickAdd({
 
                 {/* Disabled State */}
                 {isDisabled && (
-                  <div className="shrink-0 rounded-full bg-gray-200 px-3 py-1 text-xs font-medium text-gray-600">
+                  <div className="shrink-0 rounded-full bg-grey-light px-3 py-1 text-xs font-medium text-grey-dark">
                     Unavailable
                   </div>
                 )}
@@ -299,8 +299,8 @@ export function VariantQuickAdd({
 
       {/* Empty State */}
       {totalSelectedItems === 0 && (
-        <div className="rounded-lg border-2 border-dashed border-gray-300 p-6 text-center">
-          <p className="text-sm text-gray-600">
+        <div className="rounded-lg border-2 border-dashed border-grey-light p-6 text-center">
+          <p className="text-sm text-grey-dark">
             Select quantities above to quickly add multiple variants to your cart
           </p>
         </div>

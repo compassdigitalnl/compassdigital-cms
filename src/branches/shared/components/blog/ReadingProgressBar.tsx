@@ -45,7 +45,7 @@ export const ReadingProgressBar: React.FC<ReadingProgressBarProps> = ({ classNam
     >
       {/* Background track */}
       <div
-        className="absolute inset-0 bg-gray-200/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-grey-light/50 backdrop-blur-sm"
         style={{ height: '3px' }}
       />
 

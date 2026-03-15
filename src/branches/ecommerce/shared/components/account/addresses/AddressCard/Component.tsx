@@ -12,7 +12,7 @@ export function AddressCard({ address, onDelete, onSetDefault, onEdit }: Address
       <div className="flex items-start justify-between mb-3 lg:mb-4">
         <div className="flex items-center gap-2 flex-wrap">
           <MapPin className="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0 text-[var(--color-primary)]" />
-          <span className="text-sm lg:text-base font-bold text-gray-900">
+          <span className="text-sm lg:text-base font-bold text-navy">
             {address.type === 'billing' ? 'Factuuradres' : 'Bezorgadres'}
           </span>
           {(address.isPrimary || address.isDefault) && (
@@ -24,7 +24,7 @@ export function AddressCard({ address, onDelete, onSetDefault, onEdit }: Address
         </div>
       </div>
 
-      <div className="text-xs lg:text-sm text-gray-900 leading-relaxed mb-3 lg:mb-4">
+      <div className="text-xs lg:text-sm text-navy leading-relaxed mb-3 lg:mb-4">
         {(address.company || address.name) && <div className="font-semibold">{address.company || address.name}</div>}
         {address.firstName && <div>{address.firstName} {address.lastName}</div>}
         <div>{address.street} {address.houseNumber}{address.addition ? ` ${address.addition}` : ''}</div>

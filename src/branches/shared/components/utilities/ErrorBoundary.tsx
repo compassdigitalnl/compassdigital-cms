@@ -43,8 +43,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           <div className="mb-4 rounded-full bg-coral-100 p-4">
             <AlertCircle className="h-12 w-12 text-coral" />
           </div>
-          <h2 className="mb-2 text-xl font-semibold text-gray-900">Er is iets misgegaan</h2>
-          <p className="mb-6 max-w-md text-center text-sm text-gray-600">
+          <h2 className="mb-2 text-xl font-semibold text-navy">Er is iets misgegaan</h2>
+          <p className="mb-6 max-w-md text-center text-sm text-grey-dark">
             {this.state.error?.message || 'Een onverwachte fout is opgetreden'}
           </p>
           <Button onClick={this.handleReset}>

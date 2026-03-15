@@ -271,7 +271,7 @@ export function ValuationWizardTemplate({}: ValuationWizardProps) {
             </div>
 
             {error && (
-              <div className="rounded-lg border border-red-300/30 bg-red-500/20 p-3 text-sm text-white">
+              <div className="rounded-lg border border-coral/30 bg-coral/20 p-3 text-sm text-white">
                 {error}
               </div>
             )}

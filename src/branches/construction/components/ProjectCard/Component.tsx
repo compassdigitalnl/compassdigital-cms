@@ -70,7 +70,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
             {/* Before/After Indicator */}
             {beforeImageUrl && afterImageUrl && (
-              <div className="absolute right-4 top-4 z-[2] flex items-center gap-2 rounded-md bg-orange-500/90 px-4 py-2 text-sm font-semibold text-white backdrop-blur-sm">
+              <div className="absolute right-4 top-4 z-[2] flex items-center gap-2 rounded-md bg-amber-500/90 px-4 py-2 text-sm font-semibold text-white backdrop-blur-sm">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                   <path d="M4 10h12M13 7l3 3-3 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>

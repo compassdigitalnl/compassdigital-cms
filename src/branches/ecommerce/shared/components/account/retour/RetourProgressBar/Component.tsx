@@ -14,17 +14,17 @@ export function RetourProgressBar({ currentStep }: RetourProgressBarProps) {
         return (
           <React.Fragment key={label}>
             {idx > 0 && (
-              <div className={`flex-1 h-0.5 ${isActive ? 'bg-[var(--color-primary)]' : 'bg-gray-200'}`} />
+              <div className={`flex-1 h-0.5 ${isActive ? 'bg-[var(--color-primary)]' : 'bg-grey-light'}`} />
             )}
             <div className="flex items-center gap-2">
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                  isActive ? 'bg-[var(--color-primary)] text-white' : 'bg-gray-200 text-gray-500'
+                  isActive ? 'bg-[var(--color-primary)] text-white' : 'bg-grey-light text-grey-mid'
                 }`}
               >
                 {idx + 1}
               </div>
-              <span className={`text-sm font-semibold hidden lg:inline ${isActive ? 'text-gray-900' : 'text-gray-400'}`}>
+              <span className={`text-sm font-semibold hidden lg:inline ${isActive ? 'text-navy' : 'text-grey-mid'}`}>
                 {label}
               </span>
             </div>

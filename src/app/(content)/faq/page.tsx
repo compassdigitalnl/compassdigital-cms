@@ -105,9 +105,9 @@ export default function FAQPage() {
   const activeCategoryData = faqData.find((cat) => cat.id === activeCategory)
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-grey-light">
       {/* Breadcrumb */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-grey-light">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <Breadcrumb
             items={[
@@ -126,18 +126,18 @@ export default function FAQPage() {
           <h1 className="text-4xl font-extrabold text-white mb-3 relative">
             Hoe kunnen we u helpen?
           </h1>
-          <p className="text-gray-400 mb-6 relative">
+          <p className="text-grey-mid mb-6 relative">
             Zoek in onze kennisbank of bekijk de veelgestelde vragen per categorie.
           </p>
 
           <div className="max-w-lg mx-auto relative">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-grey-mid" />
             <input
               type="text"
               placeholder="Zoek een vraag…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-14 pl-14 pr-5 bg-white/10 border-2 border-white/10 rounded-2xl text-white placeholder-gray-400 outline-none focus:border-teal-600 focus:bg-white/15 transition-all"
+              className="w-full h-14 pl-14 pr-5 bg-white/10 border-2 border-white/10 rounded-2xl text-white placeholder-grey-mid outline-none focus:border-teal-600 focus:bg-white/15 transition-all"
             />
           </div>
         </div>
@@ -151,12 +151,12 @@ export default function FAQPage() {
               className={`bg-white border-2 rounded-2xl p-5 text-center cursor-pointer transition-all ${
                 activeCategory === category.id
                   ? 'border-teal-600 bg-teal-50'
-                  : 'border-gray-200 hover:border-teal-600 hover:bg-teal-50'
+                  : 'border-grey-light hover:border-teal-600 hover:bg-teal-50'
               }`}
             >
               <div className="text-4xl mb-2">{category.icon}</div>
               <div className="text-sm font-bold text-navy-900">{category.name}</div>
-              <div className="text-xs text-gray-500">{category.count} vragen</div>
+              <div className="text-xs text-grey-mid">{category.count} vragen</div>
             </button>
           ))}
         </div>
@@ -172,7 +172,7 @@ export default function FAQPage() {
                   {activeCategoryData.name}
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+                <div className="bg-white border border-grey-light rounded-2xl overflow-hidden">
                   {activeCategoryData.questions.map((item, index) => {
                     const key = `${activeCategory}-${index}`
                     const isOpen = openQuestions[key]
@@ -180,7 +180,7 @@ export default function FAQPage() {
                     return (
                       <div
                         key={index}
-                        className={`border-b border-gray-200 last:border-b-0 ${
+                        className={`border-b border-grey-light last:border-b-0 ${
                           isOpen ? 'bg-white' : ''
                         }`}
                       >
@@ -190,7 +190,7 @@ export default function FAQPage() {
                         >
                           <span className="text-base">{item.question}</span>
                           <ChevronDown
-                            className={`w-5 h-5 text-gray-400 transition-transform flex-shrink-0 ml-3 ${
+                            className={`w-5 h-5 text-grey-mid transition-transform flex-shrink-0 ml-3 ${
                               isOpen ? 'rotate-180 text-teal-600' : ''
                             }`}
                           />
@@ -198,17 +198,17 @@ export default function FAQPage() {
 
                         {isOpen && (
                           <div className="px-5 pb-5">
-                            <p className="text-sm text-gray-600 leading-relaxed mb-3">
+                            <p className="text-sm text-grey-dark leading-relaxed mb-3">
                               {item.answer}
                             </p>
 
-                            <div className="flex items-center gap-2 text-xs text-gray-500">
+                            <div className="flex items-center gap-2 text-xs text-grey-mid">
                               <span>Was dit nuttig?</span>
-                              <button className="inline-flex items-center gap-1 px-3 py-1.5 border border-gray-300 rounded-full text-gray-600 hover:border-teal-600 hover:text-teal-600 hover:bg-teal-50 transition-all">
+                              <button className="inline-flex items-center gap-1 px-3 py-1.5 border border-grey-light rounded-full text-grey-dark hover:border-teal-600 hover:text-teal-600 hover:bg-teal-50 transition-all">
                                 <ThumbsUp className="w-3 h-3" />
                                 Ja
                               </button>
-                              <button className="inline-flex items-center gap-1 px-3 py-1.5 border border-gray-300 rounded-full text-gray-600 hover:border-teal-600 hover:text-teal-600 hover:bg-teal-50 transition-all">
+                              <button className="inline-flex items-center gap-1 px-3 py-1.5 border border-grey-light rounded-full text-grey-dark hover:border-teal-600 hover:text-teal-600 hover:bg-teal-50 transition-all">
                                 <ThumbsDown className="w-3 h-3" />
                                 Nee
                               </button>
@@ -226,7 +226,7 @@ export default function FAQPage() {
           {/* Sidebar */}
           <aside>
             {/* Popular Questions */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-4">
+            <div className="bg-white border border-grey-light rounded-2xl p-6 mb-4">
               <div className="flex items-center gap-2 text-sm font-extrabold text-navy-900 mb-3">
                 <TrendingUp className="w-4 h-4 text-teal-600" />
                 Populaire vragen
@@ -234,30 +234,30 @@ export default function FAQPage() {
 
               <Link
                 href="#"
-                className="flex items-center gap-2 py-2 text-sm text-navy-900 hover:text-teal-600 border-b border-gray-200 transition-colors"
+                className="flex items-center gap-2 py-2 text-sm text-navy-900 hover:text-teal-600 border-b border-grey-light transition-colors"
               >
-                <ChevronRight className="w-4 h-4 text-gray-400" />
+                <ChevronRight className="w-4 h-4 text-grey-mid" />
                 Wat zijn de verzendkosten?
               </Link>
               <Link
                 href="#"
-                className="flex items-center gap-2 py-2 text-sm text-navy-900 hover:text-teal-600 border-b border-gray-200 transition-colors"
+                className="flex items-center gap-2 py-2 text-sm text-navy-900 hover:text-teal-600 border-b border-grey-light transition-colors"
               >
-                <ChevronRight className="w-4 h-4 text-gray-400" />
+                <ChevronRight className="w-4 h-4 text-grey-mid" />
                 Kan ik op rekening betalen?
               </Link>
               <Link
                 href="#"
-                className="flex items-center gap-2 py-2 text-sm text-navy-900 hover:text-teal-600 border-b border-gray-200 transition-colors"
+                className="flex items-center gap-2 py-2 text-sm text-navy-900 hover:text-teal-600 border-b border-grey-light transition-colors"
               >
-                <ChevronRight className="w-4 h-4 text-gray-400" />
+                <ChevronRight className="w-4 h-4 text-grey-mid" />
                 Hoe maak ik een B2B account?
               </Link>
               <Link
                 href="#"
                 className="flex items-center gap-2 py-2 text-sm text-navy-900 hover:text-teal-600 transition-colors"
               >
-                <ChevronRight className="w-4 h-4 text-gray-400" />
+                <ChevronRight className="w-4 h-4 text-grey-mid" />
                 Leveren jullie spoedorders?
               </Link>
             </div>
@@ -267,7 +267,7 @@ export default function FAQPage() {
               <h4 className="text-lg font-extrabold text-white mb-2">
                 Staat uw vraag er niet bij?
               </h4>
-              <p className="text-sm text-gray-400 mb-4 leading-snug">
+              <p className="text-sm text-grey-mid mb-4 leading-snug">
                 Neem contact met ons op — wij helpen u graag verder.
               </p>
               <Link

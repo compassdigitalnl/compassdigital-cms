@@ -104,11 +104,11 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
   if (loading) {
     return (
       <div className="space-y-6">
-        <div className="h-24 bg-gray-200 rounded-lg animate-pulse"></div>
+        <div className="h-24 bg-grey-light rounded-lg animate-pulse"></div>
         <div className="grid grid-cols-3 gap-6">
-          <div className="h-32 bg-gray-200 rounded-lg animate-pulse"></div>
-          <div className="h-32 bg-gray-200 rounded-lg animate-pulse"></div>
-          <div className="h-32 bg-gray-200 rounded-lg animate-pulse"></div>
+          <div className="h-32 bg-grey-light rounded-lg animate-pulse"></div>
+          <div className="h-32 bg-grey-light rounded-lg animate-pulse"></div>
+          <div className="h-32 bg-grey-light rounded-lg animate-pulse"></div>
         </div>
       </div>
     )
@@ -117,7 +117,7 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
   if (!client) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-600">Client not found</p>
+        <p className="text-grey-dark">Client not found</p>
         <Link href="/platform/clients/" className="text-teal hover:text-teal-700 mt-4">
           ← Back to Clients
         </Link>
@@ -128,21 +128,21 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
   const getStatusBadge = (status: string) => {
     const styles: Record<string, string> = {
       active: 'bg-green-100 text-green-800',
-      pending: 'bg-yellow-100 text-yellow-800',
+      pending: 'bg-amber-50 text-amber-900',
       provisioning: 'bg-teal-100 text-blue-800',
       deploying: 'bg-teal-100 text-blue-800',
       failed: 'bg-red-100 text-red-800',
-      suspended: 'bg-gray-100 text-gray-800',
+      suspended: 'bg-grey-light text-navy',
     }
-    return styles[status] || 'bg-gray-100 text-gray-800'
+    return styles[status] || 'bg-grey-light text-navy'
   }
 
   const getHealthBadge = (health: string) => {
     const badges: Record<string, { icon: string; color: string }> = {
       healthy: { icon: '🟢', color: 'text-green' },
-      warning: { icon: '🟡', color: 'text-yellow-600' },
+      warning: { icon: '🟡', color: 'text-amber-600' },
       critical: { icon: '🔴', color: 'text-coral' },
-      unknown: { icon: '⚪', color: 'text-gray-600' },
+      unknown: { icon: '⚪', color: 'text-grey-dark' },
     }
     return badges[health] || badges.unknown
   }
@@ -152,7 +152,7 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
       {/* Back Button */}
       <Link
         href="/platform/clients/"
-        className="inline-flex items-center text-gray-600 hover:text-gray-900"
+        className="inline-flex items-center text-grey-dark hover:text-navy"
       >
         ← Back to Clients
       </Link>
@@ -161,16 +161,16 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
       <div className="bg-white rounded-lg shadow p-6">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">{client.name}</h1>
-            <p className="text-gray-600 mt-1">{client.deploymentUrl}</p>
+            <h1 className="text-3xl font-bold text-navy">{client.name}</h1>
+            <p className="text-grey-dark mt-1">{client.deploymentUrl}</p>
             <div className="flex items-center gap-4 mt-4">
               <span
                 className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadge(client.status)}`}
               >
                 {client.status}
               </span>
-              <span className="text-sm text-gray-600 capitalize">Template: {client.template}</span>
-              <span className="text-sm text-gray-600 capitalize">Plan: {client.plan}</span>
+              <span className="text-sm text-grey-dark capitalize">Template: {client.template}</span>
+              <span className="text-sm text-grey-dark capitalize">Plan: {client.plan}</span>
             </div>
           </div>
 
@@ -181,7 +181,7 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
                 href={client.deploymentUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 border border-grey-light rounded-lg hover:bg-grey-light transition-colors"
               >
                 Visit Site
               </a>
@@ -191,7 +191,7 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
                 href={client.adminUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 border border-grey-light rounded-lg hover:bg-grey-light transition-colors"
               >
                 Open Admin
               </a>
@@ -204,14 +204,14 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Health Status */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-sm font-medium text-gray-600 mb-2">Health Status</h3>
+          <h3 className="text-sm font-medium text-grey-dark mb-2">Health Status</h3>
           <div className="flex items-center gap-3">
             <span className="text-4xl">{getHealthBadge(client.healthStatus).icon}</span>
             <div>
               <p className={`text-2xl font-bold ${getHealthBadge(client.healthStatus).color}`}>
                 {client.healthStatus}
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-grey-mid">
                 {client.lastHealthCheck
                   ? `Last check: ${new Date(client.lastHealthCheck).toLocaleString()}`
                   : 'No checks yet'}
@@ -222,22 +222,22 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
 
         {/* Uptime */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-sm font-medium text-gray-600 mb-2">Uptime (30 days)</h3>
-          <p className="text-3xl font-bold text-gray-900">
+          <h3 className="text-sm font-medium text-grey-dark mb-2">Uptime (30 days)</h3>
+          <p className="text-3xl font-bold text-navy">
             {client.uptimePercentage ? `${client.uptimePercentage.toFixed(2)}%` : '-'}
           </p>
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-grey-mid mt-1">
             {client.uptimePercentage >= 99.9 ? '🎉 Excellent!' : 'Needs attention'}
           </p>
         </div>
 
         {/* Billing */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-sm font-medium text-gray-600 mb-2">Billing</h3>
-          <p className="text-3xl font-bold text-gray-900">
+          <h3 className="text-sm font-medium text-grey-dark mb-2">Billing</h3>
+          <p className="text-3xl font-bold text-navy">
             €{client.monthlyFee || 0}/mo
           </p>
-          <p className="text-xs text-gray-500 mt-1 capitalize">
+          <p className="text-xs text-grey-mid mt-1 capitalize">
             Status: {client.billingStatus || 'active'}
           </p>
         </div>
@@ -245,8 +245,8 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
 
       {/* Deployments */}
       <div className="bg-white rounded-lg shadow">
-        <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-900">Deployment History</h2>
+        <div className="p-6 border-b border-grey-light flex items-center justify-between">
+          <h2 className="text-xl font-bold text-navy">Deployment History</h2>
           <button
             onClick={() => handleAction('redeploy')}
             disabled={!!actionLoading}
@@ -255,20 +255,20 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
             {actionLoading === 'redeploy' ? 'Redeploying...' : 'Redeploy'}
           </button>
         </div>
-        <div className="divide-y divide-gray-200">
+        <div className="divide-y divide-grey-light">
           {deployments.length === 0 ? (
-            <div className="p-12 text-center text-gray-500">No deployments yet</div>
+            <div className="p-12 text-center text-grey-mid">No deployments yet</div>
           ) : (
             deployments.map((deployment) => (
               <div key={deployment.id} className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="flex items-center gap-3">
-                      <span className="font-medium text-gray-900 capitalize">
+                      <span className="font-medium text-navy capitalize">
                         {deployment.type}
                       </span>
                       {deployment.version && (
-                        <span className="text-sm text-gray-600">v{deployment.version}</span>
+                        <span className="text-sm text-grey-dark">v{deployment.version}</span>
                       )}
                       <span
                         className={`px-2 py-1 text-xs rounded-full ${getStatusBadge(deployment.status)}`}
@@ -276,7 +276,7 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
                         {deployment.status}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="text-sm text-grey-dark mt-1">
                       {new Date(deployment.startedAt).toLocaleString()}
                       {deployment.duration && ` • ${deployment.duration}s`}
                     </p>
@@ -284,7 +284,7 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
                       <p className="text-sm text-coral mt-2">{deployment.errorMessage}</p>
                     )}
                   </div>
-                  <span className="text-xs text-gray-500 capitalize">{deployment.environment}</span>
+                  <span className="text-xs text-grey-mid capitalize">{deployment.environment}</span>
                 </div>
               </div>
             ))
@@ -294,13 +294,13 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
 
       {/* Actions */}
       <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Actions</h2>
+        <h2 className="text-xl font-bold text-navy mb-4">Actions</h2>
         <div className="flex gap-3">
           {client.status === 'active' && (
             <button
               onClick={() => handleAction('suspend')}
               disabled={!!actionLoading}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+              className="px-4 py-2 border border-grey-light rounded-lg hover:bg-grey-light transition-colors disabled:opacity-50"
             >
               {actionLoading === 'suspend' ? 'Suspending...' : 'Suspend Client'}
             </button>

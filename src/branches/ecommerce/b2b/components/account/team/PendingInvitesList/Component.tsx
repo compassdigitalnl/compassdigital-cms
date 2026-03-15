@@ -14,8 +14,8 @@ export function PendingInvitesList({ invites, onRevoke, canManage }: PendingInvi
   return (
     <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
       <div className="flex items-center gap-2 mb-4">
-        <Clock className="w-4 h-4 text-gray-400" />
-        <h3 className="text-sm font-bold text-gray-900">
+        <Clock className="w-4 h-4 text-grey-mid" />
+        <h3 className="text-sm font-bold text-navy">
           Openstaande uitnodigingen ({pendingInvites.length})
         </h3>
       </div>
@@ -37,7 +37,7 @@ export function PendingInvitesList({ invites, onRevoke, canManage }: PendingInvi
               </div>
 
               <div className="flex-1 min-w-0">
-                <div className="text-sm font-semibold text-gray-900 truncate">{invite.email}</div>
+                <div className="text-sm font-semibold text-navy truncate">{invite.email}</div>
                 <div className="flex items-center gap-2 mt-0.5">
                   <RoleBadge role={invite.role as CompanyRole} size="sm" />
                   <span

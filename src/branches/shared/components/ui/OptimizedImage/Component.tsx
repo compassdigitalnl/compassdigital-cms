@@ -63,7 +63,7 @@ export function OptimizedImage({
     // Fallback: No image available
     return (
       <div
-        className={`bg-gray-200 flex items-center justify-center text-gray-400 ${className}`}
+        className={`bg-grey-light flex items-center justify-center text-grey-mid ${className}`}
         style={{ width: width || '100%', height: height || '100%' }}
       >
         <svg

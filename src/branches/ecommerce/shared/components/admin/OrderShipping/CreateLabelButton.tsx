@@ -155,8 +155,8 @@ export function CreateLabelButton({
   // No carrier configured
   if (!provider) {
     return (
-      <div className="p-4 rounded-lg border border-gray-200 bg-gray-50">
-        <p className="text-xs text-gray-500">
+      <div className="p-4 rounded-lg border border-grey-light bg-grey-light">
+        <p className="text-xs text-grey-mid">
           Geen carrier geconfigureerd. Ga naar{' '}
           <strong>E-commerce Instellingen → Carrier Integratie</strong> om Sendcloud of MyParcel te koppelen.
         </p>
@@ -165,9 +165,9 @@ export function CreateLabelButton({
   }
 
   return (
-    <div className="p-4 rounded-lg border border-gray-200 bg-white">
+    <div className="p-4 rounded-lg border border-grey-light bg-white">
       <div className="flex items-center justify-between mb-3">
-        <span className="text-sm font-bold text-gray-700">Verzending</span>
+        <span className="text-sm font-bold text-grey-dark">Verzending</span>
         <span className="text-[10px] px-2 py-0.5 rounded-full bg-teal-50 text-teal font-bold uppercase">
           {provider}
         </span>
@@ -195,7 +195,7 @@ export function CreateLabelButton({
           {/* Shipping method select */}
           {methods.length > 0 && (
             <div>
-              <label className="text-xs font-medium text-gray-600 block mb-1">Verzendmethode</label>
+              <label className="text-xs font-medium text-grey-dark block mb-1">Verzendmethode</label>
               <select
                 value={selectedMethod}
                 onChange={(e) => setSelectedMethod(e.target.value)}
@@ -214,7 +214,7 @@ export function CreateLabelButton({
 
           {/* Weight */}
           <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1">Gewicht (gram)</label>
+            <label className="text-xs font-medium text-grey-dark block mb-1">Gewicht (gram)</label>
             <input
               type="number"
               value={weight}
@@ -229,7 +229,7 @@ export function CreateLabelButton({
           <div className="flex gap-2">
             <button
               onClick={() => { setShowOptions(false); setError('') }}
-              className="flex-1 px-3 py-2 rounded-lg text-sm font-bold border border-gray-300 text-gray-600 hover:bg-gray-50"
+              className="flex-1 px-3 py-2 rounded-lg text-sm font-bold border border-grey-light text-grey-dark hover:bg-grey-light"
             >
               Annuleren
             </button>

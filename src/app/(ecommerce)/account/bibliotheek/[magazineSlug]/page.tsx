@@ -116,7 +116,7 @@ export default function MagazineEditionsPage() {
   if (error) {
     return (
       <div className="bg-white rounded-xl p-8 text-center shadow-sm">
-        <p className="text-gray-500">{error}</p>
+        <p className="text-grey-mid">{error}</p>
       </div>
     )
   }

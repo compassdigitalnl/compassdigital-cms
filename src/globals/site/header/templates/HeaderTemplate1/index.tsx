@@ -235,7 +235,7 @@ export default function HeaderTemplate1({
               {enableSearch && (
                 <button
                   onClick={openSearch}
-                  className="lg:hidden w-[42px] h-[42px] rounded-[10px] border border-transparent bg-gray-100 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 flex items-center justify-center transition-all"
+                  className="lg:hidden w-[42px] h-[42px] rounded-[10px] border border-transparent bg-grey-light hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 flex items-center justify-center transition-all"
                   aria-label="Zoeken"
                 >
                   <Search className="w-[19px] h-[19px]" />
@@ -246,7 +246,7 @@ export default function HeaderTemplate1({
               {showPhone && settings?.phone && (
                 <a
                   href={`tel:${settings.phone}`}
-                  className="hidden lg:flex items-center gap-1.5 h-[42px] px-3 rounded-[10px] text-sm font-semibold transition-all hover:bg-gray-100"
+                  className="hidden lg:flex items-center gap-1.5 h-[42px] px-3 rounded-[10px] text-sm font-semibold transition-all hover:bg-grey-light"
                   style={{ color: 'var(--color-text-primary)' }}
                 >
                   <Phone
@@ -264,7 +264,7 @@ export default function HeaderTemplate1({
                   href={button.url || '#'}
                   className={cn(
                     'h-[42px] px-4 rounded-[10px] border border-transparent flex items-center justify-center gap-2 transition-all text-sm font-semibold',
-                    'bg-gray-100 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/10',
+                    'bg-grey-light hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/10',
                     button.showOnMobile === false && 'hidden lg:flex',
                   )}
                   title={button.label || undefined}
@@ -278,7 +278,7 @@ export default function HeaderTemplate1({
               {showWishlist && (
                 <Link
                   href="/account/favorites"
-                  className="w-[42px] h-[42px] rounded-[10px] border border-transparent bg-gray-100 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 flex items-center justify-center transition-all"
+                  className="w-[42px] h-[42px] rounded-[10px] border border-transparent bg-grey-light hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 flex items-center justify-center transition-all"
                   title="Wishlist"
                 >
                   <Heart className="w-[19px] h-[19px]" />
@@ -289,7 +289,7 @@ export default function HeaderTemplate1({
               {showAccount && (
                 <Link
                   href="/account/"
-                  className="w-[42px] h-[42px] rounded-[10px] border border-transparent bg-gray-100 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 flex items-center justify-center transition-all"
+                  className="w-[42px] h-[42px] rounded-[10px] border border-transparent bg-grey-light hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 flex items-center justify-center transition-all"
                   title="Account"
                 >
                   <User className="w-[19px] h-[19px]" />

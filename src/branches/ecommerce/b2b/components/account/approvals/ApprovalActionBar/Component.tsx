@@ -19,14 +19,14 @@ export function ApprovalActionBar({ onApprove, onReject, isSubmitting }: Approva
 
   return (
     <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-5 shadow-sm border-2" style={{ borderColor: 'var(--color-primary-glow)' }}>
-      <h3 className="text-sm font-bold text-gray-900 mb-3">Beoordeling</h3>
+      <h3 className="text-sm font-bold text-navy mb-3">Beoordeling</h3>
 
       <textarea
         value={note}
         onChange={(e) => setNote(e.target.value)}
         placeholder="Optionele opmerking bij je beoordeling..."
         rows={3}
-        className="w-full px-4 py-2.5 rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300 resize-none mb-3"
+        className="w-full px-4 py-2.5 rounded-xl text-sm outline-none border border-grey-light focus:border-grey-light resize-none mb-3"
       />
 
       <div className="flex gap-2">

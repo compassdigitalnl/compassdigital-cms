@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Goedkeuring Detail — Plastimed.nl</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    --navy: #0A1628; --navy-light: #121F33;
+    --teal: #00897B; --teal-light: #26A69A; --teal-glow: rgba(0,137,123,0.15); --teal-dark: #00695C; --teal-bg: #E0F2F1;
+    --white: #FAFBFC; --grey: #E8ECF1; --grey-light: #F1F4F8; --grey-mid: #94A3B8; --grey-dark: #64748B;
+    --green: #00C853; --green-light: #E8F5E9;
+    --coral: #FF6B6B; --coral-light: #FFF0F0;
+    --amber: #F59E0B; --amber-light: #FFF8E1; --amber-dark: #D97706;
+    --blue: #2196F3; --blue-light: #E3F2FD;
+    --bg: #F5F7FA;
+    --r-sm: 8px; --r-md: 12px; --r-lg: 16px;
+    --sh-sm: 0 1px 3px rgba(10,22,40,0.06);
+    --sh-md: 0 4px 20px rgba(10,22,40,0.08);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--navy); -webkit-font-smoothing:antialiased; }
+  .container { max-width:1240px; margin:0 auto; padding:0 24px; }
+
+  .topbar { background:var(--navy); color:rgba(255,255,255,0.7); font-size:13px; padding:8px 0; }
+  .topbar .container { display:flex; justify-content:space-between; }
+  .header { background:white; border-bottom:1px solid var(--grey); position:sticky; top:0; z-index:100; }
+  .header .container { display:flex; align-items:center; padding:16px 24px; gap:32px; }
+  .logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .logo-icon { width:42px; height:42px; background:linear-gradient(135deg,var(--teal),var(--teal-light)); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-size:20px; font-weight:800; font-family:'Plus Jakarta Sans'; }
+  .logo-text { font-family:'Plus Jakarta Sans'; font-weight:800; font-size:22px; color:var(--navy); }
+  .logo-text em { color:var(--teal); font-style:normal; }
+
+  .account-layout { display:grid; grid-template-columns:260px 1fr; gap:28px; padding:32px 0 80px; align-items:start; }
+
+  .account-user { background:white; border:1px solid var(--grey); border-radius:16px; padding:24px; margin-bottom:16px; text-align:center; }
+  .user-avatar { width:64px; height:64px; background:linear-gradient(135deg,var(--teal),var(--teal-light)); border-radius:16px; display:flex; align-items:center; justify-content:center; color:white; font-family:'Plus Jakarta Sans'; font-size:24px; font-weight:800; margin:0 auto 12px; }
+  .user-name { font-family:'Plus Jakarta Sans'; font-size:16px; font-weight:800; }
+  .user-company { font-size:13px; color:var(--grey-mid); margin-top:2px; }
+  .account-nav { background:white; border:1px solid var(--grey); border-radius:16px; overflow:hidden; }
+  .nav-link { display:flex; align-items:center; gap:12px; padding:14px 20px; border-bottom:1px solid var(--grey); font-size:14px; font-weight:500; color:var(--navy); text-decoration:none; transition:all .15s; }
+  .nav-link:last-child { border-bottom:none; }
+  .nav-link:hover { background:var(--teal-glow); color:var(--teal); }
+  .nav-link.active { background:var(--teal-glow); color:var(--teal); font-weight:700; border-left:3px solid var(--teal); }
+  .nav-link i { width:18px; height:18px; flex-shrink:0; }
+  .nav-link .badge { margin-left:auto; background:var(--coral); color:white; font-size:10px; font-weight:700; padding:2px 7px; border-radius:100px; }
+
+  .account-main { min-width:0; }
+  .section-card { background:white; border:1px solid var(--grey); border-radius:var(--r-lg); padding:28px; margin-bottom:20px; }
+
+  /* Back link */
+  .back-link { display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--grey-mid); text-decoration:none; margin-bottom:16px; transition:color .15s; font-weight:600; }
+  .back-link:hover { color:var(--teal); }
+  .back-link i { width:16px; height:16px; }
+
+  /* ─── APPROVAL DETAIL HEADER [ApprovalDetailHeader — NIEUW] ─── */
+  .detail-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:24px; }
+  .detail-header-left { display:flex; gap:16px; }
+  .detail-avatar { width:56px; height:56px; border-radius:14px; display:flex; align-items:center; justify-content:center; color:white; font-family:'Plus Jakarta Sans'; font-size:20px; font-weight:800; background:linear-gradient(135deg,var(--blue),#42A5F5); flex-shrink:0; }
+  .detail-title { font-family:'Plus Jakarta Sans'; font-size:22px; font-weight:800; }
+  .detail-subtitle { font-size:14px; color:var(--grey-mid); margin-top:4px; }
+  .detail-meta { display:flex; gap:16px; margin-top:8px; }
+  .detail-meta-item { display:flex; align-items:center; gap:5px; font-size:13px; color:var(--grey-dark); }
+  .detail-meta-item i { width:14px; height:14px; color:var(--grey-mid); }
+
+  .status-badge { display:inline-flex; align-items:center; gap:5px; padding:6px 14px; border-radius:100px; font-size:13px; font-weight:700; }
+  .status-badge.pending { background:var(--amber-light); color:var(--amber-dark); }
+  .status-badge.pending i { color:var(--amber); }
+  .status-badge i { width:14px; height:14px; }
+
+  /* ─── TWO COLUMN LAYOUT ─── */
+  .detail-grid { display:grid; grid-template-columns:1fr 380px; gap:20px; }
+
+  /* ─── ORDER PRODUCTS TABLE [ApprovalProductsTable — NIEUW] ─── */
+  .products-table { width:100%; border-collapse:collapse; }
+  .products-table th { text-align:left; padding:10px 12px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--grey-mid); border-bottom:2px solid var(--grey); background:var(--grey-light); }
+  .products-table th:first-child { border-radius:8px 0 0 0; }
+  .products-table th:last-child { border-radius:0 8px 0 0; text-align:right; }
+  .products-table td { padding:12px; font-size:14px; border-bottom:1px solid var(--grey); vertical-align:middle; }
+  .products-table td:last-child { text-align:right; }
+  .products-table tr:hover td { background:rgba(0,137,123,0.02); }
+
+  .product-info { display:flex; align-items:center; gap:10px; }
+  .product-thumb { width:40px; height:40px; background:var(--grey-light); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; border:1px solid var(--grey); flex-shrink:0; }
+  .product-name { font-weight:600; }
+  .product-sku { font-family:'JetBrains Mono'; font-size:11px; color:var(--grey-mid); margin-top:1px; }
+  .product-price { font-family:'JetBrains Mono'; font-size:13px; }
+  .product-subtotal { font-weight:700; font-family:'Plus Jakarta Sans'; }
+
+  .totals-section { border-top:2px solid var(--grey); margin-top:4px; }
+  .total-row { display:flex; justify-content:space-between; padding:10px 12px; font-size:14px; }
+  .total-row.grand { font-family:'Plus Jakarta Sans'; font-weight:800; font-size:18px; border-top:2px solid var(--navy); padding-top:14px; margin-top:4px; }
+
+  /* ─── SIDEBAR: ORDER SUMMARY + ACTIONS [ApprovalSidebar — NIEUW] ─── */
+  .sidebar-card { background:white; border:1px solid var(--grey); border-radius:var(--r-lg); padding:24px; margin-bottom:16px; }
+  .sidebar-title { font-family:'Plus Jakarta Sans'; font-size:16px; font-weight:800; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  .sidebar-title i { width:18px; height:18px; color:var(--teal); }
+
+  .info-row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--grey-light); font-size:13px; }
+  .info-row:last-child { border-bottom:none; }
+  .info-label { color:var(--grey-mid); }
+  .info-value { font-weight:600; text-align:right; }
+  .info-value.mono { font-family:'JetBrains Mono'; color:var(--teal); }
+
+  /* ─── ACTION BUTTONS [ApprovalActionBar — NIEUW] ─── */
+  .action-card { background:white; border:1px solid var(--grey); border-radius:var(--r-lg); padding:24px; }
+  .action-card h3 { font-family:'Plus Jakarta Sans'; font-size:16px; font-weight:800; margin-bottom:16px; }
+  .btn-approve-lg { width:100%; padding:14px; background:var(--green); color:white; border:none; border-radius:var(--r-sm); font-size:15px; font-weight:700; cursor:pointer; transition:all .2s; font-family:'DM Sans'; display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:10px; }
+  .btn-approve-lg:hover { background:#00B84A; transform:translateY(-1px); box-shadow:0 4px 16px rgba(0,200,83,0.3); }
+  .btn-approve-lg i { width:18px; height:18px; }
+  .btn-reject-lg { width:100%; padding:14px; background:white; color:var(--coral); border:1.5px solid var(--coral); border-radius:var(--r-sm); font-size:15px; font-weight:700; cursor:pointer; transition:all .2s; font-family:'DM Sans'; display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px; }
+  .btn-reject-lg:hover { background:var(--coral); color:white; }
+  .btn-reject-lg i { width:18px; height:18px; }
+
+  /* ─── REJECT REASON [ApprovalRejectForm — NIEUW] ─── */
+  .reject-form { display:none; border-top:1px solid var(--grey); padding-top:16px; margin-top:8px; }
+  .reject-form.visible { display:block; }
+  .reject-form label { font-size:13px; font-weight:700; display:block; margin-bottom:6px; }
+  .reject-form textarea { width:100%; padding:10px 14px; border:1.5px solid var(--grey); border-radius:var(--r-sm); font-size:13px; font-family:'DM Sans'; resize:vertical; min-height:80px; }
+  .reject-form textarea:focus { outline:none; border-color:var(--teal); box-shadow:0 0 0 3px var(--teal-glow); }
+  .reject-form-actions { display:flex; gap:10px; margin-top:12px; }
+
+  .form-hint { font-size:12px; color:var(--grey-mid); margin-top:10px; display:flex; align-items:center; gap:5px; }
+  .form-hint i { width:14px; height:14px; }
+
+  /* ─── APPROVAL TIMELINE [ApprovalTimeline — NIEUW] ─── */
+  .timeline { position:relative; padding-left:28px; }
+  .timeline::before { content:''; position:absolute; left:11px; top:8px; bottom:8px; width:2px; background:var(--grey); }
+  .timeline-item { position:relative; padding-bottom:20px; }
+  .timeline-item:last-child { padding-bottom:0; }
+  .timeline-dot { position:absolute; left:-28px; top:2px; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:white; border:2px solid var(--grey); }
+  .timeline-dot i { width:12px; height:12px; }
+  .timeline-dot.active { border-color:var(--amber); background:var(--amber-light); }
+  .timeline-dot.active i { color:var(--amber); }
+  .timeline-dot.done { border-color:var(--green); background:var(--green-light); }
+  .timeline-dot.done i { color:var(--green); }
+  .timeline-title { font-size:14px; font-weight:700; }
+  .timeline-desc { font-size:12px; color:var(--grey-mid); margin-top:2px; }
+  .timeline-time { font-size:11px; color:var(--grey-mid); margin-top:4px; }
+
+  /* Component Index */
+  .component-index { background:var(--navy); color:white; padding:48px 0; margin-top:60px; }
+  .component-index h2 { font-family:'Plus Jakarta Sans'; font-size:24px; font-weight:800; margin-bottom:24px; }
+  .component-index table { width:100%; border-collapse:collapse; }
+  .component-index th { text-align:left; padding:10px 16px; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--teal-light); border-bottom:1px solid rgba(255,255,255,0.1); }
+  .component-index td { padding:10px 16px; font-size:13px; border-bottom:1px solid rgba(255,255,255,0.05); }
+  .component-index td:first-child { font-family:'JetBrains Mono'; font-size:12px; color:var(--teal-light); font-weight:600; }
+  .ci-new { display:inline-block; padding:2px 6px; border-radius:4px; font-size:9px; font-weight:800; text-transform:uppercase; background:var(--green); color:white; margin-left:6px; }
+  .ci-exists { display:inline-block; padding:2px 6px; border-radius:4px; font-size:9px; font-weight:800; text-transform:uppercase; background:var(--blue); color:white; margin-left:6px; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="container"><span>Plastimed.nl</span><span>☎ 010 - 303 6688</span></div></div>
+<div class="header"><div class="container"><a class="logo" href="#"><div class="logo-icon">P</div><div class="logo-text">Plasti<em>med</em></div></a></div></div>
+
+<div class="container">
+<div class="account-layout">
+
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="account-user">
+      <div class="user-avatar">JV</div>
+      <div class="user-name">Jan de Vries</div>
+      <div class="user-company">Huisartsenpraktijk De Vries</div>
+    </div>
+    <nav class="account-nav">
+      <a class="nav-link" href="#"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+      <a class="nav-link" href="#"><i data-lucide="package"></i> Bestellingen</a>
+      <a class="nav-link" href="#"><i data-lucide="users"></i> Team</a>
+      <a class="nav-link active" href="#"><i data-lucide="check-circle"></i> Goedkeuringen <span class="badge">2</span></a>
+      <a class="nav-link" href="#"><i data-lucide="settings"></i> Instellingen</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="account-main">
+
+    <!-- Back Link -->
+    <a href="#" class="back-link"><i data-lucide="arrow-left"></i> Terug naar goedkeuringen</a>
+
+    <!-- ─── DETAIL HEADER [ApprovalDetailHeader — NIEUW] ─── -->
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <div class="detail-avatar">LB</div>
+        <div>
+          <div class="detail-title">Goedkeuringsaanvraag #ORD-2026-0342</div>
+          <div class="detail-subtitle">Aangevraagd door Lisa Bakker (Inkoper)</div>
+          <div class="detail-meta">
+            <div class="detail-meta-item"><i data-lucide="calendar"></i> 9 mrt. 2026, 12:15</div>
+            <div class="detail-meta-item"><i data-lucide="clock"></i> 2 uur geleden</div>
+            <div class="detail-meta-item"><i data-lucide="package"></i> 8 producten</div>
+          </div>
+        </div>
+      </div>
+      <span class="status-badge pending"><i data-lucide="clock"></i> Wacht op goedkeuring</span>
+    </div>
+
+    <!-- ─── TWO COLUMN LAYOUT ─── -->
+    <div class="detail-grid">
+
+      <!-- LEFT: Products -->
+      <div>
+        <!-- ─── PRODUCTS TABLE [ApprovalProductsTable — NIEUW, herbruikt QuoteProductsDetail patroon] ─── -->
+        <div class="section-card">
+          <h3 style="font-family:'Plus Jakarta Sans'; font-size:18px; font-weight:800; margin-bottom:16px; display:flex; align-items:center; gap:8px;">
+            <i data-lucide="shopping-bag" style="width:20px; height:20px; color:var(--teal);"></i>
+            Bestelde producten
+          </h3>
+
+          <table class="products-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>SKU</th>
+                <th>Aantal</th>
+                <th>Stuksprijs</th>
+                <th>Subtotaal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="product-info">
+                    <div class="product-thumb">🧤</div>
+                    <div>
+                      <div class="product-name">Nitril handschoenen M (100st)</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="product-sku">PLM-HS-100M</span></td>
+                <td>10</td>
+                <td><span class="product-price">€12,95</span></td>
+                <td><span class="product-subtotal">€129,50</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="product-info">
+                    <div class="product-thumb">💊</div>
+                    <div><div class="product-name">Desinfectie alcohol 70% 1L</div></div>
+                  </div>
+                </td>
+                <td><span class="product-sku">PLM-DA-1000</span></td>
+                <td>20</td>
+                <td><span class="product-price">€8,50</span></td>
+                <td><span class="product-subtotal">€170,00</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="product-info">
+                    <div class="product-thumb">🩹</div>
+                    <div><div class="product-name">Wondpleister assorti (100st)</div></div>
+                  </div>
+                </td>
+                <td><span class="product-sku">PLM-WP-ASS</span></td>
+                <td>5</td>
+                <td><span class="product-price">€14,95</span></td>
+                <td><span class="product-subtotal">€74,75</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="product-info">
+                    <div class="product-thumb">🩺</div>
+                    <div><div class="product-name">Digitale thermometer Pro</div></div>
+                  </div>
+                </td>
+                <td><span class="product-sku">PLM-DT-PRO</span></td>
+                <td>3</td>
+                <td><span class="product-price">€34,50</span></td>
+                <td><span class="product-subtotal">€103,50</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="product-info">
+                    <div class="product-thumb">🧴</div>
+                    <div><div class="product-name">Handcrème pompfles 500ml</div></div>
+                  </div>
+                </td>
+                <td><span class="product-sku">PLM-HC-500</span></td>
+                <td>15</td>
+                <td><span class="product-price">€6,25</span></td>
+                <td><span class="product-subtotal">€93,75</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Totals -->
+          <div class="totals-section">
+            <div class="total-row"><span>Subtotaal (8 producten)</span><span>€1.031,00</span></div>
+            <div class="total-row"><span>Verzendkosten (Express)</span><span>€14,95</span></div>
+            <div class="total-row"><span>BTW (21%)</span><span>€219,65</span></div>
+            <div class="total-row grand"><span>Totaal</span><span>€1.265,60</span></div>
+          </div>
+        </div>
+
+        <!-- ─── TIMELINE [ApprovalTimeline — NIEUW] ─── -->
+        <div class="section-card">
+          <h3 style="font-family:'Plus Jakarta Sans'; font-size:18px; font-weight:800; margin-bottom:20px; display:flex; align-items:center; gap:8px;">
+            <i data-lucide="git-branch" style="width:20px; height:20px; color:var(--teal);"></i>
+            Tijdlijn
+          </h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot active"><i data-lucide="clock"></i></div>
+              <div class="timeline-title">Wacht op goedkeuring</div>
+              <div class="timeline-desc">Jan de Vries (Admin) moet deze bestelling goedkeuren</div>
+              <div class="timeline-time">Nu</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot done"><i data-lucide="check"></i></div>
+              <div class="timeline-title">Bestelling aangemaakt</div>
+              <div class="timeline-desc">Lisa Bakker heeft deze bestelling geplaatst</div>
+              <div class="timeline-time">9 mrt. 2026, 12:15</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot done"><i data-lucide="alert-triangle"></i></div>
+              <div class="timeline-title">Goedkeuring vereist</div>
+              <div class="timeline-desc">Bedrag €1.247,50 overschrijdt de limiet van €500,00 voor rol Inkoper</div>
+              <div class="timeline-time">9 mrt. 2026, 12:15</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Sidebar -->
+      <div>
+        <!-- ─── ACTION CARD [ApprovalActionBar — NIEUW] ─── -->
+        <div class="action-card" style="margin-bottom:16px;">
+          <h3 style="font-family:'Plus Jakarta Sans'; font-size:16px; font-weight:800; margin-bottom:16px;">Beoordelen</h3>
+          <button class="btn-approve-lg"><i data-lucide="check"></i> Goedkeuren & plaatsen</button>
+          <button class="btn-reject-lg" onclick="document.querySelector('.reject-form').classList.toggle('visible')"><i data-lucide="x"></i> Afwijzen</button>
+
+          <!-- ─── REJECT FORM [ApprovalRejectForm — NIEUW] ─── -->
+          <div class="reject-form visible">
+            <label>Reden voor afwijzing</label>
+            <textarea placeholder="Geef een reden op zodat de aanvrager weet waarom..."></textarea>
+            <div class="reject-form-actions">
+              <button class="btn-reject-lg" style="width:auto; padding:10px 20px; font-size:13px;"><i data-lucide="x"></i> Definitief afwijzen</button>
+            </div>
+          </div>
+
+          <div class="form-hint"><i data-lucide="info"></i> De aanvrager ontvangt een e-mail na uw beslissing</div>
+        </div>
+
+        <!-- ─── ORDER INFO [ApprovalOrderInfo — NIEUW, herbruikt pattern van QuoteContactInfo] ─── -->
+        <div class="sidebar-card">
+          <div class="sidebar-title"><i data-lucide="file-text"></i> Bestelgegevens</div>
+          <div class="info-row"><span class="info-label">Bestelnummer</span><span class="info-value mono">#ORD-2026-0342</span></div>
+          <div class="info-row"><span class="info-label">Aanvrager</span><span class="info-value">Lisa Bakker</span></div>
+          <div class="info-row"><span class="info-label">Rol</span><span class="info-value">Inkoper</span></div>
+          <div class="info-row"><span class="info-label">Bedrag excl. BTW</span><span class="info-value">€1.247,50</span></div>
+          <div class="info-row"><span class="info-label">Verzending</span><span class="info-value">Express</span></div>
+          <div class="info-row"><span class="info-label">Betaalmethode</span><span class="info-value">Op rekening (30 dgn)</span></div>
+        </div>
+
+        <!-- ─── DELIVERY ADDRESS ─── -->
+        <div class="sidebar-card">
+          <div class="sidebar-title"><i data-lucide="map-pin"></i> Afleveradres</div>
+          <div style="font-size:14px; line-height:1.7;">
+            <strong>Huisartsenpraktijk De Vries</strong><br>
+            T.a.v. Lisa Bakker<br>
+            Medisch Centrum 42<br>
+            3011 AB Rotterdam
+          </div>
+        </div>
+
+        <!-- ─── BUDGET STATUS [BudgetStatusCard — NIEUW] ─── -->
+        <div class="sidebar-card">
+          <div class="sidebar-title"><i data-lucide="wallet"></i> Budgetstatus</div>
+          <div class="info-row"><span class="info-label">Maandbudget</span><span class="info-value">€5.000,00</span></div>
+          <div class="info-row"><span class="info-label">Reeds besteed</span><span class="info-value">€3.032,50</span></div>
+          <div class="info-row"><span class="info-label">Deze bestelling</span><span class="info-value" style="color:var(--amber);">+€1.247,50</span></div>
+          <div class="info-row"><span class="info-label">Resterend na goedkeuring</span><span class="info-value" style="color:var(--coral);">€720,00</span></div>
+          <!-- Budget bar -->
+          <div style="margin-top:12px;">
+            <div style="height:8px; background:var(--grey-light); border-radius:4px; overflow:hidden;">
+              <div style="height:100%; width:85%; background:linear-gradient(90deg,var(--green),var(--amber)); border-radius:4px;"></div>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-top:4px; font-size:11px; color:var(--grey-mid);">
+              <span>85% gebruikt</span><span>€720 over</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     COMPONENT INDEX
+     ═══════════════════════════════════════════════════════ -->
+<div class="component-index">
+  <div class="container">
+    <h2>📋 Component Index — Goedkeuring Detail (Fase 5.2)</h2>
+    <table>
+      <thead><tr><th>Component</th><th>Status</th><th>Pad</th><th>Beschrijving</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>ApprovalDetailHeader</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/approvals/ApprovalDetailHeader</td>
+          <td>Avatar + naam + aanvrager + meta (datum, items) + status badge</td>
+        </tr>
+        <tr>
+          <td>ApprovalProductsTable</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/approvals/ApprovalProductsTable</td>
+          <td>Read-only producttabel met totalen. Herbruikt QuoteProductsDetail patroon</td>
+        </tr>
+        <tr>
+          <td>ApprovalTimeline</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/approvals/ApprovalTimeline</td>
+          <td>Verticale tijdlijn met stappen (aangemaakt → goedkeuring vereist → wachtend)</td>
+        </tr>
+        <tr>
+          <td>ApprovalActionBar</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/approvals/ApprovalActionBar</td>
+          <td>Goedkeuren/Afwijzen knoppen + reject-reason formulier</td>
+        </tr>
+        <tr>
+          <td>ApprovalRejectForm</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/approvals/ApprovalRejectForm</td>
+          <td>Textarea voor afwijzingsreden + bevestigingsknop</td>
+        </tr>
+        <tr>
+          <td>ApprovalOrderInfo</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/approvals/ApprovalOrderInfo</td>
+          <td>Sidebar: bestelnummer, aanvrager, rol, bedrag, verzending, betaling</td>
+        </tr>
+        <tr>
+          <td>BudgetStatusCard</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/budget/BudgetStatusCard</td>
+          <td>Budget progressiebalk + bedragen (budget, besteed, resterend)</td>
+        </tr>
+        <tr>
+          <td>StatusBadge</td>
+          <td><span class="ci-exists">BESTAAND</span></td>
+          <td>shared/components/account/ui/StatusBadge</td>
+          <td>Kleur-gecodeerde status pill</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 style="margin-top:40px">📄 Template & Pagina</h2>
+    <table>
+      <thead><tr><th>Type</th><th>Status</th><th>Pad</th><th>Beschrijving</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>ApprovalDetailTemplate</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/templates/account/AccountTemplate1/ApprovalDetailTemplate</td>
+          <td>Header + 2-column: (Products+Timeline) | (Actions+OrderInfo+Budget)</td>
+        </tr>
+        <tr>
+          <td>approvals/[id]/page.tsx</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>app/(ecommerce)/account/approvals/[id]/page.tsx</td>
+          <td>Data-fetching + approve/reject handlers → ApprovalDetailTemplate</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

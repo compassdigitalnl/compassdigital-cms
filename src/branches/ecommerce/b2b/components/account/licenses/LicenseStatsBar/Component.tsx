@@ -42,7 +42,7 @@ export function LicenseStatsBar({
         return (
           <div
             key={stat.label}
-            className="bg-white border border-gray-200 rounded-xl lg:rounded-2xl p-4 text-center"
+            className="bg-white border border-grey-light rounded-xl lg:rounded-2xl p-4 text-center"
           >
             <div
               className="text-xl lg:text-2xl font-extrabold"
@@ -50,7 +50,7 @@ export function LicenseStatsBar({
             >
               {stat.value}
             </div>
-            <div className="text-xs text-gray-500 mt-1 flex items-center justify-center gap-1">
+            <div className="text-xs text-grey-mid mt-1 flex items-center justify-center gap-1">
               <Icon className="w-3 h-3" />
               {stat.label}
             </div>

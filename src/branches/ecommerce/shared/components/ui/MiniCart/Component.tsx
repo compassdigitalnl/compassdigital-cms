@@ -132,7 +132,7 @@ export function MiniCartProvider({
                             <div className="inline-flex items-center border border-[var(--color-border,#e5e7eb)] rounded-lg overflow-hidden">
                               <button
                                 onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                className="w-7 h-7 flex items-center justify-center bg-[var(--color-surface,#f9fafb)] hover:bg-gray-200 transition-colors"
+                                className="w-7 h-7 flex items-center justify-center bg-[var(--color-surface,#f9fafb)] hover:bg-grey-light transition-colors"
                               >
                                 <Minus className="w-3 h-3" />
                               </button>
@@ -141,14 +141,14 @@ export function MiniCartProvider({
                               </span>
                               <button
                                 onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                className="w-7 h-7 flex items-center justify-center bg-[var(--color-surface,#f9fafb)] hover:bg-gray-200 transition-colors"
+                                className="w-7 h-7 flex items-center justify-center bg-[var(--color-surface,#f9fafb)] hover:bg-grey-light transition-colors"
                               >
                                 <Plus className="w-3 h-3" />
                               </button>
                             </div>
                             <button
                               onClick={() => removeItem(item.id)}
-                              className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-coral-50 transition-colors text-gray-400 hover:text-coral"
+                              className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-coral-50 transition-colors text-grey-mid hover:text-coral"
                               aria-label="Verwijderen"
                             >
                               <Trash2 className="w-3.5 h-3.5" />

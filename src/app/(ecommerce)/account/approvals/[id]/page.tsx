@@ -73,7 +73,7 @@ export default function ApprovalDetailPage() {
   }
 
   if (authLoading || isLoading || !user) return <AccountLoadingSkeleton variant="page" />
-  if (!request) return <div className="text-center py-12 text-gray-500">Verzoek niet gevonden</div>
+  if (!request) return <div className="text-center py-12 text-grey-mid">Verzoek niet gevonden</div>
 
   const companyRole = (user as any).companyRole || 'viewer'
   const canApprove = companyRole === 'admin' || companyRole === 'manager'

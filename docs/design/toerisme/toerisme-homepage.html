@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ontdek de Wereld | Toerisme Platform</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ========== TOERISME DESIGN TOKENS ========== */
+    :root {
+      /* Toerisme Colors */
+      --cyan: #00BCD4;
+      --cyan-light: #26C6DA;
+      --cyan-dark: #0097A7;
+      --ocean: #0a2e36;
+      --ocean-light: #14404a;
+
+      /* Base Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Status */
+      --green: #00C853;
+      --coral: #FF6B6B;
+      --amber: #F59E0B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+    }
+
+    /* ========== BASE STYLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    /* ========== HERO SECTION ========== */
+    .hero {
+      background: linear-gradient(135deg, var(--ocean), var(--ocean-light));
+      position: relative;
+      overflow: hidden;
+      padding: 80px 0 100px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(0, 188, 212, 0.2), transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 188, 212, 0.15);
+      color: var(--cyan-light);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 48px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .hero-description {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    /* ========== SEARCH WIDGET ========== */
+    .search-widget {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .search-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .search-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .search-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .search-input {
+      height: 48px;
+      padding: 0 16px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      transition: all var(--transition);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1);
+    }
+
+    .search-btn {
+      height: 48px;
+      padding: 0 32px;
+      background: var(--cyan);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all var(--transition);
+    }
+
+    .search-btn:hover {
+      background: var(--cyan-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ========== SECTION STYLES ========== */
+    .section {
+      padding: 64px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-badge {
+      display: inline-block;
+      background: rgba(0, 188, 212, 0.1);
+      color: var(--cyan);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .section-description {
+      font-size: 16px;
+      color: var(--grey-dark);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ========== TOUR CARD ========== */
+    .tours-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    .tour-card {
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+
+    .tour-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+    }
+
+    .tour-image {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      overflow: hidden;
+    }
+
+    .tour-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--cyan);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .tour-content {
+      padding: 20px;
+    }
+
+    .tour-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: var(--grey-dark);
+    }
+
+    .tour-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tour-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .tour-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .tour-highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .highlight-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--bg);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      color: var(--grey-dark);
+    }
+
+    .tour-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .tour-price-wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tour-price-label {
+      font-size: 11px;
+      color: var(--grey-dark);
+      margin-bottom: 2px;
+    }
+
+    .tour-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+
+    .tour-cta {
+      background: var(--cyan);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition);
+    }
+
+    .tour-cta:hover {
+      background: var(--cyan-dark);
+      transform: translateY(-2px);
+    }
+
+    /* ========== DESTINATION CARD ========== */
+    .destinations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .destination-card {
+      position: relative;
+      height: 320px;
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .destination-card:hover {
+      transform: scale(1.03);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .destination-bg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+    }
+
+    .destination-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10, 22, 40, 0.8), transparent);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px;
+    }
+
+    .destination-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 6px;
+    }
+
+    .destination-count {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* ========== CTA SECTION ========== */
+    .cta-section {
+      background: linear-gradient(135deg, var(--ocean), var(--ocean-light));
+      padding: 64px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0, 188, 212, 0.15), transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .cta-content {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 16px;
+    }
+
+    .cta-description {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 32px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: white;
+      color: var(--cyan);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-outline:hover {
+      border-color: white;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .hero-title {
+        font-size: 36px;
+      }
+
+      .search-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .search-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+
+      .cta-title {
+        font-size: 28px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 60px 0 80px;
+      }
+
+      .hero-title {
+        font-size: 32px;
+      }
+
+      .hero-description {
+        font-size: 16px;
+      }
+
+      .section {
+        padding: 48px 0;
+      }
+
+      .tours-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tour-image {
+        height: 180px;
+        font-size: 48px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== HERO SECTION ========== -->
+  <div class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i data-lucide="globe" style="width:14px;height:14px"></i>
+          Jouw Reis Begint Hier
+        </div>
+        <h1 class="hero-title">Ontdek de mooiste plekken ter wereld</h1>
+        <p class="hero-description">
+          Van tropische eilanden tot bruisende steden. Vind jouw perfecte reis met onze zorgvuldig samengestelde tours en pakketten.
+        </p>
+
+        <!-- Search Widget -->
+        <div class="search-widget">
+          <div class="search-grid">
+            <div class="search-field">
+              <label class="search-label">
+                <i data-lucide="map-pin" style="width:14px;height:14px"></i>
+                Bestemming
+              </label>
+              <input type="text" class="search-input" placeholder="Bijv. Bali, Tokyo, New York..." id="destination">
+            </div>
+            <div class="search-field">
+              <label class="search-label">
+                <i data-lucide="calendar" style="width:14px;height:14px"></i>
+                Vertrekdatum
+              </label>
+              <input type="date" class="search-input" id="departure">
+            </div>
+            <div class="search-field">
+              <label class="search-label">
+                <i data-lucide="users" style="width:14px;height:14px"></i>
+                Reizigers
+              </label>
+              <select class="search-input" id="travelers">
+                <option>1 persoon</option>
+                <option>2 personen</option>
+                <option>3 personen</option>
+                <option>4 personen</option>
+                <option>5+ personen</option>
+              </select>
+            </div>
+            <button class="search-btn" onclick="handleSearch()">
+              <i data-lucide="search" style="width:16px;height:16px"></i>
+              Zoeken
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FEATURED TOURS SECTION ========== -->
+  <div class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Populaire Reizen</div>
+        <h2 class="section-title">Onze meest geliefde tours</h2>
+        <p class="section-description">
+          Handmatig geselecteerde reizen die onze klanten het hoogst waarderen
+        </p>
+      </div>
+
+      <div class="tours-grid">
+
+        <!-- Tour 1 -->
+        <div class="tour-card">
+          <div class="tour-image" style="background: linear-gradient(135deg, #00BCD4, #26C6DA)">
+            🏝️
+            <div class="tour-badge">Bestseller</div>
+          </div>
+          <div class="tour-content">
+            <div class="tour-meta">
+              <div class="tour-meta-item">
+                <i data-lucide="clock" style="width:14px;height:14px"></i>
+                <span>8 dagen / 7 nachten</span>
+              </div>
+              <div class="tour-meta-item">
+                <i data-lucide="star" style="width:14px;height:14px;fill:#F59E0B;color:#F59E0B"></i>
+                <span>4.9 (124)</span>
+              </div>
+            </div>
+            <h3 class="tour-title">Paradijselijk Bali - All Inclusive</h3>
+            <p class="tour-description">
+              Ontdek de magische tempels, rijstvelden en stranden van Bali. Inclusief 4-sterren hotel, excursies en alle maaltijden.
+            </p>
+            <div class="tour-highlights">
+              <div class="highlight-chip">
+                <i data-lucide="check" style="width:12px;height:12px"></i>
+                Vluchten incl.
+              </div>
+              <div class="highlight-chip">
+                <i data-lucide="check" style="width:12px;height:12px"></i>
+                Gids
+              </div>
+              <div class="highlight-chip">
+                <i data-lucide="check" style="width:12px;height:12px"></i>
+                Transfers
+              </div>
+            </div>
+            <div class="tour-footer">
+              <div class="tour-price-wrapper">
+                <div class="tour-price-label">Vanaf p.p.</div>
+                <div class="tour-price">€ 1.495</div>
+              </div>
+              <button class="tour-cta">
+                Bekijk reis
+                <i data-lucide="arrow-right" style="width:14px;height:14px"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tour 2 -->
+        <div class="tour-card">
+          <div class="tour-image" style="background: linear-gradient(135deg, #9C27B0, #BA68C8)">
+            🗼
+            <div class="tour-badge">Nieuw</div>
+          </div>
+          <div class="tour-content">
+            <div class="tour-meta">
+              <div class="tour-meta-item">
+                <i data-lucide="clock" style="width:14px;height:14px"></i>
+                <span>5 dagen / 4 nachten</span>
+              </div>
+              <div class="tour-meta-item">
+                <i data-lucide="star" style="width:14px;height:14px;fill:#F59E0B;color:#F59E0B"></i>
+                <span>5.0 (89)</span>
+              </div>
+            </div>
+            <h3 class="tour-title">Romantisch Parijs Citytrip</h3>
+            <p class="tour-description">
+              Een perfecte stedentrip naar de stad van de liefde. Bezoek de Eiffeltoren, Louvre en geniet van heerlijke Franse cuisine.
+            </p>
+            <div class="tour-highlights">
+              <div class="highlight-chip">
+                <i data-lucide="check" style="width:12px;height:12px"></i>
+                Centraal hotel
+              </div>
+              <div class="highlight-chip">
+                <i data-lucide="check" style="width:12px;height:12px"></i>
+                Ontbijt
+              </div>
+              <div class="highlight-chip">
+                <i data-lucide="check" style="width:12px;height:12px"></i>
+                Seine cruise
+              </div>
+            </div>
+            <div class="tour-footer">
+              <div class="tour-price-wrapper">
+                <div class="tour-price-label">Vanaf p.p.</div>
+                <div class="tour-price">€ 695</div>
+              </div>
+              <button class="tour-cta">
+                Bekijk reis
+                <i data-lucide="arrow-right" style="width:14px;height:14px"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tour 3 -->
+        <div class="tour-card">
+          <div class="tour-image" style="background: linear-gradient(135deg, #FF5722, #FF7043)">
+            🦁
+            <div class="tour-badge">Avontuur</div>
+          </div>
+          <div class="tour-content">
+            <div class="tour-meta">
+              <div class="tour-meta-item">
+                <i data-lucide="clock" style="width:14px;height:14px"></i>
+                <span>12 dagen / 11 nachten</span>
+              </div>
+              <div class="tour-meta-item">
+                <i data-lucide="star" style="width:14px;height:14px;fill:#F59E0B;color:#F59E0B"></i>
+                <span>4.8 (67)</span>
+              </div>
+            </div>
+            <h3 class="tour-title">Safari Avontuur in Kenia</h3>
+            <p class="tour-description">
+              Beleef de Big Five in hun natuurlijke habitat. Onvergetelijke safari's in de Masai Mara en strandrelax in Mombasa.
+            </p>
+            <div class="tour-highlights">
+              <div class="highlight-chip">
+                <i data-lucide="check" style="width:12px;height:12px"></i>
+                Safari's
+              </div>
+              <div class="highlight-chip">
+                <i data-lucide="check" style="width:12px;height:12px"></i>
+                4x4 Jeep
+              </div>
+              <div class="highlight-chip">
+                <i data-lucide="check" style="width:12px;height:12px"></i>
+                Expert gids
+              </div>
+            </div>
+            <div class="tour-footer">
+              <div class="tour-price-wrapper">
+                <div class="tour-price-label">Vanaf p.p.</div>
+                <div class="tour-price">€ 2.495</div>
+              </div>
+              <button class="tour-cta">
+                Bekijk reis
+                <i data-lucide="arrow-right" style="width:14px;height:14px"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== DESTINATIONS SECTION ========== -->
+  <div class="section" style="background: white">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Bestemmingen</div>
+        <h2 class="section-title">Populaire reisbestemmingen</h2>
+        <p class="section-description">
+          Ontdek de meest gevraagde bestemmingen waar onze reizigers het meest naartoe gaan
+        </p>
+      </div>
+
+      <div class="destinations-grid">
+        <div class="destination-card">
+          <div class="destination-bg" style="background: linear-gradient(135deg, #00BCD4, #26C6DA)">
+            🌴
+          </div>
+          <div class="destination-overlay">
+            <h3 class="destination-name">Thailand</h3>
+            <p class="destination-count">24 tours beschikbaar</p>
+          </div>
+        </div>
+
+        <div class="destination-card">
+          <div class="destination-bg" style="background: linear-gradient(135deg, #9C27B0, #BA68C8)">
+            🗼
+          </div>
+          <div class="destination-overlay">
+            <h3 class="destination-name">Frankrijk</h3>
+            <p class="destination-count">18 tours beschikbaar</p>
+          </div>
+        </div>
+
+        <div class="destination-card">
+          <div class="destination-bg" style="background: linear-gradient(135deg, #FF5722, #FF7043)">
+            🏔️
+          </div>
+          <div class="destination-overlay">
+            <h3 class="destination-name">Zwitserland</h3>
+            <p class="destination-count">12 tours beschikbaar</p>
+          </div>
+        </div>
+
+        <div class="destination-card">
+          <div class="destination-bg" style="background: linear-gradient(135deg, #4CAF50, #66BB6A)">
+            🏛️
+          </div>
+          <div class="destination-overlay">
+            <h3 class="destination-name">Italië</h3>
+            <p class="destination-count">31 tours beschikbaar</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== CTA SECTION ========== -->
+  <div class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">Klaar om je volgende avontuur te boeken?</h2>
+        <p class="cta-description">
+          Onze reisexperts helpen je graag bij het vinden van de perfecte reis. Bel ons of plan een gratis adviesgesprek.
+        </p>
+        <div class="cta-buttons">
+          <a href="#" class="btn btn-primary">
+            <i data-lucide="phone" style="width:16px;height:16px"></i>
+            +31 20 123 45 67
+          </a>
+          <a href="#" class="btn btn-outline">
+            <i data-lucide="calendar" style="width:16px;height:16px"></i>
+            Plan adviesgesprek
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Search handler
+    function handleSearch() {
+      const destination = document.getElementById('destination').value;
+      const departure = document.getElementById('departure').value;
+      const travelers = document.getElementById('travelers').value;
+
+      alert(`Zoeken naar reizen:\nBestemming: ${destination || 'Alle'}\nVertrek: ${departure || 'Flexibel'}\nReizigers: ${travelers}\n\n(In productie: navigeer naar zoekresultaten pagina)`);
+    }
+
+    // Tour CTA handlers
+    document.querySelectorAll('.tour-cta').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const title = btn.closest('.tour-card').querySelector('.tour-title').textContent;
+        alert(`Navigeer naar reis detail: "${title}"\n\n(In productie: ga naar tour detail pagina)`);
+      });
+    });
+
+    // Destination card handlers
+    document.querySelectorAll('.destination-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const name = card.querySelector('.destination-name').textContent;
+        alert(`Toon alle tours voor: "${name}"\n\n(In productie: filter tours op bestemming)`);
+      });
+    });
+  </script>
+
+</body>
+</html>
+
+<!--
+========================================
+TOERISME VERTICAL - DESIGN TOKENS
+========================================
+
+COLOR SCHEME:
+-------------
+Primary: --cyan: #00BCD4 (vacation/water theme)
+Light: --cyan-light: #26C6DA
+Dark: --cyan-dark: #0097A7
+Surface: --ocean: #0a2e36 (deep cyan-black)
+Surface Light: --ocean-light: #14404a
+
+COMPONENTS USED:
+----------------
+T1: TourCard - Tour package cards with image, meta, highlights, price
+T2: DestinationCard - Large destination cards with overlay text
+T3: SearchWidget - Multi-field search (destination, date, travelers)
+
+PAYLOAD CMS COLLECTIONS:
+------------------------
+
+COLLECTION: tours
+-----------------
+Fields:
+- title (text, required)
+- slug (text, unique, auto-generated)
+- destination (relationship to destinations collection)
+- duration (number, required) // days
+- nights (number) // calculated: duration - 1
+- price (number, required)
+- featured (checkbox)
+- category (select: bestseller, new, adventure, luxury, family)
+- description (richText)
+- shortDescription (textarea, max 200 chars)
+- coverImage (upload, relationTo: media)
+- highlights (array of text) // "Vluchten incl.", "Gids", etc.
+- inclusions (array of text) // What's included
+- exclusions (array of text) // What's not included
+- itinerary (richText) // Day-by-day program
+- rating (number, 0-5, 2 decimals)
+- reviewCount (number)
+- availability (select: available, limited, sold-out)
+- departureDate (date)
+- returnDate (date)
+
+COLLECTION: destinations
+------------------------
+Fields:
+- name (text, required)
+- slug (text, unique)
+- country (text)
+- continent (select: Europe, Asia, Africa, Americas, Oceania)
+- icon (text) // emoji
+- gradient (group):
+  - colorStart (text) // hex color
+  - colorEnd (text) // hex color
+- tourCount (number, virtual/calculated)
+- featured (checkbox)
+
+NEXT PAGES TO CREATE:
+---------------------
+1. toerisme-reizen-overzicht.html - Grid with filters (destination, price, duration)
+2. toerisme-reis-detail.html - Tour detail with itinerary, booking widget
+3. toerisme-boekingsformulier.html - Multi-step booking form
+
+-->

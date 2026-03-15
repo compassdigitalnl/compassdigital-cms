@@ -141,19 +141,19 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
           {heading && <h2 className="text-3xl md:text-4xl font-bold mb-4">{heading}</h2>}
-          {intro && <p className="text-lg text-gray-600 mb-8">{intro}</p>}
+          {intro && <p className="text-lg text-grey-dark mb-8">{intro}</p>}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Single line input */}
             {(inputMode === 'single' || inputMode === 'both') && (
-              <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+              <div className="bg-grey-light p-6 rounded-xl border border-grey-light">
                 <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
                   <Icon name="Package" size={20} />
                   Enkel Product Toevoegen
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-grey-dark mb-2">
                       Artikelnummer
                     </label>
                     <input
@@ -161,17 +161,17 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
                       value={singleSKU}
                       onChange={(e) => setSingleSKU(e.target.value)}
                       placeholder="Bijv. BV-001"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                      className="w-full px-4 py-2 border border-grey-light rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Aantal</label>
+                    <label className="block text-sm font-medium text-grey-dark mb-2">Aantal</label>
                     <input
                       type="number"
                       value={singleQuantity}
                       onChange={(e) => setSingleQuantity(parseInt(e.target.value, 10) || 1)}
                       min="1"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                      className="w-full px-4 py-2 border border-grey-light rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     />
                   </div>
                 </div>
@@ -180,7 +180,7 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
 
             {/* Textarea bulk input */}
             {(inputMode === 'textarea' || inputMode === 'both') && (
-              <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+              <div className="bg-grey-light p-6 rounded-xl border border-grey-light">
                 <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
                   <Icon name="List" size={20} />
                   Bulk Bestelling
@@ -190,9 +190,9 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder={placeholderText || undefined}
                   rows={8}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-mono text-sm"
+                  className="w-full px-4 py-3 border border-grey-light rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-mono text-sm"
                 />
-                <p className="text-sm text-gray-500 mt-2">
+                <p className="text-sm text-grey-mid mt-2">
                   Formaat: <code className="bg-white px-2 py-1 rounded">artikelnr aantal</code> per
                   regel
                 </p>
@@ -201,7 +201,7 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
 
             {/* CSV Upload */}
             {showUpload && (
-              <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+              <div className="bg-grey-light p-6 rounded-xl border border-grey-light">
                 <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
                   <Icon name="Upload" size={20} />
                   CSV Bestand Uploaden
@@ -210,7 +210,7 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
                   type="file"
                   accept=".csv,.txt"
                   onChange={handleFileUpload}
-                  className="block w-full text-sm text-gray-500
+                  className="block w-full text-sm text-grey-mid
                     file:mr-4 file:py-2 file:px-4
                     file:rounded-full file:border-0
                     file:text-sm file:font-semibold
@@ -218,7 +218,7 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
                     hover:file:bg-primary-light hover:file:text-white
                     cursor-pointer"
                 />
-                {uploadHelpText && <p className="text-sm text-gray-500 mt-2">{uploadHelpText || undefined}</p>}
+                {uploadHelpText && <p className="text-sm text-grey-mid mt-2">{uploadHelpText || undefined}</p>}
               </div>
             )}
 
@@ -263,17 +263,17 @@ export const QuickOrderComponent: React.FC<QuickOrderType> = ({
 
           {/* Order Lists Section */}
           {showOrderLists && (
-            <div className="mt-12 border-t border-gray-200 pt-12">
+            <div className="mt-12 border-t border-grey-light pt-12">
               <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                 <Icon name="Star" size={20} />
                 Mijn Bestellijsten
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-grey-dark mb-6">
                 Gebruik uw opgeslagen bestellijsten voor snelle herbestellingen
               </p>
               {/* TODO: Fetch and display user's order lists */}
-              <div className="text-center py-8 text-gray-500">
-                <Icon name="Inbox" size={48} className="mx-auto mb-2 text-gray-300" />
+              <div className="text-center py-8 text-grey-mid">
+                <Icon name="Inbox" size={48} className="mx-auto mb-2 text-grey-mid" />
                 <p>Nog geen bestellijsten opgeslagen</p>
               </div>
             </div>

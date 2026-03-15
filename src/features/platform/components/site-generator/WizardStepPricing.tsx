@@ -93,11 +93,11 @@ export function WizardStepPricing({ pricingPackages, onChange }: Props) {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-navy flex items-center gap-2">
           <DollarSign className="w-6 h-6 text-green" />
           Prijzen & Pakketten
         </h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-sm text-grey-dark">
           Voeg je prijspakketten toe. AI genereert professionele beschrijvingen en sales copy voor
           elk pakket.
         </p>
@@ -109,7 +109,7 @@ export function WizardStepPricing({ pricingPackages, onChange }: Props) {
           <Card
             key={index}
             className={`border-l-4 ${
-              pkg.highlighted ? 'border-l-green bg-green-50/50' : 'border-l-gray-300'
+              pkg.highlighted ? 'border-l-green bg-green-50/50' : 'border-l-grey-light'
             }`}
           >
             <CardHeader className="pb-3">
@@ -222,7 +222,7 @@ export function WizardStepPricing({ pricingPackages, onChange }: Props) {
                   {pkg.features.map((feature, featureIndex) => (
                     <div
                       key={featureIndex}
-                      className="flex items-center gap-2 bg-gray-50 p-2 rounded"
+                      className="flex items-center gap-2 bg-grey-light p-2 rounded"
                     >
                       <Check className="w-4 h-4 text-green flex-shrink-0" />
                       <span className="flex-1 text-sm">{feature}</span>
@@ -251,7 +251,7 @@ export function WizardStepPricing({ pricingPackages, onChange }: Props) {
               </div>
 
               <div className="pt-2 border-t">
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-grey-mid">
                   💡 AI zal professionele pakket beschrijvingen en sales copy genereren
                 </p>
               </div>
@@ -375,7 +375,7 @@ export function WizardStepPricing({ pricingPackages, onChange }: Props) {
               <Label>Features * (minimaal 1)</Label>
               <div className="space-y-2 mt-1">
                 {newPackage.features.map((feature, featureIndex) => (
-                  <div key={featureIndex} className="flex items-center gap-2 bg-gray-50 p-2 rounded">
+                  <div key={featureIndex} className="flex items-center gap-2 bg-grey-light p-2 rounded">
                     <Check className="w-4 h-4 text-green flex-shrink-0" />
                     <span className="flex-1 text-sm">{feature}</span>
                     <Button

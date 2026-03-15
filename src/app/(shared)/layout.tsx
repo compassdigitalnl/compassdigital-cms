@@ -71,7 +71,7 @@ export default async function SharedLayout({ children }: { children: ReactNode }
               <HeaderClient header={headerGlobal} theme={themeGlobal} settings={settingsGlobal} />
 
               {/* Main Content */}
-              <main className="bg-gray-50">{children}</main>
+              <main className="bg-grey-light">{children}</main>
 
               {/* Footer (CMS-driven) */}
               <Footer />

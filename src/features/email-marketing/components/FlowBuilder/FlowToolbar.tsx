@@ -44,10 +44,10 @@ export function FlowToolbar({
       <div className="flex items-center gap-3">
         <button
           onClick={onBack}
-          className="p-1.5 rounded-md hover:bg-gray-100 transition-colors"
+          className="p-1.5 rounded-md hover:bg-grey-light transition-colors"
           title="Terug naar flows"
         >
-          <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-5 h-5 text-grey-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
@@ -56,7 +56,7 @@ export function FlowToolbar({
           type="text"
           value={flowName}
           onChange={(e) => onNameChange(e.target.value)}
-          className="text-sm font-bold text-gray-800 border-0 bg-transparent focus:outline-none focus:ring-0 px-0 min-w-[200px]"
+          className="text-sm font-bold text-navy border-0 bg-transparent focus:outline-none focus:ring-0 px-0 min-w-[200px]"
           placeholder="Flow naam..."
         />
 

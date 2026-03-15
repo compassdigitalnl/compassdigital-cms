@@ -18,16 +18,16 @@ import {
 
 export default function AIPlaygroundPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-grey-light">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-grey-light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-3xl font-bold text-navy">
                 🤖 AI Content Playground
               </h1>
-              <p className="mt-1 text-sm text-gray-600">
+              <p className="mt-1 text-sm text-grey-dark">
                 Test alle AI-powered content tools op één plek
               </p>
             </div>
@@ -272,7 +272,7 @@ function SEOOptimizerDemo() {
           <div className="mt-4 space-y-4">
             <div className="flex items-center justify-between p-4 bg-teal-50 border border-blue-200 rounded-lg">
               <div>
-                <p className="text-sm text-gray-600">SEO Score</p>
+                <p className="text-sm text-grey-dark">SEO Score</p>
                 <p className="text-3xl font-bold">{result.score}/100</p>
               </div>
               <Badge variant={result.score >= 70 ? 'default' : 'destructive'}>
@@ -281,12 +281,12 @@ function SEOOptimizerDemo() {
             </div>
 
             {result.issues && result.issues.length > 0 && (
-              <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
                 <Label className="mb-2 block">Issues ({result.issues.length}):</Label>
                 <ul className="space-y-2 text-sm">
                   {result.issues.slice(0, 5).map((issue: any, i: number) => (
                     <li key={i} className="flex items-start gap-2">
-                      <span className="text-yellow-600">⚠</span>
+                      <span className="text-amber-600">⚠</span>
                       <span>{issue.issue || issue.message}</span>
                     </li>
                   ))}
@@ -365,50 +365,50 @@ function ContentAnalyzerDemo() {
         {result && (
           <div className="mt-4 space-y-4">
             {/* Overall Score */}
-            <div className="flex items-center justify-between p-4 bg-purple-50 border border-purple-200 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-teal-50 border border-teal-200 rounded-lg">
               <div>
-                <p className="text-sm text-gray-600">Overall Kwaliteit</p>
+                <p className="text-sm text-grey-dark">Overall Kwaliteit</p>
                 <p className="text-3xl font-bold">{result.overallScore}/100</p>
-                <p className="text-xs text-gray-500 mt-1">{result.summary}</p>
+                <p className="text-xs text-grey-mid mt-1">{result.summary}</p>
               </div>
             </div>
 
             {/* Quick Metrics */}
             <div className="grid grid-cols-2 gap-4">
               <div className="p-3 bg-teal-50 border border-blue-200 rounded">
-                <p className="text-xs text-gray-600">Leesbaarheid</p>
+                <p className="text-xs text-grey-dark">Leesbaarheid</p>
                 <p className="text-xl font-bold">{result.readability?.score}/100</p>
-                <p className="text-xs text-gray-500">{result.readability?.level}</p>
+                <p className="text-xs text-grey-mid">{result.readability?.level}</p>
               </div>
 
               <div className="p-3 bg-green-50 border border-green-200 rounded">
-                <p className="text-xs text-gray-600">Toon Consistentie</p>
+                <p className="text-xs text-grey-dark">Toon Consistentie</p>
                 <p className="text-xl font-bold">{result.tone?.consistency?.score}/100</p>
-                <p className="text-xs text-gray-500">{result.tone?.primaryTone}</p>
+                <p className="text-xs text-grey-mid">{result.tone?.primaryTone}</p>
               </div>
 
               {result.grammar && (
-                <div className="p-3 bg-yellow-50 border border-yellow-200 rounded">
-                  <p className="text-xs text-gray-600">Grammatica</p>
+                <div className="p-3 bg-amber-50 border border-amber-200 rounded">
+                  <p className="text-xs text-grey-dark">Grammatica</p>
                   <p className="text-xl font-bold">{result.grammar.overallScore}/100</p>
-                  <p className="text-xs text-gray-500">{result.grammar.totalIssues} issues</p>
+                  <p className="text-xs text-grey-mid">{result.grammar.totalIssues} issues</p>
                 </div>
               )}
 
-              <div className="p-3 bg-indigo-50 border border-indigo-200 rounded">
-                <p className="text-xs text-gray-600">Sentiment</p>
+              <div className="p-3 bg-teal-50 border border-teal-200 rounded">
+                <p className="text-xs text-grey-dark">Sentiment</p>
                 <p className="text-xl font-bold capitalize">{result.sentiment?.overall}</p>
-                <p className="text-xs text-gray-500">Score: {result.sentiment?.score}</p>
+                <p className="text-xs text-grey-mid">Score: {result.sentiment?.score}</p>
               </div>
             </div>
 
             {/* Top Improvements */}
             {result.improvements && result.improvements.length > 0 && (
-              <div className="p-4 bg-orange-50 border border-orange-200 rounded-lg">
+              <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
                 <Label className="mb-2 block">Top Verbeteringen:</Label>
                 <ul className="space-y-2 text-sm">
                   {result.improvements.slice(0, 3).map((imp: any, i: number) => (
-                    <li key={i} className="pb-2 border-b border-orange-100 last:border-0">
+                    <li key={i} className="pb-2 border-b border-amber-100 last:border-0">
                       <div className="flex items-center gap-2 mb-1">
                         <Badge variant={imp.priority === 'high' ? 'destructive' : 'default'}>
                           {imp.priority}
@@ -416,7 +416,7 @@ function ContentAnalyzerDemo() {
                         <Badge variant="outline">{imp.category}</Badge>
                       </div>
                       <p className="font-medium">{imp.issue}</p>
-                      <p className="text-gray-600">{imp.suggestion}</p>
+                      <p className="text-grey-dark">{imp.suggestion}</p>
                     </li>
                   ))}
                 </ul>
@@ -716,7 +716,7 @@ function PageGeneratorDemo() {
               </ul>
             </div>
 
-            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+            <div className="p-4 bg-grey-light border border-grey-light rounded-lg">
               <Label className="mb-2 block">Volledige Data (JSON):</Label>
               <pre className="text-xs bg-white p-3 rounded overflow-auto max-h-64">
                 {JSON.stringify(result, null, 2)}
@@ -800,7 +800,7 @@ function MultiLanguageDemo() {
                 className={`p-2 border rounded cursor-pointer transition-colors ${
                   selectedLanguages.includes(lang.code)
                     ? 'border-teal bg-teal-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    : 'border-grey-light hover:border-grey-light'
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -824,7 +824,7 @@ function MultiLanguageDemo() {
 
         {result && (
           <div className="mt-4 space-y-4">
-            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+            <div className="p-4 bg-grey-light border border-grey-light rounded-lg">
               <Label className="mb-2 block">Origineel:</Label>
               <p className="text-sm whitespace-pre-wrap">{result.original}</p>
             </div>

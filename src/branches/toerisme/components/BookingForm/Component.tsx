@@ -76,10 +76,10 @@ export const BookingForm: React.FC<BookingFormProps> = ({
 
   if (isSuccess) {
     return (
-      <div className={`rounded-2xl border border-green-200 bg-green-50 p-8 text-center ${className}`}>
+      <div className={`rounded-2xl border border-green/20 bg-green/5 p-8 text-center ${className}`}>
         <div className="mb-4 text-4xl">✅</div>
-        <h3 className="mb-2 text-xl font-bold text-green-800">Boeking ontvangen!</h3>
-        <p className="text-sm text-green-700">
+        <h3 className="mb-2 text-xl font-bold text-green">Boeking ontvangen!</h3>
+        <p className="text-sm text-green">
           Bedankt voor uw boeking. U ontvangt binnen 24 uur een bevestiging per e-mail.
         </p>
       </div>
@@ -131,7 +131,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
       {/* Form content */}
       <div className="p-4 md:p-6">
         {error && (
-          <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          <div className="mb-4 rounded-lg border border-coral/20 bg-coral-50 p-3 text-sm text-coral-700">
             {error}
           </div>
         )}

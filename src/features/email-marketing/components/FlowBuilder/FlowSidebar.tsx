@@ -87,16 +87,16 @@ export function FlowSidebar({ className = '' }: FlowSidebarProps) {
   }
 
   return (
-    <div className={`w-56 border-r bg-gray-50 overflow-y-auto ${className}`} style={{ borderColor: '#e5e7eb' }}>
+    <div className={`w-56 border-r bg-grey-light overflow-y-auto ${className}`} style={{ borderColor: '#e5e7eb' }}>
       <div className="p-3">
-        <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Stappen</h3>
+        <h3 className="text-xs font-bold text-grey-mid uppercase tracking-wider mb-3">Stappen</h3>
         <div className="space-y-1.5">
           {NODE_ITEMS.map((item) => (
             <div
               key={item.type}
               draggable
               onDragStart={(e) => onDragStart(e, item.type)}
-              className="flex items-center gap-2.5 px-3 py-2 rounded-lg cursor-grab active:cursor-grabbing hover:bg-white hover:shadow-sm transition-all border border-transparent hover:border-gray-200"
+              className="flex items-center gap-2.5 px-3 py-2 rounded-lg cursor-grab active:cursor-grabbing hover:bg-white hover:shadow-sm transition-all border border-transparent hover:border-grey-light"
               title={item.description}
             >
               <div
@@ -108,8 +108,8 @@ export function FlowSidebar({ className = '' }: FlowSidebarProps) {
                 </svg>
               </div>
               <div>
-                <div className="text-xs font-semibold text-gray-700">{item.label}</div>
-                <div className="text-[10px] text-gray-400">{item.description}</div>
+                <div className="text-xs font-semibold text-grey-dark">{item.label}</div>
+                <div className="text-[10px] text-grey-mid">{item.description}</div>
               </div>
             </div>
           ))}

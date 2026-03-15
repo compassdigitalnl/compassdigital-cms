@@ -27,19 +27,19 @@ export function ExperienceSearchBar({
 
   return (
     <div
-      className={`bg-white border border-gray-200 rounded-xl shadow-lg p-3 ${className}`}
+      className={`bg-white border border-grey-light rounded-xl shadow-lg p-3 ${className}`}
     >
       <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1fr_auto] gap-3">
         {/* Type uitje */}
         <div>
-          <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">
+          <label className="block text-[10px] font-bold text-grey-mid uppercase tracking-wider mb-1">
             Type uitje
           </label>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm text-[var(--color-navy)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-teal)] focus:border-[var(--color-teal)]"
+            className="w-full border border-grey-light rounded-lg px-3 py-2.5 text-sm text-[var(--color-navy)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-teal)] focus:border-[var(--color-teal)]"
           >
             <option value="">Alle categorieën</option>
             {categories.map((cat) => (
@@ -52,7 +52,7 @@ export function ExperienceSearchBar({
 
         {/* Wanneer? */}
         <div>
-          <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">
+          <label className="block text-[10px] font-bold text-grey-mid uppercase tracking-wider mb-1">
             Wanneer?
           </label>
           <input
@@ -67,20 +67,20 @@ export function ExperienceSearchBar({
             onBlur={(e) => {
               if (!e.currentTarget.value) e.currentTarget.type = 'text'
             }}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm text-[var(--color-navy)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-teal)] focus:border-[var(--color-teal)]"
+            className="w-full border border-grey-light rounded-lg px-3 py-2.5 text-sm text-[var(--color-navy)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-teal)] focus:border-[var(--color-teal)]"
           />
         </div>
 
         {/* Groepsgrootte */}
         <div>
-          <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">
+          <label className="block text-[10px] font-bold text-grey-mid uppercase tracking-wider mb-1">
             Groepsgrootte
           </label>
           <select
             value={groupSize}
             onChange={(e) => setGroupSize(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm text-[var(--color-navy)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-teal)] focus:border-[var(--color-teal)]"
+            className="w-full border border-grey-light rounded-lg px-3 py-2.5 text-sm text-[var(--color-navy)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-teal)] focus:border-[var(--color-teal)]"
           >
             <option value="">Aantal personen</option>
             <option value="2-10">2 - 10 personen</option>

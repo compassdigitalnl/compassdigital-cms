@@ -52,12 +52,12 @@ export function VariantMatrixSelector({
     <div className={cn('space-y-4', className)}>
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-semibold text-gray-900">
+        <h3 className="text-base font-semibold text-navy">
           Select {primaryOption.optionName} & {secondaryOption.optionName}
         </h3>
         {selectedCombination && (
           <div className="flex items-center gap-2 text-sm">
-            <span className="text-gray-600">Selected:</span>
+            <span className="text-grey-dark">Selected:</span>
             <span className="font-medium text-teal">
               {primaryOption.values.find(v => v.value === selectedCombination.primary)?.label} /{' '}
               {secondaryOption.values.find(v => v.value === selectedCombination.secondary)?.label}
@@ -71,19 +71,19 @@ export function VariantMatrixSelector({
         <table className="w-full border-collapse">
           <thead>
             <tr>
-              <th className="border-2 border-gray-300 bg-gray-50 p-3 text-left text-sm font-semibold text-gray-700">
+              <th className="border-2 border-grey-light bg-grey-light p-3 text-left text-sm font-semibold text-grey-dark">
                 {primaryOption.optionName} \ {secondaryOption.optionName}
               </th>
               {secondaryOption.values.map(secValue => (
                 <th
                   key={secValue.value}
-                  className="border-2 border-gray-300 bg-gray-50 p-3 text-center text-sm font-semibold text-gray-700"
+                  className="border-2 border-grey-light bg-grey-light p-3 text-center text-sm font-semibold text-grey-dark"
                 >
                   {secValue.label}
                   {secValue.priceModifier !== undefined &&
                     secValue.priceModifier !== null &&
                     secValue.priceModifier !== 0 && (
-                      <div className="mt-1 text-xs font-normal text-gray-600">
+                      <div className="mt-1 text-xs font-normal text-grey-dark">
                         {secValue.priceModifier > 0 ? '+' : ''}€{formatPriceStr(secValue.priceModifier)}
                       </div>
                     )}
@@ -95,12 +95,12 @@ export function VariantMatrixSelector({
             {primaryOption.values.map(primValue => (
               <tr key={primValue.value}>
                 {/* Row Header */}
-                <td className="border-2 border-gray-300 bg-gray-50 p-3 text-sm font-medium text-gray-700">
+                <td className="border-2 border-grey-light bg-grey-light p-3 text-sm font-medium text-grey-dark">
                   {primValue.label}
                   {primValue.priceModifier !== undefined &&
                     primValue.priceModifier !== null &&
                     primValue.priceModifier !== 0 && (
-                      <div className="mt-1 text-xs font-normal text-gray-600">
+                      <div className="mt-1 text-xs font-normal text-grey-dark">
                         {primValue.priceModifier > 0 ? '+' : ''}€
                         {formatPriceStr(primValue.priceModifier)}
                       </div>
@@ -121,7 +121,7 @@ export function VariantMatrixSelector({
                     combination.stock !== undefined && combination.stock > 0 && combination.stock <= 5
 
                   return (
-                    <td key={secValue.value} className="border-2 border-gray-300 p-0">
+                    <td key={secValue.value} className="border-2 border-grey-light p-0">
                       <button
                         type="button"
                         onClick={() =>
@@ -136,8 +136,8 @@ export function VariantMatrixSelector({
                           'h-full w-full p-3 text-center transition-all',
                           selected
                             ? 'bg-teal text-white'
-                            : 'bg-white text-gray-700 hover:bg-gray-50',
-                          disabled && 'cursor-not-allowed bg-gray-100 text-gray-400',
+                            : 'bg-white text-grey-dark hover:bg-grey-light',
+                          disabled && 'cursor-not-allowed bg-grey-light text-grey-mid',
                         )}
                         aria-label={`Select ${primValue.label} and ${secValue.label}`}
                         aria-pressed={selected}
@@ -185,7 +185,7 @@ export function VariantMatrixSelector({
                             <div
                               className={cn(
                                 'mt-1 text-xs',
-                                selected ? 'text-teal-100' : 'text-gray-600',
+                                selected ? 'text-teal-100' : 'text-grey-dark',
                               )}
                             >
                               +€
@@ -247,7 +247,7 @@ export function VariantMatrixSelector({
 
       {/* Legend */}
       {showStock && (
-        <div className="flex flex-wrap items-center gap-4 text-xs text-gray-600">
+        <div className="flex flex-wrap items-center gap-4 text-xs text-grey-dark">
           <div className="flex items-center gap-1">
             <div className="h-3 w-3 rounded-full bg-green"></div>
             <span>In Stock</span>

@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-grey-light">
       {/* Optional: Add header/navigation */}
       {/* <Header /> */}
 
@@ -62,7 +62,7 @@ export default async function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-grey-light">
       <AuthTemplate defaultTab="login" />
     </div>
   )

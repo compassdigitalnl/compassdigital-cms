@@ -46,10 +46,10 @@ export default function FlowEditorPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-50">
+      <div className="flex items-center justify-center h-screen bg-grey-light">
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-800 rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-sm text-gray-500">Flow laden...</p>
+          <div className="w-8 h-8 border-2 border-grey-light border-t-navy rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-sm text-grey-mid">Flow laden...</p>
         </div>
       </div>
     )
@@ -57,12 +57,12 @@ export default function FlowEditorPage() {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-50">
+      <div className="flex items-center justify-center h-screen bg-grey-light">
         <div className="text-center">
-          <p className="text-sm text-red-500 mb-3">{error}</p>
+          <p className="text-sm text-coral mb-3">{error}</p>
           <button
             onClick={() => router.back()}
-            className="text-sm font-bold text-gray-600 hover:underline"
+            className="text-sm font-bold text-grey-dark hover:underline"
           >
             Terug
           </button>

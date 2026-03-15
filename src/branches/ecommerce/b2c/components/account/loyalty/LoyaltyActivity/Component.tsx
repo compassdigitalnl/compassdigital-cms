@@ -27,23 +27,23 @@ function getTransactionStyle(type: TransactionType, isPositive: boolean) {
 export function LoyaltyActivity({ transactions }: LoyaltyActivityProps) {
   if (transactions.length === 0) {
     return (
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden mb-4">
-        <div className="p-4 border-b border-gray-200 flex items-center gap-1.5">
+      <div className="bg-white border border-grey-light rounded-xl overflow-hidden mb-4">
+        <div className="p-4 border-b border-grey-light flex items-center gap-1.5">
           <List className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
-          <span className="font-extrabold text-sm text-gray-900">Recente activiteit</span>
+          <span className="font-extrabold text-sm text-navy">Recente activiteit</span>
         </div>
-        <div className="p-8 text-center text-sm text-gray-400">Nog geen activiteit</div>
+        <div className="p-8 text-center text-sm text-grey-mid">Nog geen activiteit</div>
       </div>
     )
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden mb-4">
-      <div className="px-5 py-3.5 border-b border-gray-200 flex items-center gap-1.5">
+    <div className="bg-white border border-grey-light rounded-xl overflow-hidden mb-4">
+      <div className="px-5 py-3.5 border-b border-grey-light flex items-center gap-1.5">
         <List className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
-        <span className="font-extrabold text-sm text-gray-900">Recente activiteit</span>
+        <span className="font-extrabold text-sm text-navy">Recente activiteit</span>
       </div>
-      <div className="divide-y divide-gray-100">
+      <div className="divide-y divide-grey-light">
         {transactions.map((tx) => {
           const isPositive = tx.points > 0
           const style = getTransactionStyle(tx.type, isPositive)
@@ -61,10 +61,10 @@ export function LoyaltyActivity({ transactions }: LoyaltyActivityProps) {
 
               {/* Description */}
               <div>
-                <div className="text-sm font-semibold text-gray-900 leading-snug">
+                <div className="text-sm font-semibold text-navy leading-snug">
                   {tx.description}
                 </div>
-                <div className="text-xs text-gray-400 mt-0.5">
+                <div className="text-xs text-grey-mid mt-0.5">
                   {new Date(tx.createdAt).toLocaleDateString('nl-NL', {
                     day: 'numeric',
                     month: 'short',

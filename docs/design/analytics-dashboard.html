@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analytics Dashboard — Design</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f4f4f8; color: #1a1a2e; }
+
+  /* ── Payload admin wrapper simulation ── */
+  .admin-shell { display: flex; min-height: 100vh; }
+  .sidebar { width: 260px; background: #0a0a1a; padding: 1.5rem 0; flex-shrink: 0; }
+  .sidebar-logo { padding: 0 1.25rem 1.5rem; font-size: 1rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+  .nav-group-label { padding: 1rem 1.25rem 0.4rem; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: #6b7280; font-weight: 600; }
+  .nav-link { display: block; padding: 0.5rem 1.25rem; font-size: 0.8125rem; color: #9ca3af; text-decoration: none; transition: all 0.15s; border-left: 3px solid transparent; }
+  .nav-link:hover { color: #fff; background: rgba(255,255,255,0.04); }
+  .nav-link.active { color: #fff; background: rgba(255,255,255,0.08); border-left-color: #3b82f6; }
+
+  .main-content { flex: 1; padding: 2rem 2.5rem; max-width: 1200px; }
+
+  /* ── Header ── */
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+  .page-title { font-size: 1.5rem; font-weight: 800; color: #1a1a2e; }
+  .page-subtitle { font-size: 0.8rem; color: #6b7280; margin-top: 0.25rem; }
+
+  /* ── Period selector ── */
+  .period-selector { display: flex; gap: 0.25rem; background: #e5e7eb; border-radius: 0.5rem; padding: 0.2rem; }
+  .period-btn { padding: 0.4rem 0.9rem; border-radius: 0.4rem; border: none; font-size: 0.75rem; font-weight: 600; cursor: pointer; background: transparent; color: #6b7280; transition: all 0.15s; }
+  .period-btn.active { background: #fff; color: #1a1a2e; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+  /* ── KPI Cards ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+  .kpi-card { background: #fff; border-radius: 0.75rem; padding: 1.25rem; border: 1px solid #e5e7eb; }
+  .kpi-label { font-size: 0.75rem; font-weight: 500; color: #6b7280; margin-bottom: 0.25rem; }
+  .kpi-value { font-size: 1.75rem; font-weight: 800; color: #1a1a2e; }
+  .kpi-change { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.75rem; font-weight: 600; margin-top: 0.5rem; }
+  .kpi-change.up { color: #059669; }
+  .kpi-change.down { color: #dc2626; }
+  .kpi-change-label { font-size: 0.7rem; color: #9ca3af; font-weight: 400; }
+
+  /* ── Charts ── */
+  .chart-card { background: #fff; border-radius: 0.75rem; padding: 1.5rem; border: 1px solid #e5e7eb; margin-bottom: 1.5rem; }
+  .chart-title { font-size: 0.9375rem; font-weight: 700; color: #1a1a2e; margin-bottom: 1rem; }
+  .chart-placeholder { height: 220px; background: linear-gradient(180deg, rgba(59,130,246,0.08) 0%, rgba(59,130,246,0.02) 100%); border-radius: 0.5rem; position: relative; overflow: hidden; }
+  .chart-line { position: absolute; bottom: 0; left: 0; right: 0; height: 100%; }
+  .chart-line svg { width: 100%; height: 100%; }
+
+  /* ── Two-column ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+
+  /* ── Table ── */
+  .table-card { background: #fff; border-radius: 0.75rem; border: 1px solid #e5e7eb; overflow: hidden; }
+  .table-card .chart-title { padding: 1.25rem 1.25rem 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.8125rem; }
+  thead th { padding: 0.625rem 1rem; text-align: left; font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.04em; color: #9ca3af; font-weight: 600; border-bottom: 1px solid #f3f4f6; }
+  tbody td { padding: 0.625rem 1rem; border-bottom: 1px solid #f9fafb; }
+  tbody tr:hover { background: #fafbfc; }
+  .rank { display: inline-flex; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; border-radius: 0.375rem; font-size: 0.6875rem; font-weight: 700; }
+  .rank-1 { background: #fef3c7; color: #92400e; }
+  .rank-2 { background: #f3f4f6; color: #4b5563; }
+  .rank-3 { background: #fde8d8; color: #9a3412; }
+  .rank-n { background: #f9fafb; color: #6b7280; }
+  .sku { font-size: 0.6875rem; color: #9ca3af; font-family: monospace; }
+  .td-right { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* ── Funnel ── */
+  .funnel-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+  .funnel-label { width: 7rem; flex-shrink: 0; text-align: right; font-size: 0.8125rem; font-weight: 500; color: #4b5563; }
+  .funnel-bar-wrap { flex: 1; }
+  .funnel-bar { height: 2.5rem; border-radius: 0.375rem; display: flex; align-items: center; padding-left: 0.75rem; transition: width 0.4s; }
+  .funnel-bar-count { font-size: 0.8125rem; font-weight: 700; color: #fff; }
+  .funnel-stats { width: 8rem; flex-shrink: 0; font-size: 0.75rem; }
+  .funnel-conv { font-weight: 600; color: #1a1a2e; }
+  .funnel-drop { color: #ef4444; font-size: 0.6875rem; }
+
+  /* ── Customer bar chart (simplified) ── */
+  .bar-chart { display: flex; align-items: flex-end; gap: 0.375rem; height: 180px; padding-top: 1rem; }
+  .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.125rem; justify-content: flex-end; height: 100%; }
+  .bar { width: 100%; border-radius: 0.25rem 0.25rem 0 0; min-height: 2px; }
+  .bar.new { background: #3b82f6; }
+  .bar.returning { background: #93c5fd; }
+  .bar-label { font-size: 0.5625rem; color: #9ca3af; writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); max-height: 3.5rem; overflow: hidden; }
+  .legend { display: flex; gap: 1rem; margin-top: 0.75rem; justify-content: center; }
+  .legend-item { display: flex; align-items: center; gap: 0.375rem; font-size: 0.6875rem; color: #6b7280; }
+  .legend-dot { width: 0.625rem; height: 0.625rem; border-radius: 0.125rem; }
+
+  @media (max-width: 900px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .two-col { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .main-content { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+<div class="admin-shell">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">Contyzr CMS</div>
+    <div class="nav-group-label">E-commerce</div>
+    <a class="nav-link" href="#">Producten</a>
+    <a class="nav-link" href="#">Bestellingen</a>
+    <a class="nav-link" href="#">Kortingscodes</a>
+    <div class="nav-group-label">E-mail Marketing</div>
+    <a class="nav-link" href="#">Abonnees</a>
+    <a class="nav-link" href="#">Segmenten</a>
+    <a class="nav-link" href="#">Flows</a>
+    <div class="nav-group-label">Rapportages</div>
+    <a class="nav-link active" href="#">Analytics</a>
+    <a class="nav-link" href="#">Klantinzichten</a>
+    <div class="nav-group-label">Instellingen</div>
+    <a class="nav-link" href="#">Gebruikers</a>
+    <a class="nav-link" href="#">Media</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Analytics Dashboard</div>
+        <div class="page-subtitle">Omzet, bestellingen, conversie en klantanalyse</div>
+      </div>
+      <div class="period-selector">
+        <button class="period-btn">7d</button>
+        <button class="period-btn active">30d</button>
+        <button class="period-btn">90d</button>
+        <button class="period-btn">12m</button>
+      </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Omzet</div>
+        <div class="kpi-value">€ 24.830</div>
+        <div class="kpi-change up">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 10l7-7 7 7"/></svg>
+          12,4%
+          <span class="kpi-change-label">vs vorige periode</span>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Bestellingen</div>
+        <div class="kpi-value">187</div>
+        <div class="kpi-change up">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 10l7-7 7 7"/></svg>
+          8,2%
+          <span class="kpi-change-label">vs vorige periode</span>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Gem. orderwaarde</div>
+        <div class="kpi-value">€ 132</div>
+        <div class="kpi-change up">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 10l7-7 7 7"/></svg>
+          3,8%
+          <span class="kpi-change-label">vs vorige periode</span>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Klanten</div>
+        <div class="kpi-value">143</div>
+        <div class="kpi-change down">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M19 14l-7 7-7-7"/></svg>
+          2,1%
+          <span class="kpi-change-label">vs vorige periode</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Revenue Chart -->
+    <div class="chart-card">
+      <div class="chart-title">Omzet per dag</div>
+      <div class="chart-placeholder">
+        <div class="chart-line">
+          <svg viewBox="0 0 800 220" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.02"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,180 L30,170 60,150 90,160 120,120 150,130 180,90 210,100 240,80 270,95 300,70 330,85 360,60 390,75 420,50 450,65 480,45 510,55 540,40 570,60 600,35 630,50 660,30 690,45 720,25 750,35 780,20 800,30 800,220 0,220Z" fill="url(#areaGrad)"/>
+            <path d="M0,180 L30,170 60,150 90,160 120,120 150,130 180,90 210,100 240,80 270,95 300,70 330,85 360,60 390,75 420,50 450,65 480,45 510,55 540,40 570,60 600,35 630,50 660,30 690,45 720,25 750,35 780,20 800,30" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two columns: Products + Customers -->
+    <div class="two-col">
+      <!-- Top Products -->
+      <div class="table-card">
+        <div class="chart-title">Top producten</div>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Product</th>
+              <th style="text-align:right">Aantal</th>
+              <th style="text-align:right">Omzet</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="rank rank-1">1</span></td>
+              <td>Nitriel handschoenen M <span class="sku">PLM-0142</span></td>
+              <td class="td-right">342</td>
+              <td class="td-right">€ 4.218</td>
+            </tr>
+            <tr>
+              <td><span class="rank rank-2">2</span></td>
+              <td>Mondmasker FFP2 50st <span class="sku">PLM-0089</span></td>
+              <td class="td-right">287</td>
+              <td class="td-right">€ 3.592</td>
+            </tr>
+            <tr>
+              <td><span class="rank rank-3">3</span></td>
+              <td>Desinfectie handgel 500ml <span class="sku">PLM-0201</span></td>
+              <td class="td-right">195</td>
+              <td class="td-right">€ 2.145</td>
+            </tr>
+            <tr>
+              <td><span class="rank rank-n">4</span></td>
+              <td>Wegwerp schort blauw <span class="sku">PLM-0156</span></td>
+              <td class="td-right">164</td>
+              <td class="td-right">€ 1.804</td>
+            </tr>
+            <tr>
+              <td><span class="rank rank-n">5</span></td>
+              <td>Veiligheidsbril transparant <span class="sku">PLM-0078</span></td>
+              <td class="td-right">128</td>
+              <td class="td-right">€ 1.536</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Customer Metrics -->
+      <div class="chart-card">
+        <div class="chart-title">Klanten per periode</div>
+        <div class="bar-chart">
+          <div class="bar-group"><div class="bar new" style="height:45%"></div><div class="bar returning" style="height:20%"></div></div>
+          <div class="bar-group"><div class="bar new" style="height:55%"></div><div class="bar returning" style="height:25%"></div></div>
+          <div class="bar-group"><div class="bar new" style="height:40%"></div><div class="bar returning" style="height:30%"></div></div>
+          <div class="bar-group"><div class="bar new" style="height:65%"></div><div class="bar returning" style="height:22%"></div></div>
+          <div class="bar-group"><div class="bar new" style="height:50%"></div><div class="bar returning" style="height:35%"></div></div>
+          <div class="bar-group"><div class="bar new" style="height:70%"></div><div class="bar returning" style="height:28%"></div></div>
+          <div class="bar-group"><div class="bar new" style="height:60%"></div><div class="bar returning" style="height:40%"></div></div>
+          <div class="bar-group"><div class="bar new" style="height:80%"></div><div class="bar returning" style="height:32%"></div></div>
+          <div class="bar-group"><div class="bar new" style="height:55%"></div><div class="bar returning" style="height:45%"></div></div>
+          <div class="bar-group"><div class="bar new" style="height:75%"></div><div class="bar returning" style="height:38%"></div></div>
+          <div class="bar-group"><div class="bar new" style="height:90%"></div><div class="bar returning" style="height:42%"></div></div>
+          <div class="bar-group"><div class="bar new" style="height:85%"></div><div class="bar returning" style="height:50%"></div></div>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div> Nieuw</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#93c5fd"></div> Terugkerend</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conversion Funnel -->
+    <div class="chart-card">
+      <div class="chart-title">Conversie funnel</div>
+      <div class="funnel-row">
+        <div class="funnel-label">Geregistreerd</div>
+        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:100%;background:#1a237e"><span class="funnel-bar-count">1.240</span></div></div>
+        <div class="funnel-stats"></div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-label">Nieuw (periode)</div>
+        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:72%;background:#283593"><span class="funnel-bar-count">892</span></div></div>
+        <div class="funnel-stats"><span class="funnel-conv">72,0%</span> <span class="funnel-drop">-28,0%</span></div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-label">Bestellingen</div>
+        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:38%;background:#00695c"><span class="funnel-bar-count">468</span></div></div>
+        <div class="funnel-stats"><span class="funnel-conv">52,5%</span> <span class="funnel-drop">-47,5%</span></div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-label">Afgerond</div>
+        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:32%;background:#00897b"><span class="funnel-bar-count">394</span></div></div>
+        <div class="funnel-stats"><span class="funnel-conv">84,2%</span> <span class="funnel-drop">-15,8%</span></div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-label">Unieke klanten</div>
+        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:24%;background:#26a69a"><span class="funnel-bar-count">298</span></div></div>
+        <div class="funnel-stats"><span class="funnel-conv">75,6%</span> <span class="funnel-drop">-24,4%</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -189,17 +189,17 @@ export const PricingGradientComponent: React.FC<PricingGradientBlock> = ({
               >
                 <span
                   className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5 ${
-                    feature.enabled === false ? 'bg-gray-200' : 'bg-teal/10'
+                    feature.enabled === false ? 'bg-grey-light' : 'bg-teal/10'
                   }`}
                 >
                   <Icon
                     name={feature.enabled === false ? 'X' : 'Check'}
                     size={12}
-                    className={feature.enabled === false ? 'text-gray-400' : 'text-teal'}
+                    className={feature.enabled === false ? 'text-grey-mid' : 'text-teal'}
                   />
                 </span>
                 <span
-                  className={feature.enabled === false ? 'text-gray-400 text-sm' : 'text-gray-700 text-sm'}
+                  className={feature.enabled === false ? 'text-grey-mid text-sm' : 'text-grey-dark text-sm'}
                 >
                   {feature.text}
                 </span>
@@ -271,8 +271,8 @@ export const PricingGradientComponent: React.FC<PricingGradientBlock> = ({
           </thead>
           <tbody>
             {allFeatures.map((featureText, fIdx) => (
-              <tr key={fIdx} className="border-b border-grey-light hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-3 text-sm text-gray-700">{featureText}</td>
+              <tr key={fIdx} className="border-b border-grey-light hover:bg-grey-light transition-colors">
+                <td className="px-6 py-3 text-sm text-grey-dark">{featureText}</td>
                 {plans.map((plan, pIdx) => {
                   const feature = plan.features?.find((f) => f.text === featureText)
                   const isIncluded = feature ? feature.enabled !== false : false
@@ -289,8 +289,8 @@ export const PricingGradientComponent: React.FC<PricingGradientBlock> = ({
                           <Icon name="Check" size={12} className="text-teal" />
                         </span>
                       ) : (
-                        <span className="inline-flex w-5 h-5 rounded-full bg-gray-100 items-center justify-center">
-                          <Icon name="X" size={12} className="text-gray-300" />
+                        <span className="inline-flex w-5 h-5 rounded-full bg-grey-light items-center justify-center">
+                          <Icon name="X" size={12} className="text-grey-mid" />
                         </span>
                       )}
                     </td>

@@ -59,15 +59,15 @@ export const ConfiguratorValidation: React.FC<ConfiguratorValidationProps> = ({
       <div
         className={`
           configurator-validation
-          p-4 rounded-lg border-l-4 border-yellow-500 bg-yellow-50
+          p-4 rounded-lg border-l-4 border-amber-500 bg-amber-50
           ${className}
         `}
       >
         <div className="flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" strokeWidth={2.5} />
+          <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" strokeWidth={2.5} />
           <div className="flex-1">
-            <p className="text-[14px] font-semibold text-yellow-900 mb-1">Verplichte stap</p>
-            <p className="text-[13px] text-yellow-800">
+            <p className="text-[14px] font-semibold text-amber-900 mb-1">Verplichte stap</p>
+            <p className="text-[13px] text-amber-800">
               Selecteer een optie om verder te gaan naar de volgende stap.
             </p>
           </div>

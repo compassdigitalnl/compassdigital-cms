@@ -771,3 +771,756 @@ export const toerismeTrainingContext = `Reisinformatie:
 - Bij vragen over accommodaties, verwijs naar /accommodaties`
 
 export const toerismeWelcomeMessage = 'Hoi! Welkom bij ons reisbureau. Waar droom je van naartoe te reizen? Ik help je graag!'
+
+// ═══════════════════════════════════════════════════════════════════════════
+// VASTGOED BRANCH
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const vastgoedConversationFlows: ConversationFlow[] = [
+  // 1. Woningen zoeken
+  {
+    label: 'Woningen zoeken',
+    icon: 'search',
+    type: 'submenu',
+    contextPrefix: 'Klant zoekt een woning:',
+    subOptions: [
+      { label: 'Alle woningen bekijken', type: 'direct', directMessage: 'Welke woningen zijn er op dit moment beschikbaar?' },
+      { label: 'Zoeken op locatie', type: 'input', inputLabel: 'In welke stad of wijk zoekt u?', inputPlaceholder: 'Bijv. Amsterdam Oud-West, Utrecht...' },
+      { label: 'Zoeken op prijs', type: 'input', inputLabel: 'Wat is uw budget?', inputPlaceholder: 'Bijv. 300.000 - 500.000' },
+      { label: 'Appartementen', type: 'direct', directMessage: 'Welke appartementen zijn er beschikbaar?' },
+      { label: 'Eengezinswoningen', type: 'direct', directMessage: 'Welke eengezinswoningen staan er te koop?' },
+      { label: 'Nieuwbouwprojecten', type: 'direct', directMessage: 'Zijn er nieuwbouwprojecten beschikbaar?' },
+    ],
+  },
+
+  // 2. Bezichtiging plannen
+  {
+    label: 'Bezichtiging plannen',
+    icon: 'receipt',
+    type: 'submenu',
+    contextPrefix: 'Klant wil een bezichtiging plannen:',
+    subOptions: [
+      { label: 'Bezichtiging aanvragen', type: 'input', inputLabel: 'Welk adres wilt u bezichtigen?', inputPlaceholder: 'Bijv. Wilhelminastraat 42, Amsterdam' },
+      { label: 'Online bezichtiging', type: 'direct', directMessage: 'Kan ik een online bezichtiging plannen?' },
+      { label: 'Groepsbezichtiging', type: 'direct', directMessage: 'Wanneer zijn de volgende open huizen?' },
+      { label: 'Bezichtiging tips', type: 'direct', directMessage: 'Waar moet ik op letten tijdens een bezichtiging?' },
+    ],
+  },
+
+  // 3. Waardebepaling
+  {
+    label: 'Waardebepaling',
+    icon: 'heart',
+    type: 'submenu',
+    contextPrefix: 'Klant heeft vragen over waardebepaling:',
+    subOptions: [
+      { label: 'Gratis waardebepaling', type: 'direct', directMessage: 'Ik wil graag een gratis waardebepaling van mijn woning' },
+      { label: 'Hoe werkt het?', type: 'direct', directMessage: 'Hoe werkt een waardebepaling?' },
+      { label: 'Taxatie vs waardebepaling', type: 'direct', directMessage: 'Wat is het verschil tussen een taxatie en een waardebepaling?' },
+      { label: 'Woningwaarde checken', type: 'input', inputLabel: 'Wat is uw adres?', inputPlaceholder: 'Bijv. Keizersgracht 100, Amsterdam' },
+    ],
+  },
+
+  // 4. Hypotheek & Financiering
+  {
+    label: 'Hypotheek & Financiering',
+    icon: 'receipt',
+    type: 'submenu',
+    contextPrefix: 'Klant heeft financiele vragen:',
+    subOptions: [
+      { label: 'Wat kan ik lenen?', type: 'direct', directMessage: 'Hoeveel hypotheek kan ik krijgen?' },
+      { label: 'Maandlasten berekenen', type: 'input', inputLabel: 'Wat is de koopprijs?', inputPlaceholder: 'Bijv. 450.000' },
+      { label: 'Kosten koper uitleg', type: 'direct', directMessage: 'Wat zijn kosten koper (k.k.) precies?' },
+      { label: 'Hypotheekadviseur', type: 'direct', directMessage: 'Kunnen jullie een hypotheekadviseur aanbevelen?' },
+    ],
+  },
+
+  // 5. Woning verkopen
+  {
+    label: 'Woning verkopen',
+    icon: 'package',
+    type: 'submenu',
+    contextPrefix: 'Klant wil een woning verkopen:',
+    subOptions: [
+      { label: 'Hoe verkoop ik mijn huis?', type: 'direct', directMessage: 'Ik wil mijn woning verkopen. Hoe werkt dat?' },
+      { label: 'Verkoopkosten', type: 'direct', directMessage: 'Wat kost het om mijn huis te verkopen? Wat is de courtage?' },
+      { label: 'Verkooptraject', type: 'direct', directMessage: 'Hoe lang duurt het verkoopproces gemiddeld?' },
+      { label: 'Styling & presentatie', type: 'direct', directMessage: 'Bieden jullie woningstyling aan voor de verkoop?' },
+    ],
+  },
+
+  // 6. Onze Makelaars
+  {
+    label: 'Onze Makelaars',
+    icon: 'star',
+    type: 'direct',
+    directMessage: 'Wie zijn jullie makelaars en wat zijn hun specialismen?',
+  },
+
+  // 7. Kantoor & Bereikbaarheid
+  {
+    label: 'Kantoor & Bereikbaarheid',
+    icon: 'truck',
+    type: 'submenu',
+    contextPrefix: 'Klant zoekt praktische informatie:',
+    subOptions: [
+      { label: 'Openingstijden', type: 'direct', directMessage: 'Wat zijn jullie openingstijden?' },
+      { label: 'Kantooradres', type: 'direct', directMessage: 'Waar is jullie kantoor gevestigd?' },
+      { label: 'Parkeren', type: 'direct', directMessage: 'Is er parkeergelegenheid bij het kantoor?' },
+      { label: 'Contact opnemen', type: 'direct', directMessage: 'Hoe kan ik contact opnemen met jullie kantoor?' },
+    ],
+  },
+
+  // 8. Overige vragen
+  {
+    label: 'Overige vragen',
+    icon: 'help',
+    type: 'input',
+    inputLabel: 'Stel uw vraag',
+    inputPlaceholder: 'Typ hier uw vraag...',
+    contextPrefix: 'Klant heeft een algemene vraag:',
+  },
+]
+
+export const vastgoedSystemPrompt = `Je bent de virtuele assistent van [KANTOORNAAM], een professioneel makelaarskantoor.
+
+Beantwoord vragen beleefd, professioneel en in het Nederlands. Gebruik "u" in plaats van "je" \u2014 dit past bij de vastgoed branche.
+
+Je helpt woningzoekers en verkopers met:
+- Woningen zoeken en informatie over het aanbod
+- Bezichtigingen plannen (fysiek of online)
+- Gratis waardebepalingen aanvragen
+- Informatie over het koop- en verkoopproces
+- Hypotheek en financieringsvragen
+- Informatie over onze makelaars en het kantoor
+
+Richtlijnen:
+- Wees professioneel en betrouwbaar \u2014 dit gaat over de grootste aankoop van iemands leven
+- Gebruik de kennisbank context om accurate informatie te geven over woningen en prijzen
+- Als iemand een bezichtiging wil plannen, verwijs naar /bezichtiging of het formulier op de woningpagina
+- Als iemand een waardebepaling wil, verwijs naar /waardebepaling
+- Noem altijd de mogelijkheid om persoonlijk contact op te nemen met een makelaar
+- Geef nooit juridisch of financieel advies \u2014 verwijs naar een hypotheekadviseur of notaris
+- Als je het antwoord niet weet, zeg het eerlijk en verwijs naar het kantoor`
+
+export const vastgoedTrainingContext = `Kantoorinformatie:
+- Wij zijn een NVM-gecertificeerd makelaarskantoor
+- Diensten: aan- en verkoopbegeleiding, taxaties, waardebepalingen, hypotheekadvies (via partner)
+- Gratis waardebepaling: binnen 24 uur reactie, vrijblijvend
+- Bezichtigingen: fysiek en online (videocall) mogelijk
+- Kosten koper (k.k.): circa 5-6% bovenop de koopprijs (overdrachtsbelasting, notaris, makelaar)
+- Courtage verkoop: bespreekbaar, gemiddeld 1-2% van de verkoopprijs
+- Bij vragen over specifieke woningen, verwijs naar /woningen
+- Voor bezichtigingen, verwijs naar /bezichtiging
+- Voor waardebepalingen, verwijs naar /waardebepaling`
+
+export const vastgoedWelcomeMessage = 'Goedendag! Welkom bij ons makelaarskantoor. Waarmee kan ik u helpen?'
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ONDERWIJS BRANCH
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const onderwijsConversationFlows: ConversationFlow[] = [
+  // 1. Cursussen zoeken
+  {
+    label: 'Cursussen zoeken',
+    icon: 'book-open',
+    type: 'submenu',
+    contextPrefix: 'Student zoekt een cursus:',
+    subOptions: [
+      { label: 'Alle cursussen bekijken', type: 'direct', directMessage: 'Welke cursussen bieden jullie aan?' },
+      { label: 'Zoeken op onderwerp', type: 'input', inputLabel: 'Waar ben je in ge\u00efnteresseerd?', inputPlaceholder: 'Bijv. Python, Marketing, Design...' },
+      { label: 'Cursussen per categorie', type: 'direct', directMessage: 'Welke categorie\u00ebn cursussen zijn er?' },
+      { label: 'Populairste cursussen', type: 'direct', directMessage: 'Wat zijn de meest populaire cursussen?' },
+      { label: 'Gratis cursussen', type: 'direct', directMessage: 'Zijn er gratis cursussen beschikbaar?' },
+      { label: 'Nieuwe cursussen', type: 'direct', directMessage: 'Welke cursussen zijn er nieuw toegevoegd?' },
+    ],
+  },
+
+  // 2. Inschrijven
+  {
+    label: 'Inschrijven',
+    icon: 'receipt',
+    type: 'submenu',
+    contextPrefix: 'Student wil zich inschrijven:',
+    subOptions: [
+      { label: 'Hoe schrijf ik me in?', type: 'direct', directMessage: 'Hoe kan ik me inschrijven voor een cursus?' },
+      { label: 'Betaalmethoden', type: 'direct', directMessage: 'Welke betaalmethoden accepteren jullie?' },
+      { label: 'Groepskorting', type: 'direct', directMessage: 'Is er korting voor groepen of bedrijven?' },
+      { label: 'Proefles', type: 'direct', directMessage: 'Kan ik eerst een proefles volgen?' },
+    ],
+  },
+
+  // 3. Betaling & Terugbetaling
+  {
+    label: 'Betaling & Terugbetaling',
+    icon: 'credit-card',
+    type: 'submenu',
+    contextPrefix: 'Student heeft een betaalvraag:',
+    subOptions: [
+      { label: 'Betaling mislukt', type: 'direct', directMessage: 'Mijn betaling is mislukt. Wat nu?' },
+      { label: 'Factuur opvragen', type: 'input', inputLabel: 'Voer je inschrijfnummer in', inputPlaceholder: 'Bijv. ENR-2026-12345' },
+      { label: 'Terugbetaling aanvragen', type: 'direct', directMessage: 'Hoe vraag ik een terugbetaling aan?' },
+      { label: '30 dagen garantie', type: 'direct', directMessage: 'Hoe werkt de 30 dagen niet-goed-geld-terug garantie?' },
+    ],
+  },
+
+  // 4. Mijn cursussen
+  {
+    label: 'Mijn cursussen',
+    icon: 'book-open',
+    type: 'submenu',
+    contextPrefix: 'Student heeft een vraag over zijn cursus:',
+    subOptions: [
+      { label: 'Voortgang bekijken', type: 'direct', directMessage: 'Hoe kan ik mijn voortgang inzien?' },
+      { label: 'Certificaat downloaden', type: 'direct', directMessage: 'Hoe download ik mijn certificaat?' },
+      { label: 'Technisch probleem', type: 'input', inputLabel: 'Beschrijf je probleem', inputPlaceholder: 'Bijv. video laadt niet, quiz werkt niet...' },
+      { label: 'Mobiele app', type: 'direct', directMessage: 'Is er een mobiele app om cursussen te volgen?' },
+    ],
+  },
+
+  // 5. Docenten
+  {
+    label: 'Docenten',
+    icon: 'star',
+    type: 'direct',
+    directMessage: 'Wie zijn jullie docenten en wat zijn hun specialismen?',
+  },
+
+  // 6. Voor Bedrijven
+  {
+    label: 'Voor Bedrijven',
+    icon: 'package',
+    type: 'submenu',
+    contextPrefix: 'Bedrijfsklant heeft een vraag:',
+    subOptions: [
+      { label: 'Bedrijfslicenties', type: 'direct', directMessage: 'Bieden jullie bedrijfslicenties aan?' },
+      { label: 'Maatwerkcursussen', type: 'direct', directMessage: 'Kunnen jullie een cursus op maat maken voor ons bedrijf?' },
+      { label: 'Teams trainen', type: 'direct', directMessage: 'Hoe kan ik mijn team laten trainen?' },
+      { label: 'Prijsinformatie', type: 'direct', directMessage: 'Wat kosten de bedrijfsoplossingen?' },
+    ],
+  },
+
+  // 7. Over Compass Academy
+  {
+    label: 'Over Compass Academy',
+    icon: 'info',
+    type: 'submenu',
+    contextPrefix: 'Bezoeker wil meer weten:',
+    subOptions: [
+      { label: 'Over ons', type: 'direct', directMessage: 'Wie is Compass Academy?' },
+      { label: 'Kwaliteitsgarantie', type: 'direct', directMessage: 'Hoe garanderen jullie de kwaliteit van cursussen?' },
+      { label: 'Contact', type: 'direct', directMessage: 'Hoe kan ik contact opnemen?' },
+      { label: 'Veelgestelde vragen', type: 'direct', directMessage: 'Wat zijn veelgestelde vragen over jullie platform?' },
+    ],
+  },
+
+  // 8. Overige vragen
+  {
+    label: 'Overige vragen',
+    icon: 'help',
+    type: 'input',
+    inputLabel: 'Stel je vraag',
+    inputPlaceholder: 'Typ hier je vraag...',
+    contextPrefix: 'Bezoeker heeft een algemene vraag:',
+  },
+]
+
+export const onderwijsSystemPrompt = `Je bent de virtuele assistent van [ACADEMIENAAM], een online leerplatform.
+
+Beantwoord vragen vriendelijk, enthousiast en in het Nederlands.
+Je helpt (aanstaande) studenten met:
+- Cursussen ontdekken die bij hun leerdoelen passen
+- Het inschrijfproces uitleggen
+- Informatie over prijzen, betaling en terugbetaling
+- Technische ondersteuning bij het volgen van cursussen
+- Informatie over docenten en kwalificaties
+- Bedrijfsoplossingen en groepslicenties
+
+Richtlijnen:
+- Wees enthousiast en motiverend \u2014 leren is leuk!
+- Gebruik de kennisbank om accurate informatie te geven over cursussen en prijzen
+- Als iemand zich wil inschrijven, verwijs naar de cursuspagina (/cursussen)
+- Noem altijd de 30 dagen niet-goed-geld-terug garantie
+- Bij technische problemen, verwijs naar de helpdesk of laat een contactformulier invullen
+- Als je het antwoord niet weet, zeg het eerlijk en verwijs naar het supportteam`
+
+export const onderwijsTrainingContext = `Platforminformatie:
+- Wij zijn een online leerplatform met cursussen in diverse categorie\u00ebn
+- Categorie\u00ebn: Development, Business, Design, Marketing, Data Science, Persoonlijke Ontwikkeling
+- Cursussen hebben niveaus: Beginner, Gevorderd, Expert
+- Betaalmethoden: iDEAL, creditcard, PayPal
+- 30 dagen niet-goed-geld-terug garantie
+- Levenslang toegang tot aangekochte cursussen
+- Certificaat bij voltooiing (waar van toepassing)
+- Cursussen zijn te volgen op desktop en mobiel
+- Bij vragen over specifieke cursussen, verwijs naar /cursussen
+- Voor inschrijving, verwijs naar de cursuspagina en klik op "Inschrijven"`
+
+export const onderwijsWelcomeMessage = 'Hoi! Welkom bij Compass Academy. Waarmee kan ik je helpen?'
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CONSTRUCTION BRANCH
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const constructionConversationFlows: ConversationFlow[] = [
+  // 1. Offerte aanvragen (submenu)
+  {
+    label: 'Offerte aanvragen',
+    icon: 'receipt',
+    type: 'submenu',
+    contextPrefix: 'Klant wil een offerte aanvragen:',
+    subOptions: [
+      { label: 'Nieuwbouw', type: 'direct', directMessage: 'Ik wil een offerte voor een nieuwbouwproject' },
+      { label: 'Renovatie', type: 'direct', directMessage: 'Ik wil een offerte voor een renovatieproject' },
+      { label: 'Aanbouw / Opbouw', type: 'direct', directMessage: 'Ik wil een offerte voor een aanbouw of opbouw' },
+      { label: 'Verduurzaming', type: 'direct', directMessage: 'Ik wil een offerte voor verduurzaming van mijn woning' },
+      { label: 'Utiliteitsbouw', type: 'direct', directMessage: 'Ik zoek informatie over utiliteitsbouwprojecten' },
+      { label: 'Herstelwerk', type: 'direct', directMessage: 'Ik heb herstelwerk nodig aan mijn pand' },
+    ],
+  },
+  // 2. Diensten & Expertise (submenu)
+  {
+    label: 'Diensten & Expertise',
+    icon: 'search',
+    type: 'submenu',
+    contextPrefix: 'Klant heeft een vraag over diensten:',
+    subOptions: [
+      { label: 'Alle diensten bekijken', type: 'direct', directMessage: 'Welke bouwdiensten bieden jullie aan?' },
+      { label: 'Specialisaties', type: 'direct', directMessage: 'Wat zijn jullie specialisaties?' },
+      { label: 'Werkgebied', type: 'direct', directMessage: 'In welk gebied zijn jullie werkzaam?' },
+      { label: 'Garanties & certificeringen', type: 'direct', directMessage: 'Welke garanties en certificeringen hebben jullie?' },
+    ],
+  },
+  // 3. Projecten & Referenties (direct)
+  {
+    label: 'Projecten & Referenties',
+    icon: 'star',
+    type: 'direct',
+    directMessage: 'Kan ik voorbeelden zien van eerder uitgevoerde projecten en referenties?',
+  },
+  // 4. Bouwproces & Planning (submenu)
+  {
+    label: 'Bouwproces & Planning',
+    icon: 'truck',
+    type: 'submenu',
+    contextPrefix: 'Klant heeft een vraag over het bouwproces:',
+    subOptions: [
+      { label: 'Hoe werkt het offerteproces?', type: 'direct', directMessage: 'Hoe verloopt het offerteproces bij jullie?' },
+      { label: 'Hoe lang duurt een project?', type: 'input', inputLabel: 'Welk type project?', inputPlaceholder: 'Bijv. aanbouw, renovatie badkamer...' },
+      { label: 'Vergunningen', type: 'direct', directMessage: 'Helpen jullie met bouwvergunningen?' },
+      { label: 'Duurzaam bouwen', type: 'direct', directMessage: 'Welke duurzame bouwmethoden gebruiken jullie?' },
+    ],
+  },
+  // 5. Lopend project (submenu)
+  {
+    label: 'Lopend project',
+    icon: 'wrench',
+    type: 'submenu',
+    contextPrefix: 'Klant heeft een vraag over een lopend project:',
+    subOptions: [
+      { label: 'Voortgang opvragen', type: 'input', inputLabel: 'Uw projectnummer', inputPlaceholder: 'Bijv. PRJ-12345' },
+      { label: 'Contact projectleider', type: 'direct', directMessage: 'Ik wil contact opnemen met mijn projectleider' },
+      { label: 'Garantie & nazorg', type: 'direct', directMessage: 'Ik heb een vraag over de garantie of nazorg van mijn project' },
+    ],
+  },
+  // 6. Contact & Locatie (submenu)
+  {
+    label: 'Contact & Locatie',
+    icon: 'info',
+    type: 'submenu',
+    contextPrefix: 'Klant zoekt contactinformatie:',
+    subOptions: [
+      { label: 'Contactgegevens', type: 'direct', directMessage: 'Wat zijn jullie contactgegevens?' },
+      { label: 'Openingstijden', type: 'direct', directMessage: 'Wat zijn jullie openingstijden?' },
+      { label: 'Locatie & routebeschrijving', type: 'direct', directMessage: 'Waar zijn jullie gevestigd?' },
+    ],
+  },
+  // 7. Overige vragen (input)
+  {
+    label: 'Overige vragen',
+    icon: 'help',
+    type: 'input',
+    inputLabel: 'Stel uw vraag',
+    inputPlaceholder: 'Typ hier uw vraag...',
+    contextPrefix: 'Klant heeft een algemene vraag:',
+  },
+]
+
+export const constructionSystemPrompt = `Je bent de virtuele assistent van [BEDRIJFSNAAM], een professioneel bouwbedrijf.
+
+Beantwoord vragen vriendelijk, professioneel en in het Nederlands.
+Je helpt klanten met:
+- Offerte aanvragen voor bouwprojecten
+- Informatie over diensten en specialisaties
+- Projecten en referenties bekijken
+- Het bouwproces en planning uitleggen
+- Vragen over lopende projecten
+- Contact en bereikbaarheid
+
+Richtlijnen:
+- Wees professioneel en betrouwbaar — dit is een bouwbedrijf
+- Gebruik de kennisbank context om accurate informatie te geven over diensten en projecten
+- Als iemand een offerte wil, verwijs naar de offertepagina (/offerte-aanvragen)
+- Noem altijd de mogelijkheid om telefonisch contact op te nemen
+- Als je het antwoord niet weet, zeg het eerlijk en verwijs naar het bedrijf
+- Vermeld certificeringen en garanties waar relevant`
+
+export const constructionTrainingContext = `Bedrijfsinformatie:
+- Wij zijn een professioneel bouwbedrijf gespecialiseerd in nieuwbouw, renovatie en verduurzaming
+- Diensten: Nieuwbouw, Renovatie, Aanbouw/Opbouw, Verduurzaming, Utiliteitsbouw, Herstelwerk
+- Offerte aanvragen kan via /offerte-aanvragen
+- Het offerteproces: aanvraag → intake gesprek → offerte → akkoord → planning → uitvoering
+- Wij helpen ook met bouwvergunningen
+- Bij vragen over specifieke diensten, verwijs naar /diensten
+- Voor projecten en referenties, verwijs naar /projecten`
+
+export const constructionWelcomeMessage = 'Goedendag! Welkom bij ons bouwbedrijf. Waarmee kan ik u helpen?'
+
+// ═══════════════════════════════════════════════════════════════════════════
+// EXPERIENCES BRANCH
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const experiencesConversationFlows: ConversationFlow[] = [
+  // 1. Ervaring boeken (submenu)
+  {
+    label: 'Ervaring boeken',
+    icon: 'receipt',
+    type: 'submenu',
+    contextPrefix: 'Klant wil een ervaring boeken:',
+    subOptions: [
+      { label: 'Teambuilding', type: 'direct', directMessage: 'Ik zoek een teambuilding ervaring' },
+      { label: 'Workshops', type: 'direct', directMessage: 'Welke workshops bieden jullie aan?' },
+      { label: 'Outdoor activiteiten', type: 'direct', directMessage: 'Welke outdoor activiteiten zijn er?' },
+      { label: 'Culinaire ervaringen', type: 'direct', directMessage: 'Welke culinaire ervaringen bieden jullie aan?' },
+      { label: 'Privé ervaring', type: 'input', inputLabel: 'Wat voor ervaring?', inputPlaceholder: 'Bijv. verjaardagsfeest, familiedag...' },
+    ],
+  },
+  // 2. Ervaringen & Prijzen (submenu)
+  {
+    label: 'Ervaringen & Prijzen',
+    icon: 'search',
+    type: 'submenu',
+    contextPrefix: 'Klant heeft een vraag over ervaringen:',
+    subOptions: [
+      { label: 'Alle ervaringen bekijken', type: 'direct', directMessage: 'Welke ervaringen bieden jullie aan?' },
+      { label: 'Prijzen', type: 'direct', directMessage: 'Wat kosten jullie ervaringen?' },
+      { label: 'Groepsgrootte', type: 'input', inputLabel: 'Hoeveel deelnemers?', inputPlaceholder: 'Bijv. 10 personen' },
+      { label: 'Wat is inbegrepen?', type: 'input', inputLabel: 'Welke ervaring?', inputPlaceholder: 'Bijv. kookworkshop, escape room...' },
+    ],
+  },
+  // 3. Reviews & Beoordelingen (direct)
+  {
+    label: 'Reviews & Beoordelingen',
+    icon: 'star',
+    type: 'direct',
+    directMessage: 'Wat zeggen andere deelnemers over jullie ervaringen?',
+  },
+  // 4. Praktische informatie (submenu)
+  {
+    label: 'Praktische informatie',
+    icon: 'truck',
+    type: 'submenu',
+    contextPrefix: 'Klant zoekt praktische informatie:',
+    subOptions: [
+      { label: 'Locatie & bereikbaarheid', type: 'direct', directMessage: 'Waar vinden de ervaringen plaats en hoe kom ik er?' },
+      { label: 'Wat moet ik meenemen?', type: 'input', inputLabel: 'Welke ervaring?', inputPlaceholder: 'Bijv. outdoor survival, kookworkshop...' },
+      { label: 'Parkeren', type: 'direct', directMessage: 'Is er parkeergelegenheid?' },
+      { label: 'Toegankelijkheid', type: 'direct', directMessage: 'Zijn de ervaringen toegankelijk voor mensen met een beperking?' },
+    ],
+  },
+  // 5. Boeking wijzigen of annuleren (submenu)
+  {
+    label: 'Boeking wijzigen of annuleren',
+    icon: 'wrench',
+    type: 'submenu',
+    contextPrefix: 'Klant wil een boeking wijzigen:',
+    subOptions: [
+      { label: 'Boeking wijzigen', type: 'input', inputLabel: 'Boekingsnummer', inputPlaceholder: 'Bijv. EXP-12345' },
+      { label: 'Boeking annuleren', type: 'input', inputLabel: 'Boekingsnummer', inputPlaceholder: 'Bijv. EXP-12345' },
+      { label: 'Annuleringsbeleid', type: 'direct', directMessage: 'Wat is jullie annuleringsbeleid?' },
+    ],
+  },
+  // 6. Cadeaubonnen (submenu)
+  {
+    label: 'Cadeaubonnen',
+    icon: 'heart',
+    type: 'submenu',
+    contextPrefix: 'Klant heeft een vraag over cadeaubonnen:',
+    subOptions: [
+      { label: 'Cadeaubon kopen', type: 'direct', directMessage: 'Ik wil een cadeaubon kopen voor een ervaring' },
+      { label: 'Cadeaubon inwisselen', type: 'input', inputLabel: 'Cadeauboncode', inputPlaceholder: 'Bijv. GIFT-XXXX' },
+    ],
+  },
+  // 7. Overige vragen (input)
+  {
+    label: 'Overige vragen',
+    icon: 'help',
+    type: 'input',
+    inputLabel: 'Stel je vraag',
+    inputPlaceholder: 'Typ hier je vraag...',
+    contextPrefix: 'Bezoeker heeft een algemene vraag:',
+  },
+]
+
+export const experiencesSystemPrompt = `Je bent de virtuele assistent van [BEDRIJFSNAAM], een aanbieder van unieke ervaringen en belevenissen.
+
+Beantwoord vragen enthousiast, vriendelijk en in het Nederlands.
+Je helpt bezoekers met:
+- Ervaringen ontdekken en boeken
+- Informatie over prijzen, groepsgroottes en wat er inbegrepen is
+- Praktische informatie (locatie, parkeren, wat meenemen)
+- Boeking wijzigen of annuleren
+- Cadeaubonnen kopen en inwisselen
+
+Richtlijnen:
+- Wees enthousiast en avontuurlijk — dit zijn belevenissen!
+- Gebruik de kennisbank context om accurate informatie te geven
+- Als iemand wil boeken, verwijs naar de boekingspagina of specifieke ervaring
+- Noem altijd de mogelijkheid om telefonisch contact op te nemen voor maatwerk
+- Als je het antwoord niet weet, zeg het eerlijk en verwijs naar het bedrijf
+- Benadruk de uniekheid en het plezier van de ervaringen`
+
+export const experiencesTrainingContext = `Bedrijfsinformatie:
+- Wij bieden unieke ervaringen en belevenissen aan voor groepen en particulieren
+- Categorieën: Teambuilding, Workshops, Outdoor activiteiten, Culinair, Privé ervaringen
+- Boeken kan online via de website
+- Groepsgroottes variëren per ervaring
+- Annuleringsbeleid: gratis annuleren tot 48 uur voor de ervaring
+- Cadeaubonnen zijn beschikbaar via de website
+- Bij vragen over specifieke ervaringen, verwijs naar /ervaringen`
+
+export const experiencesWelcomeMessage = 'Hoi! Welkom bij onze belevenissen. Welke ervaring zoek je?'
+
+// ═══════════════════════════════════════════════════════════════════════════
+// HOSPITALITY BRANCH
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const hospitalityConversationFlows: ConversationFlow[] = [
+  // 1. Afspraak maken (submenu)
+  {
+    label: 'Afspraak maken',
+    icon: 'receipt',
+    type: 'submenu',
+    contextPrefix: 'Klant wil een afspraak maken:',
+    subOptions: [
+      { label: 'Nieuwe afspraak', type: 'direct', directMessage: 'Ik wil een afspraak maken' },
+      { label: 'Spoedafspraak', type: 'direct', directMessage: 'Ik heb dringend een afspraak nodig' },
+      { label: 'Eerste consult', type: 'direct', directMessage: 'Ik wil mij aanmelden als nieuwe patiënt/cliënt' },
+      { label: 'Vervolgafspraak', type: 'direct', directMessage: 'Ik wil een vervolgafspraak maken' },
+    ],
+  },
+  // 2. Behandelingen & Diensten (submenu)
+  {
+    label: 'Behandelingen & Diensten',
+    icon: 'search',
+    type: 'submenu',
+    contextPrefix: 'Klant heeft een vraag over behandelingen:',
+    subOptions: [
+      { label: 'Alle behandelingen', type: 'direct', directMessage: 'Welke behandelingen bieden jullie aan?' },
+      { label: 'Tarieven & vergoeding', type: 'direct', directMessage: 'Wat zijn de tarieven en worden behandelingen vergoed?' },
+      { label: 'Duur van behandeling', type: 'input', inputLabel: 'Welke behandeling?', inputPlaceholder: 'Bijv. fysiotherapie, intake...' },
+      { label: 'Verwijzing nodig?', type: 'direct', directMessage: 'Heb ik een verwijzing nodig van mijn huisarts?' },
+    ],
+  },
+  // 3. Ons team (direct)
+  {
+    label: 'Ons team',
+    icon: 'star',
+    type: 'direct',
+    directMessage: 'Wie zijn jullie behandelaren en wat zijn hun specialisaties?',
+  },
+  // 4. Locatie & Openingstijden (submenu)
+  {
+    label: 'Locatie & Openingstijden',
+    icon: 'truck',
+    type: 'submenu',
+    contextPrefix: 'Klant zoekt praktische informatie:',
+    subOptions: [
+      { label: 'Openingstijden', type: 'direct', directMessage: 'Wat zijn jullie openingstijden?' },
+      { label: 'Adres & routebeschrijving', type: 'direct', directMessage: 'Waar is de praktijk gevestigd?' },
+      { label: 'Parkeren', type: 'direct', directMessage: 'Is er parkeergelegenheid bij de praktijk?' },
+      { label: 'Bereikbaarheid (OV)', type: 'direct', directMessage: 'Hoe bereik ik de praktijk met het openbaar vervoer?' },
+    ],
+  },
+  // 5. Afspraak wijzigen of annuleren (submenu)
+  {
+    label: 'Afspraak wijzigen of annuleren',
+    icon: 'wrench',
+    type: 'submenu',
+    contextPrefix: 'Klant wil een afspraak wijzigen:',
+    subOptions: [
+      { label: 'Afspraak verzetten', type: 'input', inputLabel: 'Uw referentienummer', inputPlaceholder: 'Bijv. AF-12345' },
+      { label: 'Afspraak annuleren', type: 'input', inputLabel: 'Uw referentienummer', inputPlaceholder: 'Bijv. AF-12345' },
+      { label: 'Annuleringsbeleid', type: 'direct', directMessage: 'Wat is het annuleringsbeleid?' },
+    ],
+  },
+  // 6. Verzekering & Vergoeding (submenu)
+  {
+    label: 'Verzekering & Vergoeding',
+    icon: 'info',
+    type: 'submenu',
+    contextPrefix: 'Klant heeft een vraag over verzekering:',
+    subOptions: [
+      { label: 'Welke verzekeringen?', type: 'direct', directMessage: 'Met welke zorgverzekeringen werken jullie samen?' },
+      { label: 'Vergoeding checken', type: 'input', inputLabel: 'Uw zorgverzekeraar', inputPlaceholder: 'Bijv. CZ, Menzis, VGZ...' },
+      { label: 'Eigen risico', type: 'direct', directMessage: 'Hoe zit het met het eigen risico?' },
+    ],
+  },
+  // 7. Overige vragen (input)
+  {
+    label: 'Overige vragen',
+    icon: 'help',
+    type: 'input',
+    inputLabel: 'Stel uw vraag',
+    inputPlaceholder: 'Typ hier uw vraag...',
+    contextPrefix: 'Patiënt/cliënt heeft een algemene vraag:',
+  },
+]
+
+export const hospitalitySystemPrompt = `Je bent de virtuele assistent van [PRAKTIJKNAAM], een professionele praktijk voor gezondheidszorg.
+
+Beantwoord vragen vriendelijk, professioneel en in het Nederlands.
+Je helpt patiënten en cliënten met:
+- Afspraken maken en informatie over behandelingen
+- Tarieven, vergoedingen en verzekeringsinformatie
+- Informatie over het team en specialisaties
+- Openingstijden, locatie en bereikbaarheid
+- Afspraken wijzigen of annuleren
+
+Richtlijnen:
+- Wees warm, professioneel en empathisch — dit is een zorgpraktijk
+- Gebruik de kennisbank context om accurate informatie te geven
+- Als iemand een afspraak wil maken, verwijs naar het afsprakenformulier
+- Noem altijd de mogelijkheid om telefonisch contact op te nemen
+- Geef GEEN medisch advies — verwijs altijd naar een behandelaar
+- Als je het antwoord niet weet, zeg het eerlijk en verwijs naar de praktijk
+- Vermeld vergoedingsmogelijkheden waar relevant`
+
+export const hospitalityTrainingContext = `Praktijkinformatie:
+- Wij zijn een professionele praktijk voor gezondheidszorg
+- Behandelingen: diverse behandelingen afhankelijk van specialisatie
+- Afspraken kunnen online geboekt worden
+- Eerste bezoek: patiënten worden gevraagd 10 minuten eerder te komen
+- Annuleringsbeleid: gratis annuleren tot 24 uur voor de afspraak
+- Veel behandelingen worden (deels) vergoed door de zorgverzekeraar
+- Een verwijzing van de huisarts kan nodig zijn, afhankelijk van de behandeling
+- Bij vragen over specifieke behandelingen, verwijs naar /behandelingen`
+
+export const hospitalityWelcomeMessage = 'Welkom bij onze praktijk. Hoe kunnen wij u helpen?'
+
+// ═══════════════════════════════════════════════════════════════════════════
+// PROFESSIONAL-SERVICES BRANCH
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const professionalServicesConversationFlows: ConversationFlow[] = [
+  // 1. Adviesgesprek aanvragen (submenu)
+  {
+    label: 'Adviesgesprek aanvragen',
+    icon: 'receipt',
+    type: 'submenu',
+    contextPrefix: 'Klant wil een adviesgesprek aanvragen:',
+    subOptions: [
+      { label: 'Accountancy', type: 'direct', directMessage: 'Ik zoek advies op het gebied van accountancy' },
+      { label: 'Juridisch advies', type: 'direct', directMessage: 'Ik heb juridisch advies nodig' },
+      { label: 'Marketing', type: 'direct', directMessage: 'Ik zoek ondersteuning voor marketing' },
+      { label: 'IT & Software', type: 'direct', directMessage: 'Ik zoek IT of software advies' },
+      { label: 'HR & Personeel', type: 'direct', directMessage: 'Ik zoek HR en personeelsadvies' },
+      { label: 'Consultancy', type: 'direct', directMessage: 'Ik zoek zakelijk advies en consultancy' },
+    ],
+  },
+  // 2. Diensten & Expertise (submenu)
+  {
+    label: 'Diensten & Expertise',
+    icon: 'search',
+    type: 'submenu',
+    contextPrefix: 'Klant heeft een vraag over diensten:',
+    subOptions: [
+      { label: 'Alle diensten bekijken', type: 'direct', directMessage: 'Welke zakelijke diensten bieden jullie aan?' },
+      { label: 'Specialisaties', type: 'direct', directMessage: 'Wat zijn jullie specialisaties?' },
+      { label: 'Tarieven', type: 'direct', directMessage: 'Wat zijn jullie tarieven?' },
+      { label: 'Werkwijze', type: 'direct', directMessage: 'Hoe verloopt een samenwerking met jullie?' },
+    ],
+  },
+  // 3. Cases & Referenties (direct)
+  {
+    label: 'Cases & Referenties',
+    icon: 'star',
+    type: 'direct',
+    directMessage: 'Kan ik voorbeelden zien van eerdere opdrachten en referenties?',
+  },
+  // 4. Over ons (submenu)
+  {
+    label: 'Over ons',
+    icon: 'info',
+    type: 'submenu',
+    contextPrefix: 'Klant wil meer weten over het bedrijf:',
+    subOptions: [
+      { label: 'Ons team', type: 'direct', directMessage: 'Wie zijn jullie adviseurs en wat is hun expertise?' },
+      { label: 'Certificeringen', type: 'direct', directMessage: 'Welke certificeringen en keurmerken hebben jullie?' },
+      { label: 'Werkgebied', type: 'direct', directMessage: 'In welk gebied zijn jullie werkzaam?' },
+    ],
+  },
+  // 5. Lopende opdracht (submenu)
+  {
+    label: 'Lopende opdracht',
+    icon: 'wrench',
+    type: 'submenu',
+    contextPrefix: 'Klant heeft een vraag over een lopende opdracht:',
+    subOptions: [
+      { label: 'Voortgang opvragen', type: 'input', inputLabel: 'Uw opdrachtnummer', inputPlaceholder: 'Bijv. OPD-12345' },
+      { label: 'Contact met adviseur', type: 'direct', directMessage: 'Ik wil contact opnemen met mijn vaste adviseur' },
+      { label: 'Factuur of betaling', type: 'direct', directMessage: 'Ik heb een vraag over een factuur of betaling' },
+    ],
+  },
+  // 6. Contact & Bereikbaarheid (submenu)
+  {
+    label: 'Contact & Bereikbaarheid',
+    icon: 'truck',
+    type: 'submenu',
+    contextPrefix: 'Klant zoekt contactinformatie:',
+    subOptions: [
+      { label: 'Contactgegevens', type: 'direct', directMessage: 'Wat zijn jullie contactgegevens?' },
+      { label: 'Openingstijden', type: 'direct', directMessage: 'Wat zijn jullie openingstijden?' },
+      { label: 'Locatie', type: 'direct', directMessage: 'Waar is jullie kantoor gevestigd?' },
+    ],
+  },
+  // 7. Overige vragen (input)
+  {
+    label: 'Overige vragen',
+    icon: 'help',
+    type: 'input',
+    inputLabel: 'Stel uw vraag',
+    inputPlaceholder: 'Typ hier uw vraag...',
+    contextPrefix: 'Klant heeft een algemene vraag:',
+  },
+]
+
+export const professionalServicesSystemPrompt = `Je bent de virtuele assistent van [BEDRIJFSNAAM], een professioneel zakelijk dienstverlener.
+
+Beantwoord vragen vriendelijk, professioneel en in het Nederlands.
+Je helpt (potentiële) opdrachtgevers met:
+- Adviesgesprekken aanvragen voor diverse diensten
+- Informatie over diensten, specialisaties en tarieven
+- Cases en referenties bekijken
+- Vragen over lopende opdrachten
+- Contact en bereikbaarheid
+
+Richtlijnen:
+- Wees professioneel en deskundig — dit is een zakelijke dienstverlener
+- Gebruik de kennisbank context om accurate informatie te geven
+- Als iemand een adviesgesprek wil, verwijs naar /adviesgesprek-aanvragen
+- Noem altijd de mogelijkheid voor een vrijblijvend kennismakingsgesprek
+- Als je het antwoord niet weet, zeg het eerlijk en verwijs naar het bedrijf
+- Benadruk expertise en ervaring waar relevant`
+
+export const professionalServicesTrainingContext = `Bedrijfsinformatie:
+- Wij zijn een professioneel zakelijk dienstverlener
+- Diensten: Accountancy, Juridisch advies, Marketing, IT & Software, HR & Personeel, Consultancy
+- Adviesgesprek aanvragen kan via /adviesgesprek-aanvragen
+- Eerste kennismaking is altijd vrijblijvend
+- Werkwijze: intake → advies → voorstel → akkoord → uitvoering → evaluatie
+- Bij vragen over specifieke diensten, verwijs naar /dienstverlening
+- Voor cases en referenties, verwijs naar /cases`
+
+export const professionalServicesWelcomeMessage = 'Goedendag! Welkom bij ons kantoor. Waarmee kan ik u van dienst zijn?'

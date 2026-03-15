@@ -90,7 +90,7 @@ export default function RecentActivity() {
       case 'success':
         return <Badge variant="default" className="bg-green-100 text-green-800">Success</Badge>
       case 'warning':
-        return <Badge variant="default" className="bg-yellow-100 text-yellow-800">Warning</Badge>
+        return <Badge variant="default" className="bg-amber-50 text-amber-900">Warning</Badge>
       case 'error':
         return <Badge variant="default" className="bg-red-100 text-red-800">Error</Badge>
       default:
@@ -109,10 +109,10 @@ export default function RecentActivity() {
           <div className="space-y-4">
             {[...Array(5)].map((_, i) => (
               <div key={i} className="flex items-start space-x-4">
-                <div className="h-8 w-8 bg-gray-200 rounded-full animate-pulse" />
+                <div className="h-8 w-8 bg-grey-light rounded-full animate-pulse" />
                 <div className="flex-1 space-y-2">
-                  <div className="h-4 w-3/4 bg-gray-200 rounded animate-pulse" />
-                  <div className="h-3 w-1/2 bg-gray-200 rounded animate-pulse" />
+                  <div className="h-4 w-3/4 bg-grey-light rounded animate-pulse" />
+                  <div className="h-3 w-1/2 bg-grey-light rounded animate-pulse" />
                 </div>
               </div>
             ))}
@@ -130,10 +130,10 @@ export default function RecentActivity() {
           <CardDescription>Latest platform events and updates</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-8 text-gray-500">
-            <Activity className="mx-auto h-12 w-12 mb-2 text-gray-400" />
+          <div className="text-center py-8 text-grey-mid">
+            <Activity className="mx-auto h-12 w-12 mb-2 text-grey-mid" />
             <p>No recent activity</p>
-            <p className="text-sm text-gray-400 mt-1">
+            <p className="text-sm text-grey-mid mt-1">
               Create your first client to see activity here
             </p>
           </div>
@@ -152,7 +152,7 @@ export default function RecentActivity() {
         <div className="space-y-6">
           {activities.map((activity) => (
             <div key={activity.id} className="flex items-start space-x-4">
-              <div className="rounded-full bg-gray-100 p-2">{getActivityIcon(activity.type, activity.status)}</div>
+              <div className="rounded-full bg-grey-light p-2">{getActivityIcon(activity.type, activity.status)}</div>
               <div className="flex-1 space-y-1">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium leading-none">{activity.title}</p>

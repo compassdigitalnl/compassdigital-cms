@@ -15,13 +15,13 @@ export function TrackingBanner({ trackingUrl, trackingCode }: TrackingBannerProp
           <Truck className="w-5 h-5 lg:w-6 lg:h-6 text-teal" />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-sm lg:text-base font-bold mb-0.5 lg:mb-1 text-gray-900">
+          <div className="text-sm lg:text-base font-bold mb-0.5 lg:mb-1 text-navy">
             Track & trace je bestelling
           </div>
           {trackingCode && (
-            <div className="text-xs lg:text-sm text-gray-500">
+            <div className="text-xs lg:text-sm text-grey-mid">
               <span className="hidden lg:inline">Trackingnummer: </span>
-              <span className="font-mono text-gray-900">{trackingCode}</span>
+              <span className="font-mono text-navy">{trackingCode}</span>
             </div>
           )}
         </div>

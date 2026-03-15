@@ -64,13 +64,13 @@ export const BundleItemRow: React.FC<BundleItemRowProps> = ({
         bundle-item-row
         flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4
         p-3 sm:p-4
-        border-2 border-gray-200 rounded-lg bg-white
-        hover:border-gray-300 transition-colors
+        border-2 border-grey-light rounded-lg bg-white
+        hover:border-grey-light transition-colors
         ${className}
       `}
     >
       {/* Product Image */}
-      <div className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 relative rounded-md overflow-hidden bg-gray-100">
+      <div className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 relative rounded-md overflow-hidden bg-grey-light">
         {productImage && productImage.url ? (
           <Image
             src={productImage.url}
@@ -81,7 +81,7 @@ export const BundleItemRow: React.FC<BundleItemRowProps> = ({
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <Package className="w-8 h-8 text-gray-400" strokeWidth={1.5} />
+            <Package className="w-8 h-8 text-grey-mid" strokeWidth={1.5} />
           </div>
         )}
       </div>
@@ -89,7 +89,7 @@ export const BundleItemRow: React.FC<BundleItemRowProps> = ({
       {/* Product Info */}
       <div className="flex-1 min-w-0">
         <div className="flex items-start gap-2 mb-1">
-          <h4 className="text-[15px] font-bold text-gray-900 line-clamp-1 flex-1">
+          <h4 className="text-[15px] font-bold text-navy line-clamp-1 flex-1">
             {product?.title || 'Product'}
           </h4>
           {item.required && (
@@ -99,7 +99,7 @@ export const BundleItemRow: React.FC<BundleItemRowProps> = ({
           )}
         </div>
         {productPrice > 0 && (
-          <p className="text-[13px] text-gray-600">
+          <p className="text-[13px] text-grey-dark">
             €{formatPriceStr(productPrice)} per stuk
           </p>
         )}
@@ -120,7 +120,7 @@ export const BundleItemRow: React.FC<BundleItemRowProps> = ({
 
         {/* Quantity Display */}
         <div className="w-12 text-center">
-          <span className="text-[16px] font-bold text-gray-900">{quantity}</span>
+          <span className="text-[16px] font-bold text-navy">{quantity}</span>
         </div>
 
         {/* Increment Button */}
@@ -137,7 +137,7 @@ export const BundleItemRow: React.FC<BundleItemRowProps> = ({
       {/* Total Price */}
       {productPrice > 0 && (
         <div className="text-right min-w-[80px]">
-          <p className="text-[16px] font-mono font-bold text-gray-900">
+          <p className="text-[16px] font-mono font-bold text-navy">
             €{formatPriceStr(totalPrice)}
           </p>
         </div>

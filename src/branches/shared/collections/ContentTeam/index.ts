@@ -163,7 +163,58 @@ export const ContentTeam: CollectionConfig = {
           ],
         },
 
-        // ── TAB 4: Contact ──
+        // ── TAB 4: Onderwijs ──
+        {
+          label: 'Onderwijs',
+          fields: [
+            {
+              name: 'courseCount',
+              type: 'number',
+              label: 'Aantal cursussen',
+              admin: {
+                condition: (data) => data?.branch === 'onderwijs',
+              },
+            },
+            {
+              name: 'totalStudents',
+              type: 'number',
+              label: 'Totaal studenten',
+              admin: {
+                condition: (data) => data?.branch === 'onderwijs',
+              },
+            },
+            {
+              name: 'avgRating',
+              type: 'number',
+              label: 'Gemiddelde beoordeling',
+              min: 0,
+              max: 5,
+              admin: {
+                step: 0.1,
+                condition: (data) => data?.branch === 'onderwijs',
+                description: 'Gemiddelde score van 0 tot 5',
+              },
+            },
+            {
+              name: 'certifications',
+              type: 'array',
+              label: 'Certificeringen',
+              admin: {
+                condition: (data) => data?.branch === 'onderwijs',
+              },
+              fields: [
+                {
+                  name: 'text',
+                  type: 'text',
+                  required: true,
+                  label: 'Certificering',
+                },
+              ],
+            },
+          ],
+        },
+
+        // ── TAB 5: Contact ──
         {
           label: 'Contact',
           fields: [

@@ -7,7 +7,7 @@ import type { GiftCardBalanceProps } from './types'
 export function GiftCardBalance({ balance }: GiftCardBalanceProps) {
   const { formatPriceStr } = usePriceMode()
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-6 lg:p-7 mb-4">
+    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-navy to-navy p-6 lg:p-7 mb-4">
       {/* Decorative emoji watermark */}
       <span
         className="pointer-events-none select-none absolute right-6 -top-2 text-[80px] opacity-[0.06]"

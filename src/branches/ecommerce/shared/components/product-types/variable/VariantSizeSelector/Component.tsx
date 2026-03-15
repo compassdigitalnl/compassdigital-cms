@@ -29,7 +29,7 @@ export function VariantSizeSelector({
     <div className={cn('space-y-3', className)}>
       {/* Option Label & Size Guide */}
       <div className="flex items-center justify-between">
-        <label className="text-sm font-medium text-gray-900">
+        <label className="text-sm font-medium text-navy">
           {option.optionName}
           {option.required && <span className="ml-1 text-coral">*</span>}
         </label>
@@ -77,9 +77,9 @@ export function VariantSizeSelector({
                 'group relative flex flex-col items-center justify-center gap-1 rounded-lg border-2 px-4 py-3 text-center transition-all',
                 isSelected
                   ? 'border-teal bg-teal-50 text-navy'
-                  : 'border-gray-300 bg-white text-gray-900 hover:border-gray-400',
+                  : 'border-grey-light bg-white text-navy hover:border-grey-light',
                 isDisabled
-                  ? 'cursor-not-allowed border-gray-200 bg-gray-50 text-gray-400 opacity-60'
+                  ? 'cursor-not-allowed border-grey-light bg-grey-light text-grey-mid opacity-60'
                   : 'cursor-pointer',
                 !isDisabled && !isSelected && 'hover:shadow-md',
               )}
@@ -91,7 +91,7 @@ export function VariantSizeSelector({
 
               {/* Stock Badge */}
               {hasStock && isLowStock && (
-                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-[10px] font-bold text-white">
+                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-[10px] font-bold text-white">
                   {value.stock}
                 </span>
               )}
@@ -106,7 +106,7 @@ export function VariantSizeSelector({
                 value.priceModifier !== undefined &&
                 value.priceModifier !== null &&
                 value.priceModifier !== 0 && (
-                  <span className="text-[10px] text-gray-500">
+                  <span className="text-[10px] text-grey-mid">
                     {value.priceModifier > 0 ? '+' : ''}€{formatPriceStr(value.priceModifier)}
                   </span>
                 )}
@@ -129,24 +129,24 @@ export function VariantSizeSelector({
       </div>
 
       {/* Stock Status Legend */}
-      <div className="flex items-center gap-4 text-xs text-gray-500">
+      <div className="flex items-center gap-4 text-xs text-grey-mid">
         <div className="flex items-center gap-1">
           <div className="h-3 w-3 rounded-full bg-green" />
           <span>In Stock</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="h-3 w-3 rounded-full bg-orange-500" />
+          <div className="h-3 w-3 rounded-full bg-amber-500" />
           <span>Low Stock</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="h-3 w-3 rounded-full bg-gray-300" />
+          <div className="h-3 w-3 rounded-full bg-grey-light" />
           <span>Out of Stock</span>
         </div>
       </div>
 
       {/* Required Field Helper Text */}
       {option.required && !selectedValue && (
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-grey-mid">
           Please select a {option.optionName.toLowerCase()}
         </p>
       )}
@@ -162,11 +162,11 @@ export function VariantSizeSelector({
             onClick={e => e.stopPropagation()}
           >
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900">Size Guide</h3>
+              <h3 className="text-lg font-semibold text-navy">Size Guide</h3>
               <button
                 type="button"
                 onClick={() => setShowSizeGuideModal(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-grey-mid hover:text-grey-dark"
               >
                 <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
@@ -179,7 +179,7 @@ export function VariantSizeSelector({
               </button>
             </div>
             <div className="prose prose-sm max-w-none">
-              <p className="text-gray-600">
+              <p className="text-grey-dark">
                 Size guide information would be displayed here. This can be customized per product
                 or product category.
               </p>

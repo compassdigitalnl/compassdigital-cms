@@ -24,8 +24,8 @@ export default function AddressesTemplate({
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 lg:gap-4">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">Adressen</h1>
-          <p className="text-sm lg:text-base text-gray-500">
+          <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-navy">Adressen</h1>
+          <p className="text-sm lg:text-base text-grey-mid">
             {addresses.length} {addresses.length === 1 ? 'adres' : 'adressen'} opgeslagen
           </p>
         </div>

@@ -159,7 +159,7 @@ export default function KennisbankPage() {
   }, [posts])
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div className="min-h-screen bg-grey-light dark:bg-navy">
       {/* Hero Section */}
       <KnowledgeBaseHero
         totalArticles={stats.totalArticles}
@@ -188,7 +188,7 @@ export default function KennisbankPage() {
 
         {/* Results Count */}
         {!isLoading && (
-          <div className="mb-6 text-sm text-gray-600 dark:text-gray-400">
+          <div className="mb-6 text-sm text-grey-dark dark:text-grey-mid">
             {filteredPosts.length === posts.length
               ? `Alle ${posts.length} artikelen`
               : `${filteredPosts.length} van ${posts.length} artikelen`}

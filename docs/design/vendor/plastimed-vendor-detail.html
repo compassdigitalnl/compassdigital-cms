@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hartmann — Leverancier — Plastimed.nl</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1240px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;}.logo{display:flex;align-items:center;text-decoration:none;}.logo img{height:36px;}.search-wrap{width:100%;max-width:600px;justify-self:center;position:relative;}.search-field{width:100%;height:44px;padding:0 16px 0 48px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--navy);background:var(--grey-light);outline:none;}.search-field::placeholder{color:var(--grey-mid);}.search-icon-left{position:absolute;left:16px;top:50%;transform:translateY(-50%);}.search-icon-left i{width:18px;height:18px;color:var(--grey-mid);}.header-actions{display:flex;align-items:center;gap:6px;}.h-btn{height:42px;border-radius:10px;border:1.5px solid transparent;background:var(--grey-light);color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);font-family:'DM Sans',sans-serif;}.h-btn i{width:19px;height:19px;}.h-btn:hover{background:var(--teal-glow);color:var(--teal);}.h-btn-icon{width:42px;}.h-btn-cart{width:auto;padding:0 16px 0 12px;gap:8px;font-weight:700;font-size:13.5px;background:var(--navy);color:white;border-color:var(--navy);}.h-btn-cart i{color:white;}.h-btn-cart:hover{background:var(--teal);border-color:var(--teal);}.cart-count{background:var(--coral);color:white;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:100px;display:flex;align-items:center;justify-content:center;padding:0 5px;}
+  .breadcrumb-bar{padding:16px 0;}.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;list-style:none;}.breadcrumb a{color:var(--grey-mid);text-decoration:none;}.breadcrumb .sep i{width:14px;height:14px;color:var(--grey);}.breadcrumb .current{color:var(--navy);font-weight:600;}
+
+  /* Vendor hero */
+  .vd-hero{position:relative;margin-bottom:28px;}
+  .vd-banner{height:200px;background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:20px;position:relative;overflow:hidden;}
+  .vd-banner::before{content:'';position:absolute;top:-40px;right:80px;width:300px;height:300px;background:radial-gradient(circle,rgba(0,137,123,0.08),transparent 70%);border-radius:50%;}
+  .vd-banner-badge{position:absolute;top:16px;right:16px;display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);padding:6px 14px;border-radius:100px;font-size:12px;font-weight:700;color:white;}
+  .vd-banner-badge i{width:14px;height:14px;color:var(--amber);}
+  .vd-info{display:flex;gap:20px;align-items:flex-end;padding:0 24px;margin-top:-48px;position:relative;z-index:2;}
+  .vd-logo{width:96px;height:96px;background:white;border-radius:20px;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--navy);box-shadow:0 8px 24px rgba(0,0,0,0.1);border:4px solid white;flex-shrink:0;}
+  .vd-info-text{padding-bottom:4px;}
+  .vd-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:800;color:var(--navy);}
+  .vd-tagline{font-size:14px;color:var(--grey-mid);}
+  .vd-actions{margin-left:auto;display:flex;gap:8px;padding-bottom:4px;}
+  .vd-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all var(--transition);text-decoration:none;border:none;}
+  .vd-btn.primary{background:var(--teal);color:white;}.vd-btn.primary:hover{background:var(--navy);}
+  .vd-btn.outline{background:white;color:var(--navy);border:1.5px solid var(--grey);}.vd-btn.outline:hover{border-color:var(--teal);color:var(--teal);}
+  .vd-btn i{width:15px;height:15px;}
+
+  /* Stats bar */
+  .vd-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:28px;}
+  .vds{background:white;border:1px solid var(--grey);border-radius:14px;padding:16px;text-align:center;}
+  .vds-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);}
+  .vds-label{font-size:12px;color:var(--grey-mid);margin-top:2px;}
+
+  /* Tabs */
+  .vd-tabs{display:flex;gap:0;border-bottom:2px solid var(--grey);margin-bottom:24px;}
+  .vd-tab{padding:12px 20px;font-size:14px;font-weight:600;color:var(--grey-mid);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .12s;display:flex;align-items:center;gap:6px;}
+  .vd-tab:hover{color:var(--teal);}
+  .vd-tab.active{color:var(--teal);border-bottom-color:var(--teal);}
+  .vd-tab i{width:16px;height:16px;}
+  .vd-tab .tab-count{background:var(--grey-light);padding:2px 7px;border-radius:100px;font-size:11px;font-weight:700;color:var(--grey-mid);}
+  .vd-tab.active .tab-count{background:var(--teal-glow);color:var(--teal);}
+
+  /* Layout */
+  .vd-layout{display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start;padding-bottom:48px;}
+  .section{margin-bottom:28px;}
+  .section-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;}.section-title i{width:18px;height:18px;color:var(--teal);}
+  .card{background:white;border:1px solid var(--grey);border-radius:16px;padding:24px;margin-bottom:16px;}
+
+  /* About */
+  .about-text{font-size:15px;color:var(--grey-dark);line-height:1.7;}
+  .about-text p{margin-bottom:10px;}
+
+  /* Categories grid */
+  .vd-cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .vd-cat{display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 10px;background:white;border:1.5px solid var(--grey);border-radius:12px;text-decoration:none;color:inherit;transition:all .2s;text-align:center;}
+  .vd-cat:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.04);}
+  .vd-cat-icon{font-size:24px;}.vd-cat-name{font-size:12px;font-weight:700;}.vd-cat-count{font-size:11px;color:var(--grey-mid);}
+
+  /* Products */
+  .vd-products{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .pc{background:white;border:1px solid var(--grey);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;transition:all .25s;}
+  .pc:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.05);border-color:transparent;}
+  .pc-img{height:120px;background:var(--grey-light);display:flex;align-items:center;justify-content:center;font-size:36px;position:relative;}
+  .pc-badge{position:absolute;top:8px;left:8px;padding:3px 8px;border-radius:5px;font-size:10px;font-weight:700;color:white;background:var(--amber);}
+  .pc-body{padding:12px;}
+  .pc-brand{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--teal);}
+  .pc-name{font-size:13px;font-weight:700;line-height:1.25;margin:2px 0 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .pc-bottom{display:flex;align-items:center;justify-content:space-between;}
+  .pc-price{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;}
+  .pc-cart{width:30px;height:30px;border-radius:7px;border:none;background:var(--teal);color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}.pc-cart:hover{background:var(--navy);}.pc-cart i{width:14px;height:14px;}
+  .view-all{display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;font-size:14px;font-weight:700;color:var(--teal);text-decoration:none;border:1.5px solid var(--grey);border-radius:12px;transition:all .15s;margin-top:12px;}
+  .view-all:hover{border-color:var(--teal);background:var(--teal-glow);}
+  .view-all i{width:15px;height:15px;}
+
+  /* Workshops banner */
+  .ws-banner{background:linear-gradient(135deg,var(--teal),#00695C);border-radius:16px;padding:24px;display:flex;align-items:center;gap:20px;margin-bottom:16px;text-decoration:none;color:white;transition:transform .2s;}
+  .ws-banner:hover{transform:translateY(-2px);}
+  .ws-icon{width:56px;height:56px;background:rgba(255,255,255,0.12);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
+  .ws-body{flex:1;}
+  .ws-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.15);padding:3px 10px;border-radius:100px;font-size:10px;font-weight:700;margin-bottom:4px;}.ws-badge i{width:11px;height:11px;}
+  .ws-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;}
+  .ws-desc{font-size:13px;color:rgba(255,255,255,0.6);}
+  .ws-arrow{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;}.ws-arrow i{width:18px;height:18px;}
+
+  /* Reviews */
+  .rv-summary{display:flex;gap:16px;align-items:center;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--grey);}
+  .rv-avg{font-family:'Plus Jakarta Sans',sans-serif;font-size:40px;font-weight:800;line-height:1;}
+  .rv-stars{color:var(--amber);font-size:16px;margin-bottom:2px;}
+  .rv-total{font-size:13px;color:var(--grey-mid);}
+  .rv-item{padding:14px 0;border-bottom:1px solid var(--grey);}
+  .rv-item:last-child{border-bottom:none;}
+  .rv-item-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+  .rv-author{display:flex;align-items:center;gap:8px;}
+  .rv-avatar{width:32px;height:32px;border-radius:50%;background:var(--teal-glow);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--teal);}
+  .rv-name{font-size:13px;font-weight:700;}
+  .rv-date{font-size:11px;color:var(--grey-mid);}
+  .rv-text{font-size:14px;color:var(--grey-dark);line-height:1.5;}
+
+  /* Sidebar */
+  .side-card{background:white;border:1px solid var(--grey);border-radius:16px;padding:22px;margin-bottom:14px;}
+  .side-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:7px;}.side-title i{width:16px;height:16px;color:var(--teal);}
+  .side-item{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:14px;}
+  .side-item i{width:16px;height:16px;color:var(--teal);flex-shrink:0;}
+  .side-item a{color:var(--teal);font-weight:600;text-decoration:none;}
+  .cert-list{display:flex;flex-direction:column;gap:6px;}
+  .cert-item{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--navy);font-weight:600;}
+  .cert-item i{width:15px;height:15px;color:var(--green);}
+
+  @media(max-width:900px){.vd-layout{grid-template-columns:1fr;}.vd-stats{grid-template-columns:repeat(3,1fr);}.vd-info{flex-direction:column;align-items:flex-start;}.vd-actions{margin-left:0;}.vd-products{grid-template-columns:1fr 1fr;}.vd-cat-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo"><img src="plastimed-logo.png" alt="Plastimed"></a><div class="search-wrap"><input class="search-field" type="text" placeholder="Zoek op product, merk of artikelnummer…"><div class="search-icon-left"><i data-lucide="search"></i></div></div><div class="header-actions"><button class="h-btn h-btn-icon"><i data-lucide="clipboard-list"></i></button><button class="h-btn h-btn-icon"><i data-lucide="user"></i></button><button class="h-btn h-btn-cart"><i data-lucide="shopping-cart"></i><span class="cart-count">3</span></button></div></div></header>
+<div class="breadcrumb-bar"><div class="container"><ol class="breadcrumb"><li><a href="#">Home</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li><a href="#">Leveranciers</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li class="current">Hartmann</li></ol></div></div>
+
+<div class="container">
+  <!-- Hero -->
+  <div class="vd-hero">
+    <div class="vd-banner"><div class="vd-banner-badge"><i data-lucide="star"></i> Premium partner sinds 2001</div></div>
+    <div class="vd-info">
+      <div class="vd-logo">Hartmann</div>
+      <div class="vd-info-text"><div class="vd-name">Paul Hartmann AG</div><div class="vd-tagline">Marktleider in wondverzorging, hygiëne en bescherming · Heidenheim, Duitsland · Sinds 1818</div></div>
+      <div class="vd-actions"><a href="#" class="vd-btn outline"><i data-lucide="globe"></i> Website</a><a href="#" class="vd-btn primary"><i data-lucide="grid-3x3"></i> Alle producten</a></div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="vd-stats">
+    <div class="vds"><div class="vds-num">186</div><div class="vds-label">Producten</div></div>
+    <div class="vds"><div class="vds-num">6</div><div class="vds-label">Categorieën</div></div>
+    <div class="vds"><div class="vds-num" style="color:var(--amber);">4.9 ★</div><div class="vds-label">124 reviews</div></div>
+    <div class="vds"><div class="vds-num" style="color:var(--green);">98%</div><div class="vds-label">Op voorraad</div></div>
+    <div class="vds"><div class="vds-num">24u</div><div class="vds-label">Gem. levertijd</div></div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="vd-tabs">
+    <div class="vd-tab active"><i data-lucide="store"></i> Overzicht</div>
+    <div class="vd-tab"><i data-lucide="package"></i> Producten <span class="tab-count">186</span></div>
+    <div class="vd-tab"><i data-lucide="star"></i> Reviews <span class="tab-count">124</span></div>
+    <div class="vd-tab"><i data-lucide="graduation-cap"></i> Workshops <span class="tab-count">3</span></div>
+    <div class="vd-tab"><i data-lucide="info"></i> Info & contact</div>
+  </div>
+
+  <div class="vd-layout">
+    <div>
+      <!-- About -->
+      <div class="section">
+        <div class="section-title"><i data-lucide="book-open"></i> Over Hartmann</div>
+        <div class="card about-text">
+          <p>Paul Hartmann AG is een van de oudste en meest gerespecteerde medische bedrijven ter wereld. Opgericht in 1818 in Heidenheim an der Brenz, Duitsland, heeft Hartmann zich ontwikkeld tot een wereldwijde marktleider op het gebied van wondverzorging, incontinentie, desinfectie en medische bescherming.</p>
+          <p>Het Hartmann-assortiment bij Plastimed omvat de populaire Peha-soft handschoenen, Baktolan huidverzorgingslijn, Zetuvit wondverbanden, Sterillium desinfectiemiddelen en de MoliCare incontinentielijn. Als officiële Hartmann-partner garanderen wij competitieve B2B-prijzen en directe beschikbaarheid uit eigen voorraad.</p>
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <div class="section">
+        <div class="section-title"><i data-lucide="grid-3x3"></i> Productcategorieën</div>
+        <div class="vd-cat-grid">
+          <a href="#" class="vd-cat"><div class="vd-cat-icon">🧤</div><div class="vd-cat-name">Handschoenen</div><div class="vd-cat-count">42 producten</div></a>
+          <a href="#" class="vd-cat"><div class="vd-cat-icon">🩹</div><div class="vd-cat-name">Wondverzorging</div><div class="vd-cat-count">56 producten</div></a>
+          <a href="#" class="vd-cat"><div class="vd-cat-icon">🧴</div><div class="vd-cat-name">Huidverzorging</div><div class="vd-cat-count">28 producten</div></a>
+          <a href="#" class="vd-cat"><div class="vd-cat-icon">🧽</div><div class="vd-cat-name">Desinfectie</div><div class="vd-cat-count">34 producten</div></a>
+          <a href="#" class="vd-cat"><div class="vd-cat-icon">📋</div><div class="vd-cat-name">Incontinentie</div><div class="vd-cat-count">18 producten</div></a>
+          <a href="#" class="vd-cat"><div class="vd-cat-icon">🏥</div><div class="vd-cat-name">Operatie</div><div class="vd-cat-count">8 producten</div></a>
+        </div>
+      </div>
+
+      <!-- Products -->
+      <div class="section">
+        <div class="section-title"><i data-lucide="trending-up"></i> Populairste producten</div>
+        <div class="vd-products">
+          <a href="#" class="pc"><div class="pc-img"><div class="pc-badge">Bestseller</div>🧤</div><div class="pc-body"><div class="pc-brand">Hartmann</div><div class="pc-name">Peha-soft Nitrile Fino</div><div class="pc-bottom"><div class="pc-price">€8,25</div><button class="pc-cart"><i data-lucide="shopping-cart"></i></button></div></div></a>
+          <a href="#" class="pc"><div class="pc-img">🧴</div><div class="pc-body"><div class="pc-brand">Hartmann</div><div class="pc-name">Baktolan Protect+ Pure</div><div class="pc-bottom"><div class="pc-price">€5,95</div><button class="pc-cart"><i data-lucide="shopping-cart"></i></button></div></div></a>
+          <a href="#" class="pc"><div class="pc-img">🩹</div><div class="pc-body"><div class="pc-brand">Hartmann</div><div class="pc-name">Zetuvit Plus Absorberend</div><div class="pc-bottom"><div class="pc-price">€12,80</div><button class="pc-cart"><i data-lucide="shopping-cart"></i></button></div></div></a>
+          <a href="#" class="pc"><div class="pc-img">🧽</div><div class="pc-body"><div class="pc-brand">Hartmann</div><div class="pc-name">Sterillium Classic Pure</div><div class="pc-bottom"><div class="pc-price">€9,45</div><button class="pc-cart"><i data-lucide="shopping-cart"></i></button></div></div></a>
+          <a href="#" class="pc"><div class="pc-img">🧤</div><div class="pc-body"><div class="pc-brand">Hartmann</div><div class="pc-name">Peha-soft Latex puderfrei</div><div class="pc-bottom"><div class="pc-price">€6,95</div><button class="pc-cart"><i data-lucide="shopping-cart"></i></button></div></div></a>
+          <a href="#" class="pc"><div class="pc-img"><div class="pc-badge">Staffel</div>📋</div><div class="pc-body"><div class="pc-brand">Hartmann</div><div class="pc-name">MoliCare Premium Elastic</div><div class="pc-bottom"><div class="pc-price">€18,50</div><button class="pc-cart"><i data-lucide="shopping-cart"></i></button></div></div></a>
+        </div>
+        <a href="#" class="view-all"><i data-lucide="grid-3x3"></i> Alle 186 Hartmann producten bekijken</a>
+      </div>
+
+      <!-- Workshops banner -->
+      <a href="#" class="ws-banner">
+        <div class="ws-icon">🎓</div>
+        <div class="ws-body"><div class="ws-badge"><i data-lucide="calendar"></i> 3 workshops beschikbaar</div><div class="ws-title">Hartmann Academy Workshops</div><div class="ws-desc">Professionele trainingen over wondverzorging, handschoenselectie en hygiëneprotocollen.</div></div>
+        <div class="ws-arrow"><i data-lucide="arrow-right"></i></div>
+      </a>
+
+      <!-- Reviews -->
+      <div class="section">
+        <div class="section-title"><i data-lucide="star"></i> Klantreviews</div>
+        <div class="card">
+          <div class="rv-summary"><div><div class="rv-avg">4.9</div><div class="rv-stars">★★★★★</div></div><div class="rv-total">Gebaseerd op 124 reviews</div></div>
+          <div class="rv-item"><div class="rv-item-top"><div class="rv-author"><div class="rv-avatar">MK</div><div class="rv-name">M. Kowalski</div></div><div><span style="color:var(--amber);font-size:13px;">★★★★★</span> <span class="rv-date">12 feb 2026</span></div></div><div class="rv-text">Uitstekende kwaliteit handschoenen. Peha-soft is onze standaard in de praktijk — goede pasvorm en altijd snel geleverd via Plastimed.</div></div>
+          <div class="rv-item"><div class="rv-item-top"><div class="rv-author"><div class="rv-avatar">SB</div><div class="rv-name">S. Bakker</div></div><div><span style="color:var(--amber);font-size:13px;">★★★★★</span> <span class="rv-date">8 feb 2026</span></div></div><div class="rv-text">Sterillium desinfectiemiddel is top. Prettig in gebruik, droogt snel en irriteert de huid niet. Aanrader voor elke praktijk.</div></div>
+          <div class="rv-item"><div class="rv-item-top"><div class="rv-author"><div class="rv-avatar">LV</div><div class="rv-name">L. van Dam</div></div><div><span style="color:var(--amber);font-size:13px;">★★★★☆</span> <span class="rv-date">1 feb 2026</span></div></div><div class="rv-text">Goede wondverbanden. Zetuvit Plus is prima absorberend. Enige minpunt: sommige maten zijn regelmatig uit voorraad.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside>
+      <div class="side-card">
+        <div class="side-title"><i data-lucide="info"></i> Leverancierinfo</div>
+        <div class="side-item"><i data-lucide="building-2"></i> Paul Hartmann AG</div>
+        <div class="side-item"><i data-lucide="map-pin"></i> Heidenheim, Duitsland</div>
+        <div class="side-item"><i data-lucide="calendar"></i> Opgericht in 1818</div>
+        <div class="side-item"><i data-lucide="users"></i> 10.000+ medewerkers</div>
+        <div class="side-item"><i data-lucide="globe"></i> <a href="#">hartmann.info</a></div>
+        <div class="side-item"><i data-lucide="handshake"></i> Partner sinds 2001</div>
+      </div>
+
+      <div class="side-card">
+        <div class="side-title"><i data-lucide="shield-check"></i> Certificeringen</div>
+        <div class="cert-list">
+          <div class="cert-item"><i data-lucide="check-circle"></i> ISO 13485</div>
+          <div class="cert-item"><i data-lucide="check-circle"></i> CE Markering</div>
+          <div class="cert-item"><i data-lucide="check-circle"></i> OEKO-TEX Standard 100</div>
+          <div class="cert-item"><i data-lucide="check-circle"></i> FSC Gecertificeerd</div>
+          <div class="cert-item"><i data-lucide="check-circle"></i> EU MDR compliant</div>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="side-title"><i data-lucide="tag"></i> Specialismen</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span style="padding:5px 12px;background:var(--grey-light);border-radius:100px;font-size:12px;font-weight:600;color:var(--navy);">Wondverzorging</span>
+          <span style="padding:5px 12px;background:var(--grey-light);border-radius:100px;font-size:12px;font-weight:600;color:var(--navy);">Handschoenen</span>
+          <span style="padding:5px 12px;background:var(--grey-light);border-radius:100px;font-size:12px;font-weight:600;color:var(--navy);">Desinfectie</span>
+          <span style="padding:5px 12px;background:var(--grey-light);border-radius:100px;font-size:12px;font-weight:600;color:var(--navy);">Incontinentie</span>
+          <span style="padding:5px 12px;background:var(--grey-light);border-radius:100px;font-size:12px;font-weight:600;color:var(--navy);">Hygiëne</span>
+        </div>
+      </div>
+
+      <div class="side-card" style="background:linear-gradient(135deg,var(--navy),var(--navy-light));border-color:transparent;">
+        <div class="side-title" style="color:white;"><i data-lucide="headphones" style="color:var(--teal-light);"></i> Contact Hartmann</div>
+        <p style="font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:12px;">Vragen over Hartmann producten? Onze productspecialist helpt u graag.</p>
+        <a href="#" style="display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--teal-light);text-decoration:none;"><i data-lucide="phone" style="width:15px;height:15px;"></i> 0251‑247233</a>
+      </div>
+    </aside>
+  </div>
+</div>
+<script>lucide.createIcons();</script>
+</body>
+</html>

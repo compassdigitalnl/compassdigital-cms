@@ -56,7 +56,7 @@ export function CountdownTimer({ endDate, label, className = '' }: CountdownTime
               <span className="text-lg font-bold tabular-nums min-w-[2ch] text-center">
                 {String(value).padStart(2, '0')}
               </span>
-              <span className="text-[10px] text-gray-500 uppercase tracking-wide">
+              <span className="text-[10px] text-grey-mid uppercase tracking-wide">
                 {unit}
               </span>
             </div>

@@ -3,6 +3,7 @@ import { checkRole } from '@/access/utilities'
 import { shouldHideContentCollection } from '@/lib/tenant/shouldHideCollection'
 import { getCachedSiteBranch } from '@/lib/tenant/contentModules'
 import { branchOptions } from '../ContentServices'
+import { courseReviewHook } from '@/branches/shared/hooks/courseReviewHook'
 
 const colorOptions = [
   { label: 'Teal', value: 'teal' },
@@ -46,6 +47,7 @@ export const ContentReviews: CollectionConfig = {
         return data
       },
     ],
+    afterChange: [courseReviewHook],
   },
   fields: [
     // ─── TOP FIELDS ────────────────────────────────────────
@@ -127,6 +129,28 @@ export const ContentReviews: CollectionConfig = {
       type: 'relationship',
       relationTo: 'content-services',
       label: 'Gerelateerde dienst',
+    },
+
+    // ─── ONDERWIJS-SPECIFIEK ────────────────────────────────
+    {
+      name: 'course',
+      type: 'relationship',
+      relationTo: 'courses',
+      label: 'Cursus',
+      admin: {
+        condition: (_, s) => s?.branch === 'onderwijs',
+        description: 'Gekoppelde cursus voor deze review',
+      },
+    },
+    {
+      name: 'verified',
+      type: 'checkbox',
+      label: 'Geverifieerde student',
+      defaultValue: false,
+      admin: {
+        condition: (_, s) => s?.branch === 'onderwijs',
+        description: 'Student heeft een actieve inschrijving voor deze cursus',
+      },
     },
 
     // ─── ERVARINGEN-SPECIFIEK ──────────────────────────────

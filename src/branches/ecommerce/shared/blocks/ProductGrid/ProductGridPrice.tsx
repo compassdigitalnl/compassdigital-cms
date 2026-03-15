@@ -15,12 +15,12 @@ export function ProductGridPrice({ price, compareAtPrice, taxClass }: ProductGri
   return (
     <>
       {price != null && (
-        <div className="text-2xl font-bold text-gray-900">
+        <div className="text-2xl font-bold text-navy">
           &euro;{formatPriceStr(price, taxClass)}
         </div>
       )}
       {compareAtPrice != null && price != null && compareAtPrice > price && (
-        <div className="text-sm text-gray-400 line-through">
+        <div className="text-sm text-grey-mid line-through">
           &euro;{formatPriceStr(compareAtPrice, taxClass)}
         </div>
       )}

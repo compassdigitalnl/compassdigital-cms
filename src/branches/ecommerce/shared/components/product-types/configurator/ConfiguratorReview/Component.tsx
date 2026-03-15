@@ -34,8 +34,8 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
     <div className={`configurator-review ${className}`}>
       {/* Header */}
       <div className="mb-6">
-        <h2 className="text-[24px] font-bold text-gray-900 mb-2">Configuratie Overzicht</h2>
-        <p className="text-[15px] text-gray-600">
+        <h2 className="text-[24px] font-bold text-navy mb-2">Configuratie Overzicht</h2>
+        <p className="text-[15px] text-grey-dark">
           Controleer je keuzes voordat je de configuratie bevestigt.
         </p>
       </div>
@@ -51,14 +51,14 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
               key={step.stepNumber}
               className={`
                 border-2 rounded-lg overflow-hidden
-                ${hasSelection ? 'border-green' : 'border-gray-300'}
+                ${hasSelection ? 'border-green' : 'border-grey-light'}
               `}
             >
               {/* Step Header */}
               <div
                 className={`
                   px-4 py-3 flex items-center justify-between
-                  ${hasSelection ? 'bg-green-50' : 'bg-gray-50'}
+                  ${hasSelection ? 'bg-green-50' : 'bg-grey-light'}
                 `}
               >
                 <div className="flex items-center gap-2">
@@ -66,7 +66,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
                   <div
                     className={`
                       w-7 h-7 rounded-full flex items-center justify-center text-[13px] font-bold
-                      ${hasSelection ? 'bg-green text-white' : 'bg-gray-400 text-white'}
+                      ${hasSelection ? 'bg-green text-white' : 'bg-grey-mid text-white'}
                     `}
                   >
                     {hasSelection ? <Check className="w-4 h-4" strokeWidth={3} /> : step.stepNumber}
@@ -76,7 +76,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
                   <h3
                     className={`
                       text-[16px] font-bold
-                      ${hasSelection ? 'text-green-900' : 'text-gray-900'}
+                      ${hasSelection ? 'text-green-900' : 'text-navy'}
                     `}
                   >
                     {step.title}
@@ -100,7 +100,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
                   <div className="flex items-start gap-3">
                     {/* Option Image (if available) */}
                     {selection.image && typeof selection.image === 'object' && 'url' in selection.image && selection.image.url && (
-                      <div className="flex-shrink-0 w-20 h-20 relative rounded-md overflow-hidden bg-gray-100">
+                      <div className="flex-shrink-0 w-20 h-20 relative rounded-md overflow-hidden bg-grey-light">
                         <Image
                           src={(selection.image as Media).url!}
                           alt={selection.name}
@@ -113,9 +113,9 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
 
                     {/* Option Info */}
                     <div className="flex-1">
-                      <p className="text-[15px] font-semibold text-gray-900 mb-1">{selection.name}</p>
+                      <p className="text-[15px] font-semibold text-navy mb-1">{selection.name}</p>
                       {selection.description && (
-                        <p className="text-[13px] text-gray-600 mb-2">{selection.description}</p>
+                        <p className="text-[13px] text-grey-dark mb-2">{selection.description}</p>
                       )}
                       {selection.price !== 0 && (
                         <p
@@ -128,8 +128,8 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
                   </div>
                 </div>
               ) : (
-                <div className="px-4 py-3 bg-gray-50">
-                  <p className="text-[13px] text-gray-500 italic">Geen selectie gemaakt</p>
+                <div className="px-4 py-3 bg-grey-light">
+                  <p className="text-[13px] text-grey-mid italic">Geen selectie gemaakt</p>
                 </div>
               )}
             </div>
@@ -150,7 +150,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
 
             return (
               <div key={step.stepNumber} className="flex items-center justify-between">
-                <span className="text-[14px] text-gray-700">{step.title}:</span>
+                <span className="text-[14px] text-grey-dark">{step.title}:</span>
                 <span
                   className={`text-[14px] font-mono font-semibold ${selection.price > 0 ? 'text-[var(--color-primary)]' : 'text-coral'}`}
                 >
@@ -161,11 +161,11 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
           })}
 
           {/* Divider */}
-          <div className="border-t-2 border-gray-200 my-3" />
+          <div className="border-t-2 border-grey-light my-3" />
 
           {/* Total */}
           <div className="flex items-center justify-between">
-            <span className="text-[16px] font-bold text-gray-900">Totaal:</span>
+            <span className="text-[16px] font-bold text-navy">Totaal:</span>
             <span className="text-[20px] font-mono font-bold text-[var(--color-primary)]">
               €{formatPriceStr(totalPrice)}
             </span>

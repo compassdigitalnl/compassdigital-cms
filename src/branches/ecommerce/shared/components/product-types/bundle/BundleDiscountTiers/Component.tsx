@@ -38,11 +38,11 @@ export const BundleDiscountTiers: React.FC<BundleDiscountTiersProps> = ({
     <div className={`bundle-discount-tiers ${className}`}>
       {/* Header */}
       <div className="mb-4">
-        <h3 className="text-[18px] font-bold text-gray-900 mb-1 flex items-center gap-2">
+        <h3 className="text-[18px] font-bold text-navy mb-1 flex items-center gap-2">
           <TrendingUp className="w-5 h-5 text-teal" strokeWidth={2.5} />
           Volume Korting
         </h3>
-        <p className="text-[14px] text-gray-600">
+        <p className="text-[14px] text-grey-dark">
           Hoe meer je koopt, hoe meer je bespaart!
         </p>
       </div>
@@ -58,7 +58,7 @@ export const BundleDiscountTiers: React.FC<BundleDiscountTiersProps> = ({
               key={index}
               className={`
                 relative p-4 rounded-lg border-2 transition-all duration-200
-                ${isActive ? 'border-green bg-green-50' : isUnlocked ? 'border-green-400 bg-green-50/50' : 'border-gray-300 bg-gray-50'}
+                ${isActive ? 'border-green bg-green-50' : isUnlocked ? 'border-green-400 bg-green-50/50' : 'border-grey-light bg-grey-light'}
               `}
             >
               {/* Tier Content */}
@@ -69,7 +69,7 @@ export const BundleDiscountTiers: React.FC<BundleDiscountTiersProps> = ({
                   <div
                     className={`
                       flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center
-                      ${isUnlocked ? 'bg-green' : 'bg-gray-400'}
+                      ${isUnlocked ? 'bg-green' : 'bg-grey-mid'}
                     `}
                   >
                     {isUnlocked ? (
@@ -82,12 +82,12 @@ export const BundleDiscountTiers: React.FC<BundleDiscountTiersProps> = ({
                   {/* Tier Details */}
                   <div className="flex-1">
                     <p
-                      className={`text-[15px] font-bold ${isUnlocked ? 'text-green-900' : 'text-gray-700'}`}
+                      className={`text-[15px] font-bold ${isUnlocked ? 'text-green-900' : 'text-grey-dark'}`}
                     >
                       {tier.label || `Koop ${tier.minQuantity}+ items`}
                     </p>
                     <p
-                      className={`text-[13px] ${isUnlocked ? 'text-green-700' : 'text-gray-600'}`}
+                      className={`text-[13px] ${isUnlocked ? 'text-green-700' : 'text-grey-dark'}`}
                     >
                       {tier.minQuantity} {tier.minQuantity === 1 ? 'item' : 'items'} of meer
                     </p>
@@ -98,7 +98,7 @@ export const BundleDiscountTiers: React.FC<BundleDiscountTiersProps> = ({
                 <div
                   className={`
                     flex-shrink-0 px-3 py-1.5 rounded-md
-                    ${isUnlocked ? 'bg-green' : 'bg-gray-400'}
+                    ${isUnlocked ? 'bg-green' : 'bg-grey-mid'}
                   `}
                 >
                   <span className="text-[14px] font-bold text-white">

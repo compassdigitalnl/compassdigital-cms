@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="nl-NL">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Werkplaats Afspraak Maken - Compass Automotive</title>
+  <meta name="description" content="Maak eenvoudig een afspraak voor APK, onderhoud of reparatie. Kies uw gewenste datum en tijd en wij zorgen ervoor dat uw auto weer als nieuw is.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ========== Design Tokens - Automotive Vertical ========== */
+    :root {
+      /* Primary Colors */
+      --orange: #FF5722;
+      --orange-light: #FF7043;
+      --orange-dark: #E64A19;
+      --carbon: #1a1a1a;
+      --carbon-light: #2d2d2d;
+      --carbon-dark: #0d0d0d;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --navy: #0A1628;
+      --navy-light: #121F33;
+
+      /* Status */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+    }
+
+    /* ========== Base Styles ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    /* ========== Header ========== */
+    .header {
+      background: white;
+      border-bottom: 1px solid var(--grey);
+      padding: 16px 0;
+    }
+
+    .header-container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--orange);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .nav a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--grey-dark);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .nav a:hover {
+      color: var(--orange);
+    }
+
+    /* ========== Breadcrumbs ========== */
+    .breadcrumbs {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 16px var(--gutter);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .breadcrumbs a {
+      color: var(--grey-mid);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--orange);
+    }
+
+    .breadcrumbs span {
+      color: var(--grey-mid);
+    }
+
+    .breadcrumbs .current {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ========== Main Content ========== */
+    .main {
+      max-width: 640px;
+      margin: 48px auto;
+      padding: 0 var(--gutter);
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .page-title {
+      font-size: 36px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .page-subtitle {
+      font-size: 16px;
+      color: var(--grey-dark);
+      line-height: 1.5;
+    }
+
+    /* ========== Workshop Booking Form ========== */
+    .booking-form {
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .form-header {
+      margin-bottom: 24px;
+    }
+
+    .form-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-title-icon {
+      width: 24px;
+      height: 24px;
+      color: var(--orange);
+    }
+
+    .form-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .form-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      margin-bottom: 8px;
+    }
+
+    .form-label .required {
+      color: var(--coral);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--navy);
+      transition: var(--transition);
+      background: white;
+    }
+
+    .form-input.uppercase {
+      text-transform: uppercase;
+    }
+
+    .form-input::placeholder {
+      color: var(--grey-mid);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(255,87,34,0.1);
+    }
+
+    select.form-input {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2364748B' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+
+    textarea.form-input {
+      resize: vertical;
+      min-height: 70px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* ========== Service Type Buttons ========== */
+    .service-type-group {
+      margin-bottom: 20px;
+    }
+
+    .service-type-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .service-btn {
+      padding: 12px;
+      background: var(--bg);
+      color: var(--grey-dark);
+      border: 1px solid var(--grey);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .service-btn:hover {
+      border-color: var(--orange);
+      background: rgba(255,87,34,0.05);
+    }
+
+    .service-btn.active {
+      background: var(--orange);
+      color: white;
+      border-color: var(--orange);
+    }
+
+    .service-btn-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ========== Pickup Service Toggle ========== */
+    .pickup-service {
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .pickup-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pickup-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--orange);
+      flex-shrink: 0;
+    }
+
+    .pickup-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .pickup-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .pickup-price {
+      font-size: 11px;
+      color: var(--grey-dark);
+    }
+
+    /* Toggle Switch */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 26px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--grey);
+      border-radius: 26px;
+      transition: var(--transition);
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+
+    input:checked + .toggle-slider {
+      background-color: var(--orange);
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(22px);
+    }
+
+    /* ========== Submit Button ========== */
+    .submit-btn {
+      width: 100%;
+      background: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(255,87,34,0.2);
+    }
+
+    .submit-btn:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(255,87,34,0.3);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .form-notice {
+      font-size: 11px;
+      color: var(--grey-dark);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* ========== Success Message ========== */
+    .success-message {
+      background: white;
+      border: 1.5px solid var(--green);
+      border-radius: 16px;
+      padding: 36px;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+      display: none;
+    }
+
+    .success-message.active {
+      display: block;
+    }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      color: var(--green);
+      margin: 0 auto 20px;
+      background: var(--green-light);
+      border-radius: 50%;
+      padding: 12px;
+    }
+
+    .success-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .success-text {
+      font-size: 14px;
+      color: var(--grey-dark);
+      margin-bottom: 24px;
+    }
+
+    .appointment-details {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--grey);
+      font-size: 13px;
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      color: var(--grey-dark);
+      font-weight: 500;
+    }
+
+    .detail-value {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    .back-btn {
+      background: var(--bg);
+      color: var(--navy);
+      border: 1px solid var(--grey);
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .back-btn:hover {
+      border-color: var(--orange);
+      background: rgba(255,87,34,0.05);
+    }
+
+    /* ========== Info Section ========== */
+    .info-section {
+      margin-top: 48px;
+      padding: 32px;
+      background: white;
+      border-radius: 16px;
+      border: 1px solid var(--grey);
+    }
+
+    .info-title {
+      font-size: 20px;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .info-item {
+      display: flex;
+      gap: 12px;
+    }
+
+    .info-icon-wrapper {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,87,34,0.1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .info-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--orange);
+    }
+
+    .info-content h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .info-content p {
+      font-size: 12px;
+      color: var(--grey-dark);
+      line-height: 1.5;
+    }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 900px) {
+      .nav {
+        display: none;
+      }
+
+      .page-title {
+        font-size: 28px;
+      }
+
+      .booking-form {
+        padding: 28px 24px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .main {
+        margin: 32px auto;
+      }
+
+      .page-title {
+        font-size: 24px;
+      }
+
+      .page-subtitle {
+        font-size: 14px;
+      }
+
+      .booking-form {
+        padding: 24px 20px;
+      }
+
+      .breadcrumbs {
+        font-size: 11px;
+        padding: 12px var(--gutter);
+      }
+
+      .info-section {
+        padding: 24px 20px;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .service-type-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pickup-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <a href="#" class="logo">
+        <i data-lucide="car"></i>
+        Compass Automotive
+      </a>
+      <nav class="nav">
+        <a href="#">Occasions</a>
+        <a href="#">Nieuwe auto's</a>
+        <a href="#">Verkopen</a>
+        <a href="#">Inruil</a>
+        <a href="#">Financieren</a>
+        <a href="#">Service</a>
+        <a href="#">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="#">Home</a>
+    <span>›</span>
+    <a href="#">Service</a>
+    <span>›</span>
+    <span class="current">Afspraak Maken</span>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Werkplaats Afspraak</h1>
+      <p class="page-subtitle">
+        Maak eenvoudig een afspraak voor APK, onderhoud of reparatie. Selecteer uw gewenste datum en tijd en wij zorgen ervoor dat uw auto weer als nieuw is.
+      </p>
+    </div>
+
+    <!-- Booking Form -->
+    <div id="formContainer" class="booking-form">
+      <div class="form-header">
+        <h2 class="form-title">
+          <i data-lucide="wrench" class="form-title-icon"></i>
+          Werkplaats Afspraak
+        </h2>
+        <p class="form-description">Maak een afspraak voor onderhoud of reparatie</p>
+      </div>
+
+      <form id="bookingForm" class="form-content">
+        <!-- Service Type -->
+        <div class="service-type-group">
+          <label class="form-label">
+            Type dienst <span class="required">*</span>
+          </label>
+          <div class="service-type-grid">
+            <button type="button" class="service-btn active" data-service="apk">
+              <i data-lucide="shield-check" class="service-btn-icon"></i>
+              APK
+            </button>
+            <button type="button" class="service-btn" data-service="onderhoud">
+              <i data-lucide="settings" class="service-btn-icon"></i>
+              Onderhoud
+            </button>
+            <button type="button" class="service-btn" data-service="reparatie">
+              <i data-lucide="wrench" class="service-btn-icon"></i>
+              Reparatie
+            </button>
+          </div>
+          <input type="hidden" id="serviceType" value="apk" required>
+        </div>
+
+        <!-- License Plate -->
+        <div class="form-group">
+          <label class="form-label">
+            Kenteken <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="licensePlate"
+            class="form-input uppercase"
+            placeholder="12-ABC-3"
+            maxlength="8"
+            required
+          />
+        </div>
+
+        <!-- Date & Time -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">
+              Datum <span class="required">*</span>
+            </label>
+            <input
+              type="date"
+              id="date"
+              class="form-input"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">
+              Tijdstip <span class="required">*</span>
+            </label>
+            <select id="time" class="form-input" required>
+              <option value="">Kies tijd</option>
+              <option value="09:00">09:00</option>
+              <option value="10:00">10:00</option>
+              <option value="11:00">11:00</option>
+              <option value="13:00">13:00</option>
+              <option value="14:00">14:00</option>
+              <option value="15:00">15:00</option>
+              <option value="16:00">16:00</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Problem Description -->
+        <div class="form-group">
+          <label class="form-label">Probleem beschrijving</label>
+          <textarea
+            id="description"
+            class="form-input"
+            rows="3"
+            placeholder="Wat is er aan de hand met uw auto?"
+          ></textarea>
+        </div>
+
+        <!-- Pickup Service Toggle -->
+        <div class="pickup-service">
+          <div class="pickup-info">
+            <i data-lucide="truck" class="pickup-icon"></i>
+            <div class="pickup-text">
+              <div class="pickup-label">Ophaal/breng service</div>
+              <div class="pickup-price">+€25</div>
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="pickupService">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Name & Phone -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">
+              Naam <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="name"
+              class="form-input"
+              placeholder="Uw volledige naam"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">
+              Telefoon <span class="required">*</span>
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              class="form-input"
+              placeholder="06 12 34 56 78"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Email (optional) -->
+        <div class="form-group">
+          <label class="form-label">E-mail (optioneel)</label>
+          <input
+            type="email"
+            id="email"
+            class="form-input"
+            placeholder="uw@email.nl"
+          />
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <i data-lucide="calendar-check" class="btn-icon"></i>
+          Afspraak maken
+        </button>
+
+        <p class="form-notice">U ontvangt een bevestiging per e-mail</p>
+      </form>
+    </div>
+
+    <!-- Success Message (hidden by default) -->
+    <div id="successMessage" class="success-message">
+      <i data-lucide="check-circle" class="success-icon"></i>
+      <h3 class="success-title">Afspraak bevestigd!</h3>
+      <p class="success-text">
+        Bedankt voor uw boeking. We hebben uw afspraak ontvangen en u ontvangt zo direct een bevestiging per e-mail.
+      </p>
+      <div class="appointment-details" id="appointmentDetails"></div>
+      <button class="back-btn" onclick="resetForm()">Nieuwe afspraak</button>
+    </div>
+
+    <!-- Info Section -->
+    <div class="info-section">
+      <h3 class="info-title">Onze werkplaats diensten</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-icon-wrapper">
+            <i data-lucide="shield-check" class="info-icon"></i>
+          </div>
+          <div class="info-content">
+            <h4>APK Keuring</h4>
+            <p>Complete APK keuring volgens de nieuwste richtlijnen. Snelle afhandeling en uitgebreid rapport.</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon-wrapper">
+            <i data-lucide="settings" class="info-icon"></i>
+          </div>
+          <div class="info-content">
+            <h4>Onderhoud</h4>
+            <p>Regulier onderhoud volgens de fabrieksspecificaties. Van kleine beurten tot grote onderhoudsbeurten.</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon-wrapper">
+            <i data-lucide="wrench" class="info-icon"></i>
+          </div>
+          <div class="info-content">
+            <h4>Reparatie</h4>
+            <p>Vakkundige reparaties door gecertificeerde monteurs. Gebruik van originele of A-merk onderdelen.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // ========== Service Type Selection ==========
+    const serviceBtns = document.querySelectorAll('.service-btn');
+    const serviceTypeInput = document.getElementById('serviceType');
+
+    serviceBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active class from all buttons
+        serviceBtns.forEach(b => b.classList.remove('active'));
+        // Add active class to clicked button
+        btn.classList.add('active');
+        // Update hidden input value
+        serviceTypeInput.value = btn.dataset.service;
+        // Reinitialize icons
+        lucide.createIcons();
+      });
+    });
+
+    // ========== Date Validation ==========
+    const dateInput = document.getElementById('date');
+    // Set minimum date to tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    dateInput.min = tomorrow.toISOString().split('T')[0];
+
+    // ========== License Plate Formatting ==========
+    const licensePlateInput = document.getElementById('licensePlate');
+    licensePlateInput.addEventListener('input', (e) => {
+      let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+      e.target.value = value;
+    });
+
+    // ========== Form Submission ==========
+    const bookingForm = document.getElementById('bookingForm');
+    const formContainer = document.getElementById('formContainer');
+    const successMessage = document.getElementById('successMessage');
+    const appointmentDetails = document.getElementById('appointmentDetails');
+    const submitBtn = document.getElementById('submitBtn');
+
+    bookingForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Get form data
+      const formData = {
+        serviceType: serviceTypeInput.value,
+        licensePlate: licensePlateInput.value,
+        date: document.getElementById('date').value,
+        time: document.getElementById('time').value,
+        description: document.getElementById('description').value,
+        pickupService: document.getElementById('pickupService').checked,
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value,
+        timestamp: new Date().toISOString()
+      };
+
+      // Disable button
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i data-lucide="loader-2" class="btn-icon" style="animation: spin 1s linear infinite;"></i> Verwerken...';
+      lucide.createIcons();
+
+      // Simulate API call (in production, send to Payload CMS)
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Format date for display
+      const dateObj = new Date(formData.date);
+      const dateFormatted = dateObj.toLocaleDateString('nl-NL', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      // Service type labels
+      const serviceLabels = {
+        apk: 'APK Keuring',
+        onderhoud: 'Onderhoud',
+        reparatie: 'Reparatie'
+      };
+
+      // Build appointment details HTML
+      let detailsHTML = `
+        <div class="detail-row">
+          <span class="detail-label">Dienst:</span>
+          <span class="detail-value">${serviceLabels[formData.serviceType]}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Kenteken:</span>
+          <span class="detail-value">${formData.licensePlate}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Datum:</span>
+          <span class="detail-value">${dateFormatted}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Tijd:</span>
+          <span class="detail-value">${formData.time}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Naam:</span>
+          <span class="detail-value">${formData.name}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Telefoon:</span>
+          <span class="detail-value">${formData.phone}</span>
+        </div>
+      `;
+
+      if (formData.pickupService) {
+        detailsHTML += `
+          <div class="detail-row">
+            <span class="detail-label">Ophaal/breng service:</span>
+            <span class="detail-value">Ja (+€25)</span>
+          </div>
+        `;
+      }
+
+      appointmentDetails.innerHTML = detailsHTML;
+
+      // Show success message
+      formContainer.style.display = 'none';
+      successMessage.classList.add('active');
+      lucide.createIcons();
+
+      // In production: send to Payload CMS
+      /*
+      const response = await fetch('/api/service-bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          serviceType: formData.serviceType,
+          licensePlate: formData.licensePlate,
+          date: formData.date,
+          time: formData.time,
+          description: formData.description,
+          pickupService: formData.pickupService,
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          status: 'pending'
+        })
+      });
+      */
+    });
+
+    function resetForm() {
+      bookingForm.reset();
+      serviceTypeInput.value = 'apk';
+      serviceBtns.forEach(btn => btn.classList.remove('active'));
+      serviceBtns[0].classList.add('active');
+      formContainer.style.display = 'block';
+      successMessage.classList.remove('active');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i data-lucide="calendar-check" class="btn-icon"></i> Afspraak maken';
+      lucide.createIcons();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Spin animation for loading icon
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+
+  <!--
+  ========== PAYLOAD CMS INTEGRATION ==========
+
+  Collection: serviceBookings
+
+  Fields:
+  - serviceType (select, required):
+    - options: apk | onderhoud | reparatie
+    - labels: APK Keuring | Onderhoud | Reparatie
+
+  - licensePlate (text, required):
+    - format: uppercase
+    - maxLength: 8
+
+  - vehicleData (group):
+    - make (text) // from RDW API
+    - model (text) // from RDW API
+    - year (number) // from RDW API
+
+  - date (date, required):
+    - min: tomorrow's date
+
+  - time (text, required):
+    - pattern: HH:MM
+
+  - description (textarea):
+    - maxLength: 1000
+    - placeholder: "Wat is er aan de hand met uw auto?"
+
+  - pickupService (checkbox):
+    - defaultValue: false
+    - admin: { description: 'Ophaal/breng service (+€25)' }
+
+  - name (text, required)
+
+  - phone (text, required):
+    - format: phone
+
+  - email (email):
+    - admin: { description: 'Optional - for confirmation email' }
+
+  - status (select):
+    - options: pending | confirmed | in-progress | completed | cancelled
+    - defaultValue: pending
+    - admin: { position: 'sidebar' }
+
+  - estimatedCost (number):
+    - prefix: "€"
+    - admin: { condition: (data) => data.status !== 'pending' }
+
+  - actualCost (number):
+    - prefix: "€"
+    - admin: { condition: (data) => data.status === 'completed' }
+
+  - notes (richText):
+    - admin: { description: 'Internal notes for mechanics' }
+
+  - assignedMechanic (relationship):
+    - relationTo: 'users'
+    - hasMany: false
+    - admin: { position: 'sidebar' }
+
+  - createdAt (date):
+    - admin: { readOnly: true }
+
+  - updatedAt (date):
+    - admin: { readOnly: true }
+
+  Hooks:
+  - afterChange: Send confirmation email with appointment details
+  - afterChange: Send SMS reminder 1 day before appointment
+  - afterChange: Notify workshop team
+  - beforeValidate: Fetch vehicle data from RDW API
+
+  Access Control:
+  - read: authenticated users only
+  - create: public
+  - update: authenticated users only
+  - delete: admin only
+  -->
+</body>
+</html>

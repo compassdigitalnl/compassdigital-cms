@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Laguna Resort & Spa - Bali | Compass Toerisme</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Toerisme Colors */
+      --cyan: #00BCD4;
+      --cyan-light: #26C6DA;
+      --cyan-dark: #0097A7;
+      --ocean: #0a2e36;
+      --ocean-light: #0d3a44;
+      --ocean-deep: #071d23;
+
+      /* Status Colors */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,46,54,0.06);
+      --shadow-md: 0 8px 24px rgba(10,46,54,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,46,54,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--ocean);
+      background: var(--bg);
+    }
+
+    /* Header */
+    .header {
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      padding: 0 24px;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--cyan);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      padding: 12px 24px;
+    }
+
+    .breadcrumbs-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .breadcrumb-link {
+      color: var(--grey-mid);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .breadcrumb-link:hover {
+      color: var(--cyan);
+    }
+
+    .breadcrumb-separator {
+      color: var(--grey-mid);
+    }
+
+    .breadcrumb-current {
+      color: var(--ocean);
+      font-weight: 600;
+    }
+
+    /* Gallery */
+    .gallery {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 12px;
+      height: 480px;
+    }
+
+    .gallery-main {
+      grid-row: 1 / 3;
+      grid-column: 1;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--ocean), var(--ocean-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 120px;
+      opacity: 0.3;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .gallery-main:hover {
+      opacity: 0.5;
+    }
+
+    .gallery-thumb {
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--ocean), var(--ocean-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      opacity: 0.3;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .gallery-thumb:hover {
+      opacity: 0.5;
+    }
+
+    /* Main Content */
+    .main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px 32px 24px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .content-column {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Accommodation Header */
+    .accommodation-header {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .header-badges {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-bestseller {
+      background: var(--amber);
+      color: white;
+    }
+
+    .badge-featured {
+      background: var(--cyan);
+      color: white;
+    }
+
+    .accommodation-location {
+      font-size: 11px;
+      color: var(--cyan);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .accommodation-location i {
+      width: 12px;
+      height: 12px;
+    }
+
+    .accommodation-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--ocean);
+      margin-bottom: 12px;
+    }
+
+    .accommodation-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .meta-rating {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rating-stars {
+      display: flex;
+      gap: 2px;
+    }
+
+    .rating-stars i {
+      width: 14px;
+      height: 14px;
+      color: var(--amber);
+    }
+
+    .rating-score {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ocean);
+    }
+
+    .rating-count {
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--grey-dark);
+    }
+
+    .meta-item i {
+      width: 14px;
+      height: 14px;
+      color: var(--grey-mid);
+    }
+
+    /* Quick Info */
+    .quick-info {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .info-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(0,188,212,0.08);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .info-icon i {
+      width: 18px;
+      height: 18px;
+      color: var(--cyan);
+    }
+
+    .info-label {
+      font-size: 10px;
+      color: var(--grey-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .info-value {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--ocean);
+    }
+
+    /* Section */
+    .section {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+
+    .section-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ocean);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title i {
+      color: var(--cyan);
+      width: 24px;
+      height: 24px;
+    }
+
+    .section-description {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+    }
+
+    .section-description p {
+      margin-bottom: 16px;
+    }
+
+    .section-description p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Rooms */
+    .rooms-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .room-card {
+      padding: 20px;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      display: grid;
+      grid-template-columns: 140px 1fr auto;
+      gap: 20px;
+      align-items: center;
+      transition: var(--transition);
+    }
+
+    .room-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .room-image {
+      width: 140px;
+      height: 100px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--ocean), var(--ocean-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      opacity: 0.3;
+    }
+
+    .room-info {
+      flex: 1;
+    }
+
+    .room-name {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--ocean);
+      margin-bottom: 4px;
+    }
+
+    .room-features {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+
+    .room-feature {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    .room-feature i {
+      width: 12px;
+      height: 12px;
+    }
+
+    .room-facilities {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .room-facility {
+      font-size: 10px;
+      color: var(--grey-dark);
+      background: var(--bg);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .room-pricing {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .room-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ocean);
+    }
+
+    .room-period {
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    .room-availability {
+      font-size: 11px;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .room-availability i {
+      width: 12px;
+      height: 12px;
+    }
+
+    .room-select {
+      padding: 8px 16px;
+      background: var(--cyan);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .room-select:hover {
+      background: var(--cyan-dark);
+      transform: translateY(-1px);
+    }
+
+    /* Facilities Grid */
+    .facilities-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .facility-item {
+      display: flex;
+      gap: 12px;
+    }
+
+    .facility-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(0,188,212,0.08);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .facility-icon i {
+      width: 20px;
+      height: 20px;
+      color: var(--cyan);
+    }
+
+    .facility-info {
+      flex: 1;
+    }
+
+    .facility-name {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--ocean);
+      margin-bottom: 2px;
+    }
+
+    .facility-description {
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    /* Location */
+    .location-map {
+      width: 100%;
+      height: 300px;
+      background: var(--grey-light);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      opacity: 0.3;
+      margin-bottom: 16px;
+    }
+
+    .location-address {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    .location-distance {
+      font-size: 12px;
+      color: var(--cyan);
+      font-weight: 600;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .location-distance i {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Reviews */
+    .reviews-summary {
+      display: flex;
+      gap: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--grey);
+      margin-bottom: 24px;
+    }
+
+    .reviews-average {
+      text-align: center;
+    }
+
+    .average-score {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--ocean);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .average-stars {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .average-stars i {
+      width: 20px;
+      height: 20px;
+      color: var(--amber);
+    }
+
+    .average-count {
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .reviews-breakdown {
+      flex: 1;
+    }
+
+    .rating-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .rating-label {
+      font-size: 12px;
+      color: var(--grey-dark);
+      width: 80px;
+    }
+
+    .rating-progress {
+      flex: 1;
+      height: 8px;
+      background: var(--grey-light);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .rating-fill {
+      height: 100%;
+      background: var(--amber);
+      border-radius: 4px;
+    }
+
+    .rating-count {
+      font-size: 12px;
+      color: var(--grey-mid);
+      width: 40px;
+      text-align: right;
+    }
+
+    .reviews-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .review-item {
+      padding: 20px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+    }
+
+    .review-header {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .review-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .review-info {
+      flex: 1;
+    }
+
+    .review-author {
+      font-weight: 700;
+      color: var(--ocean);
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .review-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    .review-rating {
+      display: flex;
+      gap: 2px;
+    }
+
+    .review-rating i {
+      width: 12px;
+      height: 12px;
+      color: var(--amber);
+    }
+
+    .review-text {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--grey-dark);
+    }
+
+    /* Policies */
+    .policies-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .policy-item {
+      display: flex;
+      gap: 12px;
+    }
+
+    .policy-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(0,188,212,0.08);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .policy-icon i {
+      width: 20px;
+      height: 20px;
+      color: var(--cyan);
+    }
+
+    .policy-info {
+      flex: 1;
+    }
+
+    .policy-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--ocean);
+      margin-bottom: 4px;
+    }
+
+    .policy-description {
+      font-size: 12px;
+      color: var(--grey-dark);
+      line-height: 1.5;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: sticky;
+      top: 100px;
+    }
+
+    .booking-card {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .booking-price {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .price-label {
+      font-size: 12px;
+      color: var(--grey-mid);
+      margin-bottom: 4px;
+    }
+
+    .price-amount {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--ocean);
+    }
+
+    .price-period {
+      font-size: 13px;
+      color: var(--grey-mid);
+    }
+
+    .booking-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ocean);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .form-input {
+      padding: 10px 14px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 13px;
+      color: var(--ocean);
+      transition: var(--transition);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0,188,212,0.1);
+    }
+
+    .date-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .booking-summary {
+      padding: 16px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .summary-label {
+      color: var(--grey-dark);
+    }
+
+    .summary-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+      color: var(--ocean);
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--grey);
+      font-weight: 700;
+    }
+
+    .total-label {
+      font-size: 14px;
+      color: var(--ocean);
+    }
+
+    .total-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      color: var(--ocean);
+    }
+
+    .btn-book {
+      width: 100%;
+      padding: 14px;
+      background: var(--cyan);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 12px;
+    }
+
+    .btn-book:hover {
+      background: var(--cyan-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .booking-note {
+      font-size: 11px;
+      color: var(--grey-mid);
+      text-align: center;
+    }
+
+    .guarantees {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 20px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .guarantee-item {
+      display: flex;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--grey-dark);
+    }
+
+    .guarantee-item i {
+      width: 14px;
+      height: 14px;
+      color: var(--green);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .gallery {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        height: 600px;
+      }
+
+      .gallery-main {
+        grid-row: 1 / 3;
+        grid-column: 1 / 3;
+      }
+
+      .main {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        order: -1;
+      }
+
+      .quick-info {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .room-card {
+        grid-template-columns: 1fr;
+      }
+
+      .room-pricing {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .facilities-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .policies-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .gallery {
+        padding: 16px;
+        height: 400px;
+      }
+
+      .main {
+        padding: 0 16px 24px 16px;
+      }
+
+      .section {
+        padding: 24px 16px;
+      }
+
+      .accommodation-title {
+        font-size: 22px;
+      }
+
+      .section-title {
+        font-size: 18px;
+      }
+
+      .quick-info {
+        grid-template-columns: 1fr;
+      }
+
+      .facilities-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .date-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <a href="toerisme-homepage.html" class="logo">
+        <i data-lucide="palm-tree"></i>
+        Compass Toerisme
+      </a>
+    </div>
+  </header>
+
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs">
+    <div class="breadcrumbs-content">
+      <a href="toerisme-homepage.html" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-separator">›</span>
+      <a href="toerisme-accommodatie-overzicht.html" class="breadcrumb-link">Accommodaties</a>
+      <span class="breadcrumb-separator">›</span>
+      <a href="#" class="breadcrumb-link">Bali</a>
+      <span class="breadcrumb-separator">›</span>
+      <span class="breadcrumb-current">The Laguna Resort & Spa</span>
+    </div>
+  </nav>
+
+  <!-- Gallery -->
+  <div class="gallery">
+    <div class="gallery-main" onclick="openGallery(0)">🏨</div>
+    <div class="gallery-thumb" onclick="openGallery(1)">🏖️</div>
+    <div class="gallery-thumb" onclick="openGallery(2)">🏊</div>
+    <div class="gallery-thumb" onclick="openGallery(3)">🍽️</div>
+    <div class="gallery-thumb" onclick="openGallery(4)">💆</div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="content-column">
+      <!-- Accommodation Header -->
+      <div class="accommodation-header">
+        <div class="header-badges">
+          <div class="badge badge-bestseller">Bestseller</div>
+          <div class="badge badge-featured">Featured</div>
+        </div>
+        <div class="accommodation-location">
+          <i data-lucide="map-pin"></i>
+          Seminyak, Bali, Indonesië
+        </div>
+        <h1 class="accommodation-title">The Laguna Resort & Spa</h1>
+        <div class="accommodation-meta">
+          <div class="meta-rating">
+            <div class="rating-stars">
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+            </div>
+            <span class="rating-score">9.2</span>
+            <span class="rating-count">(428 reviews)</span>
+          </div>
+          <div class="meta-item">
+            <i data-lucide="building-2"></i>
+            <span>5-sterren resort</span>
+          </div>
+          <div class="meta-item">
+            <i data-lucide="navigation"></i>
+            <span>1.2 km van centrum</span>
+          </div>
+        </div>
+
+        <div class="quick-info">
+          <div class="info-item">
+            <div class="info-icon">
+              <i data-lucide="clock"></i>
+            </div>
+            <div class="info-label">Check-in</div>
+            <div class="info-value">14:00</div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <i data-lucide="clock"></i>
+            </div>
+            <div class="info-label">Check-out</div>
+            <div class="info-value">11:00</div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <i data-lucide="users"></i>
+            </div>
+            <div class="info-label">Max. gasten</div>
+            <div class="info-value">4 personen</div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <i data-lucide="bed"></i>
+            </div>
+            <div class="info-label">Kamers</div>
+            <div class="info-value">156 kamers</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <section class="section">
+        <h2 class="section-title">
+          <i data-lucide="file-text"></i>
+          Over deze accommodatie
+        </h2>
+        <div class="section-description">
+          <p><strong>Welkom bij The Laguna Resort & Spa</strong>, een paradijselijke oase in het hart van Seminyak. Ons luxe 5-sterren resort combineert traditionele Balinese architectuur met moderne voorzieningen om u een onvergetelijk verblijf te bieden.</p>
+          <p>Gelegen op slechts 200 meter van het prachtige Seminyak Beach, biedt ons resort de perfecte uitvalsbasis om de bruisende stranden, restaurants en nachtleven van Bali te ontdekken. Tegelijkertijd kunt u genieten van rust en ontspanning in onze tropische tuinen en onze award-winning spa.</p>
+          <p>Al onze 156 kamers en suites zijn elegant ingericht met hoogwaardige voorzieningen, waaronder gratis WiFi, airconditioning, een flatscreen-tv en een ruim terras met uitzicht op de tuin of het zwembad. De meeste kamers beschikken ook over een bubbelbad voor extra ontspanning.</p>
+        </div>
+      </section>
+
+      <!-- Rooms -->
+      <section class="section">
+        <h2 class="section-title">
+          <i data-lucide="bed"></i>
+          Beschikbare kamers
+        </h2>
+        <div class="rooms-list">
+          <div class="room-card">
+            <div class="room-image">🛏️</div>
+            <div class="room-info">
+              <div class="room-name">Deluxe Garden View</div>
+              <div class="room-features">
+                <div class="room-feature">
+                  <i data-lucide="user"></i>
+                  <span>2 personen</span>
+                </div>
+                <div class="room-feature">
+                  <i data-lucide="bed"></i>
+                  <span>1 King bed</span>
+                </div>
+                <div class="room-feature">
+                  <i data-lucide="maximize"></i>
+                  <span>36 m²</span>
+                </div>
+              </div>
+              <div class="room-facilities">
+                <span class="room-facility">Gratis WiFi</span>
+                <span class="room-facility">Airco</span>
+                <span class="room-facility">Minibar</span>
+                <span class="room-facility">Balkon</span>
+              </div>
+            </div>
+            <div class="room-pricing">
+              <div>
+                <div class="room-price">€ 145</div>
+                <div class="room-period">per nacht</div>
+              </div>
+              <div class="room-availability">
+                <i data-lucide="check-circle"></i>
+                <span>8 kamers beschikbaar</span>
+              </div>
+              <button class="room-select" onclick="selectRoom('deluxe')">Selecteer</button>
+            </div>
+          </div>
+
+          <div class="room-card">
+            <div class="room-image">🛏️</div>
+            <div class="room-info">
+              <div class="room-name">Superior Pool View</div>
+              <div class="room-features">
+                <div class="room-feature">
+                  <i data-lucide="user"></i>
+                  <span>2 personen</span>
+                </div>
+                <div class="room-feature">
+                  <i data-lucide="bed"></i>
+                  <span>1 King bed</span>
+                </div>
+                <div class="room-feature">
+                  <i data-lucide="maximize"></i>
+                  <span>42 m²</span>
+                </div>
+              </div>
+              <div class="room-facilities">
+                <span class="room-facility">Gratis WiFi</span>
+                <span class="room-facility">Airco</span>
+                <span class="room-facility">Minibar</span>
+                <span class="room-facility">Balkon</span>
+                <span class="room-facility">Uitzicht op zwembad</span>
+              </div>
+            </div>
+            <div class="room-pricing">
+              <div>
+                <div class="room-price">€ 185</div>
+                <div class="room-period">per nacht</div>
+              </div>
+              <div class="room-availability">
+                <i data-lucide="check-circle"></i>
+                <span>5 kamers beschikbaar</span>
+              </div>
+              <button class="room-select" onclick="selectRoom('superior')">Selecteer</button>
+            </div>
+          </div>
+
+          <div class="room-card">
+            <div class="room-image">🛏️</div>
+            <div class="room-info">
+              <div class="room-name">Luxury Suite with Jacuzzi</div>
+              <div class="room-features">
+                <div class="room-feature">
+                  <i data-lucide="user"></i>
+                  <span>3 personen</span>
+                </div>
+                <div class="room-feature">
+                  <i data-lucide="bed"></i>
+                  <span>1 King + 1 Single</span>
+                </div>
+                <div class="room-feature">
+                  <i data-lucide="maximize"></i>
+                  <span>68 m²</span>
+                </div>
+              </div>
+              <div class="room-facilities">
+                <span class="room-facility">Gratis WiFi</span>
+                <span class="room-facility">Airco</span>
+                <span class="room-facility">Minibar</span>
+                <span class="room-facility">Jacuzzi</span>
+                <span class="room-facility">Woonkamer</span>
+              </div>
+            </div>
+            <div class="room-pricing">
+              <div>
+                <div class="room-price">€ 295</div>
+                <div class="room-period">per nacht</div>
+              </div>
+              <div class="room-availability">
+                <i data-lucide="check-circle"></i>
+                <span>3 suites beschikbaar</span>
+              </div>
+              <button class="room-select" onclick="selectRoom('luxury')">Selecteer</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Facilities -->
+      <section class="section">
+        <h2 class="section-title">
+          <i data-lucide="sparkles"></i>
+          Faciliteiten
+        </h2>
+        <div class="facilities-grid">
+          <div class="facility-item">
+            <div class="facility-icon">
+              <i data-lucide="wifi"></i>
+            </div>
+            <div class="facility-info">
+              <div class="facility-name">Gratis WiFi</div>
+              <div class="facility-description">In alle kamers en openbare ruimtes</div>
+            </div>
+          </div>
+          <div class="facility-item">
+            <div class="facility-icon">
+              <i data-lucide="waves"></i>
+            </div>
+            <div class="facility-info">
+              <div class="facility-name">Zwembad</div>
+              <div class="facility-description">3 zwembaden waarvan 1 infinity pool</div>
+            </div>
+          </div>
+          <div class="facility-item">
+            <div class="facility-icon">
+              <i data-lucide="utensils"></i>
+            </div>
+            <div class="facility-info">
+              <div class="facility-name">Restaurant</div>
+              <div class="facility-description">2 restaurants met internationale keuken</div>
+            </div>
+          </div>
+          <div class="facility-item">
+            <div class="facility-icon">
+              <i data-lucide="sparkles"></i>
+            </div>
+            <div class="facility-info">
+              <div class="facility-name">Spa & Wellness</div>
+              <div class="facility-description">Award-winning spa met 8 behandelkamers</div>
+            </div>
+          </div>
+          <div class="facility-item">
+            <div class="facility-icon">
+              <i data-lucide="dumbbell"></i>
+            </div>
+            <div class="facility-info">
+              <div class="facility-name">Fitness Center</div>
+              <div class="facility-description">24/7 geopend met moderne apparatuur</div>
+            </div>
+          </div>
+          <div class="facility-item">
+            <div class="facility-icon">
+              <i data-lucide="car"></i>
+            </div>
+            <div class="facility-info">
+              <div class="facility-name">Gratis Parkeren</div>
+              <div class="facility-description">Beveiligde parkeerplaats voor gasten</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Location -->
+      <section class="section">
+        <h2 class="section-title">
+          <i data-lucide="map"></i>
+          Locatie
+        </h2>
+        <div class="location-map">🗺️</div>
+        <div class="location-address">
+          <strong>The Laguna Resort & Spa</strong><br>
+          Jalan Kayu Aya No. 108X<br>
+          Seminyak, Kuta<br>
+          Bali 80361, Indonesië
+        </div>
+        <div class="location-distance">
+          <i data-lucide="navigation"></i>
+          1.2 km van centrum Seminyak • 200m van Seminyak Beach
+        </div>
+      </section>
+
+      <!-- Reviews -->
+      <section class="section">
+        <h2 class="section-title">
+          <i data-lucide="star"></i>
+          Beoordelingen
+        </h2>
+        <div class="reviews-summary">
+          <div class="reviews-average">
+            <div class="average-score">9.2</div>
+            <div class="average-stars">
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+              <i data-lucide="star"></i>
+            </div>
+            <div class="average-count">428 reviews</div>
+          </div>
+          <div class="reviews-breakdown">
+            <div class="rating-bar">
+              <div class="rating-label">Uitstekend (9-10)</div>
+              <div class="rating-progress">
+                <div class="rating-fill" style="width: 76%;"></div>
+              </div>
+              <div class="rating-count">325</div>
+            </div>
+            <div class="rating-bar">
+              <div class="rating-label">Zeer goed (8-9)</div>
+              <div class="rating-progress">
+                <div class="rating-fill" style="width: 18%;"></div>
+              </div>
+              <div class="rating-count">77</div>
+            </div>
+            <div class="rating-bar">
+              <div class="rating-label">Goed (7-8)</div>
+              <div class="rating-progress">
+                <div class="rating-fill" style="width: 4%;"></div>
+              </div>
+              <div class="rating-count">17</div>
+            </div>
+            <div class="rating-bar">
+              <div class="rating-label">Redelijk (6-7)</div>
+              <div class="rating-progress">
+                <div class="rating-fill" style="width: 1%;"></div>
+              </div>
+              <div class="rating-count">6</div>
+            </div>
+            <div class="rating-bar">
+              <div class="rating-label">Matig (< 6)</div>
+              <div class="rating-progress">
+                <div class="rating-fill" style="width: 1%;"></div>
+              </div>
+              <div class="rating-count">3</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reviews-list">
+          <div class="review-item">
+            <div class="review-header">
+              <div class="review-avatar">MV</div>
+              <div class="review-info">
+                <div class="review-author">Marieke van der Berg</div>
+                <div class="review-meta">
+                  <div class="review-rating">
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                  </div>
+                  <span>•</span>
+                  <span>2 weken geleden</span>
+                </div>
+              </div>
+            </div>
+            <p class="review-text">Fantastisch resort! De kamers zijn ruim en schoon, het personeel is ontzettend vriendelijk en behulpzaam. Het zwembad is prachtig en de ligging is perfect - op loopafstand van het strand en de beste restaurants van Seminyak. Absolute aanrader!</p>
+          </div>
+
+          <div class="review-item">
+            <div class="review-header">
+              <div class="review-avatar">PJ</div>
+              <div class="review-info">
+                <div class="review-author">Peter Janssen</div>
+                <div class="review-meta">
+                  <div class="review-rating">
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                    <i data-lucide="star"></i>
+                  </div>
+                  <span>•</span>
+                  <span>1 maand geleden</span>
+                </div>
+              </div>
+            </div>
+            <p class="review-text">Perfecte vakantie gehad! De spa is werkelijk fantastisch - we hebben een koppelmassage gehad die ongelooflijk was. Het ontbijt is uitgebreid met veel keuze. Enige minpuntje is dat het zwembad soms wat druk kan zijn, maar verder geen klachten.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Policies -->
+      <section class="section">
+        <h2 class="section-title">
+          <i data-lucide="info"></i>
+          Belangrijke informatie
+        </h2>
+        <div class="policies-grid">
+          <div class="policy-item">
+            <div class="policy-icon">
+              <i data-lucide="clock"></i>
+            </div>
+            <div class="policy-info">
+              <div class="policy-title">Check-in/Check-out</div>
+              <div class="policy-description">Check-in vanaf 14:00 uur. Check-out tot 11:00 uur. Vroege check-in en late check-out op aanvraag (tegen toeslag).</div>
+            </div>
+          </div>
+          <div class="policy-item">
+            <div class="policy-icon">
+              <i data-lucide="x-circle"></i>
+            </div>
+            <div class="policy-info">
+              <div class="policy-title">Annuleringsbeleid</div>
+              <div class="policy-description">Gratis annuleren tot 7 dagen voor aankomst. Bij annulering binnen 7 dagen wordt 50% van de totaalprijs in rekening gebracht.</div>
+            </div>
+          </div>
+          <div class="policy-item">
+            <div class="policy-icon">
+              <i data-lucide="users"></i>
+            </div>
+            <div class="policy-info">
+              <div class="policy-title">Kinderen</div>
+              <div class="policy-description">Kinderen van alle leeftijden zijn welkom. Kinderen tot 12 jaar verblijven gratis bij gebruik van bestaande bedden.</div>
+            </div>
+          </div>
+          <div class="policy-item">
+            <div class="policy-icon">
+              <i data-lucide="ban"></i>
+            </div>
+            <div class="policy-info">
+              <div class="policy-title">Huisdieren & Roken</div>
+              <div class="policy-description">Huisdieren zijn niet toegestaan. Roken is alleen toegestaan op het balkon of terras van uw kamer.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="booking-card">
+        <div class="booking-price">
+          <div class="price-label">Vanaf</div>
+          <span class="price-amount">€ 145</span>
+          <span class="price-period">per nacht</span>
+        </div>
+
+        <form class="booking-form" onsubmit="handleBooking(event)">
+          <div class="date-grid">
+            <div class="form-group">
+              <label class="form-label">Check-in</label>
+              <input type="date" class="form-input" id="checkin" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Check-out</label>
+              <input type="date" class="form-input" id="checkout" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Aantal gasten</label>
+            <select class="form-input" id="guests" onchange="updatePrice()">
+              <option value="1">1 gast</option>
+              <option value="2" selected>2 gasten</option>
+              <option value="3">3 gasten</option>
+              <option value="4">4 gasten</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Kamers</label>
+            <select class="form-input" id="rooms" onchange="updatePrice()">
+              <option value="1" selected>1 kamer</option>
+              <option value="2">2 kamers</option>
+              <option value="3">3 kamers</option>
+            </select>
+          </div>
+
+          <div class="booking-summary">
+            <div class="summary-row">
+              <span class="summary-label">€ 145 × 5 nachten</span>
+              <span class="summary-value">€ 725</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Toeristenbelasting</span>
+              <span class="summary-value">€ 35</span>
+            </div>
+            <div class="summary-total">
+              <span class="total-label">Totaal</span>
+              <span class="total-value">€ 760</span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-book">Boek nu</button>
+          <p class="booking-note">Je wordt nog niets in rekening gebracht</p>
+        </form>
+
+        <div class="guarantees">
+          <div class="guarantee-item">
+            <i data-lucide="shield-check"></i>
+            <span>Gratis annuleren tot 7 dagen voor aankomst</span>
+          </div>
+          <div class="guarantee-item">
+            <i data-lucide="check-circle"></i>
+            <span>Beste prijsgarantie</span>
+          </div>
+          <div class="guarantee-item">
+            <i data-lucide="lock"></i>
+            <span>Veilig betalen</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    let selectedRoom = null;
+
+    // Open gallery (placeholder)
+    function openGallery(index) {
+      alert(`Gallery lightbox openen bij afbeelding ${index + 1}.\n\nIn productie: full-screen lightbox met alle foto's.`);
+    }
+
+    // Select room
+    function selectRoom(roomType) {
+      selectedRoom = roomType;
+      alert(`Kamer geselecteerd: ${roomType}\n\nIn productie: scroll naar booking sidebar en update prijs.`);
+      // Update sidebar price based on selected room
+    }
+
+    // Update price calculation
+    function updatePrice() {
+      // In production: calculate based on dates, guests, rooms
+      console.log('Price updated');
+    }
+
+    // Handle booking
+    function handleBooking(e) {
+      e.preventDefault();
+      // In production: redirect to booking form
+      window.location.href = 'toerisme-boekingsformulier.html';
+    }
+
+    /**
+     * PAYLOAD CMS INTEGRATION
+     *
+     * Same Collection structure as toerisme-accommodatie-overzicht.html
+     *
+     * This detail page displays:
+     * - Full accommodation details with image gallery
+     * - All available rooms with pricing and facilities
+     * - Complete facilities list
+     * - Location map integration (Google Maps API)
+     * - Guest reviews with rating breakdown
+     * - Booking sidebar with date picker and price calculator
+     * - Policies and important information
+     *
+     * Additional Collections needed:
+     *
+     * Collection: Review
+     * Fields:
+     * - accommodation: relationship (to Accommodation)
+     * - user: relationship (to User)
+     * - rating: number (1-10)
+     * - comment: textarea
+     * - createdAt: date
+     * - verified: checkbox (stayed at property)
+     * - helpful: number (vote count)
+     *
+     * Collection: Booking
+     * Fields:
+     * - accommodation: relationship
+     * - room: relationship (to Room sub-collection)
+     * - user: relationship
+     * - checkinDate: date
+     * - checkoutDate: date
+     * - guests: number
+     * - nights: number (calculated)
+     * - pricePerNight: number
+     * - totalPrice: number
+     * - status: select (pending | confirmed | cancelled | completed)
+     * - specialRequests: textarea
+     * - paymentStatus: select (pending | paid | refunded)
+     */
+  </script>
+</body>
+</html>

@@ -16,6 +16,8 @@ export const branchOptions = [
   { label: 'Marktplaats', value: 'marketplace' },
   { label: 'Automotive', value: 'automotive' },
   { label: 'Toerisme', value: 'toerisme' },
+  { label: 'Vastgoed', value: 'vastgoed' },
+  { label: 'Onderwijs', value: 'onderwijs' },
 ]
 
 const colorOptions = [

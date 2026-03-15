@@ -142,7 +142,7 @@ export const PriceRangeSlider: React.FC<PriceRangeSliderProps> = ({
       {/* Slider Track */}
       <div
         ref={trackRef}
-        className="relative h-1.5 bg-gray-200 rounded-full mb-4 cursor-pointer"
+        className="relative h-1.5 bg-grey-light rounded-full mb-4 cursor-pointer"
         role="presentation"
       >
         {/* Active Fill */}

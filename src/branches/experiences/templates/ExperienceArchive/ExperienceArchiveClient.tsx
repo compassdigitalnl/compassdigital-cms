@@ -67,7 +67,7 @@ export function ExperienceArchiveClient({
       <div className="flex-1">
         {filtered.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">Geen ervaringen gevonden</p>
+            <p className="text-grey-mid text-lg">Geen ervaringen gevonden</p>
             <button
               onClick={() => setFilters({})}
               className="mt-4 text-sm font-medium"

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voorstel Aboland + Magvilla — Sityzr Platform v5.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--void:#09090B;--surface:#18181B;--border:#27272A;--violet:#7C3AED;--violet-light:#A78BFA;--violet-glow:rgba(124,58,237,0.08);--white:#FAFAFA;--zinc-50:#FAFAFA;--zinc-100:#F4F4F5;--zinc-200:#E4E4E7;--zinc-300:#D4D4D8;--zinc-400:#A1A1AA;--zinc-500:#71717A;--zinc-600:#52525B;--zinc-800:#27272A;--green:#10B981;--green-bg:#ECFDF5;--green-border:#A7F3D0;--amber:#F59E0B;--red:#EF4444}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--void);background:var(--white);-webkit-font-smoothing:antialiased;line-height:1.6}
+.container{max-width:1040px;margin:0 auto;padding:0 32px}
+
+/* Hero / Cover */
+.hero{background:var(--void);color:var(--white);padding:72px 0 56px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 30%,rgba(124,58,237,0.06),transparent 50%)}
+.hero-inner{position:relative;z-index:1}
+.hero-badge{display:inline-block;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--violet);margin-bottom:20px}
+.hero h1{font-size:44px;font-weight:800;letter-spacing:-1.5px;margin-bottom:12px}
+.hero h1 span{color:var(--violet-light)}
+.hero p{font-size:16px;color:var(--zinc-400);max-width:640px;margin-bottom:28px}
+.hero-stats{display:flex;gap:40px;flex-wrap:wrap;margin-bottom:28px}
+.hero-stat .number{font-size:28px;font-weight:800;color:var(--white)}
+.hero-stat .label{font-size:12px;color:var(--zinc-500);margin-top:2px}
+.hero-meta{padding-top:20px;border-top:1px solid var(--border);font-size:13px;color:var(--zinc-600)}
+
+/* Sections */
+.section{padding:48px 0;border-bottom:1px solid var(--zinc-200)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--violet);margin-bottom:6px}
+.section h2{font-size:28px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
+.section .subtitle{font-size:14px;color:var(--zinc-500);margin-bottom:28px}
+
+/* Cards */
+.site-card{background:#fff;border:2px solid var(--zinc-200);border-radius:8px;overflow:hidden;margin-bottom:20px;transition:border-color .2s}
+.site-card:hover{border-color:var(--violet)}
+.site-card-header{padding:24px 28px 16px}
+.site-card-header h3{font-size:20px;font-weight:800;letter-spacing:-.3px}
+.role-badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:4px;margin-left:8px;vertical-align:middle;text-transform:uppercase;letter-spacing:.5px}
+.role-badge.hub{background:var(--green);color:#fff}
+.role-badge.shop{background:var(--violet);color:#fff}
+.site-meta{display:flex;gap:20px;margin-top:8px;font-size:13px;color:var(--zinc-500);flex-wrap:wrap}
+.site-meta strong{color:var(--void)}
+.site-card-body{padding:0 28px 20px}
+.pricing-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--zinc-100)}
+.pricing-row:last-child{border-bottom:none}
+.pricing-row .component{font-weight:600;font-size:14px}
+.pricing-row .staffel{font-size:12px;color:var(--zinc-500);margin-top:2px}
+.pricing-row .price{font-size:15px;font-weight:700;color:var(--violet);white-space:nowrap}
+.site-card-footer{padding:16px 28px;background:var(--zinc-100);display:flex;justify-content:space-between;align-items:center}
+.total-price{font-size:24px;font-weight:800;color:var(--violet)}
+.total-period{font-size:13px;color:var(--zinc-500)}
+.total-label{font-size:13px;color:var(--zinc-500)}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:13px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--zinc-200)}
+th{background:var(--void);color:var(--white);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+th:first-child{border-radius:8px 0 0 0}
+th:last-child{border-radius:0 8px 0 0}
+tr:hover td{background:var(--violet-glow)}
+tr.highlight{background:var(--violet-glow);font-weight:600}
+tr.green-row{background:var(--green-bg);font-weight:700}
+
+/* Staffel grid */
+.staffel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:20px}
+.staffel-item{background:#fff;border:1.5px solid var(--zinc-200);border-radius:8px;padding:16px;text-align:center;transition:all .2s}
+.staffel-item:hover{border-color:var(--violet)}
+.staffel-item.active{border-color:var(--violet);background:var(--violet-glow);border-width:2px}
+.staffel-item .tier-name{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--zinc-500)}
+.staffel-item.active .tier-name{color:var(--violet)}
+.staffel-item .tier-price{font-size:20px;font-weight:800;margin:6px 0 4px;letter-spacing:-.5px}
+.staffel-item .tier-detail{font-size:11px;color:var(--zinc-500)}
+
+/* Banners */
+.banner{border-radius:8px;padding:20px 24px;margin-bottom:20px;font-size:13px}
+.banner h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.banner p,.banner li{color:var(--zinc-600);line-height:1.7}
+.banner ul{padding-left:18px;margin-top:6px}
+.banner li{margin-bottom:3px}
+.banner strong{color:var(--void)}
+.banner.info{background:var(--violet-glow);border:1px solid rgba(124,58,237,.15)}
+.banner.info h3{color:var(--violet)}
+.banner.success{background:var(--green-bg);border:1px solid var(--green-border)}
+.banner.success h3{color:var(--green)}
+
+/* Advice box (dark) */
+.advice-box{background:var(--void);color:var(--white);border-radius:8px;padding:32px;margin:24px 0;position:relative;overflow:hidden}
+.advice-box::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,58,237,0.12),transparent 60%)}
+.advice-box h3{font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:10px;position:relative}
+.advice-box p{font-size:13px;color:var(--zinc-400);line-height:1.8;position:relative;margin-bottom:6px}
+.advice-box .hl{color:var(--violet-light);font-weight:600}
+
+/* Savings banner */
+.savings-banner{background:linear-gradient(135deg,var(--green),#059669);color:#fff;border-radius:8px;padding:28px;text-align:center;margin:28px 0}
+.savings-banner .amount{font-size:36px;font-weight:800;letter-spacing:-1px}
+.savings-banner .label{font-size:15px;opacity:.9;margin-top:4px}
+.savings-banner .detail{font-size:13px;opacity:.7;margin-top:6px}
+
+/* Mini cards */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.mini-card{background:#fff;border:1px solid var(--zinc-200);border-radius:8px;padding:16px;transition:all .2s}
+.mini-card:hover{border-color:var(--violet-light);background:var(--violet-glow)}
+.mini-card h4{font-size:13px;font-weight:700;color:var(--violet);margin-bottom:6px}
+.mini-card p{font-size:12px;color:var(--zinc-500);line-height:1.5}
+
+/* Config examples */
+.config-card{background:#fff;border:1px solid var(--zinc-200);border-radius:8px;padding:20px;margin-bottom:14px}
+.config-card h4{font-size:15px;font-weight:700;margin-bottom:3px}
+.config-card .type-badge{font-size:12px;color:var(--zinc-500);margin-bottom:12px}
+.config-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;border-bottom:1px solid var(--zinc-100)}
+.config-row:last-child{border-bottom:none;font-weight:700;padding-top:10px;border-top:2px solid var(--zinc-200)}
+
+/* Add-on grid */
+.addon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.addon-card{background:#fff;border:1px solid var(--zinc-200);border-radius:8px;padding:16px;transition:all .2s}
+.addon-card:hover{border-color:var(--violet-light)}
+.addon-card h4{font-size:13px;font-weight:700;margin-bottom:4px}
+.addon-card .addon-price{font-size:18px;font-weight:800;color:var(--violet);margin:4px 0;letter-spacing:-.3px}
+.addon-card .addon-desc{font-size:11px;color:var(--zinc-500)}
+
+/* Revenue grid */
+.revenue-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.revenue-card{background:#fff;border:1px solid var(--zinc-200);border-radius:8px;padding:16px;text-align:center}
+.revenue-card .rev-count{font-size:12px;color:var(--zinc-500);font-weight:600}
+.revenue-card .rev-amount{font-size:18px;font-weight:800;color:var(--violet);margin-top:4px;letter-spacing:-.3px}
+.revenue-card .rev-type{font-size:11px;color:var(--zinc-500);margin-top:2px}
+
+/* Diagram */
+.diagram{background:var(--void);color:var(--white);border-radius:8px;padding:28px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.5;margin-bottom:20px;overflow-x:auto;white-space:pre}
+
+/* Feature grid */
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px}
+.feature-item{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 0}
+.feature-check{color:var(--green);font-weight:700;font-size:15px}
+
+/* Timeline */
+.timeline{position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:10px;top:8px;bottom:8px;width:2px;background:var(--zinc-200)}
+.timeline-item{position:relative;margin-bottom:20px}
+.timeline-dot{position:absolute;left:-24px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--violet);border:2px solid var(--white);box-shadow:0 0 0 2px var(--violet)}
+.timeline-item h4{font-size:15px;font-weight:700}
+.timeline-item .meta{font-size:12px;color:var(--zinc-500);margin-top:2px;font-family:'JetBrains Mono';font-weight:500}
+.timeline-item p{font-size:13px;color:var(--zinc-600);margin-top:4px}
+
+/* Options tabs */
+.option-tabs{display:flex}
+.option-tab{flex:1;padding:12px 20px;text-align:center;font-size:14px;font-weight:600;cursor:pointer;border:2px solid var(--zinc-200);background:var(--zinc-100);color:var(--zinc-500);transition:all .2s}
+.option-tab:first-child{border-radius:8px 0 0 0}
+.option-tab:last-child{border-radius:0 8px 0 0;border-left:none}
+.option-tab.active{background:#fff;color:var(--violet);border-color:var(--violet);border-bottom-color:#fff;position:relative;z-index:1}
+.option-tab .tab-badge{display:inline-block;background:var(--green);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;margin-left:6px}
+.option-content{border:2px solid var(--violet);border-top:none;border-radius:0 0 8px 8px;padding:24px;background:#fff}
+.option-content.hidden{display:none}
+
+/* Comparison row */
+.comparison-row{display:flex;gap:16px;margin:16px 0}
+.comparison-card{flex:1;background:#fff;border:1.5px solid var(--zinc-200);border-radius:8px;padding:20px;text-align:center}
+.comparison-card.recommended{border-color:var(--green);background:var(--green-bg)}
+.comparison-card .comp-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--zinc-500);margin-bottom:4px}
+.comparison-card.recommended .comp-label{color:var(--green)}
+.comparison-card .comp-value{font-size:26px;font-weight:800;letter-spacing:-.5px}
+.comparison-card .comp-detail{font-size:12px;color:var(--zinc-500);margin-top:4px}
+
+/* Footer */
+.footer{background:var(--void);color:var(--zinc-500);padding:32px 0}
+.footer-inner{display:flex;justify-content:space-between;align-items:center}
+.footer .brand{font-size:14px;font-weight:600;color:var(--white)}
+.footer .brand span{color:var(--zinc-600);font-weight:400}
+.footer .meta{font-size:12px}
+
+/* Responsive */
+@media(max-width:768px){.hero h1{font-size:32px}.hero-stats{gap:20px}.comparison-row{flex-direction:column}.revenue-grid{grid-template-columns:repeat(2,1fr)}.addon-grid{grid-template-columns:1fr 1fr}.site-meta{flex-direction:column;gap:4px}}
+@media print{body{font-size:12px}.hero{padding:40px 0 30px}.section{padding:28px 0}.site-card,.config-card{break-inside:avoid}@page{size:A4;margin:10mm 12mm}}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero"><div class="container hero-inner">
+  <div class="hero-badge">v5.0 — Sityzr Pricing Model Q2 2026</div>
+  <h1>Aboland + <span>Magvilla</span></h1>
+  <p>Multistore Hub (admin-only) voor centraal productbeheer en orderdashboard. Aboland en Magvilla als webshops. Elke site als eigen tenant op het Sityzr platform.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="number">18.359</div><div class="label">Aboland contacten</div></div>
+    <div class="hero-stat"><div class="number">21.482</div><div class="label">Magvilla contacten</div></div>
+    <div class="hero-stat"><div class="number">200-300K</div><div class="label">emails/mo totaal</div></div>
+    <div class="hero-stat"><div class="number">~1M</div><div class="label">Copernica profielen</div></div>
+  </div>
+  <div class="hero-meta">14 maart 2026 — Compass Digital</div>
+</div></div>
+
+<div class="container">
+
+  <!-- PRINCIPES -->
+  <div class="section">
+    <div class="banner info">
+      <h3>Principes v5.0</h3>
+      <ul>
+        <li><strong>Sityzr standaardprijzen</strong> — Platform pricing conform Sityzr Pricing Model Q2 2026</li>
+        <li><strong>Multistore Hub = admin-only site</strong> — dedicated beheersite (alleen /admin), geen frontend</li>
+        <li><strong>Aboland + Magvilla = webshops</strong> — E-commerce Compleet (Aboland + Publishing module, Magvilla puur e-commerce)</li>
+        <li><strong>Per-site facturatie</strong> — elke site = eigen tenant, eigen factuur</li>
+        <li><strong>Email = volume-based</strong> — afrekenen op verzonden emails, niet op profielen</li>
+        <li><strong>Modulaire add-ons voor titels</strong> — basispakket + kies wat je nodig hebt</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- MULTISTORE HUB -->
+  <div class="section" style="padding-top:0">
+    <div class="section-label">Centraal beheer</div>
+    <h2>Multistore Hub</h2>
+    <p class="subtitle">beheer.aboland.nl — Dedicated admin-only site. Geen frontend, alleen /admin panel. Centraal productbeheer en orderdashboard.</p>
+
+    <div class="card-grid">
+      <div class="mini-card"><h4>Master Catalogus</h4><p>Abonnementen, losse nummers, pakketten — allemaal hier aangemaakt en beheerd</p></div>
+      <div class="mini-card"><h4>Product Distributie</h4><p>Per product selecteren welke webshops het ontvangen (checkbox, bulk acties)</p></div>
+      <div class="mini-card"><h4>Centraal Orderdashboard</h4><p>Alle orders van alle webshops in een overzicht, filter per tenant</p></div>
+      <div class="mini-card"><h4>Fulfillment</h4><p>Pick, Pack, Ship — ongeacht welke webshop de order plaatste</p></div>
+      <div class="mini-card"><h4>Inventory Sync</h4><p>Centrale voorraad, real-time sync naar webshops, auto de-list bij uitverkocht</p></div>
+      <div class="mini-card"><h4>Reconciliation</h4><p>Omzet per webshop, commissie-berekening, maandelijkse afrekenrapportage (PDF)</p></div>
+    </div>
+
+    <div class="site-card">
+      <div class="site-card-header">
+        <h3>Multistore Hub <span class="role-badge hub">Admin-only</span></h3>
+        <div class="site-meta">
+          <span>Type: <strong>Admin-only (geen frontend)</strong></span>
+          <span>URL: <strong>beheer.aboland.nl</strong></span>
+          <span>Staffel: <strong>Starter (5 webshops)</strong></span>
+        </div>
+      </div>
+      <div class="site-card-body">
+        <div class="pricing-row"><div><div class="component">Multistore Hub</div><div class="staffel">Starter — tot 5 webshops, incl. hosting, admin, catalogus, sync, inventory, orderdashboard</div></div><div class="price">€79/mo</div></div>
+      </div>
+      <div class="site-card-footer"><div class="total-label">Totaal Multistore Hub per maand</div><div><span class="total-price">€79</span><span class="total-period">/mo</span></div></div>
+    </div>
+
+    <h3 style="font-size:15px;font-weight:700;margin:20px 0 10px">Hub Staffels</h3>
+    <div class="staffel-grid">
+      <div class="staffel-item active"><div class="tier-name">Starter</div><div class="tier-price">€79</div><div class="tier-detail">tot 5 webshops</div></div>
+      <div class="staffel-item"><div class="tier-name">Pro</div><div class="tier-price">€149</div><div class="tier-detail">tot 25 webshops</div></div>
+      <div class="staffel-item"><div class="tier-name">Business</div><div class="tier-price">€249</div><div class="tier-detail">tot 100 webshops</div></div>
+    </div>
+  </div>
+
+  <!-- ABOLAND -->
+  <div class="section">
+    <div class="section-label">Webshop</div>
+    <h2>Aboland.nl</h2>
+    <p class="subtitle">Primaire webshop. E-commerce Compleet + Publishing module. Producten vanuit de Hub, orders terug naar Hub.</p>
+
+    <div class="site-card">
+      <div class="site-card-header">
+        <h3>Aboland.nl <span class="role-badge shop">Webshop</span></h3>
+        <div class="site-meta">
+          <span>Tier: <strong>E-commerce Compleet</strong></span>
+          <span>Module: <strong>Publishing & Media</strong></span>
+          <span>Email: <strong>Pro (100K)</strong></span>
+        </div>
+      </div>
+      <div class="site-card-body">
+        <div class="pricing-row"><div><div class="component">E-commerce Compleet</div><div class="staffel">Onbeperkt producten, reviews, wishlists, promoties, cadeaubonnen, AI-content tools</div></div><div class="price">€399/mo</div></div>
+        <div class="pricing-row"><div><div class="component">Publishing & Media module</div><div class="staffel">Digitale magazines, paywall, digitale bibliotheek, auteursbeheer</div></div><div class="price">€99/mo</div></div>
+        <div class="pricing-row"><div><div class="component">E-mail Marketing</div><div class="staffel">Pro — 100K emails/mo, onbeperkt contacten (volume-based)</div></div><div class="price">€149/mo</div></div>
+        <div class="pricing-row"><div><div class="component">AI Chatbot</div><div class="staffel">Tot 1.000 gesprekken/mo, lead-capture, handoff naar email</div></div><div class="price">€79/mo</div></div>
+      </div>
+      <div class="site-card-footer"><div class="total-label">Totaal Aboland per maand</div><div><span class="total-price">€726</span><span class="total-period">/mo</span></div></div>
+    </div>
+
+    <h3 style="margin-top:24px;margin-bottom:14px;font-size:17px;font-weight:700">Setup & Migratie (eenmalig)</h3>
+    <table>
+      <tr><th>Onderdeel</th><th style="text-align:right">Prijs</th></tr>
+      <tr><td>Server provisioning + DNS + SSL</td><td style="text-align:right">€250</td></tr>
+      <tr><td>Theme & branding</td><td style="text-align:right">€350</td></tr>
+      <tr><td>Categorie-structuur & navigatie</td><td style="text-align:right">€200</td></tr>
+      <tr><td>Payment gateway (Stripe/MultiSafepay)</td><td style="text-align:right">€150</td></tr>
+      <tr><td>Email setup (Listmonk + SMTP + templates)</td><td style="text-align:right">€200</td></tr>
+      <tr><td>Admin training (2 uur)</td><td style="text-align:right">€200</td></tr>
+      <tr><td>WooCommerce migratie — abonnementen</td><td style="text-align:right">€500</td></tr>
+      <tr><td>WooCommerce migratie — losse tijdschriften</td><td style="text-align:right">€400</td></tr>
+      <tr><td>WooCommerce migratie — pakketten & bundels</td><td style="text-align:right">€350</td></tr>
+      <tr><td>Afbeeldingen + categorie/tag mapping</td><td style="text-align:right">€450</td></tr>
+      <tr><td>Klantaccounts + adressen + orderhistorie</td><td style="text-align:right">€350</td></tr>
+      <tr><td>THOR abonnements-mapping</td><td style="text-align:right">€300</td></tr>
+      <tr><td>Redirectplan (URL-mapping + 301 + 404 monitoring)</td><td style="text-align:right">€550</td></tr>
+      <tr class="green-row"><td><strong>Totaal eenmalig Aboland</strong></td><td style="text-align:right"><strong>€4.250</strong></td></tr>
+    </table>
+  </div>
+
+  <!-- MAGVILLA -->
+  <div class="section">
+    <div class="section-label">Webshop</div>
+    <h2>Magvilla</h2>
+    <p class="subtitle">Eigen branding, eigen klanten. E-commerce Compleet webshop. Orders terug naar Hub.</p>
+
+    <div class="site-card">
+      <div class="site-card-header">
+        <h3>Magvilla <span class="role-badge shop">Webshop</span></h3>
+        <div class="site-meta">
+          <span>Tier: <strong>E-commerce Compleet</strong></span>
+          <span>Email: <strong>Pro (100K)</strong></span>
+        </div>
+      </div>
+      <div class="site-card-body">
+        <div class="pricing-row"><div><div class="component">E-commerce Compleet</div><div class="staffel">Onbeperkt producten, reviews, wishlists, promoties, cadeaubonnen, AI-content tools</div></div><div class="price">€399/mo</div></div>
+        <div class="pricing-row"><div><div class="component">E-mail Marketing</div><div class="staffel">Pro — 100K emails/mo (volume-based)</div></div><div class="price">€149/mo</div></div>
+        <div class="pricing-row"><div><div class="component">AI Chatbot</div><div class="staffel">Tot 1.000 gesprekken/mo</div></div><div class="price">€79/mo</div></div>
+      </div>
+      <div class="site-card-footer"><div class="total-label">Totaal Magvilla per maand</div><div><span class="total-price">€627</span><span class="total-period">/mo</span></div></div>
+    </div>
+
+    <div class="banner success"><strong>Magvilla betaalt geen Multistore add-on</strong> — die zit in de Multistore Hub. Magvilla ontvangt producten automatisch vanuit de Hub.</div>
+
+    <table>
+      <tr><th>Setup & Migratie (eenmalig)</th><th style="text-align:right">Prijs</th></tr>
+      <tr><td>Server provisioning + branding</td><td style="text-align:right">€600</td></tr>
+      <tr><td>Productmigratie (hergebruik scripts)</td><td style="text-align:right">€750</td></tr>
+      <tr><td>Klantaccounts + orderhistorie</td><td style="text-align:right">€250</td></tr>
+      <tr><td>Redirectplan + admin training</td><td style="text-align:right">€450</td></tr>
+      <tr class="green-row"><td><strong>Totaal eenmalig Magvilla</strong></td><td style="text-align:right"><strong>€2.050</strong></td></tr>
+    </table>
+  </div>
+
+  <!-- MULTISTORE ARCHITECTUUR -->
+  <div class="section">
+    <div class="section-label">Architectuur</div>
+    <h2>Multistore — Hoe het werkt</h2>
+    <p class="subtitle">Multistore Hub beheert producten en orders centraal. Webshops verkopen, orders komen terug naar de Hub.</p>
+
+    <div class="diagram">  MULTISTORE HUB — beheer.aboland.nl
+  Admin-only site (geen frontend, alleen /admin)
+  ┌────────────────┐    ┌─────────────────────────┐
+  │ Master         │    │ Centraal Orderdashboard  │
+  │ Catalogus      │    │                         │
+  │ ─────────────  │    │ Alle orders, alle shops  │
+  │ Abonnementen   │    │ Pick → Pack → Ship       │
+  │ Losse nummers  │    │ Status sync terug        │
+  │ Pakketten      │    │ Per-tenant rapportage    │
+  └───────┬────────┘    └────────────▲────────────┘
+          │ product sync             │ order sync
+          │                          │
+  ┌───────┴──────┬───────────┬───────┴──────┐
+  ▼              ▼           ▼              ▼
+┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐
+│ ABOLAND  │ │ MAGVILLA │ │ WINELIFE │ │ TITEL B  │
+│ (webshop)│ │ (webshop)│ │ (webshop)│ │ (webshop)│
+│          │ │          │ │          │ │          │
+│ Orders → │ │ Orders → │ │ Orders → │ │ Orders → │
+│ Hub      │ │ Hub      │ │ Hub      │ │ Hub      │
+└──────────┘ └──────────┘ └──────────┘ └──────────┘</div>
+
+    <div class="banner success">
+      <h3>Standaard platformfeature</h3>
+      <p>Multistore (product sync, order aggregation, inventory, dashboards, fulfillment) is <strong>ingebouwd in het Sityzr platform</strong>. Geen eenmalige implementatiekosten — alleen de maandelijkse Hub-licentie.</p>
+    </div>
+  </div>
+
+  <!-- UITGEVERSLICENTIES -->
+  <div class="section">
+    <div class="section-label">Uitgeverslicenties</div>
+    <h2>Aangesloten Titels</h2>
+    <p class="subtitle">Elke titel = klant van Aboland. Duidelijke bundels met abonnee-limieten. Aboland verkoopt door met eigen marge.</p>
+
+    <div class="advice-box">
+      <h3>Bundels in plaats van losse modules</h3>
+      <p>Elke bundel bevat alles wat een uitgever nodig heeft: <span class="hl">website + THOR koppeling + e-commerce + email</span>. Geen losse modules kiezen — gewoon de bundel die past bij de omvang van de titel.</p>
+      <p>Prijs is gebaseerd op <span class="hl">aantal actieve abonnees</span> — de metric die uitgevers begrijpen.</p>
+    </div>
+
+    <h3 style="font-size:16px;font-weight:700;margin-bottom:14px">Bundels (wholesale — wat Aboland aan ons betaalt)</h3>
+
+    <div class="config-card" style="border-left:3px solid var(--zinc-400)">
+      <h4>Titel Light — €45/mo</h4>
+      <div class="type-badge">Geen eigen website. Titelpagina op Aboland.nl portaal. Tot 2.500 abonnees.</div>
+      <div class="config-row"><span>Titelpagina op Aboland portaal (content, edities, productlinks)</span><span></span></div>
+      <div class="config-row"><span>THOR koppeling (abonnementen sync, subscriber status)</span><span></span></div>
+      <div class="config-row"><span>Email via Aboland-flows (bevestigingen, renewals, winbacks)</span><span></span></div>
+      <div class="config-row"><span>Totaal wholesale</span><span>€45/mo</span></div>
+    </div>
+
+    <div class="config-card" style="border-left:3px solid var(--green)">
+      <h4>Titel Starter — €149/mo</h4>
+      <div class="type-badge">Eigen website + abonnementsverkoop via Multistore Hub. Tot 5.000 abonnees.</div>
+      <div class="config-row"><span>Eigen website (CMS, page builder, branding, SEO, SSL, hosting, backups)</span><span></span></div>
+      <div class="config-row"><span>E-commerce (producten via Hub — abonnementen, losse nummers, pakketten)</span><span></span></div>
+      <div class="config-row"><span>THOR koppeling (sync, renewal flows, churn alerts)</span><span></span></div>
+      <div class="config-row"><span>Email marketing (10K emails/mo — transactioneel + campagnes)</span><span></span></div>
+      <div class="config-row"><span>PWA, responsive design, cookie consent & GDPR</span><span></span></div>
+      <div class="config-row"><span>Totaal wholesale</span><span>€149/mo</span></div>
+    </div>
+
+    <div class="config-card" style="border-left:3px solid var(--violet)">
+      <h4>Titel Compleet — €249/mo</h4>
+      <div class="type-badge">Volledig uitgeversplatform met content, paywall en marketing. Tot 15.000 abonnees.</div>
+      <div class="config-row"><span>Alles uit Starter (website, e-commerce, THOR, email)</span><span></span></div>
+      <div class="config-row"><span>Publishing module (artikelen, digitale edities, paywall, metered access)</span><span></span></div>
+      <div class="config-row"><span>Email marketing uitgebreid (50K emails/mo, segmentatie, A/B testing, flows)</span><span></span></div>
+      <div class="config-row"><span>Search — Meilisearch (zoek in artikelen, edities, producten)</span><span></span></div>
+      <div class="config-row"><span>Analytics dashboard (lezersgedrag, conversie, subscriber churn, CLV)</span><span></span></div>
+      <div class="config-row"><span>Totaal wholesale</span><span>€249/mo</span></div>
+    </div>
+
+    <div class="config-card" style="border-left:3px solid var(--amber)">
+      <h4>Titel Pro — €349/mo</h4>
+      <div class="type-badge">Alles-in-één voor grote uitgevers met hoog volume. Tot 50.000 abonnees.</div>
+      <div class="config-row"><span>Alles uit Compleet (publishing, search, analytics)</span><span></span></div>
+      <div class="config-row"><span>AI Chatbot (klantenservice, abonnement-vragen, lead-capture)</span><span></span></div>
+      <div class="config-row"><span>Social media publishing (auto-post nieuwe edities/artikelen)</span><span></span></div>
+      <div class="config-row"><span>Email Pro (150K emails/mo, geavanceerde flows, dedicated sending)</span><span></span></div>
+      <div class="config-row"><span>Priority support (4 uur response SLA)</span><span></span></div>
+      <div class="config-row"><span>Totaal wholesale</span><span>€349/mo</span></div>
+    </div>
+
+    <h3 style="font-size:16px;font-weight:700;margin:24px 0 12px">Aboland verkoopadvies (retail)</h3>
+    <table>
+      <tr><th>Bundel</th><th>Wholesale (ons)</th><th>Retail advies</th><th style="text-align:right">Marge Aboland</th></tr>
+      <tr><td><strong>Light</strong> <span style="font-size:11px;color:var(--zinc-500)">tot 2.500 abo's</span></td><td>€45/mo</td><td>€69-79/mo</td><td style="text-align:right">€24-34 (53-76%)</td></tr>
+      <tr><td><strong>Starter</strong> <span style="font-size:11px;color:var(--zinc-500)">tot 5.000 abo's</span></td><td>€149/mo</td><td>€229-249/mo</td><td style="text-align:right">€80-100 (54-67%)</td></tr>
+      <tr><td><strong>Compleet</strong> <span style="font-size:11px;color:var(--zinc-500)">tot 15.000 abo's</span></td><td>€249/mo</td><td>€399-449/mo</td><td style="text-align:right">€150-200 (60-80%)</td></tr>
+      <tr><td><strong>Pro</strong> <span style="font-size:11px;color:var(--zinc-500)">tot 50.000 abo's</span></td><td>€349/mo</td><td>€549-599/mo</td><td style="text-align:right">€200-250 (57-72%)</td></tr>
+    </table>
+
+    <div class="banner info">
+      <h3>Volume-korting & overschrijding</h3>
+      <ul>
+        <li><strong>5-9 titels:</strong> 10% korting op wholesale</li>
+        <li><strong>10-19 titels:</strong> 15% korting</li>
+        <li><strong>20+ titels:</strong> 20% korting</li>
+        <li><strong>Abonnees overschrijding:</strong> upgrade naar hogere bundel, of €2/mo per 100 extra abonnees</li>
+      </ul>
+    </div>
+
+    <h3 style="font-size:16px;font-weight:700;margin:20px 0 12px">Voorbeelden</h3>
+    <div class="card-grid">
+      <div class="mini-card"><h4>WINELIFE</h4><p>Groot magazine + webshop + marketing<br><strong>Titel Compleet</strong> — €249/mo wholesale<br>Aboland rekent €399 → <strong>€150/mo marge</strong></p></div>
+      <div class="mini-card"><h4>Niche-blad</h4><p>Klein magazine, online content<br><strong>Titel Starter</strong> — €149/mo wholesale<br>Aboland rekent €229 → <strong>€80/mo marge</strong></p></div>
+      <div class="mini-card"><h4>Legacy-titel</h4><p>Geen eigen site, abo's via Aboland<br><strong>Titel Light</strong> — €45/mo wholesale<br>Aboland rekent €69 → <strong>€24/mo marge</strong></p></div>
+    </div>
+
+    <h3 style="font-size:16px;font-weight:700;margin:20px 0 12px">Revenue projectie (wat wij ontvangen)</h3>
+    <p style="font-size:12px;color:var(--zinc-500);margin-bottom:12px">Mix: 15% Light, 40% Starter, 35% Compleet, 10% Pro — gemiddeld ~€188/titel/mo</p>
+    <div class="revenue-grid">
+      <div class="revenue-card"><div class="rev-count">5 titels</div><div class="rev-amount">€942/mo</div><div class="rev-type">€11.304/jaar</div></div>
+      <div class="revenue-card"><div class="rev-count">10 titels</div><div class="rev-amount">€1.696/mo</div><div class="rev-type">na 10% · €20.352/jr</div></div>
+      <div class="revenue-card"><div class="rev-count">25 titels</div><div class="rev-amount">€4.004/mo</div><div class="rev-type">na 15% · €48.048/jr</div></div>
+      <div class="revenue-card"><div class="rev-count">50 titels</div><div class="rev-amount">€7.536/mo</div><div class="rev-type">na 20% · €90.432/jr</div></div>
+    </div>
+
+    <div class="banner success">
+      <h3>Vergelijking met markt</h3>
+      <p>Wat een titel nu zelf betaalt: website €20-50 + email €50-200 + abo-beheer €100-300 + publishing €50-200 + payments €50 = <strong>€270-800/mo</strong>.<br>
+      Via Aboland (retail): <strong>€229-599/mo</strong> — 15-70% goedkoper, met kant-en-klare THOR + Hub integratie.</p>
+    </div>
+  </div>
+
+  <!-- EMAIL STAFFELS -->
+  <div class="section">
+    <div class="section-label">Volume-based</div>
+    <h2>Email Marketing</h2>
+    <p class="subtitle">Afrekenen op verzonden emails. Onbeperkt contacten/profielen. Afwijkend van standaard Sityzr pricing vanwege hoog volume.</p>
+
+    <h3 style="font-size:15px;font-weight:700;margin-bottom:10px">E-commerce Email (per site)</h3>
+    <div class="staffel-grid">
+      <div class="staffel-item"><div class="tier-name">Starter</div><div class="tier-price">€29</div><div class="tier-detail">5K emails/mo</div></div>
+      <div class="staffel-item"><div class="tier-name">Groei</div><div class="tier-price">€79</div><div class="tier-detail">30K emails/mo</div></div>
+      <div class="staffel-item active"><div class="tier-name">Pro</div><div class="tier-price">€149</div><div class="tier-detail">100K emails/mo</div></div>
+      <div class="staffel-item"><div class="tier-name">Business</div><div class="tier-price">€299</div><div class="tier-detail">500K emails/mo</div></div>
+      <div class="staffel-item"><div class="tier-name">Enterprise</div><div class="tier-price">Op maat</div><div class="tier-detail">Onbeperkt</div></div>
+    </div>
+
+    <h3 style="font-size:15px;font-weight:700;margin:20px 0 10px">Lifecycle Email (Copernica-vervanging)</h3>
+    <div class="staffel-grid">
+      <div class="staffel-item"><div class="tier-name">100K</div><div class="tier-price">€99</div><div class="tier-detail">100K emails/mo</div></div>
+      <div class="staffel-item"><div class="tier-name">250K</div><div class="tier-price">€199</div><div class="tier-detail">250K emails/mo</div></div>
+      <div class="staffel-item active"><div class="tier-name">500K</div><div class="tier-price">€349</div><div class="tier-detail">500K emails/mo</div></div>
+      <div class="staffel-item"><div class="tier-name">1M</div><div class="tier-price">€599</div><div class="tier-detail">1M emails/mo</div></div>
+    </div>
+  </div>
+
+  <!-- COPERNICA -->
+  <div class="section">
+    <div class="section-label">Optioneel</div>
+    <h2>Copernica: Vervangen of behouden?</h2>
+    <div class="option-tabs">
+      <div class="option-tab active" onclick="switchOption('a')">Optie A: Vervangen <span class="tab-badge">Aanbevolen</span></div>
+      <div class="option-tab" onclick="switchOption('b')">Optie B: Behouden</div>
+    </div>
+    <div class="option-content" id="option-a">
+      <table>
+        <tr><th>Component</th><th>Specificatie</th><th style="text-align:right">Maandelijks</th></tr>
+        <tr><td>Subscriber Lifecycle Email</td><td>500K staffel</td><td style="text-align:right">€349/mo</td></tr>
+        <tr><td>SMTP (Amazon SES)</td><td>~200-300K emails/mo</td><td style="text-align:right">~€25/mo</td></tr>
+        <tr class="green-row"><td>Totaal lifecycle</td><td></td><td style="text-align:right">~€374/mo</td></tr>
+      </table>
+      <div class="comparison-row" style="margin-top:20px">
+        <div class="comparison-card recommended"><div class="comp-label">Optie A totaal/mo</div><div class="comp-value" style="color:var(--green)">€1.806</div><div class="comp-detail">Hub + 2 webshops + lifecycle</div></div>
+        <div class="comparison-card"><div class="comp-label">Optie B totaal/mo</div><div class="comp-value" style="color:var(--red)">€4.432-6.432</div><div class="comp-detail">Hub + 2 webshops + Copernica</div></div>
+      </div>
+      <p style="margin-top:14px;font-size:13px;color:var(--zinc-600)"><strong>Eenmalige migratie: €3.250</strong> (server setup, THOR sync, templates, data, flows, QA)</p>
+    </div>
+    <div class="option-content hidden" id="option-b">
+      <div class="banner" style="background:#FEF2F2;border:1px solid #FECACA"><strong>Optie B:</strong> Copernica blijft (€3.000-5.000/mo). Ons platform alleen voor e-commerce email. Totaal: €4.432-6.432/mo.</div>
+    </div>
+  </div>
+
+  <!-- ADVERTENTIES ADD-ON -->
+  <div class="section">
+    <div class="section-label">Add-on</div>
+    <h2>Advertenties (Google Ad Manager)</h2>
+    <p class="subtitle">Monetiseer verkeer via advertentieruimte. Volledig in het CMS geïntegreerd — geen implementatiekosten.</p>
+
+    <div class="card-grid">
+      <div class="mini-card"><h4>Ad Zones Beheer</h4><p>Header, sidebar, in-article, footer, interstitial — definieer waar ads verschijnen</p></div>
+      <div class="mini-card"><h4>Google Ad Manager</h4><p>Automatische sync met GAM voor programmatic, direct deals en eigen campagnes</p></div>
+      <div class="mini-card"><h4>CMS Integratie</h4><p>Redactie kan per pagina/artikel ad zones in/uitschakelen, eigen campagnes promoten</p></div>
+      <div class="mini-card"><h4>Revenue Dashboard</h4><p>Impressies, clicks, CTR, revenue per zone, per pagina, per periode</p></div>
+    </div>
+
+    <div class="staffel-grid" style="grid-template-columns:repeat(2,1fr)">
+      <div class="staffel-item active"><div class="tier-name">Advertenties</div><div class="tier-price">€69/mo</div><div class="tier-detail">Tot 100K pageviews/mo · Display & native ads · Basis rapportage</div></div>
+      <div class="staffel-item"><div class="tier-name">Advertenties Pro</div><div class="tier-price">€129/mo</div><div class="tier-detail">Onbeperkt pageviews · Programmatic (header bidding) · Video ads · Yield optimization</div></div>
+    </div>
+
+    <h3 style="font-size:15px;font-weight:700;margin:16px 0 10px">Wholesale voor titels</h3>
+    <table>
+      <tr><th>Tier</th><th>Wholesale</th><th>Retail advies</th><th style="text-align:right">Marge</th></tr>
+      <tr><td>Advertenties</td><td>€39/mo</td><td>€69/mo</td><td style="text-align:right">€30 (77%)</td></tr>
+      <tr><td>Advertenties Pro</td><td>€69/mo</td><td>€129/mo</td><td style="text-align:right">€60 (87%)</td></tr>
+    </table>
+
+    <div class="advice-box">
+      <h3>Waarom dit interessant is voor uitgevers</h3>
+      <p>Tijdschrift-websites genereren veel traffic (artikelen, edities, content). Advertentie-inkomsten zijn een <span class="hl">extra revenue stream</span> bovenop abonnementsverkoop.</p>
+      <p>Bij 100K pageviews/mo en een gemiddelde RPM van €5-15 verdient een titel <span class="hl">€500-1.500/mo</span> aan ads — ruim meer dan de add-on kost.</p>
+    </div>
+  </div>
+
+  <!-- SAVINGS -->
+  <div class="savings-banner">
+    <div class="amount">~€40.262/jaar</div>
+    <div class="label">Besparing Optie A vs. Optie B (jaar 1)</div>
+    <div class="detail">€38.972 (Optie A) vs. ~€79.234 (Optie B) — inclusief eenmalige kosten</div>
+  </div>
+
+  <!-- TOTAALOVERZICHT -->
+  <div class="section">
+    <div class="section-label">Overzicht</div>
+    <h2>Totaaloverzicht</h2>
+
+    <h3 style="font-size:16px;font-weight:700;margin-bottom:14px">Maandelijks</h3>
+    <table>
+      <tr><th>Site</th><th>Rol</th><th>Platform</th><th>Publishing</th><th>Email</th><th>Chat</th><th style="text-align:right">Totaal</th></tr>
+      <tr><td><strong>Multistore Hub</strong></td><td>Admin-only</td><td colspan="4" style="color:var(--zinc-500)">Incl. hosting, admin, sync, inventory, orders</td><td style="text-align:right"><strong>€79</strong></td></tr>
+      <tr><td><strong>Aboland</strong></td><td>Webshop</td><td>€399</td><td>€99</td><td>€149</td><td>€79</td><td style="text-align:right"><strong>€726</strong></td></tr>
+      <tr><td><strong>Magvilla</strong></td><td>Webshop</td><td>€399</td><td>—</td><td>€149</td><td>€79</td><td style="text-align:right"><strong>€627</strong></td></tr>
+      <tr class="highlight"><td colspan="6"><strong>Subtotaal Hub + 2 webshops</strong></td><td style="text-align:right"><strong>€1.432/mo</strong></td></tr>
+      <tr><td colspan="6">Subscriber Lifecycle (Optie A)</td><td style="text-align:right">~€374/mo</td></tr>
+      <tr class="green-row"><td colspan="6">Totaal Optie A</td><td style="text-align:right">€1.806/mo</td></tr>
+    </table>
+
+    <h3 style="font-size:16px;font-weight:700;margin:28px 0 14px">Eenmalige kosten</h3>
+    <table>
+      <tr><th>Onderdeel</th><th style="text-align:right">Optie A</th><th style="text-align:right">Optie B</th></tr>
+      <tr><td>Setup + migratie Aboland (webshop)</td><td style="text-align:right">€4.250</td><td style="text-align:right">€4.250</td></tr>
+      <tr><td>Setup + migratie Magvilla (webshop)</td><td style="text-align:right">€2.050</td><td style="text-align:right">€2.050</td></tr>
+      <tr><td>THOR API integratie</td><td style="text-align:right">€4.500</td><td style="text-align:right">€4.500</td></tr>
+      <tr><td>Copernica → Listmonk migratie</td><td style="text-align:right">€3.250</td><td style="text-align:right">—</td></tr>
+      <tr><td>Centraal portaal + verrekensleutel</td><td style="text-align:right">€3.250</td><td style="text-align:right">€3.250</td></tr>
+      <tr class="green-row"><td>Totaal eenmalig</td><td style="text-align:right">€17.300</td><td style="text-align:right">€14.050</td></tr>
+    </table>
+
+    <h3 style="font-size:16px;font-weight:700;margin:28px 0 14px">Jaar 1</h3>
+    <table>
+      <tr><th></th><th style="text-align:right">Optie A</th><th style="text-align:right">Optie B</th></tr>
+      <tr><td>Eenmalig</td><td style="text-align:right">€17.300</td><td style="text-align:right">€14.050</td></tr>
+      <tr><td>Maandelijks (x12)</td><td style="text-align:right">€21.672</td><td style="text-align:right">~€65.184</td></tr>
+      <tr class="green-row"><td>Totaal jaar 1</td><td style="text-align:right">€38.972</td><td style="text-align:right">~€79.234</td></tr>
+    </table>
+
+    <h3 style="font-size:16px;font-weight:700;margin:28px 0 14px">Ecosysteem projectie (met titels)</h3>
+    <table>
+      <tr><th></th><th style="text-align:right">Alleen sites</th><th style="text-align:right">+10 titels</th><th style="text-align:right">+25 titels</th></tr>
+      <tr><td>Hub + Aboland + Magvilla + Lifecycle</td><td style="text-align:right">€1.806</td><td style="text-align:right">€1.806</td><td style="text-align:right">€1.806</td></tr>
+      <tr><td>Titel-licenties (bundels, na korting)</td><td style="text-align:right">—</td><td style="text-align:right">€1.696</td><td style="text-align:right">€4.004</td></tr>
+      <tr class="highlight"><td>Totaal ecosysteem/mo</td><td style="text-align:right">€1.806</td><td style="text-align:right">€3.502</td><td style="text-align:right">€5.810</td></tr>
+    </table>
+    <div class="banner success"><strong>Plus voor Aboland:</strong> marge op doorverkoop licenties + productverkoop-omzet via Hub + Netflix-inkomsten + verrekensleutel</div>
+  </div>
+
+  <!-- FASERING -->
+  <div class="section">
+    <div class="section-label">Planning</div>
+    <h2>Fasering</h2>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-dot"></div><h4>Fase 1: Aboland (webshop) live</h4><div class="meta">Week 1-6 · €8.750</div><p>Setup + migratie (abonnementen, losse nummers, pakketten) + THOR API + redirects</p></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><h4>Fase 2: Magvilla (webshop)</h4><div class="meta">Week 7-9 · €2.050</div><p>Hergebruik scripts. Eigen tenant, eigen branding.</p></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><h4>Fase 3: Multistore Hub provisioning</h4><div class="meta">Week 8-9 · Inbegrepen</div><p>Standaard platformfeature. Admin-only site provisioning, product sync, order aggregatie — alles ingebouwd.</p></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><h4>Fase 4: Copernica migratie</h4><div class="meta">Week 10-14 · €3.250</div><p>Dedicated Listmonk + THOR sync. Bespaart €2.600-4.600/mo.</p></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><h4>Fase 5: Portaal + verrekensleutel + eerste titels</h4><div class="meta">Week 14-18 · €3.250</div><p>Cross-tenant search, leesregistratie, rapportage. Eerste titels aansluiten.</p></div>
+    </div>
+  </div>
+
+  <!-- INBEGREPEN -->
+  <div class="section">
+    <div class="section-label">Standaard</div>
+    <h2>Inbegrepen</h2>
+    <div class="feature-grid">
+      <div class="feature-item"><span class="feature-check">✓</span> Multi-tenant architectuur</div>
+      <div class="feature-item"><span class="feature-check">✓</span> Responsive (mobile-first)</div>
+      <div class="feature-item"><span class="feature-check">✓</span> PWA (installeerbaar)</div>
+      <div class="feature-item"><span class="feature-check">✓</span> Dagelijkse backups</div>
+      <div class="feature-item"><span class="feature-check">✓</span> SSL certificaten</div>
+      <div class="feature-item"><span class="feature-check">✓</span> Safe deploy (zero-downtime)</div>
+      <div class="feature-item"><span class="feature-check">✓</span> SEO (meta, schema, OG, sitemap)</div>
+      <div class="feature-item"><span class="feature-check">✓</span> Cookie consent & GDPR</div>
+      <div class="feature-item"><span class="feature-check">✓</span> Unified accounts</div>
+      <div class="feature-item"><span class="feature-check">✓</span> Analytics (RFM, CLV)</div>
+      <div class="feature-item"><span class="feature-check">✓</span> AI-content tools</div>
+      <div class="feature-item"><span class="feature-check">✓</span> Page builder (40+ blocks)</div>
+    </div>
+  </div>
+
+  <!-- TARIEVEN -->
+  <div class="section">
+    <div class="section-label">Services</div>
+    <h2>Tarieven & Managed Services</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div>
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:10px">Maatwerk Uurtarieven</h3>
+        <table><tr><th>Blok</th><th>Tarief</th></tr><tr><td>Standaard</td><td>€100/uur</td></tr><tr><td>10 uur</td><td>€95/uur (5%)</td></tr><tr><td>20 uur</td><td>€90/uur (10%)</td></tr><tr><td>40 uur</td><td>€85/uur (15%)</td></tr></table>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:10px">Managed Services</h3>
+        <table><tr><th>Service</th><th>Prijs</th></tr><tr><td>Content Management</td><td>€149/mo</td></tr><tr><td>Priority Support</td><td>€99/mo</td></tr><tr><td>Monthly Optimization</td><td>€199/mo</td></tr></table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer"><div class="container footer-inner">
+  <div class="brand">sityzr <span>· Compass Digital</span></div>
+  <div class="meta">Voorstel v5.0 — 14 maart 2026 · Alle prijzen excl. BTW</div>
+</div></div>
+
+<script>
+function switchOption(o){document.querySelectorAll('.option-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.option-content').forEach(c=>c.classList.add('hidden'));if(o==='a'){document.querySelectorAll('.option-tab')[0].classList.add('active');document.getElementById('option-a').classList.remove('hidden')}else{document.querySelectorAll('.option-tab')[1].classList.add('active');document.getElementById('option-b').classList.remove('hidden')}}
+</script>
+
+</body>
+</html>

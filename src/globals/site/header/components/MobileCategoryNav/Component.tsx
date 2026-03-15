@@ -77,7 +77,7 @@ export function MobileCategoryNav({ onClose }: MobileCategoryNavProps) {
 
   if (loading) {
     return (
-      <div className="px-5 py-4 flex items-center gap-2 text-sm text-gray-400">
+      <div className="px-5 py-4 flex items-center gap-2 text-sm text-grey-mid">
         <Loader2 className="w-4 h-4 animate-spin" />
         Categorieën laden...
       </div>
@@ -87,8 +87,8 @@ export function MobileCategoryNav({ onClose }: MobileCategoryNavProps) {
   if (error || rootCategories.length === 0) return null
 
   return (
-    <div className="border-b border-gray-100">
-      <div className="px-5 py-3 text-[10px] font-extrabold uppercase tracking-wider text-gray-400">
+    <div className="border-b border-grey-light">
+      <div className="px-5 py-3 text-[10px] font-extrabold uppercase tracking-wider text-grey-mid">
         Categorieën
       </div>
 
@@ -104,18 +104,18 @@ export function MobileCategoryNav({ onClose }: MobileCategoryNavProps) {
               onClick={() => handleL1Toggle(cat.id)}
               className={cn(
                 'flex items-center gap-3 w-full px-5 py-3 text-base font-semibold transition-colors text-left',
-                isExpanded ? 'bg-gray-50' : 'hover:bg-gray-50',
+                isExpanded ? 'bg-grey-light' : 'hover:bg-grey-light',
               )}
               style={{ color: isExpanded ? 'var(--color-primary)' : 'var(--color-text-primary)' }}
             >
-              <Package className="w-4 h-4 flex-shrink-0 text-gray-400" />
+              <Package className="w-4 h-4 flex-shrink-0 text-grey-mid" />
               {cat.name}
               {isLoadingL2 ? (
-                <Loader2 className="w-4 h-4 ml-auto animate-spin text-gray-400" />
+                <Loader2 className="w-4 h-4 ml-auto animate-spin text-grey-mid" />
               ) : (
                 <ChevronDown
                   className={cn(
-                    'w-4 h-4 ml-auto text-gray-400 transition-transform',
+                    'w-4 h-4 ml-auto text-grey-mid transition-transform',
                     isExpanded && 'rotate-180',
                   )}
                 />
@@ -124,7 +124,7 @@ export function MobileCategoryNav({ onClose }: MobileCategoryNavProps) {
 
             {/* L2 items */}
             {isExpanded && l2Items.length > 0 && (
-              <div className="bg-gray-50">
+              <div className="bg-grey-light">
                 {/* View all link for L1 */}
                 <Link
                   href={`/shop/${cat.slug}`}
@@ -147,16 +147,16 @@ export function MobileCategoryNav({ onClose }: MobileCategoryNavProps) {
                         onClick={() => handleL2Toggle(l2.id)}
                         className={cn(
                           'flex items-center gap-2 w-full pl-12 pr-5 py-2.5 text-sm font-medium transition-colors text-left',
-                          isL2Expanded ? 'text-gray-900' : 'text-gray-600 hover:text-gray-900',
+                          isL2Expanded ? 'text-navy' : 'text-grey-dark hover:text-navy',
                         )}
                       >
                         {l2.name}
                         {isLoadingL3 ? (
-                          <Loader2 className="w-3.5 h-3.5 ml-auto animate-spin text-gray-400" />
+                          <Loader2 className="w-3.5 h-3.5 ml-auto animate-spin text-grey-mid" />
                         ) : (
                           <ChevronDown
                             className={cn(
-                              'w-3.5 h-3.5 ml-auto text-gray-400 transition-transform',
+                              'w-3.5 h-3.5 ml-auto text-grey-mid transition-transform',
                               isL2Expanded && 'rotate-180',
                             )}
                           />
@@ -165,13 +165,13 @@ export function MobileCategoryNav({ onClose }: MobileCategoryNavProps) {
 
                       {/* L3 items */}
                       {isL2Expanded && l3Items.length > 0 && (
-                        <div className="bg-gray-100/50">
+                        <div className="bg-grey-light/50">
                           {l3Items.map((l3: any) => (
                             <Link
                               key={l3.id}
                               href={`/shop/${l3.slug}`}
                               onClick={onClose}
-                              className="flex items-center gap-2 pl-16 pr-5 py-2 text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                              className="flex items-center gap-2 pl-16 pr-5 py-2 text-sm text-grey-mid hover:text-navy transition-colors"
                             >
                               <ChevronRight className="w-3 h-3 flex-shrink-0" />
                               {l3.name}
@@ -212,7 +212,7 @@ export function MobileCategoryNav({ onClose }: MobileCategoryNavProps) {
               <Link
                 href={`/shop/${cat.slug}`}
                 onClick={onClose}
-                className="flex items-center gap-2 pl-12 pr-5 py-2.5 text-sm font-bold bg-gray-50 transition-colors"
+                className="flex items-center gap-2 pl-12 pr-5 py-2.5 text-sm font-bold bg-grey-light transition-colors"
                 style={{ color: 'var(--color-primary)' }}
               >
                 Bekijk alle producten

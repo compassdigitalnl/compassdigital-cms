@@ -28,15 +28,15 @@ export const metadata: Metadata = {
 
 export default function CheckoutLoginPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-grey-light">
       {/* Checkout Progress Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-grey-light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             {/* Back to Cart */}
             <Link
               href="/cart"
-              className="flex items-center gap-2 text-sm text-gray-600 hover:text-[var(--color-primary)] transition-colors"
+              className="flex items-center gap-2 text-sm text-grey-dark hover:text-[var(--color-primary)] transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               Terug naar winkelwagen
@@ -44,12 +44,12 @@ export default function CheckoutLoginPage() {
 
             {/* Checkout Steps */}
             <div className="flex items-center gap-2 text-sm">
-              <ShoppingCart className="w-4 h-4 text-gray-400" />
-              <span className="text-gray-900 font-medium">1. Inloggen</span>
-              <span className="text-gray-400">→</span>
-              <span className="text-gray-400">2. Verzending</span>
-              <span className="text-gray-400">→</span>
-              <span className="text-gray-400">3. Betaling</span>
+              <ShoppingCart className="w-4 h-4 text-grey-mid" />
+              <span className="text-navy font-medium">1. Inloggen</span>
+              <span className="text-grey-mid">→</span>
+              <span className="text-grey-mid">2. Verzending</span>
+              <span className="text-grey-mid">→</span>
+              <span className="text-grey-mid">3. Betaling</span>
             </div>
           </div>
         </div>

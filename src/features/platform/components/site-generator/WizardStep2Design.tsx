@@ -24,27 +24,27 @@ export function WizardStep2Design({ data, onChange }: Props) {
       value: 'classic',
       label: 'Classic',
       description: 'Tijdloos design met serif fonts en subtiele kleuren',
-      preview: 'bg-gradient-to-br from-gray-100 to-gray-50',
+      preview: 'bg-gradient-to-br from-grey-light to-grey-light',
     },
     {
       value: 'minimalist',
       label: 'Minimalist',
       description: 'Focus op content, zeer weinig visuele elementen',
-      preview: 'bg-white border-2 border-gray-200',
+      preview: 'bg-white border-2 border-grey-light',
     },
     {
       value: 'bold',
       label: 'Bold',
       description: 'Opvallende kleuren en grote typography',
-      preview: 'bg-gradient-to-br from-purple-100 to-pink-100',
+      preview: 'bg-gradient-to-br from-teal-100 to-teal-50',
     },
   ]
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">🎨 Design Voorkeuren</h2>
-        <p className="mt-1 text-sm text-gray-600">
+        <h2 className="text-2xl font-bold text-navy">🎨 Design Voorkeuren</h2>
+        <p className="mt-1 text-sm text-grey-dark">
           Kies de visuele stijl voor uw website
         </p>
       </div>
@@ -148,19 +148,19 @@ export function WizardStep2Design({ data, onChange }: Props) {
         </div>
 
         {/* Color Preview */}
-        <div className="p-4 rounded-lg border border-gray-200">
-          <p className="text-xs text-gray-600 mb-3">Preview:</p>
+        <div className="p-4 rounded-lg border border-grey-light">
+          <p className="text-xs text-grey-dark mb-3">Preview:</p>
           <div className="flex gap-2">
             <div
-              className="w-20 h-20 rounded-lg shadow-sm border border-gray-200"
+              className="w-20 h-20 rounded-lg shadow-sm border border-grey-light"
               style={{ backgroundColor: data.colorScheme.primary }}
             />
             <div
-              className="w-20 h-20 rounded-lg shadow-sm border border-gray-200"
+              className="w-20 h-20 rounded-lg shadow-sm border border-grey-light"
               style={{ backgroundColor: data.colorScheme.secondary }}
             />
             <div
-              className="w-20 h-20 rounded-lg shadow-sm border border-gray-200"
+              className="w-20 h-20 rounded-lg shadow-sm border border-grey-light"
               style={{ backgroundColor: data.colorScheme.accent }}
             />
           </div>
@@ -177,7 +177,7 @@ export function WizardStep2Design({ data, onChange }: Props) {
               className={`p-4 cursor-pointer transition-all border-2 ${
                 data.style === style.value
                   ? 'border-teal bg-teal-50'
-                  : 'border-gray-200 hover:border-gray-300'
+                  : 'border-grey-light hover:border-grey-light'
               }`}
               onClick={() =>
                 onChange({ ...data, style: style.value as DesignPreferences['style'] })
@@ -185,7 +185,7 @@ export function WizardStep2Design({ data, onChange }: Props) {
             >
               <div className={`w-full h-24 rounded mb-3 ${style.preview}`} />
               <h3 className="font-semibold text-sm">{style.label}</h3>
-              <p className="text-xs text-gray-600 mt-1">{style.description}</p>
+              <p className="text-xs text-grey-dark mt-1">{style.description}</p>
             </Card>
           ))}
         </div>
@@ -206,7 +206,7 @@ export function WizardStep2Design({ data, onChange }: Props) {
           }}
           className="cursor-pointer"
         />
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-grey-mid">
           Upload uw logo als PNG, JPG of SVG (optioneel - kan later ook nog)
         </p>
       </div>

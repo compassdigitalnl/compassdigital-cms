@@ -28,13 +28,13 @@ export const SubscriptionProductCard: React.FC<SubscriptionProductCardProps> = (
 
   const badgeVariantStyles = {
     popular: 'bg-teal-100 text-teal-700',
-    personal: 'bg-gray-100 text-gray-700',
+    personal: 'bg-grey-light text-grey-dark',
     gift: 'bg-coral-50 text-coral',
   }
 
   return (
     <div
-      className={`product-card bg-white border-[1.5px] border-gray-200 rounded-[14px] p-5 transition-all hover:border-[var(--color-primary)] hover:shadow-md hover:-translate-y-0.5 flex flex-col ${className}`}
+      className={`product-card bg-white border-[1.5px] border-grey-light rounded-[14px] p-5 transition-all hover:border-[var(--color-primary)] hover:shadow-md hover:-translate-y-0.5 flex flex-col ${className}`}
     >
       {/* Badges */}
       {badges.length > 0 && (
@@ -55,16 +55,16 @@ export const SubscriptionProductCard: React.FC<SubscriptionProductCardProps> = (
       )}
 
       {/* Icon */}
-      <div className="product-type-icon w-12 h-12 text-3xl flex items-center justify-center bg-gray-50 rounded-lg mb-4">
+      <div className="product-type-icon w-12 h-12 text-3xl flex items-center justify-center bg-grey-light rounded-lg mb-4">
         {emoji || icon || '📦'}
       </div>
 
       {/* Title & Description */}
-      <h3 className="text-lg font-extrabold text-gray-900 mb-1">{title}</h3>
-      <p className="text-sm text-gray-600 mb-4 line-clamp-2">{description}</p>
+      <h3 className="text-lg font-extrabold text-navy mb-1">{title}</h3>
+      <p className="text-sm text-grey-dark mb-4 line-clamp-2">{description}</p>
 
       {/* Frequency & Edition Count */}
-      <div className="text-xs text-gray-500 mb-4 space-y-1">
+      <div className="text-xs text-grey-mid mb-4 space-y-1">
         <div className="flex items-center gap-1.5">
           <span className="font-semibold">Frequentie:</span> {frequency}
         </div>
@@ -77,15 +77,15 @@ export const SubscriptionProductCard: React.FC<SubscriptionProductCardProps> = (
 
       {/* Pricing */}
       {pricePerMonth && (
-        <div className="border-t border-gray-100 pt-4 mb-4">
+        <div className="border-t border-grey-light pt-4 mb-4">
           <div className="flex items-baseline justify-between mb-1">
-            <span className="text-sm text-gray-600">Per maand</span>
-            <span className="text-2xl font-extrabold text-gray-900">
+            <span className="text-sm text-grey-dark">Per maand</span>
+            <span className="text-2xl font-extrabold text-navy">
               €{formatPriceStr(pricePerMonth)}
             </span>
           </div>
           {totalPrice && (
-            <div className="flex items-baseline justify-between text-xs text-gray-500">
+            <div className="flex items-baseline justify-between text-xs text-grey-mid">
               <span>Totaal</span>
               <span className="font-mono">€{formatPriceStr(totalPrice)}</span>
             </div>
@@ -100,7 +100,7 @@ export const SubscriptionProductCard: React.FC<SubscriptionProductCardProps> = (
 
       {/* Features */}
       {features.length > 0 && (
-        <ul className="space-y-1.5 mb-4 text-sm text-gray-700">
+        <ul className="space-y-1.5 mb-4 text-sm text-grey-dark">
           {features.map((feature, index) => (
             <li key={index} className="flex items-start gap-2">
               <span className="text-[var(--color-primary)] mt-0.5">✓</span>

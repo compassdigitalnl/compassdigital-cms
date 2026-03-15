@@ -279,6 +279,46 @@ export const Magazines: CollectionConfig = {
                     description: 'Link naar de productpagina in de webshop (optioneel)',
                   },
                 },
+                // ── Digitale Bibliotheek ──
+                {
+                  name: 'isDigital',
+                  type: 'checkbox',
+                  label: 'Digitaal beschikbaar',
+                  defaultValue: false,
+                  admin: {
+                    description: 'Deze editie is beschikbaar in de digitale bibliotheek',
+                  },
+                },
+                {
+                  name: 'digitalPdf',
+                  type: 'upload',
+                  relationTo: 'media',
+                  label: 'PDF Bestand',
+                  admin: {
+                    description: 'Upload de PDF van deze editie (wordt verwerkt tot pagina-afbeeldingen)',
+                    condition: (_, siblingData) => siblingData?.isDigital,
+                  },
+                },
+                {
+                  name: 'pageCount',
+                  type: 'number',
+                  label: 'Aantal pagina\'s',
+                  admin: {
+                    description: 'Automatisch berekend na PDF verwerking',
+                    readOnly: true,
+                    condition: (_, siblingData) => siblingData?.isDigital,
+                  },
+                },
+                {
+                  name: 'digitalAvailableFrom',
+                  type: 'date',
+                  label: 'Digitaal beschikbaar vanaf',
+                  admin: {
+                    description: 'Wanneer deze editie digitaal beschikbaar wordt',
+                    condition: (_, siblingData) => siblingData?.isDigital,
+                    date: { pickerAppearance: 'dayAndTime' },
+                  },
+                },
               ],
             },
           ],

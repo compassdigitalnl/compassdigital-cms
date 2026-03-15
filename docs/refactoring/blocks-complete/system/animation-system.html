@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animation System - Payload CMS Block System</title>
+  <style>
+    /* ============================================
+       DESIGN TOKENS
+       ============================================ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Spacing */
+      --sp-xs: 4px;
+      --sp-sm: 8px;
+      --sp-md: 12px;
+      --sp-lg: 16px;
+      --sp-xl: 24px;
+      --sp-2xl: 32px;
+      --sp-3xl: 48px;
+
+      /* Shadows */
+      --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --sh-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+      --sh-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+
+      /* Radius */
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 16px;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'DM Serif Display', Georgia, serif;
+    }
+
+    /* ============================================
+       BASE STYLES
+       ============================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: var(--sp-3xl) var(--sp-xl);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ============================================
+       ANIMATION DEMO SECTION
+       ============================================ */
+    .demo-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: var(--sp-3xl);
+      margin-bottom: var(--sp-3xl);
+    }
+
+    .demo-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      color: var(--navy);
+      margin-bottom: var(--sp-lg);
+    }
+
+    .demo-subtitle {
+      font-size: 14px;
+      color: var(--grey-mid);
+      margin-bottom: var(--sp-2xl);
+    }
+
+    .demo-controls {
+      display: flex;
+      gap: var(--sp-md);
+      margin-bottom: var(--sp-2xl);
+    }
+
+    .demo-btn {
+      padding: var(--sp-md) var(--sp-xl);
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .demo-btn:hover {
+      background: var(--teal-light);
+      transform: translateY(-1px);
+      box-shadow: var(--sh-md);
+    }
+
+    .demo-btn.secondary {
+      background: var(--grey-light);
+      color: var(--navy);
+    }
+
+    .demo-btn.secondary:hover {
+      background: var(--grey);
+    }
+
+    /* ============================================
+       ANIMATION PREVIEW STYLES
+       ============================================ */
+    .animation-preview {
+      min-height: 400px;
+      padding: var(--sp-2xl);
+      background: var(--bg);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-xl);
+      overflow: hidden;
+    }
+
+    .preview-card {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: var(--sp-2xl);
+      width: 280px;
+      box-shadow: var(--sh-sm);
+    }
+
+    .preview-card h3 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      color: var(--navy);
+      margin-bottom: var(--sp-md);
+    }
+
+    .preview-card p {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       ANIMATION CLASSES (CORE SYSTEM)
+       ============================================ */
+
+    /* Base state: hidden and transformed */
+    .animate-on-scroll {
+      opacity: 0;
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    /* Active state: visible and in position */
+    .animate-on-scroll.is-visible {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+
+    /* Animation Type: Fade Up (bottom to top) */
+    .animate-fade-up {
+      transform: translateY(32px);
+    }
+
+    .animate-fade-up.is-visible {
+      transform: translateY(0);
+    }
+
+    /* Animation Type: Fade In (simple opacity) */
+    .animate-fade-in {
+      transform: none;
+    }
+
+    .animate-fade-in.is-visible {
+      opacity: 1;
+    }
+
+    /* Animation Type: Fade Left (right to left) */
+    .animate-fade-left {
+      transform: translateX(32px);
+    }
+
+    .animate-fade-left.is-visible {
+      transform: translateX(0);
+    }
+
+    /* Animation Type: Fade Right (left to right) */
+    .animate-fade-right {
+      transform: translateX(-32px);
+    }
+
+    .animate-fade-right.is-visible {
+      transform: translateX(0);
+    }
+
+    /* Animation Type: Scale In */
+    .animate-scale-in {
+      transform: scale(0.95);
+    }
+
+    .animate-scale-in.is-visible {
+      transform: scale(1);
+    }
+
+    /* Stagger delays for sequential animations */
+    .animate-on-scroll[data-delay="1"] {
+      transition-delay: 0.1s;
+    }
+
+    .animate-on-scroll[data-delay="2"] {
+      transition-delay: 0.2s;
+    }
+
+    .animate-on-scroll[data-delay="3"] {
+      transition-delay: 0.3s;
+    }
+
+    .animate-on-scroll[data-delay="4"] {
+      transition-delay: 0.4s;
+    }
+
+    .animate-on-scroll[data-delay="5"] {
+      transition-delay: 0.5s;
+    }
+
+    /* Duration variants */
+    .animate-duration-fast {
+      transition-duration: 0.4s;
+    }
+
+    .animate-duration-normal {
+      transition-duration: 0.6s;
+    }
+
+    .animate-duration-slow {
+      transition-duration: 0.8s;
+    }
+
+    /* Accessibility: Respect prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      .animate-on-scroll {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* ============================================
+       DOCUMENTATION STYLES
+       ============================================ */
+    .doc-section {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: var(--sp-2xl);
+      margin-bottom: var(--sp-2xl);
+    }
+
+    .doc-section h2 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      color: var(--navy);
+      margin-bottom: var(--sp-lg);
+      padding-bottom: var(--sp-lg);
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .doc-section h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: var(--sp-xl);
+      margin-bottom: var(--sp-md);
+    }
+
+    .doc-section h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--teal);
+      margin-top: var(--sp-lg);
+      margin-bottom: var(--sp-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .doc-section p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: var(--sp-lg);
+    }
+
+    .doc-section ul,
+    .doc-section ol {
+      margin-left: var(--sp-xl);
+      margin-bottom: var(--sp-lg);
+    }
+
+    .doc-section li {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: var(--sp-sm);
+    }
+
+    .doc-section code {
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--teal);
+    }
+
+    .doc-section pre {
+      background: var(--navy);
+      color: white;
+      padding: var(--sp-lg);
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      margin-bottom: var(--sp-lg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .doc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: var(--sp-lg);
+      font-size: 14px;
+    }
+
+    .doc-table th {
+      background: var(--bg);
+      padding: var(--sp-md);
+      text-align: left;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .doc-table td {
+      padding: var(--sp-md);
+      border-bottom: 1px solid var(--grey-light);
+      color: var(--grey-dark);
+    }
+
+    .doc-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .info-box {
+      background: var(--teal-glow);
+      border-left: 3px solid var(--teal);
+      padding: var(--sp-lg);
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--sp-lg);
+    }
+
+    .info-box strong {
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .warning-box {
+      background: #FFF8E1;
+      border-left: 3px solid #F59E0B;
+      padding: var(--sp-lg);
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--sp-lg);
+    }
+
+    .warning-box strong {
+      color: #92400E;
+      font-weight: 700;
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 768px) {
+      body {
+        padding: var(--sp-xl) var(--sp-lg);
+      }
+
+      .animation-preview {
+        flex-direction: column;
+        min-height: auto;
+      }
+
+      .preview-card {
+        width: 100%;
+      }
+
+      .demo-controls {
+        flex-direction: column;
+      }
+
+      .demo-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- ============================================
+         HEADER
+         ============================================ -->
+    <div class="demo-section">
+      <h1 class="demo-title">Animation System - Block Animations</h1>
+      <p class="demo-subtitle">
+        Opt-in scroll animations via Payload CMS settings • Intersection Observer based • Accessibility first
+      </p>
+      <div class="info-box">
+        <strong>📦 System Overview:</strong> This animation system provides smooth, performant scroll-triggered animations for all Payload CMS blocks. Animations are opt-in per block, respect user preferences (prefers-reduced-motion), and use Intersection Observer for optimal performance.
+      </div>
+    </div>
+
+    <!-- ============================================
+         DEMO 1: FADE UP
+         ============================================ -->
+    <div class="demo-section">
+      <h2 class="demo-title">Animation Type: Fade Up</h2>
+      <p class="demo-subtitle">Element starts 32px below and fades up into position (most common)</p>
+      <div class="demo-controls">
+        <button class="demo-btn" onclick="resetDemo1()">Reset Animation</button>
+      </div>
+      <div class="animation-preview" id="demo1">
+        <div class="preview-card animate-on-scroll animate-fade-up" data-delay="1">
+          <h3>Card 1</h3>
+          <p>This card animates from bottom to top with a 0.1s delay.</p>
+        </div>
+        <div class="preview-card animate-on-scroll animate-fade-up" data-delay="2">
+          <h3>Card 2</h3>
+          <p>This card animates with a 0.2s delay for stagger effect.</p>
+        </div>
+        <div class="preview-card animate-on-scroll animate-fade-up" data-delay="3">
+          <h3>Card 3</h3>
+          <p>This card animates with a 0.3s delay, creating smooth sequence.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         DEMO 2: TWO-COLUMN OUTSIDE-IN
+         ============================================ -->
+    <div class="demo-section">
+      <h2 class="demo-title">Animation Type: Two-Column Outside-In</h2>
+      <p class="demo-subtitle">Left column fades from right, right column fades from left (meets in middle)</p>
+      <div class="demo-controls">
+        <button class="demo-btn" onclick="resetDemo2()">Reset Animation</button>
+      </div>
+      <div class="animation-preview" id="demo2" style="justify-content: space-between;">
+        <div class="preview-card animate-on-scroll animate-fade-right" style="width: 45%;">
+          <h3>Left Column</h3>
+          <p>Starts from left side (-32px) and fades right toward center.</p>
+        </div>
+        <div class="preview-card animate-on-scroll animate-fade-left" style="width: 45%;">
+          <h3>Right Column</h3>
+          <p>Starts from right side (+32px) and fades left toward center.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         DEMO 3: FADE IN + SCALE
+         ============================================ -->
+    <div class="demo-section">
+      <h2 class="demo-title">Animation Type: Scale In</h2>
+      <p class="demo-subtitle">Element scales from 0.95 to 1.0 while fading in (subtle zoom effect)</p>
+      <div class="demo-controls">
+        <button class="demo-btn" onclick="resetDemo3()">Reset Animation</button>
+      </div>
+      <div class="animation-preview" id="demo3">
+        <div class="preview-card animate-on-scroll animate-scale-in">
+          <h3>Hero Title</h3>
+          <p>Scales up from 95% to 100% size while fading in. Great for hero sections and CTAs.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         DEMO 4: DURATION VARIANTS
+         ============================================ -->
+    <div class="demo-section">
+      <h2 class="demo-title">Duration Variants</h2>
+      <p class="demo-subtitle">Control animation speed: fast (0.4s), normal (0.6s), slow (0.8s)</p>
+      <div class="demo-controls">
+        <button class="demo-btn" onclick="resetDemo4()">Reset Animation</button>
+      </div>
+      <div class="animation-preview" id="demo4">
+        <div class="preview-card animate-on-scroll animate-fade-up animate-duration-fast" data-delay="1">
+          <h3>Fast (0.4s)</h3>
+          <p>Quick, snappy animation for small UI elements.</p>
+        </div>
+        <div class="preview-card animate-on-scroll animate-fade-up animate-duration-normal" data-delay="2">
+          <h3>Normal (0.6s)</h3>
+          <p>Default duration, balanced speed for most content.</p>
+        </div>
+        <div class="preview-card animate-on-scroll animate-fade-up animate-duration-slow" data-delay="3">
+          <h3>Slow (0.8s)</h3>
+          <p>Slower, more dramatic for hero sections.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       DEMO SCRIPTS
+       ============================================ -->
+  <script>
+    // Initialize Intersection Observer for scroll animations
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -100px 0px', // Trigger 100px before element enters viewport
+      threshold: 0.1 // Trigger when 10% of element is visible
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+        }
+      })
+    }, observerOptions)
+
+    // Observe all elements with animate-on-scroll class
+    function observeAnimations() {
+      const animatedElements = document.querySelectorAll('.animate-on-scroll')
+      animatedElements.forEach(el => observer.observe(el))
+    }
+
+    // Reset demo functions
+    function resetDemo1() {
+      const demo = document.getElementById('demo1')
+      const cards = demo.querySelectorAll('.animate-on-scroll')
+      cards.forEach(card => {
+        card.classList.remove('is-visible')
+        observer.unobserve(card)
+      })
+      setTimeout(() => {
+        cards.forEach(card => observer.observe(card))
+      }, 100)
+    }
+
+    function resetDemo2() {
+      const demo = document.getElementById('demo2')
+      const cards = demo.querySelectorAll('.animate-on-scroll')
+      cards.forEach(card => {
+        card.classList.remove('is-visible')
+        observer.unobserve(card)
+      })
+      setTimeout(() => {
+        cards.forEach(card => observer.observe(card))
+      }, 100)
+    }
+
+    function resetDemo3() {
+      const demo = document.getElementById('demo3')
+      const cards = demo.querySelectorAll('.animate-on-scroll')
+      cards.forEach(card => {
+        card.classList.remove('is-visible')
+        observer.unobserve(card)
+      })
+      setTimeout(() => {
+        cards.forEach(card => observer.observe(card))
+      }, 100)
+    }
+
+    function resetDemo4() {
+      const demo = document.getElementById('demo4')
+      const cards = demo.querySelectorAll('.animate-on-scroll')
+      cards.forEach(card => {
+        card.classList.remove('is-visible')
+        observer.unobserve(card)
+      })
+      setTimeout(() => {
+        cards.forEach(card => observer.observe(card))
+      }, 100)
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      observeAnimations()
+    })
+  </script>
+
+  <!-- ============================================
+       8-STEP IMPLEMENTATION GUIDE
+       ============================================ -->
+  <div class="container" style="margin-top: 64px;">
+    <!-- STEP 1: GLOBAL SETTINGS -->
+    <div class="doc-section">
+      <h2>STEP 1: Global Settings Configuration</h2>
+      <p>
+        Create global animation settings in Payload CMS to control default animation behavior across the entire site.
+      </p>
+
+      <h3>File: <code>src/payload/globals/SiteSettings.ts</code></h3>
+      <pre>
+import { GlobalConfig } from 'payload/types'
+
+export const SiteSettings: GlobalConfig = {
+  slug: 'site-settings',
+  label: 'Site Settings',
+  access: {
+    read: () => true,
+  },
+  fields: [
+    // ... other fields ...
+    {
+      name: 'animations',
+      type: 'group',
+      label: 'Animation Settings',
+      fields: [
+        {
+          name: 'enabled',
+          type: 'checkbox',
+          label: 'Enable Animations Globally',
+          defaultValue: true,
+          admin: {
+            description: 'Master toggle for all scroll animations. When disabled, no animations will play.',
+          },
+        },
+        {
+          name: 'defaultDuration',
+          type: 'select',
+          label: 'Default Animation Duration',
+          defaultValue: 'normal',
+          options: [
+            { label: 'Fast (0.4s)', value: 'fast' },
+            { label: 'Normal (0.6s)', value: 'normal' },
+            { label: 'Slow (0.8s)', value: 'slow' },
+          ],
+          admin: {
+            description: 'Default speed for animations across the site.',
+          },
+        },
+        {
+          name: 'threshold',
+          type: 'number',
+          label: 'Visibility Threshold',
+          defaultValue: 0.1,
+          min: 0,
+          max: 1,
+          admin: {
+            step: 0.1,
+            description: 'Percentage of element visible before animation triggers (0.1 = 10%).',
+          },
+        },
+        {
+          name: 'rootMargin',
+          type: 'text',
+          label: 'Root Margin (CSS)',
+          defaultValue: '0px 0px -100px 0px',
+          admin: {
+            description: 'Margin around viewport for early/late triggering. Use negative bottom value to trigger before element enters.',
+          },
+        },
+      ],
+    },
+  ],
+}
+      </pre>
+
+      <h3>Usage in Frontend</h3>
+      <pre>
+// Fetch global settings in layout or page component
+import { getGlobals } from '@/lib/payload'
+
+const settings = await getGlobals('site-settings')
+const animationsEnabled = settings.animations?.enabled ?? true
+      </pre>
+    </div>
+
+    <!-- STEP 2: PER-BLOCK ANIMATION FIELDS -->
+    <div class="doc-section">
+      <h2>STEP 2: Per-Block Animation Configuration</h2>
+      <p>
+        Add animation fields to EVERY block type so editors can enable/disable and customize animations per block.
+      </p>
+
+      <h3>Animation Fields Mixin</h3>
+      <pre>
+// File: src/payload/fields/animationFields.ts
+
+import { Field } from 'payload/types'
+
+export const animationFields: Field[] = [
+  {
+    name: 'animation',
+    type: 'group',
+    label: 'Animation',
+    admin: {
+      condition: (data, siblingData, { user }) => {
+        // Only show if global animations are enabled
+        return true // Check global settings in production
+      },
+    },
+    fields: [
+      {
+        name: 'enabled',
+        type: 'checkbox',
+        label: 'Enable Animation',
+        defaultValue: true,
+        admin: {
+          description: 'Animate this block when it scrolls into view.',
+        },
+      },
+      {
+        name: 'type',
+        type: 'select',
+        label: 'Animation Type',
+        defaultValue: 'fade-up',
+        options: [
+          { label: 'Fade Up (bottom → top)', value: 'fade-up' },
+          { label: 'Fade In (opacity only)', value: 'fade-in' },
+          { label: 'Fade Left (right → left)', value: 'fade-left' },
+          { label: 'Fade Right (left → right)', value: 'fade-right' },
+          { label: 'Scale In (zoom in)', value: 'scale-in' },
+          { label: 'Two Column (outside → in)', value: 'two-column' },
+        ],
+        admin: {
+          condition: (data) => data?.animation?.enabled === true,
+        },
+      },
+      {
+        name: 'duration',
+        type: 'select',
+        label: 'Animation Duration',
+        defaultValue: 'normal',
+        options: [
+          { label: 'Fast (0.4s)', value: 'fast' },
+          { label: 'Normal (0.6s)', value: 'normal' },
+          { label: 'Slow (0.8s)', value: 'slow' },
+        ],
+        admin: {
+          condition: (data) => data?.animation?.enabled === true,
+        },
+      },
+      {
+        name: 'stagger',
+        type: 'checkbox',
+        label: 'Stagger Child Elements',
+        defaultValue: false,
+        admin: {
+          condition: (data) => data?.animation?.enabled === true,
+          description: 'Animate child elements sequentially with delays (0.1s, 0.2s, 0.3s, etc.)',
+        },
+      },
+    ],
+  },
+]
+      </pre>
+
+      <h3>Add to Block Definitions</h3>
+      <pre>
+// Example: src/payload/blocks/Hero.ts
+
+import { Block } from 'payload/types'
+import { animationFields } from '../fields/animationFields'
+
+export const Hero: Block = {
+  slug: 'hero',
+  labels: {
+    singular: 'Hero',
+    plural: 'Hero Blocks',
+  },
+  fields: [
+    // ... block-specific fields ...
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+    },
+    // ... more fields ...
+
+    // Add animation fields at the end
+    ...animationFields,
+  ],
+}
+      </pre>
+    </div>
+
+    <!-- STEP 3: TYPESCRIPT TYPES -->
+    <div class="doc-section">
+      <h2>STEP 3: TypeScript Type Definitions</h2>
+      <p>
+        Define TypeScript interfaces for animation configuration to ensure type safety throughout the application.
+      </p>
+
+      <h3>File: <code>src/types/animation.ts</code></h3>
+      <pre>
+export type AnimationType =
+  | 'fade-up'
+  | 'fade-in'
+  | 'fade-left'
+  | 'fade-right'
+  | 'scale-in'
+  | 'two-column'
+
+export type AnimationDuration = 'fast' | 'normal' | 'slow'
+
+export interface AnimationConfig {
+  enabled: boolean
+  type: AnimationType
+  duration: AnimationDuration
+  stagger: boolean
+}
+
+export interface GlobalAnimationSettings {
+  enabled: boolean
+  defaultDuration: AnimationDuration
+  threshold: number
+  rootMargin: string
+}
+
+// Extend block interfaces with animation config
+export interface AnimatedBlock {
+  animation?: AnimationConfig
+}
+
+// Helper type for blocks with animation
+export type WithAnimation<T> = T & AnimatedBlock
+      </pre>
+
+      <h3>Usage in Block Components</h3>
+      <pre>
+import { AnimationConfig } from '@/types/animation'
+
+interface HeroBlockProps {
+  title: string
+  subtitle?: string
+  animation?: AnimationConfig
+}
+
+export const HeroBlock: React.FC&lt;HeroBlockProps&gt; = ({
+  title,
+  subtitle,
+  animation,
+}) => {
+  const animationClasses = useBlockAnimation(animation)
+
+  return (
+    &lt;section className={animationClasses}&gt;
+      {/* Block content */}
+    &lt;/section&gt;
+  )
+}
+      </pre>
+    </div>
+
+    <!-- STEP 4: REACT HOOK -->
+    <div class="doc-section">
+      <h2>STEP 4: React Hook - useBlockAnimation</h2>
+      <p>
+        Custom hook to handle Intersection Observer setup and return animation class names.
+      </p>
+
+      <h3>File: <code>src/hooks/useBlockAnimation.ts</code></h3>
+      <pre>
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
+import { AnimationConfig } from '@/types/animation'
+
+interface UseBlockAnimationOptions {
+  // Optional override for global settings
+  threshold?: number
+  rootMargin?: string
+}
+
+export function useBlockAnimation(
+  config?: AnimationConfig,
+  options?: UseBlockAnimationOptions
+) {
+  const elementRef = useRef&lt;HTMLElement | null&gt;(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    // Skip if animations disabled or prefers-reduced-motion
+    if (!config?.enabled) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setIsVisible(true)
+      return
+    }
+
+    const element = elementRef.current
+    if (!element) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isVisible) {
+            setIsVisible(true)
+            // Optional: unobserve after animation triggers (one-time animation)
+            // observer.unobserve(entry.target)
+          }
+        })
+      },
+      {
+        threshold: options?.threshold ?? 0.1,
+        rootMargin: options?.rootMargin ?? '0px 0px -100px 0px',
+      }
+    )
+
+    observer.observe(element)
+
+    return () => {
+      if (element) {
+        observer.unobserve(element)
+      }
+    }
+  }, [config, isVisible, options])
+
+  // Build class names
+  const classes: string[] = []
+
+  if (config?.enabled) {
+    classes.push('animate-on-scroll')
+
+    // Animation type
+    if (config.type) {
+      classes.push(`animate-${config.type}`)
+    }
+
+    // Duration
+    if (config.duration) {
+      classes.push(`animate-duration-${config.duration}`)
+    }
+
+    // Visible state
+    if (isVisible) {
+      classes.push('is-visible')
+    }
+  }
+
+  return {
+    ref: elementRef,
+    className: classes.join(' '),
+    isVisible,
+  }
+}
+      </pre>
+
+      <h3>Alternative: Class-based Hook (returns only classes)</h3>
+      <pre>
+'use client'
+
+import { useEffect, useRef } from 'react'
+import { AnimationConfig } from '@/types/animation'
+
+export function useAnimationClasses(config?: AnimationConfig): string {
+  if (!config?.enabled) return ''
+
+  const classes: string[] = ['animate-on-scroll']
+
+  if (config.type) classes.push(`animate-${config.type}`)
+  if (config.duration) classes.push(`animate-duration-${config.duration}`)
+
+  return classes.join(' ')
+}
+
+// Separate observer hook
+export function useScrollObserver(
+  ref: React.RefObject&lt;HTMLElement&gt;,
+  enabled: boolean = true
+) {
+  useEffect(() => {
+    if (!enabled) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const element = ref.current
+    if (!element) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+          }
+        })
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px',
+      }
+    )
+
+    observer.observe(element)
+
+    return () => observer.unobserve(element)
+  }, [ref, enabled])
+}
+      </pre>
+
+      <h3>Usage Example: Hero Block</h3>
+      <pre>
+'use client'
+
+import { useBlockAnimation } from '@/hooks/useBlockAnimation'
+import { AnimationConfig } from '@/types/animation'
+
+interface HeroProps {
+  title: string
+  subtitle?: string
+  animation?: AnimationConfig
+}
+
+export const Hero: React.FC&lt;HeroProps&gt; = ({ title, subtitle, animation }) => {
+  const { ref, className } = useBlockAnimation(animation)
+
+  return (
+    &lt;section ref={ref} className={`hero-section ${className}`}&gt;
+      &lt;div className="container"&gt;
+        &lt;h1&gt;{title}&lt;/h1&gt;
+        {subtitle && &lt;p&gt;{subtitle}&lt;/p&gt;}
+      &lt;/div&gt;
+    &lt;/section&gt;
+  )
+}
+      </pre>
+    </div>
+
+    <!-- STEP 5: CSS ANIMATION CLASSES -->
+    <div class="doc-section">
+      <h2>STEP 5: CSS Animation Classes</h2>
+      <p>
+        Add animation CSS classes to your global stylesheet. These classes work with the Intersection Observer to trigger animations.
+      </p>
+
+      <div class="warning-box">
+        <strong>⚠️ Important:</strong> These CSS classes are already shown in the demo above. Copy them to your <code>src/app/globals.css</code> file.
+      </div>
+
+      <h3>File: <code>src/app/globals.css</code></h3>
+      <pre>
+/* ============================================
+   SCROLL ANIMATIONS
+   ============================================ */
+
+/* Base state: hidden and transformed */
+.animate-on-scroll {
+  opacity: 0;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Active state: visible and in position */
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* Animation Types */
+.animate-fade-up {
+  transform: translateY(32px);
+}
+
+.animate-fade-up.is-visible {
+  transform: translateY(0);
+}
+
+.animate-fade-in {
+  transform: none;
+}
+
+.animate-fade-left {
+  transform: translateX(32px);
+}
+
+.animate-fade-left.is-visible {
+  transform: translateX(0);
+}
+
+.animate-fade-right {
+  transform: translateX(-32px);
+}
+
+.animate-fade-right.is-visible {
+  transform: translateX(0);
+}
+
+.animate-scale-in {
+  transform: scale(0.95);
+}
+
+.animate-scale-in.is-visible {
+  transform: scale(1);
+}
+
+/* Duration variants */
+.animate-duration-fast {
+  transition-duration: 0.4s;
+}
+
+.animate-duration-normal {
+  transition-duration: 0.6s;
+}
+
+.animate-duration-slow {
+  transition-duration: 0.8s;
+}
+
+/* Stagger delays */
+.animate-on-scroll[data-delay="1"] {
+  transition-delay: 0.1s;
+}
+
+.animate-on-scroll[data-delay="2"] {
+  transition-delay: 0.2s;
+}
+
+.animate-on-scroll[data-delay="3"] {
+  transition-delay: 0.3s;
+}
+
+.animate-on-scroll[data-delay="4"] {
+  transition-delay: 0.4s;
+}
+
+.animate-on-scroll[data-delay="5"] {
+  transition-delay: 0.5s;
+}
+
+/* Accessibility: Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+      </pre>
+
+      <h3>Tailwind CSS Integration (Optional)</h3>
+      <pre>
+// File: tailwind.config.ts
+
+export default {
+  theme: {
+    extend: {
+      animation: {
+        'fade-up': 'fadeUp 0.6s ease-out',
+        'fade-in': 'fadeIn 0.6s ease-out',
+      },
+      keyframes: {
+        fadeUp: {
+          '0%': { opacity: '0', transform: 'translateY(32px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+      },
+    },
+  },
+}
+      </pre>
+    </div>
+
+    <!-- STEP 6: COMPONENT INTEGRATION EXAMPLES -->
+    <div class="doc-section">
+      <h2>STEP 6: Component Integration Examples</h2>
+      <p>
+        Real-world examples of integrating animations into various block types.
+      </p>
+
+      <h3>Example 1: Two-Column Block (Outside-In Animation)</h3>
+      <pre>
+'use client'
+
+import { useBlockAnimation } from '@/hooks/useBlockAnimation'
+import { AnimationConfig } from '@/types/animation'
+
+interface TwoColumnProps {
+  leftContent: any
+  rightContent: any
+  animation?: AnimationConfig
+}
+
+export const TwoColumn: React.FC&lt;TwoColumnProps&gt; = ({
+  leftContent,
+  rightContent,
+  animation,
+}) => {
+  const containerAnim = useBlockAnimation(
+    animation?.type === 'two-column' ? undefined : animation
+  )
+
+  // For two-column, animate children separately
+  const isTwoColumn = animation?.type === 'two-column'
+
+  return (
+    &lt;section
+      ref={!isTwoColumn ? containerAnim.ref : undefined}
+      className={!isTwoColumn ? containerAnim.className : ''}
+    &gt;
+      &lt;div className="grid lg:grid-cols-2 gap-12"&gt;
+        &lt;div
+          className={
+            isTwoColumn
+              ? 'animate-on-scroll animate-fade-right animate-duration-normal'
+              : ''
+          }
+        &gt;
+          {leftContent}
+        &lt;/div&gt;
+        &lt;div
+          className={
+            isTwoColumn
+              ? 'animate-on-scroll animate-fade-left animate-duration-normal'
+              : ''
+          }
+        &gt;
+          {rightContent}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  )
+}
+      </pre>
+
+      <h3>Example 2: Features Block (Staggered Children)</h3>
+      <pre>
+'use client'
+
+import { useBlockAnimation } from '@/hooks/useBlockAnimation'
+import { AnimationConfig } from '@/types/animation'
+
+interface Feature {
+  id: string
+  icon: string
+  title: string
+  description: string
+}
+
+interface FeaturesProps {
+  title: string
+  features: Feature[]
+  animation?: AnimationConfig
+}
+
+export const Features: React.FC&lt;FeaturesProps&gt; = ({
+  title,
+  features,
+  animation,
+}) => {
+  const containerAnim = useBlockAnimation(animation)
+  const shouldStagger = animation?.enabled && animation?.stagger
+
+  return (
+    &lt;section className="py-20"&gt;
+      &lt;div className="container"&gt;
+        &lt;h2
+          ref={containerAnim.ref}
+          className={`section-title ${containerAnim.className}`}
+        &gt;
+          {title}
+        &lt;/h2&gt;
+        &lt;div className="grid md:grid-cols-3 gap-8 mt-12"&gt;
+          {features.map((feature, index) =&gt; (
+            &lt;div
+              key={feature.id}
+              className={
+                shouldStagger
+                  ? `animate-on-scroll animate-${animation.type} animate-duration-${animation.duration}`
+                  : ''
+              }
+              data-delay={shouldStagger ? index + 1 : undefined}
+            &gt;
+              &lt;div className="feature-icon"&gt;{feature.icon}&lt;/div&gt;
+              &lt;h3&gt;{feature.title}&lt;/h3&gt;
+              &lt;p&gt;{feature.description}&lt;/p&gt;
+            &lt;/div&gt;
+          ))}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  )
+}
+      </pre>
+
+      <h3>Example 3: Global Observer Component (Automatic)</h3>
+      <pre>
+// File: src/components/AnimationObserver.tsx
+
+'use client'
+
+import { useEffect } from 'react'
+
+interface AnimationObserverProps {
+  threshold?: number
+  rootMargin?: string
+}
+
+export const AnimationObserver: React.FC&lt;AnimationObserverProps&gt; = ({
+  threshold = 0.1,
+  rootMargin = '0px 0px -100px 0px',
+}) => {
+  useEffect(() => {
+    // Check prefers-reduced-motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // Force all animations visible
+      const elements = document.querySelectorAll('.animate-on-scroll')
+      elements.forEach((el) => el.classList.add('is-visible'))
+      return
+    }
+
+    // Create observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+          }
+        })
+      },
+      { threshold, rootMargin }
+    )
+
+    // Observe all animated elements
+    const elements = document.querySelectorAll('.animate-on-scroll')
+    elements.forEach((el) => observer.observe(el))
+
+    return () => {
+      elements.forEach((el) => observer.unobserve(el))
+    }
+  }, [threshold, rootMargin])
+
+  return null // This is a utility component, renders nothing
+}
+
+// Usage in layout:
+// &lt;AnimationObserver threshold={0.1} rootMargin="0px 0px -100px 0px" /&gt;
+      </pre>
+    </div>
+
+    <!-- STEP 7: TESTING CHECKLIST -->
+    <div class="doc-section">
+      <h2>STEP 7: Testing Checklist</h2>
+      <p>
+        Ensure animations work correctly across all scenarios and devices.
+      </p>
+
+      <h3>Functional Testing</h3>
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Test Case</th>
+            <th>Expected Behavior</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Animation triggers on scroll</td>
+            <td>Element animates when 10% visible (by default)</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>Animation only plays once</td>
+            <td>Element stays visible after animation completes</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>Stagger delays work</td>
+            <td>Child elements animate sequentially (0.1s, 0.2s, 0.3s)</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>Two-column outside-in</td>
+            <td>Left column fades right, right column fades left</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>Duration variants</td>
+            <td>Fast (0.4s), Normal (0.6s), Slow (0.8s) speeds work</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>Global disable toggle</td>
+            <td>Disabling global animations prevents all animations</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>Per-block disable</td>
+            <td>Individual blocks can disable animations</td>
+            <td>☐</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Accessibility Testing</h3>
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Test Case</th>
+            <th>Expected Behavior</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>prefers-reduced-motion</td>
+            <td>All animations disabled when user preference is set</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>Content visible without JS</td>
+            <td>Content displays normally if JavaScript fails</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>No layout shift</td>
+            <td>Animations don't cause CLS (Cumulative Layout Shift)</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>Keyboard navigation</td>
+            <td>Animations don't interfere with keyboard focus</td>
+            <td>☐</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Performance Testing</h3>
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Target</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Lighthouse Performance Score</td>
+            <td>&gt;90</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>First Contentful Paint (FCP)</td>
+            <td>&lt;1.8s</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>Cumulative Layout Shift (CLS)</td>
+            <td>&lt;0.1</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>Interaction to Next Paint (INP)</td>
+            <td>&lt;200ms</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>Observer memory usage</td>
+            <td>No memory leaks on navigation</td>
+            <td>☐</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Browser Compatibility</h3>
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Browser</th>
+            <th>Version</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Chrome/Edge</td>
+            <td>Last 2 versions</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>Firefox</td>
+            <td>Last 2 versions</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>Safari (macOS)</td>
+            <td>Last 2 versions</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>Safari (iOS)</td>
+            <td>iOS 15+</td>
+            <td>☐</td>
+          </tr>
+          <tr>
+            <td>Samsung Internet</td>
+            <td>Latest</td>
+            <td>☐</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Testing Commands</h3>
+      <pre>
+# Test prefers-reduced-motion
+# Chrome DevTools: Rendering tab → "Emulate CSS media feature prefers-reduced-motion: reduce"
+
+# Test Intersection Observer
+console.log('IntersectionObserver' in window) // Should be true
+
+# Monitor performance
+npm run lighthouse
+# Or use Chrome DevTools Performance tab
+
+# Test on real devices
+npm run dev -- --host
+# Access from mobile: http://your-ip:3000
+      </pre>
+    </div>
+
+    <!-- STEP 8: TROUBLESHOOTING -->
+    <div class="doc-section">
+      <h2>STEP 8: Troubleshooting</h2>
+      <p>
+        Common issues and solutions when implementing the animation system.
+      </p>
+
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Problem</th>
+            <th>Cause</th>
+            <th>Solution</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Animations not triggering</td>
+            <td>CSS classes missing or Intersection Observer not initialized</td>
+            <td>
+              1. Check that CSS animation classes are in globals.css<br>
+              2. Verify <code>useBlockAnimation</code> hook is called<br>
+              3. Check browser console for errors<br>
+              4. Ensure <code>animation.enabled</code> is true
+            </td>
+          </tr>
+          <tr>
+            <td>Content invisible on page load</td>
+            <td>CSS hides content before JS initializes</td>
+            <td>
+              Add fallback: Show content after 2s if JS hasn't loaded:<br>
+              <code>setTimeout(() => { el.classList.add('is-visible') }, 2000)</code>
+            </td>
+          </tr>
+          <tr>
+            <td>Animations play multiple times</td>
+            <td>Observer not unobserving after trigger</td>
+            <td>
+              In observer callback, add:<br>
+              <code>observer.unobserve(entry.target)</code><br>
+              after adding 'is-visible' class
+            </td>
+          </tr>
+          <tr>
+            <td>Stagger delays not working</td>
+            <td><code>data-delay</code> attribute missing or CSS not targeting it</td>
+            <td>
+              1. Ensure elements have <code>data-delay="1"</code> attribute<br>
+              2. Check CSS selector: <code>.animate-on-scroll[data-delay="1"]</code><br>
+              3. Verify <code>stagger: true</code> in config
+            </td>
+          </tr>
+          <tr>
+            <td>Two-column animation not symmetric</td>
+            <td>Left/right transforms swapped</td>
+            <td>
+              Check CSS:<br>
+              <code>.animate-fade-right { transform: translateX(-32px) }</code> (left → right)<br>
+              <code>.animate-fade-left { transform: translateX(32px) }</code> (right → left)
+            </td>
+          </tr>
+          <tr>
+            <td>Jerky/laggy animations</td>
+            <td>Too many elements animating at once or heavy JS on main thread</td>
+            <td>
+              1. Use <code>will-change: transform, opacity</code> sparingly<br>
+              2. Reduce stagger count (max 5-6 elements)<br>
+              3. Use <code>contain: layout</code> on animated containers<br>
+              4. Profile with Chrome DevTools Performance tab
+            </td>
+          </tr>
+          <tr>
+            <td>Animations disabled for all users</td>
+            <td>Global animation setting is off or prefers-reduced-motion detected incorrectly</td>
+            <td>
+              1. Check Payload global settings: <code>animations.enabled</code><br>
+              2. Test media query: <code>window.matchMedia('(prefers-reduced-motion: reduce)').matches</code><br>
+              3. Clear browser settings (may be cached)
+            </td>
+          </tr>
+          <tr>
+            <td>Hook causing infinite re-renders</td>
+            <td>useEffect dependencies not stable</td>
+            <td>
+              Memoize config object:<br>
+              <code>const config = useMemo(() => ({ enabled, type, duration }), [enabled, type, duration])</code>
+            </td>
+          </tr>
+          <tr>
+            <td>TypeScript errors with animation config</td>
+            <td>Missing or incorrect type definitions</td>
+            <td>
+              1. Ensure <code>src/types/animation.ts</code> exists<br>
+              2. Import types: <code>import { AnimationConfig } from '@/types/animation'</code><br>
+              3. Extend block interfaces with <code>AnimatedBlock</code>
+            </td>
+          </tr>
+          <tr>
+            <td>Animations not working in Safari</td>
+            <td>Intersection Observer polyfill may be needed for older versions</td>
+            <td>
+              Safari 12.1+ has native support. For older:<br>
+              <code>npm install intersection-observer</code><br>
+              Import in layout: <code>import 'intersection-observer'</code>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Debug Mode</h3>
+      <pre>
+// Add to any component using animations
+useEffect(() => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[Animation Debug]', {
+      enabled: animation?.enabled,
+      type: animation?.type,
+      duration: animation?.duration,
+      stagger: animation?.stagger,
+      ref: elementRef.current,
+      isVisible: isVisible,
+    })
+  }
+}, [animation, isVisible])
+      </pre>
+
+      <h3>Performance Debugging</h3>
+      <pre>
+// Measure Intersection Observer performance
+const startTime = performance.now()
+
+const observer = new IntersectionObserver((entries) => {
+  const endTime = performance.now()
+  console.log(`[IO] Callback executed in ${endTime - startTime}ms`)
+
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      console.log(`[IO] Element visible:`, entry.target, {
+        intersectionRatio: entry.intersectionRatio,
+        boundingClientRect: entry.boundingClientRect,
+      })
+    }
+  })
+}, { threshold: 0.1 })
+      </pre>
+    </div>
+
+    <!-- IMPLEMENTATION SUMMARY -->
+    <div class="doc-section" style="background: var(--teal-glow); border-color: var(--teal);">
+      <h2>✅ Implementation Summary</h2>
+      <p>
+        You now have a complete, production-ready animation system for your Payload CMS blocks! Here's what you've built:
+      </p>
+
+      <h3>Features Implemented:</h3>
+      <ul>
+        <li><strong>5 Animation Types:</strong> Fade Up, Fade In, Fade Left, Fade Right, Scale In, Two-Column Outside-In</li>
+        <li><strong>3 Duration Options:</strong> Fast (0.4s), Normal (0.6s), Slow (0.8s)</li>
+        <li><strong>Stagger Support:</strong> Sequential delays for child elements (0.1s increments)</li>
+        <li><strong>Global Controls:</strong> Site-wide animation enable/disable via Payload CMS</li>
+        <li><strong>Per-Block Config:</strong> Editors can customize animations for each block</li>
+        <li><strong>Full Accessibility:</strong> Respects prefers-reduced-motion, keyboard-friendly</li>
+        <li><strong>High Performance:</strong> Intersection Observer API, GPU-accelerated CSS transforms</li>
+        <li><strong>Type-Safe:</strong> Complete TypeScript interfaces for all animation configs</li>
+      </ul>
+
+      <h3>Files Created/Modified:</h3>
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>File</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>src/payload/globals/SiteSettings.ts</code></td>
+            <td>Global animation settings</td>
+          </tr>
+          <tr>
+            <td><code>src/payload/fields/animationFields.ts</code></td>
+            <td>Reusable animation field definitions</td>
+          </tr>
+          <tr>
+            <td><code>src/types/animation.ts</code></td>
+            <td>TypeScript type definitions</td>
+          </tr>
+          <tr>
+            <td><code>src/hooks/useBlockAnimation.ts</code></td>
+            <td>React hook for animation logic</td>
+          </tr>
+          <tr>
+            <td><code>src/app/globals.css</code></td>
+            <td>CSS animation classes</td>
+          </tr>
+          <tr>
+            <td><code>src/components/AnimationObserver.tsx</code></td>
+            <td>Optional global observer component</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Next Steps:</h3>
+      <ol>
+        <li>Copy CSS classes to your <code>globals.css</code></li>
+        <li>Create the <code>animationFields.ts</code> mixin</li>
+        <li>Add animation fields to all existing blocks</li>
+        <li>Implement <code>useBlockAnimation</code> hook</li>
+        <li>Update block components to use the hook</li>
+        <li>Test across browsers and devices</li>
+        <li>Train editors on using animation controls</li>
+      </ol>
+
+      <div class="info-box" style="margin-top: 24px;">
+        <strong>💡 Pro Tip:</strong> Start by enabling animations on 2-3 key blocks (Hero, Features, CTA) to test the system. Once confident, roll out to all blocks gradually. Monitor performance metrics (Lighthouse scores) after each deployment.
+      </div>
+    </div>
+  </div>
+</body>
+</html>

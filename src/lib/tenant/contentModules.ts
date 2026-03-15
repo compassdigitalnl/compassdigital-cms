@@ -32,6 +32,10 @@ export type BranchType =
   | 'horeca'
   | 'ervaringen'
   | 'marketplace'
+  | 'automotive'
+  | 'toerisme'
+  | 'vastgoed'
+  | 'onderwijs'
 
 export interface ModuleDefaults {
   label: string
@@ -159,6 +163,42 @@ export const branchDefaults: Record<string, Record<ContentModuleType, ModuleDefa
     bookings:   { label: 'Boekingen',         routeSlug: 'boeken',              defaultEnabled: false },
     team:       { label: 'Team',              routeSlug: 'team',                defaultEnabled: false },
     activities: { label: 'Workshops',         routeSlug: 'workshops',           defaultEnabled: true },
+  },
+  automotive: {
+    services:   { label: 'Werkplaatsdiensten', routeSlug: 'werkplaats',         defaultEnabled: true },
+    cases:      { label: 'Portfolio',          routeSlug: 'portfolio',           defaultEnabled: false },
+    reviews:    { label: 'Reviews',            routeSlug: '',                   defaultEnabled: true },
+    inquiries:  { label: 'Inruil-aanvraag',    routeSlug: 'inruilen',           defaultEnabled: true },
+    bookings:   { label: 'Werkplaatsafspraken', routeSlug: 'afspraak-maken',    defaultEnabled: true },
+    team:       { label: 'Team',               routeSlug: 'team',              defaultEnabled: true },
+    activities: { label: 'Evenementen',        routeSlug: 'evenementen',        defaultEnabled: false },
+  },
+  toerisme: {
+    services:   { label: 'Arrangementen',      routeSlug: 'arrangementen',      defaultEnabled: false },
+    cases:      { label: 'Reisverhalen',       routeSlug: 'reisverhalen',       defaultEnabled: false },
+    reviews:    { label: 'Reviews',            routeSlug: 'reviews',            defaultEnabled: true },
+    inquiries:  { label: 'Aanvragen',          routeSlug: 'aanvragen',          defaultEnabled: true },
+    bookings:   { label: 'Boekingen',          routeSlug: 'boekingen',          defaultEnabled: true },
+    team:       { label: 'Reisleiders',        routeSlug: 'team',              defaultEnabled: true },
+    activities: { label: 'Excursies',          routeSlug: 'excursies',          defaultEnabled: false },
+  },
+  vastgoed: {
+    services:   { label: 'Diensten',           routeSlug: 'diensten',           defaultEnabled: false },
+    bookings:   { label: 'Bezichtigingen',     routeSlug: 'bezichtigingen',     defaultEnabled: true },
+    reviews:    { label: 'Reviews',            routeSlug: 'reviews',            defaultEnabled: true },
+    team:       { label: 'Makelaars',          routeSlug: 'makelaars',          defaultEnabled: true },
+    cases:      { label: 'Portfolio',          routeSlug: 'portfolio',          defaultEnabled: false },
+    activities: { label: 'Evenementen',        routeSlug: 'evenementen',        defaultEnabled: false },
+    inquiries:  { label: 'Waardebepalingen',   routeSlug: 'waardebepalingen',   defaultEnabled: true },
+  },
+  onderwijs: {
+    services:   { label: 'Cursussen',          routeSlug: 'cursussen',          defaultEnabled: false },
+    bookings:   { label: 'Inschrijvingen',     routeSlug: 'inschrijvingen',     defaultEnabled: true },
+    reviews:    { label: 'Reviews',            routeSlug: 'reviews',            defaultEnabled: true },
+    team:       { label: 'Docenten',           routeSlug: 'docenten',           defaultEnabled: true },
+    cases:      { label: 'Succesverhalen',     routeSlug: 'succesverhalen',     defaultEnabled: false },
+    activities: { label: 'Workshops',          routeSlug: 'workshops',          defaultEnabled: false },
+    inquiries:  { label: 'Aanvragen',          routeSlug: 'aanvragen',          defaultEnabled: true },
   },
 }
 

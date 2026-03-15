@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reservering — Amsterdamse Feestavond — Mokum Events</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital,wght@0,600;0,700;0,800;1,600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-dark:#00695C;--teal-glow:rgba(0,137,123,.12);--teal-bg:#E0F2F1;--white:#FAFBFC;--bg:#F5F7FA;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--grey-700:#334155;--text:#1E293B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--r:12px;--r-sm:8px;--r-lg:16px;--sh-sm:0 1px 3px rgba(10,22,40,.06);--sh-md:0 4px 20px rgba(10,22,40,.08);--sh-lg:0 8px 40px rgba(10,22,40,.12);--ease:cubic-bezier(.4,0,.2,1);--dur:.2s;--font:'Plus Jakarta Sans',system-ui,sans-serif;--font-d:'DM Serif Display',Georgia,serif;--font-m:'JetBrains Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--font);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}.ct{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* Header (compact booking version) */
+.hd{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:12px 0;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(10,22,40,.3)}.hd .ct{display:flex;align-items:center;justify-content:space-between}
+.lg{display:flex;align-items:center;gap:9px;text-decoration:none}.lg-m{width:34px;height:34px;background:var(--teal);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px}.lg-t{font-family:var(--font-d);font-size:18px;color:#fff}.lg-t span{color:var(--teal-light)}
+.hr{display:flex;align-items:center;gap:14px}.hh{display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.4);text-decoration:none;font-size:11px;font-weight:600;transition:color var(--dur)}.hh:hover{color:var(--teal-light)}.hp{display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.5);text-decoration:none;font-size:12px;font-weight:700;transition:color var(--dur)}.hp:hover{color:#fff}
+
+/* Progress */
+.prg{background:var(--white);border-bottom:1px solid var(--grey);padding:16px 0}
+.steps{display:flex;align-items:center;justify-content:center;gap:0}
+.step{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--grey-mid)}
+.step.done{color:var(--green)}.step.act{color:var(--teal)}
+.step-num{width:28px;height:28px;border:2px solid var(--grey);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800}
+.step.act .step-num{background:var(--teal);color:#fff;border-color:var(--teal)}.step.done .step-num{background:var(--green);color:#fff;border-color:var(--green)}
+.step-line{width:48px;height:2px;background:var(--grey);margin:0 10px}.step-line.done{background:var(--green)}
+
+/* Layout */
+.bl{display:grid;grid-template-columns:1fr 360px;gap:24px;padding:24px 0 48px}
+
+/* Form sections */
+.fs{background:var(--white);border:1px solid var(--grey);border-radius:var(--r);overflow:hidden;margin-bottom:16px;box-shadow:var(--sh-sm)}
+.fsh{display:flex;align-items:flex-start;gap:12px;padding:16px 20px;border-bottom:1px solid var(--grey);background:var(--grey-light)}
+.si{width:38px;height:38px;border-radius:10px;background:var(--teal-bg);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;color:var(--teal)}
+.stt{font-size:14px;font-weight:800;color:var(--navy)}.sts{font-size:11px;color:var(--grey-mid);margin-top:1px}
+.fsb{padding:20px}
+
+/* Calendar */
+.dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.dm{font-size:14px;font-weight:800;color:var(--navy)}
+.dn{display:flex;gap:4px}.dnb{width:30px;height:30px;border-radius:var(--r-sm);border:1.5px solid var(--grey);background:var(--white);cursor:pointer;font-size:14px;color:var(--grey-dark);display:flex;align-items:center;justify-content:center;transition:all var(--dur)}.dnb:hover{border-color:var(--teal);color:var(--teal)}
+
+.dg{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:12px}
+.dy{text-align:center;font-size:9px;font-weight:800;color:var(--grey-mid);text-transform:uppercase;padding:4px 0}
+.dc{text-align:center;padding:8px 4px;border-radius:var(--r-sm);font-size:12px;font-weight:600;color:var(--grey-dark);cursor:pointer;transition:all .15s;border:1.5px solid transparent}
+.dc:hover{background:var(--teal-bg);color:var(--teal-dark);border-color:rgba(0,137,123,.15)}.dc.sel{background:var(--teal);color:#fff;border-color:var(--teal);font-weight:800}.dc.un{color:var(--grey);text-decoration:line-through;cursor:not-allowed;background:var(--coral-light);border-color:rgba(255,107,107,.1)}.dc.un:hover{background:var(--coral-light);color:var(--grey)}
+.dc:empty{cursor:default;pointer-events:none}
+
+.al{display:flex;gap:16px;margin-bottom:16px}.ali{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--grey-mid)}.ald{width:8px;height:8px;border-radius:50%}.ald.av{background:var(--teal)}.ald.li{background:var(--amber)}.ald.fu{background:var(--coral)}
+
+/* Form fields */
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.fg{margin-bottom:12px}.fg:last-child{margin-bottom:0}
+.fl{display:block;font-size:10px;font-weight:700;color:var(--grey-700);margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}.fl .req{color:var(--coral);font-weight:800}
+.fi{width:100%;padding:9px 12px;border:1.5px solid var(--grey);border-radius:var(--r-sm);font-family:var(--font);font-size:12px;color:var(--text);outline:none;transition:all var(--dur);background:var(--white)}.fi:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow)}.fi::placeholder{color:var(--grey-mid)}
+select.fi{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6' fill='none' stroke='%2394A3B8' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+textarea.fi{resize:vertical;min-height:80px;line-height:1.7}
+
+/* Extras */
+.eg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ex{position:relative;background:var(--white);border:1.5px solid var(--grey);border-radius:var(--r);padding:14px;cursor:pointer;transition:all var(--dur);text-align:center}
+.ex:hover{border-color:var(--teal);box-shadow:var(--sh-sm)}.ex.sel{border-color:var(--teal);background:var(--teal-bg);box-shadow:0 0 0 3px var(--teal-glow)}
+.ex-pop{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--teal);color:#fff;font-size:8px;font-weight:800;padding:2px 8px;border-radius:100px;white-space:nowrap;text-transform:uppercase;letter-spacing:.04em}
+.ex-ic{font-size:24px;margin-bottom:6px}.ex-nm{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:3px}.ex-dc{font-size:10px;color:var(--grey-mid);line-height:1.5;margin-bottom:6px}
+.ex-pr{font-size:13px;font-weight:800;color:var(--teal)}.ex-pr small{font-size:10px;font-weight:500;color:var(--grey-mid)}
+
+/* Nav buttons */
+.nav-btns{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.back-link{display:flex;align-items:center;gap:5px;color:var(--grey-mid);text-decoration:none;font-size:12px;font-weight:600;transition:color var(--dur)}.back-link:hover{color:var(--teal)}
+.next-btn{padding:12px 32px;border:none;border-radius:var(--r-sm);background:var(--teal);color:#fff;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--dur)}.next-btn:hover{background:var(--teal-dark);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,137,123,.3)}
+
+/* Sidebar */
+.sb{position:sticky;top:100px;align-self:start}
+.sc{background:var(--white);border:1px solid var(--grey);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-md);margin-bottom:14px}
+
+/* Summary event header */
+.se{display:flex;gap:12px;padding:16px;border-bottom:1px solid var(--grey);background:var(--grey-light)}
+.se-th{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,var(--teal-bg),#B2DFDB);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.se-ct{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--teal)}.se-nm{font-size:13px;font-weight:800;color:var(--navy)}.se-rt{font-size:10px;color:var(--grey-mid)}.se-rt .st{color:var(--amber)}
+
+/* Summary body */
+.sbdy{padding:16px}
+.sl{display:flex;justify-content:space-between;padding:5px 0;font-size:11px;color:var(--grey-dark)}.sl .v{font-weight:600;color:var(--text)}.sl.ext .v{color:var(--teal)}
+.sdv{height:1px;background:var(--grey);margin:8px 0}
+.stot{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0}.stot .l{font-size:12px;font-weight:700;color:var(--text)}.stot .t{font-family:var(--font-d);font-size:24px;color:var(--navy)}
+.svat{font-size:10px;color:var(--grey-mid);text-align:right;margin-bottom:6px}
+.spp{font-size:11px;color:var(--teal);font-weight:600;background:var(--teal-bg);padding:8px 12px;border-radius:var(--r-sm);margin-bottom:12px;text-align:center}
+
+.book-btn{width:100%;padding:12px;border:none;border-radius:var(--r-sm);background:var(--teal);color:#fff;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all var(--dur);margin-bottom:6px}.book-btn:hover{background:var(--teal-dark);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,137,123,.3)}
+.off-btn{width:100%;padding:9px;border:1.5px solid var(--grey);border-radius:var(--r-sm);background:var(--white);font-family:var(--font);font-size:11px;font-weight:700;color:var(--grey-dark);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all var(--dur)}.off-btn:hover{border-color:var(--teal);color:var(--teal)}
+
+/* Summary footer */
+.sft{padding:14px 16px;border-top:1px solid var(--grey)}.sg{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--grey-dark);padding:3px 0}
+
+/* Angela */
+.ac{background:var(--white);border:1px solid var(--grey);border-radius:var(--r);padding:14px;margin-bottom:10px}
+.at{display:flex;align-items:center;gap:8px;margin-bottom:8px}.aav{width:36px;height:36px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800}
+.an{font-size:12px;font-weight:700;color:var(--navy)}.ar{font-size:10px;color:var(--grey-mid)}.as{font-size:9px;color:var(--green);display:flex;align-items:center;gap:3px}.od{width:5px;height:5px;border-radius:50%;background:var(--green)}
+.am{font-size:11px;color:var(--grey-dark);line-height:1.6;padding:8px 12px;background:var(--grey-light);border-radius:0 var(--r) var(--r) var(--r);margin-bottom:8px}
+.aa2{display:flex;gap:5px}.ab{flex:1;padding:6px;border:1.5px solid var(--grey);border-radius:var(--r-sm);background:var(--white);font-family:var(--font);font-size:10px;font-weight:700;color:var(--grey-dark);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:3px;transition:all var(--dur)}.ab:hover{border-color:var(--teal);color:var(--teal)}.ab.wa{background:#25D366;border-color:#25D366;color:#fff}.ab.wa:hover{background:#1FAD53}
+
+/* Proof */
+.pb{display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--white);border:1px solid var(--grey);border-radius:var(--r-sm);font-size:10px;color:var(--grey-dark);margin-bottom:5px}.pb strong{color:var(--navy)}
+
+@media(max-width:900px){.bl{grid-template-columns:1fr}.sb{position:static}.eg{grid-template-columns:1fr 1fr}.fr{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hd"><div class="ct"><a href="#" class="lg"><div class="lg-m">M</div><div class="lg-t">Mokum <span>Events</span></div></a><div class="hr"><a href="#" class="hh">❓ Hulp nodig?</a><a href="tel:0204272909" class="hp">📞 020 427 29 09</a></div></div></div>
+
+<!-- PROGRESS -->
+<div class="prg"><div class="steps">
+<div class="step done"><div class="step-num">✓</div>Uitje gekozen</div><div class="step-line done"></div>
+<div class="step act"><div class="step-num">2</div>Details & datum</div><div class="step-line"></div>
+<div class="step"><div class="step-num">3</div>Gegevens</div><div class="step-line"></div>
+<div class="step"><div class="step-num">4</div>Bevestiging</div>
+</div></div>
+
+<div class="ct"><div class="bl">
+
+<!-- LEFT: FORM -->
+<div>
+
+<!-- Date Picker -->
+<div class="fs"><div class="fsh"><div class="si">📅</div><div><div class="stt">Kies een datum</div><div class="sts">Selecteer uw gewenste datum — wij checken de beschikbaarheid</div></div></div>
+<div class="fsb">
+<div class="dh"><div class="dm">Maart 2026</div><div class="dn"><button class="dnb">‹</button><button class="dnb">›</button></div></div>
+<div class="dg">
+<div class="dy">Ma</div><div class="dy">Di</div><div class="dy">Wo</div><div class="dy">Do</div><div class="dy">Vr</div><div class="dy">Za</div><div class="dy">Zo</div>
+<div class="dc"></div><div class="dc"></div><div class="dc"></div><div class="dc"></div><div class="dc"></div><div class="dc"></div><div class="dc">1</div>
+<div class="dc">2</div><div class="dc">3</div><div class="dc">4</div><div class="dc">5</div><div class="dc">6</div><div class="dc">7</div><div class="dc">8</div>
+<div class="dc">9</div><div class="dc">10</div><div class="dc">11</div><div class="dc">12</div><div class="dc">13</div><div class="dc sel">14</div><div class="dc">15</div>
+<div class="dc">16</div><div class="dc">17</div><div class="dc">18</div><div class="dc">19</div><div class="dc un">20</div><div class="dc un">21</div><div class="dc">22</div>
+<div class="dc">23</div><div class="dc">24</div><div class="dc">25</div><div class="dc">26</div><div class="dc un">27</div><div class="dc un">28</div><div class="dc">29</div>
+<div class="dc">30</div><div class="dc">31</div>
+</div>
+<div class="al"><div class="ali"><div class="ald av"></div>Beschikbaar</div><div class="ali"><div class="ald li"></div>Bijna vol</div><div class="ali"><div class="ald fu"></div>Volgeboekt</div></div>
+<div class="fr" style="margin-top:16px;margin-bottom:0">
+<div class="fg"><label class="fl">Gewenste starttijd</label><select class="fi"><option>Kies een tijdstip</option><option>14:00</option><option>15:00</option><option>16:00</option><option>17:00</option><option selected>18:00</option><option>19:00</option><option>20:00</option></select></div>
+<div class="fg"><label class="fl">Aantal personen <span class="req">*</span></label><select class="fi"><option>Selecteer aantal</option><option>50 personen</option><option selected>75 personen</option><option>100 personen</option><option>150 personen</option><option>200+ personen</option></select></div>
+</div>
+</div></div>
+
+<!-- Extras -->
+<div class="fs"><div class="fsh"><div class="si">✨</div><div><div class="stt">Maak het compleet</div><div class="sts">Voeg extra's toe — 73% van onze gasten kiest minimaal 1 extra</div></div></div>
+<div class="fsb">
+<div class="eg">
+<div class="ex sel" onclick="this.classList.toggle('sel')"><div class="ex-pop">🔥 Meest gekozen</div><div class="ex-ic">🍷</div><div class="ex-nm">Drankarrangement</div><div class="ex-dc">Onbeperkt bier, wijn, fris en koffie/thee gedurende het hele event</div><div class="ex-pr">€12,50 <small>p.p. / uur</small></div></div>
+<div class="ex" onclick="this.classList.toggle('sel')"><div class="ex-ic">🎤</div><div class="ex-nm">Live muzikant</div><div class="ex-dc">Professionele zanger/gitarist voor sfeervolle achtergrondmuziek</div><div class="ex-pr">€350 <small>vast tarief</small></div></div>
+<div class="ex" onclick="this.classList.toggle('sel')"><div class="ex-ic">📸</div><div class="ex-nm">Extra fotograaf-uur</div><div class="ex-dc">Verleng het fotoverslag met een extra uur voor groepsfoto's en candids</div><div class="ex-pr">€175 <small>per uur</small></div></div>
+<div class="ex" onclick="this.classList.toggle('sel')"><div class="ex-ic">🚐</div><div class="ex-nm">Groepsvervoer</div><div class="ex-dc">Touringcar of minibussen vanaf uw locatie naar de eventlocatie</div><div class="ex-pr">Vanaf €8,50 <small>p.p.</small></div></div>
+<div class="ex" onclick="this.classList.toggle('sel')"><div class="ex-ic">🎁</div><div class="ex-nm">Goodiebag</div><div class="ex-dc">Persoonlijke welkomsttas met Amsterdamse snacks en gadgets</div><div class="ex-pr">€7,50 <small>p.p.</small></div></div>
+<div class="ex" onclick="this.classList.toggle('sel')"><div class="ex-ic">🏨</div><div class="ex-nm">Overnachting regelen</div><div class="ex-dc">Wij regelen hotelkamers in de buurt van de eventlocatie</div><div class="ex-pr">Vanaf €89 <small>p.p.</small></div></div>
+</div>
+</div></div>
+
+<!-- Contact / Group -->
+<div class="fs"><div class="fsh"><div class="si">👥</div><div><div class="stt">Over uw groep</div><div class="sts">Vertel ons iets over de aanleiding zodat we het perfect kunnen afstemmen</div></div></div>
+<div class="fsb">
+<div class="fg"><label class="fl">Wat voor groep is het? <span class="req">*</span></label><select class="fi"><option>Kies type groep</option><option selected>Bedrijfsuitje / teambuilding</option><option>Vrijgezellenfeest</option><option>Verjaardagsfeest</option><option>Familiedag</option><option>Jubileum</option><option>Overig</option></select></div>
+<div class="fr"><div class="fg"><label class="fl">Contactpersoon <span class="req">*</span></label><input type="text" class="fi" placeholder="Volledige naam" value="Sandra de Groot"></div><div class="fg"><label class="fl">E-mailadres <span class="req">*</span></label><input type="email" class="fi" placeholder="naam@bedrijf.nl" value="sandra@techbv.nl"></div></div>
+<div class="fr"><div class="fg"><label class="fl">Telefoonnummer <span class="req">*</span></label><input type="tel" class="fi" placeholder="06 12345678" value="06 23456789"></div><div class="fg"><label class="fl">Organisatie</label><input type="text" class="fi" placeholder="Bedrijfsnaam (optioneel)" value="TechBV"></div></div>
+<div class="fg"><label class="fl">Bijzonderheden of wensen</label><textarea class="fi" placeholder="Bijv. dieetwensen, verrassingselement, speciale verzoeken...">We hebben een paar collega's met een vegetarisch dieet. Verder zou het leuk zijn als er een kort welkomstwoordje mogelijk is door onze directeur.</textarea></div>
+</div></div>
+
+<!-- Nav -->
+<div class="nav-btns"><a href="#" class="back-link">← Terug naar uitje</a><button class="next-btn">Doorgaan naar bevestiging →</button></div>
+
+</div>
+
+<!-- RIGHT: SIDEBAR -->
+<div class="sb">
+
+<div class="sc">
+<div class="se"><div class="se-th">🎉</div><div><div class="se-ct">Feestavond</div><div class="se-nm">Amsterdamse Feestavond</div><div class="se-rt"><span class="st">★★★★★</span> 9.4 · 94 reviews</div></div></div>
+<div class="sbdy">
+<div class="sl"><span>📅 Datum</span><span class="v">Za 14 maart 2026</span></div>
+<div class="sl"><span>⏱️ Starttijd</span><span class="v">18:00</span></div>
+<div class="sl"><span>⏳ Duur</span><span class="v">4 uur</span></div>
+<div class="sl"><span>👥 Personen</span><span class="v">75 personen</span></div>
+<div class="sdv"></div>
+<div class="sl"><span>Feestavond (75× €77,50)</span><span class="v">€5.812,50</span></div>
+<div class="sl ext"><span>+ Drankarrangement (75× €12,50 × 4u)</span><span class="v">+€3.750,00</span></div>
+<div class="sdv"></div>
+<div class="stot"><span class="l">Totaal</span><span class="t">€9.562,50</span></div>
+<div class="svat">Excl. 21% BTW</div>
+<div class="spp">👤 €127,50 per persoon (incl. drankarr.)</div>
+<button class="book-btn">✅ Reservering bevestigen</button>
+<button class="off-btn">📄 Liever eerst een offerte?</button>
+</div>
+<div class="sft">
+<div class="sg">🛡️ Geheel vrijblijvend — kosteloos annuleren</div>
+<div class="sg">🔒 Beveiligde betaling via iDEAL of op factuur</div>
+<div class="sg">💬 Binnen 2 uur reactie op werkdagen</div>
+</div>
+</div>
+
+<div class="ac"><div class="at"><div class="aav">A</div><div><div class="an">Angela</div><div class="ar">Event coördinator</div><div class="as"><span class="od"></span> Online — reageert binnen 5 min</div></div></div><div class="am">Hoi! 👋 Planning een bedrijfsuitje voor 75 personen? Leuk! Ik help je graag met de perfecte invulling.</div><div class="aa2"><button class="ab wa">💬 WhatsApp</button><button class="ab">📞 Bellen</button><button class="ab">📧 E-mail</button></div></div>
+
+<div class="pb"><span>🔥</span> <strong>189 groepen</strong> boekten dit de afgelopen 3 maanden</div>
+<div class="pb"><span>👀</span> <strong>12 mensen</strong> bekijken dit uitje nu</div>
+
+</div>
+
+</div></div>
+
+<script>
+document.querySelectorAll('.dc:not(.un)').forEach(cell=>{if(cell.textContent.trim()){cell.addEventListener('click',function(){document.querySelectorAll('.dc.sel').forEach(c=>c.classList.remove('sel'));this.classList.add('sel')})}});
+</script>
+</body>
+</html>

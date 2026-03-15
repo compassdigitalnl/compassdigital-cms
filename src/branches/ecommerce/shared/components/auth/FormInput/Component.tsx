@@ -83,7 +83,7 @@ export function FormInput({
           style={{ color: 'var(--color-text-primary)' }}
         >
           {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-coral ml-1">*</span>}
         </label>
       )}
 
@@ -122,7 +122,7 @@ export function FormInput({
             w-full py-3 px-[14px] rounded-lg text-sm font-medium transition-all outline-none
             ${IconComponent ? 'pl-[42px]' : ''}
             ${showPasswordToggle && type === 'password' ? 'pr-[42px]' : ''}
-            ${error ? 'border-red-500' : 'border-[1.5px]'}
+            ${error ? 'border-coral' : 'border-[1.5px]'}
             ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
           `}
           style={{
@@ -154,7 +154,7 @@ export function FormInput({
 
       {/* Error Message */}
       {error && (
-        <p className="text-xs mt-1.5 text-red-500 font-medium">{error}</p>
+        <p className="text-xs mt-1.5 text-coral font-medium">{error}</p>
       )}
 
       {/* Helper Text */}

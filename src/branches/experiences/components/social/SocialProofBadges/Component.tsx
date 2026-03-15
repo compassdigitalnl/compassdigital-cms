@@ -10,10 +10,10 @@ export function SocialProofBadges({ badges, className = '' }: SocialProofBadgesP
         return (
           <div
             key={index}
-            className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg py-1.5 px-3"
+            className="flex items-center gap-2 bg-white border border-grey-light rounded-lg py-1.5 px-3"
           >
             <span className="text-base flex-shrink-0">{badge.icon}</span>
-            <span className="text-xs text-gray-700">
+            <span className="text-xs text-grey-dark">
               {parts.length > 1 ? (
                 <>
                   {parts[0]}

@@ -18,8 +18,8 @@ export function NotificationPreferences({ notifications, onToggle }: Notificatio
           <Bell className="w-5 h-5 lg:w-6 lg:h-6" style={{ color: 'var(--color-primary)' }} />
         </div>
         <div>
-          <h2 className="text-base lg:text-lg font-extrabold text-gray-900">Notificaties</h2>
-          <p className="text-xs lg:text-sm text-gray-500">Beheer je e-mail voorkeuren</p>
+          <h2 className="text-base lg:text-lg font-extrabold text-navy">Notificaties</h2>
+          <p className="text-xs lg:text-sm text-grey-mid">Beheer je e-mail voorkeuren</p>
         </div>
       </div>
 
@@ -27,10 +27,10 @@ export function NotificationPreferences({ notifications, onToggle }: Notificatio
         {notificationItems.map((item) => {
           const isEnabled = notifications[item.key as keyof typeof notifications]
           return (
-            <div key={item.key} className="flex items-start justify-between p-3 lg:p-4 rounded-lg lg:rounded-xl bg-gray-50">
+            <div key={item.key} className="flex items-start justify-between p-3 lg:p-4 rounded-lg lg:rounded-xl bg-grey-light">
               <div className="flex-1 min-w-0 pr-3">
-                <div className="text-xs lg:text-sm font-semibold mb-0.5 lg:mb-1 text-gray-900">{item.label}</div>
-                <div className="text-xs text-gray-500">{item.description}</div>
+                <div className="text-xs lg:text-sm font-semibold mb-0.5 lg:mb-1 text-navy">{item.label}</div>
+                <div className="text-xs text-grey-mid">{item.description}</div>
               </div>
               <div
                 className="w-11 lg:w-12 h-6 rounded-full relative cursor-pointer transition-all flex-shrink-0"

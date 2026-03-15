@@ -8,13 +8,13 @@ export function TeamSearchBar({ searchQuery, onSearchChange, onInviteClick, canI
   return (
     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
       <div className="relative flex-1">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-grey-mid" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Zoek op naam of e-mail..."
-          className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300"
+          className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm outline-none border border-grey-light focus:border-grey-light"
         />
       </div>
       {canInvite && (

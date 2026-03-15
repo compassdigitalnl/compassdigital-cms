@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Woningen in Amsterdam | Compass Makelaar</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Makelaar Colors */
+      --indigo: #3F51B5;
+      --indigo-light: #5C6BC0;
+      --trust: #1a1f3d;
+
+      /* Base Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Status */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .container-wide {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Topbar */
+    .topbar {
+      background: var(--navy);
+      color: white;
+      padding: 10px 0;
+      font-size: 12px;
+    }
+
+    .topbar-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .topbar-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .topbar-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .topbar-links a:hover {
+      color: white;
+    }
+
+    /* Header */
+    .header {
+      background: white;
+      border-bottom: 1px solid var(--grey);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+    }
+
+    .logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--indigo);
+      text-decoration: none;
+    }
+
+    .nav {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .nav a {
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: var(--transition);
+    }
+
+    .nav a:hover {
+      color: var(--indigo);
+    }
+
+    .btn-primary {
+      background: var(--indigo);
+      color: white;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: var(--indigo-light);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+      padding: 16px 0;
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .breadcrumbs a {
+      color: var(--grey-dark);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--indigo);
+    }
+
+    .breadcrumbs span {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, var(--trust), #2d3352);
+      position: relative;
+      overflow: hidden;
+      padding: 48px 0;
+      margin-bottom: 48px;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(92,107,192,0.15), transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .page-header-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-header h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    .page-header p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.7);
+      max-width: 600px;
+    }
+
+    .page-header-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 24px;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--indigo-light);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* Layout */
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 32px;
+      margin-bottom: 80px;
+    }
+
+    /* Filters Sidebar */
+    .filters {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 24px;
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+
+    .filters h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-group {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .filter-group:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .filter-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      margin-bottom: 8px;
+    }
+
+    .filter-group input[type="text"],
+    .filter-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .filter-group input[type="text"]:focus,
+    .filter-group select:focus {
+      outline: none;
+      border-color: var(--indigo);
+      box-shadow: 0 0 0 3px rgba(63,81,181,0.1);
+    }
+
+    .price-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .price-inputs input {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .checkbox-item label {
+      margin: 0;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--navy);
+      font-weight: 500;
+    }
+
+    .filter-count {
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-left: auto;
+    }
+
+    .btn-reset {
+      width: 100%;
+      background: var(--bg);
+      color: var(--grey-dark);
+      padding: 10px;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-reset:hover {
+      background: var(--grey-light);
+    }
+
+    /* Main Content */
+    .main-content {
+      min-width: 0;
+    }
+
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .content-header h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .view-toggle {
+      display: flex;
+      gap: 8px;
+    }
+
+    .view-btn {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--grey);
+      background: white;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .view-btn.active {
+      background: var(--indigo);
+      border-color: var(--indigo);
+    }
+
+    .view-btn.active i {
+      color: white !important;
+    }
+
+    .view-btn:hover:not(.active) {
+      background: var(--bg);
+    }
+
+    /* Listings Grid */
+    .listings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    /* ListingCard (M1) */
+    .listing-card {
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+
+    .listing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(10,22,40,0.12);
+    }
+
+    .lc-image {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+    }
+
+    .lc-favorite {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      background: white;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .lc-favorite:hover {
+      transform: scale(1.1);
+      box-shadow: var(--shadow-md);
+    }
+
+    .lc-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--green);
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+    }
+
+    .lc-badge.sold {
+      background: var(--grey-dark);
+    }
+
+    .lc-badge.offer {
+      background: var(--amber);
+    }
+
+    .lc-content {
+      padding: 18px;
+    }
+
+    .lc-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--indigo);
+      margin-bottom: 6px;
+    }
+
+    .lc-address {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .lc-city {
+      font-size: 12px;
+      color: var(--grey-dark);
+      margin-bottom: 14px;
+    }
+
+    .lc-specs {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .lc-spec {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--grey-dark);
+    }
+
+    .lc-energy {
+      margin-left: auto;
+      background: var(--green);
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .lc-energy.b { background: #7CB342; }
+    .lc-energy.c { background: var(--amber); }
+    .lc-energy.d { background: #FF9800; }
+    .lc-energy.e { background: #FF6B6B; }
+
+    /* MapView (M4) */
+    .map-view {
+      background: white;
+      border: 1.5px solid var(--grey);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 48px;
+    }
+
+    .map-controls {
+      padding: 16px;
+      border-bottom: 1px solid var(--grey);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .map-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: var(--bg);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .map-btn:hover {
+      background: var(--grey-light);
+    }
+
+    .map-btn.active {
+      background: var(--indigo);
+      color: white;
+      border-color: var(--indigo);
+    }
+
+    .map-count {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--grey-dark);
+    }
+
+    .map-count strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .map-container {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .map-placeholder {
+      text-align: center;
+    }
+
+    .map-marker {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      background: var(--indigo);
+      border: 3px solid white;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      box-shadow: 0 4px 12px rgba(63,81,181,0.3);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .map-marker:hover {
+      transform: rotate(-45deg) scale(1.1);
+      z-index: 10;
+    }
+
+    .map-popup {
+      position: absolute;
+      background: white;
+      border-radius: 10px;
+      padding: 12px;
+      box-shadow: 0 8px 24px rgba(10,22,40,0.15);
+      min-width: 200px;
+      z-index: 20;
+    }
+
+    .map-popup-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--indigo);
+      margin-bottom: 4px;
+    }
+
+    .map-popup-address {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .map-popup-city {
+      font-size: 11px;
+      color: var(--grey-dark);
+      margin-bottom: 8px;
+    }
+
+    .map-popup-specs {
+      display: flex;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--grey-dark);
+    }
+
+    .map-legend {
+      padding: 12px;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 11px;
+      color: var(--grey-dark);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .legend-dot.available { background: var(--indigo); }
+    .legend-dot.offer { background: var(--amber); }
+    .legend-dot.sold { background: var(--grey-dark); }
+
+    /* Footer */
+    .footer {
+      background: var(--navy);
+      color: white;
+      padding: 64px 0 24px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-col h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .footer-col p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 13px;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .filters {
+        position: static;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .listings-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page-header-stats {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-content">
+        <div class="topbar-links">
+          <a href="#">Over ons</a>
+          <a href="#">Contact</a>
+          <a href="#">Gratis waardebepaling</a>
+        </div>
+        <div class="topbar-links">
+          <a href="#">Inloggen</a>
+          <a href="#">🇳🇱 NL</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="/designs/makelaar/makelaar-homepage.html" class="logo">
+          🏠 Compass Makelaar
+        </a>
+        <nav class="nav">
+          <a href="#">Koop</a>
+          <a href="#">Huur</a>
+          <a href="#">Nieuwbouw</a>
+          <a href="#">Waardering</a>
+          <a href="#">Hypotheek</a>
+          <a href="#" class="btn-primary">
+            <i data-lucide="calendar-check" style="width:16px;height:16px"></i>
+            Bezichtiging plannen
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumbs -->
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="/designs/makelaar/makelaar-homepage.html">Home</a> › <span>Woningen in Amsterdam</span>
+    </div>
+  </div>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <div class="page-header-content">
+        <h1>Woningen in Amsterdam</h1>
+        <p>Ontdek jouw droomwoning in de hoofdstad. Van sfeervolle grachtenpanden tot moderne appartementen.</p>
+
+        <div class="page-header-stats">
+          <div class="stat">
+            <div class="stat-value">124</div>
+            <div class="stat-label">Woningen beschikbaar</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">€ 585k</div>
+            <div class="stat-label">Gemiddelde vraagprijs</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">18</div>
+            <div class="stat-label">Nieuw deze week</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Layout -->
+  <div class="container-wide">
+    <div class="layout">
+      <!-- Filters Sidebar -->
+      <aside class="filters">
+        <h3>
+          <i data-lucide="filter" style="width:18px;height:18px"></i>
+          Filters
+        </h3>
+
+        <div class="filter-group">
+          <label>Locatie</label>
+          <input type="text" placeholder="Bijv. Centrum, Oud-Zuid..." />
+        </div>
+
+        <div class="filter-group">
+          <label>Prijsklasse</label>
+          <div class="price-inputs">
+            <input type="text" placeholder="Min" value="€ 200.000" />
+            <input type="text" placeholder="Max" value="€ 800.000" />
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label>Woningtype</label>
+          <select>
+            <option>Alle types</option>
+            <option>Appartement</option>
+            <option>Woonhuis</option>
+            <option>Villa</option>
+            <option>Penthouse</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Aantal slaapkamers</label>
+          <div class="checkbox-group">
+            <div class="checkbox-item">
+              <input type="checkbox" id="bed1">
+              <label for="bed1">1+</label>
+              <span class="filter-count">(42)</span>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="bed2">
+              <label for="bed2">2+</label>
+              <span class="filter-count">(68)</span>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="bed3">
+              <label for="bed3">3+</label>
+              <span class="filter-count">(34)</span>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="bed4">
+              <label for="bed4">4+</label>
+              <span class="filter-count">(12)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label>Oppervlakte (m²)</label>
+          <div class="price-inputs">
+            <input type="text" placeholder="Min" value="60" />
+            <input type="text" placeholder="Max" value="200" />
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label>Energielabel</label>
+          <div class="checkbox-group">
+            <div class="checkbox-item">
+              <input type="checkbox" id="energyA">
+              <label for="energyA">A t/m A+++</label>
+              <span class="filter-count">(28)</span>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="energyB">
+              <label for="energyB">B</label>
+              <span class="filter-count">(45)</span>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="energyC">
+              <label for="energyC">C t/m G</label>
+              <span class="filter-count">(51)</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-reset">
+          <i data-lucide="x" style="width:14px;height:14px;margin-bottom:-2px"></i>
+          Filters resetten
+        </button>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Content Header -->
+        <div class="content-header">
+          <h2>124 woningen gevonden</h2>
+          <div class="view-toggle">
+            <button class="view-btn active">
+              <i data-lucide="grid" style="width:18px;height:18px;color:white"></i>
+            </button>
+            <button class="view-btn">
+              <i data-lucide="list" style="width:18px;height:18px;color:var(--grey-dark)"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- MapView Component (M4) -->
+        <div class="map-view">
+          <div class="map-controls">
+            <button class="map-btn active">
+              <i data-lucide="map" style="width:14px;height:14px"></i>
+              Kaart
+            </button>
+            <button class="map-btn">
+              <i data-lucide="pencil" style="width:14px;height:14px"></i>
+              Gebied tekenen
+            </button>
+            <div class="map-count">
+              <strong>24</strong> woningen op kaart
+            </div>
+          </div>
+
+          <div class="map-container">
+            <div class="map-placeholder">
+              <i data-lucide="map" style="width:64px;height:64px;color:var(--indigo);margin-bottom:12px"></i>
+              <div style="font-size:14px;font-weight:600;color:var(--navy);">Interactive Map</div>
+              <div style="font-size:12px;color:var(--grey-dark);">Google Maps / Mapbox integration</div>
+            </div>
+
+            <!-- Example Markers -->
+            <div class="map-marker" style="top:120px;left:200px;"></div>
+            <div class="map-marker" style="top:180px;left:350px;"></div>
+            <div class="map-marker" style="top:240px;left:280px;"></div>
+            <div class="map-marker" style="top:160px;left:480px;"></div>
+            <div class="map-marker" style="top:300px;left:380px;"></div>
+
+            <!-- Hover Card Example -->
+            <div class="map-popup" style="top:60px;left:200px;">
+              <div class="map-popup-price">€ 485.000 k.k.</div>
+              <div class="map-popup-address">Wilhelminastraat 42</div>
+              <div class="map-popup-city">1054 WJ Amsterdam</div>
+              <div class="map-popup-specs">
+                <span>🛏️ 3</span>
+                <span>🚿 1</span>
+                <span>📐 92 m²</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="map-legend">
+            <div class="legend-item">
+              <div class="legend-dot available"></div>
+              Beschikbaar
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot offer"></div>
+              Onder bod
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot sold"></div>
+              Verkocht
+            </div>
+          </div>
+        </div>
+
+        <!-- Listings Grid -->
+        <div class="listings-grid">
+          <!-- Listing 1 -->
+          <div class="listing-card">
+            <div class="lc-image" style="background:linear-gradient(135deg,#667eea,#764ba2)">
+              🏡
+              <button class="lc-favorite">
+                <i data-lucide="heart" style="width:18px;height:18px;color:var(--grey-dark)"></i>
+              </button>
+              <div class="lc-badge">Nieuw</div>
+            </div>
+            <div class="lc-content">
+              <div class="lc-price">€ 485.000 k.k.</div>
+              <div class="lc-address">Wilhelminastraat 42</div>
+              <div class="lc-city">1054 WJ Amsterdam</div>
+              <div class="lc-specs">
+                <div class="lc-spec">
+                  <i data-lucide="bed" style="width:16px;height:16px"></i>
+                  <span>3</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="bath" style="width:16px;height:16px"></i>
+                  <span>1</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="square" style="width:16px;height:16px"></i>
+                  <span>92 m²</span>
+                </div>
+                <div class="lc-energy">A</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Listing 2 -->
+          <div class="listing-card">
+            <div class="lc-image" style="background:linear-gradient(135deg,#fa709a,#fee140)">
+              🏘️
+              <button class="lc-favorite">
+                <i data-lucide="heart" style="width:18px;height:18px;color:#EC4899;fill:#EC4899"></i>
+              </button>
+            </div>
+            <div class="lc-content">
+              <div class="lc-price">€ 625.000 k.k.</div>
+              <div class="lc-address">Prinsengracht 127-II</div>
+              <div class="lc-city">1015 DL Amsterdam</div>
+              <div class="lc-specs">
+                <div class="lc-spec">
+                  <i data-lucide="bed" style="width:16px;height:16px"></i>
+                  <span>4</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="bath" style="width:16px;height:16px"></i>
+                  <span>2</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="square" style="width:16px;height:16px"></i>
+                  <span>115 m²</span>
+                </div>
+                <div class="lc-energy c">C</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Listing 3 -->
+          <div class="listing-card">
+            <div class="lc-image" style="background:linear-gradient(135deg,#f093fb,#f5576c)">
+              🏢
+              <button class="lc-favorite">
+                <i data-lucide="heart" style="width:18px;height:18px;color:var(--grey-dark)"></i>
+              </button>
+              <div class="lc-badge offer">Onder bod</div>
+            </div>
+            <div class="lc-content">
+              <div class="lc-price">€ 395.000 k.k.</div>
+              <div class="lc-address">Jan van Galenstraat 88-3</div>
+              <div class="lc-city">1051 KN Amsterdam</div>
+              <div class="lc-specs">
+                <div class="lc-spec">
+                  <i data-lucide="bed" style="width:16px;height:16px"></i>
+                  <span>2</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="bath" style="width:16px;height:16px"></i>
+                  <span>1</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="square" style="width:16px;height:16px"></i>
+                  <span>68 m²</span>
+                </div>
+                <div class="lc-energy b">B</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Listing 4 -->
+          <div class="listing-card">
+            <div class="lc-image" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">
+              🏠
+              <button class="lc-favorite">
+                <i data-lucide="heart" style="width:18px;height:18px;color:var(--grey-dark)"></i>
+              </button>
+              <div class="lc-badge">Nieuw</div>
+            </div>
+            <div class="lc-content">
+              <div class="lc-price">€ 725.000 k.k.</div>
+              <div class="lc-address">Beethovenstraat 142</div>
+              <div class="lc-city">1077 JX Amsterdam</div>
+              <div class="lc-specs">
+                <div class="lc-spec">
+                  <i data-lucide="bed" style="width:16px;height:16px"></i>
+                  <span>3</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="bath" style="width:16px;height:16px"></i>
+                  <span>2</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="square" style="width:16px;height:16px"></i>
+                  <span>128 m²</span>
+                </div>
+                <div class="lc-energy">A</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Listing 5 -->
+          <div class="listing-card">
+            <div class="lc-image" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">
+              🏛️
+              <button class="lc-favorite">
+                <i data-lucide="heart" style="width:18px;height:18px;color:var(--grey-dark)"></i>
+              </button>
+            </div>
+            <div class="lc-content">
+              <div class="lc-price">€ 875.000 k.k.</div>
+              <div class="lc-address">Vondelstraat 23-I</div>
+              <div class="lc-city">1054 GJ Amsterdam</div>
+              <div class="lc-specs">
+                <div class="lc-spec">
+                  <i data-lucide="bed" style="width:16px;height:16px"></i>
+                  <span>5</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="bath" style="width:16px;height:16px"></i>
+                  <span>2</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="square" style="width:16px;height:16px"></i>
+                  <span>145 m²</span>
+                </div>
+                <div class="lc-energy c">C</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Listing 6 -->
+          <div class="listing-card">
+            <div class="lc-image" style="background:linear-gradient(135deg,#fa8bff,#2bd2ff)">
+              🏗️
+              <button class="lc-favorite">
+                <i data-lucide="heart" style="width:18px;height:18px;color:var(--grey-dark)"></i>
+              </button>
+              <div class="lc-badge">Nieuwbouw</div>
+            </div>
+            <div class="lc-content">
+              <div class="lc-price">€ 550.000 k.k.</div>
+              <div class="lc-address">IJburglaan 500</div>
+              <div class="lc-city">1087 BS Amsterdam</div>
+              <div class="lc-specs">
+                <div class="lc-spec">
+                  <i data-lucide="bed" style="width:16px;height:16px"></i>
+                  <span>3</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="bath" style="width:16px;height:16px"></i>
+                  <span>2</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="square" style="width:16px;height:16px"></i>
+                  <span>98 m²</span>
+                </div>
+                <div class="lc-energy">A</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Listing 7 -->
+          <div class="listing-card">
+            <div class="lc-image" style="background:linear-gradient(135deg,#a8edea,#fed6e3)">
+              🏘️
+              <button class="lc-favorite">
+                <i data-lucide="heart" style="width:18px;height:18px;color:var(--grey-dark)"></i>
+              </button>
+            </div>
+            <div class="lc-content">
+              <div class="lc-price">€ 435.000 k.k.</div>
+              <div class="lc-address">Mercatorplein 42</div>
+              <div class="lc-city">1057 CA Amsterdam</div>
+              <div class="lc-specs">
+                <div class="lc-spec">
+                  <i data-lucide="bed" style="width:16px;height:16px"></i>
+                  <span>2</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="bath" style="width:16px;height:16px"></i>
+                  <span>1</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="square" style="width:16px;height:16px"></i>
+                  <span>75 m²</span>
+                </div>
+                <div class="lc-energy b">B</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Listing 8 -->
+          <div class="listing-card">
+            <div class="lc-image" style="background:linear-gradient(135deg,#ff9a9e,#fecfef)">
+              🏡
+              <button class="lc-favorite">
+                <i data-lucide="heart" style="width:18px;height:18px;color:var(--grey-dark)"></i>
+              </button>
+            </div>
+            <div class="lc-content">
+              <div class="lc-price">€ 695.000 k.k.</div>
+              <div class="lc-address">Cornelis Schuytstraat 18</div>
+              <div class="lc-city">1071 JL Amsterdam</div>
+              <div class="lc-specs">
+                <div class="lc-spec">
+                  <i data-lucide="bed" style="width:16px;height:16px"></i>
+                  <span>4</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="bath" style="width:16px;height:16px"></i>
+                  <span>1</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="square" style="width:16px;height:16px"></i>
+                  <span>110 m²</span>
+                </div>
+                <div class="lc-energy c">C</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Listing 9 -->
+          <div class="listing-card">
+            <div class="lc-image" style="background:linear-gradient(135deg,#ffecd2,#fcb69f)">
+              🏠
+              <button class="lc-favorite">
+                <i data-lucide="heart" style="width:18px;height:18px;color:var(--grey-dark)"></i>
+              </button>
+              <div class="lc-badge">Nieuw</div>
+            </div>
+            <div class="lc-content">
+              <div class="lc-price">€ 525.000 k.k.</div>
+              <div class="lc-address">Ceintuurbaan 234-II</div>
+              <div class="lc-city">1072 GE Amsterdam</div>
+              <div class="lc-specs">
+                <div class="lc-spec">
+                  <i data-lucide="bed" style="width:16px;height:16px"></i>
+                  <span>3</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="bath" style="width:16px;height:16px"></i>
+                  <span>1</span>
+                </div>
+                <div class="lc-spec">
+                  <i data-lucide="square" style="width:16px;height:16px"></i>
+                  <span>88 m²</span>
+                </div>
+                <div class="lc-energy">A</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>🏠 Compass Makelaar</h4>
+          <p>Uw betrouwbare partner in vastgoed sinds 1998. Specialist in de Amsterdamse woningmarkt met persoonlijk advies en transparante begeleiding.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Aanbod</h4>
+          <div class="footer-links">
+            <a href="#">Koop</a>
+            <a href="#">Huur</a>
+            <a href="#">Nieuwbouw</a>
+            <a href="#">Commercieel</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Service</h4>
+          <div class="footer-links">
+            <a href="#">Gratis waardebepaling</a>
+            <a href="#">Hypotheekadvies</a>
+            <a href="#">Taxatiediensten</a>
+            <a href="#">Bezichtiging plannen</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <div class="footer-links">
+            <a href="#">Over Compass</a>
+            <a href="#">Ons team</a>
+            <a href="#">Vacatures</a>
+            <a href="#">Klantenservice</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        © 2024 Compass Makelaar Amsterdam. Alle rechten voorbehouden.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

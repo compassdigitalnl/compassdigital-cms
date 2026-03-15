@@ -96,11 +96,11 @@ export function WizardStepPortfolio({ portfolioCases, onChange }: Props) {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-navy flex items-center gap-2">
           <Award className="w-6 h-6 text-teal" />
           Portfolio & Case Studies
         </h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-sm text-grey-dark">
           Laat je beste werk zien! AI genereert volledige case studies met resultaten en
           succesverhalen.
         </p>
@@ -259,7 +259,7 @@ export function WizardStepPortfolio({ portfolioCases, onChange }: Props) {
               </div>
 
               <div className="pt-2 border-t">
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-grey-mid">
                   💡 AI zal volledige case study artikelen genereren met professionele structuur,
                   impact metrics en succesverhalen
                 </p>
@@ -476,7 +476,7 @@ export function WizardStepPortfolio({ portfolioCases, onChange }: Props) {
       {portfolioCases.length === 0 && !isAdding && (
         <Card className="bg-teal-50 border-teal-200">
           <CardContent className="pt-6">
-            <p className="text-sm text-purple-800">
+            <p className="text-sm text-teal-800">
               <strong>💼 Portfolio & Case Studies zijn optioneel</strong>
               <br />
               Heb je projecten waar je trots op bent? Voeg ze toe! AI genereert dan volledige case

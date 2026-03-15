@@ -74,7 +74,7 @@ export const AIFieldWrapper: React.FC<AIFieldWrapperProps> = ({
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <label className="text-sm font-medium text-gray-700">{fieldLabel}</label>
+        <label className="text-sm font-medium text-grey-dark">{fieldLabel}</label>
         <AIButton onClick={handleOpenModal} size="sm" variant="secondary">
           AI Genereren
         </AIButton>

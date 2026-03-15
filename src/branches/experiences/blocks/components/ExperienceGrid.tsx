@@ -95,7 +95,7 @@ export async function ExperienceGridComponent(props: any) {
               </h2>
             )}
             {heading.description && (
-              <p className="text-gray-600 max-w-2xl mx-auto">{heading.description}</p>
+              <p className="text-grey-dark max-w-2xl mx-auto">{heading.description}</p>
             )}
           </div>
         )}

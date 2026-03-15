@@ -115,7 +115,7 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
                 relative p-6 rounded-xl border-2 text-left transition-all
                 ${isSelected
                   ? 'border-teal bg-teal-50 shadow-lg scale-105'
-                  : 'border-gray-300 bg-white hover:border-teal-400 hover:shadow-md'
+                  : 'border-grey-light bg-white hover:border-teal-400 hover:shadow-md'
                 }
                 ${isPopular && !isSelected ? 'ring-2 ring-teal-200' : ''}
               `}
@@ -138,26 +138,26 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
 
               {/* Type Icon & Label */}
               <div className="flex items-center gap-2 mb-3">
-                <div className={`${isSelected ? 'text-teal' : 'text-gray-600'}`}>
+                <div className={`${isSelected ? 'text-teal' : 'text-grey-dark'}`}>
                   {getSubscriptionIcon(variant.subscriptionType)}
                 </div>
-                <h3 className="text-lg font-bold text-gray-900">
+                <h3 className="text-lg font-bold text-navy">
                   {getSubscriptionTypeLabel(variant.subscriptionType)}
                 </h3>
               </div>
 
               {/* Variant Label */}
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="text-sm text-grey-dark mb-4">
                 {variant.label}
               </p>
 
               {/* Issues Count */}
               {variant.issues && (
-                <div className="mb-4 pb-4 border-b border-gray-200">
-                  <p className="text-2xl font-bold text-gray-900">
+                <div className="mb-4 pb-4 border-b border-grey-light">
+                  <p className="text-2xl font-bold text-navy">
                     {variant.issues} edities
                   </p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-grey-mid">
                     per abonnement
                   </p>
                 </div>
@@ -168,10 +168,10 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
                 {hasDiscount && (
                   <>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-bold text-gray-900">
+                      <span className="text-2xl font-bold text-navy">
                         €{formatPriceStr(discountedPrice, product.taxClass as any)}
                       </span>
-                      <span className="text-lg text-gray-400 line-through">
+                      <span className="text-lg text-grey-mid line-through">
                         €{formatPriceStr(fullPrice, product.taxClass as any)}
                       </span>
                     </div>
@@ -181,7 +181,7 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
                   </>
                 )}
                 {!hasDiscount && (
-                  <div className="text-2xl font-bold text-gray-900">
+                  <div className="text-2xl font-bold text-navy">
                     €{formatPriceStr(fullPrice, product.taxClass as any)}
                   </div>
                 )}
@@ -189,24 +189,24 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
 
               {/* Features */}
               <ul className="space-y-2 mb-4">
-                <li className="flex items-start gap-2 text-sm text-gray-700">
+                <li className="flex items-start gap-2 text-sm text-grey-dark">
                   <Check className="w-4 h-4 text-green flex-shrink-0 mt-0.5" />
                   <span>{variant.issues} edities per jaar</span>
                 </li>
                 {variant.autoRenew && (
-                  <li className="flex items-start gap-2 text-sm text-gray-700">
+                  <li className="flex items-start gap-2 text-sm text-grey-dark">
                     <Check className="w-4 h-4 text-green flex-shrink-0 mt-0.5" />
                     <span>Automatisch verlengd</span>
                   </li>
                 )}
                 {!variant.autoRenew && (
-                  <li className="flex items-start gap-2 text-sm text-gray-700">
+                  <li className="flex items-start gap-2 text-sm text-grey-dark">
                     <Check className="w-4 h-4 text-green flex-shrink-0 mt-0.5" />
                     <span>Eenmalig abonnement</span>
                   </li>
                 )}
                 {variant.subscriptionType === 'gift' && (
-                  <li className="flex items-start gap-2 text-sm text-gray-700">
+                  <li className="flex items-start gap-2 text-sm text-grey-dark">
                     <Gift className="w-4 h-4 text-teal-400 flex-shrink-0 mt-0.5" />
                     <span>Inclusief cadeaukaart</span>
                   </li>
@@ -234,22 +234,22 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
 
       {/* Selection Summary */}
       {selectedVariant && (
-        <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-          <h4 className="font-semibold text-gray-900 mb-2">
+        <div className="bg-grey-light rounded-lg p-4 border border-grey-light">
+          <h4 className="font-semibold text-navy mb-2">
             Uw keuze:
           </h4>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-grey-dark">
                 {getSubscriptionTypeLabel(selectedVariant.subscriptionType)} - {selectedVariant.label}
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-grey-mid">
                 {selectedVariant.issues} edities
                 {selectedVariant.autoRenew ? ' (automatisch verlengd)' : ' (eenmalig)'}
               </p>
             </div>
             <div className="text-right">
-              <p className="text-xl font-bold text-gray-900">
+              <p className="text-xl font-bold text-navy">
                 €{formatPriceStr(calculateDiscountedPrice(selectedVariant), product.taxClass as any)}
               </p>
               {selectedVariant.discountPercentage && selectedVariant.discountPercentage > 0 && (

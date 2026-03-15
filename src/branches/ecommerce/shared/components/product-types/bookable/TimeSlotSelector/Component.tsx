@@ -26,7 +26,7 @@ export const TimeSlotSelector: React.FC<TimeSlotSelectorProps> = ({
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <Clock className="w-5 h-5 text-[var(--color-primary)]" />
-        <h3 className="text-base font-extrabold text-gray-900">
+        <h3 className="text-base font-extrabold text-navy">
           Selecteer tijdstip
         </h3>
       </div>
@@ -46,9 +46,9 @@ export const TimeSlotSelector: React.FC<TimeSlotSelectorProps> = ({
               className={`
                 time-slot relative p-3 rounded-lg border-[1.5px] transition-all text-left
                 ${layout === 'list' ? 'flex items-center justify-between' : 'flex flex-col'}
-                ${isDisabled ? 'opacity-40 cursor-not-allowed border-gray-200 bg-gray-50' : 'cursor-pointer'}
+                ${isDisabled ? 'opacity-40 cursor-not-allowed border-grey-light bg-grey-light' : 'cursor-pointer'}
                 ${isSelected && !isDisabled ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white' : ''}
-                ${!isSelected && !isDisabled ? 'bg-white border-gray-200 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-glow)]' : ''}
+                ${!isSelected && !isDisabled ? 'bg-white border-grey-light hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-glow)]' : ''}
               `}
             >
               {/* Almost full indicator */}
@@ -58,13 +58,13 @@ export const TimeSlotSelector: React.FC<TimeSlotSelectorProps> = ({
 
               <div className={layout === 'list' ? 'flex items-center gap-3 flex-1' : ''}>
                 {/* Time */}
-                <div className={`text-sm font-bold ${isSelected ? 'text-white' : 'text-gray-900'}`}>
+                <div className={`text-sm font-bold ${isSelected ? 'text-white' : 'text-navy'}`}>
                   {slot.time}
                 </div>
 
                 {/* Duration */}
                 {showDuration && slot.duration && (
-                  <div className={`text-xs ${isSelected ? 'text-white/80' : 'text-gray-500'}`}>
+                  <div className={`text-xs ${isSelected ? 'text-white/80' : 'text-grey-mid'}`}>
                     {slot.duration} min
                   </div>
                 )}
@@ -90,7 +90,7 @@ export const TimeSlotSelector: React.FC<TimeSlotSelectorProps> = ({
 
       {/* No slots available message */}
       {slots.length === 0 && (
-        <div className="text-center py-8 text-sm text-gray-400">
+        <div className="text-center py-8 text-sm text-grey-mid">
           Geen tijdslots beschikbaar voor deze datum
         </div>
       )}

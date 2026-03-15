@@ -45,7 +45,7 @@ export const PricingComponent: React.FC<PricingBlock> = ({
         {(title || subtitle) && (
           <div className="text-center mb-12">
             {title && (
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">{title}</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">{title}</h2>
             )}
             {subtitle && (
               <p className="text-lg text-grey-mid max-w-2xl mx-auto">{subtitle}</p>
@@ -76,7 +76,7 @@ export const PricingComponent: React.FC<PricingBlock> = ({
 
                 <div className="p-8 flex-1 flex flex-col">
                   {/* Plan name */}
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                  <h3 className="text-xl font-bold text-navy mb-2">{plan.name}</h3>
 
                   {/* Price */}
                   <div className="mb-4">
@@ -101,13 +101,13 @@ export const PricingComponent: React.FC<PricingBlock> = ({
                               <Icon name="Check" size={12} />
                             </span>
                           ) : (
-                            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-xs font-bold mt-0.5">
+                            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-grey-light flex items-center justify-center text-grey-mid text-xs font-bold mt-0.5">
                               <Icon name="X" size={12} />
                             </span>
                           )}
                           <span
                             className={
-                              feature.included ? 'text-gray-700' : 'text-gray-400 line-through'
+                              feature.included ? 'text-grey-dark' : 'text-grey-mid line-through'
                             }
                           >
                             {feature.text}

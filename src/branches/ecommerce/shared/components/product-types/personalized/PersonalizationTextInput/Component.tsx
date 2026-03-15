@@ -36,7 +36,7 @@ export const PersonalizationTextInput: React.FC<PersonalizationTextInputProps> =
   return (
     <div className={`personalization-text-input ${className}`}>
       {/* Label */}
-      <label className="block text-sm font-semibold text-gray-900 mb-2">
+      <label className="block text-sm font-semibold text-navy mb-2">
         {label}
         {required && <span className="text-coral ml-1">*</span>}
       </label>
@@ -53,9 +53,9 @@ export const PersonalizationTextInput: React.FC<PersonalizationTextInputProps> =
           className={`
             w-full px-4 py-3 rounded-lg border-2 transition-colors
             focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]
-            ${value ? 'border-[var(--color-primary-light)] bg-[var(--color-primary-glow)]/30' : 'border-gray-300 bg-white'}
+            ${value ? 'border-[var(--color-primary-light)] bg-[var(--color-primary-glow)]/30' : 'border-grey-light bg-white'}
             ${remaining === 0 ? 'border-red-300' : ''}
-            text-gray-900 placeholder:text-gray-400
+            text-navy placeholder:text-grey-mid
           `}
           aria-label={label}
           aria-describedby={helperText ? 'helper-text' : undefined}
@@ -66,7 +66,7 @@ export const PersonalizationTextInput: React.FC<PersonalizationTextInputProps> =
           className={`
             absolute right-3 top-1/2 -translate-y-1/2
             text-xs font-medium transition-colors
-            ${isNearLimit ? 'text-orange-600' : 'text-gray-500'}
+            ${isNearLimit ? 'text-amber-600' : 'text-grey-mid'}
             ${remaining === 0 ? 'text-coral' : ''}
           `}
           aria-live="polite"
@@ -77,7 +77,7 @@ export const PersonalizationTextInput: React.FC<PersonalizationTextInputProps> =
 
       {/* Helper Text */}
       {helperText && (
-        <p id="helper-text" className="mt-2 text-xs text-gray-600">
+        <p id="helper-text" className="mt-2 text-xs text-grey-dark">
           {helperText}
         </p>
       )}

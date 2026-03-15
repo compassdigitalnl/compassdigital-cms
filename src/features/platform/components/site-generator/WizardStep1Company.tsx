@@ -50,17 +50,17 @@ export function WizardStep1Company({ data, onChange }: Props) {
   return (
     <div className="space-y-8">
       {/* Modern section header with gradient accent */}
-      <div className="space-y-3 pb-6 border-b-2 border-gray-100">
+      <div className="space-y-3 pb-6 border-b-2 border-grey-light">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-teal to-teal shadow-lg shadow-teal/30">
             <span className="text-2xl">📋</span>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Bedrijfsinformatie</h2>
-            <p className="text-sm text-gray-500 font-medium">Stap 1 van 5</p>
+            <h2 className="text-2xl font-bold text-navy">Bedrijfsinformatie</h2>
+            <p className="text-sm text-grey-mid font-medium">Stap 1 van 5</p>
           </div>
         </div>
-        <p className="text-base text-gray-600 pl-15">
+        <p className="text-base text-grey-dark pl-15">
           Vertel ons over uw bedrijf om gepersonaliseerde content te genereren
         </p>
       </div>
@@ -114,7 +114,7 @@ export function WizardStep1Company({ data, onChange }: Props) {
           onChange={(e) => onChange({ ...data, industry: e.target.value })}
           required
         />
-        <p className="text-xs text-gray-500 font-medium mt-1.5">
+        <p className="text-xs text-grey-mid font-medium mt-1.5">
           Dit helpt ons bij het genereren van relevante content en voorbeelden
         </p>
       </div>
@@ -172,7 +172,7 @@ export function WizardStep1Company({ data, onChange }: Props) {
             ))}
           </div>
         )}
-        <p className="text-xs text-gray-500 font-medium mt-1.5">
+        <p className="text-xs text-grey-mid font-medium mt-1.5">
           Voeg 3-5 kernwaarden toe die uw bedrijf definiëren
         </p>
       </div>
@@ -215,7 +215,7 @@ export function WizardStep1Company({ data, onChange }: Props) {
             ))}
           </div>
         )}
-        <p className="text-xs text-gray-500 font-medium mt-1.5">
+        <p className="text-xs text-grey-mid font-medium mt-1.5">
           Wat maakt uw bedrijf uniek? Voeg 3-5 USPs toe
         </p>
       </div>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klantinzichten Dashboard — Design</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f4f4f8; color: #1a1a2e; }
+
+  /* ── Payload admin wrapper simulation ── */
+  .admin-shell { display: flex; min-height: 100vh; }
+  .sidebar { width: 260px; background: #0a0a1a; padding: 1.5rem 0; flex-shrink: 0; }
+  .sidebar-logo { padding: 0 1.25rem 1.5rem; font-size: 1rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+  .nav-group-label { padding: 1rem 1.25rem 0.4rem; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: #6b7280; font-weight: 600; }
+  .nav-link { display: block; padding: 0.5rem 1.25rem; font-size: 0.8125rem; color: #9ca3af; text-decoration: none; transition: all 0.15s; border-left: 3px solid transparent; }
+  .nav-link:hover { color: #fff; background: rgba(255,255,255,0.04); }
+  .nav-link.active { color: #fff; background: rgba(255,255,255,0.08); border-left-color: #8b5cf6; }
+
+  .main-content { flex: 1; padding: 2rem 2.5rem; max-width: 1200px; }
+
+  /* ── Header ── */
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+  .page-title { font-size: 1.5rem; font-weight: 800; color: #1a1a2e; }
+  .page-subtitle { font-size: 0.8rem; color: #6b7280; margin-top: 0.25rem; }
+  .btn-refresh { padding: 0.5rem 1rem; border-radius: 0.5rem; border: none; background: #7c3aed; color: #fff; font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .btn-refresh:hover { background: #6d28d9; }
+
+  /* ── KPI Cards ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+  .kpi-card { background: #fff; border-radius: 0.75rem; padding: 1.25rem; border-left: 4px solid; }
+  .kpi-card.blue { border-color: #3b82f6; background: linear-gradient(135deg, #eff6ff, #fff); }
+  .kpi-card.green { border-color: #10b981; background: linear-gradient(135deg, #ecfdf5, #fff); }
+  .kpi-card.purple { border-color: #8b5cf6; background: linear-gradient(135deg, #f5f3ff, #fff); }
+  .kpi-card.amber { border-color: #f59e0b; background: linear-gradient(135deg, #fffbeb, #fff); }
+  .kpi-card.red { border-color: #ef4444; background: linear-gradient(135deg, #fef2f2, #fff); }
+  .kpi-label { font-size: 0.75rem; font-weight: 500; color: #6b7280; }
+  .kpi-value { font-size: 1.75rem; font-weight: 800; color: #1a1a2e; margin-top: 0.125rem; }
+  .kpi-subtitle { font-size: 0.6875rem; color: #9ca3af; margin-top: 0.25rem; }
+
+  /* ── Cards ── */
+  .card { background: #fff; border-radius: 0.75rem; padding: 1.5rem; border: 1px solid #e5e7eb; margin-bottom: 1.5rem; }
+  .card-title { font-size: 0.9375rem; font-weight: 700; color: #1a1a2e; margin-bottom: 1rem; }
+
+  /* ── Segment Distribution ── */
+  .segment-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; }
+  .segment-icon { width: 2rem; text-align: center; font-size: 1.125rem; }
+  .segment-info { width: 8rem; flex-shrink: 0; }
+  .segment-name { font-size: 0.8125rem; font-weight: 600; color: #374151; }
+  .segment-count { font-size: 0.6875rem; color: #9ca3af; }
+  .segment-bar-wrap { flex: 1; height: 1.5rem; background: #f3f4f6; border-radius: 999px; overflow: hidden; }
+  .segment-bar { height: 100%; border-radius: 999px; display: flex; align-items: center; padding-left: 0.5rem; transition: width 0.5s; }
+  .segment-bar-label { font-size: 0.6875rem; font-weight: 600; color: #fff; white-space: nowrap; }
+  .segment-pct { width: 3rem; flex-shrink: 0; text-align: right; font-size: 0.75rem; font-weight: 600; color: #4b5563; }
+  .segment-revenue { width: 7rem; flex-shrink: 0; text-align: right; }
+  .segment-revenue-val { font-size: 0.8125rem; font-weight: 600; color: #374151; }
+  .segment-revenue-clv { font-size: 0.625rem; color: #9ca3af; }
+
+  /* ── Two-column ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+
+  /* ── CLV Chart ── */
+  .clv-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .clv-name { width: 7rem; flex-shrink: 0; font-size: 0.75rem; font-weight: 500; color: #4b5563; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .clv-bars { flex: 1; display: flex; gap: 0.125rem; }
+  .clv-bar { height: 1.25rem; border-radius: 0.25rem; min-width: 2px; }
+  .clv-bar.hist { background: #3b82f6; }
+  .clv-bar.pred { background: #93c5fd; }
+  .clv-value { width: 4.5rem; flex-shrink: 0; font-size: 0.6875rem; font-weight: 600; color: #374151; text-align: right; font-variant-numeric: tabular-nums; }
+  .clv-legend { display: flex; gap: 1rem; margin-top: 0.75rem; }
+  .clv-legend-item { display: flex; align-items: center; gap: 0.375rem; font-size: 0.6875rem; color: #6b7280; }
+  .clv-legend-dot { width: 0.625rem; height: 0.625rem; border-radius: 0.125rem; }
+
+  /* ── RFM Heatmap ── */
+  .heatmap-desc { font-size: 0.6875rem; color: #9ca3af; margin-bottom: 0.75rem; }
+  .heatmap-grid { display: inline-block; }
+  .heatmap-wrapper { display: flex; align-items: flex-end; }
+  .heatmap-y-label { writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); font-size: 0.6875rem; font-weight: 500; color: #9ca3af; margin-right: 0.5rem; }
+  .heatmap-col-headers { display: flex; margin-left: 2rem; margin-bottom: 0.25rem; }
+  .heatmap-col-header { width: 3.25rem; text-align: center; font-size: 0.6875rem; font-weight: 500; color: #9ca3af; }
+  .heatmap-row { display: flex; align-items: center; }
+  .heatmap-row-label { width: 2rem; text-align: center; font-size: 0.6875rem; font-weight: 500; color: #9ca3af; }
+  .heatmap-cell { width: 3rem; height: 2.5rem; margin: 0.125rem; border-radius: 0.25rem; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; }
+  .heatmap-cell.empty { background: #f9fafb; color: #d1d5db; }
+  .heatmap-cell.low { background: #dbeafe; color: #1e40af; }
+  .heatmap-cell.mid { background: #93c5fd; color: #fff; }
+  .heatmap-cell.high { background: #3b82f6; color: #fff; }
+  .heatmap-cell.max { background: #1d4ed8; color: #fff; }
+  .heatmap-x-label { margin-left: 2rem; margin-top: 0.25rem; text-align: center; font-size: 0.6875rem; font-weight: 500; color: #9ca3af; }
+
+  /* ── Churn Table ── */
+  table { width: 100%; border-collapse: collapse; font-size: 0.8125rem; }
+  thead th { padding: 0.625rem 0.75rem; text-align: left; font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.04em; color: #9ca3af; font-weight: 600; border-bottom: 1px solid #e5e7eb; }
+  tbody td { padding: 0.625rem 0.75rem; border-bottom: 1px solid #f3f4f6; }
+  tbody tr:hover { background: #fafbfc; }
+  .td-right { text-align: right; font-variant-numeric: tabular-nums; }
+  .td-mono { font-family: monospace; font-size: 0.75rem; }
+  .badge { display: inline-block; padding: 0.125rem 0.5rem; border-radius: 999px; font-size: 0.6875rem; font-weight: 600; }
+  .badge-low { background: #d1fae5; color: #065f46; }
+  .badge-medium { background: #fef3c7; color: #92400e; }
+  .badge-high { background: #fed7aa; color: #9a3412; }
+  .badge-critical { background: #fecaca; color: #991b1b; }
+  .customer-name { font-weight: 600; color: #1a1a2e; }
+  .customer-email { font-size: 0.75rem; color: #9ca3af; }
+
+  @media (max-width: 900px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .two-col { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .main-content { padding: 1rem; }
+    .segment-revenue, .segment-pct { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="admin-shell">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">Contyzr CMS</div>
+    <div class="nav-group-label">E-commerce</div>
+    <a class="nav-link" href="#">Producten</a>
+    <a class="nav-link" href="#">Bestellingen</a>
+    <a class="nav-link" href="#">Kortingscodes</a>
+    <div class="nav-group-label">E-mail Marketing</div>
+    <a class="nav-link" href="#">Abonnees</a>
+    <a class="nav-link" href="#">Segmenten</a>
+    <a class="nav-link" href="#">Flows</a>
+    <div class="nav-group-label">Rapportages</div>
+    <a class="nav-link" href="#">Analytics</a>
+    <a class="nav-link active" href="#">Klantinzichten</a>
+    <div class="nav-group-label">Instellingen</div>
+    <a class="nav-link" href="#">Gebruikers</a>
+    <a class="nav-link" href="#">Media</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Klantinzichten</div>
+        <div class="page-subtitle">RFM-analyse, segmentatie, CLV en churn-predictie</div>
+      </div>
+      <button class="btn-refresh">Vernieuwen</button>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card blue">
+        <div class="kpi-label">Totaal klanten</div>
+        <div class="kpi-value">1.247</div>
+        <div class="kpi-subtitle">Met minimaal 1 bestelling</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Actieve klanten</div>
+        <div class="kpi-value">832</div>
+        <div class="kpi-subtitle">67% van totaal (&lt; 90 dagen)</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">Gem. CLV</div>
+        <div class="kpi-value">€ 487</div>
+        <div class="kpi-subtitle">Voorspelde klantwaarde</div>
+      </div>
+      <div class="kpi-card amber">
+        <div class="kpi-label">Churn risico</div>
+        <div class="kpi-value">18,4%</div>
+        <div class="kpi-subtitle">Klanten met hoog risico</div>
+      </div>
+    </div>
+
+    <!-- Segment Distribution -->
+    <div class="card">
+      <div class="card-title">Klantsegmenten</div>
+
+      <div class="segment-row">
+        <div class="segment-icon">🏆</div>
+        <div class="segment-info"><div class="segment-name">Champions</div><div class="segment-count">187 klanten</div></div>
+        <div class="segment-bar-wrap"><div class="segment-bar" style="width:62%;background:#059669"><span class="segment-bar-label">15%</span></div></div>
+        <div class="segment-pct">15%</div>
+        <div class="segment-revenue"><div class="segment-revenue-val">€ 142.380</div><div class="segment-revenue-clv">CLV: € 761</div></div>
+      </div>
+
+      <div class="segment-row">
+        <div class="segment-icon">💎</div>
+        <div class="segment-info"><div class="segment-name">Loyale klanten</div><div class="segment-count">249 klanten</div></div>
+        <div class="segment-bar-wrap"><div class="segment-bar" style="width:82%;background:#0284c7"><span class="segment-bar-label">20%</span></div></div>
+        <div class="segment-pct">20%</div>
+        <div class="segment-revenue"><div class="segment-revenue-val">€ 118.524</div><div class="segment-revenue-clv">CLV: € 476</div></div>
+      </div>
+
+      <div class="segment-row">
+        <div class="segment-icon">⭐</div>
+        <div class="segment-info"><div class="segment-name">Potentieel loyaal</div><div class="segment-count">312 klanten</div></div>
+        <div class="segment-bar-wrap"><div class="segment-bar" style="width:100%;background:#7c3aed"><span class="segment-bar-label">25%</span></div></div>
+        <div class="segment-pct">25%</div>
+        <div class="segment-revenue"><div class="segment-revenue-val">€ 93.600</div><div class="segment-revenue-clv">CLV: € 300</div></div>
+      </div>
+
+      <div class="segment-row">
+        <div class="segment-icon">🆕</div>
+        <div class="segment-info"><div class="segment-name">Nieuw</div><div class="segment-count">162 klanten</div></div>
+        <div class="segment-bar-wrap"><div class="segment-bar" style="width:52%;background:#2563eb"><span class="segment-bar-label">13%</span></div></div>
+        <div class="segment-pct">13%</div>
+        <div class="segment-revenue"><div class="segment-revenue-val">€ 24.300</div><div class="segment-revenue-clv">CLV: € 150</div></div>
+      </div>
+
+      <div class="segment-row">
+        <div class="segment-icon">⚠️</div>
+        <div class="segment-info"><div class="segment-name">Risico</div><div class="segment-count">149 klanten</div></div>
+        <div class="segment-bar-wrap"><div class="segment-bar" style="width:48%;background:#d97706"><span class="segment-bar-label">12%</span></div></div>
+        <div class="segment-pct">12%</div>
+        <div class="segment-revenue"><div class="segment-revenue-val">€ 31.290</div><div class="segment-revenue-clv">CLV: € 210</div></div>
+      </div>
+
+      <div class="segment-row">
+        <div class="segment-icon">😴</div>
+        <div class="segment-info"><div class="segment-name">Slapend</div><div class="segment-count">112 klanten</div></div>
+        <div class="segment-bar-wrap"><div class="segment-bar" style="width:36%;background:#6b7280"><span class="segment-bar-label">9%</span></div></div>
+        <div class="segment-pct">9%</div>
+        <div class="segment-revenue"><div class="segment-revenue-val">€ 11.200</div><div class="segment-revenue-clv">CLV: € 100</div></div>
+      </div>
+
+      <div class="segment-row">
+        <div class="segment-icon">❌</div>
+        <div class="segment-info"><div class="segment-name">Verloren</div><div class="segment-count">76 klanten</div></div>
+        <div class="segment-bar-wrap"><div class="segment-bar" style="width:24%;background:#dc2626"><span class="segment-bar-label">6%</span></div></div>
+        <div class="segment-pct">6%</div>
+        <div class="segment-revenue"><div class="segment-revenue-val">€ 3.800</div><div class="segment-revenue-clv">CLV: € 50</div></div>
+      </div>
+    </div>
+
+    <!-- Two columns: CLV + RFM -->
+    <div class="two-col">
+      <!-- CLV Chart -->
+      <div class="card">
+        <div class="card-title">Top 10 klantwaarde (CLV)</div>
+        <div class="clv-row">
+          <div class="clv-name">Jan de Vries</div>
+          <div class="clv-bars"><div class="clv-bar hist" style="width:70%"></div><div class="clv-bar pred" style="width:30%"></div></div>
+          <div class="clv-value">€ 2.840</div>
+        </div>
+        <div class="clv-row">
+          <div class="clv-name">Maria Jansen</div>
+          <div class="clv-bars"><div class="clv-bar hist" style="width:60%"></div><div class="clv-bar pred" style="width:35%"></div></div>
+          <div class="clv-value">€ 2.520</div>
+        </div>
+        <div class="clv-row">
+          <div class="clv-name">Pieter Bakker</div>
+          <div class="clv-bars"><div class="clv-bar hist" style="width:55%"></div><div class="clv-bar pred" style="width:30%"></div></div>
+          <div class="clv-value">€ 2.180</div>
+        </div>
+        <div class="clv-row">
+          <div class="clv-name">Anna Visser</div>
+          <div class="clv-bars"><div class="clv-bar hist" style="width:50%"></div><div class="clv-bar pred" style="width:28%"></div></div>
+          <div class="clv-value">€ 1.960</div>
+        </div>
+        <div class="clv-row">
+          <div class="clv-name">Kees Smit</div>
+          <div class="clv-bars"><div class="clv-bar hist" style="width:45%"></div><div class="clv-bar pred" style="width:25%"></div></div>
+          <div class="clv-value">€ 1.740</div>
+        </div>
+        <div class="clv-row">
+          <div class="clv-name">Sandra Mulder</div>
+          <div class="clv-bars"><div class="clv-bar hist" style="width:42%"></div><div class="clv-bar pred" style="width:22%"></div></div>
+          <div class="clv-value">€ 1.580</div>
+        </div>
+        <div class="clv-row">
+          <div class="clv-name">Henk Peters</div>
+          <div class="clv-bars"><div class="clv-bar hist" style="width:38%"></div><div class="clv-bar pred" style="width:20%"></div></div>
+          <div class="clv-value">€ 1.420</div>
+        </div>
+        <div class="clv-row">
+          <div class="clv-name">Lisa de Boer</div>
+          <div class="clv-bars"><div class="clv-bar hist" style="width:35%"></div><div class="clv-bar pred" style="width:18%"></div></div>
+          <div class="clv-value">€ 1.260</div>
+        </div>
+        <div class="clv-legend">
+          <div class="clv-legend-item"><div class="clv-legend-dot" style="background:#3b82f6"></div> Historisch</div>
+          <div class="clv-legend-item"><div class="clv-legend-dot" style="background:#93c5fd"></div> Voorspeld</div>
+        </div>
+      </div>
+
+      <!-- RFM Heatmap -->
+      <div class="card">
+        <div class="card-title">RFM Heatmap</div>
+        <div class="heatmap-desc">Recency (rijen, hoog=recent) vs Frequentie (kolommen, hoog=vaak)</div>
+
+        <div class="heatmap-grid">
+          <div class="heatmap-col-headers">
+            <div class="heatmap-col-header">F=1</div>
+            <div class="heatmap-col-header">F=2</div>
+            <div class="heatmap-col-header">F=3</div>
+            <div class="heatmap-col-header">F=4</div>
+            <div class="heatmap-col-header">F=5</div>
+          </div>
+          <div class="heatmap-wrapper">
+            <div class="heatmap-y-label">Recency</div>
+            <div>
+              <div class="heatmap-row"><div class="heatmap-row-label">R=5</div><div class="heatmap-cell low">12</div><div class="heatmap-cell mid">28</div><div class="heatmap-cell high">45</div><div class="heatmap-cell max">67</div><div class="heatmap-cell max">89</div></div>
+              <div class="heatmap-row"><div class="heatmap-row-label">R=4</div><div class="heatmap-cell low">8</div><div class="heatmap-cell low">18</div><div class="heatmap-cell mid">32</div><div class="heatmap-cell high">41</div><div class="heatmap-cell high">52</div></div>
+              <div class="heatmap-row"><div class="heatmap-row-label">R=3</div><div class="heatmap-cell low">5</div><div class="heatmap-cell low">14</div><div class="heatmap-cell low">22</div><div class="heatmap-cell mid">28</div><div class="heatmap-cell mid">31</div></div>
+              <div class="heatmap-row"><div class="heatmap-row-label">R=2</div><div class="heatmap-cell empty">2</div><div class="heatmap-cell low">8</div><div class="heatmap-cell low">12</div><div class="heatmap-cell low">15</div><div class="heatmap-cell low">18</div></div>
+              <div class="heatmap-row"><div class="heatmap-row-label">R=1</div><div class="heatmap-cell empty">1</div><div class="heatmap-cell empty">3</div><div class="heatmap-cell low">5</div><div class="heatmap-cell low">7</div><div class="heatmap-cell low">9</div></div>
+            </div>
+          </div>
+          <div class="heatmap-x-label">Frequentie →</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Churn Risk Table -->
+    <div class="card" style="padding-bottom:0.5rem">
+      <div class="card-title">Top 20 churn risico</div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Naam</th>
+              <th>Email</th>
+              <th>Laatste bestelling</th>
+              <th style="text-align:right">Dagen inactief</th>
+              <th style="text-align:right">Risico score</th>
+              <th style="text-align:center">Label</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="customer-name">Tom Verhoeven</td>
+              <td class="customer-email">t.verhoeven@kliniek.nl</td>
+              <td>14 sep 2025</td>
+              <td class="td-right td-mono">178</td>
+              <td class="td-right td-mono">94%</td>
+              <td style="text-align:center"><span class="badge badge-critical">Kritiek</span></td>
+            </tr>
+            <tr>
+              <td class="customer-name">Eva de Jong</td>
+              <td class="customer-email">eva@tandarts-dejong.nl</td>
+              <td>3 okt 2025</td>
+              <td class="td-right td-mono">159</td>
+              <td class="td-right td-mono">88%</td>
+              <td style="text-align:center"><span class="badge badge-critical">Kritiek</span></td>
+            </tr>
+            <tr>
+              <td class="customer-name">Mark Kuijpers</td>
+              <td class="customer-email">m.kuijpers@zorggroep.nl</td>
+              <td>28 okt 2025</td>
+              <td class="td-right td-mono">134</td>
+              <td class="td-right td-mono">82%</td>
+              <td style="text-align:center"><span class="badge badge-high">Hoog</span></td>
+            </tr>
+            <tr>
+              <td class="customer-name">Sophie Willems</td>
+              <td class="customer-email">s.willems@apotheek.nl</td>
+              <td>15 nov 2025</td>
+              <td class="td-right td-mono">116</td>
+              <td class="td-right td-mono">71%</td>
+              <td style="text-align:center"><span class="badge badge-high">Hoog</span></td>
+            </tr>
+            <tr>
+              <td class="customer-name">Ruud Meijer</td>
+              <td class="customer-email">r.meijer@huisarts.nl</td>
+              <td>2 dec 2025</td>
+              <td class="td-right td-mono">99</td>
+              <td class="td-right td-mono">58%</td>
+              <td style="text-align:center"><span class="badge badge-medium">Gemiddeld</span></td>
+            </tr>
+            <tr>
+              <td class="customer-name">Linda Hofman</td>
+              <td class="customer-email">l.hofman@fysiotherapie.nl</td>
+              <td>18 dec 2025</td>
+              <td class="td-right td-mono">83</td>
+              <td class="td-right td-mono">45%</td>
+              <td style="text-align:center"><span class="badge badge-medium">Gemiddeld</span></td>
+            </tr>
+            <tr>
+              <td class="customer-name">Peter van Dijk</td>
+              <td class="customer-email">p.vandijk@ziekenhuis.nl</td>
+              <td>5 jan 2026</td>
+              <td class="td-right td-mono">64</td>
+              <td class="td-right td-mono">32%</td>
+              <td style="text-align:center"><span class="badge badge-low">Laag</span></td>
+            </tr>
+            <tr>
+              <td class="customer-name">Carmen Vos</td>
+              <td class="customer-email">c.vos@praktijk.nl</td>
+              <td>22 jan 2026</td>
+              <td class="td-right td-mono">47</td>
+              <td class="td-right td-mono">21%</td>
+              <td style="text-align:center"><span class="badge badge-low">Laag</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -11,8 +11,8 @@ export default function DeploymentsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Deployments</h1>
-        <p className="text-gray-600 mt-2">View deployment history across all clients</p>
+        <h1 className="text-3xl font-bold text-navy">Deployments</h1>
+        <p className="text-grey-dark mt-2">View deployment history across all clients</p>
       </div>
 
       {/* Deployments Table */}

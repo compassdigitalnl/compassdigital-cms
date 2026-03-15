@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amsterdamse Feestavond — Mokum Events</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital,wght@0,600;0,700;0,800;1,600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-dark:#00695C;--teal-glow:rgba(0,137,123,.12);--teal-bg:#E0F2F1;--white:#FAFBFC;--bg:#F5F7FA;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--grey-700:#334155;--text:#1E293B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--r:12px;--r-sm:8px;--r-lg:16px;--sh-sm:0 1px 3px rgba(10,22,40,.06);--sh-md:0 4px 20px rgba(10,22,40,.08);--sh-lg:0 8px 40px rgba(10,22,40,.12);--ease:cubic-bezier(.4,0,.2,1);--dur:.2s;--font:'Plus Jakarta Sans',system-ui,sans-serif;--font-d:'DM Serif Display',Georgia,serif;--font-m:'JetBrains Mono',monospace;--mx:1200px;--g:24px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--font);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}.ct{max-width:var(--mx);margin:0 auto;padding:0 var(--g)}
+
+/* Header */
+.hd{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:12px 0;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(10,22,40,.3)}.hd .ct{display:flex;align-items:center;justify-content:space-between}
+.lg{display:flex;align-items:center;gap:9px;text-decoration:none}.lg-m{width:34px;height:34px;background:var(--teal);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px}.lg-t{font-family:var(--font-d);font-size:18px;color:#fff}.lg-t span{color:var(--teal-light)}
+.nv{display:flex;gap:24px}.nl{color:rgba(255,255,255,.4);text-decoration:none;font-size:12px;font-weight:600;transition:color var(--dur)}.nl:hover{color:var(--teal-light)}.nl.on{color:#fff}
+.hr{display:flex;align-items:center;gap:8px}.hb{padding:6px 12px;border-radius:var(--r-sm);font-family:var(--font);font-size:11px;font-weight:700;cursor:pointer;transition:all var(--dur);display:flex;align-items:center;gap:5px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.5)}.hb:hover{border-color:var(--teal);color:var(--teal-light)}.hb.cta{background:var(--teal);border-color:var(--teal);color:#fff}.hb.cta:hover{background:var(--teal-dark)}
+
+/* Breadcrumb */
+.bc{padding:14px 0;font-size:11px;color:var(--grey-mid)}.bc a{color:var(--grey-dark);text-decoration:none}.bc a:hover{color:var(--teal)}.bc strong{color:var(--text)}
+
+/* Gallery */
+.gl{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:170px 170px;gap:4px;border-radius:var(--r-lg);overflow:hidden;margin-bottom:20px}
+.gi{background:var(--grey-light);display:flex;align-items:center;justify-content:center;font-size:36px;position:relative;cursor:pointer;transition:all var(--dur)}.gi:hover{filter:brightness(.95)}.gi.mn{grid-row:span 2;font-size:56px;background:linear-gradient(135deg,var(--teal-bg),#B2DFDB)}
+.gt{position:absolute;top:10px;left:10px;background:var(--teal);color:#fff;font-size:9px;font-weight:800;padding:3px 8px;border-radius:5px;display:flex;align-items:center;gap:3px;text-transform:uppercase;letter-spacing:.04em}
+.go{position:absolute;bottom:8px;right:8px;background:rgba(10,22,40,.6);backdrop-filter:blur(4px);color:#fff;font-size:10px;font-weight:600;padding:3px 8px;border-radius:5px;display:flex;align-items:center;gap:3px}
+
+/* Layout */
+.dl{display:grid;grid-template-columns:1fr 340px;gap:20px;padding-bottom:40px}
+
+/* Card */
+.cd{background:var(--white);border:1px solid var(--grey);border-radius:var(--r);overflow:hidden;margin-bottom:16px;box-shadow:var(--sh-sm)}.cb{padding:20px}
+
+/* Event info */
+.ec{display:inline-flex;align-items:center;gap:4px;background:var(--teal-bg);color:var(--teal-dark);font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:3px 8px;border-radius:5px;margin-bottom:8px;border:1px solid rgba(0,137,123,.15)}
+.et{font-family:var(--font-d);font-size:26px;color:var(--navy);line-height:1.2;margin-bottom:8px}
+.er{display:flex;align-items:center;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.rs{background:var(--teal);color:#fff;font-size:13px;font-weight:800;padding:2px 8px;border-radius:5px}.rst{color:var(--amber);font-size:11px}.rt{font-size:11px;color:var(--grey-dark)}
+
+.em{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px 0;margin-bottom:14px;border-top:1px solid var(--grey);border-bottom:1px solid var(--grey)}
+.mi{display:flex;align-items:center;gap:8px}.mi-i{width:36px;height:36px;border-radius:9px;background:var(--teal-bg);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}.mi strong{font-size:12px;color:var(--navy);display:block}.mi span{font-size:10px;color:var(--grey-mid)}
+
+.ed p{font-size:12px;color:var(--grey-dark);line-height:1.8;margin-bottom:8px}
+
+.it{font-family:var(--font-d);font-size:16px;color:var(--navy);margin-bottom:10px}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:16px}
+.ii{display:flex;align-items:center;gap:7px;padding:8px 10px;border-radius:var(--r-sm);background:var(--grey-light);font-size:11px;font-weight:600;color:var(--text);border:1px solid var(--grey);transition:all var(--dur)}.ii:hover{border-color:var(--teal);background:var(--teal-bg);color:var(--teal-dark)}
+
+.tb{background:var(--amber-light);border:1px solid #FDE68A;border-radius:var(--r);padding:14px}.tb-t{font-size:11px;font-weight:800;color:#92400E;display:flex;align-items:center;gap:5px;margin-bottom:4px}.tb-p{font-size:11px;color:#78350F;line-height:1.7}
+
+/* Tabs */
+.ts{display:flex;border-bottom:2px solid var(--grey);padding:0 20px}
+.ta{padding:12px 14px;font-family:var(--font);font-size:12px;font-weight:700;color:var(--grey-mid);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all var(--dur)}.ta:hover{color:var(--text)}.ta.on{color:var(--teal);border-bottom-color:var(--teal)}
+.tc{background:var(--grey-light);color:var(--grey-mid);font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px}.ta.on .tc{background:var(--teal-bg);color:var(--teal-dark)}
+.tp{display:none}.tp.on{display:block}
+
+/* Reviews */
+.rv-s{display:flex;gap:20px;align-items:center;padding:16px;background:var(--grey-light);border-radius:var(--r);margin-bottom:12px}
+.rv-b{font-family:var(--font-d);font-size:38px;color:var(--navy);text-align:center;min-width:56px}
+.br-r{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:10px;color:var(--grey-dark)}.br-l{width:86px;font-weight:600}.br-t{flex:1;height:5px;background:var(--grey);border-radius:3px;overflow:hidden}.br-f{height:100%;background:var(--teal);border-radius:3px}
+
+.rc{padding:14px;border:1px solid var(--grey);border-radius:var(--r);margin-bottom:8px}
+.rh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
+.ra{display:flex;align-items:center;gap:8px}.rv{width:32px;height:32px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700}
+.rn{font-size:12px;font-weight:700;color:var(--navy)}.rg{font-size:10px;color:var(--grey-mid)}.rd{font-size:10px;color:var(--grey-mid)}.rss{color:var(--amber);font-size:10px;margin-bottom:4px}.rp{font-size:11px;color:var(--grey-dark);line-height:1.7}
+
+/* FAQ */
+.fi{border-bottom:1px solid var(--grey)}.fi:last-child{border-bottom:none}
+.fq{display:flex;justify-content:space-between;align-items:center;padding:12px 0;cursor:pointer;font-family:var(--font);font-size:12px;font-weight:700;color:var(--navy);background:none;border:none;width:100%;text-align:left}
+.ft{width:22px;height:22px;border-radius:5px;background:var(--grey-light);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--grey-mid);transition:all var(--dur);flex-shrink:0}.fi.op .ft{background:var(--teal);color:#fff;transform:rotate(45deg)}
+.fa{font-size:11px;color:var(--grey-dark);line-height:1.7;padding-bottom:12px;display:none}.fi.op .fa{display:block}
+
+/* Related */
+.rl{margin-bottom:16px}.rl-t{font-family:var(--font-d);font-size:16px;color:var(--navy);margin-bottom:10px}
+.rg2{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.rcd{background:var(--white);border:1px solid var(--grey);border-radius:var(--r);overflow:hidden;transition:all var(--dur);cursor:pointer}.rcd:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.rth{height:80px;background:var(--grey-light);display:flex;align-items:center;justify-content:center;font-size:28px}
+.rbd{padding:10px}.rct{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--teal);margin-bottom:1px}.rnm{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:3px}.rmr{display:flex;gap:8px;font-size:9px;color:var(--grey-mid);margin-bottom:4px}.rpr{font-size:14px;font-weight:800;color:var(--navy)}.rpr small{font-size:10px;font-weight:500;color:var(--grey-mid)}
+
+/* Cat pills */
+.cs{margin-bottom:16px}.cs-t{font-size:11px;font-weight:700;color:var(--grey-dark);margin-bottom:6px}.cp{display:flex;flex-wrap:wrap;gap:5px}
+.cp a{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:100px;border:1.5px solid var(--grey);background:var(--white);font-size:10px;font-weight:600;color:var(--grey-dark);text-decoration:none;transition:all var(--dur)}.cp a:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-bg)}
+
+/* Sidebar */
+.sb{position:sticky;top:70px;align-self:start}
+.bkc{background:var(--white);border:1px solid var(--grey);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-md);margin-bottom:14px}
+.bkh{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:18px;text-align:center;position:relative;overflow:hidden}.bkh::before{content:'';position:absolute;top:-40%;right:-20%;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,var(--teal-glow),transparent 60%)}
+.bp{font-family:var(--font-d);font-size:26px;color:#fff;position:relative}.bp small{font-size:13px;color:rgba(255,255,255,.5)}.bpn{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px;position:relative}
+.bkb{padding:16px}.bf{margin-bottom:10px}.bfl{font-size:9px;font-weight:700;color:var(--grey-700);margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
+.bfi{width:100%;padding:9px 10px;border:1.5px solid var(--grey);border-radius:var(--r-sm);font-family:var(--font);font-size:12px;color:var(--text);outline:none;transition:all var(--dur);background:var(--white);appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6' fill='none' stroke='%2394A3B8' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}.bfi:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow)}
+.bmb{width:100%;padding:11px;border:none;border-radius:var(--r-sm);background:var(--teal);color:#fff;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all var(--dur);margin-bottom:6px}.bmb:hover{background:var(--teal-dark);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,137,123,.3)}
+.bab{width:100%;padding:9px;border:1.5px solid var(--grey);border-radius:var(--r-sm);background:var(--white);font-family:var(--font);font-size:11px;font-weight:700;color:var(--grey-dark);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all var(--dur)}.bab:hover{border-color:var(--teal);color:var(--teal)}
+.bg{padding:12px 16px;border-top:1px solid var(--grey)}.gi2{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--grey-dark);padding:3px 0}
+
+/* Angela */
+.ac{background:var(--white);border:1px solid var(--grey);border-radius:var(--r);padding:14px;margin-bottom:10px}
+.at{display:flex;align-items:center;gap:8px;margin-bottom:8px}.aa{width:36px;height:36px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800}
+.an{font-size:12px;font-weight:700;color:var(--navy)}.ar{font-size:10px;color:var(--grey-mid)}.as{font-size:9px;color:var(--green);display:flex;align-items:center;gap:3px}.od{width:5px;height:5px;border-radius:50%;background:var(--green)}
+.am{font-size:11px;color:var(--grey-dark);line-height:1.6;padding:8px 12px;background:var(--grey-light);border-radius:0 var(--r) var(--r) var(--r);margin-bottom:8px}
+.aa2{display:flex;gap:5px}.ab{flex:1;padding:6px;border:1.5px solid var(--grey);border-radius:var(--r-sm);background:var(--white);font-family:var(--font);font-size:10px;font-weight:700;color:var(--grey-dark);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:3px;transition:all var(--dur)}.ab:hover{border-color:var(--teal);color:var(--teal)}.ab.wa{background:#25D366;border-color:#25D366;color:#fff}.ab.wa:hover{background:#1FAD53}
+
+/* Proof */
+.pb{display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--white);border:1px solid var(--grey);border-radius:var(--r-sm);font-size:10px;color:var(--grey-dark);margin-bottom:5px}.pb strong{color:var(--navy)}
+
+@media(max-width:900px){.dl{grid-template-columns:1fr}.sb{position:static}.gl{grid-template-columns:1fr 1fr;grid-template-rows:180px 120px}.gi.mn{grid-column:span 2;grid-row:span 1}.em{grid-template-columns:1fr 1fr}.rg2{grid-template-columns:1fr}.nv{display:none}}
+</style>
+</head>
+<body>
+<div class="hd"><div class="ct"><a href="#" class="lg"><div class="lg-m">M</div><div class="lg-t">Mokum <span>Events</span></div></a><div class="nv"><a href="#" class="nl">Uitjes</a><a href="#" class="nl on">Arrangementen</a><a href="#" class="nl">Bedrijfsuitjes</a><a href="#" class="nl">Over ons</a></div><div class="hr"><button class="hb">📞 020 427 29 09</button><button class="hb cta">Offerte aanvragen</button></div></div></div>
+
+<div class="ct">
+<div class="bc"><a href="#">Home</a> › <a href="#">Arrangementen</a> › <a href="#">Feestavonden</a> › <strong>Amsterdamse Feestavond</strong></div>
+
+<div class="gl"><div class="gi mn">🎉<div class="gt">🔥 Populair</div><div class="go">📷 1/24</div></div><div class="gi" style="background:linear-gradient(135deg,#E0F2F1,#B2DFDB)">🍾</div><div class="gi" style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB)">🎵</div><div class="gi" style="background:linear-gradient(135deg,#FFF8E1,#FFECB3)">🍽️</div><div class="gi" style="background:linear-gradient(135deg,#EDE9FE,#D1C4E9)">📸<div class="go">▶ Video</div></div></div>
+
+<div class="dl">
+<div>
+<!-- Main info -->
+<div class="cd"><div class="cb">
+<div class="ec">🎉 Feestavond</div>
+<h1 class="et">Amsterdamse Feestavond</h1>
+<div class="er"><span class="rs">9.4</span><span class="rst">★★★★★</span><span class="rt">94 reviews · "Verwachtingen ruim overtroffen!"</span></div>
+<div class="em">
+<div class="mi"><div class="mi-i">⏱️</div><div><strong>4 uur</strong><span>Doorlooptijd</span></div></div>
+<div class="mi"><div class="mi-i">👥</div><div><strong>50 – 500</strong><span>Personen</span></div></div>
+<div class="mi"><div class="mi-i">📍</div><div><strong>Amsterdam</strong><span>Centrum</span></div></div>
+<div class="mi"><div class="mi-i">📅</div><div><strong>Hele jaar</strong><span>Beschikbaar</span></div></div>
+</div>
+<div class="ed"><p>Op zoek naar een onvergetelijk feestelijk avondje uit in Amsterdam? De Amsterdamse Feestavond is dé ultieme avond voor bedrijfsuitjes, jubilea, verjaardagen en andere feestelijke gelegenheden. Op een prachtige locatie in het hart van Amsterdam wordt u en uw gezelschap ontvangen met een bruisend glas bubbels.</p><p>Vervolgens geniet u van een uitgebreid buffet, wordt de sfeer opgezweept door een professionele DJ en legt onze fotograaf alle mooie momenten vast. Een ervaren partymanager zorgt ervoor dat alles op rolletjes loopt.</p></div>
+<h3 class="it">Wat is allemaal inbegrepen?</h3>
+<div class="ig">
+<div class="ii">🥂 Ontvangst met bubbels</div><div class="ii">🎵 Professionele DJ</div><div class="ii">🍽️ Uitgebreid buffet</div><div class="ii">📸 Fotograaf (1 uur)</div><div class="ii">👤 Partymanager</div><div class="ii">📍 Toplocatie centrum</div><div class="ii">🎤 Geluidsinstallatie</div><div class="ii">💡 Sfeerverlichting</div>
+</div>
+<div class="tb"><div class="tb-t">💡 Tip van Angela</div><p class="tb-p">Voeg een drankarrangement toe voor slechts <strong>€12,50 p.p. per uur</strong> — onbeperkt bier, wijn, fris en koffie/thee. 73% van onze gasten kiest deze optie en het maakt het budgetteren een stuk makkelijker.</p></div>
+</div></div>
+
+<!-- Tabs -->
+<div class="cd">
+<div class="ts">
+<button class="ta on" onclick="st('reviews',this)">⭐ Reviews <span class="tc">94</span></button>
+<button class="ta" onclick="st('faq',this)">❓ Vragen <span class="tc">11</span></button>
+<button class="ta" onclick="st('location',this)">📍 Locatie</button>
+</div>
+<div class="tp on" id="p-reviews"><div class="cb">
+<div class="rv-s"><div class="rv-b">9.4</div><div style="flex:1">
+<div class="br-r"><span class="br-l">Organisatie</span><div class="br-t"><div class="br-f" style="width:96%"></div></div>9.6</div>
+<div class="br-r"><span class="br-l">Locatie</span><div class="br-t"><div class="br-f" style="width:94%"></div></div>9.4</div>
+<div class="br-r"><span class="br-l">Eten & drinken</span><div class="br-t"><div class="br-f" style="width:90%"></div></div>9.0</div>
+<div class="br-r"><span class="br-l">Sfeer</span><div class="br-t"><div class="br-f" style="width:97%"></div></div>9.7</div>
+<div class="br-r"><span class="br-l">Prijs/kwaliteit</span><div class="br-t"><div class="br-f" style="width:88%"></div></div>8.8</div>
+</div></div>
+<div class="rc"><div class="rh"><div class="ra"><div class="rv">EK</div><div><div class="rn">Edwin K.</div><div class="rg">Bedrijfsuitje · 80 personen</div></div></div><div class="rd">januari 2026</div></div><div class="rss">★★★★★</div><p class="rp">Verwachtingen ruim overtroffen! De organisatie was vlekkeloos, het eten uitstekend en de DJ had precies de juiste sfeer te pakken. Onze collega's praten er nog steeds over.</p></div>
+<div class="rc"><div class="rh"><div class="ra"><div class="rv">JR</div><div><div class="rn">Julio R.</div><div class="rg">Verjaardagsfeest · 65 personen</div></div></div><div class="rd">december 2025</div></div><div class="rss">★★★★★</div><p class="rp">Mijn vrouw was compleet verrast! Angela heeft alles perfect geregeld, van de decoratie tot het verrassingselement. De locatie was prachtig en het personeel enorm attent. Top!</p></div>
+<div class="rc"><div class="rh"><div class="ra"><div class="rv">EW</div><div><div class="rn">Ellen W.</div><div class="rg">Teambuilding · 120 personen</div></div></div><div class="rd">november 2025</div></div><div class="rss">★★★★☆</div><p class="rp">Heel goed georganiseerd en een fantastische avond gehad. Enige puntje: het buffet was aan de krappe kant voor 120 man, maar dat is achteraf in goed overleg opgelost.</p></div>
+</div></div>
+<div class="tp" id="p-faq"><div class="cb">
+<div class="fi op"><button class="fq" onclick="this.parentElement.classList.toggle('op')">Wat is het minimum aantal personen? <span class="ft">+</span></button><div class="fa">Het minimum aantal personen is 50. Voor kleinere groepen hebben we andere arrangementen die beter geschikt zijn, neem gerust contact op.</div></div>
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('op')">Kan ik het menu aanpassen voor dieetwensen? <span class="ft">+</span></button><div class="fa">Absoluut! We houden rekening met alle dieetwensen: vegetarisch, veganistisch, glutenvrij, halal, koosjer. Geef dit bij de reservering door en onze chef stemt het buffet hierop af.</div></div>
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('op')">Hoe lang van tevoren moet ik boeken? <span class="ft">+</span></button><div class="fa">Minimaal 4 weken, zeker voor weekenden en in het najaar/winterseizoen. Maar last-minute is soms ook mogelijk — neem gewoon contact op!</div></div>
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('op')">Wat als ik moet annuleren? <span class="ft">+</span></button><div class="fa">Tot 14 dagen voor het event kosteloos annuleren. Tussen 7 en 14 dagen 50%. Binnen 7 dagen het volledige tarief. Verplaatsen naar een andere datum is vaak wel mogelijk.</div></div>
+<div class="fi"><button class="fq" onclick="this.parentElement.classList.toggle('op')">Is parkeren mogelijk bij de locatie? <span class="ft">+</span></button><div class="fa">Er zijn betaalde parkeergarages in de buurt. De locatie is ook uitstekend bereikbaar met OV (5 min lopen vanaf Centraal Station).</div></div>
+</div></div>
+<div class="tp" id="p-location"><div class="cb"><div style="background:var(--grey-light);height:220px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;color:var(--grey-mid);font-size:12px;margin-bottom:12px">📍 Kaart wordt geladen...</div><p style="font-size:12px;color:var(--grey-dark);line-height:1.7">Exacte locatiegegevens ontvangt u na bevestiging. De locatie bevindt zich in het hart van Amsterdam, op loopafstand van Amsterdam Centraal.</p></div></div>
+</div>
+
+<!-- Related -->
+<div class="rl"><h3 class="rl-t">Combineer dit uitje met</h3><div class="rg2">
+<div class="rcd"><div class="rth" style="background:linear-gradient(135deg,#E0F2F1,#B2DFDB)">🚢</div><div class="rbd"><div class="rct">Rondvaart</div><div class="rnm">Privé Grachtenvaart</div><div class="rmr"><span>⏱ 1,5 uur</span><span>👥 20-100</span><span>★ 9.2</span></div><div class="rpr">€29,50 <small>p.p.</small></div></div></div>
+<div class="rcd"><div class="rth" style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB)">🗺️</div><div class="rbd"><div class="rct">Stadsspel</div><div class="rnm">Amsterdamse Speurtocht</div><div class="rmr"><span>⏱ 2 uur</span><span>👥 10-200</span><span>★ 9.0</span></div><div class="rpr">€22,50 <small>p.p.</small></div></div></div>
+<div class="rcd"><div class="rth" style="background:linear-gradient(135deg,#EDE9FE,#D1C4E9)">🎨</div><div class="rbd"><div class="rct">Workshop</div><div class="rnm">Cocktails & Canvas</div><div class="rmr"><span>⏱ 2,5 uur</span><span>👥 15-80</span><span>★ 9.5</span></div><div class="rpr">€39,50 <small>p.p.</small></div></div></div>
+</div></div>
+
+<div class="cs"><div class="cs-t">Meer uitjes in Amsterdam</div><div class="cp"><a href="#">✨ Feestavonden</a><a href="#">👥 Bedrijfsuitjes</a><a href="#">❤️ Vrijgezellenfeest</a><a href="#">🚢 Rondvaarten</a><a href="#">🎨 Workshops</a><a href="#">🗺️ Stadsspellen</a><a href="#">🍽️ Culinair</a></div></div>
+</div>
+
+<!-- Sidebar -->
+<div class="sb">
+<div class="bkc"><div class="bkh"><div class="bp">€77,50 <small>p.p.</small></div><div class="bpn">Excl. BTW · Alles inbegrepen</div></div><div class="bkb"><div class="bf"><div class="bfl">Gewenste datum</div><select class="bfi"><option>Kies een datum</option><option>Za 7 maart 2026</option><option>Za 14 maart 2026</option><option>Vr 20 maart 2026</option></select></div><div class="bf"><div class="bfl">Aantal personen</div><select class="bfi"><option>Selecteer aantal</option><option>50 personen</option><option>75 personen</option><option>100 personen</option><option>200+ personen</option></select></div><button class="bmb">📩 Offerte aanvragen</button><button class="bab">📅 Direct reserveren</button></div><div class="bg"><div class="gi2">🛡️ Geheel vrijblijvend</div><div class="gi2">⏱️ Binnen 2 uur reactie</div><div class="gi2">❌ Kosteloos annuleren tot 14 dagen</div></div></div>
+
+<div class="ac"><div class="at"><div class="aa">A</div><div><div class="an">Angela</div><div class="ar">Event coördinator</div><div class="as"><span class="od"></span> Online — reageert binnen 5 min</div></div></div><div class="am">Hoi! 👋 Leuk dat je de Amsterdamse Feestavond bekijkt. Zal ik je helpen met een programma op maat? Ik denk graag mee!</div><div class="aa2"><button class="ab wa">💬 WhatsApp</button><button class="ab">📞 Bellen</button><button class="ab">📧 Mail</button></div></div>
+
+<div class="pb"><span>🔥</span> <strong>189 groepen</strong> boekten dit de afgelopen 3 maanden</div>
+<div class="pb"><span>⏰</span> Vandaag nog <strong>3 keer geboekt</strong></div>
+<div class="pb"><span>👀</span> <strong>12 mensen</strong> bekijken dit nu</div>
+</div>
+</div>
+</div>
+<script>function st(n,el){document.querySelectorAll('.ta').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.tp').forEach(p=>p.classList.remove('on'));el.classList.add('on');document.getElementById('p-'+n).classList.add('on')}</script>
+</body>
+</html>

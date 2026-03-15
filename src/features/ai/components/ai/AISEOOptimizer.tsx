@@ -137,7 +137,7 @@ export const AISEOOptimizer: React.FC<AISEOOptimizerProps> = ({
       case 'critical':
         return <AlertCircle className="size-5 text-destructive" />
       case 'warning':
-        return <AlertTriangle className="size-5 text-yellow-600" />
+        return <AlertTriangle className="size-5 text-amber-600" />
       case 'info':
         return <Info className="size-5 text-teal" />
       default:
@@ -147,7 +147,7 @@ export const AISEOOptimizer: React.FC<AISEOOptimizerProps> = ({
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-green'
-    if (score >= 60) return 'text-yellow-600'
+    if (score >= 60) return 'text-amber-600'
     return 'text-destructive'
   }
 
@@ -378,7 +378,7 @@ export const AISEOOptimizer: React.FC<AISEOOptimizerProps> = ({
                       {analysis.metadata.title.optimal ? (
                         <CheckCircle2 className="size-5 text-green" />
                       ) : (
-                        <AlertTriangle className="size-5 text-yellow-600" />
+                        <AlertTriangle className="size-5 text-amber-600" />
                       )}
                     </div>
                     <div className="p-3 border rounded-lg flex items-center justify-between">
@@ -391,7 +391,7 @@ export const AISEOOptimizer: React.FC<AISEOOptimizerProps> = ({
                       {analysis.metadata.description.optimal ? (
                         <CheckCircle2 className="size-5 text-green" />
                       ) : (
-                        <AlertTriangle className="size-5 text-yellow-600" />
+                        <AlertTriangle className="size-5 text-amber-600" />
                       )}
                     </div>
                   </div>

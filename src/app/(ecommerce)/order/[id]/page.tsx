@@ -38,7 +38,7 @@ export default async function OrderConfirmationPage({ params }: PageProps) {
   if (!order) notFound()
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-grey-light">
       {/* Checkout Progress Stepper — step 5 = Bevestiging */}
       <OrderPageStepper />
 
@@ -54,15 +54,15 @@ function OrderSkeleton() {
   return (
     <div className="container mx-auto px-6 py-10">
       <div className="max-w-5xl mx-auto">
-        <div className="h-32 bg-gray-200 rounded-xl animate-pulse mb-8" />
+        <div className="h-32 bg-grey-light rounded-xl animate-pulse mb-8" />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-4">
-            <div className="h-64 bg-gray-200 rounded-xl animate-pulse" />
-            <div className="h-48 bg-gray-200 rounded-xl animate-pulse" />
+            <div className="h-64 bg-grey-light rounded-xl animate-pulse" />
+            <div className="h-48 bg-grey-light rounded-xl animate-pulse" />
           </div>
           <div className="space-y-4">
-            <div className="h-40 bg-gray-200 rounded-xl animate-pulse" />
-            <div className="h-32 bg-gray-200 rounded-xl animate-pulse" />
+            <div className="h-40 bg-grey-light rounded-xl animate-pulse" />
+            <div className="h-32 bg-grey-light rounded-xl animate-pulse" />
           </div>
         </div>
       </div>

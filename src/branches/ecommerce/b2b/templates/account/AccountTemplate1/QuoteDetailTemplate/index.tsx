@@ -28,7 +28,7 @@ export default function QuoteDetailTemplate({
   if (error || !quote) {
     return (
       <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
-        <h2 className="text-lg font-extrabold text-gray-900 mb-2">{error || 'Offerte niet gevonden'}</h2>
+        <h2 className="text-lg font-extrabold text-navy mb-2">{error || 'Offerte niet gevonden'}</h2>
         <Link href="/account/quotes" className="btn btn-ghost btn-sm mt-4">
           <ArrowLeft className="w-4 h-4" />
           Terug naar offertes

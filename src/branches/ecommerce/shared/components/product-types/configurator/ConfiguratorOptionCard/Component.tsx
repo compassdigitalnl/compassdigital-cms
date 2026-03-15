@@ -47,7 +47,7 @@ export const ConfiguratorOptionCard: React.FC<ConfiguratorOptionCardProps> = ({
       className={`
         configurator-option-card
         relative w-full rounded-lg border-2 transition-all duration-200 text-left overflow-hidden
-        ${isSelected ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]/20 shadow-lg' : 'border-gray-300 bg-white'}
+        ${isSelected ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]/20 shadow-lg' : 'border-grey-light bg-white'}
         ${isHovered && !isSelected ? 'border-[var(--color-primary-light)] shadow-md' : ''}
         ${className}
       `}
@@ -56,7 +56,7 @@ export const ConfiguratorOptionCard: React.FC<ConfiguratorOptionCardProps> = ({
       {/* Recommended Badge (top-right) */}
       {option.recommended && (
         <div className="absolute top-3 right-3 z-10">
-          <div className="flex items-center gap-1 px-2 py-1 bg-yellow-500 text-white rounded-full shadow-md">
+          <div className="flex items-center gap-1 px-2 py-1 bg-amber-500 text-white rounded-full shadow-md">
             <Star className="w-3 h-3" fill="white" strokeWidth={2} />
             <span className="text-[11px] font-bold uppercase">Aanbevolen</span>
           </div>
@@ -74,7 +74,7 @@ export const ConfiguratorOptionCard: React.FC<ConfiguratorOptionCardProps> = ({
 
       {/* Image (if provided) */}
       {imageUrl && (
-        <div className="relative w-full h-40 bg-gray-100">
+        <div className="relative w-full h-40 bg-grey-light">
           <Image
             src={imageUrl}
             alt={option.name}
@@ -88,13 +88,13 @@ export const ConfiguratorOptionCard: React.FC<ConfiguratorOptionCardProps> = ({
       {/* Content */}
       <div className="p-4">
         {/* Option Name */}
-        <h4 className="text-[16px] font-bold text-gray-900 mb-1">
+        <h4 className="text-[16px] font-bold text-navy mb-1">
           {option.name}
         </h4>
 
         {/* Description */}
         {option.description && (
-          <p className="text-[13px] text-gray-600 mb-3 line-clamp-2">
+          <p className="text-[13px] text-grey-dark mb-3 line-clamp-2">
             {option.description}
           </p>
         )}

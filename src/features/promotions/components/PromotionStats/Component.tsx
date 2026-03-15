@@ -39,9 +39,9 @@ export function PromotionStats({ promotionId }: PromotionStatsProps) {
 
   if (loading) {
     return (
-      <div className="animate-pulse bg-gray-100 rounded-lg p-4">
-        <div className="h-4 bg-gray-200 rounded w-1/3 mb-2" />
-        <div className="h-8 bg-gray-200 rounded w-1/2" />
+      <div className="animate-pulse bg-grey-light rounded-lg p-4">
+        <div className="h-4 bg-grey-light rounded w-1/3 mb-2" />
+        <div className="h-8 bg-grey-light rounded w-1/2" />
       </div>
     )
   }
@@ -55,18 +55,18 @@ export function PromotionStats({ promotionId }: PromotionStatsProps) {
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-4">
+    <div className="bg-white border border-grey-light rounded-lg p-4">
       {stats.title && (
-        <h4 className="text-sm font-medium text-gray-500 mb-3">{stats.title}</h4>
+        <h4 className="text-sm font-medium text-grey-mid mb-3">{stats.title}</h4>
       )}
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <span className="text-xs text-gray-400 uppercase tracking-wide">Gebruik</span>
-          <p className="text-2xl font-bold text-gray-900">{stats.usedCount}</p>
+          <span className="text-xs text-grey-mid uppercase tracking-wide">Gebruik</span>
+          <p className="text-2xl font-bold text-navy">{stats.usedCount}</p>
         </div>
         <div>
-          <span className="text-xs text-gray-400 uppercase tracking-wide">Geschatte impact</span>
-          <p className="text-2xl font-bold text-gray-900">
+          <span className="text-xs text-grey-mid uppercase tracking-wide">Geschatte impact</span>
+          <p className="text-2xl font-bold text-navy">
             &euro;{stats.estimatedRevenue.toFixed(2)}
           </p>
         </div>

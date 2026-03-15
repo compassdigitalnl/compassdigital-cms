@@ -31,7 +31,7 @@ export const AIButton: React.FC<AIButtonProps> = ({
 
   const variantStyles = {
     primary: 'bg-gradient-to-r from-teal to-teal hover:from-teal-700 hover:to-teal-700 text-white focus:ring-teal',
-    secondary: 'bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 focus:ring-gray-500',
+    secondary: 'bg-white border border-grey-light hover:bg-grey-light text-grey-dark focus:ring-grey-mid',
     icon: 'bg-teal-100 hover:bg-teal/20 text-teal-700 focus:ring-teal p-2 rounded-full',
   }
 

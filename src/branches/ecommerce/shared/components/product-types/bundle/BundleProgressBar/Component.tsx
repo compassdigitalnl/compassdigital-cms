@@ -40,7 +40,7 @@ export const BundleProgressBar: React.FC<BundleProgressBarProps> = ({
         <div className="flex items-center justify-between mb-2">
           {/* Label */}
           {label && (
-            <span className="text-[14px] font-semibold text-gray-700">
+            <span className="text-[14px] font-semibold text-grey-dark">
               {label}
             </span>
           )}
@@ -57,7 +57,7 @@ export const BundleProgressBar: React.FC<BundleProgressBarProps> = ({
       )}
 
       {/* Progress Bar Container */}
-      <div className="relative w-full h-8 bg-gray-200 rounded-full overflow-hidden">
+      <div className="relative w-full h-8 bg-grey-light rounded-full overflow-hidden">
         {/* Progress Bar Fill */}
         <div
           className={`
@@ -92,7 +92,7 @@ export const BundleProgressBar: React.FC<BundleProgressBarProps> = ({
         </div>
       ) : (
         <div className="mt-2 text-center">
-          <p className="text-[13px] text-gray-600">
+          <p className="text-[13px] text-grey-dark">
             Nog <span className="font-bold text-teal">{max - current}</span>{' '}
             {max - current === 1 ? 'item' : 'items'} nodig
           </p>

@@ -80,7 +80,7 @@ export default async function ShopPage({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-grey-light">
       <ShopArchiveTemplate1
         products={[]}
         category={category ? {

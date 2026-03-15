@@ -51,11 +51,11 @@ export function WizardStepTestimonials({ testimonials, onChange }: Props) {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-navy flex items-center gap-2">
           <MessageSquare className="w-6 h-6 text-teal" />
           Testimonials & Reviews
         </h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-sm text-grey-dark">
           Voeg echte testimonials toe van tevreden klanten. Als je er nog geen hebt, kan AI
           realistische voorbeelden genereren.
         </p>
@@ -115,13 +115,13 @@ export function WizardStepTestimonials({ testimonials, onChange }: Props) {
                           <Star
                             className={`w-6 h-6 ${
                               star <= (testimonial.rating || 5)
-                                ? 'fill-yellow-400 text-yellow-400'
-                                : 'text-gray-300'
+                                ? 'fill-amber-500 text-amber-500'
+                                : 'text-grey-mid'
                             }`}
                           />
                         </button>
                       ))}
-                      <span className="text-sm text-gray-600 ml-2">
+                      <span className="text-sm text-grey-dark ml-2">
                         {testimonial.rating || 5} sterren
                       </span>
                     </div>
@@ -218,13 +218,13 @@ export function WizardStepTestimonials({ testimonials, onChange }: Props) {
                     <Star
                       className={`w-6 h-6 ${
                         star <= (newTestimonial.rating || 5)
-                          ? 'fill-yellow-400 text-yellow-400'
-                          : 'text-gray-300'
+                          ? 'fill-amber-500 text-amber-500'
+                          : 'text-grey-mid'
                       }`}
                     />
                   </button>
                 ))}
-                <span className="text-sm text-gray-600 ml-2">
+                <span className="text-sm text-grey-dark ml-2">
                   {newTestimonial.rating || 5} sterren
                 </span>
               </div>

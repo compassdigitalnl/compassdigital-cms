@@ -27,7 +27,7 @@ export default function OrderDetailTemplate({ order, onReorder, onDownloadInvoic
         <div className="space-y-4 lg:space-y-6">
           {/* Timeline */}
           <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
-            <h2 className="text-base lg:text-lg font-extrabold mb-4 lg:mb-5 text-gray-900">
+            <h2 className="text-base lg:text-lg font-extrabold mb-4 lg:mb-5 text-navy">
               Status tijdlijn
             </h2>
             <div className="space-y-3 lg:space-y-4">
@@ -39,25 +39,25 @@ export default function OrderDetailTemplate({ order, onReorder, onDownloadInvoic
                     <div className="flex flex-col items-center">
                       <div
                         className={`w-8 h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                          step.completed ? '' : 'bg-gray-50 border-2 border-gray-200'
+                          step.completed ? '' : 'bg-grey-light border-2 border-grey-light'
                         }`}
                         style={step.completed ? { background: 'var(--color-primary)' } : undefined}
                       >
-                        <Icon className={`w-4 h-4 lg:w-5 lg:h-5 ${step.completed ? 'text-white' : 'text-gray-400'}`} />
+                        <Icon className={`w-4 h-4 lg:w-5 lg:h-5 ${step.completed ? 'text-white' : 'text-grey-mid'}`} />
                       </div>
                       {!isLast && (
                         <div
-                          className={`w-0.5 flex-1 my-1.5 lg:my-2 ${step.completed ? '' : 'bg-gray-200'}`}
+                          className={`w-0.5 flex-1 my-1.5 lg:my-2 ${step.completed ? '' : 'bg-grey-light'}`}
                           style={{ minHeight: '20px', ...(step.completed ? { background: 'var(--color-primary)' } : {}) }}
                         />
                       )}
                     </div>
                     <div className="flex-1 pb-4 lg:pb-6">
-                      <div className={`text-xs lg:text-sm font-bold mb-0.5 lg:mb-1 ${step.completed ? 'text-gray-900' : 'text-gray-400'}`}>
+                      <div className={`text-xs lg:text-sm font-bold mb-0.5 lg:mb-1 ${step.completed ? 'text-navy' : 'text-grey-mid'}`}>
                         {step.label}
                       </div>
                       {step.date && (
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs text-grey-mid">
                           {new Date(step.date).toLocaleDateString('nl-NL', {
                             day: 'numeric',
                             month: 'short',
@@ -67,7 +67,7 @@ export default function OrderDetailTemplate({ order, onReorder, onDownloadInvoic
                         </div>
                       )}
                       {!step.date && !step.completed && (
-                        <div className="text-xs text-gray-500">Verwacht binnenkort</div>
+                        <div className="text-xs text-grey-mid">Verwacht binnenkort</div>
                       )}
                     </div>
                   </div>
@@ -78,30 +78,30 @@ export default function OrderDetailTemplate({ order, onReorder, onDownloadInvoic
 
           {/* Items */}
           <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
-            <h2 className="text-base lg:text-lg font-extrabold mb-4 lg:mb-5 text-gray-900">
+            <h2 className="text-base lg:text-lg font-extrabold mb-4 lg:mb-5 text-navy">
               Bestelde producten
             </h2>
             <div className="space-y-2 lg:space-y-3">
               {order.items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-start gap-3 lg:gap-4 p-3 lg:p-4 rounded-lg lg:rounded-xl border border-gray-200"
+                  className="flex items-start gap-3 lg:gap-4 p-3 lg:p-4 rounded-lg lg:rounded-xl border border-grey-light"
                 >
-                  <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-lg flex items-center justify-center flex-shrink-0 bg-gray-50">
-                    <Package className="w-6 h-6 lg:w-8 lg:h-8 text-gray-300" />
+                  <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-lg flex items-center justify-center flex-shrink-0 bg-grey-light">
+                    <Package className="w-6 h-6 lg:w-8 lg:h-8 text-grey-mid" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-xs lg:text-sm font-bold mb-1 text-gray-900">{item.title}</div>
+                    <div className="text-xs lg:text-sm font-bold mb-1 text-navy">{item.title}</div>
                     <div className="flex items-center gap-2 lg:gap-3 flex-wrap">
-                      {item.sku && <span className="text-xs font-mono text-gray-500">SKU: {item.sku}</span>}
-                      {item.ean && <span className="hidden lg:inline text-xs font-mono text-gray-500">EAN: {item.ean}</span>}
+                      {item.sku && <span className="text-xs font-mono text-grey-mid">SKU: {item.sku}</span>}
+                      {item.ean && <span className="hidden lg:inline text-xs font-mono text-grey-mid">EAN: {item.ean}</span>}
                     </div>
-                    <div className="mt-1.5 lg:mt-2 flex items-center gap-2 lg:gap-4 text-xs lg:text-sm text-gray-900">
+                    <div className="mt-1.5 lg:mt-2 flex items-center gap-2 lg:gap-4 text-xs lg:text-sm text-navy">
                       <span>Aantal: <span className="font-bold">{item.quantity}x</span></span>
                       <span>Prijs: <span className="font-bold">€{formatPriceStr(item.price)}</span></span>
                     </div>
                   </div>
-                  <div className="text-sm lg:text-base font-extrabold text-gray-900 flex-shrink-0">
+                  <div className="text-sm lg:text-base font-extrabold text-navy flex-shrink-0">
                     €{formatPriceStr(item.subtotal)}
                   </div>
                 </div>
@@ -114,9 +114,9 @@ export default function OrderDetailTemplate({ order, onReorder, onDownloadInvoic
             <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-5 shadow-sm">
               <div className="flex items-center gap-2 mb-3 lg:mb-4">
                 <MapPin className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: 'var(--color-primary)' }} />
-                <h3 className="text-sm lg:text-base font-extrabold text-gray-900">Bezorgadres</h3>
+                <h3 className="text-sm lg:text-base font-extrabold text-navy">Bezorgadres</h3>
               </div>
-              <div className="text-xs lg:text-sm text-gray-900 leading-relaxed">
+              <div className="text-xs lg:text-sm text-navy leading-relaxed">
                 {shippingAddr.company && <div className="font-semibold">{shippingAddr.company}</div>}
                 <div>{shippingAddr.firstName} {shippingAddr.lastName}</div>
                 <div>{shippingAddr.street} {shippingAddr.houseNumber}{shippingAddr.addition ? ` ${shippingAddr.addition}` : ''}</div>
@@ -128,11 +128,11 @@ export default function OrderDetailTemplate({ order, onReorder, onDownloadInvoic
             <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-5 shadow-sm">
               <div className="flex items-center gap-2 mb-3 lg:mb-4">
                 <CreditCard className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: 'var(--color-primary)' }} />
-                <h3 className="text-sm lg:text-base font-extrabold text-gray-900">Factuuradres</h3>
+                <h3 className="text-sm lg:text-base font-extrabold text-navy">Factuuradres</h3>
               </div>
-              <div className="text-xs lg:text-sm text-gray-900 leading-relaxed">
+              <div className="text-xs lg:text-sm text-navy leading-relaxed">
                 {useSameAddress ? (
-                  <div className="text-gray-500 italic">Zelfde als bezorgadres</div>
+                  <div className="text-grey-mid italic">Zelfde als bezorgadres</div>
                 ) : (
                   <>
                     {billingAddr.company && <div className="font-semibold">{billingAddr.company}</div>}
@@ -141,9 +141,9 @@ export default function OrderDetailTemplate({ order, onReorder, onDownloadInvoic
                     <div>{billingAddr.postalCode} {billingAddr.city}</div>
                     {billingAddr.country && <div>{billingAddr.country}</div>}
                     {(billingAddr.kvk || billingAddr.vatNumber) && (
-                      <div className="mt-2 lg:mt-3 pt-2 lg:pt-3 border-t border-gray-200">
-                        {billingAddr.kvk && <div className="text-gray-500">KVK: {billingAddr.kvk}</div>}
-                        {billingAddr.vatNumber && <div className="text-gray-500">BTW: {billingAddr.vatNumber}</div>}
+                      <div className="mt-2 lg:mt-3 pt-2 lg:pt-3 border-t border-grey-light">
+                        {billingAddr.kvk && <div className="text-grey-mid">KVK: {billingAddr.kvk}</div>}
+                        {billingAddr.vatNumber && <div className="text-grey-mid">BTW: {billingAddr.vatNumber}</div>}
                       </div>
                     )}
                   </>

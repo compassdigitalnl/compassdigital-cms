@@ -39,7 +39,7 @@ export const SubscriptionOptionsComponent: React.FC<SubscriptionOptionsBlock> = 
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
             {title && (
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">{title}</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-navy mb-6">{title}</h2>
             )}
 
             <div className="space-y-3">
@@ -60,7 +60,7 @@ export const SubscriptionOptionsComponent: React.FC<SubscriptionOptionsBlock> = 
                     {/* Radio indicator */}
                     <div
                       className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${
-                        isSelected ? 'border-primary' : 'border-gray-300'
+                        isSelected ? 'border-primary' : 'border-grey-light'
                       }`}
                     >
                       {isSelected && <div className="w-2.5 h-2.5 rounded-full bg-primary" />}
@@ -69,7 +69,7 @@ export const SubscriptionOptionsComponent: React.FC<SubscriptionOptionsBlock> = 
                     {/* Content */}
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="font-semibold text-gray-900">{option.frequency}</span>
+                        <span className="font-semibold text-navy">{option.frequency}</span>
                         {option.savings && (
                           <span className="px-2 py-0.5 rounded-full bg-success/10 text-success text-xs font-bold">
                             {option.savings}
@@ -124,7 +124,7 @@ export const SubscriptionOptionsComponent: React.FC<SubscriptionOptionsBlock> = 
     >
       <div className="container mx-auto px-4">
         {title && (
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-navy mb-8 text-center">
             {title}
           </h2>
         )}
@@ -154,14 +154,14 @@ export const SubscriptionOptionsComponent: React.FC<SubscriptionOptionsBlock> = 
                 {/* Frequency icon */}
                 <div
                   className={`w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-3 ${
-                    isSelected ? 'bg-primary text-white' : 'bg-gray-100 text-primary'
+                    isSelected ? 'bg-primary text-white' : 'bg-grey-light text-primary'
                   } transition-colors`}
                 >
                   <Icon name="RefreshCw" size={22} />
                 </div>
 
                 {/* Frequency name */}
-                <h3 className="font-bold text-gray-900 mb-1">{option.frequency}</h3>
+                <h3 className="font-bold text-navy mb-1">{option.frequency}</h3>
 
                 {/* Price */}
                 <div className="text-2xl font-bold text-primary mb-3">{option.price}</div>
@@ -172,7 +172,7 @@ export const SubscriptionOptionsComponent: React.FC<SubscriptionOptionsBlock> = 
                     {option.features.map((f, fIdx) => (
                       <li
                         key={f.id || fIdx}
-                        className="flex items-center gap-2 text-sm text-gray-600"
+                        className="flex items-center gap-2 text-sm text-grey-dark"
                       >
                         <Icon name="Check" size={14} className="text-success flex-shrink-0" />
                         {f.text}

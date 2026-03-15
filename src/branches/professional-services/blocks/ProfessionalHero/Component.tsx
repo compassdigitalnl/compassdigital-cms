@@ -94,8 +94,8 @@ export const ProfessionalHeroComponent: React.FC<ProfessionalHeroProps> = ({
                     {avatars.map((avatar, index) => {
                       const colorClasses = {
                         teal: 'bg-primary text-white',
-                        blue: 'bg-blue-500 text-white',
-                        purple: 'bg-purple-500 text-white',
+                        blue: 'bg-teal text-white',
+                        purple: 'bg-teal text-white',
                         amber: 'bg-warning text-white',
                       }
                       const currentColor = avatar.color || 'teal'
@@ -142,7 +142,7 @@ export const ProfessionalHeroComponent: React.FC<ProfessionalHeroProps> = ({
                   const colorClasses = {
                     green: 'bg-success text-white',
                     amber: 'bg-warning text-white',
-                    blue: 'bg-blue-500 text-white',
+                    blue: 'bg-teal text-white',
                     teal: 'bg-primary text-white',
                   }
                   const currentColor = floatingBadge.color || 'teal'

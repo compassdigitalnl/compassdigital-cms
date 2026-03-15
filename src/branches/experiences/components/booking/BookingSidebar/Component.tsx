@@ -38,7 +38,7 @@ export function BookingSidebar({
 
   return (
     <div
-      className={`bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg ${className}`}
+      className={`bg-white border border-grey-light rounded-2xl overflow-hidden shadow-lg ${className}`}
     >
       {/* Header: Price */}
       <div className="bg-gradient-to-br from-[var(--color-navy)] to-[#1a2744] px-5 py-4">
@@ -62,14 +62,14 @@ export function BookingSidebar({
       <div className="p-5 space-y-4">
         {/* Date Select */}
         <div>
-          <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">
+          <label className="block text-[10px] font-bold text-grey-mid uppercase tracking-wider mb-1">
             Datum
           </label>
           <div className="relative">
             <select
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className="w-full appearance-none border border-gray-300 rounded-lg px-3 py-2.5 text-sm text-[var(--color-navy)] bg-white pr-8 focus:outline-none focus:ring-2 focus:ring-[var(--color-teal)] focus:border-[var(--color-teal)]"
+              className="w-full appearance-none border border-grey-light rounded-lg px-3 py-2.5 text-sm text-[var(--color-navy)] bg-white pr-8 focus:outline-none focus:ring-2 focus:ring-[var(--color-teal)] focus:border-[var(--color-teal)]"
               style={{
                 backgroundImage: chevronSvg,
                 backgroundRepeat: 'no-repeat',
@@ -88,14 +88,14 @@ export function BookingSidebar({
 
         {/* Person Count Select */}
         <div>
-          <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">
+          <label className="block text-[10px] font-bold text-grey-mid uppercase tracking-wider mb-1">
             Aantal personen
           </label>
           <div className="relative">
             <select
               value={selectedPersons}
               onChange={(e) => setSelectedPersons(e.target.value)}
-              className="w-full appearance-none border border-gray-300 rounded-lg px-3 py-2.5 text-sm text-[var(--color-navy)] bg-white pr-8 focus:outline-none focus:ring-2 focus:ring-[var(--color-teal)] focus:border-[var(--color-teal)]"
+              className="w-full appearance-none border border-grey-light rounded-lg px-3 py-2.5 text-sm text-[var(--color-navy)] bg-white pr-8 focus:outline-none focus:ring-2 focus:ring-[var(--color-teal)] focus:border-[var(--color-teal)]"
               style={{
                 backgroundImage: chevronSvg,
                 backgroundRepeat: 'no-repeat',
@@ -124,7 +124,7 @@ export function BookingSidebar({
         {/* Secondary CTA */}
         <button
           onClick={onBookNow}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-gray-300 text-[var(--color-navy)] font-bold text-sm hover:border-[var(--color-teal)] hover:text-[var(--color-teal)] transition-colors"
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-grey-light text-[var(--color-navy)] font-bold text-sm hover:border-[var(--color-teal)] hover:text-[var(--color-teal)] transition-colors"
         >
           <span>{String.fromCodePoint(0x1F4C5)}</span>
           Direct reserveren
@@ -133,10 +133,10 @@ export function BookingSidebar({
 
       {/* Footer: Guarantees */}
       {guarantees.length > 0 && (
-        <div className="border-t border-gray-100 px-5 py-3">
+        <div className="border-t border-grey-light px-5 py-3">
           <ul className="space-y-1.5">
             {guarantees.map((guarantee, index) => (
-              <li key={index} className="text-xs text-gray-600">
+              <li key={index} className="text-xs text-grey-dark">
                 {guarantee}
               </li>
             ))}

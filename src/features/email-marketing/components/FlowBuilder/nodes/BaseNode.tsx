@@ -60,13 +60,13 @@ export function BaseNode({
             {title}
           </div>
           {subtitle && (
-            <div className="text-[10px] text-gray-500 truncate">{subtitle}</div>
+            <div className="text-[10px] text-grey-mid truncate">{subtitle}</div>
           )}
         </div>
       </div>
 
       {/* Body */}
-      {children && <div className="px-3 py-2 text-xs text-gray-600">{children}</div>}
+      {children && <div className="px-3 py-2 text-xs text-grey-dark">{children}</div>}
 
       {hasSourceHandle && (
         <Handle

@@ -5,7 +5,7 @@ import { Send, Clock, Check } from 'lucide-react'
 import type { QuoteFormProps } from './types'
 
 const INPUT_BASE =
-  'w-full h-11 px-3.5 border-2 rounded-lg text-sm outline-none transition-all bg-gray-50 focus:bg-white'
+  'w-full h-11 px-3.5 border-2 rounded-lg text-sm outline-none transition-all bg-grey-light focus:bg-white'
 
 const SECTORS = [
   'Huisarts',
@@ -233,7 +233,7 @@ export function QuoteForm({ formData, onChange, onSubmit, isSubmitting }: QuoteF
         <div className="mt-3.5">
           <FormField label="Opmerkingen">
             <textarea
-              className="w-full px-3.5 py-3 border-2 rounded-lg text-sm outline-none transition-all bg-gray-50 focus:bg-white resize-y min-h-[100px] leading-relaxed"
+              className="w-full px-3.5 py-3 border-2 rounded-lg text-sm outline-none transition-all bg-grey-light focus:bg-white resize-y min-h-[100px] leading-relaxed"
               placeholder="Eventuele wensen, specificaties of vragen…"
               value={formData.notes}
               onChange={(e) => onChange('notes', e.target.value)}

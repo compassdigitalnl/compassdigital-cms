@@ -45,10 +45,10 @@ export function SEOScorePanel() {
   // Score color
   const scoreColor =
     analysis.status === 'excellent'
-      ? '#22c55e' // green-500
+      ? 'var(--color-success, #00C853)'
       : analysis.status === 'good'
-        ? '#f59e0b' // amber-500
-        : '#ef4444' // red-500
+        ? 'var(--color-warning, #F59E0B)'
+        : 'var(--color-error, #EF4444)'
 
   const scoreLabel =
     analysis.status === 'excellent' ? 'Excellent' : analysis.status === 'good' ? 'Good' : 'Needs Work'
@@ -173,10 +173,10 @@ export function SEOScorePanel() {
               check.status === 'pass' ? '✅' : check.status === 'warning' ? '⚠️' : '❌'
             const statusColor =
               check.status === 'pass'
-                ? '#22c55e'
+                ? 'var(--color-success, #00C853)'
                 : check.status === 'warning'
-                  ? '#f59e0b'
-                  : '#ef4444'
+                  ? 'var(--color-warning, #F59E0B)'
+                  : 'var(--color-error, #EF4444)'
 
             return (
               <div
@@ -266,13 +266,13 @@ export function SEOScorePanel() {
         }}
       >
         <div>
-          <span style={{ color: '#22c55e' }}>●</span> Excellent (80-100)
+          <span style={{ color: 'var(--color-success, #00C853)' }}>●</span> Excellent (80-100)
         </div>
         <div>
-          <span style={{ color: '#f59e0b' }}>●</span> Good (50-79)
+          <span style={{ color: 'var(--color-warning, #F59E0B)' }}>●</span> Good (50-79)
         </div>
         <div>
-          <span style={{ color: '#ef4444' }}>●</span> Poor (0-49)
+          <span style={{ color: 'var(--color-error, #EF4444)' }}>●</span> Poor (0-49)
         </div>
       </div>
     </div>

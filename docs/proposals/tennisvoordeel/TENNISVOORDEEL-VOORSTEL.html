@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tennis-voordeel — CompassDigital Voorstel (PDF)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @page {
+    size: A4;
+    margin: 20mm;
+  }
+
+  @media print {
+    body { padding: 0; background: white; }
+    .page { max-width: none; }
+    .page-break { page-break-before: always; }
+    .no-break { page-break-inside: avoid; }
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: white;
+    color: #0f172a;
+    padding: 40px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 3px solid #0f172a;
+  }
+  .header-left h1 {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+  }
+  .header-left h1 span { color: #65a30d; }
+  .header-left p { color: #64748b; font-size: 14px; }
+  .header-right {
+    text-align: right;
+    color: #64748b;
+    font-size: 13px;
+  }
+  .header-right strong { color: #0f172a; display: block; font-size: 15px; margin-bottom: 4px; }
+
+  /* ─── SECTIONS ─── */
+  h2 {
+    font-size: 20px;
+    font-weight: 800;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e2e8f0;
+    letter-spacing: -0.5px;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    color: #334155;
+  }
+
+  /* ─── TABLES ─── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+  th, td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  th {
+    background: #f8fafc;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+  }
+  tr:last-child td { border-bottom: none; }
+  .highlight-row { background: #f7fee7; }
+  .highlight-row td { font-weight: 700; }
+
+  /* ─── PRICING BOX ─── */
+  .pricing-box {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .pricing-item {
+    flex: 1;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+  }
+  .pricing-item.primary {
+    border-color: #65a30d;
+    background: #f7fee7;
+  }
+  .pricing-item .label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .pricing-item .amount {
+    font-size: 36px;
+    font-weight: 900;
+    color: #0f172a;
+  }
+  .pricing-item .amount span {
+    font-size: 16px;
+    font-weight: 500;
+    color: #94a3b8;
+  }
+  .pricing-item .sub {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+  }
+
+  /* ─── CODE/MONEY BLOCKS ─── */
+  .money-block {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: 'Inter', monospace;
+    font-size: 13px;
+    margin-bottom: 16px;
+    line-height: 1.8;
+  }
+  .money-block .total {
+    border-top: 2px solid #334155;
+    padding-top: 8px;
+    margin-top: 8px;
+    font-weight: 700;
+  }
+
+  /* ─── CHECK LIST ─── */
+  .check { color: #65a30d; font-weight: 700; }
+  .cross { color: #dc2626; font-weight: 700; }
+
+  /* ─── NOTE BOX ─── */
+  .note-box {
+    background: #fffbeb;
+    border-left: 4px solid #f59e0b;
+    padding: 16px 20px;
+    margin: 20px 0;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+  }
+  .note-box strong { color: #92400e; }
+  .note-box p { color: #a16207; margin-top: 4px; }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid #e2e8f0;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 12px;
+  }
+  .footer strong { color: #0f172a; }
+
+  ul { margin-left: 20px; margin-bottom: 12px; }
+  li { margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <h1>Tennis-voordeel &rarr; <span>CompassDigital</span></h1>
+      <p>Van 30+ WordPress plugins + Klaviyo naar &eacute;&eacute;n modern e-commerce platform met email marketing</p>
+    </div>
+    <div class="header-right">
+      <strong>CompassDigital</strong>
+      Datum: 4 maart 2026<br>
+      Geldig tot: 4 april 2026
+    </div>
+  </div>
+
+  <!-- HUIDIGE SITUATIE -->
+  <h2>1. Huidige Situatie</h2>
+
+  <p style="margin-bottom: 16px;">Tennis-voordeel draait op WooCommerce met <strong>30+ actieve plugins</strong>. Dit leidt tot hoge kosten, onderhoudslast en risico's.</p>
+
+  <h3>Core E-commerce &amp; Checkout</h3>
+  <table>
+    <thead><tr><th>Plugin</th><th>Functie</th><th>Kosten</th></tr></thead>
+    <tbody>
+      <tr><td>WooCommerce</td><td>Webshop engine</td><td>Gratis</td></tr>
+      <tr><td>Mollie Payments</td><td>Betalingen (iDEAL, CC, etc.)</td><td>Transactiekosten</td></tr>
+      <tr><td>Flux Checkout</td><td>Multi-step checkout</td><td>~&euro;10/mo</td></tr>
+      <tr><td>Product Add-ons</td><td>Extra productopties</td><td>~&euro;8/mo</td></tr>
+      <tr><td>Tiered Price Table</td><td>Staffelkortingen</td><td>~&euro;5/mo</td></tr>
+      <tr><td>NL Postcode Checker</td><td>Postcode auto-fill</td><td>~&euro;5/mo</td></tr>
+      <tr><td>MyParcel</td><td>Verzendlabels &amp; tracking</td><td>Gratis</td></tr>
+      <tr><td>PDF Invoices &amp; Packing Slips</td><td>Facturen &amp; pakbonnen</td><td>~&euro;5/mo</td></tr>
+      <tr><td>PW Gift Cards</td><td>Cadeaubonnen</td><td>~&euro;5/mo</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Product Presentatie &amp; Zoeken</h3>
+  <table>
+    <thead><tr><th>Plugin</th><th>Functie</th><th>Kosten</th></tr></thead>
+    <tbody>
+      <tr><td>Brands for WooCommerce (BeRocket)</td><td>Merken/brands</td><td>~&euro;5/mo</td></tr>
+      <tr><td>Acowebs Product Labels</td><td>Product badges</td><td>~&euro;4/mo</td></tr>
+      <tr><td>Swatchly</td><td>Variatie swatches</td><td>Gratis</td></tr>
+      <tr><td>Premmerce Product Filter (Premium)</td><td>Productfilters &amp; facets</td><td>~&euro;8/mo</td></tr>
+      <tr><td>Searchanise</td><td>Zoeken, suggesties</td><td>~&euro;9-40/mo</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Design, SEO, Marketing &amp; Overig</h3>
+  <table>
+    <thead><tr><th>Plugin</th><th>Functie</th><th>Kosten</th></tr></thead>
+    <tbody>
+      <tr><td>Elementor + Elementor Pro</td><td>Pagebuilder</td><td>~&euro;8/mo</td></tr>
+      <tr><td>Advanced Custom Fields</td><td>Custom velden</td><td>~&euro;4/mo</td></tr>
+      <tr><td>Gravity Forms</td><td>Formulieren</td><td>~&euro;8/mo</td></tr>
+      <tr><td>SmartCrawl</td><td>SEO tooling</td><td>Gratis</td></tr>
+      <tr><td>Smush</td><td>Afbeelding compressie</td><td>Gratis</td></tr>
+      <tr><td>Conversios.io</td><td>GA4, Pixels, Product Feeds</td><td>~&euro;10/mo</td></tr>
+      <tr><td>Permalink Manager Pro</td><td>Custom URLs</td><td>~&euro;5/mo</td></tr>
+      <tr><td>Loco Translate</td><td>Vertalingen</td><td>Gratis</td></tr>
+      <tr><td>WooMultistore</td><td>Multi-store beheer</td><td>~&euro;15/mo</td></tr>
+      <tr><td>Mailchimp for WooCommerce</td><td>Email marketing sync</td><td>Gratis</td></tr>
+      <tr><td><strong>Klaviyo / Mailchimp</strong></td><td><strong>Email marketing platform</strong></td><td><strong>~&euro;240/mo</strong></td></tr>
+      <tr><td>Hosting (SiteGround)</td><td>Server &amp; hosting</td><td>~&euro;30-100/mo</td></tr>
+    </tbody>
+  </table>
+
+  <div class="money-block">
+    Plugin licenties &amp; tools: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;150 - 200/mo<br>
+    Klaviyo / Mailchimp: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;240/mo<br>
+    Hosting (SiteGround): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;30 - 100/mo<br>
+    Eigen onderhoud &amp; updates: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onbetaalbaar<br>
+    <div class="total">TOTAAL GESCHAT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;420 - 540/mo + eigen tijd</div>
+  </div>
+
+  <!-- PAGE BREAK -->
+  <div class="page-break"></div>
+
+  <!-- VOORSTEL -->
+  <h2>2. CompassDigital Voorstel</h2>
+
+  <div class="pricing-box">
+    <div class="pricing-item">
+      <div class="label">Eenmalige Setup</div>
+      <div class="amount">&euro;6.500</div>
+      <div class="sub">2 shops, migratie, email marketing, configuratie, training</div>
+    </div>
+    <div class="pricing-item primary">
+      <div class="label">Maandelijks (2 shops)</div>
+      <div class="amount">&euro;728<span>/mo</span></div>
+      <div class="sub">All-inclusive: hosting, multi-store, email marketing, support</div>
+    </div>
+  </div>
+
+  <h3>Eenmalige Setup &mdash; Wat is inbegrepen</h3>
+  <table>
+    <thead><tr><th>Onderdeel</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td>Platform deployment</td><td>Server, domain, SSL, CDN configuratie</td></tr>
+      <tr><td>Data migratie</td><td>Producten, categorie&euml;n, merken, klantdata, orders overzetten</td></tr>
+      <tr><td>Design &amp; huisstijl</td><td>Logo, kleuren, typografie, templates op maat</td></tr>
+      <tr><td>E-commerce configuratie</td><td>Checkout, verzendkosten, BTW, email templates</td></tr>
+      <tr><td>Brands/merken</td><td>Merkenpagina&rsquo;s met logo&rsquo;s, filter op merk</td></tr>
+      <tr><td>Product labels &amp; badges</td><td>&ldquo;Nieuw&rdquo;, &ldquo;Sale&rdquo;, &ldquo;Populair&rdquo; configuratie</td></tr>
+      <tr><td>Variatie swatches</td><td>Kleur- en maatselectie visueel weergeven</td></tr>
+      <tr><td>Staffelprijzen</td><td>Kwantumkorting per product(groep)</td></tr>
+      <tr><td>Gift Cards</td><td>Cadeaubonnen systeem inrichten</td></tr>
+      <tr><td>Productfilters &amp; facets</td><td>Filters op merk, prijs, maat, kleur, categorie</td></tr>
+      <tr><td>Meilisearch</td><td>Zoeken, autocomplete, previews, suggesties</td></tr>
+      <tr><td>MyParcel integratie</td><td>Verzendlabels &amp; tracking</td></tr>
+      <tr><td>Mollie Payments</td><td>iDEAL, creditcard, Bancontact, etc.</td></tr>
+      <tr><td>Email Marketing Engine</td><td>Listmonk + GrapesJS: nieuwsbrieven, automations, drag &amp; drop templates (per shop)</td></tr>
+      <tr><td>Analytics &amp; Tracking</td><td>GA4, conversion tracking, event tracking</td></tr>
+      <tr><td>SEO migratie</td><td>301 redirects, meta data, sitemap, JSON-LD</td></tr>
+      <tr><td>Training</td><td>4 uur hands-on training voor team</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Betaling:</strong> 50% bij start, 50% bij oplevering &nbsp;|&nbsp; <strong>Doorlooptijd:</strong> 3-4 weken</p>
+
+  <h3 style="margin-top: 24px;">Maandelijks &mdash; Wat vervangt CompassDigital</h3>
+  <table>
+    <thead><tr><th>Inclusief bij &euro;728/mo</th><th>Vervangt</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Email Marketing Engine (Listmonk + GrapesJS)</strong></td><td><strong>Klaviyo / Mailchimp (&euro;240/mo)</strong></td></tr>
+      <tr><td>2x Enterprise hosting (CDN, SSL, backups)</td><td>SiteGround hosting (2 sites)</td></tr>
+      <tr><td>Multi-Store platform (2 shops)</td><td>WooMultistore</td></tr>
+      <tr><td>Meilisearch (zoeken, filters, autocomplete)</td><td>Searchanise + Premmerce Filter</td></tr>
+      <tr><td>Brands/merken systeem</td><td>Brands for WooCommerce</td></tr>
+      <tr><td>Product labels &amp; badges</td><td>Acowebs Product Labels</td></tr>
+      <tr><td>Variatie swatches</td><td>Swatchly</td></tr>
+      <tr><td>Staffelprijzen / kwantumkorting</td><td>Tiered Price Table</td></tr>
+      <tr><td>Product add-ons &amp; opties</td><td>WooCommerce Product Add-ons</td></tr>
+      <tr><td>Gift Cards systeem</td><td>PW Gift Cards</td></tr>
+      <tr><td>Geoptimaliseerde checkout</td><td>Flux Checkout</td></tr>
+      <tr><td>SEO analyzer &amp; JSON-LD</td><td>SmartCrawl</td></tr>
+      <tr><td>Afbeelding optimalisatie</td><td>Smush</td></tr>
+      <tr><td>Drag &amp; drop pagebuilder</td><td>Elementor Pro</td></tr>
+      <tr><td>Formulieren builder</td><td>Gravity Forms</td></tr>
+      <tr><td>Custom velden &amp; content types</td><td>Advanced Custom Fields</td></tr>
+      <tr><td>PDF facturen &amp; pakbonnen</td><td>PDF Invoices &amp; Packing Slips</td></tr>
+      <tr><td>Postcode validatie</td><td>NL Postcode Checker</td></tr>
+      <tr><td>Security patches (automatisch)</td><td>Security Optimizer</td></tr>
+      <tr><td>Platform updates &amp; nieuwe features</td><td>&mdash;</td></tr>
+      <tr><td>Email support (response 24u)</td><td>&mdash;</td></tr>
+      <tr><td>99.5% uptime SLA</td><td>&mdash;</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note-box" style="background: #f0fdf4; border-left-color: #65a30d;">
+    <strong style="color: #166534;">Email Marketing Engine vervangt Klaviyo/Mailchimp</strong>
+    <p style="color: #15803d;">Nieuwsbrieven, automations, drag &amp; drop templates, subscriber management &mdash; per shop. 25.000 contacten. Besparing: &euro;61/mo t.o.v. Klaviyo (&euro;179 vs &euro;240/mo).</p>
+  </div>
+
+  <!-- PAGE BREAK -->
+  <div class="page-break"></div>
+
+  <!-- INVESTERING -->
+  <h2>3. Investering Overzicht</h2>
+
+  <h3>Jaar 1</h3>
+  <div class="money-block">
+    Setup (eenmalig, 2 shops): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;6.500<br>
+    Maandelijks (12 &times; &euro;728): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;8.736<br>
+    <div class="total">TOTAAL JAAR 1: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;15.236</div>
+  </div>
+
+  <h3>Jaar 2+</h3>
+  <div class="money-block">
+    Maandelijks (12 &times; &euro;728): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;8.736<br>
+    <div class="total">TOTAAL PER JAAR: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;8.736</div>
+  </div>
+
+  <h3>3-Jaars Overzicht</h3>
+  <div class="money-block">
+    Jaar 1: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;15.236<br>
+    Jaar 2: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;8.736<br>
+    Jaar 3: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;8.736<br>
+    <div class="total">TOTAAL 3 JAAR: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;32.708<br>
+    Gemiddeld per maand: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;908</div>
+  </div>
+
+  <!-- VERGELIJKING -->
+  <h2>4. Vergelijking: Huidig vs. CompassDigital</h2>
+
+  <table>
+    <thead>
+      <tr><th>Onderdeel</th><th>WooCommerce (nu)</th><th style="color: #65a30d;">CompassDigital</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Platform (2 shops, alle features)</td><td>&euro;265-315/mo (plugins + hosting)</td><td style="color: #65a30d; font-weight: 600;">&euro;549/mo (inbegrepen)</td></tr>
+      <tr><td>Email Marketing</td><td>&euro;240/mo (Klaviyo/Mailchimp)</td><td style="color: #65a30d; font-weight: 600;">&euro;179/mo (Listmonk + GrapesJS, inbegrepen)</td></tr>
+      <tr><td>Aantal plugins</td><td>30+ (conflictrisico)</td><td style="color: #65a30d; font-weight: 600;">0 (alles ingebouwd)</td></tr>
+      <tr><td>Eigen onderhoud</td><td>4-8 uur/maand</td><td style="color: #65a30d; font-weight: 600;">0 uur (managed)</td></tr>
+      <tr><td>Performance</td><td>SiteGround caching</td><td style="color: #65a30d; font-weight: 600;">Native Next.js (razendsnel)</td></tr>
+      <tr><td>Zoekfunctie</td><td>Searchanise (extern)</td><td style="color: #65a30d; font-weight: 600;">Meilisearch (ingebouwd)</td></tr>
+      <tr><td>Productfilters</td><td>Premmerce (apart)</td><td style="color: #65a30d; font-weight: 600;">Native faceted filters</td></tr>
+      <tr><td>Merken/Brands</td><td>BeRocket (apart)</td><td style="color: #65a30d; font-weight: 600;">Native brands systeem</td></tr>
+      <tr><td>Security</td><td>Zelf bijhouden (30 plugins!)</td><td style="color: #65a30d; font-weight: 600;">Automatische patches</td></tr>
+      <tr><td>Support</td><td>Zelf uitzoeken</td><td style="color: #65a30d; font-weight: 600;">Dedicated support</td></tr>
+      <tr><td>Toekomstbestendig</td><td>WordPress lifecycle risico</td><td style="color: #65a30d; font-weight: 600;">Modern Next.js platform</td></tr>
+    </tbody>
+  </table>
+
+  <!-- WAAROM -->
+  <h2>5. Waarom Overstappen?</h2>
+
+  <ol style="margin-left: 20px; margin-bottom: 20px;">
+    <li style="margin-bottom: 8px;"><strong>30+ plugins &rarr; 1 platform</strong> &mdash; Geen plugin-conflicten, geen update-stress, geen licentie-chaos</li>
+    <li style="margin-bottom: 8px;"><strong>Razendsnel</strong> &mdash; Next.js met server-side rendering, geen externe caching nodig</li>
+    <li style="margin-bottom: 8px;"><strong>Alles ge&iuml;ntegreerd</strong> &mdash; Zoeken, filters, brands, labels, staffelprijzen, email marketing: &eacute;&eacute;n geheel</li>
+    <li style="margin-bottom: 8px;"><strong>Email marketing ingebouwd</strong> &mdash; Nieuwsbrieven, automations, templates &mdash; geen Klaviyo/Mailchimp meer nodig (besparing &euro;61/mo)</li>
+    <li style="margin-bottom: 8px;"><strong>Veiliger</strong> &mdash; Geen 30 aanvalsoppervlakken, automatische security patches</li>
+    <li style="margin-bottom: 8px;"><strong>Geen onderhoud</strong> &mdash; Wij regelen alle updates, jij focust op tennisartikelen verkopen</li>
+    <li style="margin-bottom: 8px;"><strong>Toekomstbestendig</strong> &mdash; Modern platform dat meegroeit, geen WordPress end-of-life risico</li>
+    <li style="margin-bottom: 8px;"><strong>Besparing op eigen tijd</strong> &mdash; Geen 4-8 uur/maand besteden aan plugin-updates en troubleshooting</li>
+  </ol>
+
+  <!-- CONTRACT -->
+  <h2>6. Contractvoorwaarden</h2>
+
+  <div class="money-block">
+    Setup fee: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;6.500 (50% vooraf, 50% bij oplevering)<br>
+    Maandelijkse fee: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;728/mo (jaarcontract, maandelijks betalen)<br>
+    Inclusief: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 webshops + Email Marketing Engine<br>
+    Minimum looptijd: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12 maanden<br>
+    Opzegtermijn: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3 maanden<br>
+    Development uren: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&euro;125/uur (vooraf offerte, achteraf factuur)
+  </div>
+
+  <h3>Optionele Add-ons</h3>
+  <table>
+    <thead><tr><th>Add-on</th><th>Prijs</th></tr></thead>
+    <tbody>
+      <tr><td>Priority Support (4u response, WhatsApp)</td><td>&euro;149/mo</td></tr>
+      <tr><td>Content Management (4u/mo updates)</td><td>&euro;199/mo</td></tr>
+      <tr><td>Maandelijkse SEO &amp; performance audit</td><td>&euro;249/mo</td></tr>
+      <tr><td>Extra shop toevoegen (bijv. Badminton-voordeel)</td><td>&euro;100/mo + &euro;800 setup</td></tr>
+      <tr><td>Extra development uren</td><td>&euro;125/uur (4u blokken)</td></tr>
+    </tbody>
+  </table>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <strong>CompassDigital</strong> &mdash; Twee shops, email marketing inbegrepen, nul plugin-chaos.<br>
+    Voorstel geldig tot 4 april 2026
+  </div>
+
+</div>
+</body>
+</html>

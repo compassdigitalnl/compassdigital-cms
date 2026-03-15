@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accommodaties | Compass Toerisme</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Toerisme Colors */
+      --cyan: #00BCD4;
+      --cyan-light: #26C6DA;
+      --cyan-dark: #0097A7;
+      --ocean: #0a2e36;
+      --ocean-light: #0d3a44;
+      --ocean-deep: #071d23;
+
+      /* Status Colors */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,46,54,0.06);
+      --shadow-md: 0 8px 24px rgba(10,46,54,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,46,54,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--ocean);
+      background: var(--bg);
+    }
+
+    /* Header */
+    .header {
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      padding: 0 24px;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--cyan);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-link {
+      color: var(--grey-dark);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 13px;
+      transition: var(--transition);
+    }
+
+    .nav-link:hover {
+      color: var(--cyan);
+    }
+
+    .nav-link.active {
+      color: var(--ocean);
+      font-weight: 700;
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      padding: 12px 24px;
+    }
+
+    .breadcrumbs-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .breadcrumb-link {
+      color: var(--grey-mid);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .breadcrumb-link:hover {
+      color: var(--cyan);
+    }
+
+    .breadcrumb-separator {
+      color: var(--grey-mid);
+    }
+
+    .breadcrumb-current {
+      color: var(--ocean);
+      font-weight: 600;
+    }
+
+    /* Page Header */
+    .page-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      padding: 32px 24px;
+    }
+
+    .page-header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .page-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--ocean);
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--grey-dark);
+    }
+
+    /* Search Bar */
+    .search-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      padding: 20px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-bar-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .search-field {
+      flex: 1;
+    }
+
+    .search-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ocean);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 13px;
+      color: var(--ocean);
+      transition: var(--transition);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0,188,212,0.1);
+    }
+
+    .search-btn {
+      padding: 10px 24px;
+      background: var(--cyan);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .search-btn:hover {
+      background: var(--cyan-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .search-btn i {
+      width: 16px;
+      height: 16px;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .results-count {
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .results-count strong {
+      color: var(--ocean);
+      font-weight: 700;
+    }
+
+    .sort-select {
+      padding: 8px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--ocean);
+      cursor: pointer;
+    }
+
+    /* Main Content */
+    .main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: sticky;
+      top: 150px;
+    }
+
+    .filter-section {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .filter-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--ocean);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-title i {
+      width: 16px;
+      height: 16px;
+      color: var(--cyan);
+    }
+
+    .filter-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .filter-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-checkbox input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .filter-checkbox label {
+      flex: 1;
+      font-size: 12px;
+      color: var(--ocean);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .filter-count {
+      color: var(--grey-mid);
+      font-size: 11px;
+    }
+
+    .price-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .price-input {
+      padding: 8px 10px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .price-input:focus {
+      outline: none;
+      border-color: var(--cyan);
+    }
+
+    .filter-reset {
+      width: 100%;
+      padding: 10px;
+      background: none;
+      border: 1.5px solid var(--grey);
+      color: var(--grey-dark);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .filter-reset:hover {
+      border-color: var(--ocean);
+      color: var(--ocean);
+    }
+
+    /* Accommodations Grid */
+    .accommodations-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .accommodation-card {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .accommodation-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .accommodation-image {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, var(--ocean), var(--ocean-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      opacity: 0.3;
+      overflow: hidden;
+    }
+
+    .accommodation-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .accommodation-badge.bestseller {
+      background: var(--amber);
+      color: white;
+    }
+
+    .accommodation-badge.deal {
+      background: var(--coral);
+      color: white;
+    }
+
+    .accommodation-wishlist {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .accommodation-wishlist:hover {
+      transform: scale(1.1);
+    }
+
+    .accommodation-wishlist i {
+      width: 16px;
+      height: 16px;
+      color: var(--grey-dark);
+    }
+
+    .accommodation-content {
+      padding: 20px;
+    }
+
+    .accommodation-location {
+      font-size: 11px;
+      color: var(--cyan);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .accommodation-location i {
+      width: 12px;
+      height: 12px;
+    }
+
+    .accommodation-name {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--ocean);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .accommodation-rating {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .rating-stars {
+      display: flex;
+      gap: 2px;
+    }
+
+    .rating-stars i {
+      width: 12px;
+      height: 12px;
+      color: var(--amber);
+    }
+
+    .rating-score {
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--ocean);
+    }
+
+    .rating-count {
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    .accommodation-distance {
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .accommodation-distance i {
+      width: 12px;
+      height: 12px;
+    }
+
+    .accommodation-facilities {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .facility-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .facility-icon i {
+      width: 18px;
+      height: 18px;
+      color: var(--cyan);
+    }
+
+    .facility-label {
+      font-size: 9px;
+      color: var(--grey-mid);
+      text-align: center;
+    }
+
+    .accommodation-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .accommodation-price {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .price-amount {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ocean);
+    }
+
+    .price-period {
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    .accommodation-cta {
+      padding: 8px 16px;
+      background: var(--cyan);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .accommodation-cta:hover {
+      background: var(--cyan-dark);
+      transform: translateY(-1px);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .main {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .filter-section {
+        margin-bottom: 0;
+      }
+
+      .filter-reset {
+        grid-column: 1 / -1;
+      }
+
+      .accommodations-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .search-bar-content {
+        flex-wrap: wrap;
+      }
+
+      .search-field {
+        flex: 1 1 calc(50% - 6px);
+        min-width: 140px;
+      }
+
+      .search-btn {
+        flex: 1 1 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .main {
+        padding: 24px 16px;
+      }
+
+      .page-header {
+        padding: 24px 16px;
+      }
+
+      .page-title {
+        font-size: 24px;
+      }
+
+      .sidebar {
+        grid-template-columns: 1fr;
+      }
+
+      .search-field {
+        flex: 1 1 100%;
+      }
+
+      .accommodation-facilities {
+        flex-wrap: wrap;
+      }
+
+      .facility-icon {
+        flex: 0 0 calc(25% - 9px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <a href="toerisme-homepage.html" class="logo">
+        <i data-lucide="palm-tree"></i>
+        Compass Toerisme
+      </a>
+      <nav class="nav">
+        <a href="toerisme-reizen-overzicht.html" class="nav-link">Reizen</a>
+        <a href="toerisme-accommodatie-overzicht.html" class="nav-link active">Accommodaties</a>
+        <a href="#" class="nav-link">Vluchten</a>
+        <a href="#" class="nav-link">Autoverhuur</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs">
+    <div class="breadcrumbs-content">
+      <a href="toerisme-homepage.html" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-separator">›</span>
+      <span class="breadcrumb-current">Accommodaties</span>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-content">
+      <h1 class="page-title">Accommodaties</h1>
+      <p class="page-subtitle">Ontdek unieke plekken om te verblijven over de hele wereld</p>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <div class="search-bar-content">
+      <div class="search-field">
+        <label class="search-label">Bestemming</label>
+        <input type="text" class="search-input" placeholder="Waar wil je naartoe?" id="destination">
+      </div>
+      <div class="search-field">
+        <label class="search-label">Check-in</label>
+        <input type="date" class="search-input" id="checkin">
+      </div>
+      <div class="search-field">
+        <label class="search-label">Check-out</label>
+        <input type="date" class="search-input" id="checkout">
+      </div>
+      <div class="search-field">
+        <label class="search-label">Gasten</label>
+        <select class="search-input" id="guests">
+          <option value="1">1 gast</option>
+          <option value="2" selected>2 gasten</option>
+          <option value="3">3 gasten</option>
+          <option value="4">4 gasten</option>
+          <option value="5+">5+ gasten</option>
+        </select>
+      </div>
+      <button class="search-btn" onclick="applySearch()">
+        <i data-lucide="search"></i>
+        Zoeken
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Sidebar Filters -->
+    <aside class="sidebar">
+      <div class="filter-section">
+        <div class="filter-title">
+          <i data-lucide="euro"></i>
+          Prijs per nacht
+        </div>
+        <div class="filter-options">
+          <div class="filter-checkbox">
+            <input type="checkbox" id="price-budget" data-filter="price" data-value="budget" onchange="applyFilters()">
+            <label for="price-budget">
+              <span>€ 0 - € 75</span>
+              <span class="filter-count">(34)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="price-mid" data-filter="price" data-value="mid" onchange="applyFilters()">
+            <label for="price-mid">
+              <span>€ 75 - € 150</span>
+              <span class="filter-count">(52)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="price-high" data-filter="price" data-value="high" onchange="applyFilters()">
+            <label for="price-high">
+              <span>€ 150 - € 300</span>
+              <span class="filter-count">(28)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="price-luxury" data-filter="price" data-value="luxury" onchange="applyFilters()">
+            <label for="price-luxury">
+              <span>€ 300+</span>
+              <span class="filter-count">(12)</span>
+            </label>
+          </div>
+        </div>
+        <div class="price-inputs">
+          <input type="number" class="price-input" placeholder="Min €" id="priceMin" onchange="applyFilters()">
+          <input type="number" class="price-input" placeholder="Max €" id="priceMax" onchange="applyFilters()">
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-title">
+          <i data-lucide="star"></i>
+          Beoordeling
+        </div>
+        <div class="filter-options">
+          <div class="filter-checkbox">
+            <input type="checkbox" id="rating-excellent" data-filter="rating" data-value="9" onchange="applyFilters()">
+            <label for="rating-excellent">
+              <span>Uitstekend 9+</span>
+              <span class="filter-count">(45)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="rating-verygood" data-filter="rating" data-value="8" onchange="applyFilters()">
+            <label for="rating-verygood">
+              <span>Zeer goed 8+</span>
+              <span class="filter-count">(78)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="rating-good" data-filter="rating" data-value="7" onchange="applyFilters()">
+            <label for="rating-good">
+              <span>Goed 7+</span>
+              <span class="filter-count">(98)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-title">
+          <i data-lucide="building-2"></i>
+          Type accommodatie
+        </div>
+        <div class="filter-options">
+          <div class="filter-checkbox">
+            <input type="checkbox" id="type-hotel" data-filter="type" data-value="hotel" onchange="applyFilters()">
+            <label for="type-hotel">
+              <span>Hotel</span>
+              <span class="filter-count">(68)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="type-apartment" data-filter="type" data-value="apartment" onchange="applyFilters()">
+            <label for="type-apartment">
+              <span>Appartement</span>
+              <span class="filter-count">(42)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="type-resort" data-filter="type" data-value="resort" onchange="applyFilters()">
+            <label for="type-resort">
+              <span>Resort</span>
+              <span class="filter-count">(18)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="type-villa" data-filter="type" data-value="villa" onchange="applyFilters()">
+            <label for="type-villa">
+              <span>Villa</span>
+              <span class="filter-count">(14)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-title">
+          <i data-lucide="wifi"></i>
+          Faciliteiten
+        </div>
+        <div class="filter-options">
+          <div class="filter-checkbox">
+            <input type="checkbox" id="facility-wifi" data-filter="facility" data-value="wifi" onchange="applyFilters()">
+            <label for="facility-wifi">
+              <span>Gratis WiFi</span>
+              <span class="filter-count">(112)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="facility-pool" data-filter="facility" data-value="pool" onchange="applyFilters()">
+            <label for="facility-pool">
+              <span>Zwembad</span>
+              <span class="filter-count">(56)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="facility-parking" data-filter="facility" data-value="parking" onchange="applyFilters()">
+            <label for="facility-parking">
+              <span>Gratis parkeren</span>
+              <span class="filter-count">(78)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="facility-restaurant" data-filter="facility" data-value="restaurant" onchange="applyFilters()">
+            <label for="facility-restaurant">
+              <span>Restaurant</span>
+              <span class="filter-count">(64)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="facility-spa" data-filter="facility" data-value="spa" onchange="applyFilters()">
+            <label for="facility-spa">
+              <span>Spa & Wellness</span>
+              <span class="filter-count">(32)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <button class="filter-reset" onclick="resetFilters()">
+        <i data-lucide="x"></i>
+        Reset alle filters
+      </button>
+    </aside>
+
+    <!-- Accommodations Grid -->
+    <div>
+      <div class="results-header">
+        <div class="results-count" id="resultsCount">
+          <strong>126</strong> accommodaties gevonden
+        </div>
+        <select class="sort-select" id="sortSelect" onchange="sortAccommodations()">
+          <option value="recommended">Aanbevolen</option>
+          <option value="price-low">Prijs: Laag naar Hoog</option>
+          <option value="price-high">Prijs: Hoog naar Laag</option>
+          <option value="rating">Beoordeling</option>
+          <option value="distance">Afstand tot centrum</option>
+        </select>
+      </div>
+
+      <div class="accommodations-grid" id="accommodationsGrid">
+        <!-- Accommodation Card 1 -->
+        <div class="accommodation-card" data-type="hotel" data-price="145" data-rating="9.2" data-facilities="wifi,pool,restaurant,spa" onclick="window.location.href='toerisme-accommodatie-detail.html'">
+          <div class="accommodation-image">
+            🏨
+            <div class="accommodation-badge bestseller">Bestseller</div>
+            <div class="accommodation-wishlist">
+              <i data-lucide="heart"></i>
+            </div>
+          </div>
+          <div class="accommodation-content">
+            <div class="accommodation-location">
+              <i data-lucide="map-pin"></i>
+              Bali, Indonesië
+            </div>
+            <h3 class="accommodation-name">The Laguna Resort & Spa</h3>
+            <div class="accommodation-rating">
+              <div class="rating-stars">
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+              </div>
+              <span class="rating-score">9.2</span>
+              <span class="rating-count">(428 reviews)</span>
+            </div>
+            <div class="accommodation-distance">
+              <i data-lucide="navigation"></i>
+              1.2 km van centrum
+            </div>
+            <div class="accommodation-facilities">
+              <div class="facility-icon">
+                <i data-lucide="wifi"></i>
+                <span class="facility-label">WiFi</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="waves"></i>
+                <span class="facility-label">Zwembad</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="utensils"></i>
+                <span class="facility-label">Restaurant</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="sparkles"></i>
+                <span class="facility-label">Spa</span>
+              </div>
+            </div>
+            <div class="accommodation-footer">
+              <div class="accommodation-price">
+                <span class="price-amount">€ 145</span>
+                <span class="price-period">per nacht</span>
+              </div>
+              <button class="accommodation-cta">Bekijk kamers</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accommodation Card 2 -->
+        <div class="accommodation-card" data-type="apartment" data-price="89" data-rating="8.8" data-facilities="wifi,parking">
+          <div class="accommodation-image">
+            🏡
+            <div class="accommodation-badge deal">Aanbieding</div>
+            <div class="accommodation-wishlist">
+              <i data-lucide="heart"></i>
+            </div>
+          </div>
+          <div class="accommodation-content">
+            <div class="accommodation-location">
+              <i data-lucide="map-pin"></i>
+              Ubud, Bali
+            </div>
+            <h3 class="accommodation-name">Tropical Garden Apartment</h3>
+            <div class="accommodation-rating">
+              <div class="rating-stars">
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+              </div>
+              <span class="rating-score">8.8</span>
+              <span class="rating-count">(192 reviews)</span>
+            </div>
+            <div class="accommodation-distance">
+              <i data-lucide="navigation"></i>
+              0.8 km van centrum
+            </div>
+            <div class="accommodation-facilities">
+              <div class="facility-icon">
+                <i data-lucide="wifi"></i>
+                <span class="facility-label">WiFi</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="car"></i>
+                <span class="facility-label">Parkeren</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="coffee"></i>
+                <span class="facility-label">Keuken</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="wind"></i>
+                <span class="facility-label">Airco</span>
+              </div>
+            </div>
+            <div class="accommodation-footer">
+              <div class="accommodation-price">
+                <span class="price-amount">€ 89</span>
+                <span class="price-period">per nacht</span>
+              </div>
+              <button class="accommodation-cta">Bekijk kamers</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional cards would continue here (cards 3-12) -->
+        <!-- For brevity, showing pattern with 2 examples -->
+
+        <!-- Accommodation Card 3 -->
+        <div class="accommodation-card" data-type="resort" data-price="285" data-rating="9.6" data-facilities="wifi,pool,restaurant,spa,gym">
+          <div class="accommodation-image">
+            🏖️
+            <div class="accommodation-wishlist">
+              <i data-lucide="heart"></i>
+            </div>
+          </div>
+          <div class="accommodation-content">
+            <div class="accommodation-location">
+              <i data-lucide="map-pin"></i>
+              Nusa Dua, Bali
+            </div>
+            <h3 class="accommodation-name">Grand Mirage Beach Resort</h3>
+            <div class="accommodation-rating">
+              <div class="rating-stars">
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+              </div>
+              <span class="rating-score">9.6</span>
+              <span class="rating-count">(672 reviews)</span>
+            </div>
+            <div class="accommodation-distance">
+              <i data-lucide="navigation"></i>
+              Direct aan het strand
+            </div>
+            <div class="accommodation-facilities">
+              <div class="facility-icon">
+                <i data-lucide="wifi"></i>
+                <span class="facility-label">WiFi</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="waves"></i>
+                <span class="facility-label">Zwembad</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="utensils"></i>
+                <span class="facility-label">Restaurant</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="dumbbell"></i>
+                <span class="facility-label">Gym</span>
+              </div>
+            </div>
+            <div class="accommodation-footer">
+              <div class="accommodation-price">
+                <span class="price-amount">€ 285</span>
+                <span class="price-period">per nacht</span>
+              </div>
+              <button class="accommodation-cta">Bekijk kamers</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accommodation Card 4 -->
+        <div class="accommodation-card" data-type="villa" data-price="195" data-rating="9.1" data-facilities="wifi,pool,parking">
+          <div class="accommodation-image">
+            🏘️
+            <div class="accommodation-wishlist">
+              <i data-lucide="heart"></i>
+            </div>
+          </div>
+          <div class="accommodation-content">
+            <div class="accommodation-location">
+              <i data-lucide="map-pin"></i>
+              Seminyak, Bali
+            </div>
+            <h3 class="accommodation-name">Sunset Villa Seminyak</h3>
+            <div class="accommodation-rating">
+              <div class="rating-stars">
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+              </div>
+              <span class="rating-score">9.1</span>
+              <span class="rating-count">(254 reviews)</span>
+            </div>
+            <div class="accommodation-distance">
+              <i data-lucide="navigation"></i>
+              0.5 km van strand
+            </div>
+            <div class="accommodation-facilities">
+              <div class="facility-icon">
+                <i data-lucide="wifi"></i>
+                <span class="facility-label">WiFi</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="waves"></i>
+                <span class="facility-label">Privé pool</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="car"></i>
+                <span class="facility-label">Parkeren</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="coffee"></i>
+                <span class="facility-label">Keuken</span>
+              </div>
+            </div>
+            <div class="accommodation-footer">
+              <div class="accommodation-price">
+                <span class="price-amount">€ 195</span>
+                <span class="price-period">per nacht</span>
+              </div>
+              <button class="accommodation-cta">Bekijk kamers</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cards 5-12 would continue with similar pattern -->
+        <div class="accommodation-card" data-type="hotel" data-price="112" data-rating="8.5" data-facilities="wifi,restaurant,parking">
+          <div class="accommodation-image">🏨</div>
+          <div class="accommodation-content">
+            <div class="accommodation-location">
+              <i data-lucide="map-pin"></i>
+              Kuta, Bali
+            </div>
+            <h3 class="accommodation-name">Beachfront Hotel Kuta</h3>
+            <div class="accommodation-rating">
+              <div class="rating-stars">
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+              </div>
+              <span class="rating-score">8.5</span>
+              <span class="rating-count">(318 reviews)</span>
+            </div>
+            <div class="accommodation-distance">
+              <i data-lucide="navigation"></i>
+              Direct aan het strand
+            </div>
+            <div class="accommodation-facilities">
+              <div class="facility-icon">
+                <i data-lucide="wifi"></i>
+                <span class="facility-label">WiFi</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="utensils"></i>
+                <span class="facility-label">Restaurant</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="car"></i>
+                <span class="facility-label">Parkeren</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="wind"></i>
+                <span class="facility-label">Airco</span>
+              </div>
+            </div>
+            <div class="accommodation-footer">
+              <div class="accommodation-price">
+                <span class="price-amount">€ 112</span>
+                <span class="price-period">per nacht</span>
+              </div>
+              <button class="accommodation-cta">Bekijk kamers</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="accommodation-card" data-type="apartment" data-price="75" data-rating="8.2" data-facilities="wifi,parking">
+          <div class="accommodation-image">🏡</div>
+          <div class="accommodation-content">
+            <div class="accommodation-location">
+              <i data-lucide="map-pin"></i>
+              Sanur, Bali
+            </div>
+            <h3 class="accommodation-name">Cozy Sanur Apartment</h3>
+            <div class="accommodation-rating">
+              <div class="rating-stars">
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+              </div>
+              <span class="rating-score">8.2</span>
+              <span class="rating-count">(145 reviews)</span>
+            </div>
+            <div class="accommodation-distance">
+              <i data-lucide="navigation"></i>
+              1.5 km van centrum
+            </div>
+            <div class="accommodation-facilities">
+              <div class="facility-icon">
+                <i data-lucide="wifi"></i>
+                <span class="facility-label">WiFi</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="car"></i>
+                <span class="facility-label">Parkeren</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="coffee"></i>
+                <span class="facility-label">Keuken</span>
+              </div>
+              <div class="facility-icon">
+                <i data-lucide="fan"></i>
+                <span class="facility-label">Balkon</span>
+              </div>
+            </div>
+            <div class="accommodation-footer">
+              <div class="accommodation-price">
+                <span class="price-amount">€ 75</span>
+                <span class="price-period">per nacht</span>
+              </div>
+              <button class="accommodation-cta">Bekijk kamers</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Continue pattern for cards 7-12 -->
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    const accommodationCards = document.querySelectorAll('.accommodation-card');
+    const resultsCount = document.getElementById('resultsCount');
+
+    // Apply filters
+    function applyFilters() {
+      let visibleCount = 0;
+
+      accommodationCards.forEach(card => {
+        const type = card.dataset.type;
+        const price = parseInt(card.dataset.price);
+        const rating = parseFloat(card.dataset.rating);
+        const facilities = card.dataset.facilities ? card.dataset.facilities.split(',') : [];
+
+        // Type filters
+        const typeCheckboxes = document.querySelectorAll('[data-filter="type"]:checked');
+        const typeMatch = typeCheckboxes.length === 0 || Array.from(typeCheckboxes).some(cb => cb.dataset.value === type);
+
+        // Price filters
+        const priceMin = document.getElementById('priceMin').value;
+        const priceMax = document.getElementById('priceMax').value;
+        let priceMatch = (!priceMin || price >= priceMin) && (!priceMax || price <= priceMax);
+
+        // If no custom range, check checkboxes
+        if (!priceMin && !priceMax) {
+          const priceCheckboxes = document.querySelectorAll('[data-filter="price"]:checked');
+          if (priceCheckboxes.length > 0) {
+            priceMatch = Array.from(priceCheckboxes).some(cb => {
+              const val = cb.dataset.value;
+              if (val === 'budget' && price >= 0 && price <= 75) return true;
+              if (val === 'mid' && price > 75 && price <= 150) return true;
+              if (val === 'high' && price > 150 && price <= 300) return true;
+              if (val === 'luxury' && price > 300) return true;
+              return false;
+            });
+          }
+        }
+
+        // Rating filters
+        const ratingCheckboxes = document.querySelectorAll('[data-filter="rating"]:checked');
+        let ratingMatch = ratingCheckboxes.length === 0;
+        if (ratingCheckboxes.length > 0) {
+          ratingMatch = Array.from(ratingCheckboxes).some(cb => {
+            const minRating = parseFloat(cb.dataset.value);
+            return rating >= minRating;
+          });
+        }
+
+        // Facility filters
+        const facilityCheckboxes = document.querySelectorAll('[data-filter="facility"]:checked');
+        let facilityMatch = facilityCheckboxes.length === 0;
+        if (facilityCheckboxes.length > 0) {
+          facilityMatch = Array.from(facilityCheckboxes).every(cb => {
+            return facilities.includes(cb.dataset.value);
+          });
+        }
+
+        // Show/hide card
+        if (typeMatch && priceMatch && ratingMatch && facilityMatch) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      resultsCount.innerHTML = `<strong>${visibleCount}</strong> ${visibleCount === 1 ? 'accommodatie' : 'accommodaties'} gevonden`;
+    }
+
+    // Reset filters
+    function resetFilters() {
+      document.querySelectorAll('[data-filter]').forEach(cb => cb.checked = false);
+      document.getElementById('priceMin').value = '';
+      document.getElementById('priceMax').value = '';
+      applyFilters();
+    }
+
+    // Search (placeholder)
+    function applySearch() {
+      alert('Zoekfunctie wordt geactiveerd.\n\nIn productie: filters toepassen op bestemming, datums en aantal gasten.');
+    }
+
+    // Sort accommodations
+    function sortAccommodations() {
+      const sortValue = document.getElementById('sortSelect').value;
+      const grid = document.getElementById('accommodationsGrid');
+      const cards = Array.from(accommodationCards);
+
+      cards.sort((a, b) => {
+        if (sortValue === 'price-low') {
+          return parseInt(a.dataset.price) - parseInt(b.dataset.price);
+        } else if (sortValue === 'price-high') {
+          return parseInt(b.dataset.price) - parseInt(a.dataset.price);
+        } else if (sortValue === 'rating') {
+          return parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating);
+        }
+        return 0; // Default (recommended)
+      });
+
+      cards.forEach(card => grid.appendChild(card));
+      setTimeout(() => lucide.createIcons(), 50);
+    }
+
+    /**
+     * PAYLOAD CMS INTEGRATION
+     *
+     * Collection: Accommodation
+     * Fields:
+     * - name: text (required)
+     * - slug: text (auto-generated)
+     * - type: select (hotel | apartment | resort | villa | hostel | bnb)
+     * - destination: relationship (to Destination collection)
+     * - location: group {
+     *     address: text
+     *     city: text
+     *     country: text
+     *     coordinates: point (lat/lng)
+     *     distanceFromCenter: number (km)
+     *   }
+     * - images: array of uploads
+     * - description: richText
+     * - rating: number (1-10, calculated from reviews)
+     * - reviewCount: number (auto-calculated)
+     * - pricePerNight: number (starting price)
+     * - facilities: array {
+     *     facility: relationship (to Facility collection)
+     *   }
+     * - rooms: array {
+     *     name: text
+     *     type: select (single | double | twin | suite | family)
+     *     capacity: number (max guests)
+     *     beds: text
+     *     size: number (m²)
+     *     pricePerNight: number
+     *     availability: number (total rooms)
+     *     facilities: array (room-specific)
+     *     images: array of uploads
+     *   }
+     * - policies: group {
+     *     checkinTime: text
+     *     checkoutTime: text
+     *     cancellationPolicy: richText
+     *     childrenPolicy: richText
+     *     petsAllowed: checkbox
+     *     smokingAllowed: checkbox
+     *   }
+     * - meals: select[] (breakfast | halfBoard | fullBoard | allInclusive)
+     * - badges: select[] (bestseller | deal | new | topRated)
+     * - featured: checkbox
+     * - status: select (active | inactive | soldOut)
+     */
+  </script>
+</body>
+</html>

@@ -3,8 +3,9 @@ import { checkRole } from '@/access/utilities'
 import { shouldHideContentCollection } from '@/lib/tenant/shouldHideCollection'
 import { getCachedSiteBranch } from '@/lib/tenant/contentModules'
 import { branchOptions } from '../ContentServices'
-import { bookingStatusHook } from '@/branches/beauty/hooks/bookingStatusHook'
-import { reservationStatusHook } from '@/branches/horeca/hooks/reservationStatusHook'
+import { bookingStatusHook } from '@/branches/shared/hooks/bookingStatusHook'
+import { reservationStatusHook } from '@/branches/shared/hooks/reservationStatusHook'
+import { viewingStatusHook } from '@/branches/shared/hooks/viewingStatusHook'
 
 /**
  * Content Bookings — Unified collection
@@ -42,6 +43,7 @@ export const ContentBookings: CollectionConfig = {
     afterChange: [
       bookingStatusHook,
       reservationStatusHook,
+      viewingStatusHook,
     ],
   },
   fields: [
@@ -259,6 +261,76 @@ export const ContentBookings: CollectionConfig = {
               type: 'checkbox',
               label: 'Reisverzekering',
               admin: { condition: (_, s) => s?.branch === 'toerisme' },
+            },
+            // Vastgoed-specifiek
+            {
+              name: 'property',
+              type: 'relationship',
+              relationTo: 'properties',
+              label: 'Gekoppelde woning',
+              admin: { condition: (_, s) => s?.branch === 'vastgoed' },
+            },
+            {
+              name: 'viewingType',
+              type: 'select',
+              label: 'Type bezichtiging',
+              options: [
+                { label: 'Fysiek', value: 'fysiek' },
+                { label: 'Online', value: 'online' },
+              ],
+              admin: { condition: (_, s) => s?.branch === 'vastgoed' },
+            },
+            {
+              name: 'preferredDate',
+              type: 'date',
+              label: 'Gewenste datum',
+              admin: {
+                condition: (_, s) => s?.branch === 'vastgoed',
+                date: { pickerAppearance: 'dayOnly' },
+              },
+            },
+            {
+              name: 'preferredTime',
+              type: 'text',
+              label: 'Gewenst tijdstip',
+              admin: {
+                condition: (_, s) => s?.branch === 'vastgoed',
+                placeholder: '14:00',
+              },
+            },
+            {
+              name: 'isValuation',
+              type: 'checkbox',
+              label: 'Waardebepaling (i.p.v. bezichtiging)',
+              defaultValue: false,
+              admin: { condition: (_, s) => s?.branch === 'vastgoed' },
+            },
+            {
+              name: 'propertyAddress',
+              type: 'text',
+              label: 'Adres (voor waardebepaling)',
+              admin: {
+                condition: (_, s) => s?.branch === 'vastgoed',
+                description: 'Adres wanneer er geen gekoppelde woning is',
+              },
+            },
+            {
+              name: 'propertyType',
+              type: 'select',
+              label: 'Woningtype (voor waardebepaling)',
+              options: [
+                { label: 'Appartement', value: 'appartement' },
+                { label: 'Woonhuis', value: 'woonhuis' },
+                { label: 'Villa', value: 'villa' },
+                { label: 'Penthouse', value: 'penthouse' },
+              ],
+              admin: { condition: (_, s) => s?.branch === 'vastgoed' },
+            },
+            {
+              name: 'propertyArea',
+              type: 'number',
+              label: 'Oppervlakte (m²)',
+              admin: { condition: (_, s) => s?.branch === 'vastgoed' },
             },
           ],
         },

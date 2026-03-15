@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mix & Match: Stel je eigen box samen — digistore</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--shadow-lg:0 16px 48px rgba(10,22,40,0.12);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1240px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  /* Header */
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);text-decoration:none;}.logo em{color:var(--teal);font-style:normal;}.search-wrap{width:100%;max-width:600px;justify-self:center;position:relative;}.search-field{width:100%;height:44px;padding:0 16px 0 48px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--navy);background:var(--grey-light);outline:none;}.search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);}.search-icon i{width:18px;height:18px;color:var(--grey-mid);}.header-actions{display:flex;align-items:center;gap:6px;}.h-btn{height:42px;border-radius:10px;border:1.5px solid transparent;background:var(--grey-light);color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;}.h-btn i{width:19px;height:19px;}.h-btn:hover{background:var(--teal-glow);color:var(--teal);}.h-btn-icon{width:42px;}.h-btn-cart{width:auto;padding:0 16px 0 12px;gap:8px;font-weight:700;font-size:13.5px;background:var(--navy);color:white;border-color:var(--navy);}.h-btn-cart i{color:white;}.h-btn-cart:hover{background:var(--teal);border-color:var(--teal);}.cart-count{background:var(--coral);color:white;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:100px;display:flex;align-items:center;justify-content:center;padding:0 5px;}
+
+  /* Hero banner */
+  .mm-hero{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:36px 0;position:relative;overflow:hidden;}
+  .mm-hero::before{content:'';position:absolute;top:-80px;right:-40px;width:400px;height:400px;background:radial-gradient(circle,rgba(0,137,123,.1),transparent 70%);border-radius:50%;}
+  .mmh-inner{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2;}
+  .mmh-left{}.mmh-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(0,137,123,.12);border:1px solid rgba(0,137,123,.2);padding:4px 12px;border-radius:100px;font-size:12px;font-weight:700;color:var(--teal-light);margin-bottom:6px;}.mmh-badge i{width:12px;height:12px;}
+  .mmh-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:30px;font-weight:800;color:white;margin-bottom:4px;}.mmh-title em{color:var(--teal-light);font-style:normal;}
+  .mmh-desc{font-size:14px;color:rgba(255,255,255,.35);max-width:480px;}
+  .mmh-right{display:flex;align-items:center;gap:16px;}
+  .mmh-stat{text-align:center;padding:0 18px;border-right:1px solid rgba(255,255,255,.06);}.mmh-stat:last-child{border-right:none;}
+  .mmhs-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;color:var(--teal-light);}.mmhs-label{font-size:11px;color:rgba(255,255,255,.3);}
+
+  /* Steps indicator */
+  .steps-bar{background:white;border-bottom:1px solid var(--grey);padding:12px 0;}
+  .steps-inner{display:flex;align-items:center;gap:4px;}
+  .sb-step{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;font-size:13px;font-weight:700;color:var(--grey-mid);}.sb-step.active{background:var(--teal-glow);color:var(--teal);}.sb-step.done{color:var(--green);}
+  .sb-step i{width:16px;height:16px;}
+  .sb-num{width:22px;height:22px;border-radius:50%;background:var(--grey-light);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;}.sb-step.active .sb-num{background:var(--teal);color:white;}.sb-step.done .sb-num{background:var(--green);color:white;}
+  .sb-arrow{color:var(--grey);}.sb-arrow i{width:14px;height:14px;}
+
+  /* Main layout */
+  .mm-layout{display:grid;grid-template-columns:1fr 360px;gap:20px;padding:20px 0 64px;align-items:start;}
+
+  /* LEFT: Product selection */
+  .select-area{}
+
+  /* Category tabs */
+  .cat-tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap;}
+  .cat-tab{padding:8px 16px;border-radius:100px;font-size:13px;font-weight:700;border:1.5px solid var(--grey);background:white;color:var(--grey-mid);cursor:pointer;transition:all .12s;display:flex;align-items:center;gap:5px;}.cat-tab:hover{border-color:var(--teal);color:var(--teal);}.cat-tab.active{background:var(--teal);color:white;border-color:var(--teal);}
+  .cat-tab i{width:14px;height:14px;}
+  .cat-count{font-size:10px;font-weight:800;padding:1px 6px;border-radius:100px;background:rgba(255,255,255,.25);}.cat-tab:not(.active) .cat-count{background:var(--grey-light);}
+
+  /* Progress bar */
+  .box-progress{background:white;border:1.5px solid var(--grey);border-radius:14px;padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:14px;}
+  .bp-bar{flex:1;height:10px;background:var(--grey-light);border-radius:100px;overflow:hidden;}.bp-fill{height:100%;border-radius:100px;background:var(--teal);transition:width .3s cubic-bezier(.4,0,.2,1);}.bp-fill.full{background:var(--green);}
+  .bp-count{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;white-space:nowrap;}.bp-count em{color:var(--teal);font-style:normal;}
+  .bp-label{font-size:11px;color:var(--grey-mid);font-weight:600;white-space:nowrap;}
+
+  /* Product grid */
+  .products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .mm-product{background:white;border:1.5px solid var(--grey);border-radius:16px;overflow:hidden;transition:all .15s;position:relative;}
+  .mm-product:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:var(--shadow-sm);}
+  .mm-product.in-box{border-color:var(--teal);box-shadow:0 0 0 2px var(--teal-glow);}
+  .mmp-img{height:130px;display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;background:var(--grey-light);}
+  .mmp-tag{position:absolute;top:6px;left:6px;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;}
+  .tag-popular{background:var(--amber);color:white;}.tag-new{background:var(--teal);color:white;}.tag-vegan{background:var(--green);color:white;}.tag-spicy{background:var(--coral);color:white;}
+  .mmp-check{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;background:var(--teal);display:none;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,137,123,.3);}.mmp-check i{width:14px;height:14px;color:white;}
+  .mm-product.in-box .mmp-check{display:flex;}
+  .mmp-body{padding:10px 12px;}
+  .mmp-name{font-size:13px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .mmp-meta{font-size:10px;color:var(--grey-mid);margin-bottom:6px;display:flex;gap:6px;}.mmp-meta span{display:flex;align-items:center;gap:2px;}.mmp-meta i{width:10px;height:10px;}
+  .mmp-footer{display:flex;align-items:center;justify-content:space-between;}
+  .mmp-price{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;}
+  .mmp-price.included{color:var(--green);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;}
+  .mmp-qty{display:flex;align-items:center;gap:0;border:1.5px solid var(--grey);border-radius:8px;overflow:hidden;}
+  .mmp-qty-btn{width:28px;height:28px;border:none;background:var(--grey-light);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--navy);transition:background .1s;}.mmp-qty-btn:hover{background:var(--teal-glow);color:var(--teal);}
+  .mmp-qty-val{width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:800;background:white;}
+  .mmp-add{height:28px;padding:0 12px;background:var(--teal);color:white;border:none;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:3px;transition:all .12s;}.mmp-add:hover{background:var(--navy);}.mmp-add i{width:12px;height:12px;}
+  .mmp-add.added{background:var(--green);}
+
+  /* RIGHT: Box sidebar */
+  .box-sidebar{position:sticky;top:96px;}
+  .box-card{background:white;border:1.5px solid var(--grey);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-md);}
+
+  /* Box visual */
+  .box-visual{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:20px;text-align:center;position:relative;overflow:hidden;}
+  .box-visual::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(0,137,123,.12),transparent 70%);border-radius:50%;}
+  .bv-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:white;margin-bottom:4px;position:relative;z-index:2;}
+  .bv-slots{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:10px;position:relative;z-index:2;}
+  .bv-slot{aspect-ratio:1;border-radius:8px;background:rgba(255,255,255,.05);border:1.5px dashed rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .15s;}
+  .bv-slot.filled{background:rgba(0,137,123,.15);border-style:solid;border-color:rgba(0,137,123,.3);}
+  .bv-slot.empty-pulse{animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{border-color:rgba(255,255,255,.08);}50%{border-color:rgba(0,137,123,.3);}}
+
+  .box-body{padding:16px;}
+
+  /* Box items list */
+  .box-items{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;max-height:260px;overflow-y:auto;}
+  .bi{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;transition:background .1s;}.bi:hover{background:var(--grey-light);}
+  .bi-icon{font-size:18px;flex-shrink:0;}
+  .bi-info{flex:1;min-width:0;}.bi-name{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.bi-detail{font-size:10px;color:var(--grey-mid);}
+  .bi-qty{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;background:var(--grey-light);padding:2px 6px;border-radius:4px;flex-shrink:0;}
+  .bi-price{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;flex-shrink:0;}
+  .bi-remove{width:20px;height:20px;border-radius:4px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .1s;flex-shrink:0;}.bi-remove:hover{background:var(--coral-light);}.bi-remove i{width:12px;height:12px;color:var(--coral);}
+
+  .box-empty{text-align:center;padding:20px;font-size:13px;color:var(--grey-mid);}
+  .box-empty-icon{font-size:36px;margin-bottom:6px;}
+
+  /* Pricing */
+  .box-pricing{padding:12px;background:var(--grey-light);border-radius:12px;margin-bottom:12px;}
+  .bpr{display:flex;justify-content:space-between;padding:3px 0;font-size:12px;}.bpr.sub{color:var(--grey-dark);}
+  .bpr.discount{color:var(--green);font-weight:700;}
+  .bpr.total{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;padding-top:8px;margin-top:6px;border-top:2px solid var(--navy);}
+  .bpr.per-item{font-size:11px;color:var(--grey-mid);}
+
+  /* Box CTA */
+  .box-cta{width:100%;height:52px;border:none;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all var(--transition);}
+  .box-cta.ready{background:var(--teal);color:white;box-shadow:0 4px 16px rgba(0,137,123,.3);}.box-cta.ready:hover{background:var(--navy);transform:translateY(-1px);}
+  .box-cta.incomplete{background:var(--grey);color:var(--grey-mid);cursor:not-allowed;}
+  .box-cta i{width:18px;height:18px;}
+  .box-note{text-align:center;font-size:10px;color:var(--grey-mid);margin-top:6px;}
+
+  /* Box options */
+  .box-options{margin-top:12px;padding-top:12px;border-top:1px solid var(--grey);}
+  .bo-title{font-size:11px;font-weight:700;color:var(--grey-mid);text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px;}
+  .bo-option{display:flex;align-items:center;gap:8px;padding:8px;border:1.5px solid var(--grey);border-radius:8px;margin-bottom:4px;cursor:pointer;transition:all .12s;font-size:12px;}.bo-option:hover{border-color:var(--teal);}.bo-option.selected{border-color:var(--teal);background:var(--teal-glow);}
+  .bo-radio{width:16px;height:16px;border-radius:50%;border:2px solid var(--grey);display:flex;align-items:center;justify-content:center;flex-shrink:0;}.bo-option.selected .bo-radio{border-color:var(--teal);}.bo-radio-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);display:none;}.bo-option.selected .bo-radio-dot{display:block;}
+  .bo-info{flex:1;font-weight:700;}.bo-detail{font-weight:400;color:var(--grey-mid);font-size:10px;}
+  .bo-price{font-family:'JetBrains Mono',monospace;font-weight:700;}
+
+  /* Trust */
+  .box-trust{display:flex;gap:10px;margin-top:10px;}
+  .bt{display:flex;align-items:center;gap:3px;font-size:10px;color:var(--grey-mid);font-weight:600;}.bt i{width:12px;height:12px;color:var(--teal);}
+
+  @media(max-width:900px){.mm-layout{grid-template-columns:1fr;}.box-sidebar{position:static;}.products-grid{grid-template-columns:1fr 1fr;}.mmh-right{display:none;}.bv-slots{grid-template-columns:repeat(3,1fr);}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo">digi<em>store</em></a><div class="search-wrap"><input class="search-field" type="text" placeholder="Zoek producten…"><div class="search-icon"><i data-lucide="search"></i></div></div><div class="header-actions"><button class="h-btn h-btn-icon"><i data-lucide="heart"></i></button><button class="h-btn h-btn-icon"><i data-lucide="user"></i></button><button class="h-btn h-btn-cart"><i data-lucide="shopping-cart"></i><span class="cart-count">2</span></button></div></div></header>
+
+<!-- Hero -->
+<div class="mm-hero"><div class="container"><div class="mmh-inner">
+  <div class="mmh-left">
+    <div class="mmh-badge"><i data-lucide="package"></i> Mix & Match</div>
+    <div class="mmh-title">Stel je eigen <em>Lunch Box</em> samen</div>
+    <div class="mmh-desc">Kies 6 items uit ons assortiment en bouw je perfecte lunchbox. Mix soepen, salades, wraps en meer!</div>
+  </div>
+  <div class="mmh-right">
+    <div class="mmh-stat"><div class="mmhs-num">6</div><div class="mmhs-label">Items kiezen</div></div>
+    <div class="mmh-stat"><div class="mmhs-num">€24,95</div><div class="mmhs-label">Vaste boxprijs</div></div>
+    <div class="mmh-stat"><div class="mmhs-num">30+</div><div class="mmhs-label">Producten</div></div>
+  </div>
+</div></div></div>
+
+<!-- Steps bar -->
+<div class="steps-bar"><div class="container"><div class="steps-inner">
+  <div class="sb-step done"><div class="sb-num"><i data-lucide="check" style="width:12px;height:12px;"></i></div> Box formaat</div>
+  <div class="sb-arrow"><i data-lucide="chevron-right"></i></div>
+  <div class="sb-step active"><div class="sb-num">2</div> Items kiezen</div>
+  <div class="sb-arrow"><i data-lucide="chevron-right"></i></div>
+  <div class="sb-step"><div class="sb-num">3</div> Afrekenen</div>
+</div></div></div>
+
+<div class="container"><div class="mm-layout">
+  <!-- LEFT: Products -->
+  <div class="select-area">
+    <!-- Category tabs -->
+    <div class="cat-tabs">
+      <button class="cat-tab active"><i data-lucide="grid"></i> Alles <span class="cat-count">32</span></button>
+      <button class="cat-tab">🥗 Salades <span class="cat-count">8</span></button>
+      <button class="cat-tab">🌯 Wraps <span class="cat-count">6</span></button>
+      <button class="cat-tab">🍲 Soepen <span class="cat-count">7</span></button>
+      <button class="cat-tab">🥤 Dranken <span class="cat-count">5</span></button>
+      <button class="cat-tab">🍪 Snacks <span class="cat-count">6</span></button>
+    </div>
+
+    <!-- Progress -->
+    <div class="box-progress">
+      <div class="bp-bar"><div class="bp-fill" style="width:50%;"></div></div>
+      <div class="bp-count"><em>3</em> / 6</div>
+      <div class="bp-label">items geselecteerd</div>
+    </div>
+
+    <!-- Products grid -->
+    <div class="products-grid">
+      <!-- In box items -->
+      <div class="mm-product in-box">
+        <div class="mmp-img" style="background:linear-gradient(135deg,#a8e6cf,#dcedc1);">🥗<div class="mmp-tag tag-popular">⭐ Populair</div><div class="mmp-check"><i data-lucide="check"></i></div></div>
+        <div class="mmp-body"><div class="mmp-name">Caesar Salade Classic</div><div class="mmp-meta"><span><i data-lucide="flame"></i> 320 kcal</span><span><i data-lucide="clock"></i> Vers</span></div><div class="mmp-footer"><div class="mmp-price included">✓ In box</div><div class="mmp-qty"><button class="mmp-qty-btn">−</button><div class="mmp-qty-val">1</div><button class="mmp-qty-btn">+</button></div></div></div>
+      </div>
+
+      <div class="mm-product in-box">
+        <div class="mmp-img" style="background:linear-gradient(135deg,#ffeaa7,#fdcb6e);">🌯<div class="mmp-tag tag-new">Nieuw</div><div class="mmp-check"><i data-lucide="check"></i></div></div>
+        <div class="mmp-body"><div class="mmp-name">Pulled Chicken Wrap</div><div class="mmp-meta"><span><i data-lucide="flame"></i> 480 kcal</span><span><i data-lucide="clock"></i> Vers</span></div><div class="mmp-footer"><div class="mmp-price included">✓ In box</div><div class="mmp-qty"><button class="mmp-qty-btn">−</button><div class="mmp-qty-val">1</div><button class="mmp-qty-btn">+</button></div></div></div>
+      </div>
+
+      <div class="mm-product in-box">
+        <div class="mmp-img" style="background:linear-gradient(135deg,#fab1a0,#e17055);">🍲<div class="mmp-tag tag-spicy">🌶️ Pittig</div><div class="mmp-check"><i data-lucide="check"></i></div></div>
+        <div class="mmp-body"><div class="mmp-name">Tom Kha Gai Soep</div><div class="mmp-meta"><span><i data-lucide="flame"></i> 210 kcal</span><span><i data-lucide="leaf"></i> Glutenvrij</span></div><div class="mmp-footer"><div class="mmp-price included">✓ In box</div><div class="mmp-qty"><button class="mmp-qty-btn">−</button><div class="mmp-qty-val">1</div><button class="mmp-qty-btn">+</button></div></div></div>
+      </div>
+
+      <!-- Not yet added -->
+      <div class="mm-product">
+        <div class="mmp-img" style="background:linear-gradient(135deg,#c7ecee,#dff9fb);">🥗<div class="mmp-check"><i data-lucide="check"></i></div></div>
+        <div class="mmp-body"><div class="mmp-name">Griekse Feta Salade</div><div class="mmp-meta"><span><i data-lucide="flame"></i> 290 kcal</span><span><i data-lucide="leaf"></i> Vegetarisch</span></div><div class="mmp-footer"><div class="mmp-price">€ 4,95</div><button class="mmp-add"><i data-lucide="plus"></i> Toevoegen</button></div></div>
+      </div>
+
+      <div class="mm-product">
+        <div class="mmp-img" style="background:linear-gradient(135deg,#ffeaa7,#f9ca24);">🌯<div class="mmp-tag tag-vegan">🌱 Vegan</div><div class="mmp-check"><i data-lucide="check"></i></div></div>
+        <div class="mmp-body"><div class="mmp-name">Falafel Hummus Wrap</div><div class="mmp-meta"><span><i data-lucide="flame"></i> 420 kcal</span><span><i data-lucide="leaf"></i> Vegan</span></div><div class="mmp-footer"><div class="mmp-price">€ 5,50</div><button class="mmp-add"><i data-lucide="plus"></i> Toevoegen</button></div></div>
+      </div>
+
+      <div class="mm-product">
+        <div class="mmp-img" style="background:linear-gradient(135deg,#fdcb6e,#e17055);">🍲<div class="mmp-check"><i data-lucide="check"></i></div></div>
+        <div class="mmp-body"><div class="mmp-name">Tomaten Basilicum Soep</div><div class="mmp-meta"><span><i data-lucide="flame"></i> 180 kcal</span><span><i data-lucide="leaf"></i> Vegetarisch</span></div><div class="mmp-footer"><div class="mmp-price">€ 3,95</div><button class="mmp-add"><i data-lucide="plus"></i> Toevoegen</button></div></div>
+      </div>
+
+      <div class="mm-product">
+        <div class="mmp-img" style="background:linear-gradient(135deg,#a29bfe,#6c5ce7);">🥤<div class="mmp-tag tag-popular">⭐ Populair</div><div class="mmp-check"><i data-lucide="check"></i></div></div>
+        <div class="mmp-body"><div class="mmp-name">Berry Blast Smoothie</div><div class="mmp-meta"><span><i data-lucide="flame"></i> 160 kcal</span><span><i data-lucide="leaf"></i> Vegan</span></div><div class="mmp-footer"><div class="mmp-price">€ 4,50</div><button class="mmp-add"><i data-lucide="plus"></i> Toevoegen</button></div></div>
+      </div>
+
+      <div class="mm-product">
+        <div class="mmp-img" style="background:linear-gradient(135deg,#55a3e8,#74b9ff);">🥤<div class="mmp-check"><i data-lucide="check"></i></div></div>
+        <div class="mmp-body"><div class="mmp-name">Verse Jus d'Orange</div><div class="mmp-meta"><span><i data-lucide="flame"></i> 120 kcal</span><span><i data-lucide="zap"></i> Vitamine C</span></div><div class="mmp-footer"><div class="mmp-price">€ 3,50</div><button class="mmp-add"><i data-lucide="plus"></i> Toevoegen</button></div></div>
+      </div>
+
+      <div class="mm-product">
+        <div class="mmp-img" style="background:linear-gradient(135deg,#f9ca24,#f0932b);">🍪<div class="mmp-check"><i data-lucide="check"></i></div></div>
+        <div class="mmp-body"><div class="mmp-name">Chocolate Chip Cookie</div><div class="mmp-meta"><span><i data-lucide="flame"></i> 280 kcal</span><span><i data-lucide="cookie"></i> Huisgemaakt</span></div><div class="mmp-footer"><div class="mmp-price">€ 2,50</div><button class="mmp-add"><i data-lucide="plus"></i> Toevoegen</button></div></div>
+      </div>
+
+      <div class="mm-product">
+        <div class="mmp-img" style="background:linear-gradient(135deg,#badc58,#6ab04c);">🥗<div class="mmp-tag tag-new">Nieuw</div><div class="mmp-check"><i data-lucide="check"></i></div></div>
+        <div class="mmp-body"><div class="mmp-name">Poké Bowl Zalm</div><div class="mmp-meta"><span><i data-lucide="flame"></i> 520 kcal</span><span><i data-lucide="fish"></i> Omega-3</span></div><div class="mmp-footer"><div class="mmp-price">€ 6,95</div><button class="mmp-add"><i data-lucide="plus"></i> Toevoegen</button></div></div>
+      </div>
+
+      <div class="mm-product">
+        <div class="mmp-img" style="background:linear-gradient(135deg,#dfe6e9,#b2bec3);">🥤<div class="mmp-check"><i data-lucide="check"></i></div></div>
+        <div class="mmp-body"><div class="mmp-name">Sparkling Water Citroen</div><div class="mmp-meta"><span><i data-lucide="flame"></i> 0 kcal</span><span><i data-lucide="droplets"></i> Koolzuur</span></div><div class="mmp-footer"><div class="mmp-price">€ 2,00</div><button class="mmp-add"><i data-lucide="plus"></i> Toevoegen</button></div></div>
+      </div>
+
+      <div class="mm-product">
+        <div class="mmp-img" style="background:linear-gradient(135deg,#e17055,#d63031);">🌯<div class="mmp-tag tag-spicy">🌶️ Pittig</div><div class="mmp-check"><i data-lucide="check"></i></div></div>
+        <div class="mmp-body"><div class="mmp-name">Spicy Tuna Burrito</div><div class="mmp-meta"><span><i data-lucide="flame"></i> 560 kcal</span><span><i data-lucide="fish"></i> Tonijn</span></div><div class="mmp-footer"><div class="mmp-price">€ 5,95</div><button class="mmp-add"><i data-lucide="plus"></i> Toevoegen</button></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Box sidebar -->
+  <div class="box-sidebar">
+    <div class="box-card">
+      <!-- Box visual -->
+      <div class="box-visual">
+        <div class="bv-title">📦 Jouw Lunch Box</div>
+        <div class="bv-slots">
+          <div class="bv-slot filled">🥗</div>
+          <div class="bv-slot filled">🌯</div>
+          <div class="bv-slot filled">🍲</div>
+          <div class="bv-slot empty-pulse"></div>
+          <div class="bv-slot empty-pulse"></div>
+          <div class="bv-slot empty-pulse"></div>
+        </div>
+      </div>
+
+      <div class="box-body">
+        <!-- Items in box -->
+        <div class="box-items">
+          <div class="bi"><div class="bi-icon">🥗</div><div class="bi-info"><div class="bi-name">Caesar Salade Classic</div><div class="bi-detail">320 kcal · Vers</div></div><div class="bi-qty">×1</div><div class="bi-price">€4,95</div><button class="bi-remove"><i data-lucide="x"></i></button></div>
+          <div class="bi"><div class="bi-icon">🌯</div><div class="bi-info"><div class="bi-name">Pulled Chicken Wrap</div><div class="bi-detail">480 kcal · Vers</div></div><div class="bi-qty">×1</div><div class="bi-price">€5,50</div><button class="bi-remove"><i data-lucide="x"></i></button></div>
+          <div class="bi"><div class="bi-icon">🍲</div><div class="bi-info"><div class="bi-name">Tom Kha Gai Soep</div><div class="bi-detail">210 kcal · Glutenvrij</div></div><div class="bi-qty">×1</div><div class="bi-price">€4,50</div><button class="bi-remove"><i data-lucide="x"></i></button></div>
+        </div>
+
+        <!-- Pricing -->
+        <div class="box-pricing">
+          <div class="bpr sub"><span>3 van 6 items geselecteerd</span><span>€14,95</span></div>
+          <div class="bpr sub"><span>Nog 3 items toevoegen</span><span>—</span></div>
+          <div class="bpr discount"><span>Box korting (bij 6 items)</span><span>-20%</span></div>
+          <div class="bpr total"><span>Box prijs</span><span>€ 24,95</span></div>
+          <div class="bpr per-item"><span>Per item gemiddeld</span><span>€ 4,16</span></div>
+        </div>
+
+        <!-- CTA -->
+        <button class="box-cta incomplete"><i data-lucide="lock"></i> Nog 3 items kiezen</button>
+        <div class="box-note">Selecteer 6 items om je box te bestellen</div>
+
+        <!-- Box size options -->
+        <div class="box-options">
+          <div class="bo-title">Box formaat</div>
+          <div class="bo-option" onclick="selectBoxOption(this)"><div class="bo-radio"><div class="bo-radio-dot"></div></div><div class="bo-info">Small (4 items) <div class="bo-detail">Perfect voor 1 persoon</div></div><div class="bo-price">€ 17,95</div></div>
+          <div class="bo-option selected" onclick="selectBoxOption(this)"><div class="bo-radio"><div class="bo-radio-dot"></div></div><div class="bo-info">Medium (6 items) <div class="bo-detail">Ideaal voor lunch + snack</div></div><div class="bo-price">€ 24,95</div></div>
+          <div class="bo-option" onclick="selectBoxOption(this)"><div class="bo-radio"><div class="bo-radio-dot"></div></div><div class="bo-info">Large (10 items) <div class="bo-detail">Delen met collega's</div></div><div class="bo-price">€ 37,95</div></div>
+        </div>
+
+        <div class="box-trust">
+          <div class="bt"><i data-lucide="truck"></i> Gratis bezorging</div>
+          <div class="bt"><i data-lucide="leaf"></i> 100% vers</div>
+          <div class="bt"><i data-lucide="recycle"></i> Duurzaam verpakt</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<script>
+lucide.createIcons();
+document.querySelectorAll('.cat-tab').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('.cat-tab').forEach(e=>e.classList.remove('active'));el.classList.add('active');}));
+function selectBoxOption(el){document.querySelectorAll('.bo-option').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}
+document.querySelectorAll('.mmp-add').forEach(el=>el.addEventListener('click',()=>{el.classList.add('added');el.innerHTML='<i data-lucide="check"></i> Toegevoegd';el.closest('.mm-product').classList.add('in-box');lucide.createIcons();}));
+</script>
+</body>
+</html>

@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Architecture Refactoring Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f5f2ec;
+    --paper-2: #ede9e0;
+    --accent: #c84b2f;
+    --accent-light: #f0e8e4;
+    --blue: #1e3a5f;
+    --blue-light: #e4eaf3;
+    --green: #2a5c3f;
+    --green-light: #e3eeea;
+    --muted: #6b6660;
+    --border: #d6d0c6;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 60px 80px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    border: 1px solid rgba(245,242,236,0.08);
+    border-radius: 50%;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    top: -20px; right: -20px;
+    width: 200px; height: 200px;
+    border: 1px solid rgba(245,242,236,0.05);
+    border-radius: 50%;
+  }
+
+  .header-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    font-family: var(--serif);
+    font-size: 48px;
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+
+  .header h1 em {
+    font-style: italic;
+    color: rgba(245,242,236,0.5);
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(245,242,236,0.12);
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .meta-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(245,242,236,0.4);
+    text-transform: uppercase;
+  }
+
+  .meta-value {
+    font-size: 13px;
+    color: rgba(245,242,236,0.85);
+    font-weight: 400;
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 80px;
+  }
+
+  /* ASSESSMENT */
+  .assessment {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    padding: 28px 32px;
+    margin-bottom: 56px;
+  }
+
+  .assessment-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .assessment h2 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .problems {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .problem {
+    background: white;
+    padding: 16px 20px;
+    border-top: 2px solid var(--accent);
+  }
+
+  .problem-num {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .problem-title {
+    font-weight: 500;
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .problem p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* SECTION TITLES */
+  .section-title {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .section-title h2 {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 300;
+  }
+
+  section {
+    margin-bottom: 64px;
+  }
+
+  /* ARCHITECTURE DIAGRAM */
+  .arch-diagram {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    gap: 0;
+    position: relative;
+  }
+
+  .arch-layer {
+    padding: 28px 32px;
+    position: relative;
+  }
+
+  .arch-layer-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .arch-layer-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .arch-layer-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .arch-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    letter-spacing: 0.03em;
+  }
+
+  .layer-cms {
+    background: var(--blue-light);
+    border: 1px solid #b8c9de;
+  }
+
+  .layer-cms .arch-layer-label { color: var(--blue); }
+  .layer-cms .arch-tag { background: white; color: var(--blue); border: 1px solid #b8c9de; }
+
+  .layer-service {
+    background: var(--green-light);
+    border: 1px solid #b0cebd;
+    border-top: none;
+  }
+
+  .layer-service .arch-layer-label { color: var(--green); }
+  .layer-service .arch-tag { background: white; color: var(--green); border: 1px solid #b0cebd; }
+
+  .layer-internal {
+    background: var(--paper-2);
+    border: 1px solid var(--border);
+    border-top: none;
+  }
+
+  .layer-internal .arch-layer-label { color: var(--muted); }
+  .layer-internal .arch-tag { background: white; color: var(--muted); border: 1px solid var(--border); }
+
+  .arch-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    background: white;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    gap: 24px;
+  }
+
+  .connector-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .connector-arrow {
+    width: 32px;
+    height: 1px;
+    background: var(--border);
+    position: relative;
+  }
+
+  .connector-arrow::after {
+    content: '▼';
+    position: absolute;
+    right: -4px;
+    top: -5px;
+    font-size: 8px;
+    color: var(--muted);
+  }
+
+  /* PAYLOAD MODULES */
+  .modules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+  }
+
+  .module-card {
+    background: white;
+    padding: 24px 28px;
+  }
+
+  .module-type {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .module-card h3 {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .module-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .module-list li {
+    font-size: 12px;
+    color: var(--muted);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .module-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--border);
+  }
+
+  .module-list li.remove {
+    text-decoration: line-through;
+    color: var(--accent);
+    opacity: 0.6;
+  }
+
+  .module-list li.add {
+    color: var(--green);
+    font-weight: 500;
+  }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: var(--ink);
+    color: #a8c8a0;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.7;
+    padding: 28px 32px;
+    overflow-x: auto;
+    margin: 16px 0;
+  }
+
+  .code-comment { color: #5a6a5a; }
+  .code-key { color: #7abfdf; }
+  .code-type { color: #dfb07a; }
+  .code-string { color: #a8c8a0; }
+
+  /* SERVICE CONTRACT */
+  .contract-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  .contract-table th {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 10px 16px;
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .contract-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .contract-table tr:hover td {
+    background: var(--paper-2);
+  }
+
+  .method {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  .method-post { background: #fef3e2; color: #a05c00; }
+  .method-get { background: var(--blue-light); color: var(--blue); }
+
+  .endpoint {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink);
+  }
+
+  /* MIGRATION TIMELINE */
+  .phases {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+
+  .phase {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .phase:last-child { border-bottom: none; }
+
+  .phase-meta {
+    padding: 24px 24px;
+    background: var(--paper-2);
+    border-right: 1px solid var(--border);
+  }
+
+  .phase-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .phase-name {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .phase-days {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+  }
+
+  .phase-tasks {
+    padding: 24px 28px;
+  }
+
+  .task-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .task-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .task-check {
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* DECISION TABLE */
+  .decision-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+  }
+
+  .decision-col {
+    background: white;
+    padding: 24px;
+  }
+
+  .decision-col-header {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+    border-bottom: 2px solid;
+  }
+
+  .col-cms .decision-col-header { color: var(--blue); border-color: var(--blue); }
+  .col-service .decision-col-header { color: var(--green); border-color: var(--green); }
+  .col-internal .decision-col-header { color: var(--muted); border-color: var(--border); }
+
+  .decision-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .decision-items li {
+    font-size: 12px;
+    color: var(--muted);
+    padding-left: 12px;
+    position: relative;
+  }
+
+  .decision-items li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+  }
+
+  /* RISKS */
+  .risks-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .risk-card {
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+  }
+
+  .risk-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .risk-title {
+    font-weight: 500;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .risk-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--ink);
+    color: rgba(245,242,236,0.4);
+    padding: 32px 80px;
+    font-family: var(--mono);
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-rule {
+    font-style: italic;
+    font-family: var(--serif);
+    color: rgba(245,242,236,0.2);
+    font-size: 15px;
+  }
+
+  /* DIVIDER */
+  hr.section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0 0 56px;
+  }
+
+  /* GRAPESJS SECTION */
+  .grapes-flow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+
+  .grapes-step {
+    padding: 20px 22px;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+
+  .grapes-step:last-child { border-right: none; }
+
+  .grapes-step::after {
+    content: '→';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 14px;
+    z-index: 1;
+  }
+
+  .grapes-step:last-child::after { display: none; }
+
+  .step-num {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .step-title {
+    font-weight: 500;
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  .step-desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-label">Compass Digital · Multi-tenant Platform</div>
+  <h1>Email Architecture<br><em>Refactoring Plan</em></h1>
+  <div class="header-meta">
+    <div class="meta-item">
+      <span class="meta-label">Scope</span>
+      <span class="meta-value">Email marketing module</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Aanleiding</span>
+      <span class="meta-value">Listmonk + GrapesJS volledig in Payload geïntegreerd</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Doel</span>
+      <span class="meta-value">Clean separation: CMS / Mailing service / Intern</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Doorlooptijd</span>
+      <span class="meta-value">±7–10 werkdagen</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ASSESSMENT -->
+  <div class="assessment">
+    <div class="assessment-title">Beoordeling huidig model</div>
+    <h2>Het plan klopt. Drie concrete problemen met de huidige aanpak:</h2>
+    <div class="problems">
+      <div class="problem">
+        <div class="problem-num">01</div>
+        <div class="problem-title">Dubbele verantwoordelijkheid</div>
+        <p>Payload beheert nu zowel businesslogica als operationele verzending. Dat zijn conflicterende concerns in één systeem.</p>
+      </div>
+      <div class="problem">
+        <div class="problem-num">02</div>
+        <div class="problem-title">Koppelingsprobleem</div>
+        <p>Listmonk is nu tegelijk primaire werkplek én engine. Wijzigingen in Listmonk raken direct de CMS-data.</p>
+      </div>
+      <div class="problem">
+        <div class="problem-num">03</div>
+        <div class="problem-title">Schaalbaarheid</div>
+        <p>Zware achtergrondprocessen (imports, segment rebuilds, events) vervuilen de CMS-laag en blokkeren de admin UI.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARCHITECTURE -->
+  <section>
+    <div class="section-title">
+      <span class="section-num">01</span>
+      <h2>Doelarchitectuur</h2>
+    </div>
+
+    <div class="arch-diagram">
+      <div class="arch-layer layer-cms">
+        <div class="arch-layer-label">Laag 1 · Control plane</div>
+        <div class="arch-layer-title">Payload CMS</div>
+        <div class="arch-layer-items">
+          <span class="arch-tag">tenantconfig</span>
+          <span class="arch-tag">gebruikers & rechten</span>
+          <span class="arch-tag">collections</span>
+          <span class="arch-tag">segmenten</span>
+          <span class="arch-tag">templates (GrapesJS)</span>
+          <span class="arch-tag">campagne-definitie</span>
+          <span class="arch-tag">planning</span>
+          <span class="arch-tag">reporting dashboard</span>
+        </div>
+      </div>
+
+      <div class="arch-connector">
+        <div class="connector-item">
+          <span>API contract (sync trigger)</span>
+          <div class="connector-arrow"></div>
+        </div>
+        <div class="connector-item">
+          <span>Webhooks in (events)</span>
+        </div>
+      </div>
+
+      <div class="arch-layer layer-service">
+        <div class="arch-layer-label">Laag 2 · Operationele laag</div>
+        <div class="arch-layer-title">Mailing Service / Worker</div>
+        <div class="arch-layer-items">
+          <span class="arch-tag">subscriber sync</span>
+          <span class="arch-tag">list management</span>
+          <span class="arch-tag">send engine</span>
+          <span class="arch-tag">queue / retries</span>
+          <span class="arch-tag">rate limiting</span>
+          <span class="arch-tag">Listmonk adapter</span>
+          <span class="arch-tag">SES/SMTP integratie</span>
+          <span class="arch-tag">bounce verwerking</span>
+          <span class="arch-tag">event ingestie</span>
+        </div>
+      </div>
+
+      <div class="arch-connector">
+        <div class="connector-item">
+          <span>Interne toegang (jij / support)</span>
+          <div class="connector-arrow"></div>
+        </div>
+      </div>
+
+      <div class="arch-layer layer-internal">
+        <div class="arch-layer-label">Laag 3 · Interne beheeromgeving</div>
+        <div class="arch-layer-title">Listmonk Admin + Tooling</div>
+        <div class="arch-layer-items">
+          <span class="arch-tag">delivery logs</span>
+          <span class="arch-tag">raw event inspectie</span>
+          <span class="arch-tag">queue management</span>
+          <span class="arch-tag">tenant mapping</span>
+          <span class="arch-tag">resync tools</span>
+          <span class="arch-tag">incident beheer</span>
+          <span class="arch-tag">deliverability debug</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- PAYLOAD MODULES -->
+  <section>
+    <div class="section-title">
+      <span class="section-num">02</span>
+      <h2>Payload CMS — module-indeling na refactoring</h2>
+    </div>
+
+    <div class="modules-grid">
+      <div class="module-card">
+        <div class="module-type">Collections · behoud</div>
+        <h3>Blijven in Payload</h3>
+        <ul class="module-list">
+          <li>tenants — voeg <code>mailingServiceConfig</code> veld toe</li>
+          <li>users, roles</li>
+          <li>emailTemplates — <code>grapesData</code> + <code>compiledHtml</code></li>
+          <li>campaigns — metadata, planning, status</li>
+          <li>segments — definitie + doelgroepregels</li>
+          <li>contacts — bron van waarheid</li>
+          <li class="add">sendEvents — nieuw: aggregated stats van mailing service</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-type">Hooks · wijzigingen</div>
+        <h3>Hooks aanpassen</h3>
+        <ul class="module-list">
+          <li class="remove">afterChange → directe Listmonk API push</li>
+          <li class="remove">afterDelete → Listmonk subscriber delete</li>
+          <li class="remove">Subscriber sync logic in collection hooks</li>
+          <li class="remove">Campaign push naar Listmonk vanuit hook</li>
+          <li class="add">afterChange → sync event naar mailing service (fire-and-forget)</li>
+          <li>beforeChange validatie hooks — behoud</li>
+          <li>Template compile hook (GrapesJS → HTML) — behoud</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-type">Jobs · verplaatsen</div>
+        <h3>Jobs uit Payload verwijderen</h3>
+        <ul class="module-list">
+          <li class="remove">Send jobs</li>
+          <li class="remove">Subscriber import jobs</li>
+          <li class="remove">Segment rebuild jobs</li>
+          <li class="remove">Bounce processing jobs</li>
+          <li class="remove">Event verwerking jobs</li>
+          <li class="add">scheduleCampaign — trigger naar mailing service</li>
+          <li class="add">compileCampaignTemplate — rendert verzendversie</li>
+          <li class="add">aggregateReportingData — haalt stats op (dagelijks)</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-type">Admin views · aanpassen</div>
+        <h3>Admin UI cleanup</h3>
+        <ul class="module-list">
+          <li class="remove">Listmonk iframe / embedded views</li>
+          <li class="remove">Directe Listmonk campaign links</li>
+          <li class="remove">Delivery log views in Payload admin</li>
+          <li>GrapesJS template editor — behoud</li>
+          <li>Campaign wizard (template → segment → plan → approve)</li>
+          <li class="add">Reporting dashboard met aggregated data</li>
+          <li>Testmail knop via mailing service</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <p style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px;">Services · nieuwe abstractielaag</p>
+      <div class="code-block">
+<span class="code-comment">// src/services/mailingService.ts
+// Payload praat ALLEEN via deze service met de mailing laag</span>
+
+<span class="code-key">export const</span> mailingService = {
+  <span class="code-key">async</span> <span class="code-type">syncContact</span>(contact: Contact, tenantId: string): <span class="code-type">Promise&lt;void&gt;</span>,
+  <span class="code-key">async</span> <span class="code-type">syncSegment</span>(segment: Segment, tenantId: string): <span class="code-type">Promise&lt;void&gt;</span>,
+  <span class="code-key">async</span> <span class="code-type">triggerCampaignSend</span>(campaign: Campaign): <span class="code-type">Promise&lt;{ jobId: string }&gt;</span>,
+  <span class="code-key">async</span> <span class="code-type">cancelCampaign</span>(campaignId: string): <span class="code-type">Promise&lt;void&gt;</span>,
+  <span class="code-key">async</span> <span class="code-type">getReportingSnapshot</span>(campaignId: string): <span class="code-type">Promise&lt;ReportingSummary&gt;</span>,
+}
+
+<span class="code-comment">// Intern: BullMQ trigger of directe HTTP naar worker API
+// Payload hoeft dat niet te weten — dit is de grens</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- GRAPES JS -->
+  <section>
+    <div class="section-title">
+      <span class="section-num">03</span>
+      <h2>GrapesJS — positie na refactoring</h2>
+    </div>
+
+    <p style="margin-bottom: 24px; color: var(--muted);">GrapesJS <strong style="color: var(--ink);">blijft in Payload</strong>, maar de data-flow verandert fundamenteel.</p>
+
+    <div class="grapes-flow">
+      <div class="grapes-step">
+        <div class="step-num">01</div>
+        <div class="step-title">Editor</div>
+        <div class="step-desc">GrapesJS slaat <code>grapesData</code> (JSON) op in Payload emailTemplates collection</div>
+      </div>
+      <div class="grapes-step">
+        <div class="step-num">02</div>
+        <div class="step-title">Compile</div>
+        <div class="step-desc">Payload compileert bij template save of campaign approve → <code>compiledHtml</code></div>
+      </div>
+      <div class="grapes-step">
+        <div class="step-num">03</div>
+        <div class="step-title">Trigger</div>
+        <div class="step-desc">Bij campaign send stuurt Payload <code>compiledHtml</code> mee naar de mailing service</div>
+      </div>
+      <div class="grapes-step">
+        <div class="step-num">04</div>
+        <div class="step-title">Verzend</div>
+        <div class="step-desc">Mailing service pusht HTML naar Listmonk/SES. GrapesJS weet niets van Listmonk.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- API CONTRACT -->
+  <section>
+    <div class="section-title">
+      <span class="section-num">04</span>
+      <h2>API contract — Payload ↔ Mailing service</h2>
+    </div>
+
+    <table class="contract-table">
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Endpoint</th>
+          <th>Payload</th>
+          <th>Response</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="method method-post">POST</span></td>
+          <td class="endpoint">/api/contacts/sync</td>
+          <td style="font-size:12px;color:var(--muted);">{ contact, tenantId }</td>
+          <td style="font-size:12px;color:var(--muted);">204 No Content</td>
+        </tr>
+        <tr>
+          <td><span class="method method-post">POST</span></td>
+          <td class="endpoint">/api/segments/sync</td>
+          <td style="font-size:12px;color:var(--muted);">{ segment, tenantId }</td>
+          <td style="font-size:12px;color:var(--muted);">204 No Content</td>
+        </tr>
+        <tr>
+          <td><span class="method method-post">POST</span></td>
+          <td class="endpoint">/api/campaigns/trigger</td>
+          <td style="font-size:12px;color:var(--muted);">{ campaignId, tenantId, compiledHtml, segmentSnapshot }</td>
+          <td style="font-size:12px;color:var(--muted);">{ jobId: string }</td>
+        </tr>
+        <tr>
+          <td><span class="method method-post">POST</span></td>
+          <td class="endpoint">/api/campaigns/cancel</td>
+          <td style="font-size:12px;color:var(--muted);">{ campaignId }</td>
+          <td style="font-size:12px;color:var(--muted);">204 No Content</td>
+        </tr>
+        <tr>
+          <td><span class="method method-get">GET</span></td>
+          <td class="endpoint">/api/campaigns/:id/stats</td>
+          <td style="font-size:12px;color:var(--muted);">—</td>
+          <td style="font-size:12px;color:var(--muted);">{ sent, opens, clicks, bounces, unsubscribes }</td>
+        </tr>
+        <tr>
+          <td><span class="method method-post">POST</span></td>
+          <td class="endpoint">/webhooks/delivery</td>
+          <td style="font-size:12px;color:var(--muted);">SES/Listmonk event payload</td>
+          <td style="font-size:12px;color:var(--muted);">200 OK</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- MIGRATION PHASES -->
+  <section>
+    <div class="section-title">
+      <span class="section-num">05</span>
+      <h2>Migratiestappen</h2>
+    </div>
+
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-meta">
+          <div class="phase-num">Fase 01</div>
+          <div class="phase-name">Isoleer</div>
+          <div class="phase-days">1–2 dagen</div>
+        </div>
+        <div class="phase-tasks">
+          <ul class="task-list">
+            <li><div class="task-check"></div><span>Identificeer alle Payload hooks die direct naar Listmonk API callen</span></li>
+            <li><div class="task-check"></div><span>Identificeer alle Payload jobs die operationele taken uitvoeren</span></li>
+            <li><div class="task-check"></div><span>Maak <code>mailingService.ts</code> stub aan (leeg, type-safe)</span></li>
+            <li><div class="task-check"></div><span>Vervang directe Listmonk calls in hooks door <code>mailingService.*</code> calls</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-meta">
+          <div class="phase-num">Fase 02</div>
+          <div class="phase-name">Extraheer</div>
+          <div class="phase-days">2–3 dagen</div>
+        </div>
+        <div class="phase-tasks">
+          <ul class="task-list">
+            <li><div class="task-check"></div><span>Maak mailing-service project aan (aparte package)</span></li>
+            <li><div class="task-check"></div><span>Migreer subscriber sync logica naar worker</span></li>
+            <li><div class="task-check"></div><span>Migreer campaign send logica naar worker</span></li>
+            <li><div class="task-check"></div><span>Implementeer BullMQ queues in mailing service</span></li>
+            <li><div class="task-check"></div><span>Implementeer Listmonk adapter in mailing service</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-meta">
+          <div class="phase-num">Fase 03</div>
+          <div class="phase-name">API koppeling</div>
+          <div class="phase-days">1–2 dagen</div>
+        </div>
+        <div class="phase-tasks">
+          <ul class="task-list">
+            <li><div class="task-check"></div><span>Implementeer API endpoints in mailing service</span></li>
+            <li><div class="task-check"></div><span>Verbind <code>mailingService.ts</code> in Payload met echte HTTP calls</span></li>
+            <li><div class="task-check"></div><span>Test contact sync flow end-to-end per tenant</span></li>
+            <li><div class="task-check"></div><span>Test campaign trigger flow end-to-end</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-meta">
+          <div class="phase-num">Fase 04</div>
+          <div class="phase-name">Events</div>
+          <div class="phase-days">1–2 dagen</div>
+        </div>
+        <div class="phase-tasks">
+          <ul class="task-list">
+            <li><div class="task-check"></div><span>Migreer webhook ingestion naar mailing service</span></li>
+            <li><div class="task-check"></div><span>Implementeer bounce/unsubscribe verwerking in worker</span></li>
+            <li><div class="task-check"></div><span>Implementeer aggregated reporting endpoint</span></li>
+            <li><div class="task-check"></div><span>Verbind Payload reporting dashboard met mailing service stats</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-meta">
+          <div class="phase-num">Fase 05</div>
+          <div class="phase-name">Opruimen</div>
+          <div class="phase-days">1 dag</div>
+        </div>
+        <div class="phase-tasks">
+          <ul class="task-list">
+            <li><div class="task-check"></div><span>Verwijder alle directe Listmonk imports uit Payload codebase</span></li>
+            <li><div class="task-check"></div><span>Verwijder embedded Listmonk admin views uit Payload</span></li>
+            <li><div class="task-check"></div><span>Verwijder operationele jobs uit Payload</span></li>
+            <li><div class="task-check"></div><span>Volledige end-to-end test per tenant</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- DECISION TABLE -->
+  <section>
+    <div class="section-title">
+      <span class="section-num">06</span>
+      <h2>Vuistregels — wat hoort waar</h2>
+    </div>
+
+    <div class="decision-grid">
+      <div class="decision-col col-cms">
+        <div class="decision-col-header">Payload CMS</div>
+        <ul class="decision-items">
+          <li>Wie is de klant, wat mag hij</li>
+          <li>Wat is de content, wat is de template</li>
+          <li>Wanneer wordt de campagne verstuurd</li>
+          <li>Campagne aanmaken en goedkeuren</li>
+          <li>Segment definiëren</li>
+          <li>Template bewerken (GrapesJS)</li>
+          <li>Testmail versturen</li>
+          <li>Resultaten op hoofdlijnen</li>
+        </ul>
+      </div>
+      <div class="decision-col col-service">
+        <div class="decision-col-header">Mailing Service</div>
+        <ul class="decision-items">
+          <li>Hoe wordt de campagne verstuurd</li>
+          <li>Aan wie (subscriber state)</li>
+          <li>Wat gebeurde er na verzending</li>
+          <li>Subscriber sync</li>
+          <li>Queue en retries</li>
+          <li>Rate limiting</li>
+          <li>Bounce verwerking</li>
+          <li>Listmonk + SES integratie</li>
+        </ul>
+      </div>
+      <div class="decision-col col-internal">
+        <div class="decision-col-header">Intern / Admin</div>
+        <ul class="decision-items">
+          <li>Raw delivery logs</li>
+          <li>Event inspectie</li>
+          <li>Queue herstarten</li>
+          <li>Handmatige resync</li>
+          <li>Tenant troubleshooting</li>
+          <li>Imports repareren</li>
+          <li>Deliverability debugging</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- RISKS -->
+  <section>
+    <div class="section-title">
+      <span class="section-num">07</span>
+      <h2>Risico's & aandachtspunten</h2>
+    </div>
+
+    <div class="risks-grid">
+      <div class="risk-card">
+        <div class="risk-label">Data ownership</div>
+        <div class="risk-title">Payload wint altijd</div>
+        <div class="risk-desc">Contacten in Payload zijn de bron van waarheid. Listmonk subscriber state is altijd afleidbaar. Bij conflict wint Payload.</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-label">Consistency</div>
+        <div class="risk-title">Async sync = eventual consistency</div>
+        <div class="risk-desc">Door async sync kunnen er tijdelijk verschillen zijn. Zorg voor idempotente sync operaties met unieke keys per tenant.</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-label">Tenant isolatie</div>
+        <div class="risk-title">Nooit cross-tenant schrijven</div>
+        <div class="risk-desc">Elke tenant heeft eigen Listmonk list namespace. De mailing service moet dit strikt afdwingen op API-niveau.</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-label">Template compilatie</div>
+        <div class="risk-title">Compileer vlak voor verzending</div>
+        <div class="risk-desc">Compileer templates altijd vlak voor verzending (niet bij opslaan) zodat personalisatiedata altijd actueel is.</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-label">Migratie</div>
+        <div class="risk-title">Bestaande Listmonk ID's</div>
+        <div class="risk-desc">Bestaande campagnes en subscribers hebben Listmonk ID's. Houd een mapping table bij tijdens de migratie voor backwards compatibility.</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-label">Klantbeleving</div>
+        <div class="risk-title">Één product, altijd</div>
+        <div class="risk-desc">De klant denkt in contacten, segmenten, templates en campagnes — nooit in CMS-data of Listmonk-data. Jij vertaalt dat technisch.</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span>Compass Digital · Multi-tenant Platform · Email Architecture Refactoring Plan</span>
+  <span class="footer-rule">"Alles wat business/UI is → CMS · Alles wat verzending/infra is → buiten CMS"</span>
+</footer>
+
+</body>
+</html>

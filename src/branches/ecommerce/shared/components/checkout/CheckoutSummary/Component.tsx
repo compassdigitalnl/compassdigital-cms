@@ -54,7 +54,7 @@ export function CheckoutSummary({
           {/* Collapsible Items */}
           <button
             onClick={() => setShowItems(!showItems)}
-            className="w-full flex items-center justify-between py-3 px-4 -mx-4 rounded-lg transition-colors hover:bg-gray-50"
+            className="w-full flex items-center justify-between py-3 px-4 -mx-4 rounded-lg transition-colors hover:bg-grey-light"
           >
             <span className="font-semibold text-sm" style={{ color: 'var(--color-text-primary)' }}>
               {itemCount} {itemCount === 1 ? 'artikel' : 'artikelen'}

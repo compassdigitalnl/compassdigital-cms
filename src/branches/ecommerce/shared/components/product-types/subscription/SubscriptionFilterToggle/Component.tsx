@@ -22,12 +22,12 @@ export const SubscriptionFilterToggle: React.FC<SubscriptionFilterToggleProps> =
 
   return (
     <div
-      className={`toggle-filter flex justify-center items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl ${className}`}
+      className={`toggle-filter flex justify-center items-center gap-4 p-4 bg-white border border-grey-light rounded-xl ${className}`}
     >
       {/* Left Option Label */}
       <div
         className={`toggle-label text-sm font-semibold transition-colors flex items-center gap-1.5 cursor-pointer select-none ${
-          !isRightActive ? 'text-gray-900' : 'text-gray-500'
+          !isRightActive ? 'text-navy' : 'text-grey-mid'
         }`}
         onClick={() => onChange(leftOption.id)}
       >
@@ -38,7 +38,7 @@ export const SubscriptionFilterToggle: React.FC<SubscriptionFilterToggleProps> =
       {/* Toggle Switch */}
       <div
         className={`toggle-switch relative w-14 h-7 rounded-full cursor-pointer transition-colors ${
-          isRightActive ? 'bg-[var(--color-primary)]' : 'bg-gray-200'
+          isRightActive ? 'bg-[var(--color-primary)]' : 'bg-grey-light'
         }`}
         onClick={() => onChange(isRightActive ? leftOption.id : rightOption.id)}
         tabIndex={0}
@@ -61,7 +61,7 @@ export const SubscriptionFilterToggle: React.FC<SubscriptionFilterToggleProps> =
       {/* Right Option Label */}
       <div
         className={`toggle-label text-sm font-semibold transition-colors flex items-center gap-1.5 cursor-pointer select-none ${
-          isRightActive ? 'text-gray-900' : 'text-gray-500'
+          isRightActive ? 'text-navy' : 'text-grey-mid'
         }`}
         onClick={() => onChange(rightOption.id)}
       >

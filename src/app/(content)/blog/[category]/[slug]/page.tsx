@@ -252,30 +252,30 @@ export default async function BlogPostPage({
     : []
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-grey-light">
       {/* Breadcrumb Header */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center gap-2 text-sm">
             <Link
               href="/blog/"
-              className="text-gray-600 hover:text-teal-600 transition-colors"
+              className="text-grey-dark hover:text-teal-600 transition-colors"
             >
               Blog
             </Link>
-            <span className="text-gray-400">/</span>
+            <span className="text-grey-mid">/</span>
             <Link
               href={`/blog/${categorySlug}`}
-              className="text-gray-600 hover:text-teal-600 transition-colors"
+              className="text-grey-dark hover:text-teal-600 transition-colors"
             >
               {category.name}
             </Link>
-            <span className="text-gray-400">/</span>
-            <span className="text-gray-900 font-semibold line-clamp-1">{post.title}</span>
+            <span className="text-grey-mid">/</span>
+            <span className="text-navy font-semibold line-clamp-1">{post.title}</span>
           </div>
           <Link
             href={`/blog/${categorySlug}`}
-            className="inline-flex items-center gap-2 mt-2 text-gray-600 hover:text-teal-600 transition-colors"
+            className="inline-flex items-center gap-2 mt-2 text-grey-dark hover:text-teal-600 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Terug naar {category.name}
@@ -296,9 +296,9 @@ export default async function BlogPostPage({
 
       {/* Related Cases */}
       {relatedCases.length > 0 && (
-        <div className="border-t border-gray-200 bg-white">
+        <div className="border-t border-grey-light bg-white">
           <div className="max-w-7xl mx-auto px-4 py-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Bekijk ook deze cases</h2>
+            <h2 className="text-2xl font-bold text-navy mb-6">Bekijk ook deze cases</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {relatedCases.map((project: any) => (
                 <ProjectCard key={project.id} project={project} basePath="/cases" />
@@ -310,9 +310,9 @@ export default async function BlogPostPage({
 
       {/* Related Services */}
       {relatedServices.length > 0 && (
-        <div className="border-t border-gray-200 bg-gray-50">
+        <div className="border-t border-grey-light bg-grey-light">
           <div className="max-w-7xl mx-auto px-4 py-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Gerelateerde diensten</h2>
+            <h2 className="text-2xl font-bold text-navy mb-6">Gerelateerde diensten</h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {relatedServices.map((s: any) => {
                 const service = s.value
@@ -323,13 +323,13 @@ export default async function BlogPostPage({
                   <Link
                     key={service.id}
                     href={serviceUrl}
-                    className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 transition-shadow hover:shadow-md"
+                    className="flex items-center gap-3 rounded-xl border border-grey-light bg-white p-4 transition-shadow hover:shadow-md"
                   >
                     {service.icon && <span className="text-xl">{service.icon}</span>}
                     <div>
-                      <p className="font-semibold text-gray-900">{service.title}</p>
+                      <p className="font-semibold text-navy">{service.title}</p>
                       {service.shortDescription && (
-                        <p className="mt-1 text-xs text-gray-500 line-clamp-2">{service.shortDescription}</p>
+                        <p className="mt-1 text-xs text-grey-mid line-clamp-2">{service.shortDescription}</p>
                       )}
                     </div>
                   </Link>

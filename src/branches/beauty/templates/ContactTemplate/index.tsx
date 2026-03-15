@@ -86,7 +86,7 @@ export function ContactTemplate({ settings }: ContactTemplateProps) {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Main content - Contact form */}
           <div className="lg:col-span-2">
-            <div className="rounded-xl border border-gray-200 bg-white p-6 md:p-8">
+            <div className="rounded-xl border border-grey-light bg-white p-6 md:p-8">
               {submitted ? (
                 <div className="py-12 text-center">
                   <div className="mb-4 text-4xl">&#10003;</div>
@@ -115,7 +115,7 @@ export function ContactTemplate({ settings }: ContactTemplateProps) {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-navy outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20"
+                        className="w-full rounded-lg border border-grey-light px-4 py-2.5 text-sm text-navy outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20"
                         placeholder="Je volledige naam"
                       />
                     </div>
@@ -135,7 +135,7 @@ export function ContactTemplate({ settings }: ContactTemplateProps) {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-navy outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20"
+                        className="w-full rounded-lg border border-grey-light px-4 py-2.5 text-sm text-navy outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20"
                         placeholder="je@email.nl"
                       />
                     </div>
@@ -156,7 +156,7 @@ export function ContactTemplate({ settings }: ContactTemplateProps) {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-navy outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20"
+                        className="w-full rounded-lg border border-grey-light px-4 py-2.5 text-sm text-navy outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20"
                         placeholder="06-12345678"
                       />
                     </div>
@@ -175,7 +175,7 @@ export function ContactTemplate({ settings }: ContactTemplateProps) {
                         value={formData.subject}
                         onChange={handleChange}
                         required
-                        className={`w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20 ${
+                        className={`w-full rounded-lg border border-grey-light px-4 py-2.5 text-sm outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20 ${
                           formData.subject ? 'text-navy' : 'text-grey-mid'
                         }`}
                       >
@@ -204,7 +204,7 @@ export function ContactTemplate({ settings }: ContactTemplateProps) {
                       onChange={handleChange}
                       required
                       rows={5}
-                      className="w-full resize-none rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-navy outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20"
+                      className="w-full resize-none rounded-lg border border-grey-light px-4 py-2.5 text-sm text-navy outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20"
                       placeholder="Schrijf hier je bericht..."
                     />
                   </div>
@@ -238,7 +238,7 @@ export function ContactTemplate({ settings }: ContactTemplateProps) {
           <div className="lg:col-span-1">
             <div className="sticky top-20 space-y-6">
               {/* Opening Hours */}
-              <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <div className="rounded-xl border border-grey-light bg-white p-6">
                 <h3 className="mb-4 text-lg font-semibold text-navy">
                   Openingstijden
                 </h3>
@@ -247,7 +247,7 @@ export function ContactTemplate({ settings }: ContactTemplateProps) {
 
               {/* Address */}
               {address && (
-                <div className="rounded-xl border border-gray-200 bg-white p-6">
+                <div className="rounded-xl border border-grey-light bg-white p-6">
                   <h3 className="mb-4 text-lg font-semibold text-navy">
                     Adres
                   </h3>
@@ -259,7 +259,7 @@ export function ContactTemplate({ settings }: ContactTemplateProps) {
 
               {/* Phone & Email */}
               {(phoneNumber || emailAddress) && (
-                <div className="rounded-xl border border-gray-200 bg-white p-6">
+                <div className="rounded-xl border border-grey-light bg-white p-6">
                   <h3 className="mb-4 text-lg font-semibold text-navy">
                     Bereikbaarheid
                   </h3>

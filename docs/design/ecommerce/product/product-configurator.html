@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Productconfigurator — Ontwerp je eigen laptop</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1240px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:64px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--navy);text-decoration:none;}.logo em{color:var(--teal);font-style:normal;}
+  .back-link{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:var(--grey-mid);text-decoration:none;}.back-link:hover{color:var(--teal);}.back-link i{width:15px;height:15px;}
+
+  /* Step indicator */
+  .step-bar{padding:20px 0;}.step-row{display:flex;align-items:center;gap:0;max-width:700px;margin:0 auto;}
+  .stp{flex:1;text-align:center;position:relative;}.stp-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:13px;font-weight:800;border:2px solid var(--grey);background:white;color:var(--grey-mid);position:relative;z-index:2;}
+  .stp.done .stp-dot{background:var(--teal);border-color:var(--teal);color:white;}
+  .stp.active .stp-dot{border-color:var(--teal);color:var(--teal);box-shadow:0 0 0 4px var(--teal-glow);}
+  .stp-dot i{width:15px;height:15px;}
+  .stp-line{position:absolute;top:17px;left:50%;right:-50%;height:2px;background:var(--grey);z-index:1;}.stp.done .stp-line{background:var(--teal);}.stp:last-child .stp-line{display:none;}
+  .stp-label{font-size:12px;font-weight:600;color:var(--grey-mid);}.stp.active .stp-label{color:var(--teal);font-weight:700;}.stp.done .stp-label{color:var(--navy);}
+
+  /* Layout */
+  .cfg-layout{display:grid;grid-template-columns:1fr 400px;gap:28px;padding-bottom:64px;align-items:start;}
+
+  /* Preview */
+  .preview-card{background:white;border:1px solid var(--grey);border-radius:20px;overflow:hidden;margin-bottom:20px;position:sticky;top:160px;}
+  .preview-visual{height:320px;background:linear-gradient(135deg,var(--navy),#1a2744);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+  .preview-visual::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:400px;height:400px;background:radial-gradient(circle,rgba(0,137,123,0.06),transparent 70%);border-radius:50%;}
+  .preview-product{font-size:120px;position:relative;z-index:2;filter:drop-shadow(0 20px 40px rgba(0,0,0,0.3));}
+  .preview-rotate{position:absolute;bottom:16px;right:16px;display:flex;gap:4px;z-index:3;}
+  .pr-btn{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;}.pr-btn:hover{background:rgba(255,255,255,0.15);}.pr-btn i{width:16px;height:16px;}
+  .preview-color-indicator{position:absolute;top:16px;left:16px;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);padding:6px 12px;border-radius:8px;font-size:12px;color:white;z-index:3;}.pci-dot{width:14px;height:14px;border-radius:50%;border:2px solid white;}
+  .preview-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-top:1px solid var(--grey);}
+  .pvb-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;}
+  .pvb-config{font-size:12px;color:var(--grey-mid);}
+
+  /* Config sections */
+  .cfg-main{}
+  .cfg-section{margin-bottom:24px;}
+  .cfg-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:8px;}.cfg-title i{width:18px;height:18px;color:var(--teal);}
+  .cfg-desc{font-size:13px;color:var(--grey-mid);margin-bottom:14px;}
+
+  /* Color picker */
+  .color-grid{display:flex;gap:8px;flex-wrap:wrap;}
+  .color-opt{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;transition:transform .12s;}.color-opt:hover{transform:scale(1.08);}
+  .co-swatch{width:48px;height:48px;border-radius:14px;border:3px solid transparent;display:flex;align-items:center;justify-content:center;transition:all .15s;box-shadow:var(--shadow-sm);}
+  .color-opt.selected .co-swatch{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+  .color-opt.selected .co-swatch::after{content:'✓';color:white;font-size:16px;font-weight:800;text-shadow:0 1px 2px rgba(0,0,0,0.3);}
+  .co-label{font-size:11px;font-weight:600;color:var(--grey-dark);}
+
+  /* Option cards (specs) */
+  .opt-grid{display:flex;flex-direction:column;gap:8px;}
+  .opt-card{display:grid;grid-template-columns:auto 1fr auto;gap:14px;padding:16px;background:white;border:2px solid var(--grey);border-radius:14px;cursor:pointer;transition:all .2s;align-items:center;}
+  .opt-card:hover{border-color:var(--teal);}
+  .opt-card.selected{border-color:var(--teal);background:var(--teal-glow);}
+  .opt-radio{width:22px;height:22px;border:2px solid var(--grey);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+  .opt-card.selected .opt-radio{border-color:var(--teal);}.opt-card.selected .opt-radio::after{content:'';width:12px;height:12px;border-radius:50%;background:var(--teal);}
+  .opt-info h4{font-size:14px;font-weight:700;margin-bottom:1px;display:flex;align-items:center;gap:5px;}
+  .opt-badge{padding:2px 7px;border-radius:4px;font-size:9px;font-weight:700;color:white;}
+  .opt-desc{font-size:12px;color:var(--grey-mid);line-height:1.3;}
+  .opt-spec{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;}
+  .os-tag{display:flex;align-items:center;gap:3px;padding:2px 8px;background:var(--grey-light);border-radius:4px;font-size:10px;font-weight:600;color:var(--grey-dark);}.os-tag i{width:10px;height:10px;color:var(--teal);}
+  .opt-price{text-align:right;flex-shrink:0;}
+  .op-amount{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;}
+  .op-delta{font-size:11px;color:var(--grey-mid);}
+  .op-delta.up{color:var(--amber);}
+
+  /* Toggle options */
+  .toggle-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .toggle-opt{display:flex;align-items:center;gap:12px;padding:14px;background:white;border:2px solid var(--grey);border-radius:12px;cursor:pointer;transition:all .15s;}
+  .toggle-opt:hover{border-color:var(--teal);}
+  .toggle-opt.selected{border-color:var(--teal);background:var(--teal-glow);}
+  .to-check{width:22px;height:22px;border:2px solid var(--grey);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .12s;}
+  .toggle-opt.selected .to-check{background:var(--teal);border-color:var(--teal);}.toggle-opt.selected .to-check i{color:white;}
+  .to-check i{width:14px;height:14px;color:transparent;}
+  .to-info{flex:1;}.to-name{font-size:13px;font-weight:700;}.to-desc{font-size:11px;color:var(--grey-mid);}
+  .to-price{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--teal);flex-shrink:0;}
+
+  /* Sidebar summary */
+  .summary-card{position:sticky;top:88px;background:white;border:1.5px solid var(--grey);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-md);}
+  .sum-header{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:18px 22px;color:white;}
+  .sum-h-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;margin-bottom:2px;}
+  .sum-h-sub{font-size:12px;color:rgba(255,255,255,0.4);}
+  .sum-body{padding:18px 22px;}
+  .sum-config{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+  .sc-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--grey-light);border-radius:8px;font-size:13px;}
+  .sc-label{display:flex;align-items:center;gap:6px;color:var(--grey-dark);}.sc-label i{width:14px;height:14px;color:var(--teal);}
+  .sc-value{font-weight:700;display:flex;align-items:center;gap:4px;}
+  .sc-price{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey-mid);}
+
+  .sum-pricing{border-top:1px solid var(--grey);padding-top:14px;margin-bottom:14px;}
+  .sp-line{display:flex;justify-content:space-between;padding:3px 0;font-size:14px;color:var(--grey-dark);}
+  .sp-line.extra{color:var(--teal);font-weight:600;}
+  .sp-total{display:flex;justify-content:space-between;padding:12px 0 0;border-top:2px solid var(--navy);font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;margin-top:6px;}
+  .sp-monthly{text-align:right;font-size:12px;color:var(--grey-mid);font-weight:400;}
+
+  .sum-btn{width:100%;height:52px;background:linear-gradient(135deg,var(--teal),#00695C);color:white;border:none;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all var(--transition);box-shadow:0 4px 16px rgba(0,137,123,0.3);margin-top:14px;}.sum-btn:hover{background:var(--navy);}.sum-btn i{width:18px;height:18px;}
+  .sum-alt{display:flex;gap:6px;margin-top:8px;}
+  .sum-alt-btn{flex:1;height:40px;border-radius:var(--radius-sm);border:1.5px solid var(--grey);background:white;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .12s;color:var(--navy);}.sum-alt-btn:hover{border-color:var(--teal);color:var(--teal);}.sum-alt-btn i{width:13px;height:13px;}
+  .sum-trust{display:flex;flex-direction:column;gap:3px;margin-top:12px;padding-top:12px;border-top:1px solid var(--grey);}
+  .str{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--grey-mid);}.str i{width:13px;height:13px;color:var(--green);}
+
+  /* Nav buttons */
+  .cfg-nav{display:flex;justify-content:space-between;padding-top:16px;border-top:1px solid var(--grey);margin-top:16px;}
+  .nav-btn{display:flex;align-items:center;gap:6px;padding:10px 20px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all var(--transition);border:none;}
+  .nav-btn.back{background:white;color:var(--navy);border:1.5px solid var(--grey);}.nav-btn.back:hover{border-color:var(--teal);color:var(--teal);}
+  .nav-btn.next{background:var(--teal);color:white;}.nav-btn.next:hover{background:var(--navy);}
+  .nav-btn i{width:16px;height:16px;}
+
+  @media(max-width:900px){.cfg-layout{grid-template-columns:1fr;}.summary-card,.preview-card{position:static;}.toggle-grid{grid-template-columns:1fr;}.opt-card{grid-template-columns:auto 1fr;}.opt-price{grid-column:2;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo">tech<em>shop</em></a><a href="#" class="back-link"><i data-lucide="arrow-left"></i> Terug naar laptops</a></div></header>
+
+<div class="container">
+  <div class="step-bar">
+    <div class="step-row">
+      <div class="stp done"><div class="stp-line"></div><div class="stp-dot"><i data-lucide="check"></i></div><div class="stp-label">Model</div></div>
+      <div class="stp done"><div class="stp-line"></div><div class="stp-dot"><i data-lucide="check"></i></div><div class="stp-label">Kleur</div></div>
+      <div class="stp active"><div class="stp-line"></div><div class="stp-dot">3</div><div class="stp-label">Specs</div></div>
+      <div class="stp"><div class="stp-line"></div><div class="stp-dot">4</div><div class="stp-label">Extra's</div></div>
+      <div class="stp"><div class="stp-dot">5</div><div class="stp-label">Overzicht</div></div>
+    </div>
+  </div>
+
+  <div class="cfg-layout">
+    <div class="cfg-main">
+      <!-- Preview -->
+      <div class="preview-card">
+        <div class="preview-visual">
+          <div class="preview-color-indicator"><div class="pci-dot" style="background:#2D3436;"></div> Space Grey</div>
+          <div class="preview-product">💻</div>
+          <div class="preview-rotate"><button class="pr-btn"><i data-lucide="rotate-ccw"></i></button><button class="pr-btn"><i data-lucide="maximize-2"></i></button></div>
+        </div>
+        <div class="preview-bar"><div><div class="pvb-name">ProBook Ultra 16"</div><div class="pvb-config">Space Grey · M4 Pro · 32GB · 512GB</div></div></div>
+      </div>
+
+      <!-- Color (already done, shown as reference) -->
+      <div class="cfg-section">
+        <div class="cfg-title"><i data-lucide="palette"></i> Kleur</div>
+        <div class="cfg-desc">Kies je favoriete kleur. Alle kleuren zijn beschikbaar.</div>
+        <div class="color-grid">
+          <div class="color-opt selected"><div class="co-swatch" style="background:#2D3436;"></div><div class="co-label">Space Grey</div></div>
+          <div class="color-opt"><div class="co-swatch" style="background:#C0C0C0;"></div><div class="co-label">Zilver</div></div>
+          <div class="color-opt"><div class="co-swatch" style="background:#1A1A2E;"></div><div class="co-label">Midnight</div></div>
+          <div class="color-opt"><div class="co-swatch" style="background:#F5E6D3;"></div><div class="co-label">Starlight</div></div>
+        </div>
+      </div>
+
+      <!-- Processor -->
+      <div class="cfg-section">
+        <div class="cfg-title"><i data-lucide="cpu"></i> Processor</div>
+        <div class="cfg-desc">Kies de chip die bij je werkzaamheden past.</div>
+        <div class="opt-grid">
+          <div class="opt-card"><div class="opt-radio"></div><div class="opt-info"><h4>M4</h4><div class="opt-desc">10-core CPU, 10-core GPU — Ideaal voor dagelijks gebruik</div><div class="opt-spec"><span class="os-tag"><i data-lucide="cpu"></i> 10-core</span><span class="os-tag"><i data-lucide="monitor"></i> 10-core GPU</span></div></div><div class="opt-price"><div class="op-amount">€1.599</div><div class="op-delta">Basis</div></div></div>
+          <div class="opt-card selected"><div class="opt-radio"></div><div class="opt-info"><h4>M4 Pro <span class="opt-badge" style="background:var(--teal);">Populairst</span></h4><div class="opt-desc">14-core CPU, 20-core GPU — Voor creatieve professionals</div><div class="opt-spec"><span class="os-tag"><i data-lucide="cpu"></i> 14-core</span><span class="os-tag"><i data-lucide="monitor"></i> 20-core GPU</span><span class="os-tag"><i data-lucide="zap"></i> 2x sneller</span></div></div><div class="opt-price"><div class="op-amount">€2.199</div><div class="op-delta up">+ €600</div></div></div>
+          <div class="opt-card"><div class="opt-radio"></div><div class="opt-info"><h4>M4 Max <span class="opt-badge" style="background:var(--navy);">Pro</span></h4><div class="opt-desc">16-core CPU, 40-core GPU — Maximale performance voor video & 3D</div><div class="opt-spec"><span class="os-tag"><i data-lucide="cpu"></i> 16-core</span><span class="os-tag"><i data-lucide="monitor"></i> 40-core GPU</span><span class="os-tag"><i data-lucide="zap"></i> 4x sneller</span></div></div><div class="opt-price"><div class="op-amount">€3.199</div><div class="op-delta up">+ €1.600</div></div></div>
+        </div>
+      </div>
+
+      <!-- RAM -->
+      <div class="cfg-section">
+        <div class="cfg-title"><i data-lucide="memory-stick"></i> Geheugen (RAM)</div>
+        <div class="cfg-desc">Meer geheugen voor zwaardere multitasking en grotere projecten.</div>
+        <div class="opt-grid">
+          <div class="opt-card"><div class="opt-radio"></div><div class="opt-info"><h4>24 GB</h4><div class="opt-desc">Geschikt voor de meeste taken</div></div><div class="opt-price"><div class="op-amount">Incl.</div><div class="op-delta">Standaard</div></div></div>
+          <div class="opt-card selected"><div class="opt-radio"></div><div class="opt-info"><h4>36 GB <span class="opt-badge" style="background:var(--teal);">Aanbevolen</span></h4><div class="opt-desc">Ideaal voor design, video-editing en development</div></div><div class="opt-price"><div class="op-amount">+ €200</div><div class="op-delta up">Upgrade</div></div></div>
+          <div class="opt-card"><div class="opt-radio"></div><div class="opt-info"><h4>48 GB</h4><div class="opt-desc">Voor de meest veeleisende workflows</div></div><div class="opt-price"><div class="op-amount">+ €400</div><div class="op-delta up">Upgrade</div></div></div>
+        </div>
+      </div>
+
+      <!-- Storage -->
+      <div class="cfg-section">
+        <div class="cfg-title"><i data-lucide="hard-drive"></i> Opslag (SSD)</div>
+        <div class="cfg-desc">Snelle NVMe opslag voor al je bestanden en projecten.</div>
+        <div class="opt-grid">
+          <div class="opt-card selected"><div class="opt-radio"></div><div class="opt-info"><h4>512 GB</h4><div class="opt-desc">Voldoende voor de meeste gebruikers</div></div><div class="opt-price"><div class="op-amount">Incl.</div><div class="op-delta">Standaard</div></div></div>
+          <div class="opt-card"><div class="opt-radio"></div><div class="opt-info"><h4>1 TB</h4><div class="opt-desc">Dubbele opslagruimte — ideaal voor foto & video</div></div><div class="opt-price"><div class="op-amount">+ €200</div><div class="op-delta up">Upgrade</div></div></div>
+          <div class="opt-card"><div class="opt-radio"></div><div class="opt-info"><h4>2 TB</h4><div class="opt-desc">Maximale opslag voor grote projecten en mediabestanden</div></div><div class="opt-price"><div class="op-amount">+ €400</div><div class="op-delta up">Upgrade</div></div></div>
+        </div>
+      </div>
+
+      <!-- Extras (toggles) -->
+      <div class="cfg-section">
+        <div class="cfg-title"><i data-lucide="plus-circle"></i> Extra's</div>
+        <div class="cfg-desc">Optionele accessoires en services toevoegen.</div>
+        <div class="toggle-grid">
+          <div class="toggle-opt selected"><div class="to-check"><i data-lucide="check"></i></div><div class="to-info"><div class="to-name">AppleCare+ (3 jaar)</div><div class="to-desc">Uitgebreide garantie + schadeprotectie</div></div><div class="to-price">+ €299</div></div>
+          <div class="toggle-opt"><div class="to-check"><i data-lucide="check"></i></div><div class="to-info"><div class="to-name">USB-C Hub (7-in-1)</div><div class="to-desc">HDMI, USB-A, SD, ethernet</div></div><div class="to-price">+ €79</div></div>
+          <div class="toggle-opt selected"><div class="to-check"><i data-lucide="check"></i></div><div class="to-info"><div class="to-name">Gravering</div><div class="to-desc">Persoonlijke tekst op de onderkant</div></div><div class="to-price">Gratis</div></div>
+          <div class="toggle-opt"><div class="to-check"><i data-lucide="check"></i></div><div class="to-info"><div class="to-name">Laptop Sleeve</div><div class="to-desc">Premium leren hoes</div></div><div class="to-price">+ €129</div></div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="cfg-nav"><button class="nav-btn back"><i data-lucide="arrow-left"></i> Vorige stap</button><button class="nav-btn next">Volgende stap <i data-lucide="arrow-right"></i></button></div>
+    </div>
+
+    <!-- Summary sidebar -->
+    <aside>
+      <div class="summary-card">
+        <div class="sum-header"><div class="sum-h-title">💻 ProBook Ultra 16"</div><div class="sum-h-sub">Je huidige configuratie</div></div>
+        <div class="sum-body">
+          <div class="sum-config">
+            <div class="sc-row"><div class="sc-label"><i data-lucide="palette"></i> Kleur</div><div class="sc-value"><div class="pci-dot" style="width:10px;height:10px;background:#2D3436;border:1px solid var(--grey);border-radius:50%;"></div> Space Grey</div></div>
+            <div class="sc-row"><div class="sc-label"><i data-lucide="cpu"></i> Processor</div><div class="sc-value">M4 Pro <span class="sc-price">+ €600</span></div></div>
+            <div class="sc-row"><div class="sc-label"><i data-lucide="memory-stick"></i> RAM</div><div class="sc-value">36 GB <span class="sc-price">+ €200</span></div></div>
+            <div class="sc-row"><div class="sc-label"><i data-lucide="hard-drive"></i> SSD</div><div class="sc-value">512 GB <span class="sc-price">incl.</span></div></div>
+          </div>
+
+          <div class="sum-pricing">
+            <div class="sp-line"><span>Basisprijs ProBook Ultra 16"</span><span>€1.599,00</span></div>
+            <div class="sp-line"><span>M4 Pro upgrade</span><span>+ €600,00</span></div>
+            <div class="sp-line"><span>36 GB RAM upgrade</span><span>+ €200,00</span></div>
+            <div class="sp-line extra"><span>AppleCare+ (3 jaar)</span><span>+ €299,00</span></div>
+            <div class="sp-line extra"><span>Gravering</span><span>Gratis</span></div>
+            <div class="sp-total"><span>Totaal</span><div><span>€2.698,00</span><div class="sp-monthly">of €112,42/mnd (24×)</div></div></div>
+          </div>
+
+          <button class="sum-btn"><i data-lucide="shopping-cart"></i> Toevoegen aan winkelwagen</button>
+          <div class="sum-alt">
+            <button class="sum-alt-btn"><i data-lucide="heart"></i> Opslaan</button>
+            <button class="sum-alt-btn"><i data-lucide="share-2"></i> Delen</button>
+            <button class="sum-alt-btn"><i data-lucide="file-text"></i> PDF</button>
+          </div>
+          <div class="sum-trust">
+            <div class="str"><i data-lucide="truck"></i> Gratis levering (3–5 werkdagen)</div>
+            <div class="str"><i data-lucide="rotate-ccw"></i> 14 dagen retourrecht</div>
+            <div class="str"><i data-lucide="shield-check"></i> 2 jaar fabrieksgarantie</div>
+            <div class="str"><i data-lucide="credit-card"></i> Betaal achteraf of in termijnen</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+<script>lucide.createIcons();</script>
+</body>
+</html>

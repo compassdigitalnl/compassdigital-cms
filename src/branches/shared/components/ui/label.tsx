@@ -12,7 +12,7 @@ function Label({ className, ...props }: React.ComponentProps<typeof LabelPrimiti
       className={cn(
         // Modern label styling with better hierarchy
         'flex items-center gap-2',
-        'text-sm font-semibold text-gray-700',
+        'text-sm font-semibold text-grey-dark',
         'leading-relaxed select-none',
         'mb-1.5', // Space between label and input
 

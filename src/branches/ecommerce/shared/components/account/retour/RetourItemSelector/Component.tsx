@@ -5,7 +5,7 @@ import type { RetourItemSelectorProps } from './types'
 export function RetourItemSelector({ items, onToggleItem, onSetQuantity, onNext, selectedCount }: RetourItemSelectorProps) {
   return (
     <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
-      <h2 className="text-base lg:text-lg font-extrabold mb-4 text-gray-900">
+      <h2 className="text-base lg:text-lg font-extrabold mb-4 text-navy">
         Selecteer producten om te retourneren
       </h2>
       <div className="space-y-3">
@@ -14,33 +14,33 @@ export function RetourItemSelector({ items, onToggleItem, onSetQuantity, onNext,
             key={item.id}
             onClick={() => onToggleItem(item.id)}
             className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${
-              item.selected ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]' : 'border-gray-200'
+              item.selected ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]' : 'border-grey-light'
             }`}
           >
             <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-              item.selected ? 'border-[var(--color-primary)] bg-[var(--color-primary)]' : 'border-gray-300'
+              item.selected ? 'border-[var(--color-primary)] bg-[var(--color-primary)]' : 'border-grey-light'
             }`}>
               {item.selected && <CheckCircle2 className="w-4 h-4 text-white" />}
             </div>
-            <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center">
-              <Package className="w-5 h-5 text-gray-300" />
+            <div className="w-10 h-10 rounded-lg bg-grey-light flex items-center justify-center">
+              <Package className="w-5 h-5 text-grey-mid" />
             </div>
             <div className="flex-1">
-              <div className="text-sm font-bold text-gray-900">{item.title}</div>
-              {item.sku && <div className="text-xs font-mono text-gray-500">{item.sku}</div>}
+              <div className="text-sm font-bold text-navy">{item.title}</div>
+              {item.sku && <div className="text-xs font-mono text-grey-mid">{item.sku}</div>}
             </div>
             {item.selected && (
               <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
-                <label className="text-xs text-gray-500">Aantal:</label>
+                <label className="text-xs text-grey-mid">Aantal:</label>
                 <input
                   type="number"
                   min={1}
                   max={item.maxQuantity}
                   value={item.quantity}
                   onChange={(e) => onSetQuantity(item.id, parseInt(e.target.value) || 1)}
-                  className="w-16 px-2 py-1 rounded-lg border border-gray-200 text-sm text-center"
+                  className="w-16 px-2 py-1 rounded-lg border border-grey-light text-sm text-center"
                 />
-                <span className="text-xs text-gray-500">/ {item.maxQuantity}</span>
+                <span className="text-xs text-grey-mid">/ {item.maxQuantity}</span>
               </div>
             )}
           </div>

@@ -93,8 +93,8 @@ export default function OrderDetailPage() {
   if (error || !order) {
     return (
       <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
-        <h2 className="text-lg font-extrabold text-gray-900 mb-2">{error || 'Bestelling niet gevonden'}</h2>
-        <p className="text-sm text-gray-500">Controleer het bestelnummer en probeer het opnieuw.</p>
+        <h2 className="text-lg font-extrabold text-navy mb-2">{error || 'Bestelling niet gevonden'}</h2>
+        <p className="text-sm text-grey-mid">Controleer het bestelnummer en probeer het opnieuw.</p>
       </div>
     )
   }

@@ -48,7 +48,7 @@ export const SubscriptionPricingComponent: React.FC<SubscriptionPricingBlock> = 
           {(title || subtitle) && (
             <div className="text-center mb-8">
               {title && (
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">{title}</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">{title}</h2>
               )}
               {subtitle && <p className="text-lg text-grey-mid">{subtitle}</p>}
             </div>
@@ -86,11 +86,11 @@ export const SubscriptionPricingComponent: React.FC<SubscriptionPricingBlock> = 
                   return (
                     <tr
                       key={plan.id || index}
-                      className={`border-b border-grey ${plan.featured ? 'bg-primary/5' : 'bg-white'} hover:bg-gray-50 transition-colors`}
+                      className={`border-b border-grey ${plan.featured ? 'bg-primary/5' : 'bg-white'} hover:bg-grey-light transition-colors`}
                     >
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-gray-900">{plan.name}</span>
+                          <span className="font-bold text-navy">{plan.name}</span>
                           {plan.featured && (
                             <span className="px-2 py-0.5 bg-primary rounded-full text-white text-[10px] font-bold">
                               Populair
@@ -113,7 +113,7 @@ export const SubscriptionPricingComponent: React.FC<SubscriptionPricingBlock> = 
                             .map((f, fIdx) => (
                               <span
                                 key={f.id || fIdx}
-                                className="inline-flex items-center gap-1 text-xs text-gray-600 bg-gray-100 rounded-full px-2 py-1"
+                                className="inline-flex items-center gap-1 text-xs text-grey-dark bg-grey-light rounded-full px-2 py-1"
                               >
                                 <Icon name="Check" size={10} className="text-success" />
                                 {f.text}
@@ -168,7 +168,7 @@ export const SubscriptionPricingComponent: React.FC<SubscriptionPricingBlock> = 
         {(title || subtitle) && (
           <div className="text-center mb-8">
             {title && (
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">{title}</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">{title}</h2>
             )}
             {subtitle && <p className="text-lg text-grey-mid max-w-2xl mx-auto">{subtitle}</p>}
           </div>
@@ -202,7 +202,7 @@ export const SubscriptionPricingComponent: React.FC<SubscriptionPricingBlock> = 
                 )}
 
                 <div className="p-8 flex-1 flex flex-col">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                  <h3 className="text-xl font-bold text-navy mb-2">{plan.name}</h3>
 
                   <div className="mb-4">
                     <span className="text-4xl font-bold text-primary">{price}</span>
@@ -232,15 +232,15 @@ export const SubscriptionPricingComponent: React.FC<SubscriptionPricingBlock> = 
                               <Icon name="Check" size={12} />
                             </span>
                           ) : (
-                            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-xs mt-0.5">
+                            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-grey-light flex items-center justify-center text-grey-mid text-xs mt-0.5">
                               <Icon name="X" size={12} />
                             </span>
                           )}
                           <span
                             className={
                               feature.included
-                                ? 'text-gray-700'
-                                : 'text-gray-400 line-through'
+                                ? 'text-grey-dark'
+                                : 'text-grey-mid line-through'
                             }
                           >
                             {feature.text}

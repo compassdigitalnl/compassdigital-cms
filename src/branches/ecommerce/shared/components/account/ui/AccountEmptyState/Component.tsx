@@ -19,8 +19,8 @@ export function AccountEmptyState({
       >
         <Icon className="w-8 h-8" style={{ color: 'var(--color-primary)' }} />
       </div>
-      <h3 className="text-lg font-extrabold text-gray-900 mb-2">{title}</h3>
-      {description && <p className="text-sm text-gray-500 mb-6 max-w-md mx-auto">{description}</p>}
+      <h3 className="text-lg font-extrabold text-navy mb-2">{title}</h3>
+      {description && <p className="text-sm text-grey-mid mb-6 max-w-md mx-auto">{description}</p>}
       {actionLabel && actionHref && (
         <Link
           href={actionHref}

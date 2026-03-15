@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B-02d: Two Column with Image Pair - Payload CMS Block</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ============================================
+       DESIGN TOKENS
+       ============================================ */
+    :root {
+      /* Colors */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Spacing */
+      --sp-xs: 4px;
+      --sp-sm: 8px;
+      --sp-md: 12px;
+      --sp-lg: 16px;
+      --sp-xl: 24px;
+      --sp-2xl: 32px;
+      --sp-3xl: 48px;
+      --sp-4xl: 64px;
+
+      /* Shadows */
+      --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --sh-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+      --sh-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+
+      /* Radius */
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'DM Serif Display', Georgia, serif;
+    }
+
+    /* ============================================
+       BASE STYLES
+       ============================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      padding: 0;
+    }
+
+    .preview-container {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    /* ============================================
+       TWO COLUMN IMAGE PAIR - VARIANT A (EQUAL)
+       ============================================ */
+    .two-col-image-pair {
+      padding: var(--sp-5xl) var(--sp-xl);
+      background: white;
+    }
+
+    .two-col-image-pair-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .two-col-image-pair-header {
+      text-align: center;
+      margin-bottom: var(--sp-4xl);
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .two-col-image-pair-overline {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--teal);
+      margin-bottom: var(--sp-md);
+    }
+
+    .two-col-image-pair-title {
+      font-family: var(--font-display);
+      font-size: 36px;
+      line-height: 1.2;
+      color: var(--navy);
+      margin-bottom: var(--sp-lg);
+    }
+
+    .two-col-image-pair-description {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+    }
+
+    /* Grid layout */
+    .two-col-image-pair-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-xl);
+    }
+
+    .two-col-image-pair-grid.left-large {
+      grid-template-columns: 1.5fr 1fr;
+    }
+
+    .two-col-image-pair-grid.right-large {
+      grid-template-columns: 1fr 1.5fr;
+    }
+
+    /* Image wrapper */
+    .two-col-image-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: var(--grey-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--sh-md);
+      transition: all 0.3s ease;
+    }
+
+    .two-col-image-wrapper:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--sh-lg);
+    }
+
+    .two-col-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Placeholder icon */
+    .two-col-image-placeholder {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      color: var(--grey-mid);
+    }
+
+    /* Caption overlay */
+    .two-col-image-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: var(--sp-lg);
+      background: linear-gradient(to top, rgba(10, 22, 40, 0.9), transparent);
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .two-col-image-wrapper:hover .two-col-image-caption {
+      opacity: 1;
+    }
+
+    /* ============================================
+       VARIANT B: VERTICAL STACK (TALL)
+       ============================================ */
+    .two-col-vertical .two-col-image-wrapper {
+      aspect-ratio: 3 / 4;
+    }
+
+    /* ============================================
+       VARIANT C: WITH TEXT OVERLAYS
+       ============================================ */
+    .two-col-with-overlay .two-col-image-wrapper {
+      aspect-ratio: 1 / 1;
+    }
+
+    .two-col-text-overlay {
+      position: absolute;
+      top: var(--sp-xl);
+      left: var(--sp-xl);
+      right: var(--sp-xl);
+      padding: var(--sp-lg);
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--sh-lg);
+    }
+
+    .two-col-text-overlay h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--navy);
+      margin-bottom: var(--sp-sm);
+    }
+
+    .two-col-text-overlay p {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       VARIANT D: COMPARISON LAYOUT
+       ============================================ */
+    .two-col-comparison {
+      background: var(--bg);
+    }
+
+    .two-col-comparison-item {
+      position: relative;
+    }
+
+    .two-col-comparison-badge {
+      position: absolute;
+      top: var(--sp-lg);
+      left: 50%;
+      transform: translateX(-50%);
+      padding: var(--sp-sm) var(--sp-lg);
+      background: var(--teal);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: var(--radius-sm);
+      z-index: 1;
+      box-shadow: var(--sh-md);
+    }
+
+    .two-col-comparison-badge.secondary {
+      background: var(--grey-mid);
+    }
+
+    .two-col-comparison-label {
+      text-align: center;
+      margin-top: var(--sp-lg);
+    }
+
+    .two-col-comparison-label h3 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      color: var(--navy);
+      margin-bottom: var(--sp-xs);
+    }
+
+    .two-col-comparison-label p {
+      font-size: 14px;
+      color: var(--grey-dark);
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 768px) {
+      .two-col-image-pair {
+        padding: var(--sp-3xl) var(--sp-lg);
+      }
+
+      .two-col-image-pair-header {
+        margin-bottom: var(--sp-2xl);
+      }
+
+      .two-col-image-pair-title {
+        font-size: 28px;
+      }
+
+      .two-col-image-pair-grid,
+      .two-col-image-pair-grid.left-large,
+      .two-col-image-pair-grid.right-large {
+        grid-template-columns: 1fr;
+        gap: var(--sp-lg);
+      }
+
+      .two-col-text-overlay {
+        top: var(--sp-md);
+        left: var(--sp-md);
+        right: var(--sp-md);
+        padding: var(--sp-md);
+      }
+
+      .two-col-text-overlay h3 {
+        font-size: 18px;
+      }
+
+      .two-col-comparison-badge {
+        top: var(--sp-md);
+      }
+    }
+
+    /* ============================================
+       DOCUMENTATION STYLES
+       ============================================ */
+    .doc-header {
+      background: white;
+      border-bottom: 1px solid var(--grey);
+      padding: var(--sp-2xl) var(--sp-xl);
+      margin-bottom: var(--sp-3xl);
+    }
+
+    .doc-header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .doc-title {
+      font-family: var(--font-display);
+      font-size: 32px;
+      color: var(--navy);
+      margin-bottom: var(--sp-md);
+    }
+
+    .doc-subtitle {
+      font-size: 16px;
+      color: var(--grey-mid);
+      margin-bottom: var(--sp-lg);
+    }
+
+    .doc-meta {
+      display: flex;
+      gap: var(--sp-xl);
+      font-size: 14px;
+      color: var(--grey-dark);
+    }
+
+    .doc-meta-item {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-sm);
+    }
+
+    .doc-meta-item i {
+      width: 16px;
+      height: 16px;
+      color: var(--teal);
+    }
+
+    .variant-label {
+      display: inline-block;
+      background: var(--teal-glow);
+      color: var(--teal);
+      padding: var(--sp-sm) var(--sp-md);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: var(--sp-2xl) var(--sp-xl) var(--sp-lg);
+    }
+  </style>
+</head>
+<body>
+  <!-- ============================================
+       DOCUMENTATION HEADER
+       ============================================ -->
+  <div class="doc-header">
+    <div class="doc-header-container">
+      <h1 class="doc-title">B-02d: Two Column with Image Pair</h1>
+      <p class="doc-subtitle">
+        Display two images side-by-side with flexible layouts: equal width, left-large, right-large, comparison, and overlay variants
+      </p>
+      <div class="doc-meta">
+        <div class="doc-meta-item">
+          <i data-lucide="calendar"></i>
+          <span>Last updated: March 2026</span>
+        </div>
+        <div class="doc-meta-item">
+          <i data-lucide="layers"></i>
+          <span>4 Layout Variants</span>
+        </div>
+        <div class="doc-meta-item">
+          <i data-lucide="image"></i>
+          <span>Dual Image Support</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       VARIANT A: EQUAL WIDTH
+       ============================================ -->
+  <div class="preview-container">
+    <div class="variant-label">Variant A: Equal Width (1:1 ratio)</div>
+    <section class="two-col-image-pair">
+      <div class="two-col-image-pair-container">
+        <div class="two-col-image-pair-header">
+          <span class="two-col-image-pair-overline">Ons werk</span>
+          <h2 class="two-col-image-pair-title">
+            Bekijk onze recente projecten
+          </h2>
+          <p class="two-col-image-pair-description">
+            Van kleine startups tot grote ondernemingen, we helpen bedrijven hun digitale doelen te bereiken met doordachte oplossingen.
+          </p>
+        </div>
+        <div class="two-col-image-pair-grid">
+          <div class="two-col-image-wrapper">
+            <i class="two-col-image-placeholder" data-lucide="image"></i>
+            <div class="two-col-image-caption">Project Alpha - E-commerce Platform</div>
+          </div>
+          <div class="two-col-image-wrapper">
+            <i class="two-col-image-placeholder" data-lucide="image"></i>
+            <div class="two-col-image-caption">Project Beta - CMS Integration</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============================================
+       VARIANT B: LEFT LARGE
+       ============================================ -->
+  <div class="preview-container" style="margin-top: 48px;">
+    <div class="variant-label">Variant B: Left Large (1.5:1 ratio)</div>
+    <section class="two-col-image-pair">
+      <div class="two-col-image-pair-container">
+        <div class="two-col-image-pair-header">
+          <span class="two-col-image-pair-overline">Featured</span>
+          <h2 class="two-col-image-pair-title">
+            Hoofd project met detail shot
+          </h2>
+          <p class="two-col-image-pair-description">
+            Laat je hoofdproject prominenter zien met een grotere linker afbeelding en een detail of aanvullende shot rechts.
+          </p>
+        </div>
+        <div class="two-col-image-pair-grid left-large">
+          <div class="two-col-image-wrapper">
+            <i class="two-col-image-placeholder" data-lucide="image" style="width: 100px; height: 100px;"></i>
+            <div class="two-col-image-caption">Hoofdproject - Full Overview</div>
+          </div>
+          <div class="two-col-image-wrapper">
+            <i class="two-col-image-placeholder" data-lucide="image"></i>
+            <div class="two-col-image-caption">Detail Shot - Close-up</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============================================
+       VARIANT C: WITH TEXT OVERLAYS
+       ============================================ -->
+  <div class="preview-container" style="margin-top: 48px;">
+    <div class="variant-label">Variant C: With Text Overlays (Square 1:1)</div>
+    <section class="two-col-image-pair two-col-with-overlay">
+      <div class="two-col-image-pair-container">
+        <div class="two-col-image-pair-header">
+          <span class="two-col-image-pair-overline">Diensten</span>
+          <h2 class="two-col-image-pair-title">
+            Ontwerp & Ontwikkeling
+          </h2>
+          <p class="two-col-image-pair-description">
+            Wij combineren strategisch design met technische expertise om digitale producten te creëren die gebruikers echt waarderen.
+          </p>
+        </div>
+        <div class="two-col-image-pair-grid">
+          <div class="two-col-image-wrapper">
+            <i class="two-col-image-placeholder" data-lucide="palette"></i>
+            <div class="two-col-text-overlay">
+              <h3>Design</h3>
+              <p>Van wireframes tot pixel-perfect UI designs die gebruikers betrekken en converteren.</p>
+            </div>
+          </div>
+          <div class="two-col-image-wrapper">
+            <i class="two-col-image-placeholder" data-lucide="code"></i>
+            <div class="two-col-text-overlay">
+              <h3>Development</h3>
+              <p>Schaalbare, onderhoudbare code gebouwd met de nieuwste technologieën.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============================================
+       VARIANT D: COMPARISON LAYOUT
+       ============================================ -->
+  <div class="preview-container" style="margin-top: 48px;">
+    <div class="variant-label">Variant D: Comparison (Before/After)</div>
+    <section class="two-col-image-pair two-col-comparison">
+      <div class="two-col-image-pair-container">
+        <div class="two-col-image-pair-header">
+          <span class="two-col-image-pair-overline">Transformatie</span>
+          <h2 class="two-col-image-pair-title">
+            Voor & Na vergelijking
+          </h2>
+          <p class="two-col-image-pair-description">
+            Zie het verschil tussen de originele situatie en het eindresultaat na onze optimalisaties.
+          </p>
+        </div>
+        <div class="two-col-image-pair-grid">
+          <div class="two-col-comparison-item">
+            <div class="two-col-comparison-badge secondary">Voor</div>
+            <div class="two-col-image-wrapper">
+              <i class="two-col-image-placeholder" data-lucide="image"></i>
+            </div>
+            <div class="two-col-comparison-label">
+              <h3>Oude Website</h3>
+              <p>Traag laden, verouderd design, lage conversie</p>
+            </div>
+          </div>
+          <div class="two-col-comparison-item">
+            <div class="two-col-comparison-badge">Na</div>
+            <div class="two-col-image-wrapper">
+              <i class="two-col-image-placeholder" data-lucide="image"></i>
+            </div>
+            <div class="two-col-comparison-label">
+              <h3>Nieuwe Website</h3>
+              <p>Razendsnel, modern design, 3x hogere conversie</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============================================
+       JAVASCRIPT - INITIALIZE ICONS
+       ============================================ -->
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons()
+  </script>
+</body>
+</html>
+
+<!-- ============================================================================
+     8-STEP IMPLEMENTATION GUIDE
+     ============================================================================ -->
+
+<div style="max-width: 1200px; margin: 80px auto; padding: 0 24px; font-family: system-ui, -apple-system, sans-serif;">
+
+  <div style="background: linear-gradient(135deg, #0A1628, #121F33); padding: 48px; border-radius: 16px; margin-bottom: 48px;">
+    <h2 style="font-size: 32px; font-weight: 800; color: white; margin: 0 0 16px 0;">
+      📋 8-Step Implementation Guide
+    </h2>
+    <p style="font-size: 16px; color: rgba(255,255,255,0.7); margin: 0; line-height: 1.6;">
+      Complete guide for integrating <strong>B-02d: Two Column with Image Pair</strong> into your Payload CMS + Next.js project.
+    </p>
+  </div>
+
+  <!-- STEP 1: Payload Block Configuration -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">1</span>
+      Payload Block Configuration
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      Add this block configuration to your Payload CMS blocks collection:
+    </p>
+
+    <div style="background: #0A1628; border-radius: 8px; padding: 24px; overflow-x: auto; margin-bottom: 24px;">
+      <pre style="margin: 0; color: #E8ECF1; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;"><code>// src/blocks/TwoColumnImagePair.ts
+
+import { Block } from 'payload/types'
+
+export const TwoColumnImagePair: Block = {
+  slug: 'two-column-image-pair',
+  labels: {
+    singular: 'Two Column Image Pair',
+    plural: 'Two Column Image Pair Blocks',
+  },
+  interfaceName: 'TwoColumnImagePairBlock',
+  fields: [
+    {
+      name: 'layout',
+      type: 'select',
+      label: 'Image Layout',
+      defaultValue: 'equal',
+      required: true,
+      options: [
+        { label: 'Equal Width (1:1)', value: 'equal' },
+        { label: 'Left Large (1.5:1)', value: 'left-large' },
+        { label: 'Right Large (1:1.5)', value: 'right-large' },
+        { label: 'Comparison (Before/After)', value: 'comparison' },
+      ],
+      admin: {
+        description: 'Choose the column width ratio for the two images.',
+      },
+    },
+    {
+      name: 'imageType',
+      type: 'select',
+      label: 'Image Type',
+      defaultValue: 'standard',
+      required: true,
+      options: [
+        { label: 'Standard (Hover Caption)', value: 'standard' },
+        { label: 'With Text Overlay', value: 'overlay' },
+      ],
+      admin: {
+        description: 'Standard shows caption on hover. Overlay shows text card on top of image.',
+      },
+    },
+    {
+      name: 'aspectRatio',
+      type: 'select',
+      label: 'Image Aspect Ratio',
+      defaultValue: 'landscape',
+      required: true,
+      options: [
+        { label: 'Landscape (4:3)', value: 'landscape' },
+        { label: 'Portrait (3:4)', value: 'portrait' },
+        { label: 'Square (1:1)', value: 'square' },
+      ],
+    },
+    {
+      name: 'image1',
+      type: 'upload',
+      label: 'Image 1 (Left)',
+      relationTo: 'media',
+      required: true,
+      admin: {
+        description: 'Recommended size: 1200x900px for landscape, 900x1200px for portrait.',
+      },
+    },
+    {
+      name: 'caption1',
+      type: 'text',
+      label: 'Image 1 Caption (Optional)',
+      admin: {
+        description: 'Shows on hover for standard type, or as label below for comparison type.',
+        condition: (data) => data.imageType !== 'overlay',
+      },
+    },
+    {
+      name: 'overlay1',
+      type: 'group',
+      label: 'Image 1 Overlay Text',
+      admin: {
+        condition: (data) => data.imageType === 'overlay',
+      },
+      fields: [
+        {
+          name: 'icon',
+          type: 'select',
+          label: 'Icon',
+          options: [
+            { label: 'Palette (Design)', value: 'palette' },
+            { label: 'Code (Development)', value: 'code' },
+            { label: 'Megaphone (Marketing)', value: 'megaphone' },
+            { label: 'Users (Team)', value: 'users' },
+            { label: 'Zap (Performance)', value: 'zap' },
+            { label: 'Shield (Security)', value: 'shield' },
+          ],
+        },
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Title',
+          required: true,
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Description',
+          maxLength: 200,
+        },
+      ],
+    },
+    {
+      name: 'comparisonBadge1',
+      type: 'text',
+      label: 'Image 1 Badge Text',
+      defaultValue: 'Voor',
+      admin: {
+        description: 'Text for badge above image (e.g., "Before", "Old Design").',
+        condition: (data) => data.layout === 'comparison',
+      },
+    },
+    {
+      name: 'image2',
+      type: 'upload',
+      label: 'Image 2 (Right)',
+      relationTo: 'media',
+      required: true,
+      admin: {
+        description: 'Recommended size: 1200x900px for landscape, 900x1200px for portrait.',
+      },
+    },
+    {
+      name: 'caption2',
+      type: 'text',
+      label: 'Image 2 Caption (Optional)',
+      admin: {
+        description: 'Shows on hover for standard type, or as label below for comparison type.',
+        condition: (data) => data.imageType !== 'overlay',
+      },
+    },
+    {
+      name: 'overlay2',
+      type: 'group',
+      label: 'Image 2 Overlay Text',
+      admin: {
+        condition: (data) => data.imageType === 'overlay',
+      },
+      fields: [
+        {
+          name: 'icon',
+          type: 'select',
+          label: 'Icon',
+          options: [
+            { label: 'Palette (Design)', value: 'palette' },
+            { label: 'Code (Development)', value: 'code' },
+            { label: 'Megaphone (Marketing)', value: 'megaphone' },
+            { label: 'Users (Team)', value: 'users' },
+            { label: 'Zap (Performance)', value: 'zap' },
+            { label: 'Shield (Security)', value: 'shield' },
+          ],
+        },
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Title',
+          required: true,
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Description',
+          maxLength: 200,
+        },
+      ],
+    },
+    {
+      name: 'comparisonBadge2',
+      type: 'text',
+      label: 'Image 2 Badge Text',
+      defaultValue: 'Na',
+      admin: {
+        description: 'Text for badge above image (e.g., "After", "New Design").',
+        condition: (data) => data.layout === 'comparison',
+      },
+    },
+    {
+      name: 'spacing',
+      type: 'select',
+      label: 'Spacing Between Images',
+      defaultValue: 'default',
+      options: [
+        { label: 'Compact (16px)', value: 'compact' },
+        { label: 'Default (32px)', value: 'default' },
+        { label: 'Spacious (48px)', value: 'spacious' },
+      ],
+    },
+  ],
+}</code></pre>
+    </div>
+
+    <div style="background: #E3F2FD; border-left: 4px solid #2196F3; padding: 16px; border-radius: 8px;">
+      <p style="margin: 0; font-size: 13px; color: #1565C0; line-height: 1.6;">
+        <strong>💡 Pro Tip:</strong> The <code>admin.condition</code> properties dynamically show/hide fields based on selected layout and imageType. This keeps the admin UI clean and prevents editor confusion.
+      </p>
+    </div>
+  </div>
+
+  <!-- STEP 2: TypeScript Type Definitions -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">2</span>
+      TypeScript Type Definitions
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      Define TypeScript interfaces for type-safe development:
+    </p>
+
+    <div style="background: #0A1628; border-radius: 8px; padding: 24px; overflow-x: auto;">
+      <pre style="margin: 0; color: #E8ECF1; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;"><code>// src/types/blocks.ts
+
+import { Media } from '@/payload-types'
+
+export interface TwoColumnImagePairBlock {
+  blockType: 'two-column-image-pair'
+  layout: 'equal' | 'left-large' | 'right-large' | 'comparison'
+  imageType: 'standard' | 'overlay'
+  aspectRatio: 'landscape' | 'portrait' | 'square'
+  image1: Media | string
+  caption1?: string
+  overlay1?: {
+    icon?: 'palette' | 'code' | 'megaphone' | 'users' | 'zap' | 'shield'
+    title: string
+    description?: string
+  }
+  comparisonBadge1?: string
+  image2: Media | string
+  caption2?: string
+  overlay2?: {
+    icon?: 'palette' | 'code' | 'megaphone' | 'users' | 'zap' | 'shield'
+    title: string
+    description?: string
+  }
+  comparisonBadge2?: string
+  spacing?: 'compact' | 'default' | 'spacious'
+}
+
+// Component Props
+export interface TwoColumnImagePairProps {
+  block: TwoColumnImagePairBlock
+}</code></pre>
+    </div>
+  </div>
+
+  <!-- STEP 3: React Component Implementation -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">3</span>
+      React Component Implementation
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      Create the React component with Next.js Image optimization:
+    </p>
+
+    <div style="background: #0A1628; border-radius: 8px; padding: 24px; overflow-x: auto; margin-bottom: 24px;">
+      <pre style="margin: 0; color: #E8ECF1; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;"><code>// src/components/blocks/TwoColumnImagePair.tsx
+
+'use client'
+
+import React from 'react'
+import Image from 'next/image'
+import { TwoColumnImagePairProps } from '@/types/blocks'
+import { Media } from '@/payload-types'
+import { cn } from '@/lib/utils'
+import * as LucideIcons from 'lucide-react'
+
+export const TwoColumnImagePair: React.FC<TwoColumnImagePairProps> = ({ block }) => {
+  const {
+    layout = 'equal',
+    imageType = 'standard',
+    aspectRatio = 'landscape',
+    image1,
+    caption1,
+    overlay1,
+    comparisonBadge1,
+    image2,
+    caption2,
+    overlay2,
+    comparisonBadge2,
+    spacing = 'default',
+  } = block
+
+  // Get image URLs
+  const image1Data = typeof image1 === 'object' ? image1 : null
+  const image2Data = typeof image2 === 'object' ? image2 : null
+
+  const image1Url = image1Data?.url || ''
+  const image2Url = image2Data?.url || ''
+
+  // Grid class based on layout
+  const gridClass = cn(
+    'grid gap-8',
+    {
+      'grid-cols-1 md:grid-cols-2': layout === 'equal',
+      'grid-cols-1 md:grid-cols-[1.5fr_1fr]': layout === 'left-large',
+      'grid-cols-1 md:grid-cols-[1fr_1.5fr]': layout === 'right-large',
+      'grid-cols-1 md:grid-cols-2': layout === 'comparison',
+      'gap-4': spacing === 'compact',
+      'gap-8': spacing === 'default',
+      'gap-12': spacing === 'spacious',
+    }
+  )
+
+  // Aspect ratio class
+  const aspectClass = cn({
+    'aspect-[4/3]': aspectRatio === 'landscape',
+    'aspect-[3/4]': aspectRatio === 'portrait',
+    'aspect-square': aspectRatio === 'square',
+  })
+
+  // Get icon component
+  const getIcon = (iconName?: string) => {
+    if (!iconName) return null
+    const iconMap: Record<string, any> = {
+      palette: LucideIcons.Palette,
+      code: LucideIcons.Code,
+      megaphone: LucideIcons.Megaphone,
+      users: LucideIcons.Users,
+      zap: LucideIcons.Zap,
+      shield: LucideIcons.Shield,
+    }
+    const IconComponent = iconMap[iconName]
+    return IconComponent ? <IconComponent size={20} /> : null
+  }
+
+  // Render image wrapper
+  const renderImage = (
+    imageUrl: string,
+    caption?: string,
+    overlay?: typeof overlay1,
+    badge?: string,
+    position: 'left' | 'right'
+  ) => {
+    return (
+      <div className="relative">
+        {/* Comparison Badge */}
+        {layout === 'comparison' && badge && (
+          <div
+            className={cn(
+              'absolute top-4 left-1/2 -translate-x-1/2 z-10',
+              'px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wide',
+              'shadow-md',
+              {
+                'bg-teal text-white': position === 'right',
+                'bg-grey-mid text-white': position === 'left',
+              }
+            )}
+          >
+            {badge}
+          </div>
+        )}
+
+        {/* Image Wrapper */}
+        <div
+          className={cn(
+            'relative w-full bg-grey-light rounded-xl overflow-hidden',
+            'shadow-md transition-all duration-300',
+            'hover:-translate-y-1 hover:shadow-lg',
+            aspectClass
+          )}
+        >
+          <Image
+            src={imageUrl}
+            alt={caption || overlay?.title || 'Image'}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+
+          {/* Hover Caption (Standard Type) */}
+          {imageType === 'standard' && caption && (
+            <div
+              className={cn(
+                'absolute bottom-0 left-0 right-0 p-6',
+                'bg-gradient-to-t from-navy/90 to-transparent',
+                'text-white font-semibold text-sm',
+                'opacity-0 hover:opacity-100 transition-opacity duration-300'
+              )}
+            >
+              {caption}
+            </div>
+          )}
+
+          {/* Text Overlay (Overlay Type) */}
+          {imageType === 'overlay' && overlay && (
+            <div
+              className={cn(
+                'absolute top-8 left-8 right-8',
+                'bg-white p-6 rounded-xl shadow-lg'
+              )}
+            >
+              <div className="flex items-center gap-3 mb-3 text-teal">
+                {getIcon(overlay.icon)}
+                <h3 className="font-display text-xl text-navy">{overlay.title}</h3>
+              </div>
+              {overlay.description && (
+                <p className="text-sm text-grey-dark leading-relaxed">
+                  {overlay.description}
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Comparison Label (Below Image) */}
+        {layout === 'comparison' && caption && (
+          <div className="mt-4">
+            <h4 className="font-semibold text-navy mb-1">{caption}</h4>
+            {position === 'right' && (
+              <p className="text-sm text-grey-dark">Verbeterde interface met moderne styling</p>
+            )}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  return (
+    <section className="py-20 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className={gridClass}>
+          {renderImage(image1Url, caption1, overlay1, comparisonBadge1, 'left')}
+          {renderImage(image2Url, caption2, overlay2, comparisonBadge2, 'right')}
+        </div>
+      </div>
+    </section>
+  )
+}</code></pre>
+    </div>
+
+    <div style="background: #FFF8E1; border-left: 4px solid #F59E0B; padding: 16px; border-radius: 8px;">
+      <p style="margin: 0; font-size: 13px; color: #92400E; line-height: 1.6;">
+        <strong>⚠️ Important:</strong> Use <code>sizes="(max-width: 768px) 100vw, 50vw"</code> on Next.js Image to optimize loading. Mobile gets full-width image, desktop gets half-width (2-column layout).
+      </p>
+    </div>
+  </div>
+
+  <!-- STEP 4: Admin Panel Structure -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">4</span>
+      Admin Panel Structure
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      How editors interact with this block in the Payload admin panel:
+    </p>
+
+    <div style="border: 2px solid #E8ECF1; border-radius: 12px; overflow: hidden;">
+      <div style="background: #F5F7FA; padding: 16px; border-bottom: 1px solid #E8ECF1;">
+        <p style="margin: 0; font-size: 13px; font-weight: 600; color: #0A1628;">
+          📝 Editor Workflow
+        </p>
+      </div>
+      <div style="padding: 24px;">
+        <ol style="margin: 0; padding-left: 20px; font-size: 14px; color: #64748B; line-height: 1.8;">
+          <li style="margin-bottom: 12px;">
+            <strong style="color: #0A1628;">Choose Layout:</strong> Select from Equal Width, Left Large, Right Large, or Comparison
+          </li>
+          <li style="margin-bottom: 12px;">
+            <strong style="color: #0A1628;">Choose Image Type:</strong> Standard (hover caption) or With Text Overlay
+          </li>
+          <li style="margin-bottom: 12px;">
+            <strong style="color: #0A1628;">Set Aspect Ratio:</strong> Landscape (4:3), Portrait (3:4), or Square (1:1)
+          </li>
+          <li style="margin-bottom: 12px;">
+            <strong style="color: #0A1628;">Upload Image 1:</strong> Click "Choose File" and select from Media Library or upload new image
+          </li>
+          <li style="margin-bottom: 12px;">
+            <strong style="color: #0A1628;">Add Image 1 Content:</strong>
+            <ul style="margin-top: 8px; padding-left: 20px;">
+              <li>For Standard type: Enter optional hover caption</li>
+              <li>For Overlay type: Choose icon, enter title and description</li>
+              <li>For Comparison layout: Enter badge text (default: "Voor")</li>
+            </ul>
+          </li>
+          <li style="margin-bottom: 12px;">
+            <strong style="color: #0A1628;">Upload Image 2:</strong> Click "Choose File" for second image
+          </li>
+          <li style="margin-bottom: 12px;">
+            <strong style="color: #0A1628;">Add Image 2 Content:</strong> Same options as Image 1
+          </li>
+          <li>
+            <strong style="color: #0A1628;">Adjust Spacing:</strong> Choose Compact (16px), Default (32px), or Spacious (48px) gap between images
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <div style="background: #E8F5E9; border-left: 4px solid #00C853; padding: 16px; border-radius: 8px; margin-top: 16px;">
+      <p style="margin: 0; font-size: 13px; color: #166534; line-height: 1.6;">
+        <strong>✅ Best Practice:</strong> Use <strong>Equal Width</strong> for balanced layouts, <strong>Left/Right Large</strong> to emphasize one image, and <strong>Comparison</strong> for before/after scenarios.
+      </p>
+    </div>
+  </div>
+
+  <!-- STEP 5: Testing Checklist -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">5</span>
+      Testing Checklist
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      Test all variants and edge cases before deploying:
+    </p>
+
+    <div style="display: grid; gap: 16px;">
+      <!-- Layout Testing -->
+      <div style="border: 1px solid #E8ECF1; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 16px; font-weight: 600; color: #0A1628; margin: 0 0 16px 0;">
+          🎨 Layout & Responsive
+        </h4>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #64748B; line-height: 1.8;">
+          <li>✅ Equal width layout shows 1:1 ratio on desktop, stacks on mobile</li>
+          <li>✅ Left large layout shows 1.5:1 ratio, right large shows 1:1.5</li>
+          <li>✅ Comparison layout displays badges correctly positioned</li>
+          <li>✅ Mobile breakpoint (&lt;768px) stacks images vertically</li>
+          <li>✅ Spacing variants (compact/default/spacious) apply correct gaps</li>
+        </ul>
+      </div>
+
+      <!-- Image Testing -->
+      <div style="border: 1px solid #E8ECF1; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 16px; font-weight: 600; color: #0A1628; margin: 0 0 16px 0;">
+          🖼️ Images & Aspect Ratios
+        </h4>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #64748B; line-height: 1.8;">
+          <li>✅ Images load with correct aspect ratios (4:3, 3:4, 1:1)</li>
+          <li>✅ object-fit: cover crops images properly without distortion</li>
+          <li>✅ Image optimization (Next.js Image) loads correct sizes for viewport</li>
+          <li>✅ Alt text from caption/overlay title is present</li>
+          <li>✅ Placeholder background (#F5F7FA) shows while images load</li>
+        </ul>
+      </div>
+
+      <!-- Interaction Testing -->
+      <div style="border: 1px solid #E8ECF1; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 16px; font-weight: 600; color: #0A1628; margin: 0 0 16px 0;">
+          🖱️ Hover & Interactions
+        </h4>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #64748B; line-height: 1.8;">
+          <li>✅ Standard type: Caption fades in on hover with gradient overlay</li>
+          <li>✅ Hover effect: Image lifts (-translateY-1) and shadow increases</li>
+          <li>✅ Overlay type: Text cards are always visible, no hover interaction</li>
+          <li>✅ Icons render correctly for overlay cards (Lucide React icons)</li>
+          <li>✅ Transitions are smooth (0.3s duration)</li>
+        </ul>
+      </div>
+
+      <!-- Content Testing -->
+      <div style="border: 1px solid #E8ECF1; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 16px; font-weight: 600; color: #0A1628; margin: 0 0 16px 0;">
+          📝 Content & Edge Cases
+        </h4>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #64748B; line-height: 1.8;">
+          <li>✅ Comparison badges show with correct colors (teal for "Na", grey for "Voor")</li>
+          <li>✅ Long caption text doesn't overflow container</li>
+          <li>✅ Missing caption/overlay doesn't break layout</li>
+          <li>✅ Overlay description truncates gracefully if too long</li>
+          <li>✅ Icon selection renders all 6 icon options correctly</li>
+        </ul>
+      </div>
+
+      <!-- Performance Testing -->
+      <div style="border: 1px solid #E8ECF1; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 16px; font-weight: 600; color: #0A1628; margin: 0 0 16px 0;">
+          ⚡ Performance
+        </h4>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #64748B; line-height: 1.8;">
+          <li>✅ Images use Next.js Image component with automatic optimization</li>
+          <li>✅ sizes attribute loads appropriate image size for viewport</li>
+          <li>✅ No layout shift (CLS) when images load (aspect-ratio prevents)</li>
+          <li>✅ CSS transforms use GPU acceleration (translateY, not top/margin)</li>
+        </ul>
+      </div>
+
+      <!-- Accessibility Testing -->
+      <div style="border: 1px solid #E8ECF1; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 16px; font-weight: 600; color: #0A1628; margin: 0 0 16px 0;">
+          ♿ Accessibility
+        </h4>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #64748B; line-height: 1.8;">
+          <li>✅ All images have descriptive alt text</li>
+          <li>✅ Comparison badges have sufficient contrast (4.5:1 minimum)</li>
+          <li>✅ Text overlays are readable against image backgrounds</li>
+          <li>✅ Keyboard users can tab through focusable elements (if links added)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 6: Database Migration -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">6</span>
+      Database Migration Guide
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      No database migration needed! Payload CMS blocks are stored as JSON in the <code>blocks</code> field.
+    </p>
+
+    <div style="background: #E8F5E9; border: 2px solid #00C853; border-radius: 12px; padding: 24px;">
+      <div style="display: flex; align-items: flex-start; gap: 16px;">
+        <span style="font-size: 32px;">✅</span>
+        <div>
+          <h4 style="font-size: 16px; font-weight: 700; color: #166534; margin: 0 0 8px 0;">
+            No Migration Required
+          </h4>
+          <p style="font-size: 14px; color: #166534; margin: 0; line-height: 1.6;">
+            This block uses Payload's built-in <strong>blocks</strong> field type, which stores data as JSON. When you add the block configuration to your Payload config and restart the server, it will automatically be available in the admin panel.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #FFF8E1; border-left: 4px solid #F59E0B; padding: 16px; border-radius: 8px; margin-top: 16px;">
+      <p style="margin: 0; font-size: 13px; color: #92400E; line-height: 1.6;">
+        <strong>💡 Note:</strong> Ensure the <code>media</code> collection exists and accepts image uploads. The <code>image1</code> and <code>image2</code> fields reference this collection via <code>relationTo: 'media'</code>.
+      </p>
+    </div>
+  </div>
+
+  <!-- STEP 7: Troubleshooting -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">7</span>
+      Troubleshooting
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      Common issues and solutions:
+    </p>
+
+    <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+      <thead>
+        <tr style="background: #F5F7FA;">
+          <th style="text-align: left; padding: 12px; border: 1px solid #E8ECF1; font-weight: 600; color: #0A1628;">Issue</th>
+          <th style="text-align: left; padding: 12px; border: 1px solid #E8ECF1; font-weight: 600; color: #0A1628;">Cause</th>
+          <th style="text-align: left; padding: 12px; border: 1px solid #E8ECF1; font-weight: 600; color: #0A1628;">Solution</th>
+        </tr>
+      </thead>
+      <tbody style="color: #64748B;">
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Images not loading</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Image URL is undefined or media relation not populated</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Ensure images are populated in Payload query:<br>
+            <code style="background: #F5F7FA; padding: 2px 6px; border-radius: 4px;">depth: 1</code> or manually populate with <code style="background: #F5F7FA; padding: 2px 6px; border-radius: 4px;">{ relationTo: 'media', depth: 1 }</code>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Grid not responsive on mobile</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Missing <code>md:</code> breakpoint prefix in Tailwind classes</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Use mobile-first approach:<br>
+            <code style="background: #F5F7FA; padding: 2px 6px; border-radius: 4px;">grid-cols-1 md:grid-cols-2</code>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Hover caption doesn't appear</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Caption text is missing or imageType is set to 'overlay'</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Check that caption1/caption2 fields have values AND imageType is 'standard'. Overlay type doesn't show hover captions.
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Comparison badges missing</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Layout is not set to 'comparison' or badge text is empty</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Set <code>layout: 'comparison'</code> and ensure comparisonBadge1/comparisonBadge2 have text values (defaults: "Voor"/"Na")
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Icons not rendering in overlay</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Lucide React not installed or icon name mismatch</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Install: <code style="background: #F5F7FA; padding: 2px 6px; border-radius: 4px;">npm install lucide-react</code><br>
+            Check iconMap keys match select options (palette, code, megaphone, users, zap, shield)
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Aspect ratio incorrect</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">CSS aspect-ratio not supported in older browsers</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Fallback: Use padding-top hack for IE11:<br>
+            <code style="background: #F5F7FA; padding: 2px 6px; border-radius: 4px;">padding-top: 75%</code> (for 4:3)
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Text overlay truncated</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Description text too long or card positioned off-screen</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Enforce maxLength in field config (200 chars) or use CSS line-clamp:<br>
+            <code style="background: #F5F7FA; padding: 2px 6px; border-radius: 4px;">line-clamp-3</code>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Layout shift when images load</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">aspect-ratio not applied or Next.js Image missing width/height</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Use <code>aspect-ratio</code> CSS on wrapper + <code>fill</code> prop on Next.js Image (no explicit width/height needed)
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- STEP 8: Block Registration -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">8</span>
+      Block Registration & Component Mapping
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      Final steps to register the block and map it to your React component:
+    </p>
+
+    <div style="background: #0A1628; border-radius: 8px; padding: 24px; overflow-x: auto; margin-bottom: 24px;">
+      <pre style="margin: 0; color: #E8ECF1; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;"><code>// 1. Add block to Payload config (payload.config.ts)
+
+import { TwoColumnImagePair } from './blocks/TwoColumnImagePair'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'blocks',
+          type: 'blocks',
+          blocks: [
+            TwoColumnImagePair,
+            // ... other blocks
+          ],
+        },
+      ],
+    },
+  ],
+})
+
+// 2. Map block to React component (src/components/RenderBlocks.tsx)
+
+import { TwoColumnImagePair } from '@/components/blocks/TwoColumnImagePair'
+
+const blockComponents = {
+  'two-column-image-pair': TwoColumnImagePair,
+  // ... other block mappings
+}
+
+export const RenderBlocks: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        const BlockComponent = blockComponents[block.blockType]
+        if (!BlockComponent) return null
+        return <BlockComponent key={index} block={block} />
+      })}
+    </>
+  )
+}
+
+// 3. Use in page template (src/app/[slug]/page.tsx)
+
+import { RenderBlocks } from '@/components/RenderBlocks'
+
+export default async function Page({ params }) {
+  const page = await getPayload().findByID({
+    collection: 'pages',
+    id: params.slug,
+    depth: 2, // Populate image relations
+  })
+
+  return (
+    <main>
+      <RenderBlocks blocks={page.blocks} />
+    </main>
+  )
+}</code></pre>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div style="background: #E8F5E9; border: 2px solid #00C853; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 14px; font-weight: 700; color: #166534; margin: 0 0 12px 0;">
+          ✅ Quick Verification
+        </h4>
+        <ol style="margin: 0; padding-left: 20px; font-size: 13px; color: #166534; line-height: 1.8;">
+          <li>Restart dev server: <code>npm run dev</code></li>
+          <li>Open admin: <code>/admin</code></li>
+          <li>Edit a page → Add block → See "Two Column Image Pair"</li>
+          <li>Configure and save</li>
+          <li>View page → Images render correctly</li>
+        </ol>
+      </div>
+
+      <div style="background: #FFF0F0; border: 2px solid #FF6B6B; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 14px; font-weight: 700; color: #DC2626; margin: 0 0 12px 0;">
+          ⚠️ Common Mistakes
+        </h4>
+        <ul style="margin: 0; padding-left: 20px; font-size: 13px; color: #DC2626; line-height: 1.8;">
+          <li>Forgetting to add block to Payload config</li>
+          <li>Block slug mismatch (config vs component mapping)</li>
+          <li>Not restarting server after config changes</li>
+          <li>Missing depth parameter (images not populated)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Banner -->
+  <div style="background: linear-gradient(135deg, #00897B, #26A69A); padding: 48px; border-radius: 16px; text-align: center;">
+    <div style="font-size: 64px; margin-bottom: 16px;">🎉</div>
+    <h2 style="font-size: 28px; font-weight: 800; color: white; margin: 0 0 12px 0;">
+      Implementation Complete!
+    </h2>
+    <p style="font-size: 16px; color: rgba(255,255,255,0.9); margin: 0;">
+      Your <strong>B-02d: Two Column with Image Pair</strong> block is ready for production.
+    </p>
+  </div>
+
+</div>
+
+</body>
+</html>

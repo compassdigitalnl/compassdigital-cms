@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bedrijfsuitjes Amsterdam — Mokum Events</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--navy:#0A1628;
+--navy-light:#121F33;
+--teal:#00897B;
+--teal-light:#26A69A;
+--teal-dark:#00695C;
+--teal-glow:rgba(0,137,123,.12);
+--teal-bg:#E0F2F1;
+--white:#FAFBFC;
+--bg:#F5F7FA;
+--grey:#E8ECF1;
+--grey-light:#F1F4F8;
+--grey-mid:#94A3B8;
+--grey-dark:#64748B;
+--grey-700:#334155;
+--text:#1E293B;
+--green:#00C853;
+--coral:#FF6B6B;
+--amber:#F59E0B;
+--blue:#2196F3;
+--purple:#7C3AED;
+--r:12px;
+--r-sm:8px;
+--r-lg:16px;
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;line-height:1.6;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
+.ct{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* Header */
+.hd{background:var(--white);border-bottom:1px solid var(--grey);position:sticky;top:0;z-index:100}
+.hd .ct{display:flex;align-items:center;justify-content:space-between;height:68px}
+.lg{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;color:var(--navy)}
+.lg-m{width:36px;height:36px;background:linear-gradient(135deg,var(--teal),var(--teal-dark));border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:18px;font-weight:800}
+.lg-t{font-size:16px}
+.lg-t span{color:var(--teal)}
+.nv{display:flex;gap:24px}
+.nl{text-decoration:none;color:var(--grey-dark);font-size:13px;font-weight:500;transition:.2s;padding:4px 0;border-bottom:2px solid transparent}
+.nl:hover,.nl.on{color:var(--teal);border-bottom-color:var(--teal)}
+.hr{display:flex;gap:12px}
+.hb{background:var(--grey-light);border:1px solid var(--grey);border-radius:var(--r-sm);padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px;color:var(--text)}
+.hb:hover{background:var(--grey);transform:translateY(-1px)}
+.hb.cta{background:var(--teal);border-color:var(--teal);color:white}
+.hb.cta:hover{background:var(--teal-dark)}
+
+/* Page Header */
+.ph{background:white;border-bottom:1px solid var(--grey);padding:24px 0}
+.bc{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--grey-mid);margin-bottom:16px}
+.bc a{color:var(--grey-mid);text-decoration:none;transition:.2s}
+.bc a:hover{color:var(--teal)}
+.bc i{width:10px;height:10px}
+.ph-t{font-family:'DM Serif Display',serif;font-size:28px;color:var(--navy);margin-bottom:8px}
+.ph-s{font-size:14px;color:var(--grey-dark);margin-bottom:20px}
+.ph-sr{display:flex;align-items:stretch;gap:8px;max-width:700px}
+.ph-si{flex:1;position:relative;display:flex;align-items:center}
+.ph-si input{width:100%;border:1.5px solid var(--grey);border-radius:var(--r-sm);padding:10px 12px 10px 36px;font-size:13px;font-family:inherit;transition:.2s}
+.ph-si input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow)}
+.ph-si i{position:absolute;left:12px;width:14px;height:14px;color:var(--grey-mid);pointer-events:none}
+.ph-sb{background:var(--teal);border:none;color:white;border-radius:var(--r-sm);padding:11px 20px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.ph-sb:hover{background:var(--teal-dark);transform:translateY(-1px)}
+.ph-sb i{width:14px;height:14px}
+
+/* Layout Grid */
+.mn{padding:32px 0 0}
+.mn .ct{display:grid;grid-template-columns:280px 1fr;gap:32px;align-items:start}
+
+/* Filter Sidebar */
+.fs{background:white;border:1px solid var(--grey);border-radius:var(--r);padding:20px;position:sticky;top:100px}
+.fs-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.fs-t{font-size:14px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px}
+.fs-t i{width:16px;height:16px;color:var(--teal)}
+.fs-c{font-size:11px;color:var(--teal);text-decoration:underline;cursor:pointer;font-weight:600}
+.fs-c:hover{color:var(--teal-dark)}
+.fg{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--grey)}
+.fg:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.fg-l{font-size:12px;font-weight:600;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.fg-l i{width:12px;height:12px;color:var(--teal)}
+
+/* Checkboxes */
+.cb{display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer}
+.cb input{width:16px;height:16px;cursor:pointer;accent-color:var(--teal)}
+.cb label{font-size:12px;color:var(--grey-dark);cursor:pointer;flex:1}
+.cb-c{font-size:11px;color:var(--grey-mid);font-weight:500}
+
+/* Range Slider */
+.rg{width:100%;height:6px;border-radius:3px;background:var(--grey-light);appearance:none;cursor:pointer}
+.rg::-webkit-slider-thumb{appearance:none;width:16px;height:16px;border-radius:50%;background:var(--teal);cursor:pointer;border:2px solid white;box-shadow:0 2px 4px rgba(0,0,0,.1)}
+.rg::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--teal);cursor:pointer;border:2px solid white;box-shadow:0 2px 4px rgba(0,0,0,.1)}
+.rg-v{font-size:13px;font-weight:600;color:var(--teal);margin-top:8px;text-align:center}
+
+/* Date Input */
+.dt{width:100%;border:1.5px solid var(--grey);border-radius:var(--r-sm);padding:8px 10px;font-size:12px;font-family:inherit;cursor:pointer;transition:.2s}
+.dt:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow)}
+
+/* Star Filter */
+.st-g{display:flex;flex-direction:column;gap:8px}
+.st-i{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--grey);border-radius:var(--r-sm);cursor:pointer;transition:.2s;font-size:12px;color:var(--grey-dark)}
+.st-i:hover{border-color:var(--teal);background:var(--teal-bg)}
+.st-i input{display:none}
+.st-i input:checked + label{border-color:var(--teal);background:var(--teal-bg)}
+.st-s{display:flex;gap:1px;color:var(--amber)}
+.st-s i{width:9px;height:9px;fill:currentColor}
+
+/* Main Content */
+.mc{min-width:0}
+.tb{background:white;border:1px solid var(--grey);border-radius:var(--r);padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between}
+.tb-l{display:flex;align-items:center;gap:16px}
+.tb-r{font-size:12px;color:var(--grey-dark)}
+.tb-r strong{color:var(--navy);font-weight:700}
+.tb-s{display:flex;align-items:center;gap:8px}
+.tb-s label{font-size:12px;color:var(--grey-dark);font-weight:500}
+.tb-s select{border:1.5px solid var(--grey);border-radius:var(--r-sm);padding:6px 28px 6px 10px;font-size:12px;font-family:inherit;background:white;cursor:pointer;transition:.2s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2364748B' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.tb-s select:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow)}
+.tb-v{display:flex;gap:4px}
+.vb{width:32px;height:32px;border:1.5px solid var(--grey);border-radius:var(--r-sm);background:white;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;color:var(--grey-mid)}
+.vb:hover{border-color:var(--teal);background:var(--teal-bg);color:var(--teal)}
+.vb.on{border-color:var(--teal);background:var(--teal-bg);color:var(--teal)}
+.vb i{width:14px;height:14px}
+
+/* Event Grid */
+.eg{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:32px}
+.eg.list{grid-template-columns:1fr}
+
+/* Event Card - Grid View */
+.ec{background:white;border:1px solid var(--grey);border-radius:var(--r);overflow:hidden;transition:.2s;cursor:pointer;display:flex;flex-direction:column}
+.ec:hover{box-shadow:0 8px 24px rgba(10,22,40,.08);transform:translateY(-2px)}
+.ec-th{height:180px;position:relative;display:flex;align-items:center;justify-content:center}
+.ec-th i{width:64px;height:64px;opacity:.9}
+.ec-bg{position:absolute;top:12px;left:12px;background:white;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;display:flex;align-items:center;gap:4px}
+.ec-bg.pop{color:var(--coral)}
+.ec-bg.pop i{width:10px;height:10px}
+.ec-bg.new{color:var(--teal)}
+.ec-bg.new i{width:10px;height:10px}
+.ec-sl{position:absolute;top:12px;right:12px;background:rgba(10,22,40,.85);backdrop-filter:blur(8px);color:white;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:600;display:flex;align-items:center;gap:4px}
+.ec-sl i{width:10px;height:10px}
+.ec-bd{padding:16px;flex:1;display:flex;flex-direction:column}
+.ec-ct{font-size:10px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.ec-nm{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:8px;line-height:1.3}
+.ec-ds{font-size:12px;color:var(--grey-dark);margin-bottom:12px;line-height:1.5;display:none}
+.ec-mt{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;font-size:11px;color:var(--grey-mid)}
+.ec-mt span{display:flex;align-items:center;gap:4px}
+.ec-mt i{width:10px;height:10px}
+.ec-r{display:flex;align-items:center;gap:6px;margin-bottom:12px}
+.ec-rs{font-size:13px;font-weight:700;color:var(--navy)}
+.ec-st{display:flex;gap:1px;color:var(--amber)}
+.ec-st i{width:9px;height:9px;fill:currentColor}
+.ec-rv{font-size:11px;color:var(--grey-mid)}
+.ec-ft{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.ec-pr{font-size:20px;font-weight:800;color:var(--navy)}
+.ec-pr small{font-size:12px;font-weight:500;color:var(--grey-dark)}
+.ec-btn{background:var(--teal);color:white;border:none;border-radius:var(--r-sm);padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.ec-btn:hover{background:var(--teal-dark);transform:translateY(-1px)}
+.ec-btn i{width:14px;height:14px}
+
+/* Event Card - List View */
+.eg.list .ec{flex-direction:row;height:200px}
+.eg.list .ec-th{width:280px;height:100%;flex-shrink:0}
+.eg.list .ec-th i{width:80px;height:80px}
+.eg.list .ec-bd{padding:20px 24px;flex-direction:row;gap:24px}
+.eg.list .ec-in{flex:1}
+.eg.list .ec-ds{display:block}
+.eg.list .ec-ft{flex-direction:column;align-items:flex-end;padding-left:24px;border-left:1px solid var(--grey)}
+.eg.list .ec-btn{padding:10px 20px}
+
+/* Pagination */
+.pg{display:flex;align-items:center;justify-content:center;gap:8px;padding:32px 0}
+.pg-b{width:36px;height:36px;border:1.5px solid var(--grey);border-radius:var(--r-sm);background:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--grey-dark);cursor:pointer;transition:.2s}
+.pg-b:hover{border-color:var(--teal);background:var(--teal-bg);color:var(--teal)}
+.pg-b.on{border-color:var(--teal);background:var(--teal);color:white}
+.pg-b:disabled{opacity:.4;cursor:not-allowed}
+.pg-b:disabled:hover{border-color:var(--grey);background:white;color:var(--grey-dark)}
+.pg-b i{width:14px;height:14px}
+.pg-e{color:var(--grey-mid);font-size:14px;font-weight:600}
+
+/* Angela Sidebar */
+.as{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:var(--r);padding:24px;color:white;text-align:center;position:relative;overflow:hidden;margin-top:24px}
+.as::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,var(--teal-glow),transparent 60%);pointer-events:none}
+.as-av{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--teal-light),var(--teal-dark));border:3px solid rgba(255,255,255,.2);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;color:white;position:relative;z-index:1}
+.as-nm{font-size:16px;font-weight:700;margin-bottom:4px}
+.as-rl{font-size:12px;opacity:.7;margin-bottom:16px}
+.as-ds{font-size:12px;opacity:.8;line-height:1.6;margin-bottom:20px}
+.as-ct{display:flex;flex-direction:column;gap:8px}
+.as-b{background:white;color:var(--navy);border:none;border-radius:var(--r-sm);padding:10px 16px;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.as-b:hover{background:var(--teal);color:white;transform:translateY(-1px)}
+.as-b i{width:14px;height:14px}
+.as-b.out{background:transparent;border:1.5px solid rgba(255,255,255,.3);color:white}
+.as-b.out:hover{background:rgba(255,255,255,.1);border-color:white}
+
+/* USP Section */
+.usp{background:white;border-top:1px solid var(--grey);padding:64px 0}
+.usp-g{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.usp-i{text-align:center}
+.usp-ic{width:56px;height:56px;border-radius:50%;background:var(--teal-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.usp-ic i{width:24px;height:24px;color:var(--teal)}
+.usp-t{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.usp-d{font-size:12px;color:var(--grey-dark);line-height:1.6}
+
+/* Testimonials */
+.tm{background:var(--bg);padding:64px 0}
+.tm-h{text-align:center;margin-bottom:48px}
+.tm-ht{font-family:'DM Serif Display',serif;font-size:32px;color:var(--navy);margin-bottom:12px}
+.tm-hs{font-size:14px;color:var(--grey-dark)}
+.tm-g{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.tm-i{background:white;border:1px solid var(--grey);border-radius:var(--r);padding:24px}
+.tm-q{font-size:13px;color:var(--grey-dark);line-height:1.7;margin-bottom:20px}
+.tm-a{display:flex;align-items:center;gap:12px}
+.tm-av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--teal-light),var(--teal-dark));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:white}
+.tm-n{font-size:13px;font-weight:700;color:var(--navy)}
+.tm-r{font-size:12px;color:var(--grey-mid)}
+.tm-c{font-size:12px;color:var(--grey-mid)}
+
+/* CTA Section */
+.cta{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:64px 0;position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;top:-120px;right:-120px;width:400px;height:400px;background:radial-gradient(circle,var(--teal-glow),transparent 60%);pointer-events:none}
+.cta .ct{text-align:center;position:relative;z-index:1}
+.cta-t{font-family:'DM Serif Display',serif;font-size:36px;color:white;margin-bottom:16px}
+.cta-s{font-size:15px;color:rgba(255,255,255,.7);margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto}
+.cta-b{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta-bn{background:white;color:var(--navy);border:none;border-radius:var(--r-sm);padding:14px 28px;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:8px}
+.cta-bn:hover{background:var(--teal);color:white;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,137,123,.3)}
+.cta-bn i{width:16px;height:16px}
+.cta-bn.out{background:transparent;border:2px solid rgba(255,255,255,.3);color:white}
+.cta-bn.out:hover{background:rgba(255,255,255,.1);border-color:white}
+
+/* Footer */
+.ft{background:var(--navy);color:white;padding:48px 0 24px}
+.ft-g{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-bottom:32px}
+.ft-c h3{font-size:14px;font-weight:700;margin-bottom:16px}
+.ft-c p{font-size:12px;opacity:.7;line-height:1.6;margin-bottom:12px}
+.ft-l{list-style:none}
+.ft-l li{margin-bottom:8px}
+.ft-l a{color:rgba(255,255,255,.7);text-decoration:none;font-size:12px;transition:.2s}
+.ft-l a:hover{color:var(--teal-light)}
+.ft-b{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;text-align:center;font-size:12px;opacity:.6}
+
+/* Responsive */
+@media(max-width:900px){
+.mn .ct{grid-template-columns:1fr;gap:24px}
+.fs{position:static}
+.eg{grid-template-columns:repeat(2,1fr)}
+.eg.list{grid-template-columns:1fr}
+.eg.list .ec{flex-direction:column;height:auto}
+.eg.list .ec-th{width:100%;height:180px}
+.eg.list .ec-bd{flex-direction:column;gap:12px}
+.eg.list .ec-ft{flex-direction:column;align-items:flex-start;padding-left:0;border-left:none;padding-top:16px;border-top:1px solid var(--grey)}
+.usp-g{grid-template-columns:repeat(2,1fr)}
+.tm-g{grid-template-columns:1fr}
+.ft-g{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+.eg{grid-template-columns:1fr}
+.nv,.hr{display:none}
+.usp-g{grid-template-columns:1fr}
+.ft-g{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="hd">
+<div class="ct">
+<a href="#" class="lg">
+<div class="lg-m">M</div>
+<div class="lg-t">Mokum <span>Events</span></div>
+</a>
+<div class="nv">
+<a href="#" class="nl">Home</a>
+<a href="#" class="nl on">Uitjes</a>
+<a href="#" class="nl">Arrangementen</a>
+<a href="#" class="nl">Bedrijfsuitjes</a>
+<a href="#" class="nl">Over ons</a>
+</div>
+<div class="hr">
+<button class="hb"><i data-lucide="phone" style="width:14px;height:14px"></i> 020 427 29 09</button>
+<button class="hb cta">Offerte aanvragen</button>
+</div>
+</div>
+</div>
+
+<!-- Page Header -->
+<div class="ph">
+<div class="ct">
+<div class="bc">
+<a href="#">Home</a>
+<i data-lucide="chevron-right"></i>
+<span>Alle bedrijfsuitjes</span>
+</div>
+<h1 class="ph-t">Alle bedrijfsuitjes in Amsterdam</h1>
+<p class="ph-s">189 unieke uitjes voor groepen van 10 tot 500 personen — van teambuilding tot spectaculaire feestavonden.</p>
+<div class="ph-sr">
+<div class="ph-si">
+<i data-lucide="search"></i>
+<input type="text" placeholder="Zoek op naam, categorie of locatie...">
+</div>
+<button class="ph-sb"><i data-lucide="search"></i> Zoeken</button>
+</div>
+</div>
+</div>
+
+<!-- Main Content -->
+<div class="mn">
+<div class="ct">
+<!-- Filter Sidebar -->
+<aside class="fs">
+<div class="fs-h">
+<div class="fs-t"><i data-lucide="sliders-horizontal"></i> Filters</div>
+<div class="fs-c" onclick="clearFilters()">Wis alles</div>
+</div>
+
+<!-- Categorie -->
+<div class="fg">
+<div class="fg-l"><i data-lucide="grid-2x2"></i> Categorie</div>
+<div class="cb"><input type="checkbox" id="cat1"><label for="cat1">Teambuilding</label><span class="cb-c">(47)</span></div>
+<div class="cb"><input type="checkbox" id="cat2"><label for="cat2">Feestavond</label><span class="cb-c">(38)</span></div>
+<div class="cb"><input type="checkbox" id="cat3"><label for="cat3">Culinair</label><span class="cb-c">(42)</span></div>
+<div class="cb"><input type="checkbox" id="cat4"><label for="cat4">Sportief</label><span class="cb-c">(29)</span></div>
+<div class="cb"><input type="checkbox" id="cat5"><label for="cat5">Creatief</label><span class="cb-c">(24)</span></div>
+<div class="cb"><input type="checkbox" id="cat6"><label for="cat6">Cultuur</label><span class="cb-c">(18)</span></div>
+<div class="cb"><input type="checkbox" id="cat7"><label for="cat7">Vaartocht</label><span class="cb-c">(32)</span></div>
+<div class="cb"><input type="checkbox" id="cat8"><label for="cat8">Wellness</label><span class="cb-c">(15)</span></div>
+</div>
+
+<!-- Prijs per persoon -->
+<div class="fg">
+<div class="fg-l"><i data-lucide="euro"></i> Prijs per persoon</div>
+<input type="range" class="rg" min="20" max="150" value="75" oninput="updatePrice(this.value)">
+<div class="rg-v" id="price-val">€20 - €150</div>
+</div>
+
+<!-- Groepsgrootte -->
+<div class="fg">
+<div class="fg-l"><i data-lucide="users"></i> Groepsgrootte</div>
+<div class="cb"><input type="checkbox" id="grp1"><label for="grp1">10-25 personen</label><span class="cb-c">(54)</span></div>
+<div class="cb"><input type="checkbox" id="grp2"><label for="grp2">25-50 personen</label><span class="cb-c">(89)</span></div>
+<div class="cb"><input type="checkbox" id="grp3"><label for="grp3">50-100 personen</label><span class="cb-c">(76)</span></div>
+<div class="cb"><input type="checkbox" id="grp4"><label for="grp4">100-250 personen</label><span class="cb-c">(42)</span></div>
+<div class="cb"><input type="checkbox" id="grp5"><label for="grp5">250+ personen</label><span class="cb-c">(28)</span></div>
+</div>
+
+<!-- Duur -->
+<div class="fg">
+<div class="fg-l"><i data-lucide="clock"></i> Duur</div>
+<div class="cb"><input type="checkbox" id="dur1"><label for="dur1">2 uur</label><span class="cb-c">(34)</span></div>
+<div class="cb"><input type="checkbox" id="dur2"><label for="dur2">3-4 uur</label><span class="cb-c">(67)</span></div>
+<div class="cb"><input type="checkbox" id="dur3"><label for="dur3">Halve dag</label><span class="cb-c">(52)</span></div>
+<div class="cb"><input type="checkbox" id="dur4"><label for="dur4">Hele dag</label><span class="cb-c">(36)</span></div>
+</div>
+
+<!-- Beschikbaarheid -->
+<div class="fg">
+<div class="fg-l"><i data-lucide="calendar"></i> Beschikbaarheid</div>
+<input type="date" class="dt">
+</div>
+
+<!-- Locatie -->
+<div class="fg">
+<div class="fg-l"><i data-lucide="map-pin"></i> Locatie</div>
+<div class="cb"><input type="checkbox" id="loc1"><label for="loc1">Centrum</label><span class="cb-c">(78)</span></div>
+<div class="cb"><input type="checkbox" id="loc2"><label for="loc2">Noord</label><span class="cb-c">(45)</span></div>
+<div class="cb"><input type="checkbox" id="loc3"><label for="loc3">Oost</label><span class="cb-c">(38)</span></div>
+<div class="cb"><input type="checkbox" id="loc4"><label for="loc4">Zuid</label><span class="cb-c">(52)</span></div>
+<div class="cb"><input type="checkbox" id="loc5"><label for="loc5">West</label><span class="cb-c">(41)</span></div>
+<div class="cb"><input type="checkbox" id="loc6"><label for="loc6">Waterfront</label><span class="cb-c">(29)</span></div>
+</div>
+
+<!-- Type -->
+<div class="fg">
+<div class="fg-l"><i data-lucide="layout-template"></i> Type</div>
+<div class="cb"><input type="checkbox" id="typ1"><label for="typ1">Indoor</label><span class="cb-c">(112)</span></div>
+<div class="cb"><input type="checkbox" id="typ2"><label for="typ2">Outdoor</label><span class="cb-c">(48)</span></div>
+<div class="cb"><input type="checkbox" id="typ3"><label for="typ3">Flexibel</label><span class="cb-c">(29)</span></div>
+</div>
+
+<!-- Beoordeling -->
+<div class="fg">
+<div class="fg-l"><i data-lucide="star"></i> Minimale beoordeling</div>
+<div class="st-g">
+<label class="st-i">
+<input type="radio" name="rating" value="4">
+<span class="st-s">
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star"></i>
+</span>
+<span>4+ sterren</span>
+</label>
+<label class="st-i">
+<input type="radio" name="rating" value="4.5">
+<span class="st-s">
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+</span>
+<span>4.5+ sterren</span>
+</label>
+</div>
+</div>
+
+<!-- Inbegrepen features -->
+<div class="fg">
+<div class="fg-l"><i data-lucide="check-circle"></i> Inbegrepen</div>
+<div class="cb"><input type="checkbox" id="feat1"><label for="feat1">Catering</label><span class="cb-c">(94)</span></div>
+<div class="cb"><input type="checkbox" id="feat2"><label for="feat2">Drankarrangement</label><span class="cb-c">(87)</span></div>
+<div class="cb"><input type="checkbox" id="feat3"><label for="feat3">Begeleiding</label><span class="cb-c">(76)</span></div>
+<div class="cb"><input type="checkbox" id="feat4"><label for="feat4">Fotograaf</label><span class="cb-c">(43)</span></div>
+<div class="cb"><input type="checkbox" id="feat5"><label for="feat5">DJ / Muziek</label><span class="cb-c">(52)</span></div>
+<div class="cb"><input type="checkbox" id="feat6"><label for="feat6">Transport</label><span class="cb-c">(38)</span></div>
+<div class="cb"><input type="checkbox" id="feat7"><label for="feat7">Materiaal</label><span class="cb-c">(89)</span></div>
+<div class="cb"><input type="checkbox" id="feat8"><label for="feat8">Verzekering</label><span class="cb-c">(124)</span></div>
+<div class="cb"><input type="checkbox" id="feat9"><label for="feat9">Parking</label><span class="cb-c">(67)</span></div>
+</div>
+
+<!-- Geschikt voor -->
+<div class="fg">
+<div class="fg-l"><i data-lucide="target"></i> Geschikt voor</div>
+<div class="cb"><input type="checkbox" id="suit1"><label for="suit1">Kleine teams (10-25)</label><span class="cb-c">(98)</span></div>
+<div class="cb"><input type="checkbox" id="suit2"><label for="suit2">Grote groepen (100+)</label><span class="cb-c">(54)</span></div>
+<div class="cb"><input type="checkbox" id="suit3"><label for="suit3">Mindere mobiliteit</label><span class="cb-c">(76)</span></div>
+<div class="cb"><input type="checkbox" id="suit4"><label for="suit4">Internationale gasten</label><span class="cb-c">(112)</span></div>
+</div>
+
+<!-- Angela Sidebar -->
+<div class="as">
+<div class="as-av">A</div>
+<div class="as-nm">Angela van Dijk</div>
+<div class="as-rl">Event Coordinator</div>
+<div class="as-ds">Twijfel je nog? Ik help je graag met het vinden van het perfecte uitje voor jouw team!</div>
+<div class="as-ct">
+<button class="as-b"><i data-lucide="phone"></i> 020 427 29 09</button>
+<button class="as-b"><i data-lucide="mail"></i> angela@mokum-events.nl</button>
+<button class="as-b out"><i data-lucide="message-circle"></i> WhatsApp</button>
+</div>
+</div>
+</aside>
+
+<!-- Main Content Area -->
+<main class="mc">
+<!-- Toolbar -->
+<div class="tb">
+<div class="tb-l">
+<div class="tb-s">
+<label>Sorteren:</label>
+<select>
+<option>Populairste</option>
+<option>Beste prijs</option>
+<option>Hoogste beoordeling</option>
+<option>Meeste reviews</option>
+<option>Alfabetisch A-Z</option>
+<option>Alfabetisch Z-A</option>
+<option>Prijs laag-hoog</option>
+<option>Prijs hoog-laag</option>
+</select>
+</div>
+<div class="tb-v">
+<button class="vb on" onclick="setView('grid')"><i data-lucide="grid-2x2"></i></button>
+<button class="vb" onclick="setView('list')"><i data-lucide="list"></i></button>
+</div>
+</div>
+<div class="tb-r">Toont <strong>1-12</strong> van <strong>189</strong> uitjes</div>
+</div>
+
+<!-- Event Grid -->
+<div class="eg" id="event-grid">
+<!-- Event 1 -->
+<div class="ec">
+<div class="ec-th" style="background:linear-gradient(135deg,#FFF8E1,#FFEB3B)">
+<i data-lucide="party-popper" style="color:#F59E0B"></i>
+<div class="ec-bg pop"><i data-lucide="flame"></i> Populair</div>
+<div class="ec-sl"><i data-lucide="clock"></i> Nog 3 slots</div>
+</div>
+<div class="ec-bd">
+<div class="ec-in">
+<div class="ec-ct">Feestavond</div>
+<div class="ec-nm">Amsterdamse Feestavond</div>
+<div class="ec-ds">Vier je bedrijfsfeest in het hart van Amsterdam. Compleet verzorgd met DJ, diner, en onbeperkt drankpakket. Tot 250 personen.</div>
+<div class="ec-mt">
+<span><i data-lucide="clock"></i> 4 uur</span>
+<span><i data-lucide="users"></i> 50-250</span>
+<span><i data-lucide="map-pin"></i> Centrum</span>
+</div>
+<div class="ec-r">
+<span class="ec-rs">9.4</span>
+<span class="ec-st">
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+</span>
+<span class="ec-rv">94 reviews</span>
+</div>
+</div>
+<div class="ec-ft">
+<div class="ec-pr">€77,50 <small>p.p.</small></div>
+<button class="ec-btn"><i data-lucide="calendar-check"></i> Boeken</button>
+</div>
+</div>
+</div>
+
+<!-- Event 2 -->
+<div class="ec">
+<div class="ec-th" style="background:linear-gradient(135deg,#E0F2F1,#80CBC4)">
+<i data-lucide="ship" style="color:#00897B"></i>
+<div class="ec-bg new"><i data-lucide="sparkles"></i> Nieuw</div>
+</div>
+<div class="ec-bd">
+<div class="ec-in">
+<div class="ec-ct">Vaartocht</div>
+<div class="ec-nm">Luxe Grachtenvaart + Diner</div>
+<div class="ec-ds">Vaar door de iconische Amsterdamse grachten in een luxe salon boot met 4-gangen diner en live muziek. Perfect voor netwerk events.</div>
+<div class="ec-mt">
+<span><i data-lucide="clock"></i> 3 uur</span>
+<span><i data-lucide="users"></i> 20-80</span>
+<span><i data-lucide="map-pin"></i> Centrum</span>
+</div>
+<div class="ec-r">
+<span class="ec-rs">9.7</span>
+<span class="ec-st">
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+</span>
+<span class="ec-rv">127 reviews</span>
+</div>
+</div>
+<div class="ec-ft">
+<div class="ec-pr">€92,00 <small>p.p.</small></div>
+<button class="ec-btn"><i data-lucide="calendar-check"></i> Boeken</button>
+</div>
+</div>
+</div>
+
+<!-- Event 3 -->
+<div class="ec">
+<div class="ec-th" style="background:linear-gradient(135deg,#FCE4EC,#F8BBD0)">
+<i data-lucide="utensils" style="color:#E91E63"></i>
+</div>
+<div class="ec-bd">
+<div class="ec-in">
+<div class="ec-ct">Culinair</div>
+<div class="ec-nm">Tapas Workshop</div>
+<div class="ec-ds">Leer samen Spaanse tapas maken onder begeleiding van een chef-kok. Inclusief alle ingrediënten, dranken, en receptenboek om mee naar huis te nemen.</div>
+<div class="ec-mt">
+<span><i data-lucide="clock"></i> 2.5 uur</span>
+<span><i data-lucide="users"></i> 10-30</span>
+<span><i data-lucide="map-pin"></i> Oost</span>
+</div>
+<div class="ec-r">
+<span class="ec-rs">9.2</span>
+<span class="ec-st">
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star"></i>
+</span>
+<span class="ec-rv">68 reviews</span>
+</div>
+</div>
+<div class="ec-ft">
+<div class="ec-pr">€54,50 <small>p.p.</small></div>
+<button class="ec-btn"><i data-lucide="calendar-check"></i> Boeken</button>
+</div>
+</div>
+</div>
+
+<!-- Event 4 -->
+<div class="ec">
+<div class="ec-th" style="background:linear-gradient(135deg,#E8EAF6,#C5CAE9)">
+<i data-lucide="puzzle" style="color:#3F51B5"></i>
+<div class="ec-sl"><i data-lucide="clock"></i> Nog 7 slots</div>
+</div>
+<div class="ec-bd">
+<div class="ec-in">
+<div class="ec-ct">Teambuilding</div>
+<div class="ec-nm">Escape Room Challenge</div>
+<div class="ec-ds">Test jullie teamwork in een spannende escape room. Meerdere kamers tegelijk beschikbaar voor grote groepen. Inclusief nabesprekingssessie met professional.</div>
+<div class="ec-mt">
+<span><i data-lucide="clock"></i> 2 uur</span>
+<span><i data-lucide="users"></i> 10-60</span>
+<span><i data-lucide="map-pin"></i> Noord</span>
+</div>
+<div class="ec-r">
+<span class="ec-rs">8.9</span>
+<span class="ec-st">
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star"></i>
+</span>
+<span class="ec-rv">142 reviews</span>
+</div>
+</div>
+<div class="ec-ft">
+<div class="ec-pr">€42,00 <small>p.p.</small></div>
+<button class="ec-btn"><i data-lucide="calendar-check"></i> Boeken</button>
+</div>
+</div>
+</div>
+
+<!-- Event 5 -->
+<div class="ec">
+<div class="ec-th" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">
+<i data-lucide="palette" style="color:#FF6B6B"></i>
+<div class="ec-bg pop"><i data-lucide="flame"></i> Populair</div>
+</div>
+<div class="ec-bd">
+<div class="ec-in">
+<div class="ec-ct">Creatief</div>
+<div class="ec-nm">Graffiti Workshop</div>
+<div class="ec-ds">Ontdek jullie creatieve kant in een professionele graffiti workshop. Spuit je eigen kunstwerk op doek onder begeleiding van bekende street artists.</div>
+<div class="ec-mt">
+<span><i data-lucide="clock"></i> 3 uur</span>
+<span><i data-lucide="users"></i> 15-50</span>
+<span><i data-lucide="map-pin"></i> West</span>
+</div>
+<div class="ec-r">
+<span class="ec-rs">9.5</span>
+<span class="ec-st">
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+</span>
+<span class="ec-rv">89 reviews</span>
+</div>
+</div>
+<div class="ec-ft">
+<div class="ec-pr">€67,50 <small>p.p.</small></div>
+<button class="ec-btn"><i data-lucide="calendar-check"></i> Boeken</button>
+</div>
+</div>
+</div>
+
+<!-- Event 6 -->
+<div class="ec">
+<div class="ec-th" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9)">
+<i data-lucide="bike" style="color:#4CAF50"></i>
+</div>
+<div class="ec-bd">
+<div class="ec-in">
+<div class="ec-ct">Sportief</div>
+<div class="ec-nm">Amsterdam Bike Tour</div>
+<div class="ec-ds">Ontdek Amsterdam op de fiets met een deskundige gids. Route past zich aan jullie groepsgrootte en tempo aan. Inclusief koffie- en lunchstop.</div>
+<div class="ec-mt">
+<span><i data-lucide="clock"></i> 3 uur</span>
+<span><i data-lucide="users"></i> 10-40</span>
+<span><i data-lucide="map-pin"></i> Centrum</span>
+</div>
+<div class="ec-r">
+<span class="ec-rs">9.1</span>
+<span class="ec-st">
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star"></i>
+</span>
+<span class="ec-rv">156 reviews</span>
+</div>
+</div>
+<div class="ec-ft">
+<div class="ec-pr">€39,00 <small>p.p.</small></div>
+<button class="ec-btn"><i data-lucide="calendar-check"></i> Boeken</button>
+</div>
+</div>
+</div>
+
+<!-- Event 7 -->
+<div class="ec">
+<div class="ec-th" style="background:linear-gradient(135deg,#F3E5F5,#E1BEE7)">
+<i data-lucide="music" style="color:#9C27B0"></i>
+<div class="ec-bg new"><i data-lucide="sparkles"></i> Nieuw</div>
+<div class="ec-sl"><i data-lucide="clock"></i> Nog 4 slots</div>
+</div>
+<div class="ec-bd">
+<div class="ec-in">
+<div class="ec-ct">Feestavond</div>
+<div class="ec-nm">Silent Disco Experience</div>
+<div class="ec-ds">Unieke feestervaring met draadloze koptelefoons en 3 DJ-kanalen. Perfect voor grote groepen in venues zonder geluidsbeperking. Inclusief welcome drinks.</div>
+<div class="ec-mt">
+<span><i data-lucide="clock"></i> 3.5 uur</span>
+<span><i data-lucide="users"></i> 30-200</span>
+<span><i data-lucide="map-pin"></i> Zuid</span>
+</div>
+<div class="ec-r">
+<span class="ec-rs">9.6</span>
+<span class="ec-st">
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+</span>
+<span class="ec-rv">73 reviews</span>
+</div>
+</div>
+<div class="ec-ft">
+<div class="ec-pr">€69,00 <small>p.p.</small></div>
+<button class="ec-btn"><i data-lucide="calendar-check"></i> Boeken</button>
+</div>
+</div>
+</div>
+
+<!-- Event 8 -->
+<div class="ec">
+<div class="ec-th" style="background:linear-gradient(135deg,#E1F5FE,#B3E5FC)">
+<i data-lucide="waves" style="color:#03A9F4"></i>
+</div>
+<div class="ec-bd">
+<div class="ec-in">
+<div class="ec-ct">Sportief</div>
+<div class="ec-nm">SUP Board Challenge</div>
+<div class="ec-ds">Stand-up paddleboarding op de Amsterdamse grachten. Inclusief instructie, materiaal, en waterdichte telefoonhoezen. Gevolgd door borrel aan de waterkant.</div>
+<div class="ec-mt">
+<span><i data-lucide="clock"></i> 2.5 uur</span>
+<span><i data-lucide="users"></i> 10-35</span>
+<span><i data-lucide="map-pin"></i> Waterfront</span>
+</div>
+<div class="ec-r">
+<span class="ec-rs">8.8</span>
+<span class="ec-st">
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star"></i>
+</span>
+<span class="ec-rv">94 reviews</span>
+</div>
+</div>
+<div class="ec-ft">
+<div class="ec-pr">€47,50 <small>p.p.</small></div>
+<button class="ec-btn"><i data-lucide="calendar-check"></i> Boeken</button>
+</div>
+</div>
+</div>
+
+<!-- Event 9 -->
+<div class="ec">
+<div class="ec-th" style="background:linear-gradient(135deg,#FFF9C4,#FFF59D)">
+<i data-lucide="martini" style="color:#F59E0B"></i>
+<div class="ec-bg pop"><i data-lucide="flame"></i> Populair</div>
+</div>
+<div class="ec-bd">
+<div class="ec-in">
+<div class="ec-ct">Culinair</div>
+<div class="ec-nm">Cocktail Workshop</div>
+<div class="ec-ds">Leer professionele cocktails maken van een ervaren barkeeper. Inclusief alle ingrediënten, receptenkaarten, en onbeperkte proeverij. Groepsfoto gegarandeerd!</div>
+<div class="ec-mt">
+<span><i data-lucide="clock"></i> 2 uur</span>
+<span><i data-lucide="users"></i> 10-50</span>
+<span><i data-lucide="map-pin"></i> Centrum</span>
+</div>
+<div class="ec-r">
+<span class="ec-rs">9.3</span>
+<span class="ec-st">
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star"></i>
+</span>
+<span class="ec-rv">118 reviews</span>
+</div>
+</div>
+<div class="ec-ft">
+<div class="ec-pr">€52,00 <small>p.p.</small></div>
+<button class="ec-btn"><i data-lucide="calendar-check"></i> Boeken</button>
+</div>
+</div>
+</div>
+
+<!-- Event 10 -->
+<div class="ec">
+<div class="ec-th" style="background:linear-gradient(135deg,#FFEBEE,#FFCDD2)">
+<i data-lucide="heart-handshake" style="color:#F44336"></i>
+<div class="ec-sl"><i data-lucide="clock"></i> Nog 2 slots</div>
+</div>
+<div class="ec-bd">
+<div class="ec-in">
+<div class="ec-ct">Teambuilding</div>
+<div class="ec-nm">CSR Charity Challenge</div>
+<div class="ec-ds">Geef terug aan de maatschappij terwijl je team hecht. Verschillende projecten beschikbaar: schooltuin aanleggen, soep koken, fietsen opknappen. Inclusief lunch.</div>
+<div class="ec-mt">
+<span><i data-lucide="clock"></i> 4 uur</span>
+<span><i data-lucide="users"></i> 20-80</span>
+<span><i data-lucide="map-pin"></i> Varieert</span>
+</div>
+<div class="ec-r">
+<span class="ec-rs">9.8</span>
+<span class="ec-st">
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+</span>
+<span class="ec-rv">201 reviews</span>
+</div>
+</div>
+<div class="ec-ft">
+<div class="ec-pr">€59,00 <small>p.p.</small></div>
+<button class="ec-btn"><i data-lucide="calendar-check"></i> Boeken</button>
+</div>
+</div>
+</div>
+
+<!-- Event 11 -->
+<div class="ec">
+<div class="ec-th" style="background:linear-gradient(135deg,#F1F8E9,#DCEDC8)">
+<i data-lucide="leaf" style="color:#8BC34A"></i>
+</div>
+<div class="ec-bd">
+<div class="ec-in">
+<div class="ec-ct">Wellness</div>
+<div class="ec-nm">Mindfulness & Yoga Sessie</div>
+<div class="ec-ds">Ontspan met je team tijdens een professionele yoga en mindfulness sessie. Inclusief healthy lunch buffet en goodie bag. Perfect voor stress management.</div>
+<div class="ec-mt">
+<span><i data-lucide="clock"></i> 3 uur</span>
+<span><i data-lucide="users"></i> 10-40</span>
+<span><i data-lucide="map-pin"></i> Oost</span>
+</div>
+<div class="ec-r">
+<span class="ec-rs">9.0</span>
+<span class="ec-st">
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star"></i>
+</span>
+<span class="ec-rv">67 reviews</span>
+</div>
+</div>
+<div class="ec-ft">
+<div class="ec-pr">€64,00 <small>p.p.</small></div>
+<button class="ec-btn"><i data-lucide="calendar-check"></i> Boeken</button>
+</div>
+</div>
+</div>
+
+<!-- Event 12 -->
+<div class="ec">
+<div class="ec-th" style="background:linear-gradient(135deg,#EDE7F6,#D1C4E9)">
+<i data-lucide="landmark" style="color:#673AB7"></i>
+<div class="ec-bg new"><i data-lucide="sparkles"></i> Nieuw</div>
+</div>
+<div class="ec-bd">
+<div class="ec-in">
+<div class="ec-ct">Cultuur</div>
+<div class="ec-nm">Privé Museumtour + High Tea</div>
+<div class="ec-ds">Exclusieve rondleiding door het Rijksmuseum buiten openingstijden, gevolgd door luxe high tea in het museumcafé. Perfect voor cultuurliefhebbers.</div>
+<div class="ec-mt">
+<span><i data-lucide="clock"></i> 3.5 uur</span>
+<span><i data-lucide="users"></i> 15-60</span>
+<span><i data-lucide="map-pin"></i> Zuid</span>
+</div>
+<div class="ec-r">
+<span class="ec-rs">9.7</span>
+<span class="ec-st">
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+<i data-lucide="star" style="fill:currentColor"></i>
+</span>
+<span class="ec-rv">84 reviews</span>
+</div>
+</div>
+<div class="ec-ft">
+<div class="ec-pr">€87,50 <small>p.p.</small></div>
+<button class="ec-btn"><i data-lucide="calendar-check"></i> Boeken</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Pagination -->
+<div class="pg">
+<button class="pg-b" disabled><i data-lucide="chevron-left"></i></button>
+<button class="pg-b on">1</button>
+<button class="pg-b">2</button>
+<button class="pg-b">3</button>
+<span class="pg-e">...</span>
+<button class="pg-b">16</button>
+<button class="pg-b"><i data-lucide="chevron-right"></i></button>
+</div>
+</main>
+</div>
+</div>
+
+<!-- USP Section -->
+<div class="usp">
+<div class="ct">
+<div class="usp-g">
+<div class="usp-i">
+<div class="usp-ic"><i data-lucide="shield-check"></i></div>
+<div class="usp-t">100% Gegarandeerd</div>
+<div class="usp-d">Geen gedoe met annuleringen. Wij garanderen jullie uitje of geld terug.</div>
+</div>
+<div class="usp-i">
+<div class="usp-ic"><i data-lucide="clock"></i></div>
+<div class="usp-t">Binnen 2 uur reactie</div>
+<div class="usp-d">Snel antwoord op je offerte-aanvraag. Ook buiten kantooruren bereikbaar.</div>
+</div>
+<div class="usp-i">
+<div class="usp-ic"><i data-lucide="users"></i></div>
+<div class="usp-t">189 bedrijven kozen ons</div>
+<div class="usp-d">Dit jaar vertrouwden honderden bedrijven op Mokum Events voor hun uitje.</div>
+</div>
+<div class="usp-i">
+<div class="usp-ic"><i data-lucide="heart"></i></div>
+<div class="usp-t">Persoonlijke begeleiding</div>
+<div class="usp-d">Vaste contactpersoon die jullie uitje van A tot Z regelt en meereist.</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Testimonials -->
+<div class="tm">
+<div class="ct">
+<div class="tm-h">
+<div class="tm-ht">Wat bedrijven zeggen</div>
+<div class="tm-hs">Ontdek waarom 189 bedrijven dit jaar voor Mokum Events kozen</div>
+</div>
+<div class="tm-g">
+<div class="tm-i">
+<div class="tm-q">"Perfecte organisatie van begin tot eind. Angela dacht in alles mee en het team van 85 personen heeft fantastisch genoten van de grachtenvaart + diner. Aanrader!"</div>
+<div class="tm-a">
+<div class="tm-av">SB</div>
+<div>
+<div class="tm-n">Sophie Bakker</div>
+<div class="tm-r">HR Manager</div>
+<div class="tm-c">TechBridge Amsterdam</div>
+</div>
+</div>
+</div>
+<div class="tm-i">
+<div class="tm-q">"Wij organiseren elk kwartaal een teamuitje en Mokum Events levert altijd topkwaliteit. De variatie in activiteiten is enorm en de prijs-kwaliteit verhouding uitstekend."</div>
+<div class="tm-a">
+<div class="tm-av">MV</div>
+<div>
+<div class="tm-n">Mark van Dijk</div>
+<div class="tm-r">CEO</div>
+<div class="tm-c">Bright Digital</div>
+</div>
+</div>
+</div>
+<div class="tm-i">
+<div class="tm-q">"Het CSR Charity uitje was een groot succes! Ons team voelde zich echt betrokken en we hebben samen iets moois neergezet. Mokum regelde alles perfect."</div>
+<div class="tm-a">
+<div class="tm-av">LT</div>
+<div>
+<div class="tm-n">Lisa de Jong</div>
+<div class="tm-r">Office Manager</div>
+<div class="tm-c">GreenTech Solutions</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- CTA Section -->
+<div class="cta">
+<div class="ct">
+<div class="cta-t">Klaar voor een onvergetelijk uitje?</div>
+<div class="cta-s">Vraag een gratis offerte aan en ontdek binnen 2 uur welke opties perfect passen bij jouw team en budget. Zonder verplichtingen.</div>
+<div class="cta-b">
+<button class="cta-bn"><i data-lucide="file-text"></i> Offerte aanvragen</button>
+<button class="cta-bn out"><i data-lucide="phone"></i> Bel 020 427 29 09</button>
+</div>
+</div>
+</div>
+
+<!-- Footer -->
+<div class="ft">
+<div class="ct">
+<div class="ft-g">
+<div class="ft-c">
+<h3>Mokum Events</h3>
+<p>Het beste event platform voor bedrijfsuitjes in Amsterdam. Van 10 tot 500 personen — wij regelen alles.</p>
+</div>
+<div class="ft-c">
+<h3>Uitjes</h3>
+<ul class="ft-l">
+<li><a href="#">Teambuilding</a></li>
+<li><a href="#">Feestavonden</a></li>
+<li><a href="#">Culinaire uitjes</a></li>
+<li><a href="#">Sportieve events</a></li>
+<li><a href="#">Vaartochten</a></li>
+</ul>
+</div>
+<div class="ft-c">
+<h3>Service</h3>
+<ul class="ft-l">
+<li><a href="#">Over ons</a></li>
+<li><a href="#">Contact</a></li>
+<li><a href="#">Veelgestelde vragen</a></li>
+<li><a href="#">Reviews</a></li>
+<li><a href="#">Blog</a></li>
+</ul>
+</div>
+<div class="ft-c">
+<h3>Contact</h3>
+<ul class="ft-l">
+<li>020 427 29 09</li>
+<li>info@mokum-events.nl</li>
+<li>Keizersgracht 123</li>
+<li>1015 CJ Amsterdam</li>
+</ul>
+</div>
+</div>
+<div class="ft-b">© 2024 Mokum Events — Alle rechten voorbehouden</div>
+</div>
+</div>
+
+<script>
+// Price range slider
+function updatePrice(val) {
+document.getElementById('price-val').textContent = '€20 - €' + val;
+}
+
+// View toggle
+function setView(view) {
+const grid = document.getElementById('event-grid');
+const buttons = document.querySelectorAll('.vb');
+buttons.forEach(b => b.classList.remove('on'));
+event.target.closest('.vb').classList.add('on');
+if(view === 'list') {
+grid.classList.add('list');
+} else {
+grid.classList.remove('list');
+}
+}
+
+// Clear filters
+function clearFilters() {
+document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+document.querySelectorAll('input[type="radio"]').forEach(rd => rd.checked = false);
+document.querySelector('.rg').value = 75;
+updatePrice(75);
+document.querySelector('.dt').value = '';
+}
+
+// Initialize Lucide icons
+lucide.createIcons();
+</script>
+
+</body>
+</html>

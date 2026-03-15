@@ -118,30 +118,30 @@ export default async function CategoryArchivePage({
   const getColorGradient = (color?: string) => {
     switch (color) {
       case 'blue':
-        return 'from-blue-600 to-blue-800'
+        return 'from-teal to-teal-800'
       case 'green':
-        return 'from-green-600 to-green-800'
+        return 'from-green to-green-800'
       case 'coral':
-        return 'from-red-600 to-red-800'
+        return 'from-coral to-coral-800'
       case 'amber':
         return 'from-amber-600 to-amber-800'
       case 'purple':
-        return 'from-purple-600 to-purple-800'
+        return 'from-teal to-teal-800'
       case 'pink':
-        return 'from-pink-600 to-pink-800'
+        return 'from-teal-600 to-teal-800'
       default:
         return 'from-teal-600 to-teal-800'
     }
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-grey-light">
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <div className="mb-6">
           <Link
             href="/blog/"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-teal-600 transition-colors"
+            className="inline-flex items-center gap-2 text-grey-dark hover:text-teal-600 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Terug naar alle artikelen
@@ -173,7 +173,7 @@ export default async function CategoryArchivePage({
         <div className="flex gap-2 flex-wrap mb-8">
           <Link
             href="/blog/"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold border-2 bg-white text-gray-700 border-gray-200 hover:border-teal-500 transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold border-2 bg-white text-grey-dark border-grey-light hover:border-teal-500 transition-all"
           >
             Alles
           </Link>
@@ -184,7 +184,7 @@ export default async function CategoryArchivePage({
               className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold border-2 transition-all ${
                 cat.id === category.id
                   ? 'bg-teal-500 text-white border-teal-500'
-                  : 'bg-white text-gray-700 border-gray-200 hover:border-teal-500'
+                  : 'bg-white text-grey-dark border-grey-light hover:border-teal-500'
               }`}
             >
               {cat.name}
@@ -196,24 +196,24 @@ export default async function CategoryArchivePage({
         {featuredPost && (
           <Link
             href={`/blog/${categorySlug}/${featuredPost.slug}`}
-            className="block bg-white border border-gray-200 rounded-2xl overflow-hidden mb-8 hover:shadow-xl transition-all"
+            className="block bg-white border border-grey-light rounded-2xl overflow-hidden mb-8 hover:shadow-xl transition-all"
           >
             <div className="grid md:grid-cols-2 gap-0">
               <div className="bg-gradient-to-br from-teal-50 to-teal-100 h-64 md:h-auto flex items-center justify-center text-6xl">
                 {featuredPost.featuredImageEmoji || '📰'}
               </div>
               <div className="p-8">
-                <div className="inline-flex items-center gap-2 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold mb-3">
+                <div className="inline-flex items-center gap-2 bg-coral text-white px-3 py-1 rounded-full text-xs font-bold mb-3">
                   ⭐ Uitgelicht
                 </div>
                 <div className="text-xs font-bold uppercase tracking-wider text-teal-600 mb-2">
                   {category.name}
                 </div>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3">
+                <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-3">
                   {featuredPost.title}
                 </h2>
-                <p className="text-gray-600 mb-4 line-clamp-3">{featuredPost.excerpt}</p>
-                <div className="flex items-center gap-4 text-sm text-gray-500">
+                <p className="text-grey-dark mb-4 line-clamp-3">{featuredPost.excerpt}</p>
+                <div className="flex items-center gap-4 text-sm text-grey-mid">
                   <span>{new Date(featuredPost.publishedAt).toLocaleDateString('nl-NL')}</span>
                   {featuredPost.readingTime && <span>{featuredPost.readingTime} min leestijd</span>}
                 </div>
@@ -224,9 +224,9 @@ export default async function CategoryArchivePage({
 
         {/* Sort Dropdown */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-extrabold text-gray-900">Alle artikelen</h2>
+          <h2 className="text-2xl font-extrabold text-navy">Alle artikelen</h2>
           <select
-            className="px-4 py-2 border-2 border-gray-200 rounded-xl text-sm font-semibold bg-white"
+            className="px-4 py-2 border-2 border-grey-light rounded-xl text-sm font-semibold bg-white"
             defaultValue={sort}
           >
             <option value="-publishedAt">Nieuwste eerst</option>
@@ -245,20 +245,20 @@ export default async function CategoryArchivePage({
                 <Link
                   key={post.id}
                   href={`/blog/${categorySlug}/${post.slug}`}
-                  className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all group"
+                  className="bg-white border border-grey-light rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all group"
                 >
                   <div
                     className={`h-48 flex items-center justify-center text-5xl bg-gradient-to-br ${
                       category.color === 'blue'
-                        ? 'from-blue-50 to-blue-100'
+                        ? 'from-teal-50 to-teal-100'
                         : category.color === 'green'
                           ? 'from-green-50 to-green-100'
                           : category.color === 'coral'
-                            ? 'from-red-50 to-red-100'
+                            ? 'from-coral-50 to-coral-100'
                             : category.color === 'amber'
                               ? 'from-amber-50 to-amber-100'
                               : category.color === 'purple'
-                                ? 'from-purple-50 to-purple-100'
+                                ? 'from-teal-50 to-teal-100'
                                 : 'from-teal-50 to-teal-100'
                     }`}
                   >
@@ -268,12 +268,12 @@ export default async function CategoryArchivePage({
                     <div className="text-xs font-bold uppercase tracking-wider text-teal-600 mb-2">
                       {category.name}
                     </div>
-                    <h3 className="text-lg font-extrabold text-gray-900 mb-2 line-clamp-2 group-hover:text-teal-600 transition-colors">
+                    <h3 className="text-lg font-extrabold text-navy mb-2 line-clamp-2 group-hover:text-teal-600 transition-colors">
                       {post.title}
                     </h3>
-                    <p className="text-sm text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
-                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                      <div className="flex items-center gap-3 text-xs text-gray-500">
+                    <p className="text-sm text-grey-dark mb-4 line-clamp-3">{post.excerpt}</p>
+                    <div className="flex items-center justify-between pt-4 border-t border-grey-light">
+                      <div className="flex items-center gap-3 text-xs text-grey-mid">
                         <span>
                           {new Date(post.publishedAt).toLocaleDateString('nl-NL', {
                             day: 'numeric',
@@ -294,8 +294,8 @@ export default async function CategoryArchivePage({
         ) : (
           <div className="text-center py-16">
             <div className="text-6xl mb-4">📭</div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">Nog geen artikelen</h3>
-            <p className="text-gray-600">Er zijn nog geen artikelen in deze categorie.</p>
+            <h3 className="text-2xl font-bold text-navy mb-2">Nog geen artikelen</h3>
+            <p className="text-grey-dark">Er zijn nog geen artikelen in deze categorie.</p>
             <Link
               href="/blog/"
               className="inline-block mt-6 px-6 py-3 bg-teal-500 text-white rounded-xl font-semibold hover:bg-teal-600 transition-colors"
@@ -315,7 +315,7 @@ export default async function CategoryArchivePage({
                 className={`w-10 h-10 rounded-xl border-2 flex items-center justify-center font-semibold text-sm transition-all ${
                   pageNum === page
                     ? 'bg-teal-500 text-white border-teal-500'
-                    : 'bg-white text-gray-700 border-gray-200 hover:border-teal-500'
+                    : 'bg-white text-grey-dark border-grey-light hover:border-teal-500'
                 }`}
               >
                 {pageNum}

@@ -17,7 +17,7 @@ export function RecentOrders({ orders }: RecentOrdersProps) {
   return (
     <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-sm">
       <div className="flex items-center justify-between mb-4 lg:mb-5">
-        <h2 className="text-base lg:text-lg font-extrabold text-gray-900">
+        <h2 className="text-base lg:text-lg font-extrabold text-navy">
           Recente bestellingen
         </h2>
         <Link
@@ -41,12 +41,12 @@ export function RecentOrders({ orders }: RecentOrdersProps) {
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2 lg:gap-4 mb-3">
               <div className="flex-1">
                 <div className="flex items-center gap-2 flex-wrap mb-1">
-                  <span className="text-xs lg:text-sm font-bold text-gray-900 font-mono">
+                  <span className="text-xs lg:text-sm font-bold text-navy font-mono">
                     {order.orderNumber}
                   </span>
                   <StatusBadge status={order.status} />
                 </div>
-                <div className="text-xs lg:text-sm text-gray-500">
+                <div className="text-xs lg:text-sm text-grey-mid">
                   {new Date(order.date).toLocaleDateString('nl-NL', {
                     day: 'numeric',
                     month: 'long',
@@ -54,9 +54,9 @@ export function RecentOrders({ orders }: RecentOrdersProps) {
                   })}
                 </div>
               </div>
-              <div className="text-lg lg:text-xl font-extrabold text-gray-900">
+              <div className="text-lg lg:text-xl font-extrabold text-navy">
                 €{formatPriceStr(order.total)}
-                <span className="block text-xs font-normal text-gray-500">{vatLabel}</span>
+                <span className="block text-xs font-normal text-grey-mid">{vatLabel}</span>
               </div>
             </div>
 
@@ -68,19 +68,19 @@ export function RecentOrders({ orders }: RecentOrdersProps) {
                     className="flex items-center gap-2 px-2.5 lg:px-3 py-1.5 lg:py-2 rounded-lg flex-shrink-0"
                     style={{ background: 'var(--color-surface)' }}
                   >
-                    <Package className="w-4 h-4 text-gray-400" />
+                    <Package className="w-4 h-4 text-grey-mid" />
                     <div className="hidden lg:block">
-                      <div className="text-xs lg:text-sm font-semibold text-gray-900">
+                      <div className="text-xs lg:text-sm font-semibold text-navy">
                         {item.title}
                       </div>
                       {item.sku && (
-                        <div className="text-xs text-gray-500 font-mono">{item.sku}</div>
+                        <div className="text-xs text-grey-mid font-mono">{item.sku}</div>
                       )}
                     </div>
                   </div>
                 ))}
                 {order.items.length > 5 && (
-                  <div className="px-3 py-2 rounded-lg text-xs lg:text-sm font-semibold bg-gray-100 text-gray-500 flex-shrink-0">
+                  <div className="px-3 py-2 rounded-lg text-xs lg:text-sm font-semibold bg-grey-light text-grey-mid flex-shrink-0">
                     +{order.items.length - 5} meer
                   </div>
                 )}

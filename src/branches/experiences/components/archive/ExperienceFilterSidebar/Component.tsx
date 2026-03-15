@@ -48,7 +48,7 @@ export const ExperienceFilterSidebar: React.FC<ExperienceFilterSidebarProps> = (
 
       {/* Result count */}
       {resultCount !== undefined && (
-        <p className="mb-4 text-xs text-gray-500">
+        <p className="mb-4 text-xs text-grey-mid">
           {resultCount} {resultCount === 1 ? 'resultaat' : 'resultaten'} gevonden
         </p>
       )}
@@ -91,7 +91,7 @@ export const ExperienceFilterSidebar: React.FC<ExperienceFilterSidebarProps> = (
               className="w-full"
               style={{ accentColor: 'var(--color-teal, #00a39b)' }}
             />
-            <div className="flex items-center justify-between text-xs text-gray-500">
+            <div className="flex items-center justify-between text-xs text-grey-mid">
               <span>&euro;{priceMin}</span>
               <span
                 className="font-semibold"
@@ -143,7 +143,7 @@ export const ExperienceFilterSidebar: React.FC<ExperienceFilterSidebarProps> = (
                     )
                   }
                   className={`rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-all duration-150 ${
-                    isActive ? 'text-white' : 'text-gray-600 hover:bg-white'
+                    isActive ? 'text-white' : 'text-grey-dark hover:bg-white'
                   }`}
                   style={{
                     borderColor: isActive
@@ -217,7 +217,7 @@ const FilterGroup: React.FC<{
 }> = ({ label, children }) => (
   <div>
     <label
-      className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider text-gray-500"
+      className="mb-1.5 block text-[10px] font-bold uppercase tracking-wider text-grey-mid"
     >
       {label}
     </label>

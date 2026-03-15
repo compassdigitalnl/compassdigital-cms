@@ -37,7 +37,7 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
       className={`
         variant-selection-sidebar
         sticky top-6 w-full max-w-[340px]
-        bg-white border-2 border-gray-300 rounded-xl shadow-lg
+        bg-white border-2 border-grey-light rounded-xl shadow-lg
         flex flex-col
         ${className}
       `}
@@ -46,13 +46,13 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
       }}
     >
       {/* Header */}
-      <div className="p-4 border-b-2 border-gray-200 flex items-center justify-between gap-2">
+      <div className="p-4 border-b-2 border-grey-light flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <ShoppingCart className="w-5 h-5 text-[var(--color-primary)]" strokeWidth={2.5} />
-          <h3 className="text-lg font-bold text-gray-900">
+          <h3 className="text-lg font-bold text-navy">
             Geselecteerd
             {hasItems && (
-              <span className="ml-1 text-sm font-normal text-gray-600">
+              <span className="ml-1 text-sm font-normal text-grey-dark">
                 ({itemCount} {itemCount === 1 ? 'item' : 'items'})
               </span>
             )}
@@ -74,8 +74,8 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
       {!hasItems && (
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="text-center">
-            <ShoppingCart className="w-12 h-12 text-gray-300 mx-auto mb-2" strokeWidth={1.5} />
-            <p className="text-gray-600 text-sm">
+            <ShoppingCart className="w-12 h-12 text-grey-mid mx-auto mb-2" strokeWidth={1.5} />
+            <p className="text-grey-dark text-sm">
               Selecteer varianten om toe te voegen
             </p>
           </div>
@@ -94,21 +94,21 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
             {selectedVariants.map(({ variant, quantity }) => (
               <div
                 key={variant.id}
-                className="flex items-center justify-between gap-2 p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                className="flex items-center justify-between gap-2 p-2 bg-grey-light rounded-lg hover:bg-grey-light transition-colors"
               >
                 {/* Variant Info */}
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-bold text-gray-900 truncate">
+                  <h4 className="text-sm font-bold text-navy truncate">
                     {variant.name}
                   </h4>
-                  <p className="text-xs text-gray-600">
+                  <p className="text-xs text-grey-dark">
                     {quantity} × €{formatPriceStr(variant.price)}
                   </p>
                 </div>
 
                 {/* Total Price */}
                 <div className="text-right flex-shrink-0">
-                  <span className="text-sm font-mono font-bold text-gray-900">
+                  <span className="text-sm font-mono font-bold text-navy">
                     €{formatPriceStr(variant.price * quantity)}
                   </span>
                 </div>
@@ -117,7 +117,7 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
                 <button
                   type="button"
                   onClick={() => onRemoveVariant(variant.id)}
-                  className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full hover:bg-red-100 text-gray-500 hover:text-coral transition-colors"
+                  className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full hover:bg-red-100 text-grey-mid hover:text-coral transition-colors"
                   aria-label={`Verwijder ${variant.name}`}
                 >
                   <X className="w-4 h-4" strokeWidth={2.5} />
@@ -127,11 +127,11 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
           </div>
 
           {/* Price Summary */}
-          <div className="p-4 border-t-2 border-gray-200 space-y-2">
+          <div className="p-4 border-t-2 border-grey-light space-y-2">
             {/* Subtotal */}
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-600">Subtotaal</span>
-              <span className="font-mono font-semibold text-gray-900">
+              <span className="text-grey-dark">Subtotaal</span>
+              <span className="font-mono font-semibold text-navy">
                 €{formatPriceStr(subtotal)}
               </span>
             </div>
@@ -149,8 +149,8 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
             )}
 
             {/* Total */}
-            <div className="flex items-center justify-between pt-2 border-t border-gray-200">
-              <span className="text-lg font-bold text-gray-900">Totaal</span>
+            <div className="flex items-center justify-between pt-2 border-t border-grey-light">
+              <span className="text-lg font-bold text-navy">Totaal</span>
               <span className="text-xl font-mono font-extrabold text-[var(--color-primary)]">
                 €{formatPriceStr(total)}
               </span>
@@ -173,11 +173,11 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
 
           {/* Trust Signals */}
           <div className="p-4 pt-0 space-y-2">
-            <div className="flex items-center gap-2 text-xs text-gray-600">
+            <div className="flex items-center gap-2 text-xs text-grey-dark">
               <Truck className="w-4 h-4 text-[var(--color-primary)]" strokeWidth={2} />
               <span>Gratis verzending vanaf €60</span>
             </div>
-            <div className="flex items-center gap-2 text-xs text-gray-600">
+            <div className="flex items-center gap-2 text-xs text-grey-dark">
               <svg
                 className="w-4 h-4 text-[var(--color-primary)]"
                 fill="none"

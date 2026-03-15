@@ -101,7 +101,7 @@ export function MobileDrawer({
         style={{ width: `${drawerWidth}px` }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-gray-200 flex-shrink-0">
+        <div className="flex items-center justify-between p-5 border-b border-grey-light flex-shrink-0">
           {header.logo &&
           typeof header.logo === 'object' &&
           'url' in header.logo &&
@@ -123,7 +123,7 @@ export function MobileDrawer({
           )}
           <button
             onClick={onClose}
-            className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+            className="w-9 h-9 rounded-lg bg-grey-light flex items-center justify-center hover:bg-grey-light transition-colors"
             aria-label="Close menu"
           >
             <X className="w-5 h-5" style={{ color: secondaryColor }} />
@@ -131,14 +131,14 @@ export function MobileDrawer({
         </div>
 
         {/* Quick Actions: Search + Wishlist */}
-        <div className="flex items-center gap-2 px-5 py-3 border-b border-gray-100">
+        <div className="flex items-center gap-2 px-5 py-3 border-b border-grey-light">
           {onOpenSearch && (
             <button
               onClick={() => {
                 onClose()
                 setTimeout(() => onOpenSearch(), 150)
               }}
-              className="flex-1 flex items-center gap-2 h-10 px-3 rounded-lg bg-gray-50 border border-gray-200 text-sm text-gray-500"
+              className="flex-1 flex items-center gap-2 h-10 px-3 rounded-lg bg-grey-light border border-grey-light text-sm text-grey-mid"
             >
               <Search className="w-4 h-4" />
               Zoeken...
@@ -147,7 +147,7 @@ export function MobileDrawer({
           <Link
             href="/account/favorites"
             onClick={onClose}
-            className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
+            className="w-10 h-10 rounded-lg bg-grey-light border border-grey-light flex items-center justify-center hover:bg-grey-light transition-colors"
           >
             <Heart className="w-4 h-4" style={{ color: secondaryColor }} />
           </Link>
@@ -161,7 +161,7 @@ export function MobileDrawer({
           {/* Special Items */}
           {specialItems.length > 0 && (
             <>
-              <div className="px-5 py-3 text-[10px] font-extrabold uppercase tracking-wider text-gray-400">
+              <div className="px-5 py-3 text-[10px] font-extrabold uppercase tracking-wider text-grey-mid">
                 Speciale Items
               </div>
               {specialItems.map((item: SpecialNavItem, index: number) => (
@@ -173,22 +173,22 @@ export function MobileDrawer({
                     'flex items-center gap-3 px-5 py-3 text-base font-semibold transition-colors',
                     item.highlight
                       ? 'text-[var(--color-error)] hover:bg-coral-50'
-                      : 'hover:bg-gray-50',
+                      : 'hover:bg-grey-light',
                   )}
                   style={{ color: item.highlight ? 'var(--color-error)' : secondaryColor }}
                 >
                   {item.label}
-                  <ChevronRight className="w-4 h-4 ml-auto text-gray-400" />
+                  <ChevronRight className="w-4 h-4 ml-auto text-grey-mid" />
                 </Link>
               ))}
-              <div className="h-px bg-gray-200 my-2 mx-5" />
+              <div className="h-px bg-grey-light my-2 mx-5" />
             </>
           )}
 
           {/* Navigation Items */}
           {navItems.length > 0 && (
             <>
-              <div className="px-5 py-3 text-[10px] font-extrabold uppercase tracking-wider text-gray-400">
+              <div className="px-5 py-3 text-[10px] font-extrabold uppercase tracking-wider text-grey-mid">
                 Navigatie
               </div>
               {navItems.map((item: NavItem) => (
@@ -198,19 +198,19 @@ export function MobileDrawer({
                     {...(item.type === 'page'
                       ? { reference: { relationTo: 'pages' as const, value: item.page as number } }
                       : { url: item.url })}
-                    className="flex items-center gap-3 px-5 py-3 text-base font-semibold hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-3 px-5 py-3 text-base font-semibold hover:bg-grey-light transition-colors"
                     style={{ color: secondaryColor }}
                   >
                     {item.label}
-                    <ChevronRight className="w-4 h-4 ml-auto text-gray-400" />
+                    <ChevronRight className="w-4 h-4 ml-auto text-grey-mid" />
                   </CMSLink>
                   {((item as any).subItems || item.children || (item as any).megaColumns)?.length > 0 && (
-                    <div className="bg-gray-50">
+                    <div className="bg-grey-light">
                       {/* Mega menu columns with section headers */}
                       {(item as any).type === 'mega' && (item as any).megaColumns?.map((col: any) => (
                         <React.Fragment key={col.id || col.title}>
                           {col.title && (
-                            <div className="px-5 pl-10 py-1.5 text-[10px] font-bold uppercase tracking-wider text-gray-400">
+                            <div className="px-5 pl-10 py-1.5 text-[10px] font-bold uppercase tracking-wider text-grey-mid">
                               {col.title}
                             </div>
                           )}
@@ -219,7 +219,7 @@ export function MobileDrawer({
                               key={link.id || link.url}
                               href={link.url || '#'}
                               onClick={onClose}
-                              className="flex items-center gap-3 pl-12 pr-5 py-2.5 text-sm font-medium hover:bg-gray-100 transition-colors text-gray-600"
+                              className="flex items-center gap-3 pl-12 pr-5 py-2.5 text-sm font-medium hover:bg-grey-light transition-colors text-grey-dark"
                             >
                               {link.icon && <Icon name={link.icon} size={14} />}
                               {link.label}
@@ -235,7 +235,7 @@ export function MobileDrawer({
                           {...(typeof child.page === 'object' && child.page !== null && 'slug' in (child.page as Record<string, unknown>)
                             ? { reference: { relationTo: 'pages' as const, value: child.page as number } }
                             : { url: child.url })}
-                          className="flex items-center gap-3 pl-12 pr-5 py-2.5 text-sm font-medium hover:bg-gray-100 transition-colors text-gray-600"
+                          className="flex items-center gap-3 pl-12 pr-5 py-2.5 text-sm font-medium hover:bg-grey-light transition-colors text-grey-dark"
                         >
                           {child.label}
                         </CMSLink>
@@ -249,12 +249,12 @@ export function MobileDrawer({
         </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-200 p-5 flex-shrink-0 flex flex-col gap-3">
+        <div className="border-t border-grey-light p-5 flex-shrink-0 flex flex-col gap-3">
           {/* B2B/B2C Toggle */}
           {showToggles && enablePriceToggle && (
             <button
               onClick={togglePriceMode}
-              className="flex items-center justify-between w-full px-3 py-2.5 rounded-lg bg-gray-50 transition-colors"
+              className="flex items-center justify-between w-full px-3 py-2.5 rounded-lg bg-grey-light transition-colors"
             >
               <span className="text-sm font-semibold" style={{ color: secondaryColor }}>
                 Prijsmodus
@@ -287,7 +287,7 @@ export function MobileDrawer({
 
           {/* Language Switcher */}
           {showToggles && hasLanguages && languages && languages.length > 0 && (
-            <div className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-gray-50">
+            <div className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-grey-light">
               <span
                 className="flex items-center gap-2 text-sm font-semibold"
                 style={{ color: secondaryColor }}

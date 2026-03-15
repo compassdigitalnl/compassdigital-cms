@@ -55,7 +55,7 @@ export const PersonalizationFontSelector: React.FC<PersonalizationFontSelectorPr
     <div className={`personalization-font-selector ${className}`}>
       {/* Label */}
       <label className="block mb-2">
-        <span className="text-[15px] font-bold text-gray-900">
+        <span className="text-[15px] font-bold text-navy">
           {option.fieldName}
           {option.required && <span className="text-coral ml-1">*</span>}
         </span>
@@ -76,7 +76,7 @@ export const PersonalizationFontSelector: React.FC<PersonalizationFontSelectorPr
               onClick={() => onChange(font.value)}
               className={`
                 relative p-4 rounded-lg border-2 transition-all duration-200 text-left
-                ${isSelected ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]/20' : 'border-gray-300 bg-white hover:border-[var(--color-primary-light)]'}
+                ${isSelected ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]/20' : 'border-grey-light bg-white hover:border-[var(--color-primary-light)]'}
               `}
               aria-label={`Selecteer font ${font.label}`}
               aria-pressed={isSelected}
@@ -89,11 +89,11 @@ export const PersonalizationFontSelector: React.FC<PersonalizationFontSelectorPr
               )}
 
               {/* Font Label */}
-              <div className="text-[13px] font-semibold text-gray-900 mb-2">{font.label}</div>
+              <div className="text-[13px] font-semibold text-navy mb-2">{font.label}</div>
 
               {/* Font Preview */}
               <div
-                className="text-[18px] text-gray-700 truncate"
+                className="text-[18px] text-grey-dark truncate"
                 style={font.style}
               >
                 Voorbeeld
@@ -105,7 +105,7 @@ export const PersonalizationFontSelector: React.FC<PersonalizationFontSelectorPr
 
       {/* Helper Text */}
       {!option.required && (
-        <p className="text-[12px] text-gray-500 mt-2">Optioneel</p>
+        <p className="text-[12px] text-grey-mid mt-2">Optioneel</p>
       )}
     </div>
   )

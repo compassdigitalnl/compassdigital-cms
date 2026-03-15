@@ -15,7 +15,7 @@ const bgColorMap: Record<EarnWayColor, string> = {
 export function EarnPointsGrid({ earnWays }: EarnPointsGridProps) {
   return (
     <div className="mb-4">
-      <h3 className="text-base font-extrabold mb-3 flex items-center gap-2 text-gray-900">
+      <h3 className="text-base font-extrabold mb-3 flex items-center gap-2 text-navy">
         <Zap className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
         Punten verdienen
       </h3>
@@ -23,7 +23,7 @@ export function EarnPointsGrid({ earnWays }: EarnPointsGridProps) {
         {earnWays.map((way) => (
           <div
             key={way.id}
-            className="bg-white border border-gray-200 rounded-xl p-4 text-center transition-all duration-150 hover:-translate-y-0.5 hover:border-primary"
+            className="bg-white border border-grey-light rounded-xl p-4 text-center transition-all duration-150 hover:-translate-y-0.5 hover:border-primary"
             style={{ '--tw-border-opacity': '1' } as React.CSSProperties}
           >
             <div
@@ -32,8 +32,8 @@ export function EarnPointsGrid({ earnWays }: EarnPointsGridProps) {
             >
               {way.icon}
             </div>
-            <div className="text-sm font-bold text-gray-900 mb-0.5">{way.name}</div>
-            <div className="text-xs text-gray-500">{way.description}</div>
+            <div className="text-sm font-bold text-navy mb-0.5">{way.name}</div>
+            <div className="text-xs text-grey-mid">{way.description}</div>
             <div
               className="inline-flex items-center gap-1 mt-2 px-2 py-0.5 rounded-full text-xs font-bold"
               style={{

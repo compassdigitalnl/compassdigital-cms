@@ -7,22 +7,22 @@ export function OrderSearchBar({ searchQuery, statusFilter, onSearch, onStatusFi
     <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-5 shadow-sm">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
         <div className="relative">
-          <Search className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Search className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-grey-mid" />
           <input
             type="text"
             placeholder="Zoek op bestelnummer..."
             value={searchQuery}
             onChange={(e) => onSearch(e.target.value)}
-            className="w-full pl-10 lg:pl-12 pr-3 lg:pr-4 py-3 lg:py-3.5 rounded-xl text-sm lg:text-base outline-none transition-all bg-gray-50 border border-gray-200 focus:border-gray-300"
+            className="w-full pl-10 lg:pl-12 pr-3 lg:pr-4 py-3 lg:py-3.5 rounded-xl text-sm lg:text-base outline-none transition-all bg-grey-light border border-grey-light focus:border-grey-light"
           />
         </div>
 
         <div className="relative">
-          <Filter className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Filter className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-grey-mid" />
           <select
             value={statusFilter}
             onChange={(e) => onStatusFilter(e.target.value)}
-            className="w-full pl-10 lg:pl-12 pr-10 py-3 lg:py-3.5 rounded-xl text-sm lg:text-base outline-none appearance-none cursor-pointer transition-all bg-gray-50 border border-gray-200"
+            className="w-full pl-10 lg:pl-12 pr-10 py-3 lg:py-3.5 rounded-xl text-sm lg:text-base outline-none appearance-none cursor-pointer transition-all bg-grey-light border border-grey-light"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E")`,
               backgroundRepeat: 'no-repeat',

@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inschrijven voor Python voor Beginners | Compass Onderwijs</title>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Onderwijs Colors */
+      --blue: #2563EB;
+      --blue-light: #3B82F6;
+      --blue-dark: #1E40AF;
+      --sky: #0EA5E9;
+      --sky-light: #38BDF8;
+      --navy-deep: #0c1844;
+      --navy-deeper: #081028;
+
+      /* Status Colors */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --purple: #7C3AED;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(12,24,68,0.06);
+      --shadow-md: 0 8px 24px rgba(12,24,68,0.08);
+      --shadow-lg: 0 16px 48px rgba(12,24,68,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--navy-deep);
+      background: var(--bg);
+    }
+
+    /* Header */
+    .header {
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      padding: 0 24px;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--blue);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .secure-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .secure-badge i {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Progress Stepper */
+    .stepper-container {
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      padding: 24px;
+    }
+
+    .steps {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .step-connector {
+      position: absolute;
+      top: 16px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--grey);
+      z-index: 0;
+    }
+
+    .step-connector-progress {
+      height: 100%;
+      background: var(--blue);
+      transition: width 0.3s ease;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      max-width: 120px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--grey);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--grey-mid);
+      transition: var(--transition);
+    }
+
+    .step.active .step-number {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: white;
+    }
+
+    .step.completed .step-number {
+      background: var(--green);
+      border-color: var(--green);
+      color: white;
+    }
+
+    .step-label {
+      font-size: 11px;
+      color: var(--grey-mid);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .step.active .step-label,
+    .step.completed .step-label {
+      color: var(--navy-deep);
+    }
+
+    /* Main Content */
+    .main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .form-column {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Form Steps */
+    .form-step {
+      display: none;
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+
+    .form-step.active {
+      display: block;
+    }
+
+    .step-header {
+      margin-bottom: 24px;
+    }
+
+    .step-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy-deep);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .step-title i {
+      color: var(--blue);
+      width: 28px;
+      height: 28px;
+    }
+
+    .step-subtitle {
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--navy-deep);
+      margin-bottom: 8px;
+    }
+
+    .required {
+      color: var(--coral);
+    }
+
+    .form-input,
+    .form-select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 13px;
+      color: var(--navy-deep);
+      transition: var(--transition);
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+
+    .form-input::placeholder {
+      color: var(--grey-mid);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .form-helper {
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-top: 6px;
+    }
+
+    .form-error {
+      font-size: 11px;
+      color: var(--coral);
+      margin-top: 6px;
+      display: none;
+    }
+
+    .form-input.error {
+      border-color: var(--coral);
+    }
+
+    .form-input.error + .form-error {
+      display: block;
+    }
+
+    /* Account Options */
+    .account-options {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .account-option {
+      flex: 1;
+      padding: 20px;
+      border: 2px solid var(--grey);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .account-option:hover {
+      border-color: var(--blue);
+    }
+
+    .account-option.active {
+      border-color: var(--blue);
+      background: rgba(37,99,235,0.04);
+    }
+
+    .account-option-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .account-option-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--grey-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .account-option.active .account-option-icon {
+      background: var(--blue);
+    }
+
+    .account-option-icon i {
+      width: 18px;
+      height: 18px;
+      color: var(--grey-mid);
+    }
+
+    .account-option.active .account-option-icon i {
+      color: white;
+    }
+
+    .account-option-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--navy-deep);
+    }
+
+    .account-option-description {
+      font-size: 12px;
+      color: var(--grey-dark);
+      line-height: 1.5;
+    }
+
+    /* Payment Methods */
+    .payment-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .payment-method {
+      padding: 16px;
+      border: 2px solid var(--grey);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .payment-method:hover {
+      border-color: var(--blue);
+    }
+
+    .payment-method.active {
+      border-color: var(--blue);
+      background: rgba(37,99,235,0.04);
+    }
+
+    .payment-radio {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--grey);
+      border-radius: 50%;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .payment-method.active .payment-radio {
+      border-color: var(--blue);
+    }
+
+    .payment-method.active .payment-radio::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      background: var(--blue);
+      border-radius: 50%;
+    }
+
+    .payment-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--grey-light);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .payment-icon i {
+      width: 18px;
+      height: 18px;
+      color: var(--grey-dark);
+    }
+
+    .payment-info {
+      flex: 1;
+    }
+
+    .payment-name {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy-deep);
+      margin-bottom: 2px;
+    }
+
+    .payment-description {
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    /* Checkbox */
+    .checkbox-group {
+      margin-top: 20px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .checkbox-input {
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--grey);
+      border-radius: 4px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .checkbox-text {
+      font-size: 12px;
+      color: var(--grey-dark);
+      line-height: 1.5;
+    }
+
+    .checkbox-text a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .checkbox-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* Buttons */
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--grey);
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      flex: 1;
+      background: var(--blue);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-secondary {
+      padding: 12px 24px;
+      background: none;
+      border: 1.5px solid var(--grey);
+      color: var(--grey-dark);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--navy-deep);
+      color: var(--navy-deep);
+    }
+
+    .btn i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Success Screen */
+    .success-screen {
+      text-align: center;
+      padding: 48px 32px;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--green-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px auto;
+    }
+
+    .success-icon i {
+      width: 40px;
+      height: 40px;
+      color: var(--green);
+    }
+
+    .success-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy-deep);
+      margin-bottom: 12px;
+    }
+
+    .success-message {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .enrollment-reference {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 32px;
+    }
+
+    .reference-label {
+      font-size: 11px;
+      color: var(--grey-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .reference-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--blue);
+    }
+
+    .success-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: sticky;
+      top: 100px;
+    }
+
+    .order-summary {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .summary-header {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .summary-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--navy-deep);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .summary-title i {
+      color: var(--blue);
+      width: 18px;
+      height: 18px;
+    }
+
+    .course-summary {
+      display: flex;
+      gap: 12px;
+    }
+
+    .course-thumbnail {
+      width: 80px;
+      height: 45px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--navy-deep), var(--navy-deeper));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      opacity: 0.4;
+      flex-shrink: 0;
+    }
+
+    .course-info {
+      flex: 1;
+    }
+
+    .course-name {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy-deep);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .course-instructor {
+      font-size: 11px;
+      color: var(--grey-mid);
+      margin-bottom: 4px;
+    }
+
+    .course-meta {
+      display: flex;
+      gap: 8px;
+      font-size: 10px;
+      color: var(--grey-mid);
+    }
+
+    .summary-pricing {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .pricing-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+
+    .pricing-label {
+      color: var(--grey-dark);
+    }
+
+    .pricing-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+      color: var(--navy-deep);
+    }
+
+    .pricing-value.discount {
+      color: var(--green);
+    }
+
+    .pricing-value.original {
+      text-decoration: line-through;
+      color: var(--grey-mid);
+      font-size: 12px;
+    }
+
+    .pricing-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-weight: 700;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 2px solid var(--grey);
+    }
+
+    .total-label {
+      font-size: 14px;
+      color: var(--navy-deep);
+    }
+
+    .total-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 24px;
+      color: var(--navy-deep);
+    }
+
+    .guarantees {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .guarantee-item {
+      display: flex;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--grey-dark);
+    }
+
+    .guarantee-item i {
+      width: 14px;
+      height: 14px;
+      color: var(--green);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .main {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        order: -1;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .account-options {
+        flex-direction: column;
+      }
+
+      .step-label {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .main {
+        padding: 24px 16px;
+      }
+
+      .form-step {
+        padding: 24px 16px;
+      }
+
+      .step-title {
+        font-size: 20px;
+      }
+
+      .button-group {
+        flex-direction: column-reverse;
+      }
+
+      .btn-primary {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <a href="onderwijs-homepage.html" class="logo">
+        <i data-lucide="graduation-cap"></i>
+        Compass Onderwijs
+      </a>
+      <div class="secure-badge">
+        <i data-lucide="shield-check"></i>
+        Beveiligde checkout
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress Stepper -->
+  <div class="stepper-container">
+    <div class="steps">
+      <div class="step-connector">
+        <div class="step-connector-progress" id="stepProgress" style="width: 0%;"></div>
+      </div>
+      <div class="step active" data-step="1">
+        <div class="step-number">1</div>
+        <div class="step-label">Account</div>
+      </div>
+      <div class="step" data-step="2">
+        <div class="step-number">2</div>
+        <div class="step-label">Betaling</div>
+      </div>
+      <div class="step" data-step="3">
+        <div class="step-number">3</div>
+        <div class="step-label">Bevestiging</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="form-column">
+      <!-- Step 1: Account -->
+      <div class="form-step active" id="step1">
+        <div class="step-header">
+          <h2 class="step-title">
+            <i data-lucide="user"></i>
+            Account gegevens
+          </h2>
+          <p class="step-subtitle">Maak een account aan of log in om toegang te krijgen tot je cursus</p>
+        </div>
+
+        <div class="account-options">
+          <div class="account-option active" onclick="selectAccountType('new')">
+            <div class="account-option-header">
+              <div class="account-option-icon">
+                <i data-lucide="user-plus"></i>
+              </div>
+              <div class="account-option-title">Nieuw account</div>
+            </div>
+            <p class="account-option-description">Maak een gratis account aan om deze cursus te volgen</p>
+          </div>
+          <div class="account-option" onclick="selectAccountType('existing')">
+            <div class="account-option-header">
+              <div class="account-option-icon">
+                <i data-lucide="log-in"></i>
+              </div>
+              <div class="account-option-title">Bestaand account</div>
+            </div>
+            <p class="account-option-description">Log in met je bestaande Compass account</p>
+          </div>
+        </div>
+
+        <div id="newAccountForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Voornaam <span class="required">*</span></label>
+              <input type="text" class="form-input" id="firstName" required>
+              <div class="form-error">Voornaam is verplicht</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Achternaam <span class="required">*</span></label>
+              <input type="text" class="form-input" id="lastName" required>
+              <div class="form-error">Achternaam is verplicht</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">E-mailadres <span class="required">*</span></label>
+            <input type="email" class="form-input" id="email" required>
+            <div class="form-helper">We sturen je cursustoegang naar dit e-mailadres</div>
+            <div class="form-error">Voer een geldig e-mailadres in</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Wachtwoord <span class="required">*</span></label>
+            <input type="password" class="form-input" id="password" required>
+            <div class="form-helper">Minimaal 8 tekens, inclusief 1 hoofdletter en 1 cijfer</div>
+            <div class="form-error">Wachtwoord moet minimaal 8 tekens bevatten</div>
+          </div>
+
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" class="checkbox-input" id="newsletter">
+              <div class="checkbox-text">
+                Stuur mij updates over nieuwe cursussen en aanbiedingen
+              </div>
+            </label>
+          </div>
+
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" class="checkbox-input" id="terms" required>
+              <div class="checkbox-text">
+                Ik ga akkoord met de <a href="#">algemene voorwaarden</a> en het <a href="#">privacybeleid</a> <span class="required">*</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div id="existingAccountForm" style="display: none;">
+          <div class="form-group">
+            <label class="form-label">E-mailadres <span class="required">*</span></label>
+            <input type="email" class="form-input" id="loginEmail" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Wachtwoord <span class="required">*</span></label>
+            <input type="password" class="form-input" id="loginPassword" required>
+            <div class="form-helper"><a href="#" style="color: var(--blue);">Wachtwoord vergeten?</a></div>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="btn btn-secondary" onclick="window.history.back()">
+            <i data-lucide="arrow-left"></i>
+            Terug
+          </button>
+          <button class="btn btn-primary" onclick="nextStep(2)">
+            Naar betaling
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: Payment -->
+      <div class="form-step" id="step2">
+        <div class="step-header">
+          <h2 class="step-title">
+            <i data-lucide="credit-card"></i>
+            Betaling
+          </h2>
+          <p class="step-subtitle">Kies je betaalmethode en rondt de aankoop af</p>
+        </div>
+
+        <div class="payment-methods">
+          <div class="payment-method active" onclick="selectPayment('ideal')">
+            <div class="payment-radio"></div>
+            <div class="payment-icon">
+              <i data-lucide="building-2"></i>
+            </div>
+            <div class="payment-info">
+              <div class="payment-name">iDEAL</div>
+              <div class="payment-description">Direct betalen via je eigen bank</div>
+            </div>
+          </div>
+
+          <div class="payment-method" onclick="selectPayment('creditcard')">
+            <div class="payment-radio"></div>
+            <div class="payment-icon">
+              <i data-lucide="credit-card"></i>
+            </div>
+            <div class="payment-info">
+              <div class="payment-name">Creditcard</div>
+              <div class="payment-description">Visa, Mastercard, American Express</div>
+            </div>
+          </div>
+
+          <div class="payment-method" onclick="selectPayment('paypal')">
+            <div class="payment-radio"></div>
+            <div class="payment-icon">
+              <i data-lucide="wallet"></i>
+            </div>
+            <div class="payment-info">
+              <div class="payment-name">PayPal</div>
+              <div class="payment-description">Betaal veilig met je PayPal account</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="idealForm" style="display: block;">
+          <div class="form-group">
+            <label class="form-label">Selecteer je bank <span class="required">*</span></label>
+            <select class="form-select" id="idealBank" required>
+              <option value="">Kies je bank...</option>
+              <option value="abn">ABN AMRO</option>
+              <option value="ing">ING</option>
+              <option value="rabobank">Rabobank</option>
+              <option value="sns">SNS Bank</option>
+              <option value="asn">ASN Bank</option>
+              <option value="regiobank">RegioBank</option>
+              <option value="triodos">Triodos Bank</option>
+              <option value="bunq">bunq</option>
+              <option value="knab">Knab</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="creditcardForm" style="display: none;">
+          <div class="form-group">
+            <label class="form-label">Kaartnummer <span class="required">*</span></label>
+            <input type="text" class="form-input" placeholder="1234 5678 9012 3456" required>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Vervaldatum <span class="required">*</span></label>
+              <input type="text" class="form-input" placeholder="MM/JJ" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">CVC <span class="required">*</span></label>
+              <input type="text" class="form-input" placeholder="123" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Naam op kaart <span class="required">*</span></label>
+            <input type="text" class="form-input" required>
+          </div>
+        </div>
+
+        <div id="paypalForm" style="display: none;">
+          <p style="font-size: 12px; color: var(--grey-dark); padding: 16px; background: var(--bg); border-radius: var(--radius-sm);">
+            Je wordt doorgestuurd naar PayPal om de betaling te voltooien. Na succesvolle betaling keer je automatisch terug naar deze pagina.
+          </p>
+        </div>
+
+        <div class="button-group">
+          <button class="btn btn-secondary" onclick="prevStep(1)">
+            <i data-lucide="arrow-left"></i>
+            Vorige
+          </button>
+          <button class="btn btn-primary" onclick="nextStep(3)">
+            Betaling voltooien
+            <i data-lucide="check"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 3: Success -->
+      <div class="form-step" id="step3">
+        <div class="success-screen">
+          <div class="success-icon">
+            <i data-lucide="check-circle"></i>
+          </div>
+          <h2 class="success-title">Gelukt! Welkom bij de cursus 🎉</h2>
+          <p class="success-message">
+            Je bent succesvol ingeschreven voor <strong>Python voor Beginners</strong>.<br>
+            We hebben een bevestigingsmail gestuurd naar <strong id="confirmEmail">je@email.com</strong>.
+          </p>
+          <div class="enrollment-reference">
+            <span class="reference-label">Inschrijfnummer</span>
+            <span class="reference-number">#ENR-2026-8472</span>
+          </div>
+          <div class="success-actions">
+            <button class="btn btn-primary" onclick="window.location.href='#dashboard'" style="width: 100%;">
+              <i data-lucide="play-circle"></i>
+              Start met leren
+            </button>
+            <button class="btn btn-secondary" onclick="window.location.href='onderwijs-homepage.html'" style="width: 100%;">
+              Terug naar cursussen
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="order-summary">
+        <div class="summary-header">
+          <div class="summary-title">
+            <i data-lucide="shopping-bag"></i>
+            Overzicht
+          </div>
+          <div class="course-summary">
+            <div class="course-thumbnail">🎓</div>
+            <div class="course-info">
+              <div class="course-name">Python voor Beginners - Complete Cursus 2026</div>
+              <div class="course-instructor">Sophie Bakker</div>
+              <div class="course-meta">
+                <span>18 uur</span>
+                <span>•</span>
+                <span>127 lessen</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-pricing">
+          <div class="pricing-row">
+            <span class="pricing-label">Cursusprijs</span>
+            <span class="pricing-value original">€ 149</span>
+          </div>
+          <div class="pricing-row">
+            <span class="pricing-label">Korting (40%)</span>
+            <span class="pricing-value discount">− € 60</span>
+          </div>
+          <div class="pricing-total">
+            <span class="total-label">Totaal</span>
+            <span class="total-value">€ 89</span>
+          </div>
+        </div>
+
+        <div class="guarantees">
+          <div class="guarantee-item">
+            <i data-lucide="shield-check"></i>
+            <span>30 dagen geld-terug-garantie</span>
+          </div>
+          <div class="guarantee-item">
+            <i data-lucide="infinity"></i>
+            <span>Levenslange toegang tot cursusmateriaal</span>
+          </div>
+          <div class="guarantee-item">
+            <i data-lucide="award"></i>
+            <span>Certificaat van voltooiing</span>
+          </div>
+          <div class="guarantee-item">
+            <i data-lucide="smartphone"></i>
+            <span>Toegang op alle apparaten</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    let currentStep = 1;
+    let accountType = 'new';
+    let paymentMethod = 'ideal';
+
+    // Step navigation
+    function nextStep(step) {
+      if (!validateStep(currentStep)) {
+        return;
+      }
+
+      // Hide current step
+      document.getElementById('step' + currentStep).classList.remove('active');
+      document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
+
+      // Show next step
+      currentStep = step;
+      document.getElementById('step' + currentStep).classList.add('active');
+      document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+
+      // Update progress bar
+      const progress = ((currentStep - 1) / 2) * 100;
+      document.getElementById('stepProgress').style.width = progress + '%';
+
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Reinitialize icons
+      setTimeout(() => lucide.createIcons(), 50);
+    }
+
+    function prevStep(step) {
+      // Hide current step
+      document.getElementById('step' + currentStep).classList.remove('active');
+      document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+
+      // Show previous step
+      currentStep = step;
+      document.getElementById('step' + currentStep).classList.add('active');
+      document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+
+      // Update progress bar
+      const progress = ((currentStep - 1) / 2) * 100;
+      document.getElementById('stepProgress').style.width = progress + '%';
+
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Reinitialize icons
+      setTimeout(() => lucide.createIcons(), 50);
+    }
+
+    // Validation
+    function validateStep(step) {
+      if (step === 1) {
+        if (accountType === 'new') {
+          const firstName = document.getElementById('firstName');
+          const lastName = document.getElementById('lastName');
+          const email = document.getElementById('email');
+          const password = document.getElementById('password');
+          const terms = document.getElementById('terms');
+
+          let isValid = true;
+
+          if (!firstName.value.trim()) {
+            firstName.classList.add('error');
+            isValid = false;
+          } else {
+            firstName.classList.remove('error');
+          }
+
+          if (!lastName.value.trim()) {
+            lastName.classList.add('error');
+            isValid = false;
+          } else {
+            lastName.classList.remove('error');
+          }
+
+          if (!email.value.trim() || !email.value.includes('@')) {
+            email.classList.add('error');
+            isValid = false;
+          } else {
+            email.classList.remove('error');
+          }
+
+          if (!password.value || password.value.length < 8) {
+            password.classList.add('error');
+            isValid = false;
+          } else {
+            password.classList.remove('error');
+          }
+
+          if (!terms.checked) {
+            alert('Je moet akkoord gaan met de algemene voorwaarden');
+            isValid = false;
+          }
+
+          return isValid;
+        } else {
+          const loginEmail = document.getElementById('loginEmail');
+          const loginPassword = document.getElementById('loginPassword');
+
+          let isValid = true;
+
+          if (!loginEmail.value.trim() || !loginEmail.value.includes('@')) {
+            loginEmail.classList.add('error');
+            isValid = false;
+          } else {
+            loginEmail.classList.remove('error');
+          }
+
+          if (!loginPassword.value) {
+            loginPassword.classList.add('error');
+            isValid = false;
+          } else {
+            loginPassword.classList.remove('error');
+          }
+
+          return isValid;
+        }
+      }
+
+      if (step === 2) {
+        if (paymentMethod === 'ideal') {
+          const idealBank = document.getElementById('idealBank');
+          if (!idealBank.value) {
+            alert('Selecteer je bank om door te gaan');
+            return false;
+          }
+        }
+        // In production: process payment here
+        const email = accountType === 'new' ? document.getElementById('email').value : document.getElementById('loginEmail').value;
+        document.getElementById('confirmEmail').textContent = email;
+        return true;
+      }
+
+      return true;
+    }
+
+    // Account type selection
+    function selectAccountType(type) {
+      accountType = type;
+
+      const options = document.querySelectorAll('.account-option');
+      options.forEach(opt => opt.classList.remove('active'));
+
+      if (type === 'new') {
+        options[0].classList.add('active');
+        document.getElementById('newAccountForm').style.display = 'block';
+        document.getElementById('existingAccountForm').style.display = 'none';
+      } else {
+        options[1].classList.add('active');
+        document.getElementById('newAccountForm').style.display = 'none';
+        document.getElementById('existingAccountForm').style.display = 'block';
+      }
+
+      setTimeout(() => lucide.createIcons(), 50);
+    }
+
+    // Payment method selection
+    function selectPayment(method) {
+      paymentMethod = method;
+
+      const methods = document.querySelectorAll('.payment-method');
+      methods.forEach(m => m.classList.remove('active'));
+
+      if (method === 'ideal') {
+        methods[0].classList.add('active');
+        document.getElementById('idealForm').style.display = 'block';
+        document.getElementById('creditcardForm').style.display = 'none';
+        document.getElementById('paypalForm').style.display = 'none';
+      } else if (method === 'creditcard') {
+        methods[1].classList.add('active');
+        document.getElementById('idealForm').style.display = 'none';
+        document.getElementById('creditcardForm').style.display = 'block';
+        document.getElementById('paypalForm').style.display = 'none';
+      } else if (method === 'paypal') {
+        methods[2].classList.add('active');
+        document.getElementById('idealForm').style.display = 'none';
+        document.getElementById('creditcardForm').style.display = 'none';
+        document.getElementById('paypalForm').style.display = 'block';
+      }
+    }
+
+    /**
+     * PAYLOAD CMS INTEGRATION
+     *
+     * Collection: Enrollment (extends Order)
+     * Fields:
+     * - user: relationship (to User collection)
+     * - course: relationship (to Course collection)
+     * - paymentMethod: select (ideal | creditcard | paypal)
+     * - paymentStatus: select (pending | completed | failed | refunded)
+     * - paymentId: text (external payment processor ID)
+     * - amount: number (paid amount)
+     * - discount: number (discount applied)
+     * - enrollmentNumber: text (auto-generated, unique)
+     * - enrolledAt: date (auto)
+     * - expiresAt: date (for limited-time access courses, null for lifetime)
+     * - progress: number (0-100, percentage completed)
+     * - completedAt: date (null until course completed)
+     * - certificateIssued: checkbox
+     * - certificateUrl: text (generated PDF URL)
+     * - accessRevoked: checkbox (for refunds/violations)
+     * - lastAccessedAt: date (track engagement)
+     *
+     * Hooks:
+     * - afterChange: Send welcome email with course access
+     * - afterChange: Create user dashboard entry
+     * - afterChange: Update course studentCount
+     * - beforeChange: Validate payment before enrollment
+     * - beforeChange: Check if user already enrolled (prevent duplicates)
+     *
+     * Integration:
+     * 1. Form submission → Create pending enrollment
+     * 2. Redirect to payment processor (iDEAL/Stripe/PayPal)
+     * 3. Payment webhook → Update enrollment status to completed
+     * 4. Send confirmation email with login credentials
+     * 5. Grant access to course dashboard
+     */
+  </script>
+</body>
+</html>

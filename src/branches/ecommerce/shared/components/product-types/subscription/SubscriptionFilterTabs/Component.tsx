@@ -33,7 +33,7 @@ export const SubscriptionFilterTabs: React.FC<SubscriptionFilterTabsProps> = ({
             {showCounts && tab.count !== undefined && (
               <span
                 className={`filter-count text-[10px] font-extrabold px-1.5 py-0.5 rounded-full ${
-                  isActive ? 'bg-white/25' : 'bg-gray-100'
+                  isActive ? 'bg-white/25' : 'bg-grey-light'
                 }`}
               >
                 {tab.count}

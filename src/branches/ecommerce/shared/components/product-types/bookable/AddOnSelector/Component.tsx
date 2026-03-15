@@ -23,7 +23,7 @@ export const AddOnSelector: React.FC<AddOnSelectorProps> = ({
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <Package className="w-5 h-5 text-[var(--color-primary)]" />
-        <h3 className="text-base font-extrabold text-gray-900">
+        <h3 className="text-base font-extrabold text-navy">
           Extra opties
         </h3>
       </div>
@@ -43,15 +43,15 @@ export const AddOnSelector: React.FC<AddOnSelectorProps> = ({
                 addon-item relative p-4 rounded-xl border-[1.5px] transition-all text-left
                 ${layout === 'list' ? 'flex items-center gap-3' : 'flex flex-col'}
                 ${isRequired ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
-                ${isSelected && !isRequired ? 'bg-[var(--color-primary-glow)] border-[var(--color-primary)]' : 'bg-white border-gray-200'}
-                ${!isSelected && !isRequired ? 'hover:border-gray-300 hover:shadow-sm' : ''}
+                ${isSelected && !isRequired ? 'bg-[var(--color-primary-glow)] border-[var(--color-primary)]' : 'bg-white border-grey-light'}
+                ${!isSelected && !isRequired ? 'hover:border-grey-light hover:shadow-sm' : ''}
               `}
             >
               {/* Checkbox */}
               <div
                 className={`
                   w-5 h-5 rounded border-[1.5px] flex items-center justify-center flex-shrink-0 transition-colors
-                  ${isSelected ? 'bg-[var(--color-primary)] border-[var(--color-primary)]' : 'bg-white border-gray-300'}
+                  ${isSelected ? 'bg-[var(--color-primary)] border-[var(--color-primary)]' : 'bg-white border-grey-light'}
                   ${isRequired ? 'opacity-50' : ''}
                 `}
               >
@@ -63,11 +63,11 @@ export const AddOnSelector: React.FC<AddOnSelectorProps> = ({
                 {/* Label */}
                 <div className="flex items-center gap-2 mb-1">
                   {addOn.icon && <span className="text-lg">{addOn.icon}</span>}
-                  <span className="text-sm font-bold text-gray-900">
+                  <span className="text-sm font-bold text-navy">
                     {addOn.label}
                   </span>
                   {isRequired && (
-                    <span className="text-[10px] font-extrabold text-gray-500 uppercase tracking-wide">
+                    <span className="text-[10px] font-extrabold text-grey-mid uppercase tracking-wide">
                       Verplicht
                     </span>
                   )}
@@ -75,13 +75,13 @@ export const AddOnSelector: React.FC<AddOnSelectorProps> = ({
 
                 {/* Description */}
                 {addOn.description && (
-                  <div className="text-xs text-gray-500 mb-2">
+                  <div className="text-xs text-grey-mid mb-2">
                     {addOn.description}
                   </div>
                 )}
 
                 {/* Price */}
-                <div className={`text-sm font-bold font-mono ${isSelected ? 'text-[var(--color-primary)]' : 'text-gray-700'}`}>
+                <div className={`text-sm font-bold font-mono ${isSelected ? 'text-[var(--color-primary)]' : 'text-grey-dark'}`}>
                   {addOn.price === 0 ? 'Gratis' : `+€${formatPriceStr(addOn.price)}`}
                 </div>
               </div>
@@ -92,7 +92,7 @@ export const AddOnSelector: React.FC<AddOnSelectorProps> = ({
 
       {/* No add-ons message */}
       {addOns.length === 0 && (
-        <div className="text-center py-8 text-sm text-gray-400">
+        <div className="text-center py-8 text-sm text-grey-mid">
           Geen extra opties beschikbaar
         </div>
       )}

@@ -98,7 +98,7 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
 
             {/* Date */}
             {publishDate && (
-              <span className="flex items-center gap-2 text-sm text-gray-500">
+              <span className="flex items-center gap-2 text-sm text-grey-mid">
                 <Icon name="Calendar" size={14} />
                 {publishDate}
               </span>
@@ -107,8 +107,8 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
             {/* Reading Time */}
             {post.readingTime && (
               <>
-                <span className="w-1 h-1 rounded-full bg-gray-300" />
-                <span className="flex items-center gap-2 text-sm text-gray-500">
+                <span className="w-1 h-1 rounded-full bg-grey-light" />
+                <span className="flex items-center gap-2 text-sm text-grey-mid">
                   <Icon name="Clock" size={14} />
                   {post.readingTime} min leestijd
                 </span>
@@ -118,8 +118,8 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
             {/* View Count */}
             {post.viewCount && post.viewCount > 0 && (
               <>
-                <span className="w-1 h-1 rounded-full bg-gray-300" />
-                <span className="flex items-center gap-2 text-sm text-gray-500">
+                <span className="w-1 h-1 rounded-full bg-grey-light" />
+                <span className="flex items-center gap-2 text-sm text-grey-mid">
                   <Icon name="Eye" size={14} />
                   {post.viewCount.toLocaleString('nl-NL')} keer bekeken
                 </span>
@@ -128,13 +128,13 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
           </div>
 
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-navy leading-tight mb-4">
             {post.title}
           </h1>
 
           {/* Intro/Excerpt */}
           {post.excerpt && (
-            <p className="text-lg text-gray-600 leading-relaxed mb-7 pb-7 border-b border-gray-200">
+            <p className="text-lg text-grey-dark leading-relaxed mb-7 pb-7 border-b border-grey-light">
               {post.excerpt}
             </p>
           )}
@@ -143,7 +143,7 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
           {post.content && <BlogPostWithPaywall post={post} className="mb-10" />}
 
           {/* Bottom Section: Tags + Share */}
-          <div className="pt-8 border-t border-gray-200 mt-10">
+          <div className="pt-8 border-t border-grey-light mt-10">
             {/* Tags */}
             {post.tags && post.tags.length > 0 && (
               <div className="flex gap-2 flex-wrap mb-5">
@@ -151,7 +151,7 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
                   <Link
                     key={index}
                     href={`/blog?tag=${encodeURIComponent(tagItem.tag || '')}`}
-                    className="px-4 py-2 rounded-full text-xs font-semibold text-gray-600 bg-gray-100 border border-gray-200 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-glow)] transition-all"
+                    className="px-4 py-2 rounded-full text-xs font-semibold text-grey-dark bg-grey-light border border-grey-light hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-glow)] transition-all"
                   >
                     {tagItem.tag}
                   </Link>
@@ -187,8 +187,8 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
 
           {/* Related Products Sidebar */}
           {relatedProducts && relatedProducts.length > 0 && (
-            <div className="bg-white border border-gray-200 rounded-2xl p-5">
-              <div className="flex items-center gap-2 font-extrabold text-sm text-gray-900 mb-4">
+            <div className="bg-white border border-grey-light rounded-2xl p-5">
+              <div className="flex items-center gap-2 font-extrabold text-sm text-navy mb-4">
                 <Icon name="Package" size={16} className="text-[var(--color-primary)]" />
                 Gerelateerde producten
               </div>
@@ -203,11 +203,11 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
                       key={prod.id}
                       href={`/products/${prod.slug}`}
                       className={`flex gap-3 py-3 items-center hover:opacity-80 transition-opacity ${
-                        index < relatedProducts.length - 1 ? 'border-b border-gray-200' : ''
+                        index < relatedProducts.length - 1 ? 'border-b border-grey-light' : ''
                       }`}
                     >
                       {/* Product Image/Emoji */}
-                      <div className="w-13 h-13 bg-gray-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
+                      <div className="w-13 h-13 bg-grey-light rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
                         🧤
                       </div>
 
@@ -218,14 +218,14 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
                             {typeof prod.brand === 'object' ? prod.brand.name : prod.brand}
                           </div>
                         )}
-                        <div className="text-sm font-semibold text-gray-900 line-clamp-2">
+                        <div className="text-sm font-semibold text-navy line-clamp-2">
                           {prod.title}
                         </div>
                       </div>
 
                       {/* Price */}
                       {prod.price && (
-                        <div className="text-sm font-extrabold text-gray-900 flex-shrink-0">
+                        <div className="text-sm font-extrabold text-navy flex-shrink-0">
                           €{formatPriceStr(prod.price)}
                         </div>
                       )}
@@ -237,7 +237,7 @@ export default function BlogTemplate1({ post, relatedPosts = [], prevPost, nextP
           )}
 
           {/* CTA Card */}
-          <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 text-center relative overflow-hidden">
+          <div className="bg-gradient-to-br from-navy to-navy rounded-2xl p-6 text-center relative overflow-hidden">
             <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-primary-glow)]0/10 rounded-full blur-2xl" />
             <div className="relative z-10">
               <h4 className="text-lg font-extrabold text-white mb-2">Producten nodig?</h4>

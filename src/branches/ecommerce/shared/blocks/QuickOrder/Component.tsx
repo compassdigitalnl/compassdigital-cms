@@ -119,9 +119,9 @@ export const QuickOrderComponent: React.FC<QuickOrderBlock> = ({
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto">
           {title && (
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{title}</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-navy mb-2">{title}</h2>
           )}
-          {description && <p className="text-gray-600 mb-8">{description}</p>}
+          {description && <p className="text-grey-dark mb-8">{description}</p>}
 
           {variant === 'simple' ? (
             /* Simple variant: single input */
@@ -165,10 +165,10 @@ export const QuickOrderComponent: React.FC<QuickOrderBlock> = ({
           ) : (
             /* Advanced variant: bulk textarea */
             <form onSubmit={handleBulkSubmit} className="space-y-4">
-              <div className="bg-gray-50 p-6 rounded-xl border border-grey">
+              <div className="bg-grey-light p-6 rounded-xl border border-grey">
                 <div className="flex items-center gap-2 mb-3">
                   <Icon name="List" size={18} className="text-primary" />
-                  <span className="font-semibold text-gray-700">Bulk bestelling</span>
+                  <span className="font-semibold text-grey-dark">Bulk bestelling</span>
                 </div>
                 <textarea
                   value={bulkInput}
@@ -180,7 +180,7 @@ export const QuickOrderComponent: React.FC<QuickOrderBlock> = ({
                   rows={8}
                   className="w-full px-4 py-3 border border-grey rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-mono text-sm transition-colors"
                 />
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs text-grey-mid mt-2">
                   Formaat: <code className="bg-white px-2 py-0.5 rounded text-primary">artikelnr aantal</code> per regel
                 </p>
               </div>

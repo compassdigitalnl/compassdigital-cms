@@ -206,7 +206,7 @@ export async function MenuItemDetailTemplate({ item }: MenuItemDetailProps) {
                       <li key={related.id}>
                         <Link
                           href={'/menukaart/' + related.slug}
-                          className="flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-gray-50"
+                          className="flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-grey-light"
                         >
                           {related.icon && (
                             <span className="text-lg">{related.icon}</span>

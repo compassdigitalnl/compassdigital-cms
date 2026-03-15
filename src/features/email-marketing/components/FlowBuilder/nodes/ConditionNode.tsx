@@ -40,7 +40,7 @@ export function ConditionNode({ data, selected }: NodeProps) {
           </div>
           <div className="flex-1 min-w-0">
             <div className="text-xs font-bold text-teal truncate">{d.name || 'Voorwaarde'}</div>
-            <div className="text-[10px] text-gray-500 truncate">{summary}</div>
+            <div className="text-[10px] text-grey-mid truncate">{summary}</div>
           </div>
         </div>
 

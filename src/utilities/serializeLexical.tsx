@@ -163,7 +163,7 @@ function serializeNode(node: SerializedNode): React.ReactNode {
   // Blockquote
   if (type === 'quote') {
     return (
-      <blockquote className="border-l-4 border-teal pl-4 italic my-6 text-gray-700">
+      <blockquote className="border-l-4 border-teal pl-4 italic my-6 text-grey-dark">
         {serializeChildren(node.children)}
       </blockquote>
     )
@@ -173,7 +173,7 @@ function serializeNode(node: SerializedNode): React.ReactNode {
   if (type === 'code') {
     const language = node.language as string || 'text'
     return (
-      <pre className="bg-gray-100 rounded-lg p-4 overflow-x-auto my-6">
+      <pre className="bg-grey-light rounded-lg p-4 overflow-x-auto my-6">
         <code className={`language-${language} text-sm`}>
           {serializeChildren(node.children)}
         </code>

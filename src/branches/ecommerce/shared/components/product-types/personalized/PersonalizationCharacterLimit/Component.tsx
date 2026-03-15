@@ -39,9 +39,9 @@ export const PersonalizationCharacterLimit: React.FC<PersonalizationCharacterLim
       border: 'border-green',
     },
     warning: {
-      bg: 'bg-yellow-500',
-      text: 'text-yellow-600',
-      border: 'border-yellow-500',
+      bg: 'bg-amber-500',
+      text: 'text-amber-600',
+      border: 'border-amber-500',
     },
     limit: {
       bg: 'bg-coral',
@@ -65,7 +65,7 @@ export const PersonalizationCharacterLimit: React.FC<PersonalizationCharacterLim
       </div>
 
       {/* Progress Bar */}
-      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div className="w-full h-2 bg-grey-light rounded-full overflow-hidden">
         <div
           className={`h-full transition-all duration-300 ${currentStatus.bg}`}
           style={{ width: `${Math.min(percentage, 100)}%` }}
@@ -74,9 +74,9 @@ export const PersonalizationCharacterLimit: React.FC<PersonalizationCharacterLim
 
       {/* Warning Message (at 90%) */}
       {isWarning && (
-        <div className="flex items-start gap-2 mt-2 p-2 bg-yellow-50 border-l-4 border-yellow-500 rounded">
-          <AlertTriangle className="w-4 h-4 text-yellow-600 flex-shrink-0 mt-0.5" strokeWidth={2.5} />
-          <p className="text-[12px] text-yellow-800">
+        <div className="flex items-start gap-2 mt-2 p-2 bg-amber-50 border-l-4 border-amber-500 rounded">
+          <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" strokeWidth={2.5} />
+          <p className="text-[12px] text-amber-900">
             Je nadert de limiet. Nog {maxLength - currentLength} karakters beschikbaar.
           </p>
         </div>

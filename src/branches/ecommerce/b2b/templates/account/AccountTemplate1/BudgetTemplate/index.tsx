@@ -19,8 +19,8 @@ export default function BudgetTemplate({ budget, users, canManage }: BudgetTempl
     <div className="space-y-4 lg:space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">Budget & Krediet</h1>
-        <p className="text-sm lg:text-base text-gray-500">Beheer bedrijfsbudgetten en kredietlimieten</p>
+        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-navy">Budget & Krediet</h1>
+        <p className="text-sm lg:text-base text-grey-mid">Beheer bedrijfsbudgetten en kredietlimieten</p>
       </div>
 
       {/* Budget overview cards */}

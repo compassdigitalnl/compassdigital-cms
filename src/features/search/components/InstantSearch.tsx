@@ -281,11 +281,11 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
 
   const renderProductHit = (hit: SearchHit, isSelected: boolean) => (
     <>
-      <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+      <div className="w-12 h-12 bg-grey-light rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
         {hit.image ? (
           <img src={hit.image} alt="" className="w-full h-full object-cover rounded-lg" />
         ) : (
-          <Package className="w-5 h-5 text-gray-400" />
+          <Package className="w-5 h-5 text-grey-mid" />
         )}
       </div>
       <div className="flex-1 min-w-0">
@@ -295,23 +295,23 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
           </div>
         )}
         <div
-          className="text-sm font-semibold text-gray-900 truncate"
+          className="text-sm font-semibold text-navy truncate"
           dangerouslySetInnerHTML={{ __html: hit._formatted?.title || hit.title }}
         />
         {hit.sku && (
-          <div className="text-[11px] text-slate-400 font-mono mt-0.5">
+          <div className="text-[11px] text-grey-mid font-mono mt-0.5">
             SKU: {hit._formatted?.sku || hit.sku}
           </div>
         )}
       </div>
       {hit.price != null && (
         <div className="text-right flex-shrink-0">
-          <div className="text-[15px] font-extrabold text-gray-900">
+          <div className="text-[15px] font-extrabold text-navy">
             &euro;{hit.price.toFixed(2)}
           </div>
           {hit.stock !== undefined && hit.stock > 0 && (
-            <div className="text-[11px] text-emerald-600 flex items-center gap-1 justify-end">
-              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
+            <div className="text-[11px] text-green flex items-center gap-1 justify-end">
+              <span className="w-1.5 h-1.5 bg-green rounded-full" />
               Op voorraad
             </div>
           )}
@@ -325,7 +325,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <span
-            className="text-sm font-medium text-gray-900 truncate"
+            className="text-sm font-medium text-navy truncate"
             dangerouslySetInnerHTML={{ __html: hit._formatted?.title || hit.title }}
           />
           <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-700 flex-shrink-0">
@@ -333,7 +333,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
           </span>
         </div>
         {hit.excerpt && (
-          <p className="text-[12px] text-gray-500 line-clamp-1 mt-0.5">
+          <p className="text-[12px] text-grey-mid line-clamp-1 mt-0.5">
             {hit.excerpt}
           </p>
         )}
@@ -346,7 +346,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <span
-            className="text-sm font-medium text-gray-900 truncate"
+            className="text-sm font-medium text-navy truncate"
             dangerouslySetInnerHTML={{ __html: hit._formatted?.title || hit.title }}
           />
           <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-teal-700 flex-shrink-0">
@@ -354,7 +354,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
           </span>
         </div>
         {hit.excerpt && (
-          <p className="text-[12px] text-gray-500 line-clamp-1 mt-0.5">
+          <p className="text-[12px] text-grey-mid line-clamp-1 mt-0.5">
             {hit.excerpt}
           </p>
         )}
@@ -397,7 +397,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
       <div key={section.collection}>
         {/* Section header — only show in stacked mode */}
         {searchConfig.layout === 'stacked' && (
-          <div className="flex items-center gap-2 text-[11px] font-extrabold text-slate-400 uppercase tracking-wider mb-2">
+          <div className="flex items-center gap-2 text-[11px] font-extrabold text-grey-mid uppercase tracking-wider mb-2">
             <IconComponent className="w-3.5 h-3.5" />
             {section.label} ({sectionData?.total || 0})
           </div>
@@ -428,7 +428,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
       <div className="relative max-w-3xl mx-auto mt-20 px-4">
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden animate-slideDown">
           {/* Search Input */}
-          <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-200">
+          <div className="flex items-center gap-3 px-6 py-4 border-b border-grey-light">
             <Search className="w-5 h-5 text-teal-600 flex-shrink-0" />
             <input
               ref={inputRef}
@@ -436,15 +436,15 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Zoek producten, artikelen, pagina's..."
-              className="flex-1 text-lg outline-none placeholder:text-gray-400"
+              className="flex-1 text-lg outline-none placeholder:text-grey-mid"
             />
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 hover:bg-grey-light rounded-lg transition-colors"
             >
-              <X className="w-4 h-4 text-gray-500" />
+              <X className="w-4 h-4 text-grey-mid" />
             </button>
-            <kbd className="hidden sm:inline-block px-2 py-1 text-[10px] font-mono bg-gray-100 border border-gray-300 rounded">
+            <kbd className="hidden sm:inline-block px-2 py-1 text-[10px] font-mono bg-grey-light border border-grey-light rounded">
               ESC
             </kbd>
           </div>
@@ -452,21 +452,21 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
           {/* Results */}
           <div className="max-h-[500px] overflow-y-auto p-4">
             {loading && (
-              <div className="text-center py-12 text-gray-500">
+              <div className="text-center py-12 text-grey-mid">
                 <div className="inline-block w-6 h-6 border-2 border-teal-600 border-t-transparent rounded-full animate-spin mb-2" />
                 <p>Zoeken...</p>
               </div>
             )}
 
             {!loading && query.length < 2 && (
-              <div className="text-center py-12 text-gray-500">
+              <div className="text-center py-12 text-grey-mid">
                 <Search className="w-12 h-12 mx-auto mb-4 opacity-30" />
                 <p>Type minimaal 2 karakters om te zoeken</p>
               </div>
             )}
 
             {!loading && query.length >= 2 && !hasResults && (
-              <div className="text-center py-12 text-gray-500">
+              <div className="text-center py-12 text-grey-mid">
                 <Package className="w-12 h-12 mx-auto mb-4 opacity-30" />
                 <p className="font-semibold mb-1">Geen resultaten gevonden</p>
                 <p className="text-sm">Probeer een andere zoekterm</p>
@@ -486,7 +486,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
               <>
                 {/* Tabs header */}
                 {searchConfig.layout === 'tabs' && enabledSections.length > 1 && (
-                  <div className="flex gap-1 mb-4 border-b border-gray-200 -mt-1">
+                  <div className="flex gap-1 mb-4 border-b border-grey-light -mt-1">
                     {enabledSections.map((section, idx) => {
                       const total = getHitSection(results, section.collection)?.total || 0
                       const IconComponent = ICON_MAP[section.icon] || Package
@@ -499,14 +499,14 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
                           className={`flex items-center gap-1.5 px-3 py-2 text-[12px] font-semibold border-b-2 transition-colors ${
                             isActive
                               ? 'border-teal-600 text-teal-700'
-                              : 'border-transparent text-gray-400 hover:text-gray-600'
+                              : 'border-transparent text-grey-mid hover:text-grey-dark'
                           }`}
                         >
                           <IconComponent className="w-3.5 h-3.5" />
                           {section.label}
                           {total > 0 && (
                             <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
-                              isActive ? 'bg-teal-100 text-teal-700' : 'bg-gray-100 text-gray-500'
+                              isActive ? 'bg-teal-100 text-teal-700' : 'bg-grey-light text-grey-mid'
                             }`}>
                               {total}
                             </span>
@@ -541,15 +541,15 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
 
           {/* Footer */}
           {hasResults && (
-            <div className="px-6 py-3 border-t border-gray-200 bg-gray-50 flex items-center justify-between text-sm">
-              <div className="flex items-center gap-3 text-gray-500">
-                <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-[10px] font-mono">&uarr;&darr;</kbd>
+            <div className="px-6 py-3 border-t border-grey-light bg-grey-light flex items-center justify-between text-sm">
+              <div className="flex items-center gap-3 text-grey-mid">
+                <kbd className="px-2 py-1 bg-white border border-grey-light rounded text-[10px] font-mono">&uarr;&darr;</kbd>
                 <span className="text-[11px]">navigeren</span>
-                <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-[10px] font-mono">&crarr;</kbd>
+                <kbd className="px-2 py-1 bg-white border border-grey-light rounded text-[10px] font-mono">&crarr;</kbd>
                 <span className="text-[11px]">selecteren</span>
                 {searchConfig.layout === 'tabs' && (
                   <>
-                    <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-[10px] font-mono">Tab</kbd>
+                    <kbd className="px-2 py-1 bg-white border border-grey-light rounded text-[10px] font-mono">Tab</kbd>
                     <span className="text-[11px]">sectie</span>
                   </>
                 )}

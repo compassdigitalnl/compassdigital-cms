@@ -78,7 +78,7 @@ export function QuoteProductTable({ products, onQuantityChange, onRemove, onAddP
           value={searchQuery}
           onChange={(e) => { setSearchQuery(e.target.value); setShowResults(true) }}
           placeholder="Zoek product op naam, merk of artikelnummer…"
-          className="w-full h-11 pl-10 pr-4 text-sm rounded-lg border-2 bg-gray-50 outline-none transition-all focus:bg-white"
+          className="w-full h-11 pl-10 pr-4 text-sm rounded-lg border-2 bg-grey-light outline-none transition-all focus:bg-white"
           style={{
             borderColor: 'var(--color-border)',
             fontFamily: 'inherit',
@@ -99,10 +99,10 @@ export function QuoteProductTable({ products, onQuantityChange, onRemove, onAddP
             style={{ background: 'white', border: '1px solid var(--color-border)', boxShadow: '0 8px 28px rgba(0,0,0,0.1)' }}
           >
             {searchLoading && (
-              <div className="px-4 py-3 text-sm text-gray-400">Zoeken...</div>
+              <div className="px-4 py-3 text-sm text-grey-mid">Zoeken...</div>
             )}
             {!searchLoading && searchResults.length === 0 && (
-              <div className="px-4 py-3 text-sm text-gray-400">Geen resultaten gevonden</div>
+              <div className="px-4 py-3 text-sm text-grey-mid">Geen resultaten gevonden</div>
             )}
             {searchResults.map((result) => (
               <button
@@ -118,8 +118,8 @@ export function QuoteProductTable({ products, onQuantityChange, onRemove, onAddP
                   📦
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-semibold text-gray-900 truncate">{result.title}</div>
-                  <div className="text-xs text-gray-400 font-mono">{result.sku}</div>
+                  <div className="text-sm font-semibold text-navy truncate">{result.title}</div>
+                  <div className="text-xs text-grey-mid font-mono">{result.sku}</div>
                 </div>
                 <PlusCircle className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--color-primary)' }} />
               </button>
@@ -212,7 +212,7 @@ export function QuoteProductTable({ products, onQuantityChange, onRemove, onAddP
                       aria-label="Verwijder product"
                     >
                       <Trash2
-                        className="w-3.5 h-3.5 text-gray-400 group-hover:text-coral transition-colors"
+                        className="w-3.5 h-3.5 text-grey-mid group-hover:text-coral transition-colors"
                       />
                     </button>
                   </td>

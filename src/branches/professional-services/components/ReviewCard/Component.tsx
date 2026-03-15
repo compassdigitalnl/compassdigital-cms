@@ -44,7 +44,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
     >
       {/* Featured badge */}
       {featured && (
-        <div className="absolute right-4 top-4 flex items-center gap-2 rounded-md bg-gradient-to-r from-amber-400 to-orange-500 px-4 py-2 text-xs font-bold uppercase tracking-wide text-white shadow-md shadow-orange-500/30">
+        <div className="absolute right-4 top-4 flex items-center gap-2 rounded-md bg-gradient-to-r from-amber to-amber-600 px-4 py-2 text-xs font-bold uppercase tracking-wide text-white shadow-md shadow-amber/30">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M8 1l2 5h5l-4 3.5L13 14l-5-3-5 3 2-4.5L1 6h5l2-5z" fill="currentColor" />
           </svg>

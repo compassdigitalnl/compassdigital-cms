@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VanderBouw — Nieuwbouw, Renovatie & Verduurzaming</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--shadow-lg:0 16px 48px rgba(10,22,40,0.12);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  /* Header */
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}
+  .header-top{background:var(--navy);padding:6px 0;font-size:12px;color:rgba(255,255,255,.5);}
+  .ht-inner{display:flex;align-items:center;justify-content:space-between;}
+  .ht-left{display:flex;align-items:center;gap:16px;}.ht-item{display:flex;align-items:center;gap:4px;}.ht-item i{width:12px;height:12px;color:var(--teal-light);}
+  .ht-right{display:flex;align-items:center;gap:8px;}.ht-social{width:24px;height:24px;border-radius:4px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .12s;}.ht-social:hover{background:rgba(255,255,255,.12);}.ht-social i{width:12px;height:12px;color:rgba(255,255,255,.4);}
+  .header-main .container{height:72px;display:flex;align-items:center;justify-content:space-between;}
+  .logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--navy);text-decoration:none;}.logo em{color:var(--teal);font-style:normal;}
+  .nav{display:flex;gap:4px;}.nav-item{padding:10px 16px;font-size:14px;font-weight:600;color:var(--grey-dark);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--teal);background:var(--teal-glow);}
+  .header-cta{display:flex;align-items:center;gap:8px;}
+  .phone-btn{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--navy);text-decoration:none;}.phone-btn i{width:18px;height:18px;color:var(--teal);}
+  .cta-btn{height:44px;padding:0 22px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--transition);}.cta-btn:hover{background:var(--navy);transform:translateY(-1px);box-shadow:var(--shadow-md);}.cta-btn i{width:16px;height:16px;}
+
+  /* Hero */
+  .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);padding:80px 0 90px;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;top:-100px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,137,123,.1),transparent 70%);border-radius:50%;}
+  .hero::after{content:'';position:absolute;bottom:-50px;left:20%;width:400px;height:400px;background:radial-gradient(circle,rgba(0,137,123,.06),transparent 70%);border-radius:50%;}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;position:relative;z-index:2;}
+  .hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(0,137,123,.12);border:1px solid rgba(0,137,123,.2);padding:5px 14px;border-radius:100px;font-size:12px;font-weight:700;color:var(--teal-light);margin-bottom:14px;}.hero-badge i{width:13px;height:13px;}
+  .hero h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:48px;font-weight:800;color:white;line-height:1.1;margin-bottom:12px;}.hero h1 em{color:var(--teal-light);font-style:normal;}
+  .hero-desc{font-size:17px;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:24px;max-width:500px;}
+  .hero-ctas{display:flex;gap:10px;margin-bottom:28px;}
+  .hero-btn{height:52px;padding:0 28px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all var(--transition);border:none;text-decoration:none;}
+  .hero-btn.primary{background:var(--teal);color:white;box-shadow:0 4px 20px rgba(0,137,123,.35);}.hero-btn.primary:hover{background:white;color:var(--teal);}
+  .hero-btn.outline{background:transparent;color:white;border:1.5px solid rgba(255,255,255,.15);}.hero-btn.outline:hover{border-color:white;background:rgba(255,255,255,.04);}
+  .hero-btn i{width:18px;height:18px;}
+  .hero-trust{display:flex;align-items:center;gap:16px;}
+  .ht-avatars{display:flex;}.ht-av{width:36px;height:36px;border-radius:50%;border:2px solid var(--navy);margin-left:-8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:white;}.ht-av:first-child{margin-left:0;}
+  .ht-text{font-size:13px;color:rgba(255,255,255,.35);}.ht-text strong{color:rgba(255,255,255,.7);}
+  .hero-visual{display:flex;justify-content:center;}
+  .hero-img{width:100%;max-width:480px;aspect-ratio:4/3;border-radius:24px;background:linear-gradient(135deg,rgba(0,137,123,.15),rgba(0,137,123,.05));border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:120px;position:relative;overflow:hidden;}
+  .hero-float{position:absolute;background:white;border-radius:14px;padding:12px 16px;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:8px;}
+  .hf-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;}.hf-icon i{width:18px;height:18px;}
+  .hf-text{font-size:12px;font-weight:700;}.hf-sub{font-size:10px;color:var(--grey-mid);}
+  .hf-1{bottom:20px;left:-20px;}.hf-2{top:30px;right:-10px;}
+
+  /* Stats bar */
+  .stats-bar{background:white;border-radius:20px;padding:32px;margin-top:-50px;position:relative;z-index:10;box-shadow:var(--shadow-lg);border:1px solid var(--grey);}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+  .stat{text-align:center;padding:0 20px;border-right:1px solid var(--grey);}.stat:last-child{border-right:none;}
+  .stat-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:36px;font-weight:800;color:var(--teal);}.stat-num sup{font-size:18px;}
+  .stat-label{font-size:13px;color:var(--grey-mid);font-weight:600;}
+
+  /* Services */
+  .section{padding:64px 0;}
+  .section-header{text-align:center;margin-bottom:36px;}
+  .section-badge{display:inline-flex;align-items:center;gap:5px;background:var(--teal-glow);padding:5px 14px;border-radius:100px;font-size:12px;font-weight:700;color:var(--teal);margin-bottom:8px;}.section-badge i{width:13px;height:13px;}
+  .section-header h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:800;}
+  .section-header p{font-size:15px;color:var(--grey-dark);max-width:560px;margin:6px auto 0;}
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .service{background:white;border:1.5px solid var(--grey);border-radius:18px;padding:28px;transition:all .2s;cursor:pointer;position:relative;overflow:hidden;}.service:hover{border-color:var(--teal);transform:translateY(-3px);box-shadow:var(--shadow-md);}
+  .service::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--teal);transform:scaleX(0);transition:transform .2s;}.service:hover::after{transform:scaleX(1);}
+  .svc-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:14px;}
+  .svc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:800;margin-bottom:4px;}
+  .svc-desc{font-size:13px;color:var(--grey-dark);line-height:1.5;margin-bottom:12px;}
+  .svc-link{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:700;color:var(--teal);}.svc-link i{width:14px;height:14px;}
+
+  /* Projects */
+  .section.dark{background:var(--navy);}.section.dark .section-header h2{color:white;}.section.dark .section-header p{color:rgba(255,255,255,.35);}.section.dark .section-badge{background:rgba(0,137,123,.15);color:var(--teal-light);}
+  .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .project{border-radius:18px;overflow:hidden;position:relative;cursor:pointer;transition:transform .2s;}.project:hover{transform:translateY(-4px);}
+  .proj-img{height:240px;display:flex;align-items:center;justify-content:center;font-size:64px;position:relative;}
+  .proj-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(10,22,40,.85) 0%,transparent 60%);}
+  .proj-overlay{position:absolute;bottom:0;left:0;right:0;padding:18px;z-index:2;color:white;}
+  .proj-cat{font-size:11px;font-weight:700;color:var(--teal-light);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;}
+  .proj-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;}
+  .proj-meta{font-size:11px;color:rgba(255,255,255,.4);display:flex;gap:8px;margin-top:4px;}.proj-mi{display:flex;align-items:center;gap:3px;}.proj-mi i{width:11px;height:11px;color:var(--teal-light);}
+  .proj-badge-row{position:absolute;top:12px;left:12px;display:flex;gap:4px;z-index:2;}
+  .pb{padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;background:rgba(0,0,0,.5);color:white;backdrop-filter:blur(4px);}
+
+  /* Why us / USPs */
+  .usps-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center;}
+  .usps-visual{aspect-ratio:4/3;border-radius:20px;background:linear-gradient(135deg,var(--teal-glow),var(--grey-light));display:flex;align-items:center;justify-content:center;font-size:100px;position:relative;overflow:hidden;border:1px solid var(--grey);}
+  .usp-list{display:flex;flex-direction:column;gap:12px;}
+  .usp{display:flex;gap:14px;padding:14px;border-radius:14px;transition:background .12s;}.usp:hover{background:var(--grey-light);}
+  .usp-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.usp-icon i{width:20px;height:20px;}
+  .usp-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;margin-bottom:2px;}
+  .usp-desc{font-size:13px;color:var(--grey-dark);line-height:1.4;}
+
+  /* Reviews */
+  .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .review{background:white;border:1.5px solid var(--grey);border-radius:16px;padding:22px;transition:all .15s;}.review:hover{border-color:var(--teal);box-shadow:var(--shadow-sm);}
+  .rev-stars{color:var(--amber);font-size:14px;margin-bottom:8px;}
+  .rev-text{font-size:14px;color:var(--grey-dark);line-height:1.6;margin-bottom:12px;font-style:italic;}
+  .rev-author{display:flex;align-items:center;gap:10px;}
+  .rev-av{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:white;flex-shrink:0;}
+  .rev-name{font-size:13px;font-weight:700;}.rev-role{font-size:11px;color:var(--grey-mid);}
+
+  /* Certifications */
+  .certs{display:flex;align-items:center;justify-content:center;gap:32px;padding:28px 0;border-top:1px solid var(--grey);border-bottom:1px solid var(--grey);}
+  .cert{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--grey-mid);opacity:.5;}.cert i{width:24px;height:24px;}
+
+  /* CTA banner */
+  .cta-banner{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:24px;padding:56px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:32px;margin:48px 0;position:relative;overflow:hidden;}
+  .cta-banner::before{content:'';position:absolute;top:-80px;right:0;width:400px;height:400px;background:radial-gradient(circle,rgba(0,137,123,.1),transparent 70%);border-radius:50%;}
+  .ctb-left{position:relative;z-index:2;}
+  .ctb-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;color:rgba(255,255,255,.4);margin-bottom:8px;}.ctb-badge i{width:12px;height:12px;color:var(--teal-light);}
+  .ctb-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;color:white;margin-bottom:4px;}
+  .ctb-desc{font-size:15px;color:rgba(255,255,255,.35);max-width:500px;}
+  .ctb-features{display:flex;gap:16px;margin-top:12px;}.ctf{display:flex;align-items:center;gap:4px;font-size:12px;color:rgba(255,255,255,.4);}.ctf i{width:13px;height:13px;color:var(--teal-light);}
+  .ctb-right{display:flex;gap:8px;position:relative;z-index:2;}
+  .ctb-btn{height:52px;padding:0 28px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;border:none;transition:all var(--transition);text-decoration:none;white-space:nowrap;}
+  .ctb-btn.fill{background:var(--teal);color:white;box-shadow:0 4px 16px rgba(0,137,123,.3);}.ctb-btn.fill:hover{background:white;color:var(--teal);}
+  .ctb-btn.ghost{background:transparent;color:white;border:1.5px solid rgba(255,255,255,.15);}.ctb-btn.ghost:hover{border-color:white;}
+  .ctb-btn i{width:16px;height:16px;}
+
+  /* Footer */
+  .footer{background:var(--navy);padding:48px 0 24px;color:rgba(255,255,255,.3);}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:32px;}
+  .footer-brand .logo{color:white;font-size:22px;display:inline-block;margin-bottom:8px;}
+  .footer-desc{font-size:13px;line-height:1.6;margin-bottom:12px;}
+  .footer-contact{display:flex;flex-direction:column;gap:4px;font-size:13px;}.fc-item{display:flex;align-items:center;gap:6px;}.fc-item i{width:14px;height:14px;color:var(--teal-light);}
+  .footer h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:white;margin-bottom:12px;}
+  .footer-links{display:flex;flex-direction:column;gap:6px;}.fl-link{font-size:13px;color:rgba(255,255,255,.3);text-decoration:none;transition:color .12s;display:flex;align-items:center;gap:4px;}.fl-link:hover{color:var(--teal-light);}.fl-link i{width:12px;height:12px;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:20px;display:flex;align-items:center;justify-content:space-between;font-size:12px;}
+
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;}.hero-visual{display:none;}.services-grid,.projects-grid,.reviews-grid{grid-template-columns:1fr;}.stats-grid{grid-template-columns:1fr 1fr;}.usps-grid{grid-template-columns:1fr;}.footer-grid{grid-template-columns:1fr 1fr;}.cta-banner{grid-template-columns:1fr;padding:32px;}.ctb-right{justify-content:flex-start;}}
+</style>
+</head>
+<body>
+<!-- Header -->
+<div class="header-top"><div class="container"><div class="ht-inner"><div class="ht-left"><span class="ht-item"><i data-lucide="phone"></i> 020 - 123 45 67</span><span class="ht-item"><i data-lucide="mail"></i> info@vanderbouw.nl</span><span class="ht-item"><i data-lucide="clock"></i> Ma-Vr 07:30-17:00</span></div><div class="ht-right"><div class="ht-social"><i data-lucide="linkedin"></i></div><div class="ht-social"><i data-lucide="instagram"></i></div><div class="ht-social"><i data-lucide="facebook"></i></div></div></div></div></div>
+<header class="header"><div class="header-main"><div class="container"><a href="#" class="logo">Vander<em>Bouw</em></a><nav class="nav"><a href="#" class="nav-item active">Home</a><a href="#" class="nav-item">Diensten</a><a href="#" class="nav-item">Projecten</a><a href="#" class="nav-item">Over ons</a><a href="#" class="nav-item">Contact</a></nav><div class="header-cta"><a class="phone-btn" href="tel:0201234567"><i data-lucide="phone"></i> 020 - 123 45 67</a><button class="cta-btn"><i data-lucide="file-text"></i> Gratis offerte</button></div></div></div></header>
+
+<!-- Hero -->
+<section class="hero"><div class="container"><div class="hero-grid">
+  <div>
+    <div class="hero-badge"><i data-lucide="award"></i> Al 25+ jaar uw bouwpartner</div>
+    <h1>Vakmanschap dat <em>generaties</em> meegaat</h1>
+    <p class="hero-desc">Van complete nieuwbouw tot duurzame renovaties. Wij realiseren uw droomproject met transparante communicatie, vaste prijsafspraken en een garantie tot 10 jaar.</p>
+    <div class="hero-ctas">
+      <a class="hero-btn primary" href="#"><i data-lucide="file-text"></i> Gratis offerte aanvragen</a>
+      <a class="hero-btn outline" href="#"><i data-lucide="play-circle"></i> Bekijk projecten</a>
+    </div>
+    <div class="hero-trust">
+      <div class="ht-avatars"><div class="ht-av" style="background:var(--teal);">JD</div><div class="ht-av" style="background:var(--blue);">MK</div><div class="ht-av" style="background:var(--purple);">AV</div><div class="ht-av" style="background:var(--amber);">+</div></div>
+      <div class="ht-text"><strong>500+ tevreden opdrachtgevers</strong><br>Gemiddeld 4.9/5 beoordeeld</div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-img">🏗️
+      <div class="hero-float hf-1"><div class="hf-icon" style="background:var(--green-light);"><i data-lucide="shield-check" style="color:var(--green);"></i></div><div><div class="hf-text">10 jaar garantie</div><div class="hf-sub">Op al ons werk</div></div></div>
+      <div class="hero-float hf-2"><div class="hf-icon" style="background:var(--amber-light);"><i data-lucide="star" style="color:var(--amber);"></i></div><div><div class="hf-text">4.9 / 5.0</div><div class="hf-sub">342 reviews</div></div></div>
+    </div>
+  </div>
+</div></div></section>
+
+<!-- Stats bar -->
+<div class="container">
+  <div class="stats-bar">
+    <div class="stats-grid">
+      <div class="stat"><div class="stat-num">25<sup>+</sup></div><div class="stat-label">Jaar ervaring</div></div>
+      <div class="stat"><div class="stat-num">500<sup>+</sup></div><div class="stat-label">Projecten opgeleverd</div></div>
+      <div class="stat"><div class="stat-num">4.9</div><div class="stat-label">Klanttevredenheid</div></div>
+      <div class="stat"><div class="stat-num">98<sup>%</sup></div><div class="stat-label">Op tijd opgeleverd</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Services -->
+<section class="section"><div class="container">
+  <div class="section-header">
+    <div class="section-badge"><i data-lucide="wrench"></i> Onze diensten</div>
+    <h2>Alles onder één dak</h2>
+    <p>Van eerste schets tot sleuteloverdracht. Wij begeleiden u bij elke stap van uw bouwproject.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service"><div class="svc-icon" style="background:var(--teal-glow);">🏠</div><div class="svc-title">Nieuwbouw</div><div class="svc-desc">Uw droomwoning gebouwd van de grond af. Compleet ontzorgd van ontwerp tot oplevering met vaste prijsafspraak.</div><div class="svc-link">Meer info <i data-lucide="arrow-right"></i></div></div>
+    <div class="service"><div class="svc-icon" style="background:var(--blue-light);">🔨</div><div class="svc-title">Renovatie</div><div class="svc-desc">Geef uw woning een tweede leven. Van keuken en badkamer tot een complete metamorfose. Vakkundig en netjes.</div><div class="svc-link">Meer info <i data-lucide="arrow-right"></i></div></div>
+    <div class="service"><div class="svc-icon" style="background:var(--green-light);">🌱</div><div class="svc-title">Verduurzaming</div><div class="svc-desc">Isolatie, warmtepompen, zonnepanelen en meer. Verlaag uw energiekosten en verhoog het wooncomfort.</div><div class="svc-link">Meer info <i data-lucide="arrow-right"></i></div></div>
+    <div class="service"><div class="svc-icon" style="background:var(--purple-light);">📐</div><div class="svc-title">Aanbouw & Opbouw</div><div class="svc-desc">Meer ruimte nodig? Wij realiseren aanbouwen, dakopbouwen en uitbreidingen passend bij uw bestaande woning.</div><div class="svc-link">Meer info <i data-lucide="arrow-right"></i></div></div>
+    <div class="service"><div class="svc-icon" style="background:var(--amber-light);">🏢</div><div class="svc-title">Utiliteitsbouw</div><div class="svc-desc">Kantoren, winkels en bedrijfspanden. Professionele bouw voor zakelijke opdrachtgevers met strakke planning.</div><div class="svc-link">Meer info <i data-lucide="arrow-right"></i></div></div>
+    <div class="service"><div class="svc-icon" style="background:var(--coral-light);">🏚️</div><div class="svc-title">Herstelwerk</div><div class="svc-desc">Funderingsherstel, vochtbestrijding en constructieve reparaties. Specialistisch werk met garantie.</div><div class="svc-link">Meer info <i data-lucide="arrow-right"></i></div></div>
+  </div>
+</div></section>
+
+<!-- Projects -->
+<section class="section dark"><div class="container">
+  <div class="section-header">
+    <div class="section-badge"><i data-lucide="image"></i> Recente projecten</div>
+    <h2>Ons werk spreekt voor zich</h2>
+    <p>Bekijk een selectie van recent opgeleverde projecten in de regio Amsterdam.</p>
+  </div>
+  <div class="projects-grid">
+    <div class="project"><div class="proj-img" style="background:linear-gradient(135deg,#2d3436,#636e72);"><div class="proj-badge-row"><span class="pb">Nieuwbouw</span><span class="pb">2024</span></div>🏡<div class="proj-overlay"><div class="proj-cat">Nieuwbouw</div><div class="proj-title">Villa met zwembad — Amstelveen</div><div class="proj-meta"><span class="proj-mi"><i data-lucide="ruler"></i> 280m²</span><span class="proj-mi"><i data-lucide="calendar"></i> 14 maanden</span></div></div></div></div>
+    <div class="project"><div class="proj-img" style="background:linear-gradient(135deg,#0c2461,#1e3799);"><div class="proj-badge-row"><span class="pb">Renovatie</span></div>🏗️<div class="proj-overlay"><div class="proj-cat">Renovatie</div><div class="proj-title">Grachtenpand renovatie — Centrum</div><div class="proj-meta"><span class="proj-mi"><i data-lucide="ruler"></i> 340m²</span><span class="proj-mi"><i data-lucide="calendar"></i> 8 maanden</span></div></div></div></div>
+    <div class="project"><div class="proj-img" style="background:linear-gradient(135deg,#006266,#009432);"><div class="proj-badge-row"><span class="pb">Verduurzaming</span></div>🌱<div class="proj-overlay"><div class="proj-cat">Verduurzaming</div><div class="proj-title">Energieneutraal maken — Haarlem</div><div class="proj-meta"><span class="proj-mi"><i data-lucide="zap"></i> Label A+++</span><span class="proj-mi"><i data-lucide="calendar"></i> 6 weken</span></div></div></div></div>
+  </div>
+  <div style="text-align:center;margin-top:20px;"><a class="hero-btn outline" href="#" style="display:inline-flex;"><i data-lucide="grid"></i> Alle 500+ projecten bekijken</a></div>
+</div></section>
+
+<!-- Why us -->
+<section class="section"><div class="container">
+  <div class="section-header">
+    <div class="section-badge"><i data-lucide="shield-check"></i> Waarom VanderBouw</div>
+    <h2>Bouwen op vertrouwen</h2>
+  </div>
+  <div class="usps-grid">
+    <div class="usps-visual">🏠</div>
+    <div class="usp-list">
+      <div class="usp"><div class="usp-icon" style="background:var(--teal-glow);"><i data-lucide="lock" style="color:var(--teal);"></i></div><div><div class="usp-title">Vaste prijsafspraak</div><div class="usp-desc">Geen verrassingen. U weet vooraf exact wat het kost. Wijzigingen worden altijd eerst besproken en schriftelijk bevestigd.</div></div></div>
+      <div class="usp"><div class="usp-icon" style="background:var(--green-light);"><i data-lucide="calendar-check" style="color:var(--green);"></i></div><div><div class="usp-title">Planning is heilig</div><div class="usp-desc">98% van onze projecten wordt op of voor de afgesproken datum opgeleverd. Wij plannen realistisch en communiceren proactief.</div></div></div>
+      <div class="usp"><div class="usp-icon" style="background:var(--blue-light);"><i data-lucide="message-circle" style="color:var(--blue);"></i></div><div><div class="usp-title">Transparante communicatie</div><div class="usp-desc">Wekelijkse voortgangsrapportages, foto-updates en een vaste aanspreekpersoon. U bent altijd op de hoogte.</div></div></div>
+      <div class="usp"><div class="usp-icon" style="background:var(--amber-light);"><i data-lucide="shield-check" style="color:var(--amber);"></i></div><div><div class="usp-title">10 jaar garantie</div><div class="usp-desc">Wij staan achter ons werk. Op alle constructieve werkzaamheden geven wij standaard 10 jaar garantie.</div></div></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- Reviews -->
+<section class="section" style="background:var(--grey-light);"><div class="container">
+  <div class="section-header">
+    <div class="section-badge"><i data-lucide="star"></i> Klantreviews</div>
+    <h2>Wat onze klanten zeggen</h2>
+  </div>
+  <div class="reviews-grid">
+    <div class="review"><div class="rev-stars">★★★★★</div><div class="rev-text">"Onze complete woning is door VanderBouw gerenoveerd. Van begin tot eind professioneel, netjes en op tijd. Absoluut een aanrader!"</div><div class="rev-author"><div class="rev-av" style="background:var(--teal);">JD</div><div><div class="rev-name">Jan de Vries</div><div class="rev-role">Renovatie · Amsterdam-Zuid</div></div></div></div>
+    <div class="review"><div class="rev-stars">★★★★★</div><div class="rev-text">"De aanbouw is precies geworden zoals we het ons hadden voorgesteld. Goede begeleiding, eerlijk advies en een prachtig resultaat."</div><div class="rev-author"><div class="rev-av" style="background:var(--blue);">MK</div><div><div class="rev-name">Marieke Koster</div><div class="rev-role">Aanbouw · Amstelveen</div></div></div></div>
+    <div class="review"><div class="rev-stars">★★★★★</div><div class="rev-text">"Ons grachtenpand is vakkundig gerestaureerd met respect voor het originele karakter. Het team van VanderBouw zijn echte vakmensen."</div><div class="rev-author"><div class="rev-av" style="background:var(--purple);">AV</div><div><div class="rev-name">Anton Vermeer</div><div class="rev-role">Restauratie · Centrum</div></div></div></div>
+  </div>
+</div></section>
+
+<!-- Certifications -->
+<section style="padding:0;"><div class="container">
+  <div class="certs">
+    <div class="cert"><i data-lucide="award"></i> BouwGarant</div>
+    <div class="cert"><i data-lucide="shield-check"></i> VCA**</div>
+    <div class="cert"><i data-lucide="badge-check"></i> ISO 9001</div>
+    <div class="cert"><i data-lucide="leaf"></i> BREEAM</div>
+    <div class="cert"><i data-lucide="home"></i> Woningborg</div>
+  </div>
+</div></section>
+
+<!-- CTA banner -->
+<div class="container">
+  <div class="cta-banner">
+    <div class="ctb-left">
+      <div class="ctb-badge"><i data-lucide="sparkles"></i> Vrijblijvend gesprek</div>
+      <div class="ctb-title">Bouwplannen? Laten we kennismaken.</div>
+      <div class="ctb-desc">Ontvang binnen 5 werkdagen een vrijblijvende offerte op maat. Geen verplichtingen, geen kleine lettertjes.</div>
+      <div class="ctb-features"><div class="ctf"><i data-lucide="check-circle"></i> Gratis adviesgesprek</div><div class="ctf"><i data-lucide="check-circle"></i> Offerte binnen 5 dagen</div><div class="ctf"><i data-lucide="check-circle"></i> 100% vrijblijvend</div></div>
+    </div>
+    <div class="ctb-right">
+      <button class="ctb-btn fill"><i data-lucide="file-text"></i> Offerte aanvragen</button>
+      <button class="ctb-btn ghost"><i data-lucide="phone"></i> 020 - 123 45 67</button>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer"><div class="container">
+  <div class="footer-grid">
+    <div class="footer-brand"><a href="#" class="logo">Vander<em>Bouw</em></a><div class="footer-desc">Al meer dan 25 jaar uw betrouwbare partner voor nieuwbouw, renovatie en verduurzaming in de regio Amsterdam.</div><div class="footer-contact"><div class="fc-item"><i data-lucide="map-pin"></i> Herengracht 420, 1017 BZ Amsterdam</div><div class="fc-item"><i data-lucide="phone"></i> 020 - 123 45 67</div><div class="fc-item"><i data-lucide="mail"></i> info@vanderbouw.nl</div></div></div>
+    <div><h4>Diensten</h4><div class="footer-links"><a class="fl-link" href="#">Nieuwbouw</a><a class="fl-link" href="#">Renovatie</a><a class="fl-link" href="#">Verduurzaming</a><a class="fl-link" href="#">Aanbouw & Opbouw</a><a class="fl-link" href="#">Utiliteitsbouw</a><a class="fl-link" href="#">Herstelwerk</a></div></div>
+    <div><h4>Bedrijf</h4><div class="footer-links"><a class="fl-link" href="#">Over ons</a><a class="fl-link" href="#">Projecten</a><a class="fl-link" href="#">Vacatures</a><a class="fl-link" href="#">Blog</a><a class="fl-link" href="#">Contact</a></div></div>
+    <div><h4>Keurmerken</h4><div class="footer-links"><a class="fl-link" href="#"><i data-lucide="award"></i> BouwGarant</a><a class="fl-link" href="#"><i data-lucide="shield-check"></i> VCA**</a><a class="fl-link" href="#"><i data-lucide="badge-check"></i> ISO 9001</a><a class="fl-link" href="#"><i data-lucide="leaf"></i> BREEAM</a><a class="fl-link" href="#"><i data-lucide="home"></i> Woningborg</a></div></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 VanderBouw B.V. · KvK 12345678</span><span>Privacy · Voorwaarden · Sitemap</span></div>
+</div></footer>
+<script>lucide.createIcons();</script>
+</body>
+</html>

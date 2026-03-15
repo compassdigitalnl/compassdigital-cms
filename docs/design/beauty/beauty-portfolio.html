@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Studio Bloom</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--pink:#EC4899;--pink-light:#FCE7F3;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--navy);text-decoration:none;display:flex;align-items:center;gap:8px;}.logo-mark{width:36px;height:36px;background:var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-size:18px;}.logo em{color:var(--teal);font-style:normal;}.nav{display:flex;gap:2px;}.nav-item{padding:10px 16px;font-size:13.5px;font-weight:600;color:var(--grey-dark);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--teal);background:var(--teal-glow);}.h-cta{height:42px;padding:0 20px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--transition);}.h-cta:hover{background:var(--navy);}.h-cta i{width:14px;height:14px;}
+  .page-hero{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:44px 0;text-align:center;position:relative;overflow:hidden;}.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 100%,rgba(0,137,123,.06),transparent 70%);}.ph-inner{position:relative;z-index:2;}.ph-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(0,137,123,.1);border:1px solid rgba(0,137,123,.2);padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;color:var(--teal-light);margin-bottom:8px;}.ph-badge i{width:11px;height:11px;}.ph-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:34px;font-weight:800;color:white;margin-bottom:4px;}.ph-desc{font-size:14px;color:rgba(255,255,255,.3);max-width:520px;margin:0 auto;}
+
+  .toolbar{background:white;border-bottom:1px solid var(--grey);padding:10px 0;position:sticky;top:72px;z-index:100;}
+  .tb-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  .cats{display:flex;gap:3px;flex-wrap:wrap;}.cat-btn{padding:7px 14px;border-radius:100px;font-size:12px;font-weight:700;border:1.5px solid var(--grey);background:white;color:var(--grey-mid);cursor:pointer;transition:all .12s;}.cat-btn:hover{border-color:var(--teal);color:var(--teal);}.cat-btn.active{background:var(--teal);color:white;border-color:var(--teal);}
+  .view-toggle{display:flex;gap:2px;}.vt-btn{width:36px;height:36px;border-radius:8px;border:1.5px solid var(--grey);background:white;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;}.vt-btn:hover,.vt-btn.active{border-color:var(--teal);background:var(--teal-glow);}.vt-btn i{width:16px;height:16px;color:var(--grey-mid);}
+
+  .section{padding:24px 0 56px;}
+
+  /* Before/After section */
+  .ba-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:6px;}.ba-title i{width:20px;height:20px;color:var(--teal);}
+  .ba-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px;}
+  .ba-card{background:white;border:1.5px solid var(--grey);border-radius:16px;overflow:hidden;transition:all .15s;}.ba-card:hover{border-color:var(--teal);box-shadow:var(--shadow-md);}
+  .ba-imgs{display:grid;grid-template-columns:1fr 1fr;position:relative;}
+  .ba-img{aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;font-size:40px;}
+  .ba-label{position:absolute;top:8px;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700;color:white;}.ba-label.before{left:8px;background:var(--grey-mid);}.ba-label.after{right:8px;background:var(--teal);}
+  .ba-divider{position:absolute;left:50%;top:0;bottom:0;width:2px;background:white;z-index:2;}
+  .ba-body{padding:12px;}
+  .ba-treat{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;}
+  .ba-stylist{font-size:11px;color:var(--teal);font-weight:600;}
+  .ba-desc{font-size:11px;color:var(--grey-mid);margin-top:2px;}
+
+  /* Gallery grid */
+  .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .gal-item{background:white;border:1.5px solid var(--grey);border-radius:14px;overflow:hidden;transition:all .15s;cursor:pointer;}.gal-item:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:var(--shadow-md);}
+  .gal-img{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:36px;position:relative;}
+  .gal-overlay{position:absolute;inset:0;background:rgba(10,22,40,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;}.gal-item:hover .gal-overlay{opacity:1;}
+  .gal-overlay i{width:20px;height:20px;color:white;margin-bottom:4px;}
+  .gal-overlay span{font-size:10px;font-weight:700;color:rgba(255,255,255,.7);}
+  .gal-cat{position:absolute;top:6px;left:6px;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;}
+  .gal-body{padding:10px;}
+  .gal-title{font-size:12px;font-weight:800;}
+  .gal-meta{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--grey-mid);margin-top:1px;}
+  .gal-meta i{width:10px;height:10px;}
+
+  /* CTA */
+  .cta-strip{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:20px;padding:32px;display:flex;align-items:center;justify-content:space-between;margin-top:24px;}
+  .cs-left{color:white;}.cs-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;margin-bottom:2px;}.cs-desc{font-size:13px;color:rgba(255,255,255,.35);}
+  .cs-btns{display:flex;gap:8px;}
+  .cs-btn{height:44px;padding:0 20px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:5px;border:none;transition:all .12s;}.cs-btn i{width:14px;height:14px;}
+  .cs-btn.fill{background:var(--teal);color:white;}.cs-btn.fill:hover{background:white;color:var(--navy);}
+  .cs-btn.ghost{background:transparent;color:white;border:1.5px solid rgba(255,255,255,.12);}.cs-btn.ghost:hover{border-color:var(--teal);}
+
+  /* Insta strip */
+  .insta-strip{margin-top:24px;text-align:center;}
+  .is-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:4px;}.is-title i{width:18px;height:18px;color:var(--teal);}
+  .is-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;}
+  .is-item{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;transition:all .12s;position:relative;overflow:hidden;}.is-item:hover{transform:scale(1.05);}
+
+  @media(max-width:900px){.ba-grid{grid-template-columns:1fr;}.gallery-grid{grid-template-columns:1fr 1fr;}.is-grid{grid-template-columns:repeat(4,1fr);}.cta-strip{flex-direction:column;gap:12px;text-align:center;}.nav{display:none;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo"><div class="logo-mark">✿</div>Studio <em>Bloom</em></a><nav class="nav"><a href="#" class="nav-item">Home</a><a href="#" class="nav-item">Behandelingen</a><a href="#" class="nav-item">Prijslijst</a><a href="#" class="nav-item">Team</a><a href="#" class="nav-item active">Portfolio</a><a href="#" class="nav-item">Contact</a></nav><button class="h-cta"><i data-lucide="calendar"></i> Online boeken</button></div></header>
+
+<section class="page-hero"><div class="ph-inner"><div class="ph-badge"><i data-lucide="image"></i> Ons werk</div><h1 class="ph-title">Portfolio & Inspiratie</h1><p class="ph-desc">Bekijk onze mooiste transformaties en laat je inspireren voor jouw volgende look.</p></div></section>
+
+<div class="toolbar"><div class="container"><div class="tb-inner"><div class="cats"><button class="cat-btn active" onclick="filterCat(this)">Alles</button><button class="cat-btn" onclick="filterCat(this)">✂️ Knippen</button><button class="cat-btn" onclick="filterCat(this)">🎨 Kleuren</button><button class="cat-btn" onclick="filterCat(this)">✨ Beauty</button><button class="cat-btn" onclick="filterCat(this)">💍 Bridal</button></div><div class="view-toggle"><button class="vt-btn active"><i data-lucide="grid"></i></button><button class="vt-btn"><i data-lucide="rows-3"></i></button></div></div></div></div>
+
+<div class="container"><div class="section">
+  <!-- Before / After -->
+  <div class="ba-title"><i data-lucide="git-compare"></i> Voor & Na transformaties</div>
+  <div class="ba-grid">
+    <div class="ba-card"><div class="ba-imgs"><div class="ba-img" style="background:var(--grey-light);">👩‍🦰</div><div class="ba-img" style="background:linear-gradient(135deg,var(--teal-glow),var(--grey-light));">👱‍♀️</div><span class="ba-label before">Voor</span><span class="ba-label after">Na</span><div class="ba-divider"></div></div><div class="ba-body"><div class="ba-treat">Balayage blond</div><div class="ba-stylist">Door Sophie van Dam</div><div class="ba-desc">Van donkerbruin naar warm balayage blond</div></div></div>
+    <div class="ba-card"><div class="ba-imgs"><div class="ba-img" style="background:var(--grey-light);">👩</div><div class="ba-img" style="background:linear-gradient(135deg,var(--purple-light),var(--grey-light));">💜</div><span class="ba-label before">Voor</span><span class="ba-label after">Na</span><div class="ba-divider"></div></div><div class="ba-body"><div class="ba-treat">Creatieve kleur</div><div class="ba-stylist">Door Sophie van Dam</div><div class="ba-desc">Bold paars met zachte roots</div></div></div>
+    <div class="ba-card"><div class="ba-imgs"><div class="ba-img" style="background:var(--grey-light);">👨</div><div class="ba-img" style="background:linear-gradient(135deg,var(--blue-light),var(--grey-light));">💇‍♂️</div><span class="ba-label before">Voor</span><span class="ba-label after">Na</span><div class="ba-divider"></div></div><div class="ba-body"><div class="ba-treat">Restyling heren</div><div class="ba-stylist">Door Milan Kowalski</div><div class="ba-desc">Modern textured crop</div></div></div>
+  </div>
+
+  <!-- Gallery -->
+  <div class="ba-title"><i data-lucide="grid"></i> Galerij</div>
+  <div class="gallery-grid">
+    <div class="gal-item"><div class="gal-img" style="background:linear-gradient(135deg,var(--teal-glow),var(--grey-light));"><span class="gal-cat" style="background:var(--teal);color:white;">Kleuren</span>🎨<div class="gal-overlay"><i data-lucide="maximize-2"></i><span>Bekijken</span></div></div><div class="gal-body"><div class="gal-title">Warm copper balayage</div><div class="gal-meta"><i data-lucide="user"></i> Sophie · <i data-lucide="heart"></i> 124</div></div></div>
+    <div class="gal-item"><div class="gal-img" style="background:linear-gradient(135deg,var(--purple-light),var(--grey-light));"><span class="gal-cat" style="background:var(--purple);color:white;">Knippen</span>✂️<div class="gal-overlay"><i data-lucide="maximize-2"></i><span>Bekijken</span></div></div><div class="gal-body"><div class="gal-title">Blunt bob</div><div class="gal-meta"><i data-lucide="user"></i> Milan · <i data-lucide="heart"></i> 98</div></div></div>
+    <div class="gal-item"><div class="gal-img" style="background:linear-gradient(135deg,var(--pink-light),var(--grey-light));"><span class="gal-cat" style="background:var(--pink);color:white;">Beauty</span>✨<div class="gal-overlay"><i data-lucide="maximize-2"></i><span>Bekijken</span></div></div><div class="gal-body"><div class="gal-title">Glow facial result</div><div class="gal-meta"><i data-lucide="user"></i> Noor · <i data-lucide="heart"></i> 156</div></div></div>
+    <div class="gal-item"><div class="gal-img" style="background:linear-gradient(135deg,var(--amber-light),var(--grey-light));"><span class="gal-cat" style="background:var(--amber);color:white;">Bridal</span>💍<div class="gal-overlay"><i data-lucide="maximize-2"></i><span>Bekijken</span></div></div><div class="gal-body"><div class="gal-title">Bridal updo romantisch</div><div class="gal-meta"><i data-lucide="user"></i> Emma · <i data-lucide="heart"></i> 210</div></div></div>
+    <div class="gal-item"><div class="gal-img" style="background:linear-gradient(135deg,var(--green-light),var(--grey-light));"><span class="gal-cat" style="background:var(--teal);color:white;">Kleuren</span>💚<div class="gal-overlay"><i data-lucide="maximize-2"></i><span>Bekijken</span></div></div><div class="gal-body"><div class="gal-title">Ash blonde highlights</div><div class="gal-meta"><i data-lucide="user"></i> Sophie · <i data-lucide="heart"></i> 87</div></div></div>
+    <div class="gal-item"><div class="gal-img" style="background:linear-gradient(135deg,var(--blue-light),var(--grey-light));"><span class="gal-cat" style="background:var(--blue);color:white;">Knippen</span>💇‍♀️<div class="gal-overlay"><i data-lucide="maximize-2"></i><span>Bekijken</span></div></div><div class="gal-body"><div class="gal-title">Shaggy layers</div><div class="gal-meta"><i data-lucide="user"></i> Milan · <i data-lucide="heart"></i> 113</div></div></div>
+    <div class="gal-item"><div class="gal-img" style="background:linear-gradient(135deg,var(--coral-light),var(--grey-light));"><span class="gal-cat" style="background:var(--coral);color:white;">Kleuren</span>🔥<div class="gal-overlay"><i data-lucide="maximize-2"></i><span>Bekijken</span></div></div><div class="gal-body"><div class="gal-title">Vivid red color melt</div><div class="gal-meta"><i data-lucide="user"></i> Sophie · <i data-lucide="heart"></i> 178</div></div></div>
+    <div class="gal-item"><div class="gal-img" style="background:linear-gradient(135deg,var(--purple-light),var(--grey-light));"><span class="gal-cat" style="background:var(--pink);color:white;">Beauty</span>💆‍♀️<div class="gal-overlay"><i data-lucide="maximize-2"></i><span>Bekijken</span></div></div><div class="gal-body"><div class="gal-title">Brow lamination</div><div class="gal-meta"><i data-lucide="user"></i> Noor · <i data-lucide="heart"></i> 91</div></div></div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-strip"><div class="cs-left"><div class="cs-title">Geïnspireerd? Boek je afspraak!</div><div class="cs-desc">Bespreek je droomlook met onze stylisten.</div></div><div class="cs-btns"><button class="cs-btn fill"><i data-lucide="calendar"></i> Online boeken</button><button class="cs-btn ghost"><i data-lucide="phone"></i> Bellen</button></div></div>
+
+  <!-- Insta -->
+  <div class="insta-strip">
+    <div class="is-title"><i data-lucide="instagram"></i> Meer op @studiobloom</div>
+    <div class="is-grid">
+      <div class="is-item" style="background:linear-gradient(135deg,var(--teal-glow),var(--grey-light));">✂️</div>
+      <div class="is-item" style="background:linear-gradient(135deg,var(--purple-light),var(--grey-light));">🎨</div>
+      <div class="is-item" style="background:linear-gradient(135deg,var(--pink-light),var(--grey-light));">✨</div>
+      <div class="is-item" style="background:linear-gradient(135deg,var(--amber-light),var(--grey-light));">💅</div>
+      <div class="is-item" style="background:linear-gradient(135deg,var(--green-light),var(--grey-light));">💆‍♀️</div>
+      <div class="is-item" style="background:linear-gradient(135deg,var(--blue-light),var(--grey-light));">💇‍♂️</div>
+      <div class="is-item" style="background:linear-gradient(135deg,var(--coral-light),var(--grey-light));">💍</div>
+      <div class="is-item" style="background:linear-gradient(135deg,var(--purple-light),var(--grey-light));">🌿</div>
+    </div>
+  </div>
+</div></div>
+<script>lucide.createIcons();function filterCat(el){document.querySelectorAll('.cat-btn').forEach(e=>e.classList.remove('active'));el.classList.add('active');}</script>
+</body>
+</html>

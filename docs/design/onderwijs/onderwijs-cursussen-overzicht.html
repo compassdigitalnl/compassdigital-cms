@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alle Cursussen | Compass Academy</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      /* Onderwijs Colors */
+      --blue: #2563EB;
+      --blue-light: #3B82F6;
+      --blue-dark: #1E40AF;
+      --blue-glow: rgba(37, 99, 235, 0.12);
+      --navy-deep: #0c1844;
+      --sky: #0EA5E9;
+      --sky-light: #38BDF8;
+
+      /* Neutrals */
+      --navy: #0A1628;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Status Colors */
+      --green: #00C853;
+      --amber: #F59E0B;
+      --coral: #FF6B6B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Header Placeholder */
+    .header-placeholder {
+      height: 70px;
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--grey-mid);
+      font-size: 12px;
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--grey-mid);
+    }
+
+    .breadcrumbs a {
+      color: var(--grey-mid);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--blue);
+    }
+
+    .breadcrumbs .separator {
+      color: var(--grey);
+    }
+
+    .breadcrumbs .current {
+      color: var(--navy);
+      font-weight: 500;
+    }
+
+    /* Page Header */
+    .page-header {
+      max-width: 1200px;
+      margin: 0 auto 32px;
+      padding: 0 24px;
+    }
+
+    .page-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 15px;
+      color: var(--grey-dark);
+    }
+
+    /* Filters Bar */
+    .filters-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      position: sticky;
+      top: 70px;
+      z-index: 10;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .filters-bar-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .category-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .category-tab {
+      padding: 8px 16px;
+      border-radius: 9999px;
+      background: var(--grey-light);
+      border: 1px solid var(--grey);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .category-tab:hover {
+      background: var(--grey);
+    }
+
+    .category-tab.active {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: var(--white);
+    }
+
+    .results-count {
+      font-size: 14px;
+      color: var(--grey-dark);
+      white-space: nowrap;
+    }
+
+    .results-count strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* Main Content Layout */
+    .content-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* Sidebar Filters */
+    .sidebar {
+      position: sticky;
+      top: 150px;
+    }
+
+    .filter-section {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .filter-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-title i {
+      width: 18px;
+      height: 18px;
+      color: var(--blue);
+    }
+
+    .filter-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .filter-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .filter-checkbox input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .filter-checkbox label {
+      font-size: 13px;
+      color: var(--grey-dark);
+      cursor: pointer;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .filter-count {
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .price-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .price-input {
+      padding: 8px 12px;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      width: 100%;
+    }
+
+    .price-input:focus {
+      outline: none;
+      border-color: var(--blue);
+    }
+
+    .reset-filters {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .reset-filters:hover {
+      border-color: var(--coral);
+      color: var(--coral);
+    }
+
+    .reset-filters i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Courses Grid */
+    .courses-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    /* Course Card (same as homepage) */
+    .course-card {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .course-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .course-image {
+      width: 100%;
+      height: 180px;
+      background: var(--grey);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .course-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .course-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: var(--white);
+      color: var(--navy);
+    }
+
+    .course-badge.bestseller {
+      background: var(--amber);
+      color: var(--white);
+    }
+
+    .course-badge.new {
+      background: var(--green);
+      color: var(--white);
+    }
+
+    .course-content {
+      padding: 16px;
+    }
+
+    .course-category {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--blue);
+      margin-bottom: 6px;
+    }
+
+    .course-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .course-instructor {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      color: var(--grey-dark);
+    }
+
+    .instructor-avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--sky));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .course-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--grey);
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .course-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .course-meta-item i {
+      width: 13px;
+      height: 13px;
+    }
+
+    .course-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+      color: var(--amber);
+    }
+
+    .course-rating i {
+      width: 13px;
+      height: 13px;
+      fill: var(--amber);
+    }
+
+    .course-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--grey-light);
+      border-top: 1px solid var(--grey);
+    }
+
+    .course-price {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--blue);
+    }
+
+    .course-level {
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: var(--white);
+      border: 1px solid var(--grey);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--grey-dark);
+    }
+
+    /* Empty State */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 24px;
+    }
+
+    .empty-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background: var(--grey-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .empty-icon i {
+      width: 40px;
+      height: 40px;
+      color: var(--grey-mid);
+    }
+
+    .empty-state h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+      color: var(--grey-dark);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .content-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .filters-bar-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .courses-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-title {
+        font-size: 24px;
+      }
+
+      .category-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Placeholder -->
+  <div class="header-placeholder">
+    [ Header Navigation - Reuse from homepage ]
+  </div>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="/">Home</a>
+    <span class="separator">/</span>
+    <span class="current">Cursussen</span>
+  </div>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">Alle cursussen</h1>
+    <p class="page-subtitle">Ontdek 1.200+ cursussen van top experts - leer in je eigen tempo</p>
+  </div>
+
+  <!-- Filters Bar -->
+  <div class="filters-bar">
+    <div class="filters-bar-content">
+      <div class="category-tabs" id="categoryTabs">
+        <button class="category-tab active" data-category="all" onclick="filterByCategory('all')">Alle categorieën</button>
+        <button class="category-tab" data-category="development" onclick="filterByCategory('development')">Development</button>
+        <button class="category-tab" data-category="business" onclick="filterByCategory('business')">Business</button>
+        <button class="category-tab" data-category="design" onclick="filterByCategory('design')">Design</button>
+        <button class="category-tab" data-category="marketing" onclick="filterByCategory('marketing')">Marketing</button>
+        <button class="category-tab" data-category="data" onclick="filterByCategory('data')">Data Science</button>
+        <button class="category-tab" data-category="personal" onclick="filterByCategory('personal')">Persoonlijk</button>
+      </div>
+
+      <div class="results-count" id="resultsCount">
+        <strong>1.237</strong> cursussen gevonden
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content-layout">
+
+    <!-- Sidebar Filters -->
+    <aside class="sidebar">
+
+      <!-- Price Filter -->
+      <div class="filter-section">
+        <div class="filter-title">
+          <i data-lucide="euro"></i>
+          Prijsklasse
+        </div>
+        <div class="filter-options">
+          <div class="filter-checkbox">
+            <input type="checkbox" id="price-free" data-filter="price" data-value="free" onchange="applyFilters()">
+            <label for="price-free">
+              <span>Gratis</span>
+              <span class="filter-count">(89)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="price-0-50" data-filter="price" data-value="0-50" onchange="applyFilters()">
+            <label for="price-0-50">
+              <span>€0 - €50</span>
+              <span class="filter-count">(156)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="price-50-100" data-filter="price" data-value="50-100" onchange="applyFilters()">
+            <label for="price-50-100">
+              <span>€50 - €100</span>
+              <span class="filter-count">(478)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="price-100-200" data-filter="price" data-value="100-200" onchange="applyFilters()">
+            <label for="price-100-200">
+              <span>€100 - €200</span>
+              <span class="filter-count">(392)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="price-200-plus" data-filter="price" data-value="200-plus" onchange="applyFilters()">
+            <label for="price-200-plus">
+              <span>€200+</span>
+              <span class="filter-count">(122)</span>
+            </label>
+          </div>
+        </div>
+        <div class="price-inputs">
+          <input type="number" class="price-input" placeholder="Min €" id="priceMin" onchange="applyFilters()">
+          <input type="number" class="price-input" placeholder="Max €" id="priceMax" onchange="applyFilters()">
+        </div>
+      </div>
+
+      <!-- Level Filter -->
+      <div class="filter-section">
+        <div class="filter-title">
+          <i data-lucide="bar-chart-3"></i>
+          Niveau
+        </div>
+        <div class="filter-options">
+          <div class="filter-checkbox">
+            <input type="checkbox" id="level-beginner" data-filter="level" data-value="beginner" onchange="applyFilters()">
+            <label for="level-beginner">
+              <span>Beginner</span>
+              <span class="filter-count">(523)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="level-intermediate" data-filter="level" data-value="intermediate" onchange="applyFilters()">
+            <label for="level-intermediate">
+              <span>Gemiddeld</span>
+              <span class="filter-count">(489)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="level-advanced" data-filter="level" data-value="advanced" onchange="applyFilters()">
+            <label for="level-advanced">
+              <span>Gevorderd</span>
+              <span class="filter-count">(225)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Duration Filter -->
+      <div class="filter-section">
+        <div class="filter-title">
+          <i data-lucide="clock"></i>
+          Duur
+        </div>
+        <div class="filter-options">
+          <div class="filter-checkbox">
+            <input type="checkbox" id="duration-short" data-filter="duration" data-value="short" onchange="applyFilters()">
+            <label for="duration-short">
+              <span>0 - 5 uur</span>
+              <span class="filter-count">(312)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="duration-medium" data-filter="duration" data-value="medium" onchange="applyFilters()">
+            <label for="duration-medium">
+              <span>5 - 20 uur</span>
+              <span class="filter-count">(654)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="duration-long" data-filter="duration" data-value="long" onchange="applyFilters()">
+            <label for="duration-long">
+              <span>20+ uur</span>
+              <span class="filter-count">(271)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rating Filter -->
+      <div class="filter-section">
+        <div class="filter-title">
+          <i data-lucide="star"></i>
+          Beoordeling
+        </div>
+        <div class="filter-options">
+          <div class="filter-checkbox">
+            <input type="checkbox" id="rating-45" data-filter="rating" data-value="45" onchange="applyFilters()">
+            <label for="rating-45">
+              <span>4.5+ sterren</span>
+              <span class="filter-count">(412)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="rating-40" data-filter="rating" data-value="40" onchange="applyFilters()">
+            <label for="rating-40">
+              <span>4.0+ sterren</span>
+              <span class="filter-count">(789)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="rating-35" data-filter="rating" data-value="35" onchange="applyFilters()">
+            <label for="rating-35">
+              <span>3.5+ sterren</span>
+              <span class="filter-count">(1,098)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features Filter -->
+      <div class="filter-section">
+        <div class="filter-title">
+          <i data-lucide="check-circle"></i>
+          Kenmerken
+        </div>
+        <div class="filter-options">
+          <div class="filter-checkbox">
+            <input type="checkbox" id="feature-certificate" data-filter="feature" data-value="certificate" onchange="applyFilters()">
+            <label for="feature-certificate">
+              <span>Certificaat</span>
+              <span class="filter-count">(892)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="feature-subtitles" data-filter="feature" data-value="subtitles" onchange="applyFilters()">
+            <label for="feature-subtitles">
+              <span>Ondertiteling</span>
+              <span class="filter-count">(1,024)</span>
+            </label>
+          </div>
+          <div class="filter-checkbox">
+            <input type="checkbox" id="feature-projects" data-filter="feature" data-value="projects" onchange="applyFilters()">
+            <label for="feature-projects">
+              <span>Praktijkopdrachten</span>
+              <span class="filter-count">(678)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reset Button -->
+      <button class="reset-filters" onclick="resetAllFilters()">
+        <i data-lucide="x-circle"></i>
+        Reset filters
+      </button>
+
+    </aside>
+
+    <!-- Courses Grid -->
+    <div class="courses-container">
+      <div class="courses-grid" id="coursesGrid">
+
+        <!-- Course cards (12 total, sample data) -->
+        <!-- These would be dynamically generated from Payload CMS in production -->
+
+        <div class="course-card" data-category="development" data-price="89" data-level="beginner" data-duration="18" data-rating="4.8">
+          <div class="course-image">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 180'%3E%3Crect fill='%23E8ECF1' width='400' height='180'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E💻%3C/text%3E%3C/svg%3E" alt="Python">
+            <div class="course-badge bestseller">Bestseller</div>
+          </div>
+          <div class="course-content">
+            <div class="course-category">Development</div>
+            <h3 class="course-title">Python voor Beginners - Complete Cursus 2026</h3>
+            <div class="course-instructor">
+              <div class="instructor-avatar">SB</div>
+              <span>Sophie Bakker</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <i data-lucide="star"></i>
+                <span>4.8</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="users"></i>
+                <span>12.456</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="clock"></i>
+                <span>18u</span>
+              </div>
+            </div>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">€ 89</div>
+            <div class="course-level">Beginner</div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="design" data-price="149" data-level="advanced" data-duration="24" data-rating="4.9">
+          <div class="course-image">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 180'%3E%3Crect fill='%23E8ECF1' width='400' height='180'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E🎨%3C/text%3E%3C/svg%3E" alt="UX Design">
+            <div class="course-badge new">Nieuw</div>
+          </div>
+          <div class="course-content">
+            <div class="course-category">Design</div>
+            <h3 class="course-title">UX Design Masterclass - Van Research tot Prototype</h3>
+            <div class="course-instructor">
+              <div class="instructor-avatar">LV</div>
+              <span>Lisa van der Meer</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <i data-lucide="star"></i>
+                <span>4.9</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="users"></i>
+                <span>8.921</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="clock"></i>
+                <span>24u</span>
+              </div>
+            </div>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">€ 149</div>
+            <div class="course-level">Gevorderd</div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="marketing" data-price="119" data-level="intermediate" data-duration="16" data-rating="4.7">
+          <div class="course-image">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 180'%3E%3Crect fill='%23E8ECF1' width='400' height='180'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E📊%3C/text%3E%3C/svg%3E" alt="Digital Marketing">
+          </div>
+          <div class="course-content">
+            <div class="course-category">Marketing</div>
+            <h3 class="course-title">Digital Marketing Strategie - SEO, SEA & Social Media</h3>
+            <div class="course-instructor">
+              <div class="instructor-avatar">MJ</div>
+              <span>Mark Janssen</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <i data-lucide="star"></i>
+                <span>4.7</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="users"></i>
+                <span>15.234</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="clock"></i>
+                <span>16u</span>
+              </div>
+            </div>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">€ 119</div>
+            <div class="course-level">Gemiddeld</div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="development" data-price="169" data-level="advanced" data-duration="32" data-rating="4.9">
+          <div class="course-image">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 180'%3E%3Crect fill='%23E8ECF1' width='400' height='180'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E⚛️%3C/text%3E%3C/svg%3E" alt="React">
+            <div class="course-badge bestseller">Bestseller</div>
+          </div>
+          <div class="course-content">
+            <div class="course-category">Development</div>
+            <h3 class="course-title">React & Next.js - Modern Web Development</h3>
+            <div class="course-instructor">
+              <div class="instructor-avatar">TD</div>
+              <span>Tom de Vries</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <i data-lucide="star"></i>
+                <span>4.9</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="users"></i>
+                <span>9.876</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="clock"></i>
+                <span>32u</span>
+              </div>
+            </div>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">€ 169</div>
+            <div class="course-level">Gevorderd</div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="data" data-price="139" data-level="intermediate" data-duration="22" data-rating="4.8">
+          <div class="course-image">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 180'%3E%3Crect fill='%23E8ECF1' width='400' height='180'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E📈%3C/text%3E%3C/svg%3E" alt="Data Analytics">
+          </div>
+          <div class="course-content">
+            <div class="course-category">Data Science</div>
+            <h3 class="course-title">Data Analytics met Python & Pandas</h3>
+            <div class="course-instructor">
+              <div class="instructor-avatar">EK</div>
+              <span>Emma Kok</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <i data-lucide="star"></i>
+                <span>4.8</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="users"></i>
+                <span>7.543</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="clock"></i>
+                <span>22u</span>
+              </div>
+            </div>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">€ 139</div>
+            <div class="course-level">Gemiddeld</div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="personal" data-price="79" data-level="beginner" data-duration="12" data-rating="4.6">
+          <div class="course-image">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 180'%3E%3Crect fill='%23E8ECF1' width='400' height='180'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E🧘%3C/text%3E%3C/svg%3E" alt="Productiviteit">
+          </div>
+          <div class="course-content">
+            <div class="course-category">Persoonlijk</div>
+            <h3 class="course-title">Productiviteit & Time Management Masterclass</h3>
+            <div class="course-instructor">
+              <div class="instructor-avatar">RH</div>
+              <span>Rick Hendriks</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <i data-lucide="star"></i>
+                <span>4.6</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="users"></i>
+                <span>11.234</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="clock"></i>
+                <span>12u</span>
+              </div>
+            </div>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">€ 79</div>
+            <div class="course-level">Beginner</div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="business" data-price="129" data-level="intermediate" data-duration="20" data-rating="4.7">
+          <div class="course-image">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 180'%3E%3Crect fill='%23E8ECF1' width='400' height='180'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E💼%3C/text%3E%3C/svg%3E" alt="Project Management">
+          </div>
+          <div class="course-content">
+            <div class="course-category">Business</div>
+            <h3 class="course-title">Project Management - Agile & Scrum Fundamentals</h3>
+            <div class="course-instructor">
+              <div class="instructor-avatar">NK</div>
+              <span>Nina Koster</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <i data-lucide="star"></i>
+                <span>4.7</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="users"></i>
+                <span>13.567</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="clock"></i>
+                <span>20u</span>
+              </div>
+            </div>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">€ 129</div>
+            <div class="course-level">Gemiddeld</div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="design" data-price="99" data-level="beginner" data-duration="14" data-rating="4.8">
+          <div class="course-image">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 180'%3E%3Crect fill='%23E8ECF1' width='400' height='180'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E✏️%3C/text%3E%3C/svg%3E" alt="Figma">
+          </div>
+          <div class="course-content">
+            <div class="course-category">Design</div>
+            <h3 class="course-title">Figma voor Beginners - UI/UX Design Basics</h3>
+            <div class="course-instructor">
+              <div class="instructor-avatar">JB</div>
+              <span>Julia Brouwer</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <i data-lucide="star"></i>
+                <span>4.8</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="users"></i>
+                <span>10.892</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="clock"></i>
+                <span>14u</span>
+              </div>
+            </div>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">€ 99</div>
+            <div class="course-level">Beginner</div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="development" data-price="159" data-level="intermediate" data-duration="28" data-rating="4.9">
+          <div class="course-image">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 180'%3E%3Crect fill='%23E8ECF1' width='400' height='180'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E🐍%3C/text%3E%3C/svg%3E" alt="Django">
+            <div class="course-badge new">Nieuw</div>
+          </div>
+          <div class="course-content">
+            <div class="course-category">Development</div>
+            <h3 class="course-title">Django Web Development - Full Stack Course</h3>
+            <div class="course-instructor">
+              <div class="instructor-avatar">PV</div>
+              <span>Peter Visser</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <i data-lucide="star"></i>
+                <span>4.9</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="users"></i>
+                <span>6.234</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="clock"></i>
+                <span>28u</span>
+              </div>
+            </div>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">€ 159</div>
+            <div class="course-level">Gemiddeld</div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="marketing" data-price="89" data-level="beginner" data-duration="10" data-rating="4.5">
+          <div class="course-image">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 180'%3E%3Crect fill='%23E8ECF1' width='400' height='180'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E📱%3C/text%3E%3C/svg%3E" alt="Social Media">
+          </div>
+          <div class="course-content">
+            <div class="course-category">Marketing</div>
+            <h3 class="course-title">Social Media Marketing - Instagram & TikTok Strategy</h3>
+            <div class="course-instructor">
+              <div class="instructor-avatar">AW</div>
+              <span>Anne de Wit</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <i data-lucide="star"></i>
+                <span>4.5</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="users"></i>
+                <span>14.678</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="clock"></i>
+                <span>10u</span>
+              </div>
+            </div>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">€ 89</div>
+            <div class="course-level">Beginner</div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="data" data-price="189" data-level="advanced" data-duration="36" data-rating="4.9">
+          <div class="course-image">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 180'%3E%3Crect fill='%23E8ECF1' width='400' height='180'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E🤖%3C/text%3E%3C/svg%3E" alt="Machine Learning">
+            <div class="course-badge bestseller">Bestseller</div>
+          </div>
+          <div class="course-content">
+            <div class="course-category">Data Science</div>
+            <h3 class="course-title">Machine Learning A-Z - Python & TensorFlow</h3>
+            <div class="course-instructor">
+              <div class="instructor-avatar">DK</div>
+              <span>David Kramer</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <i data-lucide="star"></i>
+                <span>4.9</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="users"></i>
+                <span>18.923</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="clock"></i>
+                <span>36u</span>
+              </div>
+            </div>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">€ 189</div>
+            <div class="course-level">Gevorderd</div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="business" data-price="109" data-level="beginner" data-duration="15" data-rating="4.6">
+          <div class="course-image">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 180'%3E%3Crect fill='%23E8ECF1' width='400' height='180'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' fill='%2394A3B8'%3E💬%3C/text%3E%3C/svg%3E" alt="Leadership">
+          </div>
+          <div class="course-content">
+            <div class="course-category">Business</div>
+            <h3 class="course-title">Leadership Skills - Effectief Leiderschap 2026</h3>
+            <div class="course-instructor">
+              <div class="instructor-avatar">SL</div>
+              <span>Sarah Linden</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <i data-lucide="star"></i>
+                <span>4.6</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="users"></i>
+                <span>9.456</span>
+              </div>
+              <div class="course-meta-item">
+                <i data-lucide="clock"></i>
+                <span>15u</span>
+              </div>
+            </div>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">€ 109</div>
+            <div class="course-level">Beginner</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    let activeCategory = 'all';
+    const courseCards = document.querySelectorAll('.course-card');
+    const resultsCount = document.getElementById('resultsCount');
+
+    // Category filtering
+    function filterByCategory(category) {
+      activeCategory = category;
+
+      // Update active tab
+      document.querySelectorAll('.category-tab').forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.dataset.category === category) {
+          tab.classList.add('active');
+        }
+      });
+
+      applyFilters();
+    }
+
+    // Apply all filters
+    function applyFilters() {
+      let visibleCount = 0;
+
+      courseCards.forEach(card => {
+        const category = card.dataset.category;
+        const price = parseInt(card.dataset.price);
+        const level = card.dataset.level;
+        const duration = parseInt(card.dataset.duration);
+        const rating = parseFloat(card.dataset.rating);
+
+        // Category filter
+        const categoryMatch = activeCategory === 'all' || category === activeCategory;
+
+        // Price filters
+        const priceMin = document.getElementById('priceMin').value;
+        const priceMax = document.getElementById('priceMax').value;
+        let priceMatch = (!priceMin || price >= priceMin) && (!priceMax || price <= priceMax);
+
+        const priceCheckboxes = document.querySelectorAll('[data-filter="price"]:checked');
+        if (priceCheckboxes.length > 0 && !priceMin && !priceMax) {
+          priceMatch = Array.from(priceCheckboxes).some(cb => {
+            const val = cb.dataset.value;
+            if (val === 'free' && price === 0) return true;
+            if (val === '0-50' && price > 0 && price <= 50) return true;
+            if (val === '50-100' && price > 50 && price <= 100) return true;
+            if (val === '100-200' && price > 100 && price <= 200) return true;
+            if (val === '200-plus' && price > 200) return true;
+            return false;
+          });
+        }
+
+        // Level filters
+        const levelCheckboxes = document.querySelectorAll('[data-filter="level"]:checked');
+        const levelMatch = levelCheckboxes.length === 0 || Array.from(levelCheckboxes).some(cb => cb.dataset.value === level);
+
+        // Duration filters
+        const durationCheckboxes = document.querySelectorAll('[data-filter="duration"]:checked');
+        let durationMatch = durationCheckboxes.length === 0;
+        if (durationCheckboxes.length > 0) {
+          durationMatch = Array.from(durationCheckboxes).some(cb => {
+            const val = cb.dataset.value;
+            if (val === 'short' && duration <= 5) return true;
+            if (val === 'medium' && duration > 5 && duration <= 20) return true;
+            if (val === 'long' && duration > 20) return true;
+            return false;
+          });
+        }
+
+        // Rating filters
+        const ratingCheckboxes = document.querySelectorAll('[data-filter="rating"]:checked');
+        let ratingMatch = ratingCheckboxes.length === 0;
+        if (ratingCheckboxes.length > 0) {
+          ratingMatch = Array.from(ratingCheckboxes).some(cb => {
+            const val = parseFloat(cb.dataset.value);
+            return rating >= val;
+          });
+        }
+
+        // Show/hide card
+        if (categoryMatch && priceMatch && levelMatch && durationMatch && ratingMatch) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Update results count
+      resultsCount.innerHTML = `<strong>${visibleCount}</strong> ${visibleCount === 1 ? 'cursus' : 'cursussen'} gevonden`;
+    }
+
+    // Reset all filters
+    function resetAllFilters() {
+      // Reset category
+      filterByCategory('all');
+
+      // Reset checkboxes
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+
+      // Reset price inputs
+      document.getElementById('priceMin').value = '';
+      document.getElementById('priceMax').value = '';
+
+      applyFilters();
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      applyFilters();
+      lucide.createIcons();
+    });
+  </script>
+
+</body>
+</html>

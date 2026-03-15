@@ -24,15 +24,15 @@ export function ApprovalRequestCard({ request }: ApprovalRequestCardProps) {
       <div className="flex items-start justify-between mb-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-sm font-bold text-gray-900">#{request.orderReference}</span>
+            <span className="text-sm font-bold text-navy">#{request.orderReference}</span>
             <ApprovalStatusBadge status={request.status} />
           </div>
-          <span className="text-xs text-gray-400">{dateStr}</span>
+          <span className="text-xs text-grey-mid">{dateStr}</span>
         </div>
-        <ChevronRight className="w-5 h-5 text-gray-300 flex-shrink-0" />
+        <ChevronRight className="w-5 h-5 text-grey-mid flex-shrink-0" />
       </div>
 
-      <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500">
+      <div className="flex flex-wrap items-center gap-4 text-xs text-grey-mid">
         <span className="flex items-center gap-1.5">
           <User className="w-3.5 h-3.5" />
           {request.requestedBy.name}
@@ -48,7 +48,7 @@ export function ApprovalRequestCard({ request }: ApprovalRequestCardProps) {
       </div>
 
       {request.reason && (
-        <div className="mt-2 text-xs text-gray-400">
+        <div className="mt-2 text-xs text-grey-mid">
           {REASON_LABELS[request.reason]}
         </div>
       )}

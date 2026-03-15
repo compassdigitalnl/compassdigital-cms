@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="nl-NL">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gratis Waardebepaling - Makelaardij Compass</title>
+  <meta name="description" content="Ontdek direct wat uw woning waard is. Ontvang binnen 24 uur een gratis en vrijblijvende waardebepaling van uw huis of appartement door onze gecertificeerde makelaars.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ========== Design Tokens - Makelaar/Vastgoed Vertical ========== */
+    :root {
+      /* Primary Colors */
+      --indigo: #3F51B5;
+      --indigo-light: #5C6BC0;
+      --indigo-dark: #303F9F;
+      --trust: #1a1f3d;
+      --trust-light: #2d3352;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --navy: #0A1628;
+      --navy-light: #121F33;
+
+      /* Status */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+    }
+
+    /* ========== Base Styles ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    /* ========== Header ========== */
+    .header {
+      background: white;
+      border-bottom: 1px solid var(--grey);
+      padding: 16px 0;
+    }
+
+    .header-container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--indigo);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .nav a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--grey-dark);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .nav a:hover {
+      color: var(--indigo);
+    }
+
+    /* ========== Breadcrumbs ========== */
+    .breadcrumbs {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 16px var(--gutter);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .breadcrumbs a {
+      color: var(--grey-mid);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--indigo);
+    }
+
+    .breadcrumbs span {
+      color: var(--grey-mid);
+    }
+
+    .breadcrumbs .current {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ========== Main Content ========== */
+    .main {
+      max-width: 680px;
+      margin: 48px auto;
+      padding: 0 var(--gutter);
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .page-title {
+      font-size: 36px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .page-subtitle {
+      font-size: 16px;
+      color: var(--grey-dark);
+      line-height: 1.5;
+    }
+
+    /* ========== Waardebepaling Form ========== */
+    .valuation-form {
+      background: linear-gradient(135deg, #1a1f3d, #2d3352);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative glow */
+    .valuation-form::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(63,81,181,0.15), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .form-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .form-description {
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .form-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 8px;
+    }
+
+    .form-label .required {
+      color: var(--coral);
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: rgba(255,255,255,0.5);
+      pointer-events: none;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px;
+      background: rgba(255,255,255,0.1);
+      border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: white;
+      transition: var(--transition);
+    }
+
+    .form-input.with-icon {
+      padding-left: 38px;
+    }
+
+    .form-input.with-suffix {
+      padding-right: 38px;
+    }
+
+    .form-input::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--indigo-light);
+      background: rgba(255,255,255,0.15);
+      box-shadow: 0 0 0 3px rgba(63,81,181,0.1);
+    }
+
+    .input-suffix {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      pointer-events: none;
+    }
+
+    select.form-input {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='rgba(255,255,255,0.5)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+
+    select.form-input option {
+      background: var(--trust);
+      color: white;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* ========== File Upload ========== */
+    .file-upload {
+      border: 2px dashed rgba(255,255,255,0.3);
+      border-radius: 10px;
+      padding: 28px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      background: transparent;
+    }
+
+    .file-upload:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    .file-upload.dragging {
+      background: rgba(63,81,181,0.1);
+      border-color: var(--indigo-light);
+    }
+
+    .upload-icon {
+      width: 32px;
+      height: 32px;
+      color: rgba(255,255,255,0.6);
+      margin: 0 auto 8px;
+    }
+
+    .upload-text {
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 4px;
+    }
+
+    .upload-hint {
+      font-size: 10px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .file-previews {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .file-preview {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .file-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .file-remove {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 20px;
+      height: 20px;
+      background: rgba(0,0,0,0.7);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .file-remove:hover {
+      background: var(--coral);
+    }
+
+    /* ========== Submit Button ========== */
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 16px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 8px;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(63,81,181,0.3);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(63,81,181,0.4);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ========== Trust Badges ========== */
+    .trust-badges {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .trust-badge-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* ========== Success Message ========== */
+    .success-message {
+      background: linear-gradient(135deg, #00695C, #00897B);
+      border-radius: 16px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      display: none;
+    }
+
+    .success-message.active {
+      display: block;
+    }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      color: white;
+      margin: 0 auto 20px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      padding: 12px;
+    }
+
+    .success-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .success-text {
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 24px;
+    }
+
+    .success-details {
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .success-detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-size: 13px;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .success-detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .success-detail-label {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .back-btn {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .back-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* ========== Info Section ========== */
+    .info-section {
+      margin-top: 48px;
+      padding: 32px;
+      background: white;
+      border-radius: 16px;
+      border: 1px solid var(--grey);
+    }
+
+    .info-title {
+      font-size: 20px;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .info-item {
+      display: flex;
+      gap: 12px;
+    }
+
+    .info-icon-wrapper {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background: var(--blue-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .info-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--blue);
+    }
+
+    .info-content h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .info-content p {
+      font-size: 12px;
+      color: var(--grey-dark);
+      line-height: 1.5;
+    }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 900px) {
+      .nav {
+        display: none;
+      }
+
+      .page-title {
+        font-size: 28px;
+      }
+
+      .valuation-form {
+        padding: 32px 24px;
+      }
+
+      .form-title {
+        font-size: 24px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .trust-badges {
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .main {
+        margin: 32px auto;
+      }
+
+      .page-title {
+        font-size: 24px;
+      }
+
+      .page-subtitle {
+        font-size: 14px;
+      }
+
+      .valuation-form {
+        padding: 24px 20px;
+      }
+
+      .form-title {
+        font-size: 22px;
+      }
+
+      .breadcrumbs {
+        font-size: 11px;
+        padding: 12px var(--gutter);
+      }
+
+      .info-section {
+        padding: 24px 20px;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .file-previews {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <a href="#" class="logo">
+        <i data-lucide="home"></i>
+        Compass Makelaardij
+      </a>
+      <nav class="nav">
+        <a href="#">Koopwoningen</a>
+        <a href="#">Huurwoningen</a>
+        <a href="#">Verkopen</a>
+        <a href="#">Verhuren</a>
+        <a href="#">Over ons</a>
+        <a href="#">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="#">Home</a>
+    <span>›</span>
+    <a href="#">Diensten</a>
+    <span>›</span>
+    <span class="current">Gratis Waardebepaling</span>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Gratis Waardebepaling</h1>
+      <p class="page-subtitle">
+        Wilt u weten wat uw woning waard is? Ontvang binnen 24 uur een gratis en vrijblijvende waardebepaling van onze gecertificeerde makelaars. Geen verrassingen, gewoon een eerlijk advies.
+      </p>
+    </div>
+
+    <!-- Valuation Form -->
+    <div id="formContainer" class="valuation-form">
+      <div class="form-header">
+        <h2 class="form-title">Wat is uw woning waard?</h2>
+        <p class="form-description">Ontvang binnen 24 uur een gratis waardebepaling</p>
+      </div>
+
+      <form id="valuationForm" class="form-content">
+        <!-- Address -->
+        <div class="form-group">
+          <label class="form-label">
+            Adres <span class="required">*</span>
+          </label>
+          <div class="input-wrapper">
+            <i data-lucide="map-pin" class="input-icon"></i>
+            <input
+              type="text"
+              id="addressInput"
+              class="form-input with-icon"
+              placeholder="Bijv. Wilhelminastraat 42, Amsterdam"
+              required
+            />
+          </div>
+          <div id="autocompleteResults" style="margin-top: 4px;"></div>
+        </div>
+
+        <!-- Property Type & Area -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">
+              Woningtype <span class="required">*</span>
+            </label>
+            <select id="propertyType" class="form-input" required>
+              <option value="">Selecteer type</option>
+              <option value="appartement">Appartement</option>
+              <option value="woonhuis">Woonhuis</option>
+              <option value="villa">Villa</option>
+              <option value="penthouse">Penthouse</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Oppervlakte</label>
+            <div class="input-wrapper">
+              <input
+                type="number"
+                id="area"
+                class="form-input with-suffix"
+                placeholder="90"
+                min="10"
+                max="9999"
+              />
+              <span class="input-suffix">m²</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Name & Email -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">
+              Naam <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="name"
+              class="form-input"
+              placeholder="Uw volledige naam"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">
+              E-mail <span class="required">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              class="form-input"
+              placeholder="uw@email.nl"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Phone (optional) -->
+        <div class="form-group">
+          <label class="form-label">Telefoonnummer (optioneel)</label>
+          <div class="input-wrapper">
+            <i data-lucide="phone" class="input-icon"></i>
+            <input
+              type="tel"
+              id="phone"
+              class="form-input with-icon"
+              placeholder="06 12 34 56 78"
+            />
+          </div>
+        </div>
+
+        <!-- File Upload -->
+        <div class="form-group">
+          <label class="form-label">Foto's uploaden (optioneel)</label>
+          <div
+            id="fileUploadZone"
+            class="file-upload"
+            tabindex="0"
+          >
+            <i data-lucide="upload" class="upload-icon"></i>
+            <div class="upload-text">Sleep foto's hierheen of klik om te uploaden</div>
+            <div class="upload-hint">Max 10 foto's, 5MB per foto</div>
+            <input
+              type="file"
+              id="fileInput"
+              class="file-input"
+              multiple
+              accept="image/*"
+            />
+          </div>
+          <div id="filePreviews" class="file-previews"></div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <i data-lucide="send" class="btn-icon"></i>
+          Gratis waardebepaling aanvragen
+        </button>
+
+        <!-- Trust Badges -->
+        <div class="trust-badges">
+          <div class="trust-badge">
+            <i data-lucide="shield-check" class="trust-badge-icon"></i>
+            100% gratis
+          </div>
+          <div class="trust-badge">
+            <i data-lucide="clock" class="trust-badge-icon"></i>
+            24u reactie
+          </div>
+          <div class="trust-badge">
+            <i data-lucide="lock" class="trust-badge-icon"></i>
+            Privacy gegarandeerd
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Success Message (hidden by default) -->
+    <div id="successMessage" class="success-message">
+      <i data-lucide="check-circle" class="success-icon"></i>
+      <h3 class="success-title">Aanvraag succesvol verzonden!</h3>
+      <p class="success-text">
+        Bedankt voor uw aanvraag. We hebben uw gegevens ontvangen en een van onze makelaars neemt binnen 24 uur contact met u op.
+      </p>
+      <div class="success-details" id="successDetails"></div>
+      <button class="back-btn" onclick="resetForm()">Nieuwe aanvraag</button>
+    </div>
+
+    <!-- Info Section -->
+    <div class="info-section">
+      <h3 class="info-title">Hoe werkt het?</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-icon-wrapper">
+            <i data-lucide="clipboard-list" class="info-icon"></i>
+          </div>
+          <div class="info-content">
+            <h4>1. Vul het formulier in</h4>
+            <p>Geef ons zo veel mogelijk details over uw woning. Foto's zijn optioneel maar helpen ons wel bij een nauwkeurige schatting.</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon-wrapper">
+            <i data-lucide="calculator" class="info-icon"></i>
+          </div>
+          <div class="info-content">
+            <h4>2. We analyseren uw woning</h4>
+            <p>Een van onze gecertificeerde makelaars bekijkt uw aanvraag en vergelijkt met recente verkopen in uw buurt.</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon-wrapper">
+            <i data-lucide="mail" class="info-icon"></i>
+          </div>
+          <div class="info-content">
+            <h4>3. Ontvang uw waardebepaling</h4>
+            <p>Binnen 24 uur ontvangt u een vrijblijvend advies over de waarde van uw woning, zonder verplichtingen.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // ========== File Upload Functionality ==========
+    const fileUploadZone = document.getElementById('fileUploadZone');
+    const fileInput = document.getElementById('fileInput');
+    const filePreviews = document.getElementById('filePreviews');
+    let uploadedFiles = [];
+    const MAX_FILES = 10;
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
+    // Click to upload
+    fileUploadZone.addEventListener('click', () => fileInput.click());
+    fileUploadZone.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        fileInput.click();
+      }
+    });
+
+    // Drag and drop
+    fileUploadZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      fileUploadZone.classList.add('dragging');
+    });
+
+    fileUploadZone.addEventListener('dragleave', () => {
+      fileUploadZone.classList.remove('dragging');
+    });
+
+    fileUploadZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      fileUploadZone.classList.remove('dragging');
+      handleFiles(e.dataTransfer.files);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      handleFiles(e.target.files);
+    });
+
+    function handleFiles(files) {
+      const newFiles = Array.from(files).filter(file => {
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+          alert(`${file.name} is geen afbeelding`);
+          return false;
+        }
+        // Validate file size
+        if (file.size > MAX_FILE_SIZE) {
+          alert(`${file.name} is te groot (max 5MB)`);
+          return false;
+        }
+        return true;
+      });
+
+      // Check max files
+      if (uploadedFiles.length + newFiles.length > MAX_FILES) {
+        alert(`U kunt maximaal ${MAX_FILES} foto's uploaden`);
+        return;
+      }
+
+      uploadedFiles = [...uploadedFiles, ...newFiles];
+      renderPreviews();
+    }
+
+    function renderPreviews() {
+      filePreviews.innerHTML = '';
+      uploadedFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const preview = document.createElement('div');
+          preview.className = 'file-preview';
+          preview.innerHTML = `
+            <img src="${e.target.result}" alt="Preview ${index + 1}" />
+            <button type="button" class="file-remove" onclick="removeFile(${index})" aria-label="Verwijder foto">
+              <i data-lucide="x" style="width: 12px; height: 12px;"></i>
+            </button>
+          `;
+          filePreviews.appendChild(preview);
+          lucide.createIcons();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function removeFile(index) {
+      uploadedFiles.splice(index, 1);
+      renderPreviews();
+    }
+
+    // ========== Form Submission ==========
+    const valuationForm = document.getElementById('valuationForm');
+    const formContainer = document.getElementById('formContainer');
+    const successMessage = document.getElementById('successMessage');
+    const successDetails = document.getElementById('successDetails');
+    const submitBtn = document.getElementById('submitBtn');
+
+    valuationForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Get form data
+      const formData = {
+        address: document.getElementById('addressInput').value,
+        propertyType: document.getElementById('propertyType').value,
+        area: document.getElementById('area').value,
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        photos: uploadedFiles.length,
+        timestamp: new Date().toISOString()
+      };
+
+      // Disable button
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i data-lucide="loader-2" class="btn-icon" style="animation: spin 1s linear infinite;"></i> Verzenden...';
+      lucide.createIcons();
+
+      // Simulate API call (in production, send to Payload CMS)
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Show success message
+      formContainer.style.display = 'none';
+      successMessage.classList.add('active');
+
+      // Populate success details
+      successDetails.innerHTML = `
+        <div class="success-detail-row">
+          <span class="success-detail-label">Adres:</span>
+          <span>${formData.address}</span>
+        </div>
+        <div class="success-detail-row">
+          <span class="success-detail-label">Type:</span>
+          <span>${formData.propertyType.charAt(0).toUpperCase() + formData.propertyType.slice(1)}</span>
+        </div>
+        ${formData.area ? `
+        <div class="success-detail-row">
+          <span class="success-detail-label">Oppervlakte:</span>
+          <span>${formData.area} m²</span>
+        </div>
+        ` : ''}
+        <div class="success-detail-row">
+          <span class="success-detail-label">E-mail:</span>
+          <span>${formData.email}</span>
+        </div>
+        ${formData.photos > 0 ? `
+        <div class="success-detail-row">
+          <span class="success-detail-label">Foto's:</span>
+          <span>${formData.photos} bestand${formData.photos !== 1 ? 'en' : ''}</span>
+        </div>
+        ` : ''}
+      `;
+
+      lucide.createIcons();
+
+      // In production: send to Payload CMS
+      /*
+      const response = await fetch('/api/valuation-requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          address: {
+            street: formData.address.split(',')[0],
+            city: formData.address.split(',')[1]?.trim()
+          },
+          propertyType: formData.propertyType,
+          area: formData.area ? parseInt(formData.area) : null,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          photos: uploadedFiles, // Upload files separately
+          status: 'pending'
+        })
+      });
+      */
+    });
+
+    function resetForm() {
+      valuationForm.reset();
+      uploadedFiles = [];
+      filePreviews.innerHTML = '';
+      formContainer.style.display = 'block';
+      successMessage.classList.remove('active');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i data-lucide="send" class="btn-icon"></i> Gratis waardebepaling aanvragen';
+      lucide.createIcons();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ========== Google Places Autocomplete (Optional Integration) ==========
+    /*
+    // To enable Google Places API autocomplete, add this script to <head>:
+    // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+
+    const addressInput = document.getElementById('addressInput');
+    const autocomplete = new google.maps.places.Autocomplete(addressInput, {
+      types: ['address'],
+      componentRestrictions: { country: 'nl' }
+    });
+
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace();
+      console.log('Selected place:', place);
+      // Extract address components and coordinates
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
+      // Store coordinates for Payload CMS
+    });
+    */
+
+    // Add spin animation for loading icon
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+
+  <!--
+  ========== PAYLOAD CMS INTEGRATION ==========
+
+  Collection: valuationRequests
+
+  Fields:
+  - address (group):
+    - street (text, required)
+    - houseNumber (text)
+    - postalCode (text)
+    - city (text, required)
+    - fullAddress (text) // concatenated for display
+
+  - coordinates (point):
+    - latitude (number)
+    - longitude (number)
+    // Populated from Google Places API
+
+  - propertyType (select, required):
+    - options: appartement | woonhuis | villa | penthouse
+
+  - area (number):
+    - suffix: "m²"
+    - min: 10
+    - max: 9999
+
+  - name (text, required)
+
+  - email (email, required)
+
+  - phone (text):
+    - format: phone
+
+  - photos (array of upload):
+    - max: 10
+    - mimeTypes: ['image/jpeg', 'image/png', 'image/webp']
+    - imageSizes: [
+      { name: 'thumbnail', width: 200, height: 200, crop: 'center' },
+      { name: 'preview', width: 800, height: 600, crop: 'center' }
+    ]
+
+  - status (select):
+    - options: pending | contacted | valuated | closed
+    - defaultValue: pending
+    - admin: { position: 'sidebar' }
+
+  - estimatedValue (number):
+    - prefix: "€"
+    - admin: { condition: (data) => data.status === 'valuated' }
+
+  - notes (richText):
+    - admin: { description: 'Internal notes for makkelaars' }
+
+  - assignedTo (relationship):
+    - relationTo: 'users'
+    - hasMany: false
+    - admin: { position: 'sidebar' }
+
+  - createdAt (date):
+    - admin: { readOnly: true }
+
+  - updatedAt (date):
+    - admin: { readOnly: true }
+
+  Hooks:
+  - afterChange: Send confirmation email to customer
+  - afterChange: Notify assigned makelaar
+  - beforeValidate: Geocode address using Google Places API
+
+  Access Control:
+  - read: public (own requests only)
+  - create: public
+  - update: authenticated users only
+  - delete: admin only
+  -->
+</body>
+</html>

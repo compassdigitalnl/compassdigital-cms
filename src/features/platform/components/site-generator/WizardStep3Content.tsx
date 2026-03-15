@@ -173,14 +173,14 @@ export function WizardStep3Content({ data, siteGoal, onChange }: Props) {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="space-y-3 pb-6 border-b-2 border-gray-100">
+      <div className="space-y-3 pb-6 border-b-2 border-grey-light">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-green to-teal-600 shadow-lg shadow-green/30">
             <span className="text-2xl">📝</span>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Pagina&apos;s & Taal</h2>
-            <p className="text-sm text-gray-500 font-medium">Stap 3</p>
+            <h2 className="text-2xl font-bold text-navy">Pagina&apos;s & Taal</h2>
+            <p className="text-sm text-grey-mid font-medium">Stap 3</p>
           </div>
         </div>
       </div>
@@ -205,7 +205,7 @@ export function WizardStep3Content({ data, siteGoal, onChange }: Props) {
             ))}
           </SelectContent>
         </Select>
-        <p className="text-xs text-gray-500">Alle content wordt in deze taal gegenereerd</p>
+        <p className="text-xs text-grey-mid">Alle content wordt in deze taal gegenereerd</p>
       </div>
 
       {/* Tone of Voice */}
@@ -221,11 +221,11 @@ export function WizardStep3Content({ data, siteGoal, onChange }: Props) {
               className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                 data.tone === tone.value
                   ? 'border-teal bg-teal-50'
-                  : 'border-gray-200 hover:border-gray-300'
+                  : 'border-grey-light hover:border-grey-light'
               }`}
             >
               <h3 className="font-semibold text-sm">{tone.label}</h3>
-              <p className="text-xs text-gray-600 mt-1">{tone.description}</p>
+              <p className="text-xs text-grey-dark mt-1">{tone.description}</p>
             </div>
           ))}
         </div>
@@ -246,7 +246,7 @@ export function WizardStep3Content({ data, siteGoal, onChange }: Props) {
                 className={`p-4 border-2 rounded-lg transition-all ${
                   isChecked
                     ? 'border-teal bg-teal-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    : 'border-grey-light hover:border-grey-light'
                 } ${page.required ? 'opacity-100' : 'cursor-pointer'}`}
                 onClick={() => togglePage(page.id)}
               >
@@ -264,14 +264,14 @@ export function WizardStep3Content({ data, siteGoal, onChange }: Props) {
                         <Badge variant="default" className="text-xs">Verplicht</Badge>
                       )}
                     </div>
-                    <p className="text-xs text-gray-600 mt-1">{page.description}</p>
+                    <p className="text-xs text-grey-dark mt-1">{page.description}</p>
                   </div>
                 </div>
               </div>
             )
           })}
         </div>
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-grey-mid">
           {siteGoal?.primaryType === 'webshop'
             ? 'Shop-pagina\'s (product listing, detail, cart, checkout) worden automatisch aangemaakt.'
             : 'Home is verplicht. Meer pagina\'s = langere generatietijd.'}

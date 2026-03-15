@@ -547,67 +547,67 @@ async function seed() {
       console.log(`  Updated main fields`)
     }
 
-    // Insert features
+    // Insert features (serial ID - omit id column)
     if (data.features?.length) {
       await client.query('DELETE FROM projects_features WHERE _parent_id = $1', [projectId])
       for (let i = 0; i < data.features.length; i++) {
         const f = data.features[i]
         await client.query(
-          'INSERT INTO projects_features (id, _order, _parent_id, title, description) VALUES ($1, $2, $3, $4, $5)',
-          [oid(), i + 1, projectId, f.title, f.description || null]
+          'INSERT INTO projects_features (_order, _parent_id, title, description) VALUES ($1, $2, $3, $4)',
+          [i + 1, projectId, f.title, f.description || null]
         )
       }
       console.log(`  Inserted ${data.features.length} features`)
     }
 
-    // Insert technologies
+    // Insert technologies (serial ID)
     if (data.technologies?.length) {
       await client.query('DELETE FROM projects_technologies WHERE _parent_id = $1', [projectId])
       for (let i = 0; i < data.technologies.length; i++) {
         const t = data.technologies[i]
         await client.query(
-          'INSERT INTO projects_technologies (id, _order, _parent_id, name, icon, category) VALUES ($1, $2, $3, $4, $5, $6)',
-          [oid(), i + 1, projectId, t.name, t.icon || null, t.category || null]
+          'INSERT INTO projects_technologies (_order, _parent_id, name, icon, category) VALUES ($1, $2, $3, $4, $5)',
+          [i + 1, projectId, t.name, t.icon || null, t.category || null]
         )
       }
       console.log(`  Inserted ${data.technologies.length} technologies`)
     }
 
-    // Insert metrics
+    // Insert metrics (serial ID)
     if (data.metrics?.length) {
       await client.query('DELETE FROM projects_metrics WHERE _parent_id = $1', [projectId])
       for (let i = 0; i < data.metrics.length; i++) {
         const m = data.metrics[i]
         await client.query(
-          'INSERT INTO projects_metrics (id, _order, _parent_id, value, label, icon, suffix) VALUES ($1, $2, $3, $4, $5, $6, $7)',
-          [oid(), i + 1, projectId, m.value, m.label, m.icon || null, m.suffix || null]
+          'INSERT INTO projects_metrics (_order, _parent_id, value, label, icon, suffix) VALUES ($1, $2, $3, $4, $5, $6)',
+          [i + 1, projectId, m.value, m.label, m.icon || null, m.suffix || null]
         )
       }
       console.log(`  Inserted ${data.metrics.length} metrics`)
     }
 
-    // Insert timeline
+    // Insert timeline (serial ID)
     if (data.timeline?.length) {
       await client.query('DELETE FROM projects_timeline WHERE _parent_id = $1', [projectId])
       for (let i = 0; i < data.timeline.length; i++) {
         const t = data.timeline[i]
         await client.query(
-          'INSERT INTO projects_timeline (id, _order, _parent_id, title, description, duration, icon) VALUES ($1, $2, $3, $4, $5, $6, $7)',
-          [oid(), i + 1, projectId, t.title, t.description || null, t.duration || null, t.icon || null]
+          'INSERT INTO projects_timeline (_order, _parent_id, title, description, duration, icon) VALUES ($1, $2, $3, $4, $5, $6)',
+          [i + 1, projectId, t.title, t.description || null, t.duration || null, t.icon || null]
         )
       }
       console.log(`  Inserted ${data.timeline.length} timeline phases`)
     }
 
-    // Insert processSteps (new table - only if exists)
+    // Insert processSteps (serial ID)
     if (data.processSteps?.length) {
       try {
         await client.query('DELETE FROM projects_process_steps WHERE _parent_id = $1', [projectId])
         for (let i = 0; i < data.processSteps.length; i++) {
           const s = data.processSteps[i]
           await client.query(
-            'INSERT INTO projects_process_steps (id, _order, _parent_id, title, description, icon) VALUES ($1, $2, $3, $4, $5, $6)',
-            [oid(), i + 1, projectId, s.title, s.description || null, s.icon || null]
+            'INSERT INTO projects_process_steps (_order, _parent_id, title, description, icon) VALUES ($1, $2, $3, $4, $5)',
+            [i + 1, projectId, s.title, s.description || null, s.icon || null]
           )
         }
         console.log(`  Inserted ${data.processSteps.length} process steps`)
@@ -616,15 +616,15 @@ async function seed() {
       }
     }
 
-    // Insert faq (new table - only if exists)
+    // Insert faq (serial ID)
     if (data.faq?.length) {
       try {
         await client.query('DELETE FROM projects_faq WHERE _parent_id = $1', [projectId])
         for (let i = 0; i < data.faq.length; i++) {
           const f = data.faq[i]
           await client.query(
-            'INSERT INTO projects_faq (id, _order, _parent_id, question, answer) VALUES ($1, $2, $3, $4, $5)',
-            [oid(), i + 1, projectId, f.question, f.answer]
+            'INSERT INTO projects_faq (_order, _parent_id, question, answer) VALUES ($1, $2, $3, $4)',
+            [i + 1, projectId, f.question, f.answer]
           )
         }
         console.log(`  Inserted ${data.faq.length} FAQ items`)

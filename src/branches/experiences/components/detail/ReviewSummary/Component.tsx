@@ -32,7 +32,7 @@ export const ReviewSummary: React.FC<ReviewSummaryProps> = ({
                 />
               ))}
             </div>
-            <span className="mt-1 text-sm text-gray-400">
+            <span className="mt-1 text-sm text-grey-mid">
               uit 10
             </span>
           </div>
@@ -47,7 +47,7 @@ export const ReviewSummary: React.FC<ReviewSummaryProps> = ({
                 >
                   {item.label}
                 </span>
-                <div className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-gray-100">
+                <div className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-grey-light">
                   <div
                     className="absolute left-0 top-0 h-full rounded-full transition-all duration-500"
                     style={{
@@ -99,11 +99,11 @@ export const ReviewSummary: React.FC<ReviewSummaryProps> = ({
                       {review.author}
                     </span>
                     {review.groupType && (
-                      <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-500">
+                      <span className="rounded-full bg-grey-light px-2 py-0.5 text-[11px] font-medium text-grey-mid">
                         {review.groupType}
                       </span>
                     )}
-                    <span className="text-[12px] text-gray-400">{review.date}</span>
+                    <span className="text-[12px] text-grey-mid">{review.date}</span>
                   </div>
 
                   {/* Stars */}
@@ -126,7 +126,7 @@ export const ReviewSummary: React.FC<ReviewSummaryProps> = ({
                   </div>
 
                   {/* Review text */}
-                  <p className="text-sm leading-relaxed text-gray-600">
+                  <p className="text-sm leading-relaxed text-grey-dark">
                     {review.content}
                   </p>
                 </div>

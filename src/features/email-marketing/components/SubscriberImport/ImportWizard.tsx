@@ -165,8 +165,8 @@ export function ImportWizard({
               >
                 {i + 1}
               </div>
-              <span className="text-xs font-medium text-gray-500 hidden sm:block">{label}</span>
-              {i < 3 && <div className="flex-1 h-px bg-gray-200" />}
+              <span className="text-xs font-medium text-grey-mid hidden sm:block">{label}</span>
+              {i < 3 && <div className="flex-1 h-px bg-grey-light" />}
             </div>
           )
         })}
@@ -182,15 +182,15 @@ export function ImportWizard({
       {step === 'upload' && (
         <div className="text-center">
           <div
-            className="border-2 border-dashed rounded-xl p-10 cursor-pointer hover:border-gray-400 transition-colors"
+            className="border-2 border-dashed rounded-xl p-10 cursor-pointer hover:border-grey-light transition-colors"
             style={{ borderColor: '#d1d5db' }}
             onClick={() => fileInputRef.current?.click()}
           >
-            <svg className="w-12 h-12 mx-auto mb-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <svg className="w-12 h-12 mx-auto mb-3 text-grey-mid" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
             </svg>
-            <p className="text-sm font-bold text-gray-700 mb-1">Sleep een CSV bestand hierheen</p>
-            <p className="text-xs text-gray-500">of klik om te selecteren</p>
+            <p className="text-sm font-bold text-grey-dark mb-1">Sleep een CSV bestand hierheen</p>
+            <p className="text-xs text-grey-mid">of klik om te selecteren</p>
           </div>
           <input
             ref={fileInputRef}
@@ -199,7 +199,7 @@ export function ImportWizard({
             onChange={handleFileUpload}
             className="hidden"
           />
-          <p className="text-xs text-gray-400 mt-3">
+          <p className="text-xs text-grey-mid mt-3">
             Verplichte kolom: email. Optioneel: name, status, tags
           </p>
         </div>
@@ -208,8 +208,8 @@ export function ImportWizard({
       {/* ── Mapping ── */}
       {step === 'mapping' && (
         <div>
-          <h3 className="text-sm font-bold text-gray-800 mb-3">Kolommen koppelen</h3>
-          <p className="text-xs text-gray-500 mb-4">
+          <h3 className="text-sm font-bold text-navy mb-3">Kolommen koppelen</h3>
+          <p className="text-xs text-grey-mid mb-4">
             {csvData.length} rijen gevonden. Koppel de kolommen aan de juiste velden.
           </p>
 
@@ -221,7 +221,7 @@ export function ImportWizard({
               { key: 'tags', label: 'Tags (;-gescheiden)', required: false },
             ].map(({ key, label, required }) => (
               <div key={key} className="flex items-center gap-3">
-                <label className="text-xs font-medium text-gray-600 w-40">{label}</label>
+                <label className="text-xs font-medium text-grey-dark w-40">{label}</label>
                 <select
                   value={mapping[key as keyof ColumnMapping] || ''}
                   onChange={(e) => setMapping((m) => ({ ...m, [key]: e.target.value }))}
@@ -245,7 +245,7 @@ export function ImportWizard({
               id="skipDuplicates"
               className="w-4 h-4"
             />
-            <label htmlFor="skipDuplicates" className="text-xs text-gray-600">
+            <label htmlFor="skipDuplicates" className="text-xs text-grey-dark">
               Bestaande e-mailadressen overslaan
             </label>
           </div>
@@ -253,7 +253,7 @@ export function ImportWizard({
           <div className="flex gap-2">
             <button
               onClick={() => setStep('upload')}
-              className="px-4 py-2 rounded-lg text-sm font-bold border border-gray-300 text-gray-600 hover:bg-gray-50"
+              className="px-4 py-2 rounded-lg text-sm font-bold border border-grey-light text-grey-dark hover:bg-grey-light"
             >
               Terug
             </button>
@@ -278,16 +278,16 @@ export function ImportWizard({
       {/* ── Preview ── */}
       {step === 'preview' && (
         <div>
-          <h3 className="text-sm font-bold text-gray-800 mb-3">Preview (eerste 5 rijen)</h3>
+          <h3 className="text-sm font-bold text-navy mb-3">Preview (eerste 5 rijen)</h3>
 
           <div className="overflow-x-auto rounded-lg border mb-4" style={{ borderColor: '#e5e7eb' }}>
             <table className="w-full text-xs">
               <thead>
-                <tr className="bg-gray-50">
-                  <th className="px-3 py-2 text-left font-bold text-gray-600">E-mail</th>
-                  <th className="px-3 py-2 text-left font-bold text-gray-600">Naam</th>
-                  <th className="px-3 py-2 text-left font-bold text-gray-600">Status</th>
-                  <th className="px-3 py-2 text-left font-bold text-gray-600">Tags</th>
+                <tr className="bg-grey-light">
+                  <th className="px-3 py-2 text-left font-bold text-grey-dark">E-mail</th>
+                  <th className="px-3 py-2 text-left font-bold text-grey-dark">Naam</th>
+                  <th className="px-3 py-2 text-left font-bold text-grey-dark">Status</th>
+                  <th className="px-3 py-2 text-left font-bold text-grey-dark">Tags</th>
                 </tr>
               </thead>
               <tbody>
@@ -299,10 +299,10 @@ export function ImportWizard({
 
                   return (
                     <tr key={i} className="border-t" style={{ borderColor: '#f3f4f6' }}>
-                      <td className="px-3 py-2 text-gray-700">{row[emailIdx] || '—'}</td>
-                      <td className="px-3 py-2 text-gray-700">{nameIdx >= 0 ? row[nameIdx] || '—' : '—'}</td>
-                      <td className="px-3 py-2 text-gray-700">{statusIdx >= 0 ? row[statusIdx] || 'enabled' : 'enabled'}</td>
-                      <td className="px-3 py-2 text-gray-700">{tagsIdx >= 0 ? row[tagsIdx] || '—' : '—'}</td>
+                      <td className="px-3 py-2 text-grey-dark">{row[emailIdx] || '—'}</td>
+                      <td className="px-3 py-2 text-grey-dark">{nameIdx >= 0 ? row[nameIdx] || '—' : '—'}</td>
+                      <td className="px-3 py-2 text-grey-dark">{statusIdx >= 0 ? row[statusIdx] || 'enabled' : 'enabled'}</td>
+                      <td className="px-3 py-2 text-grey-dark">{tagsIdx >= 0 ? row[tagsIdx] || '—' : '—'}</td>
                     </tr>
                   )
                 })}
@@ -310,7 +310,7 @@ export function ImportWizard({
             </table>
           </div>
 
-          <p className="text-xs text-gray-500 mb-4">
+          <p className="text-xs text-grey-mid mb-4">
             Totaal: <strong>{csvData.length}</strong> subscribers om te importeren.
             {skipDuplicates && ' Duplicaten worden overgeslagen.'}
           </p>
@@ -318,7 +318,7 @@ export function ImportWizard({
           <div className="flex gap-2">
             <button
               onClick={() => setStep('mapping')}
-              className="px-4 py-2 rounded-lg text-sm font-bold border border-gray-300 text-gray-600 hover:bg-gray-50"
+              className="px-4 py-2 rounded-lg text-sm font-bold border border-grey-light text-grey-dark hover:bg-grey-light"
             >
               Terug
             </button>
@@ -336,15 +336,15 @@ export function ImportWizard({
       {/* ── Importing ── */}
       {step === 'importing' && (
         <div className="text-center py-8">
-          <div className="w-12 h-12 border-3 border-gray-200 border-t-gray-800 rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-sm font-bold text-gray-700 mb-2">Bezig met importeren...</p>
-          <div className="w-full bg-gray-200 rounded-full h-2 max-w-xs mx-auto">
+          <div className="w-12 h-12 border-3 border-grey-light border-t-navy rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-sm font-bold text-grey-dark mb-2">Bezig met importeren...</p>
+          <div className="w-full bg-grey-light rounded-full h-2 max-w-xs mx-auto">
             <div
               className="h-2 rounded-full transition-all duration-300"
               style={{ width: `${progress}%`, background: '#0a1628' }}
             />
           </div>
-          <p className="text-xs text-gray-500 mt-2">{progress}%</p>
+          <p className="text-xs text-grey-mid mt-2">{progress}%</p>
         </div>
       )}
 
@@ -357,20 +357,20 @@ export function ImportWizard({
             </svg>
           </div>
 
-          <h3 className="text-lg font-bold text-gray-800 mb-2">Import voltooid!</h3>
+          <h3 className="text-lg font-bold text-navy mb-2">Import voltooid!</h3>
 
           <div className="flex justify-center gap-6 mb-4">
             <div className="text-center">
               <div className="text-2xl font-bold text-green">{result.created}</div>
-              <div className="text-xs text-gray-500">Aangemaakt</div>
+              <div className="text-xs text-grey-mid">Aangemaakt</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-amber-500">{result.skipped}</div>
-              <div className="text-xs text-gray-500">Overgeslagen</div>
+              <div className="text-xs text-grey-mid">Overgeslagen</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-coral">{result.errors.length}</div>
-              <div className="text-xs text-gray-500">Fouten</div>
+              <div className="text-xs text-grey-mid">Fouten</div>
             </div>
           </div>
 
@@ -381,12 +381,12 @@ export function ImportWizard({
               </summary>
               <div className="mt-2 space-y-1">
                 {result.errors.slice(0, 20).map((err, i) => (
-                  <div key={i} className="text-xs text-gray-600">
+                  <div key={i} className="text-xs text-grey-dark">
                     <span className="font-mono">{err.email}</span>: {err.error}
                   </div>
                 ))}
                 {result.errors.length > 20 && (
-                  <div className="text-xs text-gray-400">...en {result.errors.length - 20} meer</div>
+                  <div className="text-xs text-grey-mid">...en {result.errors.length - 20} meer</div>
                 )}
               </div>
             </details>
@@ -406,7 +406,7 @@ export function ImportWizard({
       {onCancel && !['importing', 'complete'].includes(step) && (
         <button
           onClick={onCancel}
-          className="mt-4 text-xs text-gray-400 hover:text-gray-600 hover:underline"
+          className="mt-4 text-xs text-grey-mid hover:text-grey-dark hover:underline"
         >
           Annuleren
         </button>

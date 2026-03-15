@@ -90,10 +90,10 @@ export default function FlipbookViewerPage() {
   // Show loading state covering the full viewport
   if (authLoading || dataLoading || !user) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy">
         <div className="text-center">
-          <Loader2 className="w-8 h-8 text-gray-400 animate-spin mx-auto mb-3" />
-          <p className="text-sm text-gray-400">Magazine laden...</p>
+          <Loader2 className="w-8 h-8 text-grey-mid animate-spin mx-auto mb-3" />
+          <p className="text-sm text-grey-mid">Magazine laden...</p>
         </div>
       </div>
     )
@@ -102,12 +102,12 @@ export default function FlipbookViewerPage() {
   // Show error state covering the full viewport
   if (error) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy">
         <div className="text-center">
           <p className="text-white text-lg mb-4">{error}</p>
           <a
             href={`/account/bibliotheek/${magazineSlug}`}
-            className="text-sm text-gray-400 hover:text-white transition-colors underline"
+            className="text-sm text-grey-mid hover:text-white transition-colors underline"
           >
             Terug naar edities
           </a>
@@ -118,7 +118,7 @@ export default function FlipbookViewerPage() {
 
   if (!edition) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy">
         <p className="text-white">Editie niet gevonden</p>
       </div>
     )

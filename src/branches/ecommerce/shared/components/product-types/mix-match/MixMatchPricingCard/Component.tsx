@@ -29,10 +29,10 @@ export const MixMatchPricingCard: React.FC<MixMatchPricingCardProps> = ({
 
   return (
     <div
-      className={`box-card bg-white border-[1.5px] border-gray-200 rounded-[20px] overflow-hidden shadow-[0_8px_24px_rgba(10,22,40,0.08)] max-w-[360px] ${className}`}
+      className={`box-card bg-white border-[1.5px] border-grey-light rounded-[20px] overflow-hidden shadow-[0_8px_24px_rgba(10,22,40,0.08)] max-w-[360px] ${className}`}
     >
       {/* Visual Header with Slots */}
-      <div className="box-visual bg-gradient-to-br from-gray-900 to-gray-800 p-5 text-center relative overflow-hidden">
+      <div className="box-visual bg-gradient-to-br from-navy to-navy p-5 text-center relative overflow-hidden">
         {/* Decorative glow */}
         <div
           className="absolute -top-8 -right-8 w-30 h-30 rounded-full pointer-events-none"
@@ -79,10 +79,10 @@ export const MixMatchPricingCard: React.FC<MixMatchPricingCardProps> = ({
         />
 
         {/* Pricing Breakdown */}
-        <div className="box-pricing border-t border-gray-100 pt-3 space-y-2">
+        <div className="box-pricing border-t border-grey-light pt-3 space-y-2">
           {/* Individual total (if shown) */}
           {individualTotal !== undefined && (
-            <div className="flex justify-between text-xs text-gray-500">
+            <div className="flex justify-between text-xs text-grey-mid">
               <span>Losse prijs</span>
               <span className="font-mono line-through">€{formatPriceStr(individualTotal)}</span>
             </div>
@@ -125,7 +125,7 @@ export const MixMatchPricingCard: React.FC<MixMatchPricingCardProps> = ({
 
         {/* Helper text */}
         {!isComplete && (
-          <p className="text-center text-xs text-gray-400 mt-2">
+          <p className="text-center text-xs text-grey-mid mt-2">
             Kies {totalSlots - filledSlots} van de {totalSlots} items om verder te gaan
           </p>
         )}

@@ -40,7 +40,7 @@ export const MixMatchCategoryFilter: React.FC<MixMatchCategoryFilterProps> = ({
             {showCounts && (
               <span
                 className={`cat-count text-[10px] font-extrabold px-1.5 py-px rounded-full ${
-                  isActive ? 'bg-white/25' : 'bg-gray-100'
+                  isActive ? 'bg-white/25' : 'bg-grey-light'
                 }`}
               >
                 {category.count}

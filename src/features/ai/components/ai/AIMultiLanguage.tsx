@@ -123,7 +123,7 @@ export const AIMultiLanguage: React.FC<AIMultiLanguageProps> = ({
                   className={`rounded-lg border p-3 cursor-pointer transition-colors ${
                     selectedLanguages.includes(lang.code)
                       ? 'border-teal bg-teal-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      : 'border-grey-light hover:border-grey-light'
                   }`}
                   onClick={() => toggleLanguage(lang.code)}
                 >
@@ -138,7 +138,7 @@ export const AIMultiLanguage: React.FC<AIMultiLanguageProps> = ({
                 </div>
               ))}
             </div>
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="text-sm text-grey-dark mt-2">
               {selectedLanguages.length} {selectedLanguages.length === 1 ? 'taal' : 'talen'} geselecteerd
             </p>
           </div>
@@ -170,7 +170,7 @@ export const AIMultiLanguage: React.FC<AIMultiLanguageProps> = ({
               </div>
 
               {/* Original */}
-              <div className="rounded-lg border border-gray-200 p-4 bg-gray-50">
+              <div className="rounded-lg border border-grey-light p-4 bg-grey-light">
                 <div className="flex items-center gap-2 mb-2">
                   <Badge variant="outline">Origineel</Badge>
                 </div>
@@ -222,10 +222,10 @@ export const AIMultiLanguage: React.FC<AIMultiLanguageProps> = ({
             <div className="flex items-center justify-center py-12">
               <div className="text-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal mx-auto mb-4"></div>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-grey-dark">
                   Vertalen naar {selectedLanguages.length} {selectedLanguages.length === 1 ? 'taal' : 'talen'}...
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-grey-mid mt-1">
                   Dit kan 5-15 seconden duren
                 </p>
               </div>

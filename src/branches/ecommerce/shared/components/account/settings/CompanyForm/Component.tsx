@@ -10,24 +10,24 @@ export function CompanyForm({ companyData, onUpdate, onSave, isSaving }: Company
           <Building2 className="w-5 h-5 lg:w-6 lg:h-6" style={{ color: 'var(--color-primary)' }} />
         </div>
         <div>
-          <h2 className="text-base lg:text-lg font-extrabold text-gray-900">Bedrijfsgegevens</h2>
-          <p className="text-xs lg:text-sm text-gray-500">Voor B2B-orders en facturatie</p>
+          <h2 className="text-base lg:text-lg font-extrabold text-navy">Bedrijfsgegevens</h2>
+          <p className="text-xs lg:text-sm text-grey-mid">Voor B2B-orders en facturatie</p>
         </div>
       </div>
 
       <div className="space-y-3 lg:space-y-4 mb-4 lg:mb-5">
         <div>
-          <label className="block text-sm font-semibold mb-2 text-gray-900">Bedrijfsnaam</label>
-          <input type="text" value={companyData.companyName} onChange={(e) => onUpdate({ companyName: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300" />
+          <label className="block text-sm font-semibold mb-2 text-navy">Bedrijfsnaam</label>
+          <input type="text" value={companyData.companyName} onChange={(e) => onUpdate({ companyName: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-grey-light focus:border-grey-light" />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-900">KVK-nummer</label>
-            <input type="text" value={companyData.kvk} onChange={(e) => onUpdate({ kvk: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300" />
+            <label className="block text-sm font-semibold mb-2 text-navy">KVK-nummer</label>
+            <input type="text" value={companyData.kvk} onChange={(e) => onUpdate({ kvk: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-grey-light focus:border-grey-light" />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-900">BTW-nummer</label>
-            <input type="text" value={companyData.vat} onChange={(e) => onUpdate({ vat: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300" />
+            <label className="block text-sm font-semibold mb-2 text-navy">BTW-nummer</label>
+            <input type="text" value={companyData.vat} onChange={(e) => onUpdate({ vat: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-grey-light focus:border-grey-light" />
           </div>
         </div>
       </div>

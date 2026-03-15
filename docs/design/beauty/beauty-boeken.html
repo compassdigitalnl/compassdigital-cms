@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Boeken — Studio Bloom</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--pink:#EC4899;--pink-light:#FCE7F3;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--navy);text-decoration:none;display:flex;align-items:center;gap:8px;}.logo-mark{width:36px;height:36px;background:var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-size:18px;}.logo em{color:var(--teal);font-style:normal;}.h-phone{display:flex;align-items:center;gap:5px;font-size:14px;font-weight:700;color:var(--navy);text-decoration:none;}.h-phone i{width:16px;height:16px;color:var(--teal);}
+
+  /* Progress */
+  .progress-bar{background:white;border-bottom:1px solid var(--grey);padding:14px 0;}
+  .steps{display:flex;align-items:center;justify-content:center;gap:4px;}
+  .prog-step{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;font-size:12px;font-weight:700;color:var(--grey-mid);transition:all .12s;}
+  .prog-step.active{background:var(--teal);color:white;}.prog-step.done{background:var(--green-light);color:var(--green);}
+  .prog-num{width:22px;height:22px;border-radius:50%;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;}.prog-step.active .prog-num{border-color:white;}.prog-step.done .prog-num{border-color:var(--green);}
+  .prog-sep{width:24px;height:2px;background:var(--grey);border-radius:2px;flex-shrink:0;}
+
+  /* Layout */
+  .book-layout{display:grid;grid-template-columns:1fr 340px;gap:24px;padding:24px 0 56px;align-items:start;}
+
+  .step-card{background:white;border:1.5px solid var(--grey);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);}
+  .sc-header{padding:18px 22px;border-bottom:1px solid var(--grey);}.sc-num{font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;}.sc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;}.sc-desc{font-size:12px;color:var(--grey-mid);}
+  .sc-body{padding:22px;}
+
+  /* Step 1: Treatment selection */
+  .treat-cats{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:12px;}
+  .tc{padding:6px 12px;border:1.5px solid var(--grey);border-radius:100px;font-size:11px;font-weight:700;color:var(--grey-mid);cursor:pointer;transition:all .12s;}.tc:hover{border-color:var(--teal);color:var(--teal);}.tc.active{background:var(--teal);color:white;border-color:var(--teal);}
+  .treat-list{display:flex;flex-direction:column;gap:4px;}
+  .tl{display:flex;align-items:center;gap:10px;padding:12px;border:1.5px solid var(--grey);border-radius:12px;cursor:pointer;transition:all .12s;}.tl:hover{border-color:var(--teal);}.tl.selected{border-color:var(--teal);background:var(--teal-glow);}
+  .tl-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--grey);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .12s;}.tl.selected .tl-radio{border-color:var(--teal);background:var(--teal);}.tl-dot{width:6px;height:6px;border-radius:50%;background:white;display:none;}.tl.selected .tl-dot{display:block;}
+  .tl-icon{font-size:18px;flex-shrink:0;}
+  .tl-info{flex:1;}.tl-name{font-size:13px;font-weight:800;}.tl-desc{font-size:10px;color:var(--grey-mid);}
+  .tl-meta{text-align:right;flex-shrink:0;}.tl-price{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--teal);}.tl-dur{font-size:10px;color:var(--grey-mid);}
+
+  /* Step 2: Stylist */
+  .stylists-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+  .stylist{padding:14px;border:1.5px solid var(--grey);border-radius:14px;text-align:center;cursor:pointer;transition:all .12s;}.stylist:hover{border-color:var(--teal);}.stylist.selected{border-color:var(--teal);background:var(--teal-glow);}
+  .st-img{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 6px;background:var(--grey-light);}
+  .st-name{font-size:13px;font-weight:800;}.st-role{font-size:10px;color:var(--teal);font-weight:600;}
+  .st-avail{font-size:10px;color:var(--grey-mid);margin-top:2px;display:flex;align-items:center;justify-content:center;gap:3px;}.st-dot{width:5px;height:5px;border-radius:50%;}.dot-g{background:var(--green);}.dot-a{background:var(--amber);}
+
+  /* Step 3: Date/Time */
+  .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .cal-month{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;}
+  .cal-btn{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--grey);background:white;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;}.cal-btn:hover{border-color:var(--teal);}.cal-btn i{width:14px;height:14px;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:14px;}
+  .cal-day-head{text-align:center;font-size:10px;font-weight:700;color:var(--grey-mid);padding:4px 0;}
+  .cal-day{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;cursor:pointer;transition:all .12s;border:1.5px solid transparent;}.cal-day:hover{border-color:var(--teal);}.cal-day.today{border-color:var(--teal);}.cal-day.selected{background:var(--teal);color:white;border-color:var(--teal);}.cal-day.disabled{color:var(--grey);cursor:default;}.cal-day.disabled:hover{border-color:transparent;}
+
+  .time-label{font-size:12px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:4px;}.time-label i{width:13px;height:13px;color:var(--teal);}
+  .time-slots{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:10px;}
+  .ts{padding:8px;border:1.5px solid var(--grey);border-radius:8px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;transition:all .12s;}.ts:hover{border-color:var(--teal);color:var(--teal);}.ts.selected{background:var(--teal);color:white;border-color:var(--teal);}.ts.unavail{color:var(--grey);text-decoration:line-through;cursor:default;}
+
+  /* Step 4: Details */
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .fg{margin-bottom:10px;}.fg-label{font-size:11px;font-weight:700;margin-bottom:3px;display:block;}.fg-req{color:var(--coral);font-size:10px;}
+  .fg-input{width:100%;height:44px;padding:0 12px;border:1.5px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--navy);outline:none;transition:all .12s;}.fg-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+  .fg-textarea{height:60px;padding:8px 12px;resize:none;}
+
+  /* Nav buttons */
+  .step-nav{display:flex;justify-content:space-between;margin-top:14px;}
+  .sn-btn{height:44px;padding:0 22px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .12s;border:none;}.sn-btn i{width:14px;height:14px;}
+  .sn-back{background:white;color:var(--grey-mid);border:1.5px solid var(--grey);}.sn-back:hover{border-color:var(--teal);color:var(--teal);}
+  .sn-next{background:var(--teal);color:white;}.sn-next:hover{background:var(--navy);}
+
+  /* Sidebar */
+  .sidebar{position:sticky;top:96px;}
+  .summary{background:white;border:1.5px solid var(--grey);border-radius:18px;padding:20px;box-shadow:var(--shadow-sm);margin-bottom:10px;}
+  .sum-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:5px;}.sum-title i{width:16px;height:16px;color:var(--teal);}
+  .sum-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--grey);font-size:13px;}.sum-row:last-child{border-bottom:none;}
+  .sr-label{color:var(--grey-mid);display:flex;align-items:center;gap:4px;}.sr-label i{width:12px;height:12px;color:var(--teal);}.sr-val{font-weight:700;}
+  .sum-total{display:flex;justify-content:space-between;padding:10px 0 0;margin-top:8px;border-top:2px solid var(--navy);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;}.st-price{color:var(--teal);}
+  .sum-btn{width:100%;height:46px;background:var(--teal);color:white;border:none;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;transition:all .12s;box-shadow:0 4px 16px rgba(0,137,123,.3);}.sum-btn:hover{background:var(--navy);}.sum-btn i{width:15px;height:15px;}
+
+  .trust-list{display:flex;flex-direction:column;gap:4px;margin-top:10px;}
+  .tl-trust{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--grey-mid);}.tl-trust i{width:12px;height:12px;color:var(--teal);}
+
+  .phone-card{background:var(--navy);border-radius:14px;padding:14px;display:flex;align-items:center;gap:10px;color:white;}.phc-icon{width:36px;height:36px;border-radius:10px;background:rgba(0,137,123,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;}.phc-icon i{width:16px;height:16px;color:var(--teal);}.phc-label{font-size:10px;color:rgba(255,255,255,.3);}.phc-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;}.phc-avail{font-size:10px;color:var(--teal);}
+
+  @media(max-width:900px){.book-layout{grid-template-columns:1fr;}.sidebar{position:static;}.stylists-grid{grid-template-columns:1fr;}.time-slots{grid-template-columns:repeat(3,1fr);}.form-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo"><div class="logo-mark">✿</div>Studio <em>Bloom</em></a><a class="h-phone" href="tel:0207890123"><i data-lucide="phone"></i> 020 - 789 01 23</a></div></header>
+
+<div class="progress-bar"><div class="container"><div class="steps">
+  <div class="prog-step done"><div class="prog-num">✓</div> Behandeling</div><div class="prog-sep" style="background:var(--green);"></div>
+  <div class="prog-step done"><div class="prog-num">✓</div> Stylist</div><div class="prog-sep" style="background:var(--green);"></div>
+  <div class="prog-step active"><div class="prog-num">3</div> Datum & tijd</div><div class="prog-sep"></div>
+  <div class="prog-step"><div class="prog-num">4</div> Gegevens</div>
+</div></div></div>
+
+<div class="container"><div class="book-layout">
+  <div>
+    <!-- Step 3: Date/Time shown as active example -->
+    <div class="step-card">
+      <div class="sc-header"><div class="sc-num">Stap 3 van 4</div><div class="sc-title">Kies datum & tijd</div><div class="sc-desc">Selecteer een beschikbaar moment</div></div>
+      <div class="sc-body">
+        <div class="cal-nav"><button class="cal-btn"><i data-lucide="chevron-left"></i></button><div class="cal-month">Februari 2026</div><button class="cal-btn"><i data-lucide="chevron-right"></i></button></div>
+        <div class="cal-grid">
+          <div class="cal-day-head">Ma</div><div class="cal-day-head">Di</div><div class="cal-day-head">Wo</div><div class="cal-day-head">Do</div><div class="cal-day-head">Vr</div><div class="cal-day-head">Za</div><div class="cal-day-head">Zo</div>
+          <div class="cal-day disabled"></div><div class="cal-day disabled"></div><div class="cal-day disabled"></div><div class="cal-day disabled"></div><div class="cal-day disabled"></div><div class="cal-day disabled"></div><div class="cal-day disabled">1</div>
+          <div class="cal-day disabled">2</div><div class="cal-day disabled">3</div><div class="cal-day disabled">4</div><div class="cal-day disabled">5</div><div class="cal-day disabled">6</div><div class="cal-day disabled">7</div><div class="cal-day disabled">8</div>
+          <div class="cal-day disabled">9</div><div class="cal-day disabled">10</div><div class="cal-day disabled">11</div><div class="cal-day disabled">12</div><div class="cal-day disabled">13</div><div class="cal-day disabled">14</div><div class="cal-day disabled">15</div>
+          <div class="cal-day disabled">16</div><div class="cal-day disabled">17</div><div class="cal-day disabled">18</div><div class="cal-day disabled">19</div><div class="cal-day disabled">20</div><div class="cal-day disabled">21</div><div class="cal-day today">22</div>
+          <div class="cal-day">23</div><div class="cal-day selected">24</div><div class="cal-day">25</div><div class="cal-day">26</div><div class="cal-day">27</div><div class="cal-day">28</div><div class="cal-day disabled"></div>
+        </div>
+
+        <div class="time-label"><i data-lucide="sun"></i> Ochtend</div>
+        <div class="time-slots">
+          <div class="ts">09:00</div><div class="ts">09:30</div><div class="ts">10:00</div><div class="ts unavail">10:30</div>
+          <div class="ts">11:00</div><div class="ts">11:30</div><div class="ts unavail">12:00</div><div class="ts">12:30</div>
+        </div>
+        <div class="time-label"><i data-lucide="sun-dim"></i> Middag</div>
+        <div class="time-slots">
+          <div class="ts">13:00</div><div class="ts selected">13:30</div><div class="ts">14:00</div><div class="ts">14:30</div>
+          <div class="ts unavail">15:00</div><div class="ts">15:30</div><div class="ts">16:00</div><div class="ts">16:30</div>
+        </div>
+        <div class="time-label"><i data-lucide="moon"></i> Avond</div>
+        <div class="time-slots">
+          <div class="ts">17:00</div><div class="ts">17:30</div><div class="ts">18:00</div><div class="ts">18:30</div>
+          <div class="ts">19:00</div><div class="ts">19:30</div><div class="ts unavail">20:00</div><div class="ts unavail">20:30</div>
+        </div>
+
+        <div class="step-nav">
+          <button class="sn-btn sn-back"><i data-lucide="arrow-left"></i> Vorige</button>
+          <button class="sn-btn sn-next">Volgende <i data-lucide="arrow-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="summary">
+      <div class="sum-title"><i data-lucide="clipboard-list"></i> Je boeking</div>
+      <div class="sum-row"><span class="sr-label"><i data-lucide="sparkles"></i> Behandeling</span><span class="sr-val">Balayage</span></div>
+      <div class="sum-row"><span class="sr-label"><i data-lucide="user"></i> Stylist</span><span class="sr-val">Sophie van Dam</span></div>
+      <div class="sum-row"><span class="sr-label"><i data-lucide="calendar"></i> Datum</span><span class="sr-val">Di 24 feb</span></div>
+      <div class="sum-row"><span class="sr-label"><i data-lucide="clock"></i> Tijd</span><span class="sr-val">13:30</span></div>
+      <div class="sum-row"><span class="sr-label"><i data-lucide="hourglass"></i> Duur</span><span class="sr-val">180 min</span></div>
+      <div class="sum-total"><span>Totaal</span><span class="st-price">€ 185</span></div>
+      <button class="sum-btn"><i data-lucide="check"></i> Bevestig boeking</button>
+      <div class="trust-list">
+        <div class="tl-trust"><i data-lucide="check-circle"></i> Gratis annuleren tot 24u voor afspraak</div>
+        <div class="tl-trust"><i data-lucide="check-circle"></i> Directe bevestiging per e-mail</div>
+        <div class="tl-trust"><i data-lucide="check-circle"></i> Betalen in de salon</div>
+        <div class="tl-trust"><i data-lucide="check-circle"></i> Geen vooruitbetaling</div>
+      </div>
+    </div>
+
+    <div class="phone-card"><div class="phc-icon"><i data-lucide="phone"></i></div><div><div class="phc-label">Liever bellen?</div><div class="phc-num">020 - 789 01 23</div><div class="phc-avail">Di-Za 09:00-21:00</div></div></div>
+  </aside>
+</div></div>
+<script>
+lucide.createIcons();
+document.querySelectorAll('.ts:not(.unavail)').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('.ts').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}));
+document.querySelectorAll('.cal-day:not(.disabled)').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('.cal-day').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}));
+</script>
+</body>
+</html>

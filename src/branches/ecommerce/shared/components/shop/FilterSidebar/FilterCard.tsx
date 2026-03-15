@@ -77,7 +77,7 @@ export const FilterCard: React.FC<FilterCardProps> = ({
       <button
         type="button"
         onClick={onToggle}
-        className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus:bg-gray-50"
+        className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-grey-light transition-colors duration-200 focus:outline-none focus:bg-grey-light"
         aria-expanded={isOpen}
         aria-controls={`filter-${filter.id}`}
       >

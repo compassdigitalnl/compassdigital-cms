@@ -164,24 +164,24 @@ export function WizardStep2Goal({ data, onChange }: Props) {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="space-y-3 pb-6 border-b-2 border-gray-100">
+      <div className="space-y-3 pb-6 border-b-2 border-grey-light">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-teal to-teal shadow-lg shadow-teal/30">
             <span className="text-2xl">🎯</span>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Wat wordt het?</h2>
-            <p className="text-sm text-gray-500 font-medium">Stap 2 — bepaalt de volledige CMS-inrichting</p>
+            <h2 className="text-2xl font-bold text-navy">Wat wordt het?</h2>
+            <p className="text-sm text-grey-mid font-medium">Stap 2 — bepaalt de volledige CMS-inrichting</p>
           </div>
         </div>
-        <p className="text-base text-gray-600 pl-15">
+        <p className="text-base text-grey-dark pl-15">
           Op basis van uw keuze bepalen we exact welke functies, pagina&apos;s en mogelijkheden beschikbaar worden — zonder overbodige ruis.
         </p>
       </div>
 
       {/* Primaire keuze */}
       <div className="space-y-3">
-        <Label className="text-base font-semibold text-gray-800">Kies het type</Label>
+        <Label className="text-base font-semibold text-navy">Kies het type</Label>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {primaryTypes.map((type) => {
             const isSelected = primaryType === type.value
@@ -192,8 +192,8 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                 onClick={() => selectPrimary(type.value)}
                 className={`relative p-5 rounded-xl border-2 text-left transition-all duration-200 ${
                   isSelected
-                    ? 'border-teal bg-teal-50 shadow-md shadow-indigo-100'
-                    : 'border-gray-200 hover:border-gray-300 bg-white'
+                    ? 'border-teal bg-teal-50 shadow-md shadow-teal-100'
+                    : 'border-grey-light hover:border-grey-light bg-white'
                 }`}
               >
                 {isSelected && (
@@ -202,10 +202,10 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                   </span>
                 )}
                 <span className="text-3xl mb-3 block">{type.icon}</span>
-                <h3 className={`font-bold text-base ${isSelected ? 'text-indigo-800' : 'text-gray-800'}`}>
+                <h3 className={`font-bold text-base ${isSelected ? 'text-teal-800' : 'text-navy'}`}>
                   {type.label}
                 </h3>
-                <p className={`text-xs mt-1 ${isSelected ? 'text-teal' : 'text-gray-500'}`}>
+                <p className={`text-xs mt-1 ${isSelected ? 'text-teal' : 'text-grey-mid'}`}>
                   {type.description}
                 </p>
               </button>
@@ -216,8 +216,8 @@ export function WizardStep2Goal({ data, onChange }: Props) {
 
       {/* Website sub-type */}
       {(primaryType === 'website' || primaryType === 'hybrid') && (
-        <div className="space-y-3 border-t border-gray-100 pt-6">
-          <Label className="text-base font-semibold text-gray-800">
+        <div className="space-y-3 border-t border-grey-light pt-6">
+          <Label className="text-base font-semibold text-navy">
             {primaryType === 'hybrid' ? 'Type website-gedeelte' : 'Type website'}
           </Label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -233,16 +233,16 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                   className={`p-4 rounded-lg border-2 text-left transition-all duration-200 ${
                     isSelected
                       ? 'border-teal bg-teal-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      : 'border-grey-light hover:border-grey-light'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <span className="text-xl">{sub.icon}</span>
                     <div>
-                      <h4 className={`font-semibold text-sm ${isSelected ? 'text-indigo-800' : 'text-gray-800'}`}>
+                      <h4 className={`font-semibold text-sm ${isSelected ? 'text-teal-800' : 'text-navy'}`}>
                         {sub.label}
                       </h4>
-                      <p className={`text-xs mt-0.5 ${isSelected ? 'text-teal' : 'text-gray-500'}`}>
+                      <p className={`text-xs mt-0.5 ${isSelected ? 'text-teal' : 'text-grey-mid'}`}>
                         {sub.description}
                       </p>
                     </div>
@@ -256,8 +256,8 @@ export function WizardStep2Goal({ data, onChange }: Props) {
 
       {/* Webshop model */}
       {isWebshop && (
-        <div className="space-y-3 border-t border-gray-100 pt-6">
-          <Label className="text-base font-semibold text-gray-800">Webshop model</Label>
+        <div className="space-y-3 border-t border-grey-light pt-6">
+          <Label className="text-base font-semibold text-navy">Webshop model</Label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {shopModels.map((model) => {
               const isSelected = data?.shopModel === model.value
@@ -269,16 +269,16 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                   className={`p-4 rounded-lg border-2 text-left transition-all duration-200 ${
                     isSelected
                       ? 'border-teal bg-teal-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      : 'border-grey-light hover:border-grey-light'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <span className="text-xl">{model.icon}</span>
                     <div>
-                      <h4 className={`font-semibold text-sm ${isSelected ? 'text-indigo-800' : 'text-gray-800'}`}>
+                      <h4 className={`font-semibold text-sm ${isSelected ? 'text-teal-800' : 'text-navy'}`}>
                         {model.label}
                       </h4>
-                      <p className={`text-xs mt-0.5 ${isSelected ? 'text-teal' : 'text-gray-500'}`}>
+                      <p className={`text-xs mt-0.5 ${isSelected ? 'text-teal' : 'text-grey-mid'}`}>
                         {model.description}
                       </p>
                     </div>
@@ -292,8 +292,8 @@ export function WizardStep2Goal({ data, onChange }: Props) {
 
       {/* Prijsmodel (als niet b2c-simple) */}
       {needsPricingModel && (
-        <div className="space-y-3 border-t border-gray-100 pt-6">
-          <Label className="text-base font-semibold text-gray-800">Prijsmodel</Label>
+        <div className="space-y-3 border-t border-grey-light pt-6">
+          <Label className="text-base font-semibold text-navy">Prijsmodel</Label>
           <div className="space-y-2">
             {pricingModels.map((pm) => {
               const isSelected = data?.pricingModel === pm.value
@@ -305,15 +305,15 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                   className={`w-full p-4 rounded-lg border-2 text-left transition-all duration-200 ${
                     isSelected
                       ? 'border-teal bg-teal-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      : 'border-grey-light hover:border-grey-light'
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className={`font-semibold text-sm ${isSelected ? 'text-indigo-800' : 'text-gray-800'}`}>
+                      <h4 className={`font-semibold text-sm ${isSelected ? 'text-teal-800' : 'text-navy'}`}>
                         {pm.label}
                       </h4>
-                      <p className={`text-xs mt-0.5 ${isSelected ? 'text-teal' : 'text-gray-500'}`}>
+                      <p className={`text-xs mt-0.5 ${isSelected ? 'text-teal' : 'text-grey-mid'}`}>
                         {pm.description}
                       </p>
                     </div>
@@ -330,9 +330,9 @@ export function WizardStep2Goal({ data, onChange }: Props) {
 
       {/* B2B extra opties */}
       {isB2B && (
-        <div className="space-y-4 border-t border-gray-100 pt-6">
-          <Label className="text-base font-semibold text-gray-800">B2B opties</Label>
-          <p className="text-xs text-gray-500">
+        <div className="space-y-4 border-t border-grey-light pt-6">
+          <Label className="text-base font-semibold text-navy">B2B opties</Label>
+          <p className="text-xs text-grey-mid">
             Selecteer de functies die relevant zijn voor uw zakelijke klanten
           </p>
           <div className="space-y-3">
@@ -364,7 +364,7 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                 className={`flex items-start gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   data?.[option.key]
                     ? 'border-teal bg-teal-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    : 'border-grey-light hover:border-grey-light'
                 }`}
               >
                 <Checkbox
@@ -373,10 +373,10 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                   className="mt-0.5"
                 />
                 <div>
-                  <h4 className={`font-semibold text-sm ${data?.[option.key] ? 'text-indigo-800' : 'text-gray-800'}`}>
+                  <h4 className={`font-semibold text-sm ${data?.[option.key] ? 'text-teal-800' : 'text-navy'}`}>
                     {option.label}
                   </h4>
-                  <p className={`text-xs mt-0.5 ${data?.[option.key] ? 'text-teal' : 'text-gray-500'}`}>
+                  <p className={`text-xs mt-0.5 ${data?.[option.key] ? 'text-teal' : 'text-grey-mid'}`}>
                     {option.description}
                   </p>
                 </div>
@@ -388,9 +388,9 @@ export function WizardStep2Goal({ data, onChange }: Props) {
 
       {/* Samenvatting */}
       {primaryType && (
-        <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
-          <p className="text-xs font-semibold text-gray-700 mb-1">CMS wordt ingericht voor:</p>
-          <p className="text-sm text-gray-600">
+        <div className="p-4 bg-grey-light border border-grey-light rounded-lg">
+          <p className="text-xs font-semibold text-grey-dark mb-1">CMS wordt ingericht voor:</p>
+          <p className="text-sm text-grey-dark">
             {primaryType === 'website' && data?.websiteSubType &&
               `Website — ${websiteSubTypes.find(s => s.value === data.websiteSubType)?.label}`}
             {primaryType === 'webshop' && data?.shopModel &&

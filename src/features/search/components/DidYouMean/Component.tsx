@@ -11,7 +11,7 @@ const DidYouMean: React.FC<DidYouMeanProps> = ({ query, suggestions, onSuggestio
   if (!suggestions || suggestions.length === 0) return null
 
   return (
-    <div className="text-sm text-gray-600 py-2">
+    <div className="text-sm text-grey-dark py-2">
       <span>Bedoelde je: </span>
       {suggestions.map((suggestion, index) => (
         <React.Fragment key={suggestion}>

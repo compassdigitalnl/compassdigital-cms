@@ -184,7 +184,7 @@ export function PersonalizedContainer({ product, className = '' }: PersonalizedC
   // Empty state
   if (options.length === 0) {
     return (
-      <div className={`p-6 text-center text-gray-500 ${className}`}>
+      <div className={`p-6 text-center text-grey-mid ${className}`}>
         <p className="text-sm">Geen personalisatie-opties beschikbaar voor dit product.</p>
       </div>
     )

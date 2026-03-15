@@ -44,7 +44,7 @@ export const CodeBlockComponent: React.FC<CodeBlockProps> = ({
               <div className="flex items-center gap-2 border-b border-white/10 bg-[#0D1D33] px-4 py-2.5">
                 <div className="flex gap-1.5">
                   <span className="h-3 w-3 rounded-full bg-coral/70" />
-                  <span className="h-3 w-3 rounded-full bg-yellow-500/70" />
+                  <span className="h-3 w-3 rounded-full bg-amber-500/70" />
                   <span className="h-3 w-3 rounded-full bg-green/70" />
                 </div>
                 <span className="ml-2 text-xs text-white/50 font-mono">{filename}</span>
@@ -70,7 +70,7 @@ export const CodeBlockComponent: React.FC<CodeBlockProps> = ({
                             {index + 1}
                           </span>
                         )}
-                        <span className="flex-1 text-gray-200">{line || '\u00A0'}</span>
+                        <span className="flex-1 text-grey-mid">{line || '\u00A0'}</span>
                       </div>
                     ))}
                   </code>

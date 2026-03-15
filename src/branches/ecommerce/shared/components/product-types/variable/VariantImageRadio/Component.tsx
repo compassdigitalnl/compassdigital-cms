@@ -43,12 +43,12 @@ export function VariantImageRadio({
     <div className={cn('space-y-3', className)}>
       {/* Option Label */}
       <div className="flex items-center justify-between">
-        <label className="text-sm font-medium text-gray-900">
+        <label className="text-sm font-medium text-navy">
           {option.optionName}
           {option.required && <span className="ml-1 text-coral">*</span>}
         </label>
         {selectedValue && (
-          <span className="text-sm text-gray-600">{selectedValue.label}</span>
+          <span className="text-sm text-grey-dark">{selectedValue.label}</span>
         )}
       </div>
 
@@ -81,7 +81,7 @@ export function VariantImageRadio({
                   sizeClasses[imageSize],
                   isSelected
                     ? 'border-teal ring-2 ring-teal ring-offset-2'
-                    : 'border-gray-300 hover:border-gray-400',
+                    : 'border-grey-light hover:border-grey-light',
                   isDisabled && 'cursor-not-allowed',
                   !isDisabled && !isSelected && 'hover:scale-105',
                 )}
@@ -95,7 +95,7 @@ export function VariantImageRadio({
                     sizes="(max-width: 768px) 100px, 150px"
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-gray-100 text-xs text-gray-400">
+                  <div className="flex h-full w-full items-center justify-center bg-grey-light text-xs text-grey-mid">
                     No Image
                   </div>
                 )}
@@ -117,8 +117,8 @@ export function VariantImageRadio({
 
                 {/* Out of Stock Overlay */}
                 {isDisabled && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-900/60">
-                    <span className="rounded bg-white px-2 py-1 text-xs font-bold text-gray-900">
+                  <div className="absolute inset-0 flex items-center justify-center bg-navy/60">
+                    <span className="rounded bg-white px-2 py-1 text-xs font-bold text-navy">
                       Out of Stock
                     </span>
                   </div>
@@ -126,7 +126,7 @@ export function VariantImageRadio({
 
                 {/* Low Stock Badge */}
                 {hasStock && isLowStock && !isSelected && (
-                  <div className="absolute right-1 top-1 rounded-full bg-orange-500 px-2 py-0.5 text-[10px] font-bold text-white">
+                  <div className="absolute right-1 top-1 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-bold text-white">
                     {value.stock} left
                   </div>
                 )}
@@ -137,8 +137,8 @@ export function VariantImageRadio({
                 <span
                   className={cn(
                     'text-xs font-medium',
-                    isSelected ? 'text-teal' : 'text-gray-700',
-                    isDisabled && 'text-gray-400',
+                    isSelected ? 'text-teal' : 'text-grey-dark',
+                    isDisabled && 'text-grey-mid',
                   )}
                 >
                   {value.label}
@@ -148,7 +148,7 @@ export function VariantImageRadio({
                 {value.priceModifier !== undefined &&
                   value.priceModifier !== null &&
                   value.priceModifier !== 0 && (
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-grey-mid">
                       {value.priceModifier > 0 ? '+' : ''}€{formatPriceStr(value.priceModifier)}
                     </span>
                   )}
@@ -160,7 +160,7 @@ export function VariantImageRadio({
 
       {/* Required Field Helper Text */}
       {option.required && !selectedValue && (
-        <p className="text-xs text-gray-500">Please select a {option.optionName.toLowerCase()}</p>
+        <p className="text-xs text-grey-mid">Please select a {option.optionName.toLowerCase()}</p>
       )}
     </div>
   )

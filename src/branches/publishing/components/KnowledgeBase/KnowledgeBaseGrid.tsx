@@ -51,14 +51,14 @@ export function KnowledgeBaseGrid({
         {[1, 2, 3, 4, 5, 6].map((i) => (
           <div
             key={i}
-            className="bg-gray-200 dark:bg-gray-800 rounded-xl overflow-hidden animate-pulse"
+            className="bg-grey-light dark:bg-navy rounded-xl overflow-hidden animate-pulse"
           >
-            <div className="aspect-[16/9] bg-gray-300 dark:bg-gray-700" />
+            <div className="aspect-[16/9] bg-grey-light dark:bg-navy" />
             <div className="p-6 space-y-3">
-              <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/3" />
-              <div className="h-6 bg-gray-300 dark:bg-gray-700 rounded w-full" />
-              <div className="h-6 bg-gray-300 dark:bg-gray-700 rounded w-5/6" />
-              <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/4" />
+              <div className="h-4 bg-grey-light dark:bg-navy rounded w-1/3" />
+              <div className="h-6 bg-grey-light dark:bg-navy rounded w-full" />
+              <div className="h-6 bg-grey-light dark:bg-navy rounded w-5/6" />
+              <div className="h-4 bg-grey-light dark:bg-navy rounded w-1/4" />
             </div>
           </div>
         ))}
@@ -70,13 +70,13 @@ export function KnowledgeBaseGrid({
   if (articles.length === 0) {
     return (
       <div className="text-center py-16">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
-          <BookOpen className="w-8 h-8 text-gray-400" />
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-grey-light dark:bg-navy mb-4">
+          <BookOpen className="w-8 h-8 text-grey-mid" />
         </div>
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+        <h3 className="text-xl font-semibold text-navy dark:text-white mb-2">
           {emptyMessage}
         </h3>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-grey-dark dark:text-grey-mid">
           Probeer een ander filter of zoekterm
         </p>
       </div>

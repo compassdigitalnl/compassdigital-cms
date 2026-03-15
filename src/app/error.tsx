@@ -39,12 +39,12 @@ export default function Error({
         </div>
 
         {/* Error Code */}
-        <h1 className="text-6xl font-bold text-gray-900 mb-4">Oeps!</h1>
+        <h1 className="text-6xl font-bold text-navy mb-4">Oeps!</h1>
 
         {/* Error Message */}
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Er is iets misgegaan</h2>
+        <h2 className="text-2xl font-semibold text-grey-dark mb-4">Er is iets misgegaan</h2>
 
-        <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto">
+        <p className="text-lg text-grey-dark mb-8 max-w-md mx-auto">
           We hebben een probleem ondervonden bij het laden van deze pagina. Dit kan een tijdelijk
           probleem zijn. Probeer het opnieuw of ga terug naar de homepage.
         </p>
@@ -99,8 +99,8 @@ export default function Error({
         </div>
 
         {/* Additional Help */}
-        <div className="mt-12 pt-8 border-t border-gray-200">
-          <p className="text-sm text-gray-500">
+        <div className="mt-12 pt-8 border-t border-grey-light">
+          <p className="text-sm text-grey-mid">
             Blijft het probleem zich voordoen?{' '}
             <Link href="/contact/" className="text-teal hover:text-teal-700 underline">
               Neem contact op

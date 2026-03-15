@@ -9,7 +9,7 @@ export interface SeedOptions {
   /**
    * Template type determines the base content structure
    */
-  template: 'ecommerce' | 'blog' | 'b2b' | 'portfolio' | 'corporate' | 'construction' | 'beauty' | 'horeca' | 'hospitality'
+  template: 'ecommerce' | 'blog' | 'b2b' | 'portfolio' | 'corporate' | 'construction' | 'beauty' | 'horeca' | 'hospitality' | 'zorg' | 'publishing' | 'automotive' | 'toerisme' | 'vastgoed' | 'onderwijs'
 
   /**
    * Enabled features for this tenant (from environment or database)
@@ -153,6 +153,60 @@ export async function seedTenant(
       const { seedHospitality } = await import('./templates/hospitality')
       const hospitalityResult = await seedHospitality(payload, options, status)
       Object.assign(result.seeded.collections, hospitalityResult.collections)
+    }
+
+    // Zorg
+    if (features.zorg) {
+      payload.logger.info('   → Zorg (treatments, practitioners)...')
+      const { seedZorg } = await import('./templates/zorg')
+      const zorgResult = await seedZorg(payload, options, status)
+      Object.assign(result.seeded.collections, zorgResult.collections)
+      result.seeded.globals.push(...zorgResult.globals)
+    }
+
+    // Automotive
+    if (features.automotive) {
+      payload.logger.info('   → Automotive (brands, vehicles, workshop services)...')
+      const { seedAutomotive } = await import('./templates/automotive')
+      const automotiveResult = await seedAutomotive(payload, options, status)
+      Object.assign(result.seeded.collections, automotiveResult.collections)
+      result.seeded.globals.push(...automotiveResult.globals)
+    }
+
+    // Toerisme
+    if (features.tourism) {
+      payload.logger.info('   → Toerisme (destinations, tours, accommodations)...')
+      const { seedToerisme } = await import('./templates/toerisme')
+      const toerismeResult = await seedToerisme(payload, options, status)
+      Object.assign(result.seeded.collections, toerismeResult.collections)
+      result.seeded.globals.push(...toerismeResult.globals)
+    }
+
+    // Vastgoed
+    if (features.real_estate) {
+      payload.logger.info('   → Vastgoed (properties, makelaars, reviews)...')
+      const { seedVastgoed } = await import('./templates/vastgoed')
+      const vastgoedResult = await seedVastgoed(payload, options, status)
+      Object.assign(result.seeded.collections, vastgoedResult.collections)
+      result.seeded.globals.push(...vastgoedResult.globals)
+    }
+
+    // Onderwijs
+    if (features.education) {
+      payload.logger.info('   → Onderwijs (categories, courses, docenten, reviews)...')
+      const { seedOnderwijs } = await import('./templates/onderwijs')
+      const onderwijsResult = await seedOnderwijs(payload, options, status)
+      Object.assign(result.seeded.collections, onderwijsResult.collections)
+      result.seeded.globals.push(...onderwijsResult.globals)
+    }
+
+    // Publishing (blog categories, blog articles, chatbot)
+    if (features.publishing || features.content) {
+      payload.logger.info('   → Publishing (blog categories, articles, chatbot)...')
+      const { seedPublishing } = await import('./templates/publishing')
+      const publishingResult = await seedPublishing(payload, options, status)
+      Object.assign(result.seeded.collections, publishingResult.collections)
+      result.seeded.globals.push(...publishingResult.globals)
     }
 
     // Content (blog, FAQs, testimonials, cases)

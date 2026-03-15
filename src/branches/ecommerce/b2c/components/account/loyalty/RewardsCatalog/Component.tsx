@@ -5,7 +5,7 @@ import type { RewardsCatalogProps } from './types'
 export function RewardsCatalog({ rewards, availablePoints, onRedeemReward }: RewardsCatalogProps) {
   return (
     <div className="mb-4">
-      <h3 className="text-base font-extrabold mb-3 flex items-center gap-2 text-gray-900">
+      <h3 className="text-base font-extrabold mb-3 flex items-center gap-2 text-navy">
         <Gift className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
         Beloningen inwisselen
       </h3>
@@ -17,7 +17,7 @@ export function RewardsCatalog({ rewards, availablePoints, onRedeemReward }: Rew
           return (
             <div
               key={reward.id}
-              className="bg-white border-[1.5px] border-gray-200 rounded-xl overflow-hidden transition-all duration-150 hover:-translate-y-0.5 hover:border-primary"
+              className="bg-white border-[1.5px] border-grey-light rounded-xl overflow-hidden transition-all duration-150 hover:-translate-y-0.5 hover:border-primary"
             >
               {/* Visual area */}
               <div
@@ -44,14 +44,14 @@ export function RewardsCatalog({ rewards, availablePoints, onRedeemReward }: Rew
 
               {/* Body */}
               <div className="p-3">
-                <div className="text-sm font-bold text-gray-900">{reward.name}</div>
+                <div className="text-sm font-bold text-navy">{reward.name}</div>
                 {reward.description && (
-                  <div className="text-xs text-gray-500 mt-0.5">{reward.description}</div>
+                  <div className="text-xs text-grey-mid mt-0.5">{reward.description}</div>
                 )}
                 {reward.value && (
-                  <div className="text-xs text-gray-400 mt-0.5">Waarde: €{reward.value}</div>
+                  <div className="text-xs text-grey-mid mt-0.5">Waarde: €{reward.value}</div>
                 )}
-                <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
+                <div className="flex items-center justify-between mt-3 pt-3 border-t border-grey-light">
                   <div
                     className="flex items-center gap-1 text-sm font-extrabold"
                     style={{ color: 'var(--color-primary)' }}

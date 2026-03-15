@@ -138,7 +138,7 @@ export const PersonalizationImageUpload: React.FC<PersonalizationImageUploadProp
     <div className={`personalization-image-upload ${className}`}>
       {/* Label */}
       <label className="block mb-2">
-        <span className="text-[15px] font-bold text-gray-900">
+        <span className="text-[15px] font-bold text-navy">
           {option.fieldName}
           {option.required && <span className="text-coral ml-1">*</span>}
         </span>
@@ -152,7 +152,7 @@ export const PersonalizationImageUpload: React.FC<PersonalizationImageUploadProp
         <div
           className={`
             relative border-2 border-dashed rounded-lg p-6 transition-all duration-200 cursor-pointer
-            ${isDragging ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]' : 'border-gray-300 bg-gray-50 hover:border-[var(--color-primary-light)] hover:bg-gray-100'}
+            ${isDragging ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]' : 'border-grey-light bg-grey-light hover:border-[var(--color-primary-light)] hover:bg-grey-light'}
           `}
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
@@ -162,14 +162,14 @@ export const PersonalizationImageUpload: React.FC<PersonalizationImageUploadProp
         >
           {/* Upload Icon */}
           <div className="flex flex-col items-center justify-center text-center">
-            <Upload className="w-12 h-12 text-gray-400 mb-3" strokeWidth={2} />
-            <p className="text-[15px] font-semibold text-gray-700 mb-1">
+            <Upload className="w-12 h-12 text-grey-mid mb-3" strokeWidth={2} />
+            <p className="text-[15px] font-semibold text-grey-dark mb-1">
               Sleep een afbeelding hierheen
             </p>
-            <p className="text-[13px] text-gray-500 mb-3">
+            <p className="text-[13px] text-grey-mid mb-3">
               of klik om een bestand te selecteren
             </p>
-            <div className="text-[11px] text-gray-400">
+            <div className="text-[11px] text-grey-mid">
               <p>Max bestandsgrootte: {formatFileSize(maxSize)}</p>
               <p>Toegestane formaten: JPG, PNG, WEBP</p>
             </div>
@@ -185,9 +185,9 @@ export const PersonalizationImageUpload: React.FC<PersonalizationImageUploadProp
           />
         </div>
       ) : (
-        <div className="relative border-2 border-gray-300 rounded-lg p-4 bg-white">
+        <div className="relative border-2 border-grey-light rounded-lg p-4 bg-white">
           {/* Preview Image */}
-          <div className="relative w-full h-48 mb-3 bg-gray-100 rounded-md overflow-hidden">
+          <div className="relative w-full h-48 mb-3 bg-grey-light rounded-md overflow-hidden">
             <Image
               src={previewUrl}
               alt="Preview"
@@ -199,8 +199,8 @@ export const PersonalizationImageUpload: React.FC<PersonalizationImageUploadProp
           {/* File Info */}
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[14px] font-semibold text-gray-900">{value.name}</p>
-              <p className="text-[12px] text-gray-500">{formatFileSize(value.size)}</p>
+              <p className="text-[14px] font-semibold text-navy">{value.name}</p>
+              <p className="text-[12px] text-grey-mid">{formatFileSize(value.size)}</p>
             </div>
 
             {/* Remove Button */}
@@ -236,7 +236,7 @@ export const PersonalizationImageUpload: React.FC<PersonalizationImageUploadProp
 
       {/* Helper Text */}
       {!option.required && (
-        <p className="text-[12px] text-gray-500 mt-2">Optioneel</p>
+        <p className="text-[12px] text-grey-mid mt-2">Optioneel</p>
       )}
     </div>
   )

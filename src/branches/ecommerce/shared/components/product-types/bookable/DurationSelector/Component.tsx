@@ -32,7 +32,7 @@ export const DurationSelector: React.FC<DurationSelectorProps> = ({
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <Timer className="w-5 h-5 text-[var(--color-primary)]" />
-        <h3 className="text-base font-extrabold text-gray-900">
+        <h3 className="text-base font-extrabold text-navy">
           Selecteer duur
         </h3>
       </div>
@@ -48,7 +48,7 @@ export const DurationSelector: React.FC<DurationSelectorProps> = ({
               onClick={() => onOptionSelect(option.id)}
               className={`
                 duration-option relative p-4 rounded-xl border-[1.5px] transition-all text-left
-                ${isSelected ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white shadow-md' : 'bg-white border-gray-200 hover:border-[var(--color-primary)] hover:shadow-sm'}
+                ${isSelected ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white shadow-md' : 'bg-white border-grey-light hover:border-[var(--color-primary)] hover:shadow-sm'}
               `}
             >
               {/* Popular badge */}
@@ -66,18 +66,18 @@ export const DurationSelector: React.FC<DurationSelectorProps> = ({
               )}
 
               {/* Duration */}
-              <div className={`text-xl font-extrabold mb-1 ${isSelected ? 'text-white' : 'text-gray-900'}`}>
+              <div className={`text-xl font-extrabold mb-1 ${isSelected ? 'text-white' : 'text-navy'}`}>
                 {formatDuration(option.duration)}
               </div>
 
               {/* Label */}
-              <div className={`text-sm font-semibold mb-2 ${isSelected ? 'text-white' : 'text-gray-700'}`}>
+              <div className={`text-sm font-semibold mb-2 ${isSelected ? 'text-white' : 'text-grey-dark'}`}>
                 {option.label}
               </div>
 
               {/* Description */}
               {option.description && (
-                <div className={`text-xs mb-3 ${isSelected ? 'text-white/80' : 'text-gray-500'}`}>
+                <div className={`text-xs mb-3 ${isSelected ? 'text-white/80' : 'text-grey-mid'}`}>
                   {option.description}
                 </div>
               )}

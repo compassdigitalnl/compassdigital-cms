@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function SearchPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-grey-light">
       <Suspense fallback={<SearchSkeleton />}>
         <SearchResults />
       </Suspense>
@@ -19,16 +19,16 @@ export default function SearchPage() {
 function SearchSkeleton() {
   return (
     <div className="container mx-auto px-6 py-8">
-      <div className="h-8 w-64 bg-gray-200 rounded animate-pulse mb-8" />
+      <div className="h-8 w-64 bg-grey-light rounded animate-pulse mb-8" />
       <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8">
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-32 bg-gray-200 rounded animate-pulse" />
+            <div key={i} className="h-32 bg-grey-light rounded animate-pulse" />
           ))}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="h-64 bg-gray-200 rounded animate-pulse" />
+            <div key={i} className="h-64 bg-grey-light rounded animate-pulse" />
           ))}
         </div>
       </div>

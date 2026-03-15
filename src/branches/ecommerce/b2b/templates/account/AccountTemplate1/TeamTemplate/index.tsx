@@ -40,8 +40,8 @@ export default function TeamTemplate({
     <div className="space-y-4 lg:space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">Teambeheer</h1>
-        <p className="text-sm lg:text-base text-gray-500">
+        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-navy">Teambeheer</h1>
+        <p className="text-sm lg:text-base text-grey-mid">
           Beheer teamleden en uitnodigingen voor {company.companyName}
         </p>
       </div>

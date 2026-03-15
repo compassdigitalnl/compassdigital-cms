@@ -114,11 +114,11 @@ export const BranchePricingBlockComponent: React.FC<BranchePricingBlockProps> = 
         {/* Section header */}
         <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
           {title && (
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-navy mb-4">
               {title}
             </h2>
           )}
-          {subtitle && <p className="text-lg text-gray-600">{subtitle}</p>}
+          {subtitle && <p className="text-lg text-grey-dark">{subtitle}</p>}
         </div>
 
         {/* Pricing cards grid */}
@@ -136,7 +136,7 @@ export const BranchePricingBlockComponent: React.FC<BranchePricingBlockProps> = 
                     ${
                       isFeatured
                         ? 'bg-white border-2 border-teal shadow-lg scale-105 z-10'
-                        : 'bg-white border border-gray-200 shadow-sm hover:shadow-lg'
+                        : 'bg-white border border-grey-light shadow-sm hover:shadow-lg'
                     }
                   `}
                 >
@@ -148,21 +148,21 @@ export const BranchePricingBlockComponent: React.FC<BranchePricingBlockProps> = 
                   )}
 
                   {/* Plan name */}
-                  <h3 className="text-lg font-semibold text-gray-900">{plan.name}</h3>
+                  <h3 className="text-lg font-semibold text-navy">{plan.name}</h3>
 
                   {/* Price + period */}
                   <div className="mt-4 flex items-baseline gap-1">
-                    <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
-                    {plan.period && <span className="text-lg text-gray-500">{plan.period}</span>}
+                    <span className="text-4xl font-bold text-navy">{plan.price}</span>
+                    {plan.period && <span className="text-lg text-grey-mid">{plan.period}</span>}
                   </div>
 
                   {/* Description */}
                   {plan.description && (
-                    <p className="text-gray-600 mt-2">{plan.description}</p>
+                    <p className="text-grey-dark mt-2">{plan.description}</p>
                   )}
 
                   {/* Divider */}
-                  <div className="border-t border-gray-200 my-6" />
+                  <div className="border-t border-grey-light my-6" />
 
                   {/* Features list */}
                   {features.length > 0 && (
@@ -178,7 +178,7 @@ export const BranchePricingBlockComponent: React.FC<BranchePricingBlockProps> = 
                             {isIncluded ? <CheckIcon /> : <XIcon />}
                             <span
                               className={`text-sm ${
-                                isIncluded ? 'text-gray-700' : 'text-gray-400 line-through'
+                                isIncluded ? 'text-grey-dark' : 'text-grey-mid line-through'
                               }`}
                             >
                               {feature.text}
@@ -207,15 +207,15 @@ export const BranchePricingBlockComponent: React.FC<BranchePricingBlockProps> = 
         {/* Competitor comparison */}
         {competitorComparison?.enabled && competitorComparison?.text && (
           <div className="text-center mt-10 md:mt-14">
-            <p className="text-gray-600 text-lg">
-              <span className="line-through text-gray-400">{competitorComparison.text}</span>
+            <p className="text-grey-dark text-lg">
+              <span className="line-through text-grey-mid">{competitorComparison.text}</span>
             </p>
           </div>
         )}
 
         {/* Bottom CTA text */}
         {ctaText && (
-          <p className="text-center text-gray-500 mt-8 text-sm">{ctaText}</p>
+          <p className="text-center text-grey-mid mt-8 text-sm">{ctaText}</p>
         )}
       </div>
     </AnimationWrapper>

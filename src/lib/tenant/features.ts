@@ -77,6 +77,7 @@ export interface ClientFeatures {
   // Marketplace sub-features
   vendorReviews?: boolean
   workshops?: boolean
+  vendorApplications?: boolean
 
   // === SPRINT 6 (top-level) ===
   subscriptions?: boolean
@@ -286,6 +287,7 @@ export const features = {
   vendors: isFeatureEnabled('vendors'),
   vendorReviews: isFeatureEnabled('vendor_reviews'),
   workshops: isFeatureEnabled('workshops'),
+  vendorApplications: isFeatureEnabled('vendors'), // Enabled when vendors enabled
 
   // === SPRINT 6 ===
   subscriptions: isFeatureEnabled('subscriptions'),
@@ -388,7 +390,7 @@ export const featureCategories = {
     'notifications',
   ],
   b2b: ['b2b', 'customerGroups', 'groupPricing', 'barcodeScanner', 'companyAccounts', 'approvalWorkflow', 'budgetLimits', 'creditLimit'],
-  marketplace: ['vendors', 'vendorReviews', 'workshops'],
+  marketplace: ['vendors', 'vendorReviews', 'workshops', 'vendorApplications'],
   sprint6: ['subscriptions', 'subscriptionManagement', 'subscriptionPages', 'giftVouchers', 'licenses', 'loyalty'],
   catalog: ['catalogBranches'],
   publishing: ['publishing', 'magazines'],
@@ -475,6 +477,7 @@ export function generateFeatureEnvVars(clientFeatures: ClientFeatures): Record<s
     vendors: 'ENABLE_VENDORS',
     vendorReviews: 'ENABLE_VENDOR_REVIEWS',
     workshops: 'ENABLE_WORKSHOPS',
+    vendorApplications: 'ENABLE_VENDORS',
 
     // === SPRINT 6 ===
     subscriptions: 'ENABLE_SUBSCRIPTIONS',
@@ -601,6 +604,7 @@ export function getCollectionFeatureMap(): Record<string, keyof ClientFeatures> 
     vendors: 'vendors',
     'vendor-reviews': 'vendorReviews',
     workshops: 'workshops',
+    'vendor-applications': 'vendors',
 
     // === SPRINT 6 ===
     'subscription-plans': 'subscriptionManagement',

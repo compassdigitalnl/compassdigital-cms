@@ -109,11 +109,11 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-navy flex items-center gap-2">
           <Package className="w-6 h-6 text-green" />
           Product Import
         </h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-sm text-grey-dark">
           Download een product template, vul je producten in, en upload deze voor AI-verificatie.
         </p>
       </div>
@@ -164,7 +164,7 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
                 className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                   isSelected
                     ? 'border-green bg-green-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    : 'border-grey-light hover:border-grey-light'
                 }`}
               >
                 <div className="flex items-start justify-between gap-4">
@@ -182,15 +182,15 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
                         </Badge>
                       )}
                     </div>
-                    <p className="text-xs text-gray-600 mb-2">{template.description}</p>
-                    <div className="flex items-center gap-4 text-xs text-gray-500">
+                    <p className="text-xs text-grey-dark mb-2">{template.description}</p>
+                    <div className="flex items-center gap-4 text-xs text-grey-mid">
                       <span>📊 {template.columnCount} kolommen</span>
                     </div>
                     <ul className="mt-2 space-y-1">
                       {template.features.map((feature, index) => (
                         <li
                           key={index}
-                          className="text-xs text-gray-600 flex items-start gap-1"
+                          className="text-xs text-grey-dark flex items-start gap-1"
                         >
                           <CheckCircle2 className="w-3 h-3 text-green flex-shrink-0 mt-0.5" />
                           {feature}
@@ -215,17 +215,17 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-3 gap-4">
-            <div className="p-3 bg-gray-50 rounded-lg text-center">
-              <div className="text-2xl font-bold text-gray-900">{columnCount}</div>
-              <div className="text-xs text-gray-600 mt-1">Totaal Kolommen</div>
+            <div className="p-3 bg-grey-light rounded-lg text-center">
+              <div className="text-2xl font-bold text-navy">{columnCount}</div>
+              <div className="text-xs text-grey-dark mt-1">Totaal Kolommen</div>
             </div>
             <div className="p-3 bg-teal-50 rounded-lg text-center">
               <div className="text-2xl font-bold text-blue-900">{requiredColumns}</div>
-              <div className="text-xs text-gray-600 mt-1">Verplichte Velden</div>
+              <div className="text-xs text-grey-dark mt-1">Verplichte Velden</div>
             </div>
             <div className="p-3 bg-green-50 rounded-lg text-center">
               <div className="text-2xl font-bold text-green-900">{categories.length}</div>
-              <div className="text-xs text-gray-600 mt-1">Categorieën</div>
+              <div className="text-xs text-grey-dark mt-1">Categorieën</div>
             </div>
           </div>
 
@@ -247,7 +247,7 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
             <div className="p-3 bg-teal-50 border border-teal-200 rounded-lg">
               <div className="flex items-start gap-2">
                 <Zap className="w-4 h-4 text-teal flex-shrink-0 mt-0.5" />
-                <div className="text-xs text-purple-800">
+                <div className="text-xs text-teal-800">
                   <strong>Custom Pricing Kolommen Toegevoegd!</strong>
                   <br />
                   Template bevat {ecommerceSettings.customRoles.length} extra pricing kolommen voor
@@ -276,9 +276,9 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
             Download {selectedTemplateInfo.name} (.CSV)
           </Button>
 
-          <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+          <div className="p-4 bg-grey-light border border-grey-light rounded-lg">
             <h4 className="font-semibold text-sm mb-2">📋 Instructies:</h4>
-            <ol className="text-xs text-gray-700 space-y-1 ml-4 list-decimal">
+            <ol className="text-xs text-grey-dark space-y-1 ml-4 list-decimal">
               <li>Download de template en open deze in Excel, Google Sheets, of Numbers</li>
               <li>Regel 1 bevat de kolomnamen (niet aanpassen!)</li>
               <li>Regel 2 bevat voorbeelddata (kan je verwijderen)</li>
@@ -302,22 +302,22 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-            <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-sm text-gray-600 mb-2">
+          <div className="border-2 border-dashed border-grey-light rounded-lg p-8 text-center">
+            <Upload className="w-12 h-12 text-grey-mid mx-auto mb-4" />
+            <p className="text-sm text-grey-dark mb-2">
               Sleep je CSV hier of klik om te uploaden
             </p>
-            <p className="text-xs text-gray-500 mb-4">
+            <p className="text-xs text-grey-mid mb-4">
               Max 10MB • Ondersteunt .CSV en .XLSX formaten
             </p>
             <Button variant="outline" disabled>
               <Upload className="w-4 h-4 mr-2" />
               Selecteer Bestand
             </Button>
-            <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
               <div className="flex items-start gap-2">
-                <AlertCircle className="w-4 h-4 text-yellow-600 flex-shrink-0 mt-0.5" />
-                <p className="text-xs text-yellow-800">
+                <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                <p className="text-xs text-amber-800">
                   <strong>Coming Soon!</strong> Upload functionaliteit wordt in de volgende versie
                   toegevoegd. Voor nu: download de template en bewaar je producten lokaal.
                 </p>
@@ -333,7 +333,7 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
           <div className="flex items-start gap-3">
             <Zap className="w-6 h-6 text-teal flex-shrink-0" />
             <div>
-              <h3 className="font-semibold text-purple-900">AI Verificatie & Enrichment</h3>
+              <h3 className="font-semibold text-teal-900">AI Verificatie & Enrichment</h3>
               <p className="text-sm text-teal-700 mt-1">
                 Wanneer je producten uploadt, voert AI automatisch de volgende controles uit:
               </p>

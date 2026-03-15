@@ -1,0 +1,1962 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abostore Hub — Dashboard Design</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #0A1628;
+    --navy-light: #121F33;
+    --teal: #00897B;
+    --teal-light: #26A69A;
+    --teal-dark: #00695C;
+    --green: #00C853;
+    --coral: #FF6B6B;
+    --amber: #F59E0B;
+    --blue: #2196F3;
+    --purple: #7C3AED;
+    --bg: #F5F7FA;
+    --white: #FFFFFF;
+    --grey: #E8ECF1;
+    --grey-mid: #94A3B8;
+    --grey-dark: #64748B;
+    --text: #1E293B;
+    --text-light: #475569;
+    --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+    --r-sm: 8px;
+    --r-md: 12px;
+    --r-lg: 16px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ═══ LAYOUT ═══ */
+  .app {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ═══ SIDEBAR ═══ */
+  .sidebar {
+    width: 260px;
+    background: var(--navy);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+  }
+
+  .sidebar-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .sidebar-logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-light));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .sidebar-logo-text {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  .sidebar-logo-sub {
+    font-size: 11px;
+    color: var(--grey-mid);
+    font-weight: 400;
+  }
+
+  .sidebar-section {
+    padding: 16px 12px 8px;
+  }
+
+  .sidebar-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--grey-mid);
+    padding: 0 12px 8px;
+  }
+
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: var(--r-sm);
+    color: #CBD5E1;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+
+  .sidebar-link:hover {
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+  }
+
+  .sidebar-link.active {
+    background: rgba(0,137,123,0.2);
+    color: var(--teal-light);
+  }
+
+  .sidebar-link svg {
+    width: 18px;
+    height: 18px;
+    opacity: 0.7;
+  }
+
+  .sidebar-link.active svg {
+    opacity: 1;
+  }
+
+  .sidebar-badge {
+    margin-left: auto;
+    background: var(--coral);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 10px;
+    min-width: 20px;
+    text-align: center;
+  }
+
+  .sidebar-badge.green { background: var(--green); }
+  .sidebar-badge.amber { background: var(--amber); color: var(--navy); }
+
+  .sidebar-footer {
+    margin-top: auto;
+    padding: 16px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .sidebar-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--grey-mid);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px rgba(0,200,83,0.5);
+  }
+
+  .status-dot.warning { background: var(--amber); box-shadow: 0 0 6px rgba(245,158,11,0.5); }
+  .status-dot.error { background: var(--coral); box-shadow: 0 0 6px rgba(255,107,107,0.5); }
+
+  /* ═══ MAIN CONTENT ═══ */
+  .main {
+    margin-left: 260px;
+    flex: 1;
+    padding: 0;
+  }
+
+  /* ═══ TOP BAR ═══ */
+  .topbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--grey);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .topbar-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  .topbar-breadcrumb {
+    font-size: 12px;
+    color: var(--grey-mid);
+  }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* ═══ PERIOD SELECTOR ═══ */
+  .period-selector {
+    display: flex;
+    background: var(--bg);
+    border-radius: var(--r-sm);
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .period-btn {
+    padding: 6px 14px;
+    border: none;
+    background: transparent;
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--grey-dark);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .period-btn:hover {
+    color: var(--text);
+  }
+
+  .period-btn.active {
+    background: var(--white);
+    color: var(--teal-dark);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* ═══ SHOP SELECTOR ═══ */
+  .shop-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg);
+    padding: 6px 12px;
+    border-radius: var(--r-sm);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .shop-selector:hover {
+    border-color: var(--grey);
+  }
+
+  .shop-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  /* ═══ CONTENT AREA ═══ */
+  .content {
+    padding: 24px 32px;
+    max-width: 1400px;
+  }
+
+  /* ═══ KPI CARDS ═══ */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .kpi-card {
+    background: var(--white);
+    border-radius: var(--r-lg);
+    padding: 20px 24px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--grey);
+    transition: all 0.2s;
+  }
+
+  .kpi-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .kpi-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--grey-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .kpi-value {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    line-height: 1.1;
+  }
+
+  .kpi-footer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 12px;
+  }
+
+  .kpi-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+  }
+
+  .kpi-trend.up {
+    color: #065F46;
+    background: #D1FAE5;
+  }
+
+  .kpi-trend.down {
+    color: #991B1B;
+    background: #FEE2E2;
+  }
+
+  .kpi-sub {
+    color: var(--grey-mid);
+    font-size: 12px;
+  }
+
+  .kpi-card.highlight {
+    background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+    color: #fff;
+    border-color: transparent;
+  }
+
+  .kpi-card.highlight .kpi-label { color: rgba(255,255,255,0.7); }
+  .kpi-card.highlight .kpi-value { color: #fff; }
+  .kpi-card.highlight .kpi-trend { background: rgba(255,255,255,0.2); color: #fff; }
+  .kpi-card.highlight .kpi-sub { color: rgba(255,255,255,0.6); }
+
+  /* ═══ CHART CARDS ═══ */
+  .chart-card {
+    background: var(--white);
+    border-radius: var(--r-lg);
+    border: 1px solid var(--grey);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 0;
+  }
+
+  .chart-title {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+  }
+
+  .chart-legend {
+    display: flex;
+    gap: 16px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--grey-dark);
+    cursor: pointer;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+  }
+
+  .chart-body {
+    padding: 16px 24px 24px;
+  }
+
+  /* ═══ FAKE CHART (SVG area) ═══ */
+  .area-chart {
+    width: 100%;
+    height: 220px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .area-chart svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ═══ TWO COLUMN GRID ═══ */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .three-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  /* ═══ SHOPS STATUS CARDS ═══ */
+  .shop-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--grey);
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+
+  .shop-card:last-child { border-bottom: none; }
+  .shop-card:hover { background: var(--bg); }
+
+  .shop-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--r-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .shop-info { flex: 1; min-width: 0; }
+
+  .shop-name {
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .shop-domain {
+    font-size: 11px;
+    color: var(--grey-mid);
+    font-family: var(--mono);
+  }
+
+  .shop-metrics {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .shop-revenue {
+    font-size: 14px;
+    font-weight: 700;
+    font-family: var(--mono);
+  }
+
+  .shop-orders {
+    font-size: 11px;
+    color: var(--grey-mid);
+  }
+
+  .shop-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .shop-status.online { background: var(--green); box-shadow: 0 0 6px rgba(0,200,83,0.4); }
+  .shop-status.degraded { background: var(--amber); box-shadow: 0 0 6px rgba(245,158,11,0.4); }
+  .shop-status.offline { background: var(--coral); box-shadow: 0 0 6px rgba(255,107,107,0.4); }
+
+  /* ═══ ORDERS TABLE ═══ */
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--grey-dark);
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--grey);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--grey);
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  tr:hover td { background: #F8FAFC; }
+
+  .mono { font-family: var(--mono); font-size: 12px; }
+
+  /* ═══ STATUS BADGES ═══ */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .badge.paid { background: #D1FAE5; color: #065F46; }
+  .badge.pending { background: #FEF3C7; color: #92400E; }
+  .badge.processing { background: #DBEAFE; color: #1E40AF; }
+  .badge.shipped { background: #E0E7FF; color: #3730A3; }
+  .badge.delivered { background: #D1FAE5; color: #065F46; }
+  .badge.cancelled { background: #FEE2E2; color: #991B1B; }
+
+  .badge.new { background: #DBEAFE; color: #1E40AF; }
+  .badge.picking { background: #FEF3C7; color: #92400E; }
+  .badge.packing { background: #E0E7FF; color: #3730A3; }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  /* ═══ FULFILLMENT PIPELINE ═══ */
+  .pipeline {
+    display: flex;
+    gap: 4px;
+    padding: 20px 24px;
+  }
+
+  .pipeline-step {
+    flex: 1;
+    text-align: center;
+    padding: 12px 8px;
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+  }
+
+  .pipeline-step:hover { transform: translateY(-1px); }
+
+  .pipeline-count {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .pipeline-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+
+  .pipeline-step.new { background: #EFF6FF; color: #1E40AF; }
+  .pipeline-step.picking { background: #FFF7ED; color: #9A3412; }
+  .pipeline-step.packing { background: #F5F3FF; color: #5B21B6; }
+  .pipeline-step.shipped { background: #F0FDF4; color: #166534; }
+  .pipeline-step.delivered { background: #F0FDFA; color: var(--teal-dark); }
+
+  .pipeline-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--grey-mid);
+    font-size: 18px;
+    padding: 0 2px;
+  }
+
+  /* ═══ DONUT CHART ═══ */
+  .donut-container {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .donut-chart {
+    width: 160px;
+    height: 160px;
+    flex-shrink: 0;
+  }
+
+  .donut-legend {
+    flex: 1;
+  }
+
+  .donut-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 13px;
+  }
+
+  .donut-legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .donut-legend-label { flex: 1; color: var(--text-light); }
+  .donut-legend-value { font-weight: 700; font-family: var(--mono); font-size: 13px; }
+  .donut-legend-pct { color: var(--grey-mid); font-size: 12px; width: 40px; text-align: right; }
+
+  /* ═══ COMMISSION TABLE ═══ */
+  .commission-table th { background: var(--white); }
+
+  .commission-table tr.total td {
+    font-weight: 700;
+    border-top: 2px solid var(--text);
+    background: var(--bg);
+  }
+
+  .commission-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--grey);
+    overflow: hidden;
+    margin-top: 4px;
+  }
+
+  .commission-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
+  /* ═══ INVENTORY MATRIX ═══ */
+  .matrix-table th:first-child,
+  .matrix-table td:first-child {
+    position: sticky;
+    left: 0;
+    background: var(--white);
+    z-index: 1;
+    min-width: 200px;
+  }
+
+  .matrix-table th:first-child {
+    background: var(--bg);
+    z-index: 2;
+  }
+
+  .stock-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  .stock-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .stock-indicator.in-stock { background: var(--green); }
+  .stock-indicator.low-stock { background: var(--amber); }
+  .stock-indicator.out-of-stock { background: var(--coral); }
+
+  /* ═══ SYNC LOG ═══ */
+  .sync-log-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--grey);
+    font-size: 12px;
+  }
+
+  .sync-log-item:last-child { border-bottom: none; }
+
+  .sync-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .sync-icon.success { background: #D1FAE5; }
+  .sync-icon.error { background: #FEE2E2; }
+  .sync-icon.pending { background: #FEF3C7; }
+
+  .sync-message { flex: 1; color: var(--text-light); }
+  .sync-time { color: var(--grey-mid); font-family: var(--mono); font-size: 11px; white-space: nowrap; }
+
+  /* ═══ BUTTON ═══ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--r-sm);
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-primary {
+    background: var(--teal);
+    color: #fff;
+  }
+
+  .btn-primary:hover { background: var(--teal-dark); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--grey-dark);
+    border: 1px solid var(--grey);
+  }
+
+  .btn-ghost:hover { background: var(--bg); color: var(--text); }
+
+  /* ═══ PAGE TABS ═══ */
+  .page-tabs {
+    display: none;
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--grey);
+    padding: 0;
+  }
+
+  /* ═══ SECTIONS DIVIDER ═══ */
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--grey-dark);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--grey);
+  }
+
+  /* ═══ TABS for page switching ═══ */
+  .demo-tabs {
+    position: fixed;
+    top: 12px;
+    right: 24px;
+    z-index: 200;
+    display: flex;
+    gap: 4px;
+    background: rgba(10,22,40,0.95);
+    padding: 4px;
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .demo-tab {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.6);
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .demo-tab:hover { color: #fff; }
+  .demo-tab.active { background: var(--teal); color: #fff; }
+
+  /* ═══ PAGES ═══ */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ═══ LIVE SYNC INDICATOR ═══ */
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  /* ═══ SPARKLINE ═══ */
+  .sparkline {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  /* ═══ PROGRESS ═══ */
+  .progress-bar {
+    height: 4px;
+    background: var(--grey);
+    border-radius: 2px;
+    overflow: hidden;
+    width: 80px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+</style>
+</head>
+<body>
+
+<!-- Demo page switcher -->
+<div class="demo-tabs">
+  <button class="demo-tab active" onclick="showPage('dashboard')">Dashboard</button>
+  <button class="demo-tab" onclick="showPage('analytics')">Analytics</button>
+  <button class="demo-tab" onclick="showPage('orders')">Orders</button>
+  <button class="demo-tab" onclick="showPage('fulfillment')">Fulfillment</button>
+  <button class="demo-tab" onclick="showPage('inventory')">Voorraad</button>
+</div>
+
+<div class="app">
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">A</div>
+        <div>
+          <div class="sidebar-logo-text">Abostore Hub</div>
+          <div class="sidebar-logo-sub">Multistore Management</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Overzicht</div>
+      <a class="sidebar-link active" id="nav-dashboard" onclick="showPage('dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a class="sidebar-link" id="nav-analytics" onclick="showPage('analytics')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Analytics
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Beheer</div>
+      <a class="sidebar-link" id="nav-orders" onclick="showPage('orders')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>
+        Orders
+        <span class="badge-count sidebar-badge">12</span>
+      </a>
+      <a class="sidebar-link" id="nav-fulfillment" onclick="showPage('fulfillment')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        Fulfillment
+        <span class="badge-count sidebar-badge amber">8</span>
+      </a>
+      <a class="sidebar-link" id="nav-inventory" onclick="showPage('inventory')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        Voorraad
+      </a>
+      <a class="sidebar-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9c.2.65.77 1.1 1.45 1.1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Distributie
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Webshops</div>
+      <a class="sidebar-link">
+        <span class="shop-status online"></span>
+        Aboland
+        <span class="sidebar-badge green">34</span>
+      </a>
+      <a class="sidebar-link">
+        <span class="shop-status online"></span>
+        Magvilla
+        <span class="sidebar-badge green">28</span>
+      </a>
+      <a class="sidebar-link">
+        <span class="shop-status degraded"></span>
+        WINELIFE
+        <span class="sidebar-badge amber">19</span>
+      </a>
+      <a class="sidebar-link">
+        <span class="shop-status offline"></span>
+        Titel B
+        <span style="margin-left:auto;font-size:11px;color:var(--coral)">offline</span>
+      </a>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-status">
+        <span class="status-dot"></span>
+        <span>Sync actief &middot; 3/4 online</span>
+      </div>
+      <div class="live-indicator" style="margin-top:8px">
+        <span class="live-dot"></span>
+        Live verbinding
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN ═══ -->
+  <main class="main">
+
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <!-- PAGE 1: DASHBOARD -->
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <div class="page active" id="page-dashboard">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div>
+            <div class="topbar-title">Dashboard</div>
+            <div class="topbar-breadcrumb">Multistore Hub &rsaquo; Overzicht</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="live-indicator">
+            <span class="live-dot"></span>
+            Live
+          </div>
+          <div class="period-selector">
+            <button class="period-btn">7d</button>
+            <button class="period-btn active">30d</button>
+            <button class="period-btn">90d</button>
+            <button class="period-btn">Alles</button>
+          </div>
+          <button class="btn btn-ghost">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+            Vernieuwen
+          </button>
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card highlight">
+            <div class="kpi-label">Totale omzet</div>
+            <div class="kpi-value">&euro;12.450</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend up">&uarr; 12,4%</span>
+              <span class="kpi-sub">vs vorige 30d</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Orders</div>
+            <div class="kpi-value">87</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend up">&uarr; 8,2%</span>
+              <span class="kpi-sub">van 4 webshops</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Producten gesynced</div>
+            <div class="kpi-value">342</div>
+            <div class="kpi-footer">
+              <span class="kpi-sub">naar 3 webshops</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Webshops</div>
+            <div class="kpi-value">3 / 4</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend down">&darr; 1 offline</span>
+              <span class="kpi-sub">Titel B</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Revenue Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">Omzet per webshop</div>
+            <div class="chart-legend">
+              <div class="legend-item"><div class="legend-dot" style="background:#00897B"></div> Aboland</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#7C3AED"></div> Magvilla</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div> WINELIFE</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#2196F3"></div> Titel B</div>
+            </div>
+          </div>
+          <div class="chart-body">
+            <div class="area-chart">
+              <svg viewBox="0 0 800 200" preserveAspectRatio="none">
+                <!-- Grid lines -->
+                <line x1="0" y1="50" x2="800" y2="50" stroke="#E8ECF1" stroke-width="1"/>
+                <line x1="0" y1="100" x2="800" y2="100" stroke="#E8ECF1" stroke-width="1"/>
+                <line x1="0" y1="150" x2="800" y2="150" stroke="#E8ECF1" stroke-width="1"/>
+
+                <!-- Aboland area -->
+                <path d="M0,140 C50,130 100,110 150,100 C200,90 250,85 300,80 C350,75 400,70 450,65 C500,55 550,50 600,45 C650,40 700,35 750,30 L800,25 L800,200 L0,200 Z" fill="url(#tealGrad)" opacity="0.3"/>
+                <path d="M0,140 C50,130 100,110 150,100 C200,90 250,85 300,80 C350,75 400,70 450,65 C500,55 550,50 600,45 C650,40 700,35 750,30 L800,25" fill="none" stroke="#00897B" stroke-width="2.5"/>
+
+                <!-- Magvilla area -->
+                <path d="M0,155 C50,150 100,145 150,140 C200,135 250,125 300,120 C350,118 400,115 450,110 C500,105 550,100 600,95 C650,92 700,88 750,82 L800,78" fill="none" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6,3"/>
+
+                <!-- WINELIFE area -->
+                <path d="M0,165 C50,162 100,158 150,155 C200,150 250,148 300,145 C350,140 400,138 450,135 C500,132 550,128 600,125 C650,120 700,118 750,115 L800,112" fill="none" stroke="#F59E0B" stroke-width="2"/>
+
+                <!-- Titel B (flat/declining) -->
+                <path d="M0,172 C50,173 100,174 150,175 C200,176 250,178 300,180 C350,182 400,183 450,185 C500,186 550,188 600,190 L600,190" fill="none" stroke="#2196F3" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.5"/>
+
+                <defs>
+                  <linearGradient id="tealGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#00897B" stop-opacity="0.4"/>
+                    <stop offset="100%" stop-color="#00897B" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+
+                <!-- Y-axis labels -->
+                <text x="4" y="48" font-size="10" fill="#94A3B8" font-family="Plus Jakarta Sans">&euro;6k</text>
+                <text x="4" y="98" font-size="10" fill="#94A3B8" font-family="Plus Jakarta Sans">&euro;4k</text>
+                <text x="4" y="148" font-size="10" fill="#94A3B8" font-family="Plus Jakarta Sans">&euro;2k</text>
+
+                <!-- X-axis labels -->
+                <text x="100" y="198" font-size="10" fill="#94A3B8" font-family="Plus Jakarta Sans" text-anchor="middle">Week 1</text>
+                <text x="300" y="198" font-size="10" fill="#94A3B8" font-family="Plus Jakarta Sans" text-anchor="middle">Week 2</text>
+                <text x="500" y="198" font-size="10" fill="#94A3B8" font-family="Plus Jakarta Sans" text-anchor="middle">Week 3</text>
+                <text x="700" y="198" font-size="10" fill="#94A3B8" font-family="Plus Jakarta Sans" text-anchor="middle">Week 4</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Two columns: Shops + Recent Orders -->
+        <div class="two-col">
+          <!-- Webshops -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Webshops</div>
+              <button class="btn btn-ghost" style="font-size:12px;padding:4px 10px">+ Webshop toevoegen</button>
+            </div>
+            <div>
+              <div class="shop-card">
+                <div class="shop-avatar" style="background:linear-gradient(135deg,#00897B,#26A69A)">AB</div>
+                <div class="shop-info">
+                  <div class="shop-name">Aboland Webshop</div>
+                  <div class="shop-domain">aboland01.compassdigital.nl</div>
+                </div>
+                <div class="shop-metrics">
+                  <div class="shop-revenue">&euro;4.200</div>
+                  <div class="shop-orders">34 orders</div>
+                </div>
+                <div class="shop-status online"></div>
+              </div>
+              <div class="shop-card">
+                <div class="shop-avatar" style="background:linear-gradient(135deg,#7C3AED,#A855F7)">MV</div>
+                <div class="shop-info">
+                  <div class="shop-name">Magvilla</div>
+                  <div class="shop-domain">magvilla.compassdigital.nl</div>
+                </div>
+                <div class="shop-metrics">
+                  <div class="shop-revenue">&euro;3.800</div>
+                  <div class="shop-orders">28 orders</div>
+                </div>
+                <div class="shop-status online"></div>
+              </div>
+              <div class="shop-card">
+                <div class="shop-avatar" style="background:linear-gradient(135deg,#F59E0B,#FBBF24)">WL</div>
+                <div class="shop-info">
+                  <div class="shop-name">WINELIFE</div>
+                  <div class="shop-domain">winelife.compassdigital.nl</div>
+                </div>
+                <div class="shop-metrics">
+                  <div class="shop-revenue">&euro;2.950</div>
+                  <div class="shop-orders">19 orders</div>
+                </div>
+                <div class="shop-status degraded"></div>
+              </div>
+              <div class="shop-card">
+                <div class="shop-avatar" style="background:linear-gradient(135deg,#2196F3,#42A5F5)">TB</div>
+                <div class="shop-info">
+                  <div class="shop-name">Titel B</div>
+                  <div class="shop-domain">titelb.compassdigital.nl</div>
+                </div>
+                <div class="shop-metrics">
+                  <div class="shop-revenue" style="color:var(--grey-mid)">&mdash;</div>
+                  <div class="shop-orders" style="color:var(--coral)">offline</div>
+                </div>
+                <div class="shop-status offline"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Orders -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Recente orders</div>
+              <a style="font-size:12px;color:var(--teal);text-decoration:none;font-weight:600;cursor:pointer">Alle orders &rarr;</a>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Order</th>
+                    <th>Webshop</th>
+                    <th>Status</th>
+                    <th style="text-align:right">Bedrag</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="mono">#1042</td>
+                    <td><span style="display:inline-flex;align-items:center;gap:6px"><span class="shop-status online" style="width:6px;height:6px"></span> Aboland</span></td>
+                    <td><span class="badge paid"><span class="badge-dot"></span> Betaald</span></td>
+                    <td style="text-align:right" class="mono">&euro;89,00</td>
+                  </tr>
+                  <tr>
+                    <td class="mono">#1041</td>
+                    <td><span style="display:inline-flex;align-items:center;gap:6px"><span class="shop-status online" style="width:6px;height:6px"></span> WINELIFE</span></td>
+                    <td><span class="badge processing"><span class="badge-dot"></span> Verwerken</span></td>
+                    <td style="text-align:right" class="mono">&euro;245,00</td>
+                  </tr>
+                  <tr>
+                    <td class="mono">#1040</td>
+                    <td><span style="display:inline-flex;align-items:center;gap:6px"><span class="shop-status online" style="width:6px;height:6px"></span> Magvilla</span></td>
+                    <td><span class="badge paid"><span class="badge-dot"></span> Betaald</span></td>
+                    <td style="text-align:right" class="mono">&euro;67,50</td>
+                  </tr>
+                  <tr>
+                    <td class="mono">#1039</td>
+                    <td><span style="display:inline-flex;align-items:center;gap:6px"><span class="shop-status online" style="width:6px;height:6px"></span> Aboland</span></td>
+                    <td><span class="badge shipped"><span class="badge-dot"></span> Verzonden</span></td>
+                    <td style="text-align:right" class="mono">&euro;124,00</td>
+                  </tr>
+                  <tr>
+                    <td class="mono">#1038</td>
+                    <td><span style="display:inline-flex;align-items:center;gap:6px"><span class="shop-status online" style="width:6px;height:6px"></span> WINELIFE</span></td>
+                    <td><span class="badge pending"><span class="badge-dot"></span> In afwachting</span></td>
+                    <td style="text-align:right" class="mono">&euro;312,00</td>
+                  </tr>
+                  <tr>
+                    <td class="mono">#1037</td>
+                    <td><span style="display:inline-flex;align-items:center;gap:6px"><span class="shop-status online" style="width:6px;height:6px"></span> Magvilla</span></td>
+                    <td><span class="badge delivered"><span class="badge-dot"></span> Afgeleverd</span></td>
+                    <td style="text-align:right" class="mono">&euro;55,00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fulfillment Pipeline + Sync Log -->
+        <div class="two-col">
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Fulfillment pipeline</div>
+            </div>
+            <div class="pipeline">
+              <div class="pipeline-step new">
+                <div class="pipeline-count">12</div>
+                <div class="pipeline-label">Nieuw</div>
+              </div>
+              <div class="pipeline-arrow">&rarr;</div>
+              <div class="pipeline-step picking">
+                <div class="pipeline-count">3</div>
+                <div class="pipeline-label">Picken</div>
+              </div>
+              <div class="pipeline-arrow">&rarr;</div>
+              <div class="pipeline-step packing">
+                <div class="pipeline-count">5</div>
+                <div class="pipeline-label">Inpakken</div>
+              </div>
+              <div class="pipeline-arrow">&rarr;</div>
+              <div class="pipeline-step shipped">
+                <div class="pipeline-count">8</div>
+                <div class="pipeline-label">Verzonden</div>
+              </div>
+              <div class="pipeline-arrow">&rarr;</div>
+              <div class="pipeline-step delivered">
+                <div class="pipeline-count">59</div>
+                <div class="pipeline-label">Afgeleverd</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Sync activiteit</div>
+              <div class="live-indicator"><span class="live-dot"></span> Real-time</div>
+            </div>
+            <div>
+              <div class="sync-log-item">
+                <div class="sync-icon success">&#10003;</div>
+                <div class="sync-message"><strong>42 producten</strong> gesynced naar Aboland</div>
+                <div class="sync-time">2 min geleden</div>
+              </div>
+              <div class="sync-log-item">
+                <div class="sync-icon success">&#10003;</div>
+                <div class="sync-message"><strong>Order #1042</strong> ontvangen van Aboland</div>
+                <div class="sync-time">5 min geleden</div>
+              </div>
+              <div class="sync-log-item">
+                <div class="sync-icon error">!</div>
+                <div class="sync-message"><strong>Titel B</strong> health check gefaald</div>
+                <div class="sync-time">12 min geleden</div>
+              </div>
+              <div class="sync-log-item">
+                <div class="sync-icon success">&#10003;</div>
+                <div class="sync-message"><strong>Voorraad</strong> reconciliatie voltooid (0 afwijkingen)</div>
+                <div class="sync-time">30 min geleden</div>
+              </div>
+              <div class="sync-log-item">
+                <div class="sync-icon pending">&#8635;</div>
+                <div class="sync-message"><strong>WINELIFE</strong> vertraagde response (1.2s)</div>
+                <div class="sync-time">45 min geleden</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <!-- PAGE 2: ANALYTICS -->
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-analytics">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div>
+            <div class="topbar-title">Analytics</div>
+            <div class="topbar-breadcrumb">Multistore Hub &rsaquo; Analytics</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="shop-selector">
+            <span class="shop-dot" style="background:var(--teal)"></span>
+            Alle webshops
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="period-selector">
+            <button class="period-btn">7d</button>
+            <button class="period-btn active">30d</button>
+            <button class="period-btn">90d</button>
+            <button class="period-btn">Alles</button>
+          </div>
+          <button class="btn btn-ghost">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export CSV
+          </button>
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card highlight">
+            <div class="kpi-label">Totale omzet</div>
+            <div class="kpi-value">&euro;12.450</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend up">&uarr; 12,4%</span>
+              <span class="kpi-sub">vs vorige periode</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Commissie</div>
+            <div class="kpi-value">&euro;1.679</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend up">&uarr; 9,1%</span>
+              <span class="kpi-sub">gem. 13,5%</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Gem. orderwaarde</div>
+            <div class="kpi-value">&euro;143</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend up">&uarr; 3,8%</span>
+              <span class="kpi-sub">87 orders</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Sync succes</div>
+            <div class="kpi-value">98,2%</div>
+            <div class="kpi-footer">
+              <span class="kpi-sub">1.247 van 1.270 taken</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Revenue Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">Omzet trend per webshop</div>
+            <div class="chart-legend">
+              <div class="legend-item"><div class="legend-dot" style="background:#00897B"></div> Aboland</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#7C3AED"></div> Magvilla</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div> WINELIFE</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#2196F3;opacity:.4"></div> Titel B</div>
+            </div>
+          </div>
+          <div class="chart-body">
+            <div class="area-chart">
+              <svg viewBox="0 0 800 200" preserveAspectRatio="none">
+                <line x1="0" y1="50" x2="800" y2="50" stroke="#E8ECF1" stroke-width="1"/>
+                <line x1="0" y1="100" x2="800" y2="100" stroke="#E8ECF1" stroke-width="1"/>
+                <line x1="0" y1="150" x2="800" y2="150" stroke="#E8ECF1" stroke-width="1"/>
+                <path d="M0,140 C50,130 100,110 150,100 C200,90 250,85 300,80 C350,75 400,70 450,65 C500,55 550,50 600,45 C650,40 700,35 750,30 L800,25 L800,200 L0,200 Z" fill="url(#tealGrad2)" opacity="0.2"/>
+                <path d="M0,140 C50,130 100,110 150,100 C200,90 250,85 300,80 C350,75 400,70 450,65 C500,55 550,50 600,45 C650,40 700,35 750,30 L800,25" fill="none" stroke="#00897B" stroke-width="2.5"/>
+                <path d="M0,155 C50,150 100,145 150,140 C200,135 250,125 300,120 C350,118 400,115 450,110 C500,105 550,100 600,95 C650,92 700,88 750,82 L800,78" fill="none" stroke="#7C3AED" stroke-width="2"/>
+                <path d="M0,165 C50,162 100,158 150,155 C200,150 250,148 300,145 C350,140 400,138 450,135 C500,132 550,128 600,125 C650,120 700,118 750,115 L800,112" fill="none" stroke="#F59E0B" stroke-width="2"/>
+                <path d="M0,172 C100,173 200,175 300,178 C400,181 500,185 600,190" fill="none" stroke="#2196F3" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.4"/>
+                <defs>
+                  <linearGradient id="tealGrad2" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#00897B" stop-opacity="0.4"/>
+                    <stop offset="100%" stop-color="#00897B" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <text x="4" y="48" font-size="10" fill="#94A3B8" font-family="Plus Jakarta Sans">&euro;6k</text>
+                <text x="4" y="98" font-size="10" fill="#94A3B8" font-family="Plus Jakarta Sans">&euro;4k</text>
+                <text x="4" y="148" font-size="10" fill="#94A3B8" font-family="Plus Jakarta Sans">&euro;2k</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Two cols: Donut + Top Products -->
+        <div class="two-col">
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Omzetverdeling per webshop</div>
+            </div>
+            <div class="donut-container">
+              <div class="donut-chart">
+                <svg viewBox="0 0 160 160">
+                  <circle cx="80" cy="80" r="60" fill="none" stroke="#E8ECF1" stroke-width="20"/>
+                  <!-- Aboland: 34% = 122deg -->
+                  <circle cx="80" cy="80" r="60" fill="none" stroke="#00897B" stroke-width="20"
+                    stroke-dasharray="128 249" stroke-dashoffset="0" transform="rotate(-90 80 80)"/>
+                  <!-- Magvilla: 31% = 112deg -->
+                  <circle cx="80" cy="80" r="60" fill="none" stroke="#7C3AED" stroke-width="20"
+                    stroke-dasharray="117 260" stroke-dashoffset="-128" transform="rotate(-90 80 80)"/>
+                  <!-- WINELIFE: 24% = 86deg -->
+                  <circle cx="80" cy="80" r="60" fill="none" stroke="#F59E0B" stroke-width="20"
+                    stroke-dasharray="90 287" stroke-dashoffset="-245" transform="rotate(-90 80 80)"/>
+                  <!-- Titel B: 11% -->
+                  <circle cx="80" cy="80" r="60" fill="none" stroke="#2196F3" stroke-width="20"
+                    stroke-dasharray="42 335" stroke-dashoffset="-335" transform="rotate(-90 80 80)"/>
+                  <!-- Center text -->
+                  <text x="80" y="74" text-anchor="middle" font-size="20" font-weight="700" fill="#1E293B" font-family="Plus Jakarta Sans">&euro;12.4k</text>
+                  <text x="80" y="92" text-anchor="middle" font-size="11" fill="#94A3B8" font-family="Plus Jakarta Sans">totaal</text>
+                </svg>
+              </div>
+              <div class="donut-legend">
+                <div class="donut-legend-item">
+                  <div class="donut-legend-color" style="background:#00897B"></div>
+                  <div class="donut-legend-label">Aboland</div>
+                  <div class="donut-legend-value">&euro;4.200</div>
+                  <div class="donut-legend-pct">34%</div>
+                </div>
+                <div class="donut-legend-item">
+                  <div class="donut-legend-color" style="background:#7C3AED"></div>
+                  <div class="donut-legend-label">Magvilla</div>
+                  <div class="donut-legend-value">&euro;3.800</div>
+                  <div class="donut-legend-pct">31%</div>
+                </div>
+                <div class="donut-legend-item">
+                  <div class="donut-legend-color" style="background:#F59E0B"></div>
+                  <div class="donut-legend-label">WINELIFE</div>
+                  <div class="donut-legend-value">&euro;2.950</div>
+                  <div class="donut-legend-pct">24%</div>
+                </div>
+                <div class="donut-legend-item">
+                  <div class="donut-legend-color" style="background:#2196F3"></div>
+                  <div class="donut-legend-label">Titel B</div>
+                  <div class="donut-legend-value">&euro;1.500</div>
+                  <div class="donut-legend-pct">11%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Top producten</div>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Product</th>
+                    <th style="text-align:right">Verkocht</th>
+                    <th style="text-align:right">Omzet</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="background:#FFFBEB">
+                    <td style="font-size:16px">&#129351;</td>
+                    <td><strong>Premium Koffieabonnement</strong><br><span class="mono" style="color:var(--grey-mid)">SKU-001</span></td>
+                    <td style="text-align:right" class="mono">45x</td>
+                    <td style="text-align:right" class="mono"><strong>&euro;2.025</strong></td>
+                  </tr>
+                  <tr style="background:#F8F8F8">
+                    <td style="font-size:16px">&#129352;</td>
+                    <td><strong>Biologische Theeset</strong><br><span class="mono" style="color:var(--grey-mid)">SKU-012</span></td>
+                    <td style="text-align:right" class="mono">38x</td>
+                    <td style="text-align:right" class="mono"><strong>&euro;1.482</strong></td>
+                  </tr>
+                  <tr>
+                    <td style="font-size:16px">&#129353;</td>
+                    <td><strong>Koffiemolen Pro</strong><br><span class="mono" style="color:var(--grey-mid)">SKU-045</span></td>
+                    <td style="text-align:right" class="mono">29x</td>
+                    <td style="text-align:right" class="mono"><strong>&euro;2.175</strong></td>
+                  </tr>
+                  <tr>
+                    <td style="color:var(--grey-mid)">4</td>
+                    <td>Espresso Variatie Box<br><span class="mono" style="color:var(--grey-mid)">SKU-023</span></td>
+                    <td style="text-align:right" class="mono">22x</td>
+                    <td style="text-align:right" class="mono">&euro;770</td>
+                  </tr>
+                  <tr>
+                    <td style="color:var(--grey-mid)">5</td>
+                    <td>French Press Set<br><span class="mono" style="color:var(--grey-mid)">SKU-067</span></td>
+                    <td style="text-align:right" class="mono">18x</td>
+                    <td style="text-align:right" class="mono">&euro;540</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Commission Table -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">Commissie per webshop</div>
+            <button class="btn btn-ghost" style="font-size:12px;padding:4px 10px">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export
+            </button>
+          </div>
+          <div class="table-wrapper">
+            <table class="commission-table">
+              <thead>
+                <tr>
+                  <th>Webshop</th>
+                  <th style="text-align:right">Orders</th>
+                  <th style="text-align:right">Omzet</th>
+                  <th>Aandeel</th>
+                  <th style="text-align:right">Commissie %</th>
+                  <th style="text-align:right">Commissie</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:3px;background:#00897B"></span> <strong>Aboland</strong></span></td>
+                  <td style="text-align:right" class="mono">34</td>
+                  <td style="text-align:right" class="mono">&euro;4.200</td>
+                  <td>
+                    <div class="commission-bar"><div class="commission-bar-fill" style="width:34%;background:#00897B"></div></div>
+                  </td>
+                  <td style="text-align:right">15%</td>
+                  <td style="text-align:right" class="mono"><strong>&euro;630</strong></td>
+                </tr>
+                <tr>
+                  <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:3px;background:#7C3AED"></span> <strong>Magvilla</strong></span></td>
+                  <td style="text-align:right" class="mono">28</td>
+                  <td style="text-align:right" class="mono">&euro;3.800</td>
+                  <td>
+                    <div class="commission-bar"><div class="commission-bar-fill" style="width:31%;background:#7C3AED"></div></div>
+                  </td>
+                  <td style="text-align:right">12%</td>
+                  <td style="text-align:right" class="mono"><strong>&euro;456</strong></td>
+                </tr>
+                <tr>
+                  <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:3px;background:#F59E0B"></span> <strong>WINELIFE</strong></span></td>
+                  <td style="text-align:right" class="mono">19</td>
+                  <td style="text-align:right" class="mono">&euro;2.950</td>
+                  <td>
+                    <div class="commission-bar"><div class="commission-bar-fill" style="width:24%;background:#F59E0B"></div></div>
+                  </td>
+                  <td style="text-align:right">15%</td>
+                  <td style="text-align:right" class="mono"><strong>&euro;443</strong></td>
+                </tr>
+                <tr>
+                  <td><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:3px;background:#2196F3"></span> <strong>Titel B</strong></span></td>
+                  <td style="text-align:right" class="mono">6</td>
+                  <td style="text-align:right" class="mono">&euro;1.500</td>
+                  <td>
+                    <div class="commission-bar"><div class="commission-bar-fill" style="width:11%;background:#2196F3"></div></div>
+                  </td>
+                  <td style="text-align:right">10%</td>
+                  <td style="text-align:right" class="mono"><strong>&euro;150</strong></td>
+                </tr>
+                <tr class="total">
+                  <td><strong>Totaal</strong></td>
+                  <td style="text-align:right" class="mono"><strong>87</strong></td>
+                  <td style="text-align:right" class="mono"><strong>&euro;12.450</strong></td>
+                  <td></td>
+                  <td style="text-align:right"><strong>13,5%</strong></td>
+                  <td style="text-align:right" class="mono"><strong>&euro;1.679</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <!-- PAGE 3: ORDERS -->
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-orders">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div>
+            <div class="topbar-title">Orders</div>
+            <div class="topbar-breadcrumb">Multistore Hub &rsaquo; Orders</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="shop-selector">
+            <span class="shop-dot" style="background:var(--teal)"></span>
+            Alle webshops
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="period-selector">
+            <button class="period-btn active">Alle</button>
+            <button class="period-btn">Betaald</button>
+            <button class="period-btn">Verwerken</button>
+            <button class="period-btn">Verzonden</button>
+          </div>
+          <button class="btn btn-ghost">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+            Vernieuwen
+          </button>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="chart-card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Webshop</th>
+                  <th>Klant</th>
+                  <th>Status</th>
+                  <th>Fulfillment</th>
+                  <th style="text-align:right">Bedrag</th>
+                  <th>Datum</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mono"><strong>#1042</strong></td>
+                  <td><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:3px;background:#00897B"></span> Aboland</span></td>
+                  <td>jan@voorbeeld.nl</td>
+                  <td><span class="badge paid"><span class="badge-dot"></span> Betaald</span></td>
+                  <td><span class="badge new"><span class="badge-dot"></span> Nieuw</span></td>
+                  <td style="text-align:right" class="mono">&euro;89,00</td>
+                  <td class="mono" style="color:var(--grey-mid)">14 mrt 18:42</td>
+                </tr>
+                <tr>
+                  <td class="mono"><strong>#1041</strong></td>
+                  <td><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:3px;background:#F59E0B"></span> WINELIFE</span></td>
+                  <td>maria@email.com</td>
+                  <td><span class="badge processing"><span class="badge-dot"></span> Verwerken</span></td>
+                  <td><span class="badge picking"><span class="badge-dot"></span> Picken</span></td>
+                  <td style="text-align:right" class="mono">&euro;245,00</td>
+                  <td class="mono" style="color:var(--grey-mid)">14 mrt 17:15</td>
+                </tr>
+                <tr>
+                  <td class="mono"><strong>#1040</strong></td>
+                  <td><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:3px;background:#7C3AED"></span> Magvilla</span></td>
+                  <td>peter@bedrijf.nl</td>
+                  <td><span class="badge paid"><span class="badge-dot"></span> Betaald</span></td>
+                  <td><span class="badge packing"><span class="badge-dot"></span> Inpakken</span></td>
+                  <td style="text-align:right" class="mono">&euro;67,50</td>
+                  <td class="mono" style="color:var(--grey-mid)">14 mrt 15:30</td>
+                </tr>
+                <tr>
+                  <td class="mono"><strong>#1039</strong></td>
+                  <td><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:3px;background:#00897B"></span> Aboland</span></td>
+                  <td>lisa@mail.nl</td>
+                  <td><span class="badge shipped"><span class="badge-dot"></span> Verzonden</span></td>
+                  <td><span class="badge shipped"><span class="badge-dot"></span> Verzonden</span></td>
+                  <td style="text-align:right" class="mono">&euro;124,00</td>
+                  <td class="mono" style="color:var(--grey-mid)">14 mrt 12:08</td>
+                </tr>
+                <tr>
+                  <td class="mono"><strong>#1038</strong></td>
+                  <td><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:3px;background:#F59E0B"></span> WINELIFE</span></td>
+                  <td>klaas@wijn.nl</td>
+                  <td><span class="badge pending"><span class="badge-dot"></span> In afwachting</span></td>
+                  <td><span class="badge new"><span class="badge-dot"></span> Nieuw</span></td>
+                  <td style="text-align:right" class="mono">&euro;312,00</td>
+                  <td class="mono" style="color:var(--grey-mid)">14 mrt 10:22</td>
+                </tr>
+                <tr>
+                  <td class="mono"><strong>#1037</strong></td>
+                  <td><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:3px;background:#7C3AED"></span> Magvilla</span></td>
+                  <td>anna@voorbeeld.com</td>
+                  <td><span class="badge delivered"><span class="badge-dot"></span> Afgeleverd</span></td>
+                  <td><span class="badge delivered"><span class="badge-dot"></span> Afgeleverd</span></td>
+                  <td style="text-align:right" class="mono">&euro;55,00</td>
+                  <td class="mono" style="color:var(--grey-mid)">13 mrt 22:45</td>
+                </tr>
+                <tr>
+                  <td class="mono"><strong>#1036</strong></td>
+                  <td><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:3px;background:#00897B"></span> Aboland</span></td>
+                  <td>dirk@email.nl</td>
+                  <td><span class="badge paid"><span class="badge-dot"></span> Betaald</span></td>
+                  <td><span class="badge new"><span class="badge-dot"></span> Nieuw</span></td>
+                  <td style="text-align:right" class="mono">&euro;198,00</td>
+                  <td class="mono" style="color:var(--grey-mid)">13 mrt 19:11</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--grey)">
+            <span style="font-size:12px;color:var(--grey-mid)">87 orders totaal</span>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-ghost" style="padding:4px 12px;font-size:12px">&larr; Vorige</button>
+              <span style="padding:4px 12px;font-size:12px;color:var(--text);font-weight:600">1 / 4</span>
+              <button class="btn btn-ghost" style="padding:4px 12px;font-size:12px">Volgende &rarr;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <!-- PAGE 4: FULFILLMENT -->
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-fulfillment">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div>
+            <div class="topbar-title">Fulfillment</div>
+            <div class="topbar-breadcrumb">Multistore Hub &rsaquo; Fulfillment</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="shop-selector">
+            <span class="shop-dot" style="background:var(--teal)"></span>
+            Alle webshops
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="chart-card" style="margin-bottom:24px">
+          <div class="pipeline">
+            <div class="pipeline-step new" style="cursor:pointer">
+              <div class="pipeline-count">12</div>
+              <div class="pipeline-label">Nieuw</div>
+            </div>
+            <div class="pipeline-arrow">&rarr;</div>
+            <div class="pipeline-step picking">
+              <div class="pipeline-count">3</div>
+              <div class="pipeline-label">Picken</div>
+            </div>
+            <div class="pipeline-arrow">&rarr;</div>
+            <div class="pipeline-step packing">
+              <div class="pipeline-count">5</div>
+              <div class="pipeline-label">Inpakken</div>
+            </div>
+            <div class="pipeline-arrow">&rarr;</div>
+            <div class="pipeline-step shipped">
+              <div class="pipeline-count">8</div>
+              <div class="pipeline-label">Verzonden</div>
+            </div>
+            <div class="pipeline-arrow">&rarr;</div>
+            <div class="pipeline-step delivered">
+              <div class="pipeline-count">59</div>
+              <div class="pipeline-label">Afgeleverd</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">Nieuwe orders &mdash; wachtend op fulfillment</div>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Webshop</th>
+                  <th>Items</th>
+                  <th style="text-align:right">Bedrag</th>
+                  <th>Wachtend</th>
+                  <th>Actie</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mono"><strong>#1042</strong></td>
+                  <td><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:3px;background:#00897B"></span> Aboland</span></td>
+                  <td>3 items</td>
+                  <td style="text-align:right" class="mono">&euro;89,00</td>
+                  <td style="color:var(--grey-mid)">32 min</td>
+                  <td><button class="btn btn-primary" style="padding:4px 12px;font-size:12px">Start picken</button></td>
+                </tr>
+                <tr>
+                  <td class="mono"><strong>#1038</strong></td>
+                  <td><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:3px;background:#F59E0B"></span> WINELIFE</span></td>
+                  <td>6 items</td>
+                  <td style="text-align:right" class="mono">&euro;312,00</td>
+                  <td style="color:var(--amber)">4 uur</td>
+                  <td><button class="btn btn-primary" style="padding:4px 12px;font-size:12px">Start picken</button></td>
+                </tr>
+                <tr>
+                  <td class="mono"><strong>#1036</strong></td>
+                  <td><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:3px;background:#00897B"></span> Aboland</span></td>
+                  <td>2 items</td>
+                  <td style="text-align:right" class="mono">&euro;198,00</td>
+                  <td style="color:var(--coral)">19 uur</td>
+                  <td><button class="btn btn-primary" style="padding:4px 12px;font-size:12px">Start picken</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <!-- PAGE 5: INVENTORY -->
+    <!-- ════════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-inventory">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div>
+            <div class="topbar-title">Voorraad</div>
+            <div class="topbar-breadcrumb">Multistore Hub &rsaquo; Voorraadbeheer</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+            Reconciliatie
+          </button>
+          <button class="btn btn-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+            Sync nu
+          </button>
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- Stock Status KPIs -->
+        <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+          <div class="kpi-card">
+            <div class="kpi-label">Op voorraad</div>
+            <div class="kpi-value" style="color:var(--green)">287</div>
+            <div class="kpi-footer">
+              <div class="progress-bar" style="width:120px">
+                <div class="progress-fill" style="width:84%;background:var(--green)"></div>
+              </div>
+              <span class="kpi-sub">84% van 342</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Lage voorraad</div>
+            <div class="kpi-value" style="color:var(--amber)">38</div>
+            <div class="kpi-footer">
+              <span class="kpi-sub">&lt; 5 stuks</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Uitverkocht</div>
+            <div class="kpi-value" style="color:var(--coral)">17</div>
+            <div class="kpi-footer">
+              <span class="kpi-sub">5 bij Aboland, 7 bij WINELIFE, 5 bij Magvilla</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stock Matrix -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">Voorraadmatrix</div>
+            <div style="display:flex;gap:16px;font-size:11px">
+              <span style="display:flex;align-items:center;gap:4px"><span class="stock-indicator in-stock"></span> Op voorraad</span>
+              <span style="display:flex;align-items:center;gap:4px"><span class="stock-indicator low-stock"></span> Laag (&lt;5)</span>
+              <span style="display:flex;align-items:center;gap:4px"><span class="stock-indicator out-of-stock"></span> Uitverkocht</span>
+            </div>
+          </div>
+          <div class="table-wrapper" style="max-height:400px;overflow:auto">
+            <table class="matrix-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th style="border-left:3px solid var(--teal)">Hub</th>
+                  <th style="background:#F0FDF9">Aboland</th>
+                  <th style="background:#F5F3FF">Magvilla</th>
+                  <th style="background:#FFFBEB">WINELIFE</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Premium Koffieabonnement</strong><br><span class="mono" style="color:var(--grey-mid);font-size:11px">SKU-001</span></td>
+                  <td style="border-left:3px solid var(--teal)"><div class="stock-cell"><span class="stock-indicator in-stock"></span> 142</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator in-stock"></span> 48</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator in-stock"></span> 52</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator in-stock"></span> 42</div></td>
+                </tr>
+                <tr>
+                  <td><strong>Biologische Theeset</strong><br><span class="mono" style="color:var(--grey-mid);font-size:11px">SKU-012</span></td>
+                  <td style="border-left:3px solid var(--teal)"><div class="stock-cell"><span class="stock-indicator low-stock"></span> 8</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator low-stock"></span> 3</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator low-stock"></span> 2</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator low-stock"></span> 3</div></td>
+                </tr>
+                <tr>
+                  <td><strong>Koffiemolen Pro</strong><br><span class="mono" style="color:var(--grey-mid);font-size:11px">SKU-045</span></td>
+                  <td style="border-left:3px solid var(--teal)"><div class="stock-cell"><span class="stock-indicator in-stock"></span> 67</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator in-stock"></span> 22</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator in-stock"></span> 25</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator in-stock"></span> 20</div></td>
+                </tr>
+                <tr>
+                  <td><strong>Espresso Variatie Box</strong><br><span class="mono" style="color:var(--grey-mid);font-size:11px">SKU-023</span></td>
+                  <td style="border-left:3px solid var(--teal)"><div class="stock-cell"><span class="stock-indicator out-of-stock"></span> 0</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator out-of-stock"></span> 0</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator low-stock"></span> 1</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator out-of-stock"></span> 0</div></td>
+                </tr>
+                <tr>
+                  <td><strong>French Press Set</strong><br><span class="mono" style="color:var(--grey-mid);font-size:11px">SKU-067</span></td>
+                  <td style="border-left:3px solid var(--teal)"><div class="stock-cell"><span class="stock-indicator in-stock"></span> 35</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator in-stock"></span> 12</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator in-stock"></span> 13</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator in-stock"></span> 10</div></td>
+                </tr>
+                <tr>
+                  <td><strong>Cappuccino Cups 4-set</strong><br><span class="mono" style="color:var(--grey-mid);font-size:11px">SKU-089</span></td>
+                  <td style="border-left:3px solid var(--teal)"><div class="stock-cell"><span class="stock-indicator in-stock"></span> 94</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator in-stock"></span> 31</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator in-stock"></span> 33</div></td>
+                  <td><div class="stock-cell"><span class="stock-indicator in-stock"></span> 30</div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+
+  document.getElementById('page-' + name).classList.add('active');
+
+  const navEl = document.getElementById('nav-' + name);
+  if (navEl) navEl.classList.add('active');
+
+  document.querySelectorAll('.demo-tab').forEach(t => {
+    if (t.textContent.toLowerCase().includes(name) ||
+        (name === 'dashboard' && t.textContent === 'Dashboard') ||
+        (name === 'inventory' && t.textContent === 'Voorraad')) {
+      t.classList.add('active');
+    }
+  });
+}
+</script>
+
+</body>
+</html>

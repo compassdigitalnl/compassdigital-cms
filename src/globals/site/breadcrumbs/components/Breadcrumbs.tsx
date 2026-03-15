@@ -68,7 +68,7 @@ export function Breadcrumbs({
             >
               {item.label}
             </Link>
-            <span className="text-gray-300 select-none flex items-center" aria-hidden="true">
+            <span className="text-grey-mid select-none flex items-center" aria-hidden="true">
               <ChevronRight size={14} />
             </span>
           </li>

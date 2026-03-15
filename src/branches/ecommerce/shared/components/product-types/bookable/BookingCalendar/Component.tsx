@@ -90,7 +90,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
   const days = getDaysInMonth(currentMonth)
 
   return (
-    <div className={`booking-calendar bg-white border border-gray-200 rounded-xl p-5 ${className}`}>
+    <div className={`booking-calendar bg-white border border-grey-light rounded-xl p-5 ${className}`}>
       {/* Header */}
       <div className="calendar-header flex items-center justify-between mb-4">
         <Button
@@ -101,7 +101,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
         >
           <ChevronLeft className="w-5 h-5" />
         </Button>
-        <h3 className="text-lg font-extrabold text-gray-900">
+        <h3 className="text-lg font-extrabold text-navy">
           {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
         </h3>
         <Button
@@ -119,7 +119,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
         {dayNames.map((day) => (
           <div
             key={day}
-            className="text-center text-xs font-bold text-gray-500 py-2"
+            className="text-center text-xs font-bold text-grey-mid py-2"
           >
             {day}
           </div>
@@ -143,13 +143,13 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
                 calendar-day aspect-square rounded-lg p-1 text-center transition-all relative
                 ${!date ? 'invisible' : ''}
                 ${isDisabled ? 'opacity-40 cursor-not-allowed' : 'hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-glow)] cursor-pointer'}
-                ${isSelected ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' : 'bg-white border border-gray-200'}
-                ${isWeekendDay && highlightWeekends && !isSelected ? 'bg-gray-50' : ''}
+                ${isSelected ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' : 'bg-white border border-grey-light'}
+                ${isWeekendDay && highlightWeekends && !isSelected ? 'bg-grey-light' : ''}
               `}
             >
               {date && (
                 <>
-                  <div className={`text-sm font-bold ${isSelected ? 'text-white' : 'text-gray-900'}`}>
+                  <div className={`text-sm font-bold ${isSelected ? 'text-white' : 'text-navy'}`}>
                     {date.getDate()}
                   </div>
                   {showPrices && dayInfo?.price && !isSelected && (
@@ -168,25 +168,25 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
       </div>
 
       {/* Legend */}
-      <div className="calendar-legend mt-4 pt-4 border-t border-gray-100 flex flex-wrap gap-3 text-xs">
+      <div className="calendar-legend mt-4 pt-4 border-t border-grey-light flex flex-wrap gap-3 text-xs">
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-3 rounded bg-[var(--color-primary)]" />
-          <span className="text-gray-600">Geselecteerd</span>
+          <span className="text-grey-dark">Geselecteerd</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded border border-gray-200 bg-white" />
-          <span className="text-gray-600">Beschikbaar</span>
+          <div className="w-3 h-3 rounded border border-grey-light bg-white" />
+          <span className="text-grey-dark">Beschikbaar</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded border border-gray-200 bg-white opacity-40" />
-          <span className="text-gray-600">Niet beschikbaar</span>
+          <div className="w-3 h-3 rounded border border-grey-light bg-white opacity-40" />
+          <span className="text-grey-dark">Niet beschikbaar</span>
         </div>
         <div className="flex items-center gap-1.5">
           <div className="relative w-3 h-3">
-            <div className="w-3 h-3 rounded border border-gray-200 bg-white" />
+            <div className="w-3 h-3 rounded border border-grey-light bg-white" />
             <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-amber-500 rounded-full" />
           </div>
-          <span className="text-gray-600">Bijna vol</span>
+          <span className="text-grey-dark">Bijna vol</span>
         </div>
       </div>
     </div>

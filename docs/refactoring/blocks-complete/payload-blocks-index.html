@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payload CMS Blocks - Complete System (43 Blokken)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--bg);
+    }
+
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      padding: 80px 0 120px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--teal-glow), transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal-light);
+      margin-bottom: 24px;
+    }
+
+    .hero-badge .icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 56px;
+      font-weight: 400;
+      color: white;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.8);
+      max-width: 700px;
+      margin: 0 auto 48px;
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 64px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-number {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--teal-light);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .hero-stat-label {
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+      font-weight: 500;
+    }
+
+    /* Fase Cards */
+    .fase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: -60px;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 80px;
+    }
+
+    .fase-card {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      transition: all var(--transition);
+      text-decoration: none;
+      display: block;
+    }
+
+    .fase-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--teal);
+    }
+
+    .fase-card-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .fase-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--teal-glow);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .fase-icon .icon {
+      width: 28px;
+      height: 28px;
+      color: var(--teal);
+    }
+
+    .fase-number {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--grey-mid);
+      margin-bottom: 4px;
+    }
+
+    .fase-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .fase-description {
+      color: var(--grey-dark);
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .fase-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid var(--grey);
+      font-size: 12px;
+    }
+
+    .fase-count {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .fase-count .icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    .fase-link {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--grey-dark);
+      font-weight: 600;
+    }
+
+    .fase-link .icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    .fase-card:hover .fase-link {
+      color: var(--teal);
+    }
+
+    /* Features Section */
+    .features-section {
+      padding: 80px 0;
+      background: var(--white);
+      border-radius: var(--radius);
+      margin-bottom: 80px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-subtitle {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 42px;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .section-description {
+      font-size: 16px;
+      color: var(--grey-dark);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .feature {
+      text-align: center;
+    }
+
+    .feature-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--teal-glow);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .feature-icon .icon {
+      width: 32px;
+      height: 32px;
+      color: var(--teal);
+    }
+
+    .feature h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .feature p {
+      color: var(--grey-dark);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Block List Section */
+    .block-list-section {
+      margin-bottom: 80px;
+    }
+
+    .block-category {
+      background: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .block-category-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .block-category-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--teal-glow);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .block-category-icon .icon {
+      width: 24px;
+      height: 24px;
+      color: var(--teal);
+    }
+
+    .block-category h3 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .block-category-count {
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .blocks-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .block-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: var(--bg);
+      border: 1px solid var(--grey);
+      border-radius: var(--radius-sm);
+      transition: all var(--transition);
+    }
+
+    .block-item:hover {
+      background: var(--white);
+      border-color: var(--teal-light);
+      transform: translateX(4px);
+    }
+
+    .block-id {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: var(--teal);
+      color: white;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .block-info {
+      flex: 1;
+    }
+
+    .block-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .block-variants {
+      font-size: 11px;
+      color: var(--grey-mid);
+    }
+
+    .priority-badge {
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .priority-badge.must {
+      background: var(--green-light);
+      color: #166534;
+    }
+
+    .priority-badge.nice {
+      background: #E3F2FD;
+      color: #1565C0;
+    }
+
+    /* Footer CTA */
+    .footer-cta {
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      padding: 64px 48px;
+      border-radius: var(--radius);
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .footer-cta h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 36px;
+      color: white;
+      margin-bottom: 16px;
+    }
+
+    .footer-cta p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 32px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      background: white;
+      color: var(--teal);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all var(--transition);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .btn .icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero h1 { font-size: 42px; }
+      .hero-stats { flex-direction: column; gap: 32px; }
+      .fase-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .blocks-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <i data-lucide="package"></i>
+        Complete Design System
+      </div>
+      <h1>Payload CMS Blocks</h1>
+      <p>
+        Een compleet systeem van 43 herbruikbare content blokken voor
+        Payload CMS 3.0 + Next.js 15. Klaar voor productie met TypeScript,
+        React componenten en volledige documentatie.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-number">43</div>
+          <div class="hero-stat-label">Unieke Blokken</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-number">29</div>
+          <div class="hero-stat-label">Must-Have</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-number">14</div>
+          <div class="hero-stat-label">Nice-to-Have</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- Fase Cards (Quick Navigation) -->
+    <div class="fase-grid">
+      <a href="payload-blocks-fase1-content-media.html" class="fase-card">
+        <div class="fase-card-header">
+          <div class="fase-icon">
+            <i data-lucide="file-text"></i>
+          </div>
+          <div>
+            <div class="fase-number">Fase 1</div>
+            <h2 class="fase-title">Content & Media</h2>
+          </div>
+        </div>
+        <p class="fase-description">
+          Core content blokken voor hero secties, tekst, media galleries,
+          accordions, stats en features.
+        </p>
+        <div class="fase-meta">
+          <div class="fase-count">
+            <i data-lucide="layers"></i>
+            12 blokken
+          </div>
+          <div class="fase-link">
+            Bekijk blokken
+            <i data-lucide="arrow-right"></i>
+          </div>
+        </div>
+      </a>
+
+      <a href="payload-blocks-fase2-ecommerce.html" class="fase-card">
+        <div class="fase-card-header">
+          <div class="fase-icon">
+            <i data-lucide="shopping-cart"></i>
+          </div>
+          <div>
+            <div class="fase-number">Fase 2</div>
+            <h2 class="fase-title">E-commerce</h2>
+          </div>
+        </div>
+        <p class="fase-description">
+          Product grids, pricing tables, subscription opties, configurators,
+          bundle builders en vendor showcases.
+        </p>
+        <div class="fase-meta">
+          <div class="fase-count">
+            <i data-lucide="layers"></i>
+            14 blokken
+          </div>
+          <div class="fase-link">
+            Bekijk blokken
+            <i data-lucide="arrow-right"></i>
+          </div>
+        </div>
+      </a>
+
+      <a href="payload-blocks-fase3-forms.html" class="fase-card">
+        <div class="fase-card-header">
+          <div class="fase-icon">
+            <i data-lucide="mail"></i>
+          </div>
+          <div>
+            <div class="fase-number">Fase 3</div>
+            <h2 class="fase-title">Forms & Communication</h2>
+          </div>
+        </div>
+        <p class="fase-description">
+          Contact formulieren, newsletter signup, offerte requests,
+          workshop registratie en booking forms.
+        </p>
+        <div class="fase-meta">
+          <div class="fase-count">
+            <i data-lucide="layers"></i>
+            5 blokken
+          </div>
+          <div class="fase-link">
+            Bekijk blokken
+            <i data-lucide="arrow-right"></i>
+          </div>
+        </div>
+      </a>
+
+      <a href="payload-blocks-fase4-navigation.html" class="fase-card">
+        <div class="fase-card-header">
+          <div class="fase-icon">
+            <i data-lucide="compass"></i>
+          </div>
+          <div>
+            <div class="fase-number">Fase 4</div>
+            <h2 class="fase-title">Navigation & Info</h2>
+          </div>
+        </div>
+        <p class="fase-description">
+          Blog grids, info boxes, banners, breadcrumbs, pagination
+          en spacer elementen voor layout.
+        </p>
+        <div class="fase-meta">
+          <div class="fase-count">
+            <i data-lucide="layers"></i>
+            6 blokken
+          </div>
+          <div class="fase-link">
+            Bekijk blokken
+            <i data-lucide="arrow-right"></i>
+          </div>
+        </div>
+      </a>
+
+      <a href="payload-blocks-fase5-social-proof.html" class="fase-card">
+        <div class="fase-card-header">
+          <div class="fase-icon">
+            <i data-lucide="star"></i>
+          </div>
+          <div>
+            <div class="fase-number">Fase 5</div>
+            <h2 class="fase-title">Social Proof</h2>
+          </div>
+        </div>
+        <p class="fase-description">
+          Testimonials, reviews, trust signals, customer logos,
+          case studies en social proof banners.
+        </p>
+        <div class="fase-meta">
+          <div class="fase-count">
+            <i data-lucide="layers"></i>
+            6 blokken
+          </div>
+          <div class="fase-link">
+            Bekijk blokken
+            <i data-lucide="arrow-right"></i>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Features Section -->
+    <section class="features-section">
+      <div class="section-header">
+        <div class="section-subtitle">Waarom dit systeem?</div>
+        <h2 class="section-title">Production-Ready Blokken</h2>
+        <p class="section-description">
+          Elk blok is volledig gedocumenteerd met Payload configuratie,
+          TypeScript types, React componenten en accessibility features.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature">
+          <div class="feature-icon">
+            <i data-lucide="code-2"></i>
+          </div>
+          <h3>TypeScript Native</h3>
+          <p>
+            Volledige type safety met TypeScript interfaces
+            voor alle blok configuraties en props.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">
+            <i data-lucide="palette"></i>
+          </div>
+          <h3>Design System</h3>
+          <p>
+            Consistent gebruik van Compass design tokens:
+            colors, spacing, typography en shadows.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">
+            <i data-lucide="accessibility"></i>
+          </div>
+          <h3>Accessible</h3>
+          <p>
+            ARIA labels, keyboard navigation en screen reader
+            support voor alle interactieve elementen.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">
+            <i data-lucide="smartphone"></i>
+          </div>
+          <h3>Responsive Design</h3>
+          <p>
+            Mobile-first approach met breakpoints voor
+            tablet (768px) en desktop (1024px+).
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">
+            <i data-lucide="zap"></i>
+          </div>
+          <h3>Performance</h3>
+          <p>
+            Optimized met Next.js Image, lazy loading
+            en efficient rendering patterns.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">
+            <i data-lucide="book-open"></i>
+          </div>
+          <h3>8-Step Docs</h3>
+          <p>
+            Complete documentatie per blok met config,
+            types, components en usage examples.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Complete Block List -->
+    <section class="block-list-section">
+      <div class="section-header">
+        <div class="section-subtitle">Compleet Overzicht</div>
+        <h2 class="section-title">Alle 43 Blokken</h2>
+      </div>
+
+      <!-- Category 1: Content & Media -->
+      <div class="block-category">
+        <div class="block-category-header">
+          <div class="block-category-icon">
+            <i data-lucide="file-text"></i>
+          </div>
+          <div>
+            <h3>Content & Media Blokken</h3>
+            <div class="block-category-count">12 blokken · 10 Must-Have, 2 Nice-to-Have</div>
+          </div>
+        </div>
+
+        <div class="blocks-grid">
+          <div class="block-item">
+            <div class="block-id">01</div>
+            <div class="block-info">
+              <div class="block-name">Hero Block</div>
+              <div class="block-variants">7 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">02</div>
+            <div class="block-info">
+              <div class="block-name">Two Column Content</div>
+              <div class="block-variants">3 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">03</div>
+            <div class="block-info">
+              <div class="block-name">Rich Text Block</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">04</div>
+            <div class="block-info">
+              <div class="block-name">Media Block</div>
+              <div class="block-variants">3 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">05</div>
+            <div class="block-info">
+              <div class="block-name">Accordion Block</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">06</div>
+            <div class="block-info">
+              <div class="block-name">Stats Bar</div>
+              <div class="block-variants">2 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">07</div>
+            <div class="block-info">
+              <div class="block-name">Timeline Block</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge nice">Nice</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">08</div>
+            <div class="block-info">
+              <div class="block-name">Logo Bar</div>
+              <div class="block-variants">2 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">09</div>
+            <div class="block-info">
+              <div class="block-name">Features Grid</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">10</div>
+            <div class="block-info">
+              <div class="block-name">USP Cards</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">11</div>
+            <div class="block-info">
+              <div class="block-name">Image Gallery</div>
+              <div class="block-variants">2 varianten</div>
+            </div>
+            <span class="priority-badge nice">Nice</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">12</div>
+            <div class="block-info">
+              <div class="block-name">Code Block</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge nice">Nice</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 2: E-commerce -->
+      <div class="block-category">
+        <div class="block-category-header">
+          <div class="block-category-icon">
+            <i data-lucide="shopping-cart"></i>
+          </div>
+          <div>
+            <h3>E-commerce Blokken</h3>
+            <div class="block-category-count">14 blokken · 7 Must-Have, 7 Nice-to-Have</div>
+          </div>
+        </div>
+
+        <div class="blocks-grid">
+          <div class="block-item">
+            <div class="block-id">13</div>
+            <div class="block-info">
+              <div class="block-name">Product Grid</div>
+              <div class="block-variants">3 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">14</div>
+            <div class="block-info">
+              <div class="block-name">Product Embed</div>
+              <div class="block-variants">2 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">15</div>
+            <div class="block-info">
+              <div class="block-name">Category Grid</div>
+              <div class="block-variants">2 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">16</div>
+            <div class="block-info">
+              <div class="block-name">Pricing Table</div>
+              <div class="block-variants">2 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">17</div>
+            <div class="block-info">
+              <div class="block-name">Subscription Pricing</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">18</div>
+            <div class="block-info">
+              <div class="block-name">Quick Order Form</div>
+              <div class="block-variants">2 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">19</div>
+            <div class="block-info">
+              <div class="block-name">Staffel Pricing</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">20</div>
+            <div class="block-info">
+              <div class="block-name">Bundle Builder</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge nice">Nice</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">21</div>
+            <div class="block-info">
+              <div class="block-name">Mix & Match</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge nice">Nice</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">22</div>
+            <div class="block-info">
+              <div class="block-name">Product Configurator</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge nice">Nice</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">23</div>
+            <div class="block-info">
+              <div class="block-name">Subscription Options</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge nice">Nice</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">24</div>
+            <div class="block-info">
+              <div class="block-name">Digital Delivery</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge nice">Nice</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">25</div>
+            <div class="block-info">
+              <div class="block-name">Product Comparison</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge nice">Nice</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">26</div>
+            <div class="block-info">
+              <div class="block-name">Vendor Showcase</div>
+              <div class="block-variants">2 varianten</div>
+            </div>
+            <span class="priority-badge nice">Nice</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 3: Forms & Communication -->
+      <div class="block-category">
+        <div class="block-category-header">
+          <div class="block-category-icon">
+            <i data-lucide="mail"></i>
+          </div>
+          <div>
+            <h3>Forms & Communication</h3>
+            <div class="block-category-count">5 blokken · 3 Must-Have, 2 Nice-to-Have</div>
+          </div>
+        </div>
+
+        <div class="blocks-grid">
+          <div class="block-item">
+            <div class="block-id">27</div>
+            <div class="block-info">
+              <div class="block-name">Contact Form</div>
+              <div class="block-variants">2 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">28</div>
+            <div class="block-info">
+              <div class="block-name">Newsletter Signup</div>
+              <div class="block-variants">2 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">29</div>
+            <div class="block-info">
+              <div class="block-name">Offerte Request</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">30</div>
+            <div class="block-info">
+              <div class="block-name">Workshop Registration</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge nice">Nice</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">31</div>
+            <div class="block-info">
+              <div class="block-name">Reservation Form</div>
+              <div class="block-variants">2 varianten</div>
+            </div>
+            <span class="priority-badge nice">Nice</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 4: Navigation & Info -->
+      <div class="block-category">
+        <div class="block-category-header">
+          <div class="block-category-icon">
+            <i data-lucide="compass"></i>
+          </div>
+          <div>
+            <h3>Navigation & Info</h3>
+            <div class="block-category-count">6 blokken · Allemaal Must-Have</div>
+          </div>
+        </div>
+
+        <div class="blocks-grid">
+          <div class="block-item">
+            <div class="block-id">32</div>
+            <div class="block-info">
+              <div class="block-name">Blog/Article Grid</div>
+              <div class="block-variants">2 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">33</div>
+            <div class="block-info">
+              <div class="block-name">Info Box</div>
+              <div class="block-variants">4 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">34</div>
+            <div class="block-info">
+              <div class="block-name">Banner</div>
+              <div class="block-variants">3 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">35</div>
+            <div class="block-info">
+              <div class="block-name">Breadcrumbs</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">36</div>
+            <div class="block-info">
+              <div class="block-name">Pagination</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">37</div>
+            <div class="block-info">
+              <div class="block-name">Spacer</div>
+              <div class="block-variants">3 sizes</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 5: Social Proof -->
+      <div class="block-category">
+        <div class="block-category-header">
+          <div class="block-category-icon">
+            <i data-lucide="star"></i>
+          </div>
+          <div>
+            <h3>Social Proof Blokken</h3>
+            <div class="block-category-count">6 blokken · 3 Must-Have, 3 Nice-to-Have</div>
+          </div>
+        </div>
+
+        <div class="blocks-grid">
+          <div class="block-item">
+            <div class="block-id">38</div>
+            <div class="block-info">
+              <div class="block-name">Testimonials</div>
+              <div class="block-variants">3 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">39</div>
+            <div class="block-info">
+              <div class="block-name">Reviews Widget</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">40</div>
+            <div class="block-info">
+              <div class="block-name">Trust Signals</div>
+              <div class="block-variants">2 varianten</div>
+            </div>
+            <span class="priority-badge must">Must</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">41</div>
+            <div class="block-info">
+              <div class="block-name">Social Proof Banner</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge nice">Nice</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">42</div>
+            <div class="block-info">
+              <div class="block-name">Customer Logo Bar</div>
+              <div class="block-variants">1 variant</div>
+            </div>
+            <span class="priority-badge nice">Nice</span>
+          </div>
+
+          <div class="block-item">
+            <div class="block-id">43</div>
+            <div class="block-info">
+              <div class="block-name">Case Study Grid</div>
+              <div class="block-variants">2 varianten</div>
+            </div>
+            <span class="priority-badge nice">Nice</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer CTA -->
+    <section class="footer-cta">
+      <h2>Klaar om te starten?</h2>
+      <p>
+        Klik op een fase hierboven om de complete blokken met
+        live previews, code voorbeelden en documentatie te bekijken.
+      </p>
+      <a href="payload-blocks-fase1-content-media.html" class="btn">
+        Start met Fase 1
+        <i data-lucide="arrow-right"></i>
+      </a>
+    </section>
+
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

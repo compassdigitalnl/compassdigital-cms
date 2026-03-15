@@ -231,8 +231,8 @@ export default function SubscriptionCheckoutClient({
 
             {/* ── STEP 1: Plan kiezen ── */}
             {currentStep === 1 && (
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Kies je abonnement</h2>
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-grey-light">
+                <h2 className="text-xl font-bold text-navy mb-4">Kies je abonnement</h2>
                 <div className={`sub-plan-grid ${plans.length <= 2 ? 'sub-plan-grid--2' : 'sub-plan-grid--3'}`}>
                   {plans.map((plan) => (
                     <div
@@ -252,8 +252,8 @@ export default function SubscriptionCheckoutClient({
 
             {/* ── STEP 2: Contact — identical to CheckoutTemplate4 ── */}
             {currentStep === 2 && (
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Contact informatie</h2>
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-grey-light">
+                <h2 className="text-xl font-bold text-navy mb-4">Contact informatie</h2>
 
                 {user ? (
                   <div className="space-y-4">
@@ -264,7 +264,7 @@ export default function SubscriptionCheckoutClient({
                       Welkom terug{(user as any).firstName ? `, ${(user as any).firstName}` : ''}
                     </h2>
                     <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
-                      <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-green flex-shrink-0" />
                       <div>
                         <p className="text-sm font-semibold text-green-900">Ingelogd als</p>
                         <p className="text-sm text-green-700">{user.email}</p>
@@ -419,10 +419,10 @@ export default function SubscriptionCheckoutClient({
 
             {/* ── STEP 5: Bevestiging ── */}
             {currentStep === 5 && (
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 space-y-6">
-                <h2 className="text-xl font-bold text-gray-900">Controleer je bestelling</h2>
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-grey-light space-y-6">
+                <h2 className="text-xl font-bold text-navy">Controleer je bestelling</h2>
 
-                <div className="border border-gray-200 rounded-xl bg-gray-50 divide-y divide-gray-200">
+                <div className="border border-grey-light rounded-xl bg-grey-light divide-y divide-grey-light">
                   <ReviewRow label="Abonnement" value={`${magazineName} — ${selectedPlan?.name}`} onClick={() => setCurrentStep(1)} />
                   <ReviewRow label="E-mail" value={email} onClick={() => setCurrentStep(2)} />
                   {billingAddress && (
@@ -840,8 +840,8 @@ function ReviewRow({ label, value, onClick }: { label: string; value: string; on
   return (
     <div className="flex items-center justify-between px-4 py-3">
       <div>
-        <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">{label}</div>
-        <div className="text-sm text-gray-900">{value}</div>
+        <div className="text-[11px] font-bold uppercase tracking-wider text-grey-mid">{label}</div>
+        <div className="text-sm text-navy">{value}</div>
       </div>
       <button type="button" onClick={onClick} className="text-xs font-bold hover:underline" style={{ color: 'var(--color-primary)' }}>
         Wijzig

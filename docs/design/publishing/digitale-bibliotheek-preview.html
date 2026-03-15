@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digitale Bibliotheek — Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--shadow-lg:0 16px 48px rgba(10,22,40,0.12);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  /* Header */
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:64px;display:flex;align-items:center;justify-content:space-between;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--navy);text-decoration:none;}.logo em{color:var(--teal);font-style:normal;}
+  .nav{display:flex;gap:4px;}.nav-item{padding:8px 14px;font-size:14px;font-weight:600;color:var(--grey-mid);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--teal);background:var(--teal-glow);}
+  .ha{display:flex;gap:6px;align-items:center;}.ha-btn{height:40px;padding:0 18px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all var(--transition);text-decoration:none;display:flex;align-items:center;gap:5px;border:none;}.ha-btn.ghost{background:transparent;color:var(--navy);}.ha-btn.ghost:hover{background:var(--grey-light);}.ha-btn.primary{background:var(--teal);color:white;}.ha-btn.primary:hover{background:var(--navy);}.ha-btn i{width:15px;height:15px;}
+  .user-avatar{width:36px;height:36px;border-radius:50%;background:var(--teal);color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;}
+
+  /* Screen navigation */
+  .screen-nav{background:white;border-bottom:1px solid var(--grey);padding:12px 0;}
+  .screen-nav .container{display:flex;gap:4px;}
+  .screen-btn{padding:10px 20px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:2px solid var(--grey);background:white;color:var(--grey-dark);transition:all var(--transition);display:flex;align-items:center;gap:6px;}
+  .screen-btn:hover{border-color:var(--teal);color:var(--teal);}
+  .screen-btn.active{border-color:var(--teal);background:var(--teal);color:white;}
+  .screen-btn i{width:15px;height:15px;}
+
+  /* Screens */
+  .screen{display:none;}.screen.active{display:block;}
+
+  /* Breadcrumbs */
+  .breadcrumbs{padding:20px 0 0;display:flex;align-items:center;gap:6px;font-size:13px;color:var(--grey-mid);}
+  .breadcrumbs a{color:var(--teal);text-decoration:none;font-weight:600;}.breadcrumbs a:hover{text-decoration:underline;}
+  .breadcrumbs i{width:12px;height:12px;}
+
+  /* Page header */
+  .page-header{padding:24px 0 28px;}
+  .page-header h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:800;margin-bottom:4px;}
+  .page-header p{font-size:15px;color:var(--grey-dark);line-height:1.5;}
+  .page-header-row{display:flex;align-items:flex-end;justify-content:space-between;}
+  .page-header .sub-info{display:flex;gap:16px;margin-top:8px;}
+  .page-header .sub-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(0,200,83,0.2);padding:4px 12px;border-radius:100px;font-size:12px;font-weight:700;color:var(--green);}
+  .page-header .sub-badge i{width:12px;height:12px;}
+
+  /* Continue reading banner */
+  .continue-banner{background:white;border:2px solid var(--teal);border-radius:20px;padding:24px;display:flex;align-items:center;gap:24px;margin-bottom:32px;box-shadow:var(--shadow-md);position:relative;overflow:hidden;}
+  .continue-banner::before{content:'';position:absolute;top:0;right:0;width:300px;height:100%;background:linear-gradient(90deg,transparent,rgba(0,137,123,0.04));pointer-events:none;}
+  .continue-cover{width:72px;height:96px;border-radius:8px;background:linear-gradient(135deg,#1a365d,#2d3748);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;font-weight:700;text-align:center;line-height:1.2;box-shadow:var(--shadow-sm);}
+  .continue-info{flex:1;}
+  .continue-label{font-size:12px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;display:flex;align-items:center;gap:5px;}
+  .continue-label i{width:13px;height:13px;}
+  .continue-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;margin-bottom:2px;}
+  .continue-meta{font-size:13px;color:var(--grey-mid);}
+  .continue-progress{margin-top:8px;display:flex;align-items:center;gap:10px;}
+  .progress-bar{flex:1;max-width:200px;height:6px;background:var(--grey);border-radius:100px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--teal);border-radius:100px;}
+  .progress-text{font-size:12px;font-weight:600;color:var(--grey-mid);}
+  .continue-btn{padding:12px 24px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;background:var(--teal);color:white;border:none;display:flex;align-items:center;gap:6px;transition:all var(--transition);flex-shrink:0;position:relative;z-index:2;}
+  .continue-btn:hover{background:var(--navy);}
+  .continue-btn i{width:16px;height:16px;}
+
+  /* Section titles */
+  .section-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .section-title i{width:20px;height:20px;color:var(--teal);}
+
+  /* Magazine cards (library) */
+  .magazine-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:40px;}
+  .magazine-card{background:white;border:1px solid var(--grey);border-radius:20px;overflow:hidden;transition:all .25s;cursor:pointer;}
+  .magazine-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:transparent;}
+  .magazine-cover{height:220px;position:relative;overflow:hidden;}
+  .magazine-cover-bg{width:100%;height:100%;object-fit:cover;}
+  .magazine-cover-gradient{position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(transparent,rgba(10,22,40,0.7));}
+  .magazine-cover-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:800;color:white;text-shadow:0 2px 8px rgba(0,0,0,0.3);}
+  .mc-badge{position:absolute;top:12px;right:12px;background:var(--teal);color:white;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:4px;}
+  .mc-badge i{width:11px;height:11px;}
+  .magazine-body{padding:20px;}
+  .magazine-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:800;margin-bottom:2px;}
+  .magazine-publisher{font-size:13px;color:var(--grey-mid);margin-bottom:12px;}
+  .magazine-stats{display:flex;gap:16px;}
+  .magazine-stat{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--grey-dark);font-weight:600;}
+  .magazine-stat i{width:13px;height:13px;color:var(--teal);}
+  .magazine-btn{width:100%;margin-top:16px;padding:12px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;border:1.5px solid var(--grey);background:white;color:var(--navy);display:flex;align-items:center;justify-content:center;gap:6px;transition:all var(--transition);}
+  .magazine-btn:hover{border-color:var(--teal);color:var(--teal);}
+  .magazine-btn i{width:14px;height:14px;}
+
+  /* Latest editions row */
+  .editions-row{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:40px;}
+  .edition-mini{background:white;border:1px solid var(--grey);border-radius:14px;overflow:hidden;transition:all .25s;cursor:pointer;}
+  .edition-mini:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:transparent;}
+  .edition-mini-cover{height:160px;position:relative;overflow:hidden;}
+  .edition-mini-cover-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:700;color:white;}
+  .edition-mini-cover-placeholder .issue-nr{font-size:28px;font-family:'Plus Jakarta Sans',sans-serif;}
+  .edition-mini-cover-placeholder .issue-label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;opacity:0.7;}
+  .edition-mini-new{position:absolute;top:8px;left:8px;background:var(--coral);color:white;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:800;}
+  .edition-mini-body{padding:10px 12px;}
+  .edition-mini-title{font-size:12px;font-weight:700;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .edition-mini-date{font-size:11px;color:var(--grey-mid);}
+
+  /* ============================================ */
+  /* SCREEN 2: Magazine Detail                    */
+  /* ============================================ */
+  .detail-hero{background:white;border-radius:20px;border:1px solid var(--grey);padding:32px;display:flex;gap:32px;margin-bottom:32px;box-shadow:var(--shadow-sm);}
+  .detail-hero-cover{width:200px;height:270px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:56px;font-weight:800;color:white;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;}
+  .detail-hero-cover .cover-shine{position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,0.08) 50%,transparent 60%);pointer-events:none;}
+  .detail-hero-info{flex:1;display:flex;flex-direction:column;justify-content:center;}
+  .detail-hero-info h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;margin-bottom:4px;}
+  .detail-hero-info .publisher{font-size:14px;color:var(--grey-mid);margin-bottom:12px;}
+  .detail-hero-info .desc{font-size:14px;color:var(--grey-dark);line-height:1.6;margin-bottom:16px;max-width:480px;}
+  .detail-stats{display:flex;gap:20px;}
+  .detail-stat{text-align:center;padding:12px 20px;background:var(--grey-light);border-radius:var(--radius);min-width:80px;}
+  .detail-stat-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);}
+  .detail-stat-label{font-size:11px;color:var(--grey-mid);font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
+
+  /* Edition grid (detail page) */
+  .edition-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:40px;}
+  .edition-card{background:white;border:1px solid var(--grey);border-radius:16px;overflow:hidden;transition:all .25s;cursor:pointer;}
+  .edition-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:transparent;}
+  .edition-cover{height:200px;position:relative;overflow:hidden;}
+  .edition-cover-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-weight:700;color:white;}
+  .edition-cover-placeholder .issue-nr{font-size:36px;font-family:'Plus Jakarta Sans',sans-serif;}
+  .edition-cover-placeholder .issue-label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;opacity:0.7;}
+  .edition-new{position:absolute;top:10px;left:10px;background:var(--coral);color:white;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:800;}
+  .edition-read-badge{position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.5);color:white;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:4px;backdrop-filter:blur(4px);}
+  .edition-read-badge i{width:11px;height:11px;}
+  .edition-body{padding:16px;}
+  .edition-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;margin-bottom:2px;}
+  .edition-date{font-size:12px;color:var(--grey-mid);margin-bottom:4px;}
+  .edition-pages{font-size:12px;color:var(--grey-dark);display:flex;align-items:center;gap:4px;}
+  .edition-pages i{width:12px;height:12px;}
+  .edition-action{width:100%;margin-top:12px;padding:10px;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:none;display:flex;align-items:center;justify-content:center;gap:5px;transition:all var(--transition);}
+  .edition-action.read{background:var(--teal);color:white;}.edition-action.read:hover{background:var(--navy);}
+  .edition-action.continue{background:var(--teal-glow);color:var(--teal);border:1.5px solid rgba(0,137,123,0.2);}.edition-action.continue:hover{background:var(--teal);color:white;}
+  .edition-action i{width:14px;height:14px;}
+
+  /* ============================================ */
+  /* SCREEN 3: Flipbook Viewer                    */
+  /* ============================================ */
+  .viewer-wrapper{position:relative;min-height:calc(100vh - 64px);}
+
+  .viewer-topbar{background:var(--navy);color:white;padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;}
+  .viewer-back{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.6);cursor:pointer;transition:color .12s;background:none;border:none;}
+  .viewer-back:hover{color:white;}
+  .viewer-back i{width:16px;height:16px;}
+  .viewer-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;text-align:center;}
+  .viewer-title span{color:var(--teal-light);}
+  .viewer-actions{display:flex;gap:4px;}
+  .viewer-action-btn{width:36px;height:36px;border-radius:var(--radius-sm);border:none;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;}
+  .viewer-action-btn:hover{background:rgba(255,255,255,0.12);color:white;}
+  .viewer-action-btn i{width:16px;height:16px;}
+  .viewer-action-btn.active{background:var(--teal);color:white;}
+
+  /* Flipbook area */
+  .flipbook-area{background:linear-gradient(180deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);display:flex;align-items:center;justify-content:center;padding:40px 60px;min-height:calc(100vh - 64px - 52px - 56px);position:relative;user-select:none;}
+  .flipbook-area::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;height:80%;background:radial-gradient(ellipse,rgba(0,137,123,0.04),transparent 70%);pointer-events:none;}
+
+  .flipbook{display:flex;gap:4px;perspective:2000px;position:relative;z-index:2;}
+  .flipbook-page{width:380px;height:520px;background:white;border-radius:4px;box-shadow:0 8px 32px rgba(0,0,0,0.3),0 2px 8px rgba(0,0,0,0.2);position:relative;overflow:hidden;}
+  .flipbook-page.left{border-radius:4px 0 0 4px;transform-origin:right center;}
+  .flipbook-page.right{border-radius:0 4px 4px 0;transform-origin:left center;}
+
+  /* Simulated page content */
+  .fp-content{padding:32px;height:100%;display:flex;flex-direction:column;}
+  .fp-header{font-family:'Plus Jakarta Sans',sans-serif;font-size:9px;font-weight:600;color:var(--grey-mid);text-transform:uppercase;letter-spacing:.08em;padding-bottom:12px;border-bottom:1px solid var(--grey);margin-bottom:16px;display:flex;justify-content:space-between;}
+  .fp-article-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);line-height:1.25;margin-bottom:6px;}
+  .fp-article-subtitle{font-size:13px;color:var(--teal);font-weight:600;margin-bottom:14px;}
+  .fp-article-text{font-size:11px;color:var(--grey-dark);line-height:1.7;flex:1;}
+  .fp-article-text p{margin-bottom:10px;}
+  .fp-img-placeholder{width:100%;height:180px;background:linear-gradient(135deg,var(--grey-light),var(--grey));border-radius:8px;margin:14px 0;display:flex;align-items:center;justify-content:center;}
+  .fp-img-placeholder i{width:32px;height:32px;color:var(--grey-mid);}
+  .fp-page-num{text-align:center;font-size:10px;color:var(--grey-mid);margin-top:auto;padding-top:10px;}
+  .fp-sidebar{background:var(--grey-light);border-radius:8px;padding:14px;margin-top:12px;}
+  .fp-sidebar-title{font-size:11px;font-weight:700;color:var(--navy);margin-bottom:6px;display:flex;align-items:center;gap:4px;}
+  .fp-sidebar-title i{width:12px;height:12px;color:var(--teal);}
+  .fp-sidebar-text{font-size:10px;color:var(--grey-dark);line-height:1.6;}
+  .fp-quote{border-left:3px solid var(--teal);padding:10px 14px;margin:14px 0;background:var(--teal-glow);border-radius:0 8px 8px 0;}
+  .fp-quote p{font-size:13px;font-style:italic;color:var(--navy);font-weight:600;line-height:1.4;margin:0;}
+  .fp-quote cite{font-size:10px;color:var(--grey-mid);font-style:normal;margin-top:4px;display:block;}
+
+  /* Page shadow/fold */
+  .flipbook-page.left::after{content:'';position:absolute;top:0;right:0;width:30px;height:100%;background:linear-gradient(90deg,transparent,rgba(0,0,0,0.04));pointer-events:none;}
+  .flipbook-page.right::before{content:'';position:absolute;top:0;left:0;width:30px;height:100%;background:linear-gradient(270deg,transparent,rgba(0,0,0,0.04));pointer-events:none;z-index:10;}
+
+  /* Watermark */
+  .watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-size:14px;color:rgba(0,137,123,0.06);font-weight:700;white-space:nowrap;pointer-events:none;z-index:5;letter-spacing:.02em;}
+
+  /* Bottom bar */
+  .viewer-bottombar{background:var(--navy);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;}
+  .viewer-nav{display:flex;align-items:center;gap:12px;}
+  .viewer-nav-btn{width:40px;height:40px;border-radius:var(--radius-sm);border:1.5px solid rgba(255,255,255,0.1);background:transparent;color:rgba(255,255,255,0.6);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;}
+  .viewer-nav-btn:hover{border-color:var(--teal);color:var(--teal);}
+  .viewer-nav-btn i{width:18px;height:18px;}
+  .viewer-page-indicator{font-size:13px;color:rgba(255,255,255,0.5);font-weight:600;}
+  .viewer-page-indicator em{color:white;font-style:normal;font-weight:700;}
+
+  /* Page dots */
+  .viewer-dots{display:flex;gap:3px;align-items:center;}
+  .viewer-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.1);transition:all .12s;}
+  .viewer-dot.active{background:var(--teal);width:24px;border-radius:100px;}
+  .viewer-dot.read{background:rgba(255,255,255,0.25);}
+
+  .viewer-tools{display:flex;gap:4px;}
+  .viewer-tool-btn{height:36px;padding:0 14px;border-radius:var(--radius-sm);border:1.5px solid rgba(255,255,255,0.1);background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;display:flex;align-items:center;gap:5px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;transition:all .12s;}
+  .viewer-tool-btn:hover{border-color:var(--teal);color:var(--teal);}
+  .viewer-tool-btn i{width:14px;height:14px;}
+
+  /* TOC sidebar */
+  .toc-sidebar{position:absolute;top:0;left:0;width:320px;height:100%;background:var(--navy);border-right:1px solid rgba(255,255,255,0.06);z-index:20;padding:24px;overflow-y:auto;display:none;}
+  .toc-sidebar.show{display:block;}
+  .toc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+  .toc-header h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:white;}
+  .toc-close{width:32px;height:32px;border-radius:var(--radius-sm);border:none;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .toc-close i{width:16px;height:16px;}
+  .toc-item{padding:10px 14px;border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .12s;margin-bottom:2px;}
+  .toc-item:hover{background:rgba(255,255,255,0.04);}
+  .toc-item.active{background:var(--teal-glow);}
+  .toc-page{font-size:11px;font-weight:700;color:var(--teal);min-width:24px;}
+  .toc-label{font-size:13px;color:rgba(255,255,255,0.7);font-weight:500;}
+  .toc-item.active .toc-label{color:white;font-weight:700;}
+  .toc-divider{height:1px;background:rgba(255,255,255,0.04);margin:8px 0;}
+
+  /* Keyboard hint */
+  .keyboard-hint{position:absolute;bottom:70px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);padding:8px 16px;border-radius:100px;display:flex;align-items:center;gap:8px;z-index:10;}
+  .keyboard-hint span{font-size:11px;color:rgba(255,255,255,0.4);}
+  .key{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);font-family:'JetBrains Mono',monospace;}
+
+  /* Swipe hint for mobile */
+  .swipe-hint{display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:rgba(255,255,255,0.15);font-size:13px;font-weight:600;text-align:center;z-index:1;}
+  .swipe-hint i{width:32px;height:32px;display:block;margin:0 auto 6px;}
+
+  /* ============================================ */
+  /* Feature label strip                          */
+  /* ============================================ */
+  .feature-strip{background:white;border-bottom:1px solid var(--grey);padding:16px 0;}
+  .feature-strip .container{display:flex;justify-content:center;gap:28px;}
+  .feature-item{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--grey-dark);}
+  .feature-item i{width:16px;height:16px;color:var(--teal);}
+
+  @media(max-width:1000px){
+    .magazine-grid{grid-template-columns:1fr 1fr;}
+    .editions-row{grid-template-columns:repeat(3,1fr);}
+    .edition-grid{grid-template-columns:repeat(3,1fr);}
+    .flipbook-page{width:300px;height:420px;}
+  }
+  @media(max-width:700px){
+    .magazine-grid{grid-template-columns:1fr;}
+    .editions-row{grid-template-columns:repeat(2,1fr);}
+    .edition-grid{grid-template-columns:repeat(2,1fr);}
+    .continue-banner{flex-direction:column;text-align:center;}
+    .continue-btn{width:100%;}
+    .detail-hero{flex-direction:column;align-items:center;text-align:center;}
+    .detail-stats{justify-content:center;}
+    .flipbook{flex-direction:column;gap:8px;}
+    .flipbook-page{width:min(340px,90vw);height:auto;aspect-ratio:3/4;}
+    .flipbook-page.left{border-radius:4px 4px 0 0;}
+    .flipbook-page.right{border-radius:0 0 4px 4px;}
+    .keyboard-hint{display:none;}
+    .swipe-hint{display:block;}
+    .screen-nav .container{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .screen-btn{white-space:nowrap;flex-shrink:0;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="container">
+    <a href="#" class="logo">Vak<em>Media</em></a>
+    <nav class="nav">
+      <a href="#" class="nav-item">Home</a>
+      <a href="#" class="nav-item">Tijdschriften</a>
+      <a href="#" class="nav-item">Abonnementen</a>
+      <a href="#" class="nav-item active">Mijn Account</a>
+    </nav>
+    <div class="ha">
+      <div class="user-avatar">JD</div>
+    </div>
+  </div>
+</header>
+
+<!-- Screen navigation (for demo purposes) -->
+<div class="screen-nav">
+  <div class="container">
+    <button class="screen-btn active" onclick="showScreen('library')"><i data-lucide="library"></i> Bibliotheek</button>
+    <button class="screen-btn" onclick="showScreen('detail')"><i data-lucide="book-open"></i> Tijdschrift Detail</button>
+    <button class="screen-btn" onclick="showScreen('viewer')"><i data-lucide="book-copy"></i> Flipbook Viewer</button>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SCREEN 1: Bibliotheek Overzicht              -->
+<!-- ============================================ -->
+<div class="screen active" id="screen-library">
+  <div class="feature-strip">
+    <div class="container">
+      <div class="feature-item"><i data-lucide="shield-check"></i> Beveiligd lezen</div>
+      <div class="feature-item"><i data-lucide="smartphone"></i> Alle apparaten</div>
+      <div class="feature-item"><i data-lucide="bookmark"></i> Bladwijzers</div>
+      <div class="feature-item"><i data-lucide="clock"></i> Leesvoortgang</div>
+      <div class="feature-item"><i data-lucide="book-open"></i> Realistische weergave</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="page-header">
+      <div class="page-header-row">
+        <div>
+          <h1>Mijn Digitale Bibliotheek</h1>
+          <p>Lees je tijdschriften waar en wanneer je wilt.</p>
+          <div class="sub-info">
+            <div class="sub-badge"><i data-lucide="check-circle"></i> 3 actieve abonnementen</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Continue reading -->
+    <div class="continue-banner">
+      <div class="continue-cover" style="background:linear-gradient(135deg,#0d4f4f,#1a8a7a);">
+        Dental<br>Tribune
+      </div>
+      <div class="continue-info">
+        <div class="continue-label"><i data-lucide="play"></i> Verder lezen</div>
+        <div class="continue-title">Dental Tribune — Editie #42</div>
+        <div class="continue-meta">Gestopt op pagina 23 van 48 &middot; 3 uur geleden</div>
+        <div class="continue-progress">
+          <div class="progress-bar"><div class="progress-fill" style="width:48%;"></div></div>
+          <div class="progress-text">48%</div>
+        </div>
+      </div>
+      <button class="continue-btn"><i data-lucide="book-open"></i> Verder lezen</button>
+    </div>
+
+    <!-- My magazines -->
+    <div class="section-title"><i data-lucide="library"></i> Mijn Tijdschriften</div>
+    <div class="magazine-grid">
+      <!-- Magazine 1 -->
+      <div class="magazine-card" onclick="showScreen('detail')">
+        <div class="magazine-cover" style="background:linear-gradient(135deg,#0d4f4f,#1a8a7a);">
+          <div class="magazine-cover-placeholder">DT</div>
+          <div class="magazine-cover-gradient"></div>
+          <div class="mc-badge"><i data-lucide="crown"></i> Digitaal</div>
+        </div>
+        <div class="magazine-body">
+          <div class="magazine-name">Dental Tribune</div>
+          <div class="magazine-publisher">Dental Tribune International</div>
+          <div class="magazine-stats">
+            <div class="magazine-stat"><i data-lucide="layers"></i> 42 edities</div>
+            <div class="magazine-stat"><i data-lucide="calendar"></i> Maandelijks</div>
+          </div>
+          <button class="magazine-btn"><i data-lucide="book-open"></i> Bekijk edities</button>
+        </div>
+      </div>
+
+      <!-- Magazine 2 -->
+      <div class="magazine-card">
+        <div class="magazine-cover" style="background:linear-gradient(135deg,#1a365d,#2d3748);">
+          <div class="magazine-cover-placeholder">PI</div>
+          <div class="magazine-cover-gradient"></div>
+          <div class="mc-badge"><i data-lucide="crown"></i> Digitaal</div>
+        </div>
+        <div class="magazine-body">
+          <div class="magazine-name">Plastimed Insider</div>
+          <div class="magazine-publisher">Plastimed B.V.</div>
+          <div class="magazine-stats">
+            <div class="magazine-stat"><i data-lucide="layers"></i> 18 edities</div>
+            <div class="magazine-stat"><i data-lucide="calendar"></i> Kwartaal</div>
+          </div>
+          <button class="magazine-btn"><i data-lucide="book-open"></i> Bekijk edities</button>
+        </div>
+      </div>
+
+      <!-- Magazine 3 -->
+      <div class="magazine-card">
+        <div class="magazine-cover" style="background:linear-gradient(135deg,#4a1942,#6b2fa0);">
+          <div class="magazine-cover-placeholder">MV</div>
+          <div class="magazine-cover-gradient"></div>
+          <div class="mc-badge"><i data-lucide="crown"></i> Digitaal</div>
+        </div>
+        <div class="magazine-body">
+          <div class="magazine-name">Medisch Vakblad</div>
+          <div class="magazine-publisher">MedMedia Group</div>
+          <div class="magazine-stats">
+            <div class="magazine-stat"><i data-lucide="layers"></i> 8 edities</div>
+            <div class="magazine-stat"><i data-lucide="calendar"></i> Tweemaandelijks</div>
+          </div>
+          <button class="magazine-btn"><i data-lucide="book-open"></i> Bekijk edities</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Latest editions -->
+    <div class="section-title"><i data-lucide="sparkles"></i> Nieuwste Edities</div>
+    <div class="editions-row">
+      <div class="edition-mini" onclick="showScreen('viewer')">
+        <div class="edition-mini-cover" style="background:linear-gradient(135deg,#0d4f4f,#1a8a7a);">
+          <div class="edition-mini-cover-placeholder">
+            <div class="issue-label">Editie</div>
+            <div class="issue-nr">#42</div>
+            <div class="issue-label">DT</div>
+          </div>
+          <div class="edition-mini-new">Nieuw</div>
+        </div>
+        <div class="edition-mini-body">
+          <div class="edition-mini-title">Dental Tribune</div>
+          <div class="edition-mini-date">Maart 2026</div>
+        </div>
+      </div>
+
+      <div class="edition-mini">
+        <div class="edition-mini-cover" style="background:linear-gradient(135deg,#1a365d,#2d3748);">
+          <div class="edition-mini-cover-placeholder">
+            <div class="issue-label">Editie</div>
+            <div class="issue-nr">#18</div>
+            <div class="issue-label">PI</div>
+          </div>
+          <div class="edition-mini-new">Nieuw</div>
+        </div>
+        <div class="edition-mini-body">
+          <div class="edition-mini-title">Plastimed Insider</div>
+          <div class="edition-mini-date">Q1 2026</div>
+        </div>
+      </div>
+
+      <div class="edition-mini">
+        <div class="edition-mini-cover" style="background:linear-gradient(135deg,#4a1942,#6b2fa0);">
+          <div class="edition-mini-cover-placeholder">
+            <div class="issue-label">Editie</div>
+            <div class="issue-nr">#8</div>
+            <div class="issue-label">MV</div>
+          </div>
+        </div>
+        <div class="edition-mini-body">
+          <div class="edition-mini-title">Medisch Vakblad</div>
+          <div class="edition-mini-date">Maart 2026</div>
+        </div>
+      </div>
+
+      <div class="edition-mini">
+        <div class="edition-mini-cover" style="background:linear-gradient(135deg,#0d4f4f,#1a8a7a);">
+          <div class="edition-mini-cover-placeholder">
+            <div class="issue-label">Editie</div>
+            <div class="issue-nr">#41</div>
+            <div class="issue-label">DT</div>
+          </div>
+        </div>
+        <div class="edition-mini-body">
+          <div class="edition-mini-title">Dental Tribune</div>
+          <div class="edition-mini-date">Februari 2026</div>
+        </div>
+      </div>
+
+      <div class="edition-mini">
+        <div class="edition-mini-cover" style="background:linear-gradient(135deg,#1a365d,#2d3748);">
+          <div class="edition-mini-cover-placeholder">
+            <div class="issue-label">Editie</div>
+            <div class="issue-nr">#17</div>
+            <div class="issue-label">PI</div>
+          </div>
+        </div>
+        <div class="edition-mini-body">
+          <div class="edition-mini-title">Plastimed Insider</div>
+          <div class="edition-mini-date">Q4 2025</div>
+        </div>
+      </div>
+
+      <div class="edition-mini">
+        <div class="edition-mini-cover" style="background:linear-gradient(135deg,#4a1942,#6b2fa0);">
+          <div class="edition-mini-cover-placeholder">
+            <div class="issue-label">Editie</div>
+            <div class="issue-nr">#7</div>
+            <div class="issue-label">MV</div>
+          </div>
+        </div>
+        <div class="edition-mini-body">
+          <div class="edition-mini-title">Medisch Vakblad</div>
+          <div class="edition-mini-date">Januari 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SCREEN 2: Tijdschrift Detail                 -->
+<!-- ============================================ -->
+<div class="screen" id="screen-detail">
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="#" onclick="showScreen('library');return false;">Bibliotheek</a>
+      <i data-lucide="chevron-right"></i>
+      <span>Dental Tribune</span>
+    </div>
+
+    <div style="padding-top:24px;"></div>
+
+    <div class="detail-hero">
+      <div class="detail-hero-cover" style="background:linear-gradient(135deg,#0d4f4f,#1a8a7a);">
+        DT
+        <div class="cover-shine"></div>
+      </div>
+      <div class="detail-hero-info">
+        <h1>Dental Tribune</h1>
+        <div class="publisher">Dental Tribune International &middot; Maandelijks</div>
+        <div class="desc">Het toonaangevende vakblad voor de tandheelkundige sector. Elke maand de nieuwste ontwikkelingen, technieken, en inzichten van experts uit het veld.</div>
+        <div class="detail-stats">
+          <div class="detail-stat">
+            <div class="detail-stat-num">42</div>
+            <div class="detail-stat-label">Edities</div>
+          </div>
+          <div class="detail-stat">
+            <div class="detail-stat-num">2.016</div>
+            <div class="detail-stat-label">Pagina's</div>
+          </div>
+          <div class="detail-stat">
+            <div class="detail-stat-num">15</div>
+            <div class="detail-stat-label">Gelezen</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title"><i data-lucide="layers"></i> Alle Edities</div>
+    <div class="edition-grid">
+      <!-- Edition 1 — newest -->
+      <div class="edition-card" onclick="showScreen('viewer')">
+        <div class="edition-cover" style="background:linear-gradient(135deg,#0d4f4f,#1a8a7a);">
+          <div class="edition-cover-placeholder">
+            <div class="issue-label">Editie</div>
+            <div class="issue-nr">#42</div>
+          </div>
+          <div class="edition-new">Nieuw</div>
+        </div>
+        <div class="edition-body">
+          <div class="edition-title">Editie #42</div>
+          <div class="edition-date">Maart 2026</div>
+          <div class="edition-pages"><i data-lucide="file-text"></i> 48 pagina's</div>
+          <button class="edition-action read"><i data-lucide="book-open"></i> Lezen</button>
+        </div>
+      </div>
+
+      <!-- Edition 2 — in progress -->
+      <div class="edition-card">
+        <div class="edition-cover" style="background:linear-gradient(135deg,#0a3f3f,#158070);">
+          <div class="edition-cover-placeholder">
+            <div class="issue-label">Editie</div>
+            <div class="issue-nr">#41</div>
+          </div>
+          <div class="edition-read-badge"><i data-lucide="clock"></i> Pag. 23/48</div>
+        </div>
+        <div class="edition-body">
+          <div class="edition-title">Editie #41</div>
+          <div class="edition-date">Februari 2026</div>
+          <div class="edition-pages"><i data-lucide="file-text"></i> 48 pagina's</div>
+          <button class="edition-action continue"><i data-lucide="play"></i> Verder lezen</button>
+        </div>
+      </div>
+
+      <!-- Edition 3 — read -->
+      <div class="edition-card">
+        <div class="edition-cover" style="background:linear-gradient(135deg,#083535,#127066);">
+          <div class="edition-cover-placeholder">
+            <div class="issue-label">Editie</div>
+            <div class="issue-nr">#40</div>
+          </div>
+          <div class="edition-read-badge"><i data-lucide="check-circle"></i> Gelezen</div>
+        </div>
+        <div class="edition-body">
+          <div class="edition-title">Editie #40</div>
+          <div class="edition-date">Januari 2026</div>
+          <div class="edition-pages"><i data-lucide="file-text"></i> 52 pagina's</div>
+          <button class="edition-action read"><i data-lucide="book-open"></i> Opnieuw lezen</button>
+        </div>
+      </div>
+
+      <!-- Edition 4 -->
+      <div class="edition-card">
+        <div class="edition-cover" style="background:linear-gradient(135deg,#062c2c,#0f605c);">
+          <div class="edition-cover-placeholder">
+            <div class="issue-label">Editie</div>
+            <div class="issue-nr">#39</div>
+          </div>
+        </div>
+        <div class="edition-body">
+          <div class="edition-title">Editie #39</div>
+          <div class="edition-date">December 2025</div>
+          <div class="edition-pages"><i data-lucide="file-text"></i> 44 pagina's</div>
+          <button class="edition-action read"><i data-lucide="book-open"></i> Lezen</button>
+        </div>
+      </div>
+
+      <!-- Edition 5 -->
+      <div class="edition-card">
+        <div class="edition-cover" style="background:linear-gradient(135deg,#042222,#0d5050);">
+          <div class="edition-cover-placeholder">
+            <div class="issue-label">Editie</div>
+            <div class="issue-nr">#38</div>
+          </div>
+          <div class="edition-read-badge"><i data-lucide="check-circle"></i> Gelezen</div>
+        </div>
+        <div class="edition-body">
+          <div class="edition-title">Editie #38</div>
+          <div class="edition-date">November 2025</div>
+          <div class="edition-pages"><i data-lucide="file-text"></i> 40 pagina's</div>
+          <button class="edition-action read"><i data-lucide="book-open"></i> Opnieuw lezen</button>
+        </div>
+      </div>
+
+      <!-- Edition 6 -->
+      <div class="edition-card">
+        <div class="edition-cover" style="background:linear-gradient(135deg,#031919,#0a4040);">
+          <div class="edition-cover-placeholder">
+            <div class="issue-label">Editie</div>
+            <div class="issue-nr">#37</div>
+          </div>
+        </div>
+        <div class="edition-body">
+          <div class="edition-title">Editie #37</div>
+          <div class="edition-date">Oktober 2025</div>
+          <div class="edition-pages"><i data-lucide="file-text"></i> 44 pagina's</div>
+          <button class="edition-action read"><i data-lucide="book-open"></i> Lezen</button>
+        </div>
+      </div>
+
+      <!-- Edition 7 -->
+      <div class="edition-card">
+        <div class="edition-cover" style="background:linear-gradient(135deg,#021212,#083535);">
+          <div class="edition-cover-placeholder">
+            <div class="issue-label">Editie</div>
+            <div class="issue-nr">#36</div>
+          </div>
+        </div>
+        <div class="edition-body">
+          <div class="edition-title">Editie #36</div>
+          <div class="edition-date">September 2025</div>
+          <div class="edition-pages"><i data-lucide="file-text"></i> 48 pagina's</div>
+          <button class="edition-action read"><i data-lucide="book-open"></i> Lezen</button>
+        </div>
+      </div>
+
+      <!-- Edition 8 -->
+      <div class="edition-card">
+        <div class="edition-cover" style="background:linear-gradient(135deg,#010e0e,#062c2c);">
+          <div class="edition-cover-placeholder">
+            <div class="issue-label">Editie</div>
+            <div class="issue-nr">#35</div>
+          </div>
+          <div class="edition-read-badge"><i data-lucide="check-circle"></i> Gelezen</div>
+        </div>
+        <div class="edition-body">
+          <div class="edition-title">Editie #35</div>
+          <div class="edition-date">Augustus 2025</div>
+          <div class="edition-pages"><i data-lucide="file-text"></i> 36 pagina's</div>
+          <button class="edition-action read"><i data-lucide="book-open"></i> Opnieuw lezen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SCREEN 3: Flipbook Viewer                    -->
+<!-- ============================================ -->
+<div class="screen" id="screen-viewer">
+  <div class="viewer-wrapper">
+    <!-- Top bar -->
+    <div class="viewer-topbar">
+      <button class="viewer-back" onclick="showScreen('detail')"><i data-lucide="arrow-left"></i> Terug naar overzicht</button>
+      <div class="viewer-title">Dental Tribune — <span>Editie #42</span></div>
+      <div class="viewer-actions">
+        <button class="viewer-action-btn" title="Inhoudsopgave" onclick="document.querySelector('.toc-sidebar').classList.toggle('show')"><i data-lucide="list"></i></button>
+        <button class="viewer-action-btn" title="Bladwijzer"><i data-lucide="bookmark"></i></button>
+        <button class="viewer-action-btn" title="Zoom in"><i data-lucide="zoom-in"></i></button>
+        <button class="viewer-action-btn active" title="Volledig scherm"><i data-lucide="maximize-2"></i></button>
+      </div>
+    </div>
+
+    <!-- Flipbook -->
+    <div class="flipbook-area">
+      <!-- TOC Sidebar -->
+      <div class="toc-sidebar">
+        <div class="toc-header">
+          <h3>Inhoudsopgave</h3>
+          <button class="toc-close" onclick="this.closest('.toc-sidebar').classList.remove('show')"><i data-lucide="x"></i></button>
+        </div>
+        <div class="toc-item active"><div class="toc-page">3</div><div class="toc-label">Voorwoord van de redactie</div></div>
+        <div class="toc-item"><div class="toc-page">6</div><div class="toc-label">Innovaties in de implantologie</div></div>
+        <div class="toc-item"><div class="toc-page">12</div><div class="toc-label">Interview: Dr. Van der Berg</div></div>
+        <div class="toc-divider"></div>
+        <div class="toc-item"><div class="toc-page">18</div><div class="toc-label">Digitale workflow in de praktijk</div></div>
+        <div class="toc-item"><div class="toc-page">24</div><div class="toc-label">Casus: Complexe restauraties</div></div>
+        <div class="toc-item"><div class="toc-page">30</div><div class="toc-label">Kindertandheelkunde special</div></div>
+        <div class="toc-divider"></div>
+        <div class="toc-item"><div class="toc-page">36</div><div class="toc-label">Productnieuws & reviews</div></div>
+        <div class="toc-item"><div class="toc-page">42</div><div class="toc-label">Agenda & evenementen</div></div>
+        <div class="toc-item"><div class="toc-page">46</div><div class="toc-label">Column: De toekomst is digitaal</div></div>
+      </div>
+
+      <!-- Pages -->
+      <div class="flipbook">
+        <!-- Left page -->
+        <div class="flipbook-page left">
+          <div class="watermark">j.devries@email.nl — Persoonlijk exemplaar</div>
+          <div class="fp-content">
+            <div class="fp-header">
+              <span>Dental Tribune &middot; Editie #42</span>
+              <span>Interview</span>
+            </div>
+            <div class="fp-article-title">Innovaties in de moderne implantologie</div>
+            <div class="fp-article-subtitle">Dr. M. van der Berg over de toekomst van digitale workflows</div>
+            <div class="fp-img-placeholder"><i data-lucide="image"></i></div>
+            <div class="fp-article-text">
+              <p>De tandheelkundige sector maakt een ongekende digitale transformatie door. Waar vijf jaar geleden nog voornamelijk analoog werd gewerkt, zien we nu dat steeds meer praktijken de overstap maken naar volledig digitale workflows.</p>
+              <p>"Het is niet de vraag of, maar wanneer elke praktijk digitaal werkt," aldus Dr. Van der Berg, die al meer dan twintig jaar...</p>
+            </div>
+            <div class="fp-page-num">6</div>
+          </div>
+        </div>
+
+        <!-- Right page -->
+        <div class="flipbook-page right">
+          <div class="watermark">j.devries@email.nl — Persoonlijk exemplaar</div>
+          <div class="fp-content">
+            <div class="fp-header">
+              <span>Interview</span>
+              <span>Dental Tribune &middot; Maart 2026</span>
+            </div>
+            <div class="fp-article-text">
+              <p>...voorop loopt in de adoptie van nieuwe technologieën. Zijn praktijk in Amsterdam was een van de eerste in Nederland die volledig overging op intraoraal scannen.</p>
+            </div>
+            <div class="fp-quote">
+              <p>"De patiënt merkt het verschil direct. Geen oncomfortabele afdrukken meer, en het resultaat is aantoonbaar beter."</p>
+              <cite>— Dr. M. van der Berg, Implantoloog</cite>
+            </div>
+            <div class="fp-article-text">
+              <p>De voordelen zijn talrijk: hogere precisie, snellere doorlooptijden, en een betere patiëntervaring. Maar de transitie vergt ook een significante investering in apparatuur en scholing.</p>
+            </div>
+            <div class="fp-sidebar">
+              <div class="fp-sidebar-title"><i data-lucide="lightbulb"></i> Kerncijfers</div>
+              <div class="fp-sidebar-text">
+                &bull; 67% van de praktijken gebruikt inmiddels digitale scanners<br>
+                &bull; Gemiddelde ROI-periode: 14 maanden<br>
+                &bull; 92% patiënttevredenheid bij digitale workflow<br>
+                &bull; 40% snellere doorlooptijd bij kroon- en brugwerk
+              </div>
+            </div>
+            <div class="fp-page-num">7</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Swipe hint (mobile) -->
+      <div class="swipe-hint">
+        <i data-lucide="move-horizontal"></i>
+        Swipe om te bladeren
+      </div>
+
+      <!-- Keyboard hint -->
+      <div class="keyboard-hint">
+        <span class="key">&larr;</span>
+        <span class="key">&rarr;</span>
+        <span>om te bladeren</span>
+        <span style="margin-left:8px;" class="key">F</span>
+        <span>volledig scherm</span>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="viewer-bottombar">
+      <div class="viewer-nav">
+        <button class="viewer-nav-btn"><i data-lucide="chevron-left"></i></button>
+        <div class="viewer-page-indicator">Pagina <em>6-7</em> van 48</div>
+        <button class="viewer-nav-btn"><i data-lucide="chevron-right"></i></button>
+      </div>
+
+      <div class="viewer-dots">
+        <div class="viewer-dot read"></div>
+        <div class="viewer-dot read"></div>
+        <div class="viewer-dot active"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+        <div class="viewer-dot"></div>
+      </div>
+
+      <div class="viewer-tools">
+        <button class="viewer-tool-btn"><i data-lucide="list"></i> Inhoud</button>
+        <button class="viewer-tool-btn"><i data-lucide="bookmark"></i> Bladwijzer</button>
+        <button class="viewer-tool-btn"><i data-lucide="zoom-in"></i> Zoom</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  lucide.createIcons();
+
+  function showScreen(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.screen-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('screen-' + name).classList.add('active');
+    document.querySelectorAll('.screen-btn').forEach((b, i) => {
+      if ((name === 'library' && i === 0) || (name === 'detail' && i === 1) || (name === 'viewer' && i === 2)) {
+        b.classList.add('active');
+      }
+    });
+    window.scrollTo(0, 0);
+    lucide.createIcons();
+  }
+</script>
+</body>
+</html>

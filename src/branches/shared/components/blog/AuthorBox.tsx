@@ -31,7 +31,7 @@ export const AuthorBox: React.FC<AuthorBoxProps> = ({ author, authorBio, classNa
 
   return (
     <div
-      className={`bg-white border border-gray-200 rounded-2xl p-6 flex gap-4 items-center ${className}`}
+      className={`bg-white border border-grey-light rounded-2xl p-6 flex gap-4 items-center ${className}`}
     >
       {/* Avatar */}
       <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary)] flex items-center justify-center flex-shrink-0">
@@ -40,9 +40,9 @@ export const AuthorBox: React.FC<AuthorBoxProps> = ({ author, authorBio, classNa
 
       {/* Author Info */}
       <div className="flex-1">
-        <div className="font-extrabold text-sm text-gray-900">{authorName}</div>
-        <div className="text-xs text-gray-500 mb-1">{authorRole}</div>
-        <p className="text-sm text-gray-600 line-clamp-2">{bio}</p>
+        <div className="font-extrabold text-sm text-navy">{authorName}</div>
+        <div className="text-xs text-grey-mid mb-1">{authorRole}</div>
+        <p className="text-sm text-grey-dark line-clamp-2">{bio}</p>
       </div>
     </div>
   )

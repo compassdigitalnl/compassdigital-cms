@@ -60,7 +60,7 @@ export const PersonalizationLivePreview: React.FC<PersonalizationLivePreviewProp
     <div className={`personalization-live-preview ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-[16px] font-bold text-gray-900">Live Preview</h3>
+        <h3 className="text-[16px] font-bold text-navy">Live Preview</h3>
 
         {/* Controls */}
         <div className="flex items-center gap-2">
@@ -76,7 +76,7 @@ export const PersonalizationLivePreview: React.FC<PersonalizationLivePreviewProp
           </button>
 
           {/* Zoom Percentage */}
-          <span className="text-[13px] font-mono font-semibold text-gray-700 w-12 text-center">
+          <span className="text-[13px] font-mono font-semibold text-grey-dark w-12 text-center">
             {zoom}%
           </span>
 
@@ -104,7 +104,7 @@ export const PersonalizationLivePreview: React.FC<PersonalizationLivePreviewProp
       </div>
 
       {/* Preview Area */}
-      <div className="relative w-full h-[400px] border-2 border-gray-300 rounded-lg bg-gray-50 overflow-hidden">
+      <div className="relative w-full h-[400px] border-2 border-grey-light rounded-lg bg-grey-light overflow-hidden">
         {/* Product Image */}
         <div
           className="absolute inset-0 flex items-center justify-center transition-transform duration-300"

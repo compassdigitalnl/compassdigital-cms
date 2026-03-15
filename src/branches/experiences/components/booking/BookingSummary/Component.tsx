@@ -74,7 +74,7 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
                 ))}
               </div>
               {eventReviewCount !== undefined && eventReviewCount > 0 && (
-                <span className="text-[10px] text-gray-400">
+                <span className="text-[10px] text-grey-mid">
                   ({eventReviewCount})
                 </span>
               )}
@@ -87,7 +87,7 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
       <div className="mb-3 space-y-1.5">
         {date && (
           <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-500">Datum</span>
+            <span className="text-grey-mid">Datum</span>
             <span
               className="font-medium"
               style={{ color: 'var(--color-navy, #1a2b4a)' }}
@@ -98,7 +98,7 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
         )}
         {time && (
           <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-500">Tijdstip</span>
+            <span className="text-grey-mid">Tijdstip</span>
             <span
               className="font-medium"
               style={{ color: 'var(--color-navy, #1a2b4a)' }}
@@ -109,7 +109,7 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
         )}
         {duration && (
           <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-500">Duur</span>
+            <span className="text-grey-mid">Duur</span>
             <span
               className="font-medium"
               style={{ color: 'var(--color-navy, #1a2b4a)' }}
@@ -120,7 +120,7 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
         )}
         {persons !== undefined && (
           <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-500">Personen</span>
+            <span className="text-grey-mid">Personen</span>
             <span
               className="font-medium"
               style={{ color: 'var(--color-navy, #1a2b4a)' }}
@@ -145,7 +145,7 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
             className="flex items-center justify-between text-xs"
           >
             <span
-              className={item.isExtra ? 'text-gray-500' : 'text-gray-600'}
+              className={item.isExtra ? 'text-grey-mid' : 'text-grey-dark'}
             >
               {item.label}
             </span>
@@ -190,7 +190,7 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
 
       {/* VAT note */}
       {vatNote && (
-        <p className="mb-3 text-right text-[10px] text-gray-400">{vatNote}</p>
+        <p className="mb-3 text-right text-[10px] text-grey-mid">{vatNote}</p>
       )}
 
       {/* Price per person highlight */}
@@ -204,7 +204,7 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
         >
           {formatPrice(pricePerPerson)} per persoon
           {pricePerPersonNote && (
-            <span className="ml-1 font-normal text-gray-500">
+            <span className="ml-1 font-normal text-grey-mid">
               {pricePerPersonNote}
             </span>
           )}
@@ -228,7 +228,7 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
         <button
           type="button"
           onClick={onRequestQuote}
-          className="mb-4 w-full rounded-lg border-2 px-4 py-2.5 text-sm font-semibold transition-colors hover:bg-gray-50"
+          className="mb-4 w-full rounded-lg border-2 px-4 py-2.5 text-sm font-semibold transition-colors hover:bg-grey-light"
           style={{
             borderColor: 'var(--color-teal, #00a39b)',
             color: 'var(--color-teal, #00a39b)',
@@ -244,7 +244,7 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
           {guarantees.map((text, index) => (
             <div
               key={index}
-              className="flex items-start gap-2 text-[11px] text-gray-500"
+              className="flex items-start gap-2 text-[11px] text-grey-mid"
             >
               <CheckCircle
                 className="mt-0.5 h-3.5 w-3.5 flex-shrink-0"

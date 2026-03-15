@@ -102,7 +102,7 @@ export async function VehicleGridComponent(props: VehicleGridProps) {
 
                   {/* Status badge */}
                   {vehicle.status === 'beschikbaar' && (
-                    <div className="absolute left-3 top-3 rounded-full bg-green-500 px-3 py-1 text-xs font-bold text-white">
+                    <div className="absolute left-3 top-3 rounded-full bg-green px-3 py-1 text-xs font-bold text-white">
                       Beschikbaar
                     </div>
                   )}

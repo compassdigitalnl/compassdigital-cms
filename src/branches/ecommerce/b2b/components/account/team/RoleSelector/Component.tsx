@@ -15,7 +15,7 @@ export function RoleSelector({ value, onChange, onCancel, excludeRoles = [] }: R
       <select
         value={value}
         onChange={(e) => onChange(e.target.value as CompanyRole)}
-        className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 outline-none focus:border-gray-300"
+        className="text-sm border border-grey-light rounded-lg px-3 py-1.5 outline-none focus:border-grey-light"
       >
         {availableRoles.map((role) => (
           <option key={role} value={role}>
@@ -24,7 +24,7 @@ export function RoleSelector({ value, onChange, onCancel, excludeRoles = [] }: R
         ))}
       </select>
       {onCancel && (
-        <button onClick={onCancel} className="text-xs text-gray-400 hover:text-gray-600">
+        <button onClick={onCancel} className="text-xs text-grey-mid hover:text-grey-dark">
           Annuleren
         </button>
       )}

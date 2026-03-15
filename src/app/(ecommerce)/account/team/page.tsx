@@ -114,7 +114,7 @@ export default function TeamPage() {
   if (!company) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">Je bent niet gekoppeld aan een bedrijfsaccount.</p>
+        <p className="text-grey-mid">Je bent niet gekoppeld aan een bedrijfsaccount.</p>
       </div>
     )
   }

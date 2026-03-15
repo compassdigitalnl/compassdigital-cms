@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contyzr CMS — Complete Admin Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 14px;
+  line-height: 1.5;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SIDEBAR / NAV
+   ═══════════════════════════════════════════════════════════ */
+.sidebar {
+  width: 260px;
+  background: #0f172a;
+  border-right: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+.sidebar-logo {
+  padding: 1.25rem 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sidebar-logo__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-logo__icon svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 2; }
+
+.sidebar-logo__text {
+  color: #f1f5f9;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.sidebar-logo__sub {
+  color: #475569;
+  font-size: 0.65rem;
+  font-weight: 500;
+}
+
+/* Nav groups */
+.nav-group { margin-top: 0.5rem; }
+
+.nav-group__label {
+  color: #475569;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 1.25rem 0.375rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: #94a3b8;
+  padding: 0.5rem 1.125rem;
+  margin: 1px 0.5rem;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 450;
+  text-decoration: none;
+  transition: all 120ms ease;
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  background: rgba(255,255,255,0.05);
+  color: #e2e8f0;
+}
+
+.nav-link.active {
+  background: rgba(37,99,235,0.12);
+  color: #60a5fa;
+  font-weight: 550;
+}
+
+.nav-link__icon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.nav-link.active .nav-link__icon { opacity: 1; }
+
+.nav-link__badge {
+  margin-left: auto;
+  background: rgba(37,99,235,0.2);
+  color: #60a5fa;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+/* Nav bottom */
+.sidebar-bottom {
+  margin-top: auto;
+  padding: 1rem 0.5rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 100ms ease;
+}
+
+.sidebar-user:hover { background: rgba(255,255,255,0.05); }
+
+.sidebar-user__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.sidebar-user__name { color: #cbd5e1; font-size: 0.8rem; font-weight: 550; }
+.sidebar-user__role { color: #475569; font-size: 0.65rem; }
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  margin-left: 260px;
+  flex: 1;
+  min-height: 100vh;
+}
+
+/* Top bar */
+.topbar {
+  height: 52px;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.topbar__breadcrumb {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.topbar__breadcrumb a { color: #64748b; text-decoration: none; }
+.topbar__breadcrumb a:hover { color: #2563eb; }
+.topbar__breadcrumb span { color: #0f172a; font-weight: 600; }
+
+.topbar__actions {
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.topbar__search {
+  padding: 0.35rem 0.75rem 0.35rem 2rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  font-size: 0.8rem;
+  width: 240px;
+  background: #f8fafc url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%2394a3b8" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>') no-repeat 0.625rem center;
+  transition: border-color 120ms ease;
+}
+
+.topbar__search:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+
+.topbar__icon-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 100ms ease;
+  position: relative;
+}
+
+.topbar__icon-btn:hover { background: #eff6ff; color: #2563eb; border-color: #93c5fd; }
+
+.topbar__badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.55rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+}
+
+/* Page content */
+.page {
+  padding: 1.5rem;
+  max-width: 1200px;
+  animation: fadeIn 250ms ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HERO SECTION (Dashboard)
+   ═══════════════════════════════════════════════════════════ */
+.hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+  margin-bottom: 1.75rem;
+  position: relative;
+  overflow: hidden;
+  color: #f1f5f9;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%);
+}
+
+.hero__eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #60a5fa;
+  margin-bottom: 0.5rem;
+}
+
+.hero__title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.375rem;
+}
+
+.hero__subtitle {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  max-width: 500px;
+}
+
+.hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 1rem;
+  padding: 0.5rem 1.25rem;
+  background: #2563eb;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 120ms ease;
+}
+
+.hero__cta:hover { background: #1d4ed8; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+
+/* ═══════════════════════════════════════════════════════════
+   KPI CARDS
+   ═══════════════════════════════════════════════════════════ */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.kpi {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: all 150ms ease;
+}
+
+.kpi:hover { border-color: #93c5fd; box-shadow: 0 4px 12px rgba(37,99,235,0.06); }
+
+.kpi__top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
+.kpi__label { font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+
+.kpi__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.kpi__icon--blue { background: #eff6ff; }
+.kpi__icon--green { background: #ecfdf5; }
+.kpi__icon--amber { background: #fffbeb; }
+.kpi__icon--purple { background: #f5f3ff; }
+.kpi__icon--teal { background: #f0fdfa; }
+
+.kpi__value { font-size: 1.75rem; font-weight: 800; color: #0f172a; line-height: 1.1; }
+.kpi__footer { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.375rem; }
+.kpi__sub { font-size: 0.7rem; color: #94a3b8; }
+
+.kpi__trend {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+.kpi__trend--up { color: #065f46; background: #ecfdf5; }
+.kpi__trend--down { color: #991b1b; background: #fef2f2; }
+
+/* ═══════════════════════════════════════════════════════════
+   SECTIONS & CARDS
+   ═══════════════════════════════════════════════════════════ */
+.section { margin-bottom: 1.75rem; }
+
+.section__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.section__title { font-size: 1rem; font-weight: 700; color: #0f172a; }
+
+.section__link {
+  font-size: 0.75rem;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.section__link:hover { text-decoration: underline; }
+
+.card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card__header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card__title { font-size: 0.85rem; font-weight: 700; color: #0f172a; }
+.card__body { padding: 1.25rem; }
+
+/* ═══════════════════════════════════════════════════════════
+   QUICK ACTIONS (Editor Dashboard)
+   ═══════════════════════════════════════════════════════════ */
+.quick-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.quick-grid--2 { grid-template-columns: repeat(2, 1fr); }
+.quick-grid--3 { grid-template-columns: repeat(3, 1fr); }
+.quick-grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+.quick-action {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 1rem 1.25rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #334155;
+  transition: all 150ms ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.quick-action:hover {
+  border-color: #93c5fd;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.06);
+  transform: translateY(-1px);
+}
+
+.quick-action--accent { border-left: 3px solid #2563eb; }
+
+.quick-action__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.quick-action__label { font-size: 0.85rem; font-weight: 600; color: #0f172a; }
+.quick-action__desc { font-size: 0.7rem; color: #64748b; margin-top: 0.125rem; }
+
+.quick-action__arrow {
+  position: absolute;
+  right: 1rem;
+  color: #cbd5e1;
+  font-size: 1rem;
+  transition: all 100ms ease;
+}
+
+.quick-action:hover .quick-action__arrow { color: #2563eb; transform: translateX(2px); }
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════════════════════ */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+table th {
+  padding: 0.625rem 0.875rem;
+  font-weight: 650;
+  color: #475569;
+  text-align: left;
+  border-bottom: 2px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+table td {
+  padding: 0.625rem 0.875rem;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+table tbody tr { transition: background 100ms ease; }
+table tbody tr:hover { background: #f8fafc; }
+table tbody tr:last-child td { border-bottom: none; }
+
+table tfoot td {
+  font-weight: 700;
+  border-top: 2px solid #e2e8f0;
+  border-bottom: none;
+  background: #f8fafc;
+}
+
+.table-link {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.table-link:hover { text-decoration: underline; }
+.table-muted { color: #94a3b8; font-size: 0.7rem; }
+.table-right { text-align: right; }
+.table-center { text-align: center; }
+.table-mono { font-family: monospace; font-size: 0.7rem; color: #64748b; }
+
+/* ═══════════════════════════════════════════════════════════
+   PILLS
+   ═══════════════════════════════════════════════════════════ */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pill--green { background: #ecfdf5; color: #065f46; }
+.pill--blue { background: #eff6ff; color: #1d4ed8; }
+.pill--amber { background: #fffbeb; color: #92400e; }
+.pill--red { background: #fef2f2; color: #991b1b; }
+.pill--purple { background: #f5f3ff; color: #5b21b6; }
+.pill--gray { background: #f1f5f9; color: #475569; }
+.pill--teal { background: #f0fdfa; color: #115e59; }
+
+.pill__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pill__dot--green { background: #10b981; }
+.pill__dot--blue { background: #2563eb; }
+.pill__dot--amber { background: #f59e0b; }
+.pill__dot--red { background: #ef4444; }
+
+/* ═══════════════════════════════════════════════════════════
+   BUTTONS
+   ═══════════════════════════════════════════════════════════ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 550;
+  cursor: pointer;
+  transition: all 120ms ease;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #334155;
+  text-decoration: none;
+}
+
+.btn:hover { border-color: #cbd5e1; background: #f8fafc; }
+
+.btn--primary {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  border-color: #2563eb;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(37,99,235,0.2);
+}
+
+.btn--primary:hover { box-shadow: 0 4px 12px rgba(37,99,235,0.3); transform: translateY(-1px); }
+
+.btn--sm { padding: 0.35rem 0.75rem; font-size: 0.75rem; }
+
+.btn--danger { color: #dc2626; border-color: #fecaca; }
+.btn--danger:hover { background: #fef2f2; }
+
+/* ═══════════════════════════════════════════════════════════
+   FORM CONTROLS
+   ═══════════════════════════════════════════════════════════ */
+.form-input {
+  padding: 0.5rem 0.875rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  font-size: 0.85rem;
+  color: #334155;
+  background: #fff;
+  transition: border-color 120ms ease;
+  font-family: inherit;
+}
+
+.form-input:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+
+.form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #334155;
+  display: block;
+  margin-bottom: 0.375rem;
+}
+
+.form-desc { font-size: 0.7rem; color: #64748b; margin-top: 0.25rem; }
+
+.form-group { margin-bottom: 1.25rem; }
+
+.form-row { display: flex; gap: 1rem; }
+.form-row > * { flex: 1; }
+
+/* ═══════════════════════════════════════════════════════════
+   TABS (Document editing)
+   ═══════════════════════════════════════════════════════════ */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 1.5rem;
+}
+
+.tab {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 550;
+  color: #64748b;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  transition: all 120ms ease;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.tab:hover { color: #334155; }
+
+.tab.active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DOC CONTROLS (Save/Publish bar)
+   ═══════════════════════════════════════════════════════════ */
+.doc-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.875rem 1.5rem;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 52px;
+  z-index: 40;
+}
+
+.doc-controls__left { display: flex; gap: 0.5rem; align-items: center; }
+.doc-controls__right { display: flex; gap: 0.5rem; align-items: center; }
+
+.doc-controls__status {
+  font-size: 0.75rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TOOLBAR
+   ═══════════════════════════════════════════════════════════ */
+.toolbar {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.toolbar__count {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GRIDS
+   ═══════════════════════════════════════════════════════════ */
+.grid { display: grid; gap: 1rem; }
+.grid--2 { grid-template-columns: repeat(2, 1fr); }
+.grid--3 { grid-template-columns: repeat(3, 1fr); }
+.grid--60-40 { grid-template-columns: 3fr 2fr; }
+
+/* ═══════════════════════════════════════════════════════════
+   TIP BOX
+   ═══════════════════════════════════════════════════════════ */
+.tip {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: #92400e;
+}
+
+.tip__icon { font-size: 1.25rem; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════════════════════
+   PAGINATION
+   ═══════════════════════════════════════════════════════════ */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.pagination__info { font-size: 0.75rem; color: #64748b; padding: 0 0.5rem; }
+
+/* ═══════════════════════════════════════════════════════════
+   PAGE SWITCHING
+   ═══════════════════════════════════════════════════════════ */
+.page-view { display: none; }
+.page-view.active { display: block; }
+
+/* ═══════════════════════════════════════════════════════════
+   TOAST
+   ═══════════════════════════════════════════════════════════ */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  padding: 0.875rem 1.25rem;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  border-left: 4px solid #10b981;
+  z-index: 200;
+  animation: slideIn 300ms ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.toast__icon { font-size: 1.1rem; }
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .quick-grid--4 { grid-template-columns: repeat(2, 1fr); }
+  .grid--60-40 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .quick-grid--3 { grid-template-columns: repeat(2, 1fr); }
+  .hero { padding: 1.5rem; }
+  .hero__title { font-size: 1.25rem; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SIDEBAR
+     ═══════════════════════════════════════════════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo__icon">
+      <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div>
+      <div class="sidebar-logo__text">Contyzr</div>
+      <div class="sidebar-logo__sub">Content Management</div>
+    </div>
+  </div>
+
+  <!-- Collections -->
+  <nav>
+    <div class="nav-group">
+      <div class="nav-group__label">Content</div>
+      <a class="nav-link" data-page="dashboard"><span class="nav-link__icon">📊</span> Dashboard</a>
+      <a class="nav-link" onclick="showPage('pages')"><span class="nav-link__icon">📄</span> Pagina's <span class="nav-link__badge">24</span></a>
+      <a class="nav-link" onclick="showPage('pages')"><span class="nav-link__icon">✍️</span> Blog</a>
+      <a class="nav-link" onclick="showPage('pages')"><span class="nav-link__icon">🖼️</span> Media</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group__label">E-commerce</div>
+      <a class="nav-link" onclick="showPage('collection')"><span class="nav-link__icon">📦</span> Producten <span class="nav-link__badge">142</span></a>
+      <a class="nav-link" onclick="showPage('orders')"><span class="nav-link__icon">🛒</span> Bestellingen <span class="nav-link__badge">8</span></a>
+      <a class="nav-link" onclick="showPage('collection')"><span class="nav-link__icon">🏷️</span> Categorieën</a>
+      <a class="nav-link" onclick="showPage('collection')"><span class="nav-link__icon">🏭</span> Merken</a>
+      <a class="nav-link" onclick="showPage('collection')"><span class="nav-link__icon">👥</span> Gebruikers</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group__label">Design</div>
+      <a class="nav-link" onclick="showPage('edit')"><span class="nav-link__icon">🎨</span> Theme</a>
+      <a class="nav-link" onclick="showPage('edit')"><span class="nav-link__icon">📋</span> Header</a>
+      <a class="nav-link" onclick="showPage('edit')"><span class="nav-link__icon">🔗</span> Footer</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group__label">Rapportages</div>
+      <a class="nav-link" onclick="showPage('analytics')"><span class="nav-link__icon">📈</span> Analytics</a>
+      <a class="nav-link" onclick="showPage('analytics')"><span class="nav-link__icon">🎯</span> Klantinzichten</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group__label">Tools</div>
+      <a class="nav-link" onclick="showPage('pages')"><span class="nav-link__icon">📷</span> Stock Foto's</a>
+      <a class="nav-link" onclick="showPage('pages')"><span class="nav-link__icon">🤖</span> AI Studio</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group__label">Systeem</div>
+      <a class="nav-link" onclick="showPage('edit')"><span class="nav-link__icon">⚙️</span> Instellingen</a>
+      <a class="nav-link" onclick="showPage('collection')"><span class="nav-link__icon">📝</span> Formulieren</a>
+    </div>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <div class="sidebar-user">
+      <div class="sidebar-user__avatar">AB</div>
+      <div>
+        <div class="sidebar-user__name">Admin Beheerder</div>
+        <div class="sidebar-user__role">Administrator</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MAIN
+     ═══════════════════════════════════════════════════════════ -->
+<div class="main">
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar__breadcrumb">
+      <a href="#">Admin</a> / <span id="breadcrumb-title">Dashboard</span>
+    </div>
+    <div class="topbar__actions">
+      <input type="text" class="topbar__search" placeholder="Zoeken...">
+      <div class="topbar__icon-btn" title="Notificaties">
+        🔔
+        <span class="topbar__badge">3</span>
+      </div>
+      <div class="topbar__icon-btn" title="Preview">👁️</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PAGE: Dashboard
+       ═══════════════════════════════════════════════════════ -->
+  <div class="page-view active" id="page-dashboard">
+    <div class="page">
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero__eyebrow">Mijn Website</div>
+        <h1 class="hero__title">Welkom terug, Admin!</h1>
+        <p class="hero__subtitle">Alles wat je nodig hebt om jouw website te beheren staat hier.</p>
+        <a href="#" class="hero__cta">Bekijk mijn site →</a>
+      </div>
+
+      <!-- Stats -->
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi__top">
+            <span class="kpi__label">Omzet (30d)</span>
+            <span class="kpi__icon kpi__icon--green">💰</span>
+          </div>
+          <div class="kpi__value">€ 12.450</div>
+          <div class="kpi__footer">
+            <span class="kpi__trend kpi__trend--up">+12%</span>
+            <span class="kpi__sub">vs vorige maand</span>
+          </div>
+        </div>
+        <div class="kpi">
+          <div class="kpi__top">
+            <span class="kpi__label">Bestellingen</span>
+            <span class="kpi__icon kpi__icon--blue">📦</span>
+          </div>
+          <div class="kpi__value">87</div>
+          <div class="kpi__footer">
+            <span class="kpi__trend kpi__trend--up">+8%</span>
+            <span class="kpi__sub">vs vorige maand</span>
+          </div>
+        </div>
+        <div class="kpi">
+          <div class="kpi__top">
+            <span class="kpi__label">Pagina's</span>
+            <span class="kpi__icon kpi__icon--purple">📄</span>
+          </div>
+          <div class="kpi__value">24</div>
+          <div class="kpi__footer">
+            <span class="kpi__sub">gepubliceerd</span>
+          </div>
+        </div>
+        <div class="kpi">
+          <div class="kpi__top">
+            <span class="kpi__label">Media</span>
+            <span class="kpi__icon kpi__icon--amber">🖼️</span>
+          </div>
+          <div class="kpi__value">312</div>
+          <div class="kpi__footer">
+            <span class="kpi__sub">bestanden</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="section">
+        <h2 class="section__title">Snel aan de slag</h2>
+        <div style="height: 0.75rem"></div>
+        <div class="quick-grid quick-grid--2">
+          <a class="quick-action quick-action--accent" onclick="showPage('edit')">
+            <span class="quick-action__icon">➕</span>
+            <div>
+              <div class="quick-action__label">Nieuwe pagina</div>
+              <div class="quick-action__desc">Voeg een nieuwe pagina toe</div>
+            </div>
+            <span class="quick-action__arrow">→</span>
+          </a>
+          <a class="quick-action quick-action--accent" onclick="showPage('collection')">
+            <span class="quick-action__icon">📄</span>
+            <div>
+              <div class="quick-action__label">Pagina's beheren</div>
+              <div class="quick-action__desc">Bekijk en bewerk alle pagina's</div>
+            </div>
+            <span class="quick-action__arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section__title">E-commerce</h2>
+        <div style="height: 0.75rem"></div>
+        <div class="quick-grid quick-grid--3">
+          <a class="quick-action quick-action--accent" onclick="showPage('collection')">
+            <span class="quick-action__icon">📦</span>
+            <div>
+              <div class="quick-action__label">Producten</div>
+              <div class="quick-action__desc">Productcatalogus beheren</div>
+            </div>
+            <span class="quick-action__arrow">→</span>
+          </a>
+          <a class="quick-action" onclick="showPage('orders')">
+            <span class="quick-action__icon">🛒</span>
+            <div>
+              <div class="quick-action__label">Bestellingen</div>
+              <div class="quick-action__desc">Bekijk orders</div>
+            </div>
+            <span class="quick-action__arrow">→</span>
+          </a>
+          <a class="quick-action" onclick="showPage('analytics')">
+            <span class="quick-action__icon">📈</span>
+            <div>
+              <div class="quick-action__label">Analytics</div>
+              <div class="quick-action__desc">Omzet en statistieken</div>
+            </div>
+            <span class="quick-action__arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section__title">Design & Instellingen</h2>
+        <div style="height: 0.75rem"></div>
+        <div class="quick-grid quick-grid--4">
+          <a class="quick-action" onclick="showPage('edit')">
+            <span class="quick-action__icon">🎨</span>
+            <div>
+              <div class="quick-action__label">Theme</div>
+              <div class="quick-action__desc">Kleuren & stijl</div>
+            </div>
+            <span class="quick-action__arrow">→</span>
+          </a>
+          <a class="quick-action" onclick="showPage('edit')">
+            <span class="quick-action__icon">📋</span>
+            <div>
+              <div class="quick-action__label">Header</div>
+              <div class="quick-action__desc">Navigatie bewerken</div>
+            </div>
+            <span class="quick-action__arrow">→</span>
+          </a>
+          <a class="quick-action" onclick="showPage('edit')">
+            <span class="quick-action__icon">🔗</span>
+            <div>
+              <div class="quick-action__label">Footer</div>
+              <div class="quick-action__desc">Voettekst bewerken</div>
+            </div>
+            <span class="quick-action__arrow">→</span>
+          </a>
+          <a class="quick-action" onclick="showPage('edit')">
+            <span class="quick-action__icon">⚙️</span>
+            <div>
+              <div class="quick-action__label">Instellingen</div>
+              <div class="quick-action__desc">Site configuratie</div>
+            </div>
+            <span class="quick-action__arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip__icon">💡</span>
+        <div>
+          <strong>Tip:</strong> Gebruik de <strong>Live Preview</strong> knop bij het bewerken van een pagina om direct te zien hoe wijzigingen er uitzien.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PAGE: Collection List
+       ═══════════════════════════════════════════════════════ -->
+  <div class="page-view" id="page-collection">
+    <div class="page">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h1 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">Producten</h1>
+        <button class="btn btn--primary" onclick="showPage('edit')">+ Nieuw product</button>
+      </div>
+
+      <div class="toolbar">
+        <input type="text" class="topbar__search" placeholder="Zoek producten..." style="width: 280px;">
+        <select class="form-input" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">
+          <option>Alle categorieën</option>
+          <option>Medisch</option>
+          <option>Diagnostiek</option>
+        </select>
+        <select class="form-input" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">
+          <option>Alle statussen</option>
+          <option>Gepubliceerd</option>
+          <option>Concept</option>
+        </select>
+        <span class="toolbar__count">142 producten</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th><input type="checkbox" /></th>
+              <th>Product</th>
+              <th>SKU</th>
+              <th>Categorie</th>
+              <th class="table-right">Prijs</th>
+              <th class="table-center">Voorraad</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td><a class="table-link" onclick="showPage('edit')">Chirurgische Handschoenen Pro</a></td>
+              <td class="table-mono">PLM-0001</td>
+              <td>Medisch</td>
+              <td class="table-right" style="font-weight: 600;">€ 24,95</td>
+              <td class="table-center">156</td>
+              <td><span class="pill pill--green"><span class="pill__dot pill__dot--green"></span> Gepubliceerd</span></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td><a class="table-link" onclick="showPage('edit')">Digitale Thermometer DT-500</a></td>
+              <td class="table-mono">PLM-0002</td>
+              <td>Diagnostiek</td>
+              <td class="table-right" style="font-weight: 600;">€ 45,00</td>
+              <td class="table-center"><span style="color: #ef4444; font-weight: 600;">3</span></td>
+              <td><span class="pill pill--green"><span class="pill__dot pill__dot--green"></span> Gepubliceerd</span></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td><a class="table-link" onclick="showPage('edit')">Bloeddrukmeter Automatisch</a></td>
+              <td class="table-mono">PLM-0003</td>
+              <td>Diagnostiek</td>
+              <td class="table-right" style="font-weight: 600;">€ 89,00</td>
+              <td class="table-center">42</td>
+              <td><span class="pill pill--amber">Concept</span></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td><a class="table-link" onclick="showPage('edit')">Steriele Gaaskompressen 10x10cm</a></td>
+              <td class="table-mono">PLM-0004</td>
+              <td>Verband</td>
+              <td class="table-right" style="font-weight: 600;">€ 8,50</td>
+              <td class="table-center">892</td>
+              <td><span class="pill pill--green"><span class="pill__dot pill__dot--green"></span> Gepubliceerd</span></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td><a class="table-link" onclick="showPage('edit')">Wondverzorgingsset Compleet</a></td>
+              <td class="table-mono">PLM-0005</td>
+              <td>Eerste hulp</td>
+              <td class="table-right" style="font-weight: 600;">€ 34,50</td>
+              <td class="table-center">67</td>
+              <td><span class="pill pill--green"><span class="pill__dot pill__dot--green"></span> Gepubliceerd</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <button class="btn btn--sm" disabled>Vorige</button>
+        <span class="pagination__info">Pagina 1 van 15</span>
+        <button class="btn btn--sm">Volgende</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PAGE: Orders
+       ═══════════════════════════════════════════════════════ -->
+  <div class="page-view" id="page-orders">
+    <div class="page">
+      <h1 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem;">Bestellingen</h1>
+
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi__top"><span class="kpi__label">Nieuw</span></div>
+          <div class="kpi__value" style="color: #f59e0b;">8</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi__top"><span class="kpi__label">In voorbereiding</span></div>
+          <div class="kpi__value" style="color: #2563eb;">3</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi__top"><span class="kpi__label">Verzonden</span></div>
+          <div class="kpi__value" style="color: #8b5cf6;">12</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi__top"><span class="kpi__label">Geleverd (30d)</span></div>
+          <div class="kpi__value" style="color: #10b981;">64</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Bestelnr.</th>
+              <th>Klant</th>
+              <th>Status</th>
+              <th class="table-right">Totaal</th>
+              <th class="table-center">Items</th>
+              <th>Datum</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a class="table-link" onclick="showPage('edit')">#ORD-2024-0087</a></td>
+              <td>J. de Vries<div class="table-muted">j.devries@example.nl</div></td>
+              <td><span class="pill pill--amber"><span class="pill__dot pill__dot--amber"></span> In behandeling</span></td>
+              <td class="table-right" style="font-weight: 600;">€ 245,50</td>
+              <td class="table-center">3</td>
+              <td>14-03-2026 14:32</td>
+            </tr>
+            <tr>
+              <td><a class="table-link" onclick="showPage('edit')">#ORD-2024-0086</a></td>
+              <td>Kliniek Zorgvast BV<div class="table-muted">inkoop@zorgvast.nl</div></td>
+              <td><span class="pill pill--green"><span class="pill__dot pill__dot--green"></span> Betaald</span></td>
+              <td class="table-right" style="font-weight: 600;">€ 1.250,00</td>
+              <td class="table-center">8</td>
+              <td>14-03-2026 11:05</td>
+            </tr>
+            <tr>
+              <td><a class="table-link" onclick="showPage('edit')">#ORD-2024-0085</a></td>
+              <td>P. Bakker<div class="table-muted">p.bakker@gmail.com</div></td>
+              <td><span class="pill pill--purple">Verzonden</span></td>
+              <td class="table-right" style="font-weight: 600;">€ 89,00</td>
+              <td class="table-center">1</td>
+              <td>13-03-2026 16:22</td>
+            </tr>
+            <tr>
+              <td><a class="table-link" onclick="showPage('edit')">#ORD-2024-0084</a></td>
+              <td>M. Janssen<div class="table-muted">m.janssen@hotmail.com</div></td>
+              <td><span class="pill pill--green"><span class="pill__dot pill__dot--green"></span> Geleverd</span></td>
+              <td class="table-right" style="font-weight: 600;">€ 67,45</td>
+              <td class="table-center">2</td>
+              <td>12-03-2026 09:15</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PAGE: Edit Document
+       ═══════════════════════════════════════════════════════ -->
+  <div class="page-view" id="page-edit">
+    <div class="doc-controls">
+      <div class="doc-controls__left">
+        <span class="doc-controls__status">
+          <span class="pill pill--green" style="font-size: 0.65rem;">Gepubliceerd</span>
+          Laatst opgeslagen: 14:32
+        </span>
+      </div>
+      <div class="doc-controls__right">
+        <button class="btn btn--sm">Annuleren</button>
+        <button class="btn btn--sm">Concept opslaan</button>
+        <button class="btn btn--primary btn--sm">Publiceren</button>
+      </div>
+    </div>
+
+    <div class="page" style="max-width: 900px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <div>
+          <div class="table-muted" style="margin-bottom: 0.25rem;">← Terug naar Producten</div>
+          <h1 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">Chirurgische Handschoenen Pro</h1>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active">Algemeen</button>
+        <button class="tab">Prijzen</button>
+        <button class="tab">Voorraad</button>
+        <button class="tab">Varianten</button>
+        <button class="tab">Media</button>
+        <button class="tab">SEO</button>
+      </div>
+
+      <!-- Form fields -->
+      <div class="grid grid--2" style="margin-bottom: 1.5rem;">
+        <div class="form-group">
+          <label class="form-label">Titel <span style="color: #2563eb;">*</span></label>
+          <input type="text" class="form-input" style="width: 100%;" value="Chirurgische Handschoenen Pro">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Slug</label>
+          <input type="text" class="form-input" style="width: 100%;" value="chirurgische-handschoenen-pro">
+          <div class="form-desc">Automatisch gegenereerd uit de titel</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Korte beschrijving</label>
+        <textarea class="form-input" style="width: 100%; min-height: 80px;" placeholder="Beschrijf het product in 1-2 zinnen...">Hoogwaardige chirurgische handschoenen voor medisch gebruik. Verkrijgbaar in maat S, M, L en XL.</textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Beschrijving</label>
+        <div style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
+          <div style="display: flex; gap: 0.25rem; padding: 0.5rem 0.75rem; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+            <button style="padding: 0.25rem 0.5rem; border: none; border-radius: 4px; background: #eff6ff; color: #2563eb; font-size: 0.75rem; font-weight: 600; cursor: pointer;">B</button>
+            <button style="padding: 0.25rem 0.5rem; border: none; border-radius: 4px; background: none; color: #64748b; font-size: 0.75rem; cursor: pointer; font-style: italic;">I</button>
+            <button style="padding: 0.25rem 0.5rem; border: none; border-radius: 4px; background: none; color: #64748b; font-size: 0.75rem; cursor: pointer;">H1</button>
+            <button style="padding: 0.25rem 0.5rem; border: none; border-radius: 4px; background: none; color: #64748b; font-size: 0.75rem; cursor: pointer;">H2</button>
+            <button style="padding: 0.25rem 0.5rem; border: none; border-radius: 4px; background: none; color: #64748b; font-size: 0.75rem; cursor: pointer;">🔗</button>
+            <button style="padding: 0.25rem 0.5rem; border: none; border-radius: 4px; background: none; color: #64748b; font-size: 0.75rem; cursor: pointer;">📷</button>
+          </div>
+          <div style="padding: 1rem; min-height: 150px; font-size: 0.85rem; line-height: 1.7; color: #334155;">
+            <p>Deze chirurgische handschoenen zijn gemaakt van hoogwaardig nitrile materiaal en bieden <strong>uitstekende bescherming</strong> tijdens medische ingrepen.</p>
+            <p style="margin-top: 0.75rem;">Kenmerken:</p>
+            <ul style="margin-top: 0.25rem; padding-left: 1.5rem;">
+              <li>Poedervrij</li>
+              <li>Latexvrij (nitrile)</li>
+              <li>AQL 1.5 inspectie niveau</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid--2">
+        <div class="form-group">
+          <label class="form-label">SKU</label>
+          <input type="text" class="form-input" style="width: 100%;" value="PLM-0001">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Categorie</label>
+          <select class="form-input" style="width: 100%; padding: 0.5rem 0.875rem;">
+            <option>Medisch</option>
+            <option>Diagnostiek</option>
+            <option>Verband</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PAGE: Analytics
+       ═══════════════════════════════════════════════════════ -->
+  <div class="page-view" id="page-analytics">
+    <div class="page">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <div>
+          <h1 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">Analytics</h1>
+          <p style="font-size: 0.8rem; color: #64748b; margin-top: 0.25rem;">Omzet, bestellingen en klantinzichten</p>
+        </div>
+        <div style="display: flex; gap: 0.25rem; background: #f1f5f9; border-radius: 8px; padding: 0.2rem;">
+          <button style="padding: 0.35rem 0.75rem; border-radius: 6px; border: none; background: #fff; color: #1d4ed8; font-size: 0.75rem; font-weight: 600; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">7 dagen</button>
+          <button style="padding: 0.35rem 0.75rem; border-radius: 6px; border: none; background: transparent; color: #64748b; font-size: 0.75rem; cursor: pointer;">30 dagen</button>
+          <button style="padding: 0.35rem 0.75rem; border-radius: 6px; border: none; background: transparent; color: #64748b; font-size: 0.75rem; cursor: pointer;">90 dagen</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi__top"><span class="kpi__label">Omzet</span><span class="kpi__icon kpi__icon--green">💰</span></div>
+          <div class="kpi__value">€ 12.450</div>
+          <div class="kpi__footer"><span class="kpi__trend kpi__trend--up">+12,3%</span><span class="kpi__sub">vs vorige periode</span></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi__top"><span class="kpi__label">Bestellingen</span><span class="kpi__icon kpi__icon--blue">📦</span></div>
+          <div class="kpi__value">87</div>
+          <div class="kpi__footer"><span class="kpi__trend kpi__trend--up">+8,1%</span><span class="kpi__sub">vs vorige periode</span></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi__top"><span class="kpi__label">Gem. Orderwaarde</span><span class="kpi__icon kpi__icon--amber">📊</span></div>
+          <div class="kpi__value">€ 143</div>
+          <div class="kpi__footer"><span class="kpi__trend kpi__trend--up">+3,7%</span><span class="kpi__sub">vs vorige periode</span></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi__top"><span class="kpi__label">Conversie</span><span class="kpi__icon kpi__icon--purple">🎯</span></div>
+          <div class="kpi__value">3,2%</div>
+          <div class="kpi__footer"><span class="kpi__trend kpi__trend--down">-0,5%</span><span class="kpi__sub">vs vorige periode</span></div>
+        </div>
+      </div>
+
+      <!-- Revenue chart placeholder -->
+      <div class="section">
+        <div class="card">
+          <div class="card__header">
+            <div class="card__title">Omzet over tijd</div>
+          </div>
+          <div class="card__body" style="height: 200px; display: flex; align-items: flex-end; gap: 4px; padding-bottom: 0;">
+            <!-- Simple bar chart -->
+            <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+              <div style="width: 100%; background: #dbeafe; border-radius: 4px 4px 0 0; height: 80px;"></div>
+              <span style="font-size: 0.6rem; color: #94a3b8;">Ma</span>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+              <div style="width: 100%; background: #dbeafe; border-radius: 4px 4px 0 0; height: 120px;"></div>
+              <span style="font-size: 0.6rem; color: #94a3b8;">Di</span>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+              <div style="width: 100%; background: #dbeafe; border-radius: 4px 4px 0 0; height: 60px;"></div>
+              <span style="font-size: 0.6rem; color: #94a3b8;">Wo</span>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+              <div style="width: 100%; background: #93c5fd; border-radius: 4px 4px 0 0; height: 150px;"></div>
+              <span style="font-size: 0.6rem; color: #94a3b8;">Do</span>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+              <div style="width: 100%; background: #2563eb; border-radius: 4px 4px 0 0; height: 180px;"></div>
+              <span style="font-size: 0.6rem; color: #94a3b8;">Vr</span>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+              <div style="width: 100%; background: #dbeafe; border-radius: 4px 4px 0 0; height: 100px;"></div>
+              <span style="font-size: 0.6rem; color: #94a3b8;">Za</span>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+              <div style="width: 100%; background: #dbeafe; border-radius: 4px 4px 0 0; height: 40px;"></div>
+              <span style="font-size: 0.6rem; color: #94a3b8;">Zo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top products -->
+      <div class="section">
+        <div class="section__header">
+          <h2 class="section__title">Top Producten</h2>
+          <a href="#" class="section__link">Alle producten →</a>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Product</th>
+                <th class="table-right">Verkocht</th>
+                <th class="table-right">Omzet</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td><a class="table-link">Chirurgische Handschoenen Pro</a></td>
+                <td class="table-right">234</td>
+                <td class="table-right" style="font-weight: 600;">€ 5.837,30</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><a class="table-link">Bloeddrukmeter Automatisch</a></td>
+                <td class="table-right">89</td>
+                <td class="table-right" style="font-weight: 600;">€ 7.921,00</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td><a class="table-link">Digitale Thermometer DT-500</a></td>
+                <td class="table-right">156</td>
+                <td class="table-right" style="font-weight: 600;">€ 7.020,00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PAGE: Pages List (simpler collection)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="page-view" id="page-pages">
+    <div class="page">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h1 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">Pagina's</h1>
+        <button class="btn btn--primary" onclick="showPage('edit')">+ Nieuwe pagina</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Titel</th>
+              <th>Slug</th>
+              <th>Status</th>
+              <th>Laatst bewerkt</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a class="table-link" onclick="showPage('edit')">Homepage</a></td>
+              <td class="table-mono">/</td>
+              <td><span class="pill pill--green"><span class="pill__dot pill__dot--green"></span> Gepubliceerd</span></td>
+              <td>14-03-2026 12:05</td>
+            </tr>
+            <tr>
+              <td><a class="table-link" onclick="showPage('edit')">Over ons</a></td>
+              <td class="table-mono">/over-ons</td>
+              <td><span class="pill pill--green"><span class="pill__dot pill__dot--green"></span> Gepubliceerd</span></td>
+              <td>12-03-2026 09:32</td>
+            </tr>
+            <tr>
+              <td><a class="table-link" onclick="showPage('edit')">Contact</a></td>
+              <td class="table-mono">/contact</td>
+              <td><span class="pill pill--green"><span class="pill__dot pill__dot--green"></span> Gepubliceerd</span></td>
+              <td>10-03-2026 15:18</td>
+            </tr>
+            <tr>
+              <td><a class="table-link" onclick="showPage('edit')">Producten</a></td>
+              <td class="table-mono">/producten</td>
+              <td><span class="pill pill--green"><span class="pill__dot pill__dot--green"></span> Gepubliceerd</span></td>
+              <td>08-03-2026 11:45</td>
+            </tr>
+            <tr>
+              <td><a class="table-link" onclick="showPage('edit')">Nieuwe landingspagina</a></td>
+              <td class="table-mono">/actie-maart</td>
+              <td><span class="pill pill--amber">Concept</span></td>
+              <td>14-03-2026 14:20</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast notification (demo) -->
+<div class="toast" id="toast" style="display: none;">
+  <span class="toast__icon">✅</span>
+  <div>
+    <strong>Opgeslagen</strong>
+    <div style="font-size: 0.7rem; color: #64748b; margin-top: 0.125rem;">Wijzigingen zijn succesvol opgeslagen</div>
+  </div>
+</div>
+
+<script>
+// Page switching
+function showPage(pageId) {
+  document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + pageId);
+  if (target) target.classList.add('active');
+
+  // Update breadcrumb
+  const titles = {
+    dashboard: 'Dashboard',
+    collection: 'Producten',
+    orders: 'Bestellingen',
+    edit: 'Bewerken',
+    analytics: 'Analytics',
+    pages: 'Pagina\'s',
+  };
+  document.getElementById('breadcrumb-title').textContent = titles[pageId] || pageId;
+
+  // Update active nav link
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+}
+
+// Initialize: dashboard active
+document.querySelector('.nav-link[data-page="dashboard"]').classList.add('active');
+document.querySelector('.nav-link[data-page="dashboard"]').addEventListener('click', () => showPage('dashboard'));
+
+// Show toast on edit page
+let toastTimeout;
+document.querySelectorAll('.btn--primary').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    if (btn.textContent.includes('Publiceren') || btn.textContent.includes('opslaan')) {
+      const toast = document.getElementById('toast');
+      toast.style.display = 'flex';
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+  });
+});
+</script>
+</body>
+</html>

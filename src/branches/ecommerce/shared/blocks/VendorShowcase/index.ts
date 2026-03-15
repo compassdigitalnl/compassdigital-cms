@@ -4,15 +4,15 @@ import { animationFields } from '@/branches/shared/blocks/_shared/animationField
 /**
  * B-26 Vendor Showcase Block
  *
- * Vendor/brand cards in grid or carousel layout.
- * Each card shows logo, name, and product count.
+ * Vendor/supplier cards in grid or carousel layout.
+ * Each card shows logo, name, product count, rating, and link to vendor page.
  */
 export const VendorShowcase: Block = {
   slug: 'vendorShowcase',
   interfaceName: 'VendorShowcaseBlock',
   labels: {
-    singular: 'Merk Showcase',
-    plural: 'Merk Showcases',
+    singular: 'Leverancier Showcase',
+    plural: 'Leverancier Showcases',
   },
   fields: [
     {
@@ -26,7 +26,7 @@ export const VendorShowcase: Block = {
               type: 'text',
               label: 'Titel',
               admin: {
-                placeholder: 'Onze merken',
+                placeholder: 'Onze leveranciers',
               },
             },
             {
@@ -34,7 +34,7 @@ export const VendorShowcase: Block = {
               type: 'text',
               label: 'Subtitel',
               admin: {
-                placeholder: 'Wij werken met de beste merken',
+                placeholder: 'Wij werken met de beste leveranciers',
               },
             },
             {
@@ -43,19 +43,19 @@ export const VendorShowcase: Block = {
               label: 'Bron',
               defaultValue: 'all',
               options: [
-                { label: 'Alle merken', value: 'all' },
-                { label: 'Featured merken', value: 'featured' },
+                { label: 'Alle leveranciers', value: 'all' },
+                { label: 'Featured leveranciers', value: 'featured' },
                 { label: 'Handmatig selecteren', value: 'manual' },
               ],
             },
             {
               name: 'vendors',
               type: 'relationship',
-              relationTo: 'brands',
+              relationTo: 'vendors',
               hasMany: true,
-              label: 'Merken',
+              label: 'Leveranciers',
               admin: {
-                description: 'Selecteer merken handmatig',
+                description: 'Selecteer leveranciers handmatig',
                 condition: (data, siblingData) => siblingData?.source === 'manual',
               },
             },

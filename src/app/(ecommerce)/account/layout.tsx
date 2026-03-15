@@ -24,6 +24,7 @@ import {
   Users,
   ClipboardCheck,
   Wallet,
+  BookOpen,
 } from 'lucide-react'
 
 export default function MyAccountLayout({ children }: { children: React.ReactNode }) {
@@ -52,6 +53,7 @@ export default function MyAccountLayout({ children }: { children: React.ReactNod
     { name: 'Bestellingen', href: '/account/orders', icon: Package, requiresFeature: 'checkout' as const },
     { name: 'Offertes', href: '/account/quotes', icon: FileCheck, requiresFeature: 'checkout' as const },
     { name: 'Abonnementen', href: '/account/subscriptions', icon: CreditCard, requiresFeature: 'subscriptions' as const },
+    { name: 'Digitale Bibliotheek', href: '/account/bibliotheek', icon: BookOpen, requiresFeature: 'publishing' as const },
     { name: 'Licenties', href: '/account/licenses', icon: KeyRound, requiresFeature: 'licenses' as const },
     { name: 'Cadeaubonnen', href: '/account/gift-vouchers', icon: Gift, requiresFeature: 'giftVouchers' as const },
     { name: 'Loyalty', href: '/account/loyalty', icon: Award, requiresFeature: 'loyalty' as const },
@@ -113,24 +115,24 @@ export default function MyAccountLayout({ children }: { children: React.ReactNod
               <div className="sticky top-8 space-y-6">
                 <div className="bg-white rounded-2xl p-5 shadow-sm animate-pulse">
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="w-14 h-14 rounded-full bg-gray-200" />
+                    <div className="w-14 h-14 rounded-full bg-grey-light" />
                     <div className="flex-1">
-                      <div className="h-4 bg-gray-200 rounded w-24 mb-2" />
-                      <div className="h-3 bg-gray-200 rounded w-32" />
+                      <div className="h-4 bg-grey-light rounded w-24 mb-2" />
+                      <div className="h-3 bg-grey-light rounded w-32" />
                     </div>
                   </div>
                 </div>
                 <div className="bg-white rounded-2xl p-3 shadow-sm animate-pulse space-y-2">
                   {[1, 2, 3, 4, 5].map((i) => (
-                    <div key={i} className="h-10 bg-gray-100 rounded-lg" />
+                    <div key={i} className="h-10 bg-grey-light rounded-lg" />
                   ))}
                 </div>
               </div>
             </aside>
             <main>
               <div className="animate-pulse space-y-4">
-                <div className="h-8 bg-gray-200 rounded w-48" />
-                <div className="h-5 bg-gray-200 rounded w-64" />
+                <div className="h-8 bg-grey-light rounded w-48" />
+                <div className="h-5 bg-grey-light rounded w-64" />
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   {[1, 2, 3, 4].map((i) => (
                     <div key={i} className="bg-white rounded-2xl p-5 shadow-sm h-28" />

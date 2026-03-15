@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="nl-NL">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMW X3 xDrive30i High Executive M Sport | Premium Automotive</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ========== DESIGN TOKENS ========== */
+    :root {
+      /* Automotive Colors */
+      --orange: #FF5722;
+      --orange-light: #FF7043;
+      --orange-dark: #E64A19;
+      --orange-glow: rgba(255, 87, 34, 0.12);
+      --carbon: #1a1a1a;
+      --carbon-light: #2a2a2a;
+      --carbon-dark: #0a0a0a;
+
+      /* Core Colors (shared) */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Status Colors */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+
+      /* Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* System */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+      --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+      --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 1200px;
+      --gutter: 24px;
+    }
+
+    /* ========== RESET & BASE ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--navy);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.2;
+      font-weight: 800;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px var(--orange-glow);
+    }
+
+    /* ========== LAYOUT ========== */
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    .page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    /* ========== HEADER ========== */
+    .header {
+      background: var(--white);
+      border-bottom: 1px solid var(--grey);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-top {
+      background: var(--carbon);
+      color: var(--white);
+      font-size: 11px;
+      padding: 8px 0;
+    }
+
+    .header-top .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-usps {
+      display: flex;
+      gap: 24px;
+    }
+
+    .header-usp {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .header-usp i {
+      width: 14px;
+      height: 14px;
+      color: var(--orange);
+    }
+
+    .header-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .header-links a {
+      color: rgba(255,255,255,0.8);
+    }
+
+    .header-links a:hover {
+      color: var(--orange);
+    }
+
+    .header-main {
+      padding: 16px 0;
+    }
+
+    .header-main .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--carbon);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo i {
+      color: var(--orange);
+      width: 28px;
+      height: 28px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 32px;
+    }
+
+    .nav a {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--grey-dark);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav a:hover {
+      color: var(--orange);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      background: var(--grey-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--grey-dark);
+    }
+
+    .btn-icon:hover {
+      background: var(--orange);
+      color: var(--white);
+    }
+
+    .btn-icon i {
+      width: 18px;
+      height: 18px;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: var(--white);
+      padding: 11px 24px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ========== BREADCRUMBS ========== */
+    .breadcrumbs {
+      background: var(--bg);
+      padding: 12px 0;
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    .breadcrumbs-list {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .breadcrumbs-list a {
+      color: var(--grey-mid);
+    }
+
+    .breadcrumbs-list a:hover {
+      color: var(--orange);
+    }
+
+    .breadcrumbs-list .current {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ========== PAGE LAYOUT ========== */
+    .page-content {
+      padding: 32px 0 64px;
+    }
+
+    .vehicle-detail-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* ========== VEHICLE HEADER ========== */
+    .vehicle-header {
+      margin-bottom: 32px;
+    }
+
+    .vehicle-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--carbon);
+      margin-bottom: 12px;
+    }
+
+    .vehicle-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--carbon);
+      margin-bottom: 8px;
+    }
+
+    .vehicle-variant {
+      font-size: 16px;
+      color: var(--grey-mid);
+      margin-bottom: 16px;
+    }
+
+    .vehicle-quick-specs {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .quick-spec {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .quick-spec i {
+      width: 16px;
+      height: 16px;
+      color: var(--orange);
+    }
+
+    /* ========== GALLERY ========== */
+    .vehicle-gallery {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 300px 300px;
+      gap: 8px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+
+    .gallery-item {
+      background: var(--grey-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.02);
+    }
+
+    .gallery-item:first-child {
+      grid-row: 1 / 3;
+    }
+
+    .gallery-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--orange);
+      color: var(--white);
+    }
+
+    .gallery-badge i {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* ========== VEHICLE SPECS (A2) ========== */
+    .vehicle-specs {
+      background: var(--white);
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .vehicle-specs h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--carbon);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .vehicle-specs h3 i {
+      width: 20px;
+      height: 20px;
+      color: var(--orange);
+    }
+
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .spec-row {
+      display: contents;
+    }
+
+    .spec-label {
+      background: var(--bg);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .spec-label i {
+      width: 16px;
+      height: 16px;
+      color: var(--grey-mid);
+    }
+
+    .spec-value {
+      background: var(--bg);
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .spec-row:nth-child(even) .spec-label,
+    .spec-row:nth-child(even) .spec-value {
+      background: var(--white);
+    }
+
+    .energy-label {
+      background: var(--amber);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    /* ========== VEHICLE DESCRIPTION ========== */
+    .vehicle-description {
+      background: var(--white);
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .vehicle-description h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--carbon);
+      margin-bottom: 16px;
+    }
+
+    .vehicle-description p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--grey-dark);
+      margin-bottom: 12px;
+    }
+
+    .vehicle-description ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .vehicle-description li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .vehicle-description li i {
+      width: 16px;
+      height: 16px;
+      color: var(--orange);
+      flex-shrink: 0;
+    }
+
+    /* ========== SIDEBAR ========== */
+    .vehicle-sidebar {
+      position: sticky;
+      top: 100px;
+    }
+
+    /* ========== FINANCE CALCULATOR (A3) ========== */
+    .finance-calc {
+      background: var(--white);
+      border: 1.5px solid var(--grey);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .finance-calc h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .finance-calc h3 i {
+      width: 24px;
+      height: 24px;
+      color: var(--orange);
+    }
+
+    .finance-desc {
+      font-size: 13px;
+      color: var(--grey-dark);
+      margin-bottom: 24px;
+    }
+
+    .finance-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .finance-input-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .finance-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--grey-dark);
+      margin-bottom: 6px;
+    }
+
+    .finance-input-wrapper {
+      position: relative;
+    }
+
+    .finance-input-prefix,
+    .finance-input-suffix {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+      color: var(--grey-mid);
+    }
+
+    .finance-input-prefix {
+      left: 12px;
+    }
+
+    .finance-input-suffix {
+      right: 12px;
+    }
+
+    .finance-input {
+      width: 100%;
+      padding: 10px 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+    }
+
+    .finance-input.has-prefix {
+      padding-left: 28px;
+    }
+
+    .finance-input.has-suffix {
+      padding-right: 36px;
+    }
+
+    .finance-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .finance-select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 13px;
+      background: var(--white);
+      cursor: pointer;
+    }
+
+    .finance-highlight {
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 14px;
+      margin: 4px 0;
+    }
+
+    .finance-result {
+      background: linear-gradient(135deg, var(--orange), var(--orange-light));
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 8px;
+    }
+
+    .finance-result-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 4px;
+    }
+
+    .finance-result-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .finance-result-note {
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 6px;
+    }
+
+    .btn-finance {
+      width: 100%;
+      background: var(--orange);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .btn-finance:hover {
+      background: var(--orange-dark);
+    }
+
+    .btn-finance i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ========== CONTACT DEALER CARD ========== */
+    .dealer-card {
+      background: var(--white);
+      border: 1.5px solid var(--grey);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .dealer-card h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--carbon);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dealer-card h3 i {
+      width: 18px;
+      height: 18px;
+      color: var(--orange);
+    }
+
+    .dealer-info {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .dealer-info-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+
+    .dealer-info-item i {
+      width: 16px;
+      height: 16px;
+      color: var(--grey-mid);
+      flex-shrink: 0;
+    }
+
+    .btn-dealer {
+      width: 100%;
+      background: var(--carbon);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .btn-dealer:hover {
+      background: var(--carbon-light);
+    }
+
+    .btn-dealer i {
+      width: 16px;
+      height: 16px;
+    }
+
+    .btn-dealer-secondary {
+      background: var(--grey-light);
+      color: var(--navy);
+    }
+
+    .btn-dealer-secondary:hover {
+      background: var(--grey);
+    }
+
+    /* ========== CTA BANNER ========== */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--carbon), var(--carbon-light));
+      border-radius: var(--radius);
+      padding: 32px;
+      text-align: center;
+      margin-top: 48px;
+    }
+
+    .cta-banner h3 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .cta-banner p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 24px;
+    }
+
+    .cta-banner .btn-primary {
+      font-size: 15px;
+      padding: 14px 28px;
+    }
+
+    /* ========== FOOTER ========== */
+    .footer {
+      background: var(--carbon);
+      color: rgba(255,255,255,0.8);
+      padding: 48px 0 24px;
+      margin-top: 64px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+
+    .footer-column h4 {
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-links a:hover {
+      color: var(--orange);
+    }
+
+    .footer-links i {
+      width: 14px;
+      height: 14px;
+    }
+
+    .footer-bottom {
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+    }
+
+    .footer-social a {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .footer-social a:hover {
+      background: var(--orange);
+      color: var(--white);
+    }
+
+    .footer-social i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .vehicle-detail-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .vehicle-sidebar {
+        position: static;
+      }
+
+      .vehicle-gallery {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 250px 125px 125px;
+      }
+
+      .vehicle-gallery .gallery-item:first-child {
+        grid-column: 1 / 3;
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header-usps,
+      .header-links {
+        display: none;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .vehicle-quick-specs {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .vehicle-gallery {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(5, 200px);
+      }
+
+      .vehicle-gallery .gallery-item:first-child {
+        grid-column: 1;
+      }
+
+      .specs-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .vehicle-description ul {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- HEADER -->
+    <header class="header">
+      <!-- Top Bar -->
+      <div class="header-top">
+        <div class="container">
+          <div class="header-usps">
+            <div class="header-usp">
+              <i data-lucide="shield-check"></i>
+              <span>100% kwaliteitscontrole</span>
+            </div>
+            <div class="header-usp">
+              <i data-lucide="clock"></i>
+              <span>24/7 service</span>
+            </div>
+            <div class="header-usp">
+              <i data-lucide="headphones"></i>
+              <span>Gratis advies</span>
+            </div>
+          </div>
+          <div class="header-links">
+            <a href="#">Mijn account</a>
+            <a href="#">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Header -->
+      <div class="header-main">
+        <div class="container">
+          <a href="#" class="logo">
+            <i data-lucide="car"></i>
+            <span>Premium Automotive</span>
+          </a>
+
+          <nav class="nav">
+            <a href="#">
+              <span>Occasions</span>
+              <i data-lucide="chevron-down"></i>
+            </a>
+            <a href="#">Nieuw</a>
+            <a href="#">Inruilen</a>
+            <a href="#">Financiering</a>
+            <a href="#">Werkplaats</a>
+            <a href="#">Over ons</a>
+          </nav>
+
+          <div class="header-actions">
+            <button class="btn-icon">
+              <i data-lucide="search"></i>
+            </button>
+            <button class="btn-icon">
+              <i data-lucide="heart"></i>
+            </button>
+            <a href="#" class="btn-primary">
+              <i data-lucide="phone"></i>
+              <span>020 - 123 4567</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- BREADCRUMBS -->
+    <div class="breadcrumbs">
+      <div class="container">
+        <ul class="breadcrumbs-list">
+          <li><a href="#">Home</a></li>
+          <li>›</li>
+          <li><a href="#">Occasions</a></li>
+          <li>›</li>
+          <li><a href="#">BMW</a></li>
+          <li>›</li>
+          <li class="current">BMW X3 xDrive30i</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="page-content">
+      <div class="container">
+        <!-- Vehicle Header -->
+        <div class="vehicle-header">
+          <div class="vehicle-price">€ 45.750</div>
+          <h1 class="vehicle-title">BMW X3 xDrive30i</h1>
+          <div class="vehicle-variant">High Executive M Sport</div>
+          <div class="vehicle-quick-specs">
+            <div class="quick-spec">
+              <i data-lucide="calendar"></i>
+              <span>2020</span>
+            </div>
+            <div class="quick-spec">
+              <i data-lucide="gauge"></i>
+              <span>58.200 km</span>
+            </div>
+            <div class="quick-spec">
+              <i data-lucide="fuel"></i>
+              <span>Benzine</span>
+            </div>
+            <div class="quick-spec">
+              <i data-lucide="settings"></i>
+              <span>Automaat</span>
+            </div>
+            <div class="quick-spec">
+              <i data-lucide="zap"></i>
+              <span>252 PK</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gallery -->
+        <div class="vehicle-gallery">
+          <div class="gallery-item">
+            🚙
+            <span class="gallery-badge">
+              <i data-lucide="award"></i>
+              Topdealer
+            </span>
+          </div>
+          <div class="gallery-item">🚙</div>
+          <div class="gallery-item">🚙</div>
+          <div class="gallery-item">🚙</div>
+          <div class="gallery-item">🚙</div>
+        </div>
+
+        <div class="vehicle-detail-layout">
+          <!-- Main Content -->
+          <div class="vehicle-main">
+            <!-- Vehicle Specs (A2) -->
+            <div class="vehicle-specs">
+              <h3>
+                <i data-lucide="car"></i>
+                <span>Specificaties</span>
+              </h3>
+              <div class="specs-grid">
+                <div class="spec-row">
+                  <div class="spec-label">
+                    <i data-lucide="gauge"></i>
+                    <span>KM stand</span>
+                  </div>
+                  <div class="spec-value">58.200 km</div>
+                </div>
+
+                <div class="spec-row">
+                  <div class="spec-label">
+                    <i data-lucide="fuel"></i>
+                    <span>Brandstof</span>
+                  </div>
+                  <div class="spec-value">Benzine</div>
+                </div>
+
+                <div class="spec-row">
+                  <div class="spec-label">
+                    <i data-lucide="settings"></i>
+                    <span>Transmissie</span>
+                  </div>
+                  <div class="spec-value">Automaat (8-traps Steptronic)</div>
+                </div>
+
+                <div class="spec-row">
+                  <div class="spec-label">
+                    <i data-lucide="zap"></i>
+                    <span>Vermogen</span>
+                  </div>
+                  <div class="spec-value">252 PK (185 kW)</div>
+                </div>
+
+                <div class="spec-row">
+                  <div class="spec-label">
+                    <i data-lucide="calendar"></i>
+                    <span>Bouwjaar</span>
+                  </div>
+                  <div class="spec-value">2020</div>
+                </div>
+
+                <div class="spec-row">
+                  <div class="spec-label">
+                    <i data-lucide="palette"></i>
+                    <span>Kleur</span>
+                  </div>
+                  <div class="spec-value">Phytonic Blue Metallic</div>
+                </div>
+
+                <div class="spec-row">
+                  <div class="spec-label">
+                    <i data-lucide="car-front"></i>
+                    <span>Deuren</span>
+                  </div>
+                  <div class="spec-value">5</div>
+                </div>
+
+                <div class="spec-row">
+                  <div class="spec-label">
+                    <i data-lucide="users"></i>
+                    <span>Zitplaatsen</span>
+                  </div>
+                  <div class="spec-value">5</div>
+                </div>
+
+                <div class="spec-row">
+                  <div class="spec-label">
+                    <i data-lucide="activity"></i>
+                    <span>Cilinderinhoud</span>
+                  </div>
+                  <div class="spec-value">1998 cc</div>
+                </div>
+
+                <div class="spec-row">
+                  <div class="spec-label">
+                    <i data-lucide="cloud"></i>
+                    <span>CO₂ uitstoot</span>
+                  </div>
+                  <div class="spec-value">159 g/km</div>
+                </div>
+
+                <div class="spec-row">
+                  <div class="spec-label">
+                    <i data-lucide="leaf"></i>
+                    <span>Energielabel</span>
+                  </div>
+                  <div class="spec-value">
+                    <span class="energy-label">C</span>
+                  </div>
+                </div>
+
+                <div class="spec-row">
+                  <div class="spec-label">
+                    <i data-lucide="shield-check"></i>
+                    <span>APK</span>
+                  </div>
+                  <div class="spec-value">t/m 08-2026</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="vehicle-description">
+              <h3>Omschrijving</h3>
+              <p>
+                Deze prachtige BMW X3 xDrive30i High Executive M Sport is in uitstekende staat en heeft een complete onderhoudshistorie. Het voertuig is altijd onderhouden bij een officieel BMW dealer en beschikt over een volledig dealeronderhoudsboekje.
+              </p>
+              <p>
+                De auto is uitgevoerd met het M Sport pakket, wat zorgt voor een sportief uiterlijk en gevoel. Met zijn 252 pk sterke benzinemotor en intelligente vierwielaandrijving biedt deze X3 optimale wegligging en rijplezier in alle omstandigheden.
+              </p>
+
+              <h3 style="margin-top: 24px; margin-bottom: 12px;">Opties & Uitrusting</h3>
+              <ul>
+                <li>
+                  <i data-lucide="check"></i>
+                  <span>M Sport pakket met sportonderstel</span>
+                </li>
+                <li>
+                  <i data-lucide="check"></i>
+                  <span>Panoramisch glazen schuif-/kanteldak</span>
+                </li>
+                <li>
+                  <i data-lucide="check"></i>
+                  <span>Navigatiesysteem Professional</span>
+                </li>
+                <li>
+                  <i data-lucide="check"></i>
+                  <span>Head-up display</span>
+                </li>
+                <li>
+                  <i data-lucide="check"></i>
+                  <span>Parkeerhulp voor en achter + camera</span>
+                </li>
+                <li>
+                  <i data-lucide="check"></i>
+                  <span>Verwarmd lederen M Sport stuurwiel</span>
+                </li>
+                <li>
+                  <i data-lucide="check"></i>
+                  <span>Elektrisch verstelbare stoelen met memory</span>
+                </li>
+                <li>
+                  <i data-lucide="check"></i>
+                  <span>Stoelverwarming voor en achter</span>
+                </li>
+                <li>
+                  <i data-lucide="check"></i>
+                  <span>LED koplampen met adaptief licht</span>
+                </li>
+                <li>
+                  <i data-lucide="check"></i>
+                  <span>Harman Kardon surround sound</span>
+                </li>
+                <li>
+                  <i data-lucide="check"></i>
+                  <span>Trekhaak elektrisch inklapbaar</span>
+                </li>
+                <li>
+                  <i data-lucide="check"></i>
+                  <span>Adaptive cruise control met stop & go</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="vehicle-sidebar">
+            <!-- Finance Calculator (A3) -->
+            <div class="finance-calc">
+              <h3>
+                <i data-lucide="banknote"></i>
+                <span>Financiering</span>
+              </h3>
+              <div class="finance-desc">Bereken uw maandlasten</div>
+
+              <div class="finance-inputs">
+                <div class="finance-input-group">
+                  <label class="finance-label">Vraagprijs</label>
+                  <div class="finance-input-wrapper">
+                    <span class="finance-input-prefix">€</span>
+                    <input type="text" class="finance-input has-prefix" value="45.750" />
+                  </div>
+                </div>
+
+                <div class="finance-input-group">
+                  <label class="finance-label">Aanbetaling</label>
+                  <div class="finance-input-wrapper">
+                    <span class="finance-input-prefix">€</span>
+                    <input type="text" class="finance-input has-prefix" value="10.000" />
+                  </div>
+                </div>
+
+                <div class="finance-input-group finance-highlight">
+                  <label class="finance-label">Inruilwaarde oude auto (optioneel)</label>
+                  <div class="finance-input-wrapper">
+                    <span class="finance-input-prefix">€</span>
+                    <input type="text" class="finance-input has-prefix" value="5.000" style="background: white;" />
+                  </div>
+                </div>
+
+                <div class="finance-row">
+                  <div class="finance-input-group">
+                    <label class="finance-label">Looptijd</label>
+                    <select class="finance-select">
+                      <option>60 maanden</option>
+                      <option>48 maanden</option>
+                      <option>36 maanden</option>
+                      <option>72 maanden</option>
+                      <option>84 maanden</option>
+                    </select>
+                  </div>
+                  <div class="finance-input-group">
+                    <label class="finance-label">Rente</label>
+                    <div class="finance-input-wrapper">
+                      <input type="text" class="finance-input has-suffix" value="4.5" />
+                      <span class="finance-input-suffix">%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="finance-result">
+                  <div class="finance-result-label">Maandlasten</div>
+                  <div class="finance-result-value">€ 573</div>
+                  <div class="finance-result-note">Totale kosten: €34.380 • Rente: €3.630</div>
+                </div>
+
+                <button class="btn-finance">
+                  <i data-lucide="send"></i>
+                  <span>Aanvraag indienen</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Dealer Contact -->
+            <div class="dealer-card">
+              <h3>
+                <i data-lucide="store"></i>
+                <span>Premium Auto Amsterdam</span>
+              </h3>
+
+              <div class="dealer-info">
+                <div class="dealer-info-item">
+                  <i data-lucide="map-pin"></i>
+                  <span>Autoweg 123, 1000 AB Amsterdam</span>
+                </div>
+                <div class="dealer-info-item">
+                  <i data-lucide="phone"></i>
+                  <span>020 - 123 4567</span>
+                </div>
+                <div class="dealer-info-item">
+                  <i data-lucide="mail"></i>
+                  <span>info@premiumauto.nl</span>
+                </div>
+                <div class="dealer-info-item">
+                  <i data-lucide="clock"></i>
+                  <span>Ma-Vr: 09:00 - 18:00 • Za: 10:00 - 17:00</span>
+                </div>
+              </div>
+
+              <button class="btn-dealer">
+                <i data-lucide="calendar"></i>
+                <span>Proefrit plannen</span>
+              </button>
+              <button class="btn-dealer btn-dealer-secondary">
+                <i data-lucide="mail"></i>
+                <span>Stel een vraag</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA Banner -->
+        <div class="cta-banner">
+          <h3>Geïnteresseerd in deze BMW X3?</h3>
+          <p>Onze specialisten helpen u graag verder met meer informatie of een proefrit</p>
+          <a href="#" class="btn-primary">
+            <i data-lucide="phone"></i>
+            <span>Bel 020 - 123 4567</span>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-column">
+            <h4>Premium Automotive</h4>
+            <ul class="footer-links">
+              <li><a href="#">Over ons</a></li>
+              <li><a href="#">Ons team</a></li>
+              <li><a href="#">Locatie & openingstijden</a></li>
+              <li><a href="#">Vacatures</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h4>Occasions</h4>
+            <ul class="footer-links">
+              <li><a href="#">Alle occasions</a></li>
+              <li><a href="#">Nieuw binnen</a></li>
+              <li><a href="#">Populaire modellen</a></li>
+              <li><a href="#">Topdealer occasions</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h4>Service</h4>
+            <ul class="footer-links">
+              <li><a href="#">Inruilen</a></li>
+              <li><a href="#">Financiering</a></li>
+              <li><a href="#">Leasing</a></li>
+              <li><a href="#">Werkplaats</a></li>
+              <li><a href="#">Garantie</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h4>Contact</h4>
+            <ul class="footer-links">
+              <li>
+                <a href="tel:0201234567">
+                  <i data-lucide="phone"></i>
+                  <span>020 - 123 4567</span>
+                </a>
+              </li>
+              <li>
+                <a href="mailto:info@premiumauto.nl">
+                  <i data-lucide="mail"></i>
+                  <span>info@premiumauto.nl</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i data-lucide="map-pin"></i>
+                  <span>Autoweg 123, Amsterdam</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div>
+            <p>&copy; 2026 Premium Automotive. Alle rechten voorbehouden.</p>
+          </div>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook">
+              <i data-lucide="facebook"></i>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <i data-lucide="instagram"></i>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <i data-lucide="linkedin"></i>
+            </a>
+            <a href="#" aria-label="YouTube">
+              <i data-lucide="youtube"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>

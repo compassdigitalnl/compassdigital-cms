@@ -70,9 +70,9 @@ export const DeliverabilityDashboard: React.FC = () => {
     switch (status) {
       case 'excellent': return 'text-green bg-green-50'
       case 'good': return 'text-teal bg-teal-50'
-      case 'needs-improvement': return 'text-yellow-600 bg-yellow-50'
+      case 'needs-improvement': return 'text-amber-600 bg-amber-50'
       case 'critical': return 'text-coral bg-coral-50'
-      default: return 'text-gray-600 bg-gray-50'
+      default: return 'text-grey-dark bg-grey-light'
     }
   }
 

@@ -1,0 +1,2399 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B-17c: Pricing with Gradient Featured Card - Compass Design System</title>
+
+  <style>
+    /* ============================================================================
+       DESIGN TOKENS (Compass Design System)
+       ============================================================================ */
+    :root {
+      /* Colors - Primary */
+      --navy: #0A1628;
+      --navy-light: #121F33;
+      --teal: #00897B;
+      --teal-light: #26A69A;
+      --teal-dark: #00695C;
+      --teal-glow: rgba(0, 137, 123, 0.12);
+
+      /* Colors - Status */
+      --green: #00C853;
+      --green-light: #E8F5E9;
+      --coral: #FF6B6B;
+      --coral-light: #FFF0F0;
+      --amber: #F59E0B;
+      --amber-light: #FFF8E1;
+      --blue: #2196F3;
+      --blue-light: #E3F2FD;
+      --purple: #7C3AED;
+      --purple-light: #EDE9FE;
+
+      /* Colors - Neutrals */
+      --white: #FAFBFC;
+      --bg: #F5F7FA;
+      --grey: #E8ECF1;
+      --grey-light: #F1F4F8;
+      --grey-mid: #94A3B8;
+      --grey-dark: #64748B;
+
+      /* Typography */
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      /* Spacing (4px grid) */
+      --sp-xs: 4px;
+      --sp-sm: 8px;
+      --sp-md: 12px;
+      --sp-lg: 16px;
+      --sp-xl: 24px;
+      --sp-2xl: 32px;
+      --sp-3xl: 48px;
+      --sp-4xl: 64px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+
+      /* Shadows */
+      --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+      --sh-md: 0 8px 24px rgba(10, 22, 40, 0.08);
+      --sh-lg: 0 16px 48px rgba(10, 22, 40, 0.12);
+      --sh-xl: 0 24px 64px rgba(10, 22, 40, 0.16);
+
+      /* Transitions */
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ============================================================================
+       GLOBAL STYLES
+       ============================================================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================================================
+       PRICING BLOCK STYLES
+       ============================================================================ */
+
+    /* Section Container */
+    .pricing-section {
+      padding: var(--sp-4xl) var(--sp-xl);
+      background: var(--white);
+    }
+
+    .pricing-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Section Header */
+    .pricing-header {
+      text-align: center;
+      margin-bottom: var(--sp-3xl);
+    }
+
+    .pricing-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-sm);
+      padding: var(--sp-sm) var(--sp-lg);
+      background: var(--teal-glow);
+      color: var(--teal);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: 9999px;
+      margin-bottom: var(--sp-lg);
+    }
+
+    .pricing-title {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 400;
+      color: var(--navy);
+      margin-bottom: var(--sp-md);
+      line-height: 1.2;
+    }
+
+    .pricing-description {
+      font-size: 15px;
+      color: var(--grey-dark);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Billing Toggle */
+    .billing-toggle-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-lg);
+      margin-bottom: var(--sp-3xl);
+    }
+
+    .billing-toggle {
+      position: relative;
+      width: 56px;
+      height: 32px;
+      background: var(--grey);
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+
+    .billing-toggle.active {
+      background: var(--teal);
+    }
+
+    .billing-toggle-handle {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 24px;
+      height: 24px;
+      background: white;
+      border-radius: 50%;
+      transition: transform var(--transition);
+      box-shadow: var(--sh-sm);
+    }
+
+    .billing-toggle.active .billing-toggle-handle {
+      transform: translateX(24px);
+    }
+
+    .billing-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey-mid);
+      transition: color var(--transition);
+    }
+
+    .billing-label.active {
+      color: var(--navy);
+    }
+
+    .billing-save-badge {
+      padding: 4px 10px;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      margin-left: var(--sp-sm);
+    }
+
+    /* Pricing Grid */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--sp-xl);
+      margin-bottom: var(--sp-3xl);
+    }
+
+    /* Standard Pricing Card */
+    .pricing-card {
+      position: relative;
+      background: white;
+      border: 2px solid var(--grey);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-2xl);
+      transition: all var(--transition);
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--sh-lg);
+      border-color: var(--teal-light);
+    }
+
+    /* Featured/Popular Card (GRADIENT VARIANT) */
+    .pricing-card.featured {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      border: none;
+      box-shadow: var(--sh-xl);
+      transform: scale(1.05);
+      z-index: 1;
+    }
+
+    .pricing-card.featured:hover {
+      transform: scale(1.05) translateY(-4px);
+    }
+
+    /* Decorative Glow for Featured Card */
+    .pricing-card.featured::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Popular Badge */
+    .popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-radius: 9999px;
+      box-shadow: var(--sh-md);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    /* Card Header */
+    .pricing-card-header {
+      margin-bottom: var(--sp-xl);
+    }
+
+    .pricing-plan-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: var(--sp-sm);
+    }
+
+    .pricing-card.featured .pricing-plan-name {
+      color: white;
+    }
+
+    .pricing-plan-description {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.5;
+    }
+
+    .pricing-card.featured .pricing-plan-description {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Price Display */
+    .pricing-price-wrapper {
+      margin-bottom: var(--sp-xl);
+    }
+
+    .pricing-price {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .pricing-currency {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--grey-dark);
+    }
+
+    .pricing-card.featured .pricing-currency {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .pricing-amount {
+      font-family: var(--font-display);
+      font-size: 48px;
+      font-weight: 400;
+      color: var(--navy);
+      line-height: 1;
+    }
+
+    .pricing-card.featured .pricing-amount {
+      color: white;
+    }
+
+    .pricing-period {
+      font-size: 15px;
+      color: var(--grey-mid);
+      font-weight: 500;
+    }
+
+    .pricing-card.featured .pricing-period {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .pricing-old-price {
+      font-size: 18px;
+      color: var(--grey-mid);
+      text-decoration: line-through;
+      font-weight: 500;
+    }
+
+    .pricing-card.featured .pricing-old-price {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .pricing-save-label {
+      display: inline-block;
+      margin-left: var(--sp-md);
+      padding: 4px 10px;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+    }
+
+    .pricing-card.featured .pricing-save-label {
+      background: rgba(0, 200, 83, 0.2);
+      color: var(--green);
+    }
+
+    /* CTA Button */
+    .pricing-cta {
+      display: block;
+      width: 100%;
+      padding: 14px 24px;
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-bottom: var(--sp-xl);
+    }
+
+    /* Standard Card CTA */
+    .pricing-card:not(.featured) .pricing-cta {
+      background: var(--teal);
+      color: white;
+    }
+
+    .pricing-card:not(.featured) .pricing-cta:hover {
+      background: var(--teal-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--sh-md);
+    }
+
+    /* Featured Card CTA */
+    .pricing-card.featured .pricing-cta {
+      background: white;
+      color: var(--teal);
+      box-shadow: var(--sh-md);
+    }
+
+    .pricing-card.featured .pricing-cta:hover {
+      background: var(--grey-light);
+      transform: translateY(-2px);
+      box-shadow: var(--sh-lg);
+    }
+
+    /* Features List */
+    .pricing-features {
+      list-style: none;
+    }
+
+    .pricing-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--sp-md);
+      padding: var(--sp-md) 0;
+      border-bottom: 1px solid var(--grey-light);
+      font-size: 14px;
+      color: var(--grey-dark);
+    }
+
+    .pricing-card.featured .pricing-feature {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .pricing-feature:last-child {
+      border-bottom: none;
+    }
+
+    .pricing-feature-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      color: var(--teal);
+    }
+
+    .pricing-card.featured .pricing-feature-icon {
+      color: var(--teal-light);
+    }
+
+    .pricing-feature.disabled {
+      opacity: 0.4;
+    }
+
+    .pricing-feature.disabled .pricing-feature-icon {
+      color: var(--grey-mid);
+    }
+
+    /* FAQ Section */
+    .pricing-faq {
+      max-width: 800px;
+      margin: var(--sp-4xl) auto 0;
+    }
+
+    .pricing-faq-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: var(--sp-2xl);
+    }
+
+    .pricing-faq-item {
+      background: white;
+      border: 1px solid var(--grey);
+      border-radius: var(--radius);
+      padding: var(--sp-xl);
+      margin-bottom: var(--sp-lg);
+    }
+
+    .pricing-faq-question {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: var(--sp-sm);
+    }
+
+    .pricing-faq-answer {
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    /* Comparison Table Variant */
+    .pricing-comparison {
+      overflow-x: auto;
+      margin-top: var(--sp-3xl);
+    }
+
+    .pricing-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--sh-md);
+    }
+
+    .pricing-table th {
+      background: var(--grey-light);
+      padding: var(--sp-lg);
+      text-align: left;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 2px solid var(--grey);
+    }
+
+    .pricing-table th.featured-col {
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      color: white;
+    }
+
+    .pricing-table td {
+      padding: var(--sp-lg);
+      border-bottom: 1px solid var(--grey-light);
+      font-size: 14px;
+      color: var(--grey-dark);
+    }
+
+    .pricing-table td.featured-col {
+      background: var(--teal-glow);
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .pricing-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-card.featured {
+        transform: scale(1);
+      }
+
+      .pricing-card.featured:hover {
+        transform: translateY(-4px);
+      }
+
+      .pricing-title {
+        font-size: 28px;
+      }
+
+      .pricing-amount {
+        font-size: 40px;
+      }
+
+      .billing-toggle-wrapper {
+        flex-direction: column;
+        gap: var(--sp-md);
+      }
+    }
+
+    /* Demo Section Styling */
+    .demo-section {
+      margin-bottom: var(--sp-4xl);
+    }
+
+    .demo-header {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      padding: var(--sp-2xl);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--sp-xl);
+    }
+
+    .demo-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: var(--sp-sm);
+    }
+
+    .demo-description {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+    }
+  </style>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<!-- ============================================================================
+     COMPONENT VISUAL PREVIEWS
+     ============================================================================ -->
+
+<!-- Demo Section Header -->
+<div style="max-width: 1200px; margin: 48px auto; padding: 0 24px;">
+  <div style="background: linear-gradient(135deg, #0A1628, #121F33); padding: 48px; border-radius: 16px; margin-bottom: 48px;">
+    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+      <span style="font-size: 48px;">💎</span>
+      <div>
+        <h1 style="font-size: 36px; font-weight: 800; color: white; margin: 0;">
+          B-17c: Pricing with Gradient Featured Card
+        </h1>
+        <p style="font-size: 16px; color: rgba(255,255,255,0.7); margin: 8px 0 0 0;">
+          Conversion-optimized pricing blocks with gradient featured plans and "Most Popular" badges
+        </p>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px;">
+      <span style="background: rgba(0,137,123,0.2); color: #26A69A; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600;">
+        Conversion Optimization
+      </span>
+      <span style="background: rgba(0,137,123,0.2); color: #26A69A; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600;">
+        Gradient Backgrounds
+      </span>
+      <span style="background: rgba(0,137,123,0.2); color: #26A69A; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600;">
+        Visual Hierarchy
+      </span>
+      <span style="background: rgba(0,137,123,0.2); color: #26A69A; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600;">
+        Billing Toggle
+      </span>
+      <span style="background: rgba(0,137,123,0.2); color: #26A69A; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600;">
+        SaaS Pricing
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================================
+     VARIANT A: Three-Tier with Gradient Featured (CLASSIC)
+     ============================================================================ -->
+<div class="demo-section">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div class="demo-header">
+      <div class="demo-title">Variant A: Three-Tier with Gradient Featured</div>
+      <div class="demo-description">
+        Classic SaaS pricing layout with 3 tiers. Middle plan uses <strong>gradient background</strong> (navy → navy-light) with white text, scale(1.05) transform, and elevated shadow for maximum visual emphasis. Perfect for B2B SaaS platforms.
+      </div>
+    </div>
+  </div>
+
+  <section class="pricing-section">
+    <div class="pricing-container">
+      <!-- Header -->
+      <div class="pricing-header">
+        <div class="pricing-badge">
+          <i data-lucide="zap" style="width: 14px; height: 14px;"></i>
+          Eenvoudige prijzen
+        </div>
+        <h2 class="pricing-title">Kies het plan dat bij je past</h2>
+        <p class="pricing-description">
+          Start gratis en upgrade wanneer je wilt. Alle plannen bevatten een 14-dagen geld-terug-garantie.
+        </p>
+      </div>
+
+      <!-- Billing Toggle -->
+      <div class="billing-toggle-wrapper">
+        <span class="billing-label">Maandelijks</span>
+        <div class="billing-toggle active" onclick="toggleBilling(this)">
+          <div class="billing-toggle-handle"></div>
+        </div>
+        <span class="billing-label active">
+          Jaarlijks
+          <span class="billing-save-badge">Bespaar 20%</span>
+        </span>
+      </div>
+
+      <!-- Pricing Grid -->
+      <div class="pricing-grid">
+        <!-- Starter Plan -->
+        <div class="pricing-card">
+          <div class="pricing-card-header">
+            <h3 class="pricing-plan-name">Starter</h3>
+            <p class="pricing-plan-description">
+              Perfect voor kleine teams die net beginnen met hun platform.
+            </p>
+          </div>
+
+          <div class="pricing-price-wrapper">
+            <div class="pricing-price">
+              <span class="pricing-currency">€</span>
+              <span class="pricing-amount">29</span>
+              <span class="pricing-period">/maand</span>
+            </div>
+          </div>
+
+          <a href="#" class="pricing-cta">Start gratis trial</a>
+
+          <ul class="pricing-features">
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Tot 5 teamleden</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>10GB opslag</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Basis rapportages</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Email support</span>
+            </li>
+            <li class="pricing-feature disabled">
+              <i data-lucide="x" class="pricing-feature-icon"></i>
+              <span>API toegang</span>
+            </li>
+            <li class="pricing-feature disabled">
+              <i data-lucide="x" class="pricing-feature-icon"></i>
+              <span>Priority support</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Professional Plan (FEATURED WITH GRADIENT) -->
+        <div class="pricing-card featured">
+          <div class="popular-badge">
+            <i data-lucide="star" style="width: 12px; height: 12px; fill: currentColor;"></i>
+            Meest gekozen
+          </div>
+
+          <div class="pricing-card-header">
+            <h3 class="pricing-plan-name">Professional</h3>
+            <p class="pricing-plan-description">
+              Voor groeiende bedrijven met uitgebreide behoeften.
+            </p>
+          </div>
+
+          <div class="pricing-price-wrapper">
+            <div class="pricing-price">
+              <span class="pricing-currency">€</span>
+              <span class="pricing-amount">79</span>
+              <span class="pricing-period">/maand</span>
+            </div>
+            <div>
+              <span class="pricing-old-price">€99</span>
+              <span class="pricing-save-label">Bespaar €20</span>
+            </div>
+          </div>
+
+          <a href="#" class="pricing-cta">Start gratis trial</a>
+
+          <ul class="pricing-features">
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Onbeperkt teamleden</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>100GB opslag</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Geavanceerde analytics</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Priority email + chat support</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>API toegang</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Custom integraties</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Enterprise Plan -->
+        <div class="pricing-card">
+          <div class="pricing-card-header">
+            <h3 class="pricing-plan-name">Enterprise</h3>
+            <p class="pricing-plan-description">
+              Op maat gemaakte oplossingen voor grote organisaties.
+            </p>
+          </div>
+
+          <div class="pricing-price-wrapper">
+            <div class="pricing-price">
+              <span class="pricing-currency"></span>
+              <span class="pricing-amount" style="font-size: 32px;">Op aanvraag</span>
+            </div>
+          </div>
+
+          <a href="#" class="pricing-cta">Contact opnemen</a>
+
+          <ul class="pricing-features">
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Alles van Professional</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Onbeperkte opslag</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Dedicated account manager</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>24/7 phone support</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>SLA garanties</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>On-premise deployment optie</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================================================================
+     VARIANT B: Two-Column with Teal Gradient Featured
+     ============================================================================ -->
+<div class="demo-section">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div class="demo-header">
+      <div class="demo-title">Variant B: Two-Column with Teal Gradient Featured</div>
+      <div class="demo-description">
+        Simplified 2-plan layout with <strong>teal gradient featured card</strong> (teal → teal-light). Right card uses gradient background with enhanced shadow and scale. Ideal for simple "Free vs Pro" or "Basic vs Premium" offerings.
+      </div>
+    </div>
+  </div>
+
+  <section class="pricing-section" style="background: var(--bg);">
+    <div class="pricing-container">
+      <div class="pricing-header">
+        <div class="pricing-badge">
+          <i data-lucide="gift" style="width: 14px; height: 14px;"></i>
+          Transparante prijzen
+        </div>
+        <h2 class="pricing-title">Start vandaag nog gratis</h2>
+        <p class="pricing-description">
+          Geen creditcard nodig. Upgrade wanneer je meer functies nodig hebt.
+        </p>
+      </div>
+
+      <div class="pricing-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 900px; margin: 0 auto;">
+        <!-- Free Plan -->
+        <div class="pricing-card">
+          <div class="pricing-card-header">
+            <h3 class="pricing-plan-name">Free</h3>
+            <p class="pricing-plan-description">
+              Gratis voor altijd. Geen verborgen kosten.
+            </p>
+          </div>
+
+          <div class="pricing-price-wrapper">
+            <div class="pricing-price">
+              <span class="pricing-currency">€</span>
+              <span class="pricing-amount">0</span>
+              <span class="pricing-period">/maand</span>
+            </div>
+          </div>
+
+          <a href="#" class="pricing-cta" style="background: var(--grey); color: var(--navy);">Gratis beginnen</a>
+
+          <ul class="pricing-features">
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>1 teamlid</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>5GB opslag</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Basis functies</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Community support</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Pro Plan (TEAL GRADIENT) -->
+        <div class="pricing-card featured" style="background: linear-gradient(135deg, var(--teal), var(--teal-light));">
+          <div class="popular-badge" style="background: white; color: var(--teal);">
+            <i data-lucide="trending-up" style="width: 12px; height: 12px;"></i>
+            Populair
+          </div>
+
+          <div class="pricing-card-header">
+            <h3 class="pricing-plan-name">Pro</h3>
+            <p class="pricing-plan-description">
+              Volledige toegang tot alle professionele functies.
+            </p>
+          </div>
+
+          <div class="pricing-price-wrapper">
+            <div class="pricing-price">
+              <span class="pricing-currency">€</span>
+              <span class="pricing-amount">49</span>
+              <span class="pricing-period">/maand</span>
+            </div>
+          </div>
+
+          <a href="#" class="pricing-cta">Start 14-dagen trial</a>
+
+          <ul class="pricing-features">
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Onbeperkt teamleden</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>50GB opslag</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Alle premium functies</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Priority support</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>API toegang</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Analytics dashboard</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================================================================
+     VARIANT C: Comparison Table with Featured Column
+     ============================================================================ -->
+<div class="demo-section">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div class="demo-header">
+      <div class="demo-title">Variant C: Comparison Table with Featured Column</div>
+      <div class="demo-description">
+        Detailed feature comparison table. Featured column uses <strong>teal gradient header</strong> and teal-glow background rows for visual emphasis. Perfect for complex feature sets where users need detailed comparison.
+      </div>
+    </div>
+  </div>
+
+  <section class="pricing-section">
+    <div class="pricing-container">
+      <div class="pricing-header">
+        <h2 class="pricing-title">Vergelijk alle plannen</h2>
+        <p class="pricing-description">
+          Alle details op één plek. Kies het plan dat perfect past bij jouw behoeften.
+        </p>
+      </div>
+
+      <div class="pricing-comparison">
+        <table class="pricing-table">
+          <thead>
+            <tr>
+              <th>Functie</th>
+              <th>Starter</th>
+              <th class="featured-col">
+                Professional
+                <div style="font-size: 10px; font-weight: 600; text-transform: uppercase; margin-top: 4px; opacity: 0.9;">
+                  ⭐ Aanbevolen
+                </div>
+              </th>
+              <th>Enterprise</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Prijs (maandelijks)</strong></td>
+              <td>€29</td>
+              <td class="featured-col"><strong>€79</strong></td>
+              <td>Op aanvraag</td>
+            </tr>
+            <tr>
+              <td>Teamleden</td>
+              <td>Tot 5</td>
+              <td class="featured-col">Onbeperkt</td>
+              <td>Onbeperkt</td>
+            </tr>
+            <tr>
+              <td>Opslag</td>
+              <td>10GB</td>
+              <td class="featured-col">100GB</td>
+              <td>Onbeperkt</td>
+            </tr>
+            <tr>
+              <td>Rapportages</td>
+              <td>Basis</td>
+              <td class="featured-col">Geavanceerd</td>
+              <td>Custom</td>
+            </tr>
+            <tr>
+              <td>API toegang</td>
+              <td>❌</td>
+              <td class="featured-col">✅</td>
+              <td>✅</td>
+            </tr>
+            <tr>
+              <td>Support</td>
+              <td>Email</td>
+              <td class="featured-col">Priority email + chat</td>
+              <td>24/7 phone + dedicated manager</td>
+            </tr>
+            <tr>
+              <td>SLA</td>
+              <td>❌</td>
+              <td class="featured-col">99.9%</td>
+              <td>99.99% + custom</td>
+            </tr>
+            <tr>
+              <td>Custom integraties</td>
+              <td>❌</td>
+              <td class="featured-col">✅</td>
+              <td>✅ + dedicated support</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                <a href="#" class="pricing-cta" style="margin: 0; padding: 10px 20px; font-size: 13px;">
+                  Start trial
+                </a>
+              </td>
+              <td class="featured-col">
+                <a href="#" class="pricing-cta" style="margin: 0; padding: 10px 20px; font-size: 13px;">
+                  Start trial
+                </a>
+              </td>
+              <td>
+                <a href="#" class="pricing-cta" style="margin: 0; padding: 10px 20px; font-size: 13px; background: var(--grey); color: var(--navy);">
+                  Contact sales
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================================================================
+     VARIANT D: Pricing with FAQ Section
+     ============================================================================ -->
+<div class="demo-section">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+    <div class="demo-header">
+      <div class="demo-title">Variant D: Pricing with FAQ Section</div>
+      <div class="demo-description">
+        Complete pricing page combining gradient featured card with FAQ section. Answers common questions below pricing tiers to reduce friction and increase conversions.
+      </div>
+    </div>
+  </div>
+
+  <section class="pricing-section">
+    <div class="pricing-container">
+      <div class="pricing-header">
+        <div class="pricing-badge">
+          <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i>
+          Eerlijke prijzen
+        </div>
+        <h2 class="pricing-title">Kies je plan</h2>
+        <p class="pricing-description">
+          Flexibele plannen die meegroeien met je bedrijf. Geen verborgen kosten.
+        </p>
+      </div>
+
+      <div class="pricing-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <!-- Basic Plan -->
+        <div class="pricing-card">
+          <div class="pricing-card-header">
+            <h3 class="pricing-plan-name">Basic</h3>
+            <p class="pricing-plan-description">Essentiële tools voor starters</p>
+          </div>
+
+          <div class="pricing-price-wrapper">
+            <div class="pricing-price">
+              <span class="pricing-currency">€</span>
+              <span class="pricing-amount">19</span>
+              <span class="pricing-period">/maand</span>
+            </div>
+          </div>
+
+          <a href="#" class="pricing-cta">Start nu</a>
+
+          <ul class="pricing-features">
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>3 gebruikers</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>5GB opslag</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Basis support</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Pro Plan (FEATURED) -->
+        <div class="pricing-card featured">
+          <div class="popular-badge">
+            <i data-lucide="crown" style="width: 12px; height: 12px;"></i>
+            Beste waarde
+          </div>
+
+          <div class="pricing-card-header">
+            <h3 class="pricing-plan-name">Pro</h3>
+            <p class="pricing-plan-description">Voor professionele teams</p>
+          </div>
+
+          <div class="pricing-price-wrapper">
+            <div class="pricing-price">
+              <span class="pricing-currency">€</span>
+              <span class="pricing-amount">59</span>
+              <span class="pricing-period">/maand</span>
+            </div>
+          </div>
+
+          <a href="#" class="pricing-cta">Start 14-dagen trial</a>
+
+          <ul class="pricing-features">
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Onbeperkt gebruikers</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>100GB opslag</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Priority support</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>API toegang</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Business Plan -->
+        <div class="pricing-card">
+          <div class="pricing-card-header">
+            <h3 class="pricing-plan-name">Business</h3>
+            <p class="pricing-plan-description">Voor grote organisaties</p>
+          </div>
+
+          <div class="pricing-price-wrapper">
+            <div class="pricing-price">
+              <span class="pricing-currency">€</span>
+              <span class="pricing-amount">199</span>
+              <span class="pricing-period">/maand</span>
+            </div>
+          </div>
+
+          <a href="#" class="pricing-cta">Contact sales</a>
+
+          <ul class="pricing-features">
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Alles van Pro</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>Onbeperkte opslag</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>24/7 support</span>
+            </li>
+            <li class="pricing-feature">
+              <i data-lucide="check" class="pricing-feature-icon"></i>
+              <span>SLA garantie</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="pricing-faq">
+        <h3 class="pricing-faq-title">Veelgestelde vragen</h3>
+
+        <div class="pricing-faq-item">
+          <h4 class="pricing-faq-question">Kan ik op elk moment opzeggen?</h4>
+          <p class="pricing-faq-answer">
+            Ja, je kunt je abonnement op elk moment opzeggen zonder opzegtermijn. Bij opzegging blijft je account actief tot het einde van je huidige facturatieperiode.
+          </p>
+        </div>
+
+        <div class="pricing-faq-item">
+          <h4 class="pricing-faq-question">Wat gebeurt er na de 14-dagen trial?</h4>
+          <p class="pricing-faq-answer">
+            Na de trial wordt je niet automatisch doorbelast. Je krijgt een melding dat je trial is verlopen en kunt dan kiezen of je wilt upgraden naar een betaald plan.
+          </p>
+        </div>
+
+        <div class="pricing-faq-item">
+          <h4 class="pricing-faq-question">Zijn er setup kosten of verborgen kosten?</h4>
+          <p class="pricing-faq-answer">
+            Nee, er zijn geen setup kosten, verborgen kosten of transactiekosten. De prijs die je ziet is inclusief alle functies van dat plan.
+          </p>
+        </div>
+
+        <div class="pricing-faq-item">
+          <h4 class="pricing-faq-question">Kan ik later upgraden of downgraden?</h4>
+          <p class="pricing-faq-answer">
+            Ja, je kunt op elk moment upgraden of downgraden naar een ander plan. Bij upgraden krijg je direct toegang tot extra functies. Bij downgraden blijven de nieuwe tarieven van kracht vanaf je volgende factuurperiode.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  // Initialize Lucide icons
+  lucide.createIcons()
+
+  // Billing toggle function
+  function toggleBilling(element) {
+    element.classList.toggle('active')
+
+    // Update labels
+    const wrapper = element.parentElement
+    const labels = wrapper.querySelectorAll('.billing-label')
+    labels.forEach(label => label.classList.toggle('active'))
+
+    // In real implementation: update prices based on billing period
+    console.log('Billing period toggled:', element.classList.contains('active') ? 'Yearly' : 'Monthly')
+  }
+</script>
+
+</body>
+</html>
+
+<!-- ============================================================================
+     8-STEP IMPLEMENTATION GUIDE
+     ============================================================================ -->
+
+<div style="max-width: 1200px; margin: 80px auto; padding: 0 24px; font-family: system-ui, -apple-system, sans-serif;">
+
+  <div style="background: linear-gradient(135deg, #0A1628, #121F33); padding: 48px; border-radius: 16px; margin-bottom: 48px;">
+    <h2 style="font-size: 32px; font-weight: 800; color: white; margin: 0 0 16px 0;">
+      📋 8-Step Implementation Guide
+    </h2>
+    <p style="font-size: 16px; color: rgba(255,255,255,0.7); margin: 0; line-height: 1.6;">
+      Complete guide for integrating <strong>B-17c: Pricing with Gradient Featured Card</strong> into your Payload CMS + Next.js project.
+    </p>
+  </div>
+
+  <!-- STEP 1: Payload Block Configuration -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">1</span>
+      Payload Block Configuration
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      Add this block configuration to your Payload CMS blocks collection:
+    </p>
+
+    <div style="background: #0A1628; border-radius: 8px; padding: 24px; overflow-x: auto; margin-bottom: 24px;">
+      <pre style="margin: 0; color: #E8ECF1; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;"><code>// src/blocks/Pricing.ts
+
+import { Block } from 'payload/types'
+
+export const Pricing: Block = {
+  slug: 'pricing',
+  labels: {
+    singular: 'Pricing',
+    plural: 'Pricing Blocks',
+  },
+  interfaceName: 'PricingBlock',
+  fields: [
+    {
+      name: 'variant',
+      type: 'select',
+      label: 'Layout Variant',
+      defaultValue: 'three-tier',
+      required: true,
+      options: [
+        { label: 'Three-Tier with Gradient Featured', value: 'three-tier' },
+        { label: 'Two-Column (Free vs Pro)', value: 'two-column' },
+        { label: 'Comparison Table', value: 'comparison' },
+        { label: 'With FAQ Section', value: 'with-faq' },
+      ],
+    },
+    {
+      name: 'header',
+      type: 'group',
+      label: 'Section Header',
+      fields: [
+        {
+          name: 'badge',
+          type: 'text',
+          label: 'Badge Text',
+          admin: {
+            placeholder: 'Eenvoudige prijzen',
+          },
+        },
+        {
+          name: 'badgeIcon',
+          type: 'select',
+          label: 'Badge Icon',
+          defaultValue: 'zap',
+          options: [
+            { label: '⚡ Zap', value: 'zap' },
+            { label: '🎁 Gift', value: 'gift' },
+            { label: '🛡️ Shield Check', value: 'shield-check' },
+            { label: '👑 Crown', value: 'crown' },
+          ],
+        },
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Title',
+          required: true,
+          admin: {
+            placeholder: 'Kies het plan dat bij je past',
+          },
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Description',
+          maxLength: 200,
+        },
+      ],
+    },
+    {
+      name: 'billingToggle',
+      type: 'group',
+      label: 'Billing Toggle (Monthly/Yearly)',
+      fields: [
+        {
+          name: 'enabled',
+          type: 'checkbox',
+          label: 'Enable Billing Toggle',
+          defaultValue: true,
+        },
+        {
+          name: 'saveBadge',
+          type: 'text',
+          label: 'Save Badge Text',
+          defaultValue: 'Bespaar 20%',
+          admin: {
+            condition: (data) => data.billingToggle?.enabled,
+          },
+        },
+      ],
+    },
+    {
+      name: 'plans',
+      type: 'array',
+      label: 'Pricing Plans',
+      minRows: 2,
+      maxRows: 4,
+      fields: [
+        {
+          name: 'name',
+          type: 'text',
+          label: 'Plan Name',
+          required: true,
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Short Description',
+          maxLength: 120,
+        },
+        {
+          name: 'isFeatured',
+          type: 'checkbox',
+          label: 'Featured Plan (Gradient Background)',
+          defaultValue: false,
+          admin: {
+            description: 'Highlights this plan with gradient background and "Most Popular" badge',
+          },
+        },
+        {
+          name: 'featuredBadge',
+          type: 'text',
+          label: 'Featured Badge Text',
+          defaultValue: 'Meest gekozen',
+          admin: {
+            condition: (data, siblingData) => siblingData?.isFeatured,
+          },
+        },
+        {
+          name: 'featuredBadgeIcon',
+          type: 'select',
+          label: 'Featured Badge Icon',
+          defaultValue: 'star',
+          options: [
+            { label: '⭐ Star', value: 'star' },
+            { label: '📈 Trending Up', value: 'trending-up' },
+            { label: '👑 Crown', value: 'crown' },
+            { label: '🔥 Flame', value: 'flame' },
+          ],
+          admin: {
+            condition: (data, siblingData) => siblingData?.isFeatured,
+          },
+        },
+        {
+          name: 'gradientColor',
+          type: 'select',
+          label: 'Gradient Color',
+          defaultValue: 'navy',
+          options: [
+            { label: 'Navy (Dark)', value: 'navy' },
+            { label: 'Teal (Brand)', value: 'teal' },
+            { label: 'Purple', value: 'purple' },
+            { label: 'Blue', value: 'blue' },
+          ],
+          admin: {
+            condition: (data, siblingData) => siblingData?.isFeatured,
+            description: 'Background gradient for featured card',
+          },
+        },
+        {
+          name: 'pricing',
+          type: 'group',
+          label: 'Pricing',
+          fields: [
+            {
+              name: 'monthlyPrice',
+              type: 'number',
+              label: 'Monthly Price (€)',
+              min: 0,
+            },
+            {
+              name: 'yearlyPrice',
+              type: 'number',
+              label: 'Yearly Price (€)',
+              min: 0,
+            },
+            {
+              name: 'customPrice',
+              type: 'text',
+              label: 'Custom Price Text',
+              admin: {
+                placeholder: 'Op aanvraag',
+                description: 'Use this for "Contact Sales" or "Custom" pricing',
+              },
+            },
+            {
+              name: 'oldPrice',
+              type: 'number',
+              label: 'Old Price (Strikethrough)',
+              admin: {
+                description: 'Show discount with strikethrough old price',
+              },
+            },
+            {
+              name: 'saveBadge',
+              type: 'text',
+              label: 'Save Badge Text',
+              admin: {
+                placeholder: 'Bespaar €20',
+                condition: (data, siblingData) => siblingData?.oldPrice,
+              },
+            },
+          ],
+        },
+        {
+          name: 'cta',
+          type: 'group',
+          label: 'Call to Action',
+          fields: [
+            {
+              name: 'text',
+              type: 'text',
+              label: 'Button Text',
+              defaultValue: 'Start gratis trial',
+              required: true,
+            },
+            {
+              name: 'url',
+              type: 'text',
+              label: 'Button URL',
+              defaultValue: '#',
+              required: true,
+            },
+          ],
+        },
+        {
+          name: 'features',
+          type: 'array',
+          label: 'Features',
+          minRows: 3,
+          maxRows: 10,
+          fields: [
+            {
+              name: 'text',
+              type: 'text',
+              label: 'Feature Text',
+              required: true,
+            },
+            {
+              name: 'enabled',
+              type: 'checkbox',
+              label: 'Enabled (✓)',
+              defaultValue: true,
+              admin: {
+                description: 'Unchecked = disabled/crossed out feature',
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'faq',
+      type: 'array',
+      label: 'FAQ Items (Optional)',
+      minRows: 0,
+      maxRows: 6,
+      admin: {
+        description: 'Shown below pricing cards (only for "With FAQ" variant)',
+        condition: (data) => data.variant === 'with-faq',
+      },
+      fields: [
+        {
+          name: 'question',
+          type: 'text',
+          label: 'Question',
+          required: true,
+        },
+        {
+          name: 'answer',
+          type: 'textarea',
+          label: 'Answer',
+          required: true,
+          maxLength: 400,
+        },
+      ],
+    },
+  ],
+}</code></pre>
+    </div>
+
+    <div style="background: #E3F2FD; border-left: 4px solid #2196F3; padding: 16px; border-radius: 8px;">
+      <p style="margin: 0; font-size: 13px; color: #1565C0; line-height: 1.6;">
+        <strong>💡 Pro Tip:</strong> Set <code>isFeatured: true</code> on ONE plan to highlight it with gradient background and scale(1.05) transform. This creates visual hierarchy and guides users toward your recommended plan.
+      </p>
+    </div>
+  </div>
+
+  <!-- STEP 2: TypeScript Type Definitions -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">2</span>
+      TypeScript Type Definitions
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      Define TypeScript interfaces for type-safe development:
+    </p>
+
+    <div style="background: #0A1628; border-radius: 8px; padding: 24px; overflow-x: auto;">
+      <pre style="margin: 0; color: #E8ECF1; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;"><code>// src/types/blocks.ts
+
+export interface PricingBlock {
+  blockType: 'pricing'
+  variant: 'three-tier' | 'two-column' | 'comparison' | 'with-faq'
+  header: {
+    badge?: string
+    badgeIcon?: 'zap' | 'gift' | 'shield-check' | 'crown'
+    title: string
+    description?: string
+  }
+  billingToggle?: {
+    enabled: boolean
+    saveBadge?: string
+  }
+  plans: PricingPlan[]
+  faq?: FAQItem[]
+}
+
+export interface PricingPlan {
+  id: string
+  name: string
+  description?: string
+  isFeatured: boolean
+  featuredBadge?: string
+  featuredBadgeIcon?: 'star' | 'trending-up' | 'crown' | 'flame'
+  gradientColor?: 'navy' | 'teal' | 'purple' | 'blue'
+  pricing: {
+    monthlyPrice?: number
+    yearlyPrice?: number
+    customPrice?: string
+    oldPrice?: number
+    saveBadge?: string
+  }
+  cta: {
+    text: string
+    url: string
+  }
+  features: PricingFeature[]
+}
+
+export interface PricingFeature {
+  id: string
+  text: string
+  enabled: boolean
+}
+
+export interface FAQItem {
+  id: string
+  question: string
+  answer: string
+}
+
+// Component Props
+export interface PricingProps {
+  block: PricingBlock
+}</code></pre>
+    </div>
+  </div>
+
+  <!-- STEP 3: React Component Implementation -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">3</span>
+      React Component Implementation
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      Create the React component with billing toggle state management:
+    </p>
+
+    <div style="background: #0A1628; border-radius: 8px; padding: 24px; overflow-x: auto; margin-bottom: 24px;">
+      <pre style="margin: 0; color: #E8ECF1; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;"><code>// src/components/blocks/Pricing.tsx
+
+'use client'
+
+import React, { useState } from 'react'
+import Link from 'next/link'
+import { PricingProps, PricingPlan } from '@/types/blocks'
+import { cn } from '@/lib/utils'
+import * as LucideIcons from 'lucide-react'
+
+export const Pricing: React.FC<PricingProps> = ({ block }) => {
+  const { variant, header, billingToggle, plans, faq } = block
+  const [isYearly, setIsYearly] = useState(true)
+
+  // Get icon component
+  const getIcon = (iconName?: string, size = 14) => {
+    if (!iconName) return null
+    const iconMap: Record<string, any> = {
+      zap: LucideIcons.Zap,
+      gift: LucideIcons.Gift,
+      'shield-check': LucideIcons.ShieldCheck,
+      crown: LucideIcons.Crown,
+      star: LucideIcons.Star,
+      'trending-up': LucideIcons.TrendingUp,
+      flame: LucideIcons.Flame,
+      check: LucideIcons.Check,
+      x: LucideIcons.X,
+    }
+    const IconComponent = iconMap[iconName]
+    return IconComponent ? <IconComponent size={size} /> : null
+  }
+
+  // Get gradient classes
+  const getGradientClass = (color?: string) => {
+    const gradients: Record<string, string> = {
+      navy: 'bg-gradient-to-br from-navy to-navy-light',
+      teal: 'bg-gradient-to-br from-teal to-teal-light',
+      purple: 'bg-gradient-to-br from-purple to-purple-600',
+      blue: 'bg-gradient-to-br from-blue to-blue-600',
+    }
+    return gradients[color || 'navy'] || gradients.navy
+  }
+
+  // Calculate current price
+  const getCurrentPrice = (plan: PricingPlan) => {
+    if (plan.pricing.customPrice) return plan.pricing.customPrice
+    return isYearly ? plan.pricing.yearlyPrice : plan.pricing.monthlyPrice
+  }
+
+  // Render pricing card
+  const renderPricingCard = (plan: PricingPlan) => {
+    const currentPrice = getCurrentPrice(plan)
+    const isCustomPrice = typeof currentPrice === 'string'
+
+    return (
+      <div
+        key={plan.id}
+        className={cn(
+          'relative rounded-xl p-8 transition-all duration-300',
+          {
+            'bg-white border-2 border-grey hover:border-teal-light hover:-translate-y-1 hover:shadow-lg':
+              !plan.isFeatured,
+            'scale-105 shadow-2xl hover:-translate-y-1': plan.isFeatured,
+          },
+          plan.isFeatured && getGradientClass(plan.gradientColor)
+        )}
+      >
+        {/* Featured Badge */}
+        {plan.isFeatured && (
+          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-gradient-to-r from-teal to-teal-light text-white text-xs font-extrabold uppercase tracking-wider rounded-full shadow-md flex items-center gap-1.5">
+            {getIcon(plan.featuredBadgeIcon, 12)}
+            {plan.featuredBadge || 'Meest gekozen'}
+          </div>
+        )}
+
+        {/* Plan Header */}
+        <div className="mb-6">
+          <h3
+            className={cn('text-lg font-bold mb-2', {
+              'text-navy': !plan.isFeatured,
+              'text-white': plan.isFeatured,
+            })}
+          >
+            {plan.name}
+          </h3>
+          {plan.description && (
+            <p
+              className={cn('text-sm leading-relaxed', {
+                'text-grey-dark': !plan.isFeatured,
+                'text-white/70': plan.isFeatured,
+              })}
+            >
+              {plan.description}
+            </p>
+          )}
+        </div>
+
+        {/* Price */}
+        <div className="mb-6">
+          <div className="flex items-baseline gap-1.5 mb-1.5">
+            {!isCustomPrice && (
+              <span
+                className={cn('text-2xl font-bold', {
+                  'text-grey-dark': !plan.isFeatured,
+                  'text-white/80': plan.isFeatured,
+                })}
+              >
+                €
+              </span>
+            )}
+            <span
+              className={cn('font-display leading-none', {
+                'text-5xl text-navy': !plan.isFeatured && !isCustomPrice,
+                'text-5xl text-white': plan.isFeatured && !isCustomPrice,
+                'text-3xl text-navy': !plan.isFeatured && isCustomPrice,
+                'text-3xl text-white': plan.isFeatured && isCustomPrice,
+              })}
+            >
+              {currentPrice}
+            </span>
+            {!isCustomPrice && (
+              <span
+                className={cn('text-base font-medium', {
+                  'text-grey-mid': !plan.isFeatured,
+                  'text-white/60': plan.isFeatured,
+                })}
+              >
+                /maand
+              </span>
+            )}
+          </div>
+
+          {/* Old Price + Save Badge */}
+          {plan.pricing.oldPrice && (
+            <div>
+              <span
+                className={cn('text-lg line-through font-medium mr-3', {
+                  'text-grey-mid': !plan.isFeatured,
+                  'text-white/50': plan.isFeatured,
+                })}
+              >
+                €{plan.pricing.oldPrice}
+              </span>
+              {plan.pricing.saveBadge && (
+                <span
+                  className={cn(
+                    'inline-block px-2.5 py-1 text-xs font-bold rounded-lg',
+                    {
+                      'bg-green-light text-green': !plan.isFeatured,
+                      'bg-green/20 text-green': plan.isFeatured,
+                    }
+                  )}
+                >
+                  {plan.pricing.saveBadge}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* CTA Button */}
+        <Link
+          href={plan.cta.url}
+          className={cn(
+            'block w-full py-3.5 px-6 rounded-xl text-sm font-bold text-center transition-all duration-300 mb-6',
+            {
+              'bg-teal text-white hover:bg-teal-dark hover:-translate-y-0.5 hover:shadow-md':
+                !plan.isFeatured,
+              'bg-white text-teal shadow-md hover:bg-grey-light hover:-translate-y-0.5 hover:shadow-lg':
+                plan.isFeatured,
+            }
+          )}
+        >
+          {plan.cta.text}
+        </Link>
+
+        {/* Features List */}
+        <ul className="space-y-3">
+          {plan.features.map((feature) => (
+            <li
+              key={feature.id}
+              className={cn('flex items-start gap-3 text-sm pb-3 border-b', {
+                'border-grey-light text-grey-dark': !plan.isFeatured,
+                'border-white/10 text-white/90': plan.isFeatured,
+                'opacity-40': !feature.enabled,
+              })}
+            >
+              <span
+                className={cn('flex-shrink-0 w-5 h-5', {
+                  'text-teal': feature.enabled && !plan.isFeatured,
+                  'text-teal-light': feature.enabled && plan.isFeatured,
+                  'text-grey-mid': !feature.enabled,
+                })}
+              >
+                {getIcon(feature.enabled ? 'check' : 'x', 20)}
+              </span>
+              <span>{feature.text}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  return (
+    <section className="py-20 px-6 bg-white">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          {header.badge && (
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-glow text-teal text-xs font-bold uppercase tracking-wide rounded-full mb-4">
+              {getIcon(header.badgeIcon)}
+              {header.badge}
+            </div>
+          )}
+          <h2 className="font-display text-4xl text-navy mb-3 leading-tight">
+            {header.title}
+          </h2>
+          {header.description && (
+            <p className="text-base text-grey-dark max-w-2xl mx-auto leading-relaxed">
+              {header.description}
+            </p>
+          )}
+        </div>
+
+        {/* Billing Toggle */}
+        {billingToggle?.enabled && (
+          <div className="flex items-center justify-center gap-4 mb-12">
+            <span
+              className={cn('text-sm font-semibold transition-colors', {
+                'text-grey-mid': isYearly,
+                'text-navy': !isYearly,
+              })}
+            >
+              Maandelijks
+            </span>
+            <button
+              onClick={() => setIsYearly(!isYearly)}
+              className={cn(
+                'relative w-14 h-8 rounded-full transition-colors',
+                {
+                  'bg-teal': isYearly,
+                  'bg-grey': !isYearly,
+                }
+              )}
+            >
+              <span
+                className={cn(
+                  'absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-sm transition-transform',
+                  {
+                    'translate-x-6': isYearly,
+                    'translate-x-0': !isYearly,
+                  }
+                )}
+              />
+            </button>
+            <span
+              className={cn('text-sm font-semibold transition-colors', {
+                'text-navy': isYearly,
+                'text-grey-mid': !isYearly,
+              })}
+            >
+              Jaarlijks
+              {billingToggle.saveBadge && (
+                <span className="ml-2 px-2.5 py-1 bg-green-light text-green text-xs font-bold rounded-lg">
+                  {billingToggle.saveBadge}
+                </span>
+              )}
+            </span>
+          </div>
+        )}
+
+        {/* Pricing Grid */}
+        <div
+          className={cn('grid gap-6 mb-12', {
+            'grid-cols-1 md:grid-cols-3': variant === 'three-tier',
+            'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto': variant === 'two-column',
+            'grid-cols-1 md:grid-cols-3': variant === 'with-faq',
+          })}
+        >
+          {plans.map(renderPricingCard)}
+        </div>
+
+        {/* FAQ Section */}
+        {variant === 'with-faq' && faq && faq.length > 0 && (
+          <div className="max-w-3xl mx-auto mt-16">
+            <h3 className="font-display text-3xl text-navy text-center mb-8">
+              Veelgestelde vragen
+            </h3>
+            <div className="space-y-4">
+              {faq.map((item) => (
+                <div
+                  key={item.id}
+                  className="bg-white border border-grey rounded-xl p-6"
+                >
+                  <h4 className="text-base font-bold text-navy mb-2">
+                    {item.question}
+                  </h4>
+                  <p className="text-sm text-grey-dark leading-relaxed">
+                    {item.answer}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}</code></pre>
+    </div>
+
+    <div style="background: #FFF8E1; border-left: 4px solid #F59E0B; padding: 16px; border-radius: 8px;">
+      <p style="margin: 0; font-size: 13px; color: #92400E; line-height: 1.6;">
+        <strong>⚠️ Important:</strong> Use <code>useState</code> for billing toggle to manage monthly/yearly price display. The <code>getCurrentPrice</code> function automatically selects the correct price based on toggle state.
+      </p>
+    </div>
+  </div>
+
+  <!-- STEP 4: Admin Panel Structure -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">4</span>
+      Admin Panel Structure
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      How editors interact with this block in the Payload admin panel:
+    </p>
+
+    <div style="border: 2px solid #E8ECF1; border-radius: 12px; overflow: hidden;">
+      <div style="background: #F5F7FA; padding: 16px; border-bottom: 1px solid #E8ECF1;">
+        <p style="margin: 0; font-size: 13px; font-weight: 600; color: #0A1628;">
+          📝 Editor Workflow
+        </p>
+      </div>
+      <div style="padding: 24px;">
+        <ol style="margin: 0; padding-left: 20px; font-size: 14px; color: #64748B; line-height: 1.8;">
+          <li style="margin-bottom: 12px;">
+            <strong style="color: #0A1628;">Choose Layout Variant:</strong> Three-Tier, Two-Column, Comparison Table, or With FAQ
+          </li>
+          <li style="margin-bottom: 12px;">
+            <strong style="color: #0A1628;">Configure Header:</strong>
+            <ul style="margin-top: 8px; padding-left: 20px;">
+              <li>Enter badge text (e.g., "Eenvoudige prijzen")</li>
+              <li>Select badge icon (Zap, Gift, Shield, Crown)</li>
+              <li>Enter main title and description</li>
+            </ul>
+          </li>
+          <li style="margin-bottom: 12px;">
+            <strong style="color: #0A1628;">Setup Billing Toggle:</strong>
+            <ul style="margin-top: 8px; padding-left: 20px;">
+              <li>Check "Enable Billing Toggle" for monthly/yearly options</li>
+              <li>Enter save badge text (e.g., "Bespaar 20%")</li>
+            </ul>
+          </li>
+          <li style="margin-bottom: 12px;">
+            <strong style="color: #0A1628;">Add Pricing Plans:</strong> Click "Add Item" to create plan (2-4 plans recommended)
+          </li>
+          <li style="margin-bottom: 12px;">
+            <strong style="color: #0A1628;">For Each Plan:</strong>
+            <ul style="margin-top: 8px; padding-left: 20px;">
+              <li>Enter plan name (e.g., "Professional") and description</li>
+              <li>Check "Featured Plan" for ONE plan to highlight with gradient</li>
+              <li>If featured: Choose badge text, icon, and gradient color (Navy/Teal/Purple/Blue)</li>
+              <li>Enter pricing: monthly price, yearly price, or custom text ("Op aanvraag")</li>
+              <li>Optional: Add old price for discount display with save badge</li>
+              <li>Configure CTA button text and URL</li>
+              <li>Add features (check enabled/disabled for each)</li>
+            </ul>
+          </li>
+          <li>
+            <strong style="color: #0A1628;">Optional FAQ:</strong> If using "With FAQ" variant, add Q&A pairs below pricing
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <div style="background: #E8F5E9; border-left: 4px solid #00C853; padding: 16px; border-radius: 8px; margin-top: 16px;">
+      <p style="margin: 0; font-size: 13px; color: #166534; line-height: 1.6;">
+        <strong>✅ Best Practice:</strong> Mark ONE plan as featured (typically the middle or most popular tier). This creates visual hierarchy and guides users toward your recommended option, increasing conversions by 20-30%.
+      </p>
+    </div>
+  </div>
+
+  <!-- STEP 5: Testing Checklist -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">5</span>
+      Testing Checklist
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      Test all variants and conversion optimization features:
+    </p>
+
+    <div style="display: grid; gap: 16px;">
+      <!-- Visual Testing -->
+      <div style="border: 1px solid #E8ECF1; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 16px; font-weight: 600; color: #0A1628; margin: 0 0 16px 0;">
+          🎨 Visual & Layout
+        </h4>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #64748B; line-height: 1.8;">
+          <li>✅ Featured card scales to 105% and displays above other cards (z-index: 1)</li>
+          <li>✅ Gradient backgrounds render correctly (Navy, Teal, Purple, Blue)</li>
+          <li>✅ "Most Popular" badge positioned absolutely at top, centered</li>
+          <li>✅ Decorative teal glow appears on featured card (::before pseudo-element)</li>
+          <li>✅ Non-featured cards have grey border, white background</li>
+          <li>✅ Grid layout: 3-column on desktop, 1-column on mobile (&lt;768px)</li>
+        </ul>
+      </div>
+
+      <!-- Interaction Testing -->
+      <div style="border: 1px solid #E8ECF1; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 16px; font-weight: 600; color: #0A1628; margin: 0 0 16px 0;">
+          🖱️ Billing Toggle & Interactions
+        </h4>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #64748B; line-height: 1.8;">
+          <li>✅ Toggle switches between monthly/yearly pricing</li>
+          <li>✅ Toggle handle slides from left (monthly) to right (yearly) with smooth transition</li>
+          <li>✅ Active label changes from grey-mid to navy color</li>
+          <li>✅ Prices update dynamically when toggle switches</li>
+          <li>✅ Save badge displays next to "Jaarlijks" label</li>
+          <li>✅ Card hover: Non-featured cards lift (-translateY-4px) with shadow</li>
+          <li>✅ Card hover: Featured cards also lift while maintaining scale(1.05)</li>
+        </ul>
+      </div>
+
+      <!-- Content Testing -->
+      <div style="border: 1px solid #E8ECF1; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 16px; font-weight: 600; color: #0A1628; margin: 0 0 16px 0;">
+          📝 Content & Pricing
+        </h4>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #64748B; line-height: 1.8;">
+          <li>✅ Old price displays with line-through and grey color</li>
+          <li>✅ Save badge shows next to old price with green background</li>
+          <li>✅ Custom price text ("Op aanvraag") renders instead of number when set</li>
+          <li>✅ Currency symbol (€) displays before numeric prices</li>
+          <li>✅ Period text ("/maand") displays after price</li>
+          <li>✅ Featured plan: Text color inverted (white text on dark gradient)</li>
+          <li>✅ Features list: Enabled features show checkmark (teal), disabled show X (grey + 40% opacity)</li>
+        </ul>
+      </div>
+
+      <!-- CTA Testing -->
+      <div style="border: 1px solid #E8ECF1; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 16px; font-weight: 600; color: #0A1628; margin: 0 0 16px 0;">
+          🔘 CTA Buttons
+        </h4>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #64748B; line-height: 1.8;">
+          <li>✅ Non-featured CTA: Teal background, white text</li>
+          <li>✅ Featured CTA: White background, teal text (inverted for contrast)</li>
+          <li>✅ Hover state: Button lifts (-translateY-2px) with shadow elevation</li>
+          <li>✅ CTA links navigate to correct URLs</li>
+          <li>✅ Button text customizable per plan</li>
+        </ul>
+      </div>
+
+      <!-- Responsive Testing -->
+      <div style="border: 1px solid #E8ECF1; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 16px; font-weight: 600; color: #0A1628; margin: 0 0 16px 0;">
+          📱 Responsive & Mobile
+        </h4>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #64748B; line-height: 1.8;">
+          <li>✅ Featured card scale(1.05) resets to scale(1) on mobile</li>
+          <li>✅ Billing toggle stacks vertically on narrow screens</li>
+          <li>✅ Pricing grid collapses to single column below 768px</li>
+          <li>✅ Font sizes adjust for mobile (title 28px → 36px on desktop)</li>
+          <li>✅ FAQ section remains readable on mobile (single column)</li>
+        </ul>
+      </div>
+
+      <!-- Conversion Testing -->
+      <div style="border: 1px solid #E8ECF1; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 16px; font-weight: 600; color: #0A1628; margin: 0 0 16px 0;">
+          💰 Conversion Optimization
+        </h4>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #64748B; line-height: 1.8;">
+          <li>✅ Visual hierarchy clear: Featured plan stands out immediately</li>
+          <li>✅ Save badge draws attention to yearly pricing discount</li>
+          <li>✅ Old price + save label create urgency</li>
+          <li>✅ "Most Popular" badge reduces decision fatigue</li>
+          <li>✅ Feature comparison helps users self-select correct plan</li>
+          <li>✅ FAQ section addresses objections and reduces hesitation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 6: Database Migration -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">6</span>
+      Database Migration Guide
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      No database migration needed! Payload CMS blocks are stored as JSON in the <code>blocks</code> field.
+    </p>
+
+    <div style="background: #E8F5E9; border: 2px solid #00C853; border-radius: 12px; padding: 24px;">
+      <div style="display: flex; align-items: flex-start; gap: 16px;">
+        <span style="font-size: 32px;">✅</span>
+        <div>
+          <h4 style="font-size: 16px; font-weight: 700; color: #166534; margin: 0 0 8px 0;">
+            No Migration Required
+          </h4>
+          <p style="font-size: 14px; color: #166534; margin: 0; line-height: 1.6;">
+            This block uses Payload's built-in <strong>blocks</strong> field type, which stores data as JSON. When you add the block configuration to your Payload config and restart the server, it will automatically be available in the admin panel.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #FFF8E1; border-left: 4px solid #F59E0B; padding: 16px; border-radius: 8px; margin-top: 16px;">
+      <p style="margin: 0; font-size: 13px; color: #92400E; line-height: 1.6;">
+        <strong>💡 Note:</strong> If you need to create a dedicated <code>pricing-plans</code> collection (for reusable plans across multiple pages), you can create a separate collection and reference it via <code>relationTo: 'pricing-plans'</code> instead of using the array field.
+      </p>
+    </div>
+  </div>
+
+  <!-- STEP 7: Troubleshooting -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">7</span>
+      Troubleshooting
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      Common issues and solutions:
+    </p>
+
+    <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+      <thead>
+        <tr style="background: #F5F7FA;">
+          <th style="text-align: left; padding: 12px; border: 1px solid #E8ECF1; font-weight: 600; color: #0A1628;">Issue</th>
+          <th style="text-align: left; padding: 12px; border: 1px solid #E8ECF1; font-weight: 600; color: #0A1628;">Cause</th>
+          <th style="text-align: left; padding: 12px; border: 1px solid #E8ECF1; font-weight: 600; color: #0A1628;">Solution</th>
+        </tr>
+      </thead>
+      <tbody style="color: #64748B;">
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Featured card not scaling</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Missing <code>transform: scale(1.05)</code> or conflicting CSS</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Ensure featured class applies:<br>
+            <code style="background: #F5F7FA; padding: 2px 6px; border-radius: 4px;">transform: scale(1.05)</code> and <code style="background: #F5F7FA; padding: 2px 6px; border-radius: 4px;">z-index: 1</code>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Gradient not visible</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">CSS custom properties not defined or gradient class not applied</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Check that <code>--navy</code>, <code>--navy-light</code>, <code>--teal</code>, <code>--teal-light</code> are defined in :root. Verify <code>getGradientClass()</code> returns correct Tailwind class.
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Billing toggle doesn't update prices</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">useState not triggering re-render or getCurrentPrice not reading state</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Ensure <code>isYearly</code> state is passed to <code>getCurrentPrice()</code>. Check that <code>onClick</code> handler calls <code>setIsYearly(!isYearly)</code>.
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Popular badge overlapping card</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Missing negative top position or transform not applied</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Badge must have:<br>
+            <code style="background: #F5F7FA; padding: 2px 6px; border-radius: 4px;">position: absolute; top: -14px; left: 50%; transform: translateX(-50%)</code>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Icons not rendering</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Lucide React not installed or icon name mismatch</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Install: <code style="background: #F5F7FA; padding: 2px 6px; border-radius: 4px;">npm install lucide-react</code><br>
+            Check iconMap keys match field options (zap, star, crown, check, x, etc.)
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Featured CTA button hard to read</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Insufficient contrast (white on light gradient)</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Featured CTA uses inverted colors (white bg, teal text) for contrast. Verify <code>bg-white text-teal</code> classes applied when <code>isFeatured</code> is true.
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Multiple featured cards displayed</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Editor selected multiple plans as featured</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Add validation in Payload config or component to warn if more than 1 plan has <code>isFeatured: true</code>. Best practice: only 1 featured plan.
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">FAQ section not showing</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">Variant not set to "with-faq" or FAQ array empty</td>
+          <td style="padding: 12px; border: 1px solid #E8ECF1;">
+            Check <code>variant === 'with-faq'</code> condition and ensure FAQ array has items. FAQ field only visible in admin when variant is "With FAQ".
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- STEP 8: Block Registration -->
+  <div style="background: white; border: 1px solid #E8ECF1; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
+    <h3 style="font-size: 24px; font-weight: 700; color: #0A1628; margin: 0 0 24px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #00897B; color: white; border-radius: 8px; font-size: 18px; font-weight: 800;">8</span>
+      Block Registration & Component Mapping
+    </h3>
+
+    <p style="font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.6;">
+      Final steps to register the block and map it to your React component:
+    </p>
+
+    <div style="background: #0A1628; border-radius: 8px; padding: 24px; overflow-x: auto; margin-bottom: 24px;">
+      <pre style="margin: 0; color: #E8ECF1; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6;"><code>// 1. Add block to Payload config (payload.config.ts)
+
+import { Pricing } from './blocks/Pricing'
+
+export default buildConfig({
+  collections: [
+    {
+      slug: 'pages',
+      fields: [
+        {
+          name: 'blocks',
+          type: 'blocks',
+          blocks: [
+            Pricing,
+            // ... other blocks
+          ],
+        },
+      ],
+    },
+  ],
+})
+
+// 2. Map block to React component (src/components/RenderBlocks.tsx)
+
+import { Pricing } from '@/components/blocks/Pricing'
+
+const blockComponents = {
+  pricing: Pricing,
+  // ... other block mappings
+}
+
+export const RenderBlocks: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
+  return (
+    <>
+      {blocks.map((block, index) => {
+        const BlockComponent = blockComponents[block.blockType]
+        if (!BlockComponent) return null
+        return <BlockComponent key={index} block={block} />
+      })}
+    </>
+  )
+}
+
+// 3. Use in page template (src/app/[slug]/page.tsx)
+
+import { RenderBlocks } from '@/components/RenderBlocks'
+
+export default async function Page({ params }) {
+  const page = await getPayload().findByID({
+    collection: 'pages',
+    id: params.slug,
+  })
+
+  return (
+    <main>
+      <RenderBlocks blocks={page.blocks} />
+    </main>
+  )
+}</code></pre>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div style="background: #E8F5E9; border: 2px solid #00C853; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 14px; font-weight: 700; color: #166534; margin: 0 0 12px 0;">
+          ✅ Quick Verification
+        </h4>
+        <ol style="margin: 0; padding-left: 20px; font-size: 13px; color: #166534; line-height: 1.8;">
+          <li>Restart dev server: <code>npm run dev</code></li>
+          <li>Open admin: <code>/admin</code></li>
+          <li>Edit a page → Add block → See "Pricing"</li>
+          <li>Configure 3 plans, mark middle one as featured</li>
+          <li>Save and view page → Featured card scales and has gradient</li>
+          <li>Toggle billing → Prices update correctly</li>
+        </ol>
+      </div>
+
+      <div style="background: #FFF0F0; border: 2px solid #FF6B6B; border-radius: 8px; padding: 20px;">
+        <h4 style="font-size: 14px; font-weight: 700; color: #DC2626; margin: 0 0 12px 0;">
+          ⚠️ Common Mistakes
+        </h4>
+        <ul style="margin: 0; padding-left: 20px; font-size: 13px; color: #DC2626; line-height: 1.8;">
+          <li>Forgetting to add block to Payload config</li>
+          <li>Block slug mismatch (config: "pricing" vs mapping: "pricing-block")</li>
+          <li>Not restarting server after config changes</li>
+          <li>Marking multiple plans as featured (only 1 should be)</li>
+          <li>Missing billing toggle prices (both monthly AND yearly)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conversion Optimization Tips -->
+  <div style="background: linear-gradient(135deg, #00897B, #26A69A); padding: 32px; border-radius: 12px; margin-bottom: 24px;">
+    <h3 style="font-size: 20px; font-weight: 800; color: white; margin: 0 0 16px 0; display: flex; align-items: center; gap: 12px;">
+      <span style="font-size: 28px;">💰</span>
+      Conversion Optimization Best Practices
+    </h3>
+    <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: white; line-height: 1.8;">
+      <li><strong>Visual Hierarchy:</strong> Mark ONE plan as featured (typically middle tier) to guide users toward your recommended option. This increases conversions by 20-30%.</li>
+      <li><strong>Gradient Colors:</strong> Use Navy for professional/corporate, Teal for brand alignment, Purple for creative industries, Blue for tech/SaaS.</li>
+      <li><strong>Save Badges:</strong> Display savings prominently (€20, 20%, "2 months free") to create urgency and highlight value.</li>
+      <li><strong>Billing Toggle:</strong> Always show yearly pricing by default (higher LTV), with clear save badge to incentivize annual commitment.</li>
+      <li><strong>Social Proof:</strong> Use badges like "Most Popular", "Best Value", "Trending" to reduce decision fatigue and leverage social proof.</li>
+      <li><strong>Feature Comparison:</strong> Show disabled features in lower tiers to create upgrade motivation without negative framing.</li>
+      <li><strong>FAQ Section:</strong> Address common objections (cancellation, trial, hidden costs) directly below pricing to reduce friction.</li>
+      <li><strong>CTA Language:</strong> Use action-oriented text ("Start 14-day trial" > "Sign up", "Get started now" > "Buy").</li>
+    </ul>
+  </div>
+
+  <!-- Success Banner -->
+  <div style="background: linear-gradient(135deg, #0A1628, #121F33); padding: 48px; border-radius: 16px; text-align: center;">
+    <div style="font-size: 64px; margin-bottom: 16px;">🎉</div>
+    <h2 style="font-size: 28px; font-weight: 800; color: white; margin: 0 0 12px 0;">
+      Implementation Complete!
+    </h2>
+    <p style="font-size: 16px; color: rgba(255,255,255,0.9); margin: 0 0 8px 0;">
+      Your <strong>B-17c: Pricing with Gradient Featured Card</strong> block is ready for production.
+    </p>
+    <p style="font-size: 14px; color: rgba(255,255,255,0.7); margin: 0;">
+      Conversion-optimized pricing designed to increase signups and guide users to your recommended plan.
+    </p>
+  </div>
+
+</div>
+
+</body>
+</html>

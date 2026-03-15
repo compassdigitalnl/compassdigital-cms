@@ -67,7 +67,7 @@ export const ProductEmbedComponent: React.FC<ProductEmbedBlock> = ({
         <div className="min-w-0">
           <Link
             href={`/shop/${prod.slug}`}
-            className="text-sm font-semibold text-gray-900 hover:text-primary transition-colors truncate block"
+            className="text-sm font-semibold text-navy hover:text-primary transition-colors truncate block"
           >
             {prod.title}
           </Link>
@@ -161,7 +161,7 @@ export const ProductEmbedComponent: React.FC<ProductEmbedBlock> = ({
           />
         ) : (
           <div className="flex items-center justify-center h-full">
-            <Icon name="Package" size={32} className="text-gray-300" />
+            <Icon name="Package" size={32} className="text-grey-mid" />
           </div>
         )}
       </div>

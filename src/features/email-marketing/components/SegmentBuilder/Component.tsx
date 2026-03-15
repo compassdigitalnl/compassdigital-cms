@@ -55,7 +55,7 @@ export function SegmentBuilder({ value, onChange }: SegmentBuilderProps) {
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">Segmentvoorwaarden</h3>
+        <h3 className="text-lg font-semibold text-navy">Segmentvoorwaarden</h3>
       </div>
 
       {/* Groups */}
@@ -67,7 +67,7 @@ export function SegmentBuilder({ value, onChange }: SegmentBuilderProps) {
               <button
                 type="button"
                 onClick={handleToggleLogic}
-                className="rounded-full border border-gray-300 bg-white px-4 py-1 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
+                className="rounded-full border border-grey-light bg-white px-4 py-1 text-sm font-medium text-grey-dark shadow-sm transition-colors hover:bg-grey-light"
               >
                 {value.logic === 'and' ? 'EN' : 'OF'}
               </button>
@@ -87,7 +87,7 @@ export function SegmentBuilder({ value, onChange }: SegmentBuilderProps) {
       <button
         type="button"
         onClick={handleAddGroup}
-        className="flex w-full items-center justify-center rounded-lg border-2 border-dashed border-gray-300 px-4 py-3 text-sm font-medium text-gray-600 transition-colors hover:border-blue-400 hover:text-teal"
+        className="flex w-full items-center justify-center rounded-lg border-2 border-dashed border-grey-light px-4 py-3 text-sm font-medium text-grey-dark transition-colors hover:border-blue-400 hover:text-teal"
       >
         + Groep toevoegen
       </button>

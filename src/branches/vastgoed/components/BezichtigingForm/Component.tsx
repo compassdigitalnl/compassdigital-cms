@@ -70,8 +70,8 @@ export const BezichtigingForm: React.FC<BezichtigingFormProps> = ({
   if (isSuccess) {
     return (
       <div className={`rounded-2xl border border-[var(--color-base-200)] bg-[var(--color-base-0)] p-7 text-center ${className}`}>
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-green-100">
-          <svg className="h-7 w-7 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-green/10">
+          <svg className="h-7 w-7 text-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="20 6 9 17 4 12" />
           </svg>
         </div>
@@ -236,7 +236,7 @@ export const BezichtigingForm: React.FC<BezichtigingFormProps> = ({
 
         {/* Error message */}
         {error && (
-          <div className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
+          <div className="mb-4 rounded-lg bg-coral-50 px-4 py-3 text-sm text-coral-700">{error}</div>
         )}
 
         {/* Submit */}

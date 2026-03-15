@@ -53,15 +53,15 @@ export function SegmentGroupBlock({ group, onChange, onDelete, index }: SegmentG
   )
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
+    <div className="rounded-lg border border-grey-light bg-white shadow-sm">
       {/* Group header */}
-      <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
+      <div className="flex items-center justify-between border-b border-grey-light px-4 py-3">
         <div className="flex items-center gap-3">
-          <span className="text-sm font-medium text-gray-500">Groep {index + 1}</span>
+          <span className="text-sm font-medium text-grey-mid">Groep {index + 1}</span>
           <button
             type="button"
             onClick={handleToggleLogic}
-            className="rounded border border-gray-300 bg-gray-50 px-3 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-100"
+            className="rounded border border-grey-light bg-grey-light px-3 py-1 text-xs font-medium text-grey-dark transition-colors hover:bg-grey-light"
           >
             {group.logic === 'and' ? 'EN' : 'OF'}
           </button>
@@ -69,7 +69,7 @@ export function SegmentGroupBlock({ group, onChange, onDelete, index }: SegmentG
         <button
           type="button"
           onClick={onDelete}
-          className="rounded p-1 text-gray-400 transition-colors hover:bg-coral-50 hover:text-coral"
+          className="rounded p-1 text-grey-mid transition-colors hover:bg-coral-50 hover:text-coral"
           title="Groep verwijderen"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -83,7 +83,7 @@ export function SegmentGroupBlock({ group, onChange, onDelete, index }: SegmentG
         {conditions.map((condition, condIndex) => (
           <React.Fragment key={condition.id}>
             {condIndex > 0 && (
-              <div className="py-1 text-center text-xs font-medium text-gray-400">
+              <div className="py-1 text-center text-xs font-medium text-grey-mid">
                 {group.logic === 'and' ? 'EN' : 'OF'}
               </div>
             )}
@@ -96,7 +96,7 @@ export function SegmentGroupBlock({ group, onChange, onDelete, index }: SegmentG
         ))}
 
         {conditions.length === 0 && (
-          <p className="py-4 text-center text-sm text-gray-400">
+          <p className="py-4 text-center text-sm text-grey-mid">
             Geen voorwaarden. Voeg een voorwaarde toe.
           </p>
         )}
@@ -105,7 +105,7 @@ export function SegmentGroupBlock({ group, onChange, onDelete, index }: SegmentG
         <button
           type="button"
           onClick={handleAddCondition}
-          className="mt-2 flex w-full items-center justify-center rounded border border-dashed border-gray-300 px-3 py-2 text-sm text-gray-500 transition-colors hover:border-blue-400 hover:text-teal"
+          className="mt-2 flex w-full items-center justify-center rounded border border-dashed border-grey-light px-3 py-2 text-sm text-grey-mid transition-colors hover:border-blue-400 hover:text-teal"
         >
           + Voorwaarde toevoegen
         </button>

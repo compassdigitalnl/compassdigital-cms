@@ -309,7 +309,7 @@ export function EnrollmentWizardTemplate({ course }: EnrollmentWizardProps) {
                   </div>
 
                   {error && (
-                    <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                    <div className="mt-4 rounded-lg border border-coral/20 bg-coral-50 p-3 text-sm text-coral-700">
                       {error}
                     </div>
                   )}
@@ -391,7 +391,7 @@ export function EnrollmentWizardTemplate({ course }: EnrollmentWizardProps) {
                   </div>
 
                   {error && (
-                    <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                    <div className="mt-4 rounded-lg border border-coral/20 bg-coral-50 p-3 text-sm text-coral-700">
                       {error}
                     </div>
                   )}

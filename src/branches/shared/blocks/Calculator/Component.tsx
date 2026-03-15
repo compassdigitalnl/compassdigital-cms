@@ -20,9 +20,9 @@ function getBgClasses(bg: CalculatorBgColor): string {
     case 'light-grey':
       return 'bg-grey-light'
     case 'gradient':
-      return 'bg-gradient-to-br from-blue-50 to-indigo-50'
+      return 'bg-gradient-to-br from-teal-50 to-teal-50'
     default:
-      return 'bg-gradient-to-br from-blue-50 to-indigo-50'
+      return 'bg-gradient-to-br from-teal-50 to-teal-50'
   }
 }
 

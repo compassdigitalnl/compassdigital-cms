@@ -337,7 +337,7 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
                     >
                       <button
                         onClick={(e) => { e.preventDefault(); setOpenDropdown(null); window.location.href = `/account/lists/${list.id}` }}
-                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-gray-50"
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-grey-light"
                         style={{ fontSize: '13px', color: 'var(--color-secondary)' }}
                       >
                         <Eye className="w-4 h-4" style={{ color: 'var(--color-grey-mid)' }} />
@@ -345,7 +345,7 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
                       </button>
                       <button
                         onClick={(e) => { e.preventDefault(); setOpenDropdown(null); onDuplicateList?.(list.id) }}
-                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-gray-50"
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-grey-light"
                         style={{ fontSize: '13px', color: 'var(--color-secondary)' }}
                       >
                         <Copy className="w-4 h-4" style={{ color: 'var(--color-grey-mid)' }} />
@@ -353,7 +353,7 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
                       </button>
                       <button
                         onClick={(e) => { e.preventDefault(); setOpenDropdown(null); onTogglePin?.(list.id) }}
-                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-gray-50"
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-grey-light"
                         style={{ fontSize: '13px', color: 'var(--color-secondary)' }}
                       >
                         <Pin className="w-4 h-4" style={{ color: 'var(--color-grey-mid)' }} />

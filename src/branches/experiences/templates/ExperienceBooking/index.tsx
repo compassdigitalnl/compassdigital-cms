@@ -97,7 +97,7 @@ export function ExperienceBookingTemplate({ experience }: ExperienceBookingTempl
                 key={i}
                 onClick={() => i <= currentStep && setCurrentStep(i)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
-                  isActive ? 'text-white' : isComplete ? 'text-white' : 'text-gray-400'
+                  isActive ? 'text-white' : isComplete ? 'text-white' : 'text-grey-mid'
                 }`}
                 style={{
                   backgroundColor: isActive
@@ -134,7 +134,7 @@ export function ExperienceBookingTemplate({ experience }: ExperienceBookingTempl
                   onSelectDate={setSelectedDate}
                 />
                 <div className="mt-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-grey-dark mb-2">
                     Aantal personen
                   </label>
                   <div className="flex items-center gap-4">
@@ -155,7 +155,7 @@ export function ExperienceBookingTemplate({ experience }: ExperienceBookingTempl
                     >
                       +
                     </button>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm text-grey-mid">
                       {experience.minPersons && experience.maxPersons
                         ? `(${experience.minPersons} - ${experience.maxPersons} personen)`
                         : ''}
@@ -195,7 +195,7 @@ export function ExperienceBookingTemplate({ experience }: ExperienceBookingTempl
                 </h2>
                 <div className="space-y-4 max-w-lg">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Naam *</label>
+                    <label className="block text-sm font-medium text-grey-dark mb-1">Naam *</label>
                     <input
                       type="text"
                       value={contactInfo.name}
@@ -206,7 +206,7 @@ export function ExperienceBookingTemplate({ experience }: ExperienceBookingTempl
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">E-mail *</label>
+                    <label className="block text-sm font-medium text-grey-dark mb-1">E-mail *</label>
                     <input
                       type="email"
                       value={contactInfo.email}
@@ -217,7 +217,7 @@ export function ExperienceBookingTemplate({ experience }: ExperienceBookingTempl
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Telefoon *</label>
+                    <label className="block text-sm font-medium text-grey-dark mb-1">Telefoon *</label>
                     <input
                       type="tel"
                       value={contactInfo.phone}
@@ -228,7 +228,7 @@ export function ExperienceBookingTemplate({ experience }: ExperienceBookingTempl
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Bedrijf</label>
+                    <label className="block text-sm font-medium text-grey-dark mb-1">Bedrijf</label>
                     <input
                       type="text"
                       value={contactInfo.company}
@@ -239,7 +239,7 @@ export function ExperienceBookingTemplate({ experience }: ExperienceBookingTempl
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Opmerkingen</label>
+                    <label className="block text-sm font-medium text-grey-dark mb-1">Opmerkingen</label>
                     <textarea
                       value={contactInfo.notes}
                       onChange={(e) => setContactInfo({ ...contactInfo, notes: e.target.value })}
@@ -264,28 +264,28 @@ export function ExperienceBookingTemplate({ experience }: ExperienceBookingTempl
                   >
                     Bijna klaar!
                   </h2>
-                  <p className="text-gray-600 mb-6">
+                  <p className="text-grey-dark mb-6">
                     Controleer je gegevens en bevestig je reservering
                   </p>
                   <div className="text-left max-w-md mx-auto space-y-3">
                     <div className="flex justify-between py-2 border-b" style={{ borderColor: 'var(--color-border, #e5e7eb)' }}>
-                      <span className="text-sm text-gray-500">Datum</span>
+                      <span className="text-sm text-grey-mid">Datum</span>
                       <span className="text-sm font-medium">{selectedDate || '-'}</span>
                     </div>
                     <div className="flex justify-between py-2 border-b" style={{ borderColor: 'var(--color-border, #e5e7eb)' }}>
-                      <span className="text-sm text-gray-500">Groepsgrootte</span>
+                      <span className="text-sm text-grey-mid">Groepsgrootte</span>
                       <span className="text-sm font-medium">{groupSize} personen</span>
                     </div>
                     <div className="flex justify-between py-2 border-b" style={{ borderColor: 'var(--color-border, #e5e7eb)' }}>
-                      <span className="text-sm text-gray-500">Naam</span>
+                      <span className="text-sm text-grey-mid">Naam</span>
                       <span className="text-sm font-medium">{contactInfo.name}</span>
                     </div>
                     <div className="flex justify-between py-2 border-b" style={{ borderColor: 'var(--color-border, #e5e7eb)' }}>
-                      <span className="text-sm text-gray-500">E-mail</span>
+                      <span className="text-sm text-grey-mid">E-mail</span>
                       <span className="text-sm font-medium">{contactInfo.email}</span>
                     </div>
                     <div className="flex justify-between py-2" style={{ borderColor: 'var(--color-border, #e5e7eb)' }}>
-                      <span className="text-sm text-gray-500">Totaal</span>
+                      <span className="text-sm text-grey-mid">Totaal</span>
                       <span className="text-lg font-bold" style={{ color: 'var(--color-teal, #00a39b)' }}>
                         €{totalPrice.toFixed(2).replace('.', ',')}
                       </span>

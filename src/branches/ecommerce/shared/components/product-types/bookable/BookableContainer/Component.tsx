@@ -248,7 +248,7 @@ export function BookableContainer({ product, className = '' }: BookableContainer
   const hasConfig = timeSlots.length > 0 || durationOptions.length > 0 || participants.length > 0
   if (!hasConfig) {
     return (
-      <div className={`p-6 text-center text-gray-500 ${className}`}>
+      <div className={`p-6 text-center text-grey-mid ${className}`}>
         <p className="text-sm">Geen booking configuratie beschikbaar voor dit product.</p>
       </div>
     )

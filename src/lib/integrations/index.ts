@@ -4,3 +4,10 @@ export { lookupKVK, isKVKLookupAvailable, getKVKMode } from './kvk/client'
 export { lookupPostcode } from './postcode/client'
 export { verifyRecaptchaToken, isRecaptchaConfigured } from './recaptcha/verify'
 export { imageService } from './images/ImageService'
+export {
+  isChatwootConfigured,
+  sendBotMessage,
+  handoffToHuman,
+  getConversationMessages,
+  addConversationLabels,
+} from './chatwoot/ChatwootService'

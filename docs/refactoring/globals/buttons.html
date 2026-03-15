@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Buttons — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --coral: #FF6B6B;
+  --coral-dark: #E55555;
+  --amber: #F59E0B;
+  --amber-dark: #D97706;
+  --green: #00C853;
+  --green-dark: #00A844;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 24px 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--teal-glow), transparent 60%);
+  border-radius: 50%;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.header-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 137, 123, 0.2);
+  border: 1px solid rgba(0, 137, 123, 0.3);
+  padding: 4px 12px;
+  border-radius: 12px;
+  color: var(--teal-light);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+
+.header h1 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.header p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN LAYOUT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 48px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.tag-token { background: #E0F2F1; color: var(--teal-dark); }
+
+/* ═══════════════════════════════════════════════════════════
+   BOX — Preview Container
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK — Developer Notes
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .property { color: #f5c2e7; }
+.code-block .string { color: #a6e3a1; }
+.code-block .function { color: #89b4fa; }
+.code-block .number { color: #fab387; }
+
+/* ═══════════════════════════════════════════════════════════
+   GRID UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BUTTON STYLES — Design Tokens
+   ═══════════════════════════════════════════════════════════ */
+.btn {
+  /* Base button styles */
+  padding: 8px 18px;
+  border-radius: var(--r-sm);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 700;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all var(--dur);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--sh-sm);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BUTTON VARIANTS — Color Styles
+   ═══════════════════════════════════════════════════════════ */
+
+/* Primary: Teal */
+.btn-teal {
+  background: var(--teal);
+  color: #fff;
+}
+
+.btn-teal:hover {
+  background: var(--teal-dark);
+}
+
+/* Navy (Dark) */
+.btn-navy {
+  background: var(--navy);
+  color: #fff;
+}
+
+.btn-navy:hover {
+  background: var(--navy-light);
+}
+
+/* Coral (Error/Delete) */
+.btn-coral {
+  background: var(--coral);
+  color: #fff;
+}
+
+.btn-coral:hover {
+  background: var(--coral-dark);
+}
+
+/* Amber (Pro/Premium) */
+.btn-amber {
+  background: linear-gradient(135deg, var(--amber), var(--amber-dark));
+  color: #fff;
+}
+
+.btn-amber:hover {
+  background: linear-gradient(135deg, var(--amber-dark), var(--amber));
+}
+
+/* Green (Success) */
+.btn-green {
+  background: var(--green);
+  color: #fff;
+}
+
+.btn-green:hover {
+  background: var(--green-dark);
+}
+
+/* Outline Teal */
+.btn-outline-teal {
+  background: none;
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.btn-outline-teal:hover {
+  background: var(--teal);
+  color: #fff;
+}
+
+/* Outline Neutral (Grey) */
+.btn-outline-neutral {
+  background: none;
+  border-color: var(--grey);
+  color: var(--grey-dark);
+}
+
+.btn-outline-neutral:hover {
+  background: var(--grey-light);
+  border-color: var(--grey-dark);
+  color: var(--text);
+}
+
+/* Ghost (Link-style) */
+.btn-ghost {
+  background: none;
+  border: none;
+  color: var(--teal);
+  text-decoration: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.btn-ghost:hover {
+  text-decoration: underline;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BUTTON SIZES
+   ═══════════════════════════════════════════════════════════ */
+
+/* Small */
+.btn-sm {
+  padding: 5px 12px;
+  font-size: 10px;
+}
+
+/* Default (no class needed) */
+/* padding: 8px 18px; font-size: 12px; */
+
+/* Large */
+.btn-lg {
+  padding: 11px 26px;
+  font-size: 14px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BUTTON WITH ICON
+   ═══════════════════════════════════════════════════════════ */
+.btn svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.5px;
+}
+
+.btn-sm svg {
+  width: 12px;
+  height: 12px;
+}
+
+.btn-lg svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BUTTON GROUP
+   ═══════════════════════════════════════════════════════════ */
+.btn-group {
+  display: inline-flex;
+  gap: 8px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DEMO SECTION STYLES
+   ═══════════════════════════════════════════════════════════ */
+.variant-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--grey-light);
+}
+
+.variant-grid:last-child {
+  border-bottom: none;
+}
+
+.variant-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.variant-label .subtext {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--grey-mid);
+  margin-top: 2px;
+}
+
+.variant-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .grid-3, .grid-4 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .main {
+    padding: 24px 16px;
+  }
+
+  .variant-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-3, .grid-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .variant-preview {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-tag">
+      <i data-lucide="palette" style="width:12px;height:12px"></i>
+      Design Tokens · Globals
+    </div>
+    <h1>Buttons</h1>
+    <p>Complete button system with 8 color variants, 3 sizes, and full icon support. All buttons follow strict design tokens for consistent visual language across the platform.</p>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LIVE DEMO — All Button Variants
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="demo">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Live Demo</span>
+        <span class="section-label">All Button Variants</span>
+      </div>
+      <span class="tag tag-token">Interactive</span>
+    </div>
+
+    <!-- Color Variants -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Color Variants (8)
+      </div>
+      <div class="box-content">
+
+        <div class="variant-grid">
+          <div class="variant-label">
+            Teal (Primary)
+            <span class="subtext">Main CTA actions</span>
+          </div>
+          <div class="variant-preview">
+            <button class="btn btn-teal">
+              <i data-lucide="shopping-cart"></i>
+              In winkelwagen
+            </button>
+            <button class="btn btn-teal">Opslaan</button>
+            <button class="btn btn-teal" disabled>Disabled</button>
+          </div>
+        </div>
+
+        <div class="variant-grid">
+          <div class="variant-label">
+            Navy (Dark)
+            <span class="subtext">Secondary actions</span>
+          </div>
+          <div class="variant-preview">
+            <button class="btn btn-navy">
+              <i data-lucide="user"></i>
+              Mijn account
+            </button>
+            <button class="btn btn-navy">Meer info</button>
+            <button class="btn btn-navy" disabled>Disabled</button>
+          </div>
+        </div>
+
+        <div class="variant-grid">
+          <div class="variant-label">
+            Coral (Error/Delete)
+            <span class="subtext">Destructive actions</span>
+          </div>
+          <div class="variant-preview">
+            <button class="btn btn-coral">
+              <i data-lucide="trash-2"></i>
+              Verwijderen
+            </button>
+            <button class="btn btn-coral">Annuleren</button>
+            <button class="btn btn-coral" disabled>Disabled</button>
+          </div>
+        </div>
+
+        <div class="variant-grid">
+          <div class="variant-label">
+            Amber (Pro/Premium)
+            <span class="subtext">Upsell/premium features</span>
+          </div>
+          <div class="variant-preview">
+            <button class="btn btn-amber">
+              <i data-lucide="zap"></i>
+              Upgrade naar PRO
+            </button>
+            <button class="btn btn-amber">Premium</button>
+            <button class="btn btn-amber" disabled>Disabled</button>
+          </div>
+        </div>
+
+        <div class="variant-grid">
+          <div class="variant-label">
+            Green (Success)
+            <span class="subtext">Confirmation actions</span>
+          </div>
+          <div class="variant-preview">
+            <button class="btn btn-green">
+              <i data-lucide="check"></i>
+              Bevestigen
+            </button>
+            <button class="btn btn-green">Goedkeuren</button>
+            <button class="btn btn-green" disabled>Disabled</button>
+          </div>
+        </div>
+
+        <div class="variant-grid">
+          <div class="variant-label">
+            Outline Teal
+            <span class="subtext">Secondary teal actions</span>
+          </div>
+          <div class="variant-preview">
+            <button class="btn btn-outline-teal">
+              <i data-lucide="eye"></i>
+              Bekijken
+            </button>
+            <button class="btn btn-outline-teal">Details</button>
+            <button class="btn btn-outline-teal" disabled>Disabled</button>
+          </div>
+        </div>
+
+        <div class="variant-grid">
+          <div class="variant-label">
+            Outline Neutral
+            <span class="subtext">Tertiary actions</span>
+          </div>
+          <div class="variant-preview">
+            <button class="btn btn-outline-neutral">
+              <i data-lucide="filter"></i>
+              Filteren
+            </button>
+            <button class="btn btn-outline-neutral">Opties</button>
+            <button class="btn btn-outline-neutral" disabled>Disabled</button>
+          </div>
+        </div>
+
+        <div class="variant-grid">
+          <div class="variant-label">
+            Ghost (Link-style)
+            <span class="subtext">Minimal actions</span>
+          </div>
+          <div class="variant-preview">
+            <button class="btn btn-ghost">
+              Meer lezen
+              <i data-lucide="arrow-right"></i>
+            </button>
+            <button class="btn btn-ghost">Overslaan</button>
+            <button class="btn btn-ghost" disabled>Disabled</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Size Variants -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Size Variants (3)
+      </div>
+      <div class="box-content">
+
+        <div class="variant-grid">
+          <div class="variant-label">
+            Small (sm)
+            <span class="subtext">Compact spaces, tables</span>
+          </div>
+          <div class="variant-preview">
+            <button class="btn btn-teal btn-sm">
+              <i data-lucide="plus"></i>
+              Toevoegen
+            </button>
+            <button class="btn btn-navy btn-sm">Klein</button>
+            <button class="btn btn-outline-neutral btn-sm">Compact</button>
+          </div>
+        </div>
+
+        <div class="variant-grid">
+          <div class="variant-label">
+            Default (md)
+            <span class="subtext">Standard use</span>
+          </div>
+          <div class="variant-preview">
+            <button class="btn btn-teal">
+              <i data-lucide="shopping-bag"></i>
+              Bestellen
+            </button>
+            <button class="btn btn-navy">Standaard</button>
+            <button class="btn btn-outline-neutral">Normaal</button>
+          </div>
+        </div>
+
+        <div class="variant-grid">
+          <div class="variant-label">
+            Large (lg)
+            <span class="subtext">Hero CTAs, emphasis</span>
+          </div>
+          <div class="variant-preview">
+            <button class="btn btn-teal btn-lg">
+              <i data-lucide="rocket"></i>
+              Aan de slag
+            </button>
+            <button class="btn btn-navy btn-lg">Groot formaat</button>
+            <button class="btn btn-outline-neutral btn-lg">Large</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Button Groups -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Button Groups — Common Patterns
+      </div>
+      <div class="box-content">
+
+        <div class="variant-grid">
+          <div class="variant-label">
+            Primary + Secondary
+            <span class="subtext">Forms, modals</span>
+          </div>
+          <div class="variant-preview">
+            <div class="btn-group">
+              <button class="btn btn-teal">
+                <i data-lucide="save"></i>
+                Opslaan
+              </button>
+              <button class="btn btn-outline-neutral">Annuleren</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="variant-grid">
+          <div class="variant-label">
+            Confirm + Cancel
+            <span class="subtext">Destructive actions</span>
+          </div>
+          <div class="variant-preview">
+            <div class="btn-group">
+              <button class="btn btn-coral">
+                <i data-lucide="trash-2"></i>
+                Verwijderen
+              </button>
+              <button class="btn btn-outline-neutral">Annuleren</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="variant-grid">
+          <div class="variant-label">
+            Multiple Actions
+            <span class="subtext">Toolbars</span>
+          </div>
+          <div class="variant-preview">
+            <div class="btn-group">
+              <button class="btn btn-outline-neutral btn-sm">
+                <i data-lucide="edit-2"></i>
+                Bewerken
+              </button>
+              <button class="btn btn-outline-neutral btn-sm">
+                <i data-lucide="copy"></i>
+                Dupliceren
+              </button>
+              <button class="btn btn-coral btn-sm">
+                <i data-lucide="trash-2"></i>
+                Verwijderen
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPER IMPLEMENTATION GUIDE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Implementation</span>
+        <span class="section-label">Code Integration Guide</span>
+      </div>
+      <span class="tag tag-token">Developer Docs</span>
+    </div>
+
+    <!-- 1. CSS CLASSES -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 1: CSS Class Structure
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px;">
+          <strong>Base class + Variant + Size (optional)</strong>
+        </p>
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:8px;">
+          All buttons use the <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">.btn</code> base class, then add variant and size modifiers:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// Base button (always required)</span>
+<span class="property">.btn</span> {
+  padding: <span class="string">8px 18px</span>;
+  border-radius: <span class="string">var(--r-sm)</span>;
+  font-family: <span class="string">var(--font)</span>;
+  font-size: <span class="string">12px</span>;
+  font-weight: <span class="string">700</span>;
+  border: <span class="string">1.5px solid transparent</span>;
+  cursor: <span class="string">pointer</span>;
+  display: <span class="string">inline-flex</span>;
+  align-items: <span class="string">center</span>;
+  gap: <span class="string">6px</span>;
+  transition: <span class="string">all var(--dur)</span>;
+}
+
+<span class="comment">// Color Variants (choose one)</span>
+<span class="property">.btn-teal</span>            { background: <span class="string">var(--teal)</span>; color: <span class="string">#fff</span>; }
+<span class="property">.btn-navy</span>            { background: <span class="string">var(--navy)</span>; color: <span class="string">#fff</span>; }
+<span class="property">.btn-coral</span>           { background: <span class="string">var(--coral)</span>; color: <span class="string">#fff</span>; }
+<span class="property">.btn-amber</span>           { background: <span class="string">linear-gradient(135deg, var(--amber), var(--amber-dark))</span>; }
+<span class="property">.btn-green</span>           { background: <span class="string">var(--green)</span>; color: <span class="string">#fff</span>; }
+<span class="property">.btn-outline-teal</span>    { background: <span class="string">none</span>; border-color: <span class="string">var(--teal)</span>; color: <span class="string">var(--teal)</span>; }
+<span class="property">.btn-outline-neutral</span> { background: <span class="string">none</span>; border-color: <span class="string">var(--grey)</span>; color: <span class="string">var(--grey-dark)</span>; }
+<span class="property">.btn-ghost</span>           { background: <span class="string">none</span>; border: <span class="string">none</span>; color: <span class="string">var(--teal)</span>; }
+
+<span class="comment">// Size Modifiers (optional)</span>
+<span class="property">.btn-sm</span>  { padding: <span class="string">5px 12px</span>; font-size: <span class="string">10px</span>; }
+<span class="property">.btn-lg</span>  { padding: <span class="string">11px 26px</span>; font-size: <span class="string">14px</span>; }
+    </div>
+
+    <!-- 2. HTML EXAMPLES -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 2: HTML Examples
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:8px;">
+          <strong>Basic button:</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">&lt;!-- Primary CTA --&gt;</span>
+&lt;<span class="keyword">button</span> <span class="property">class</span>=<span class="string">"btn btn-teal"</span>&gt;
+  In winkelwagen
+&lt;/<span class="keyword">button</span>&gt;
+
+<span class="comment">&lt;!-- With icon (Lucide) --&gt;</span>
+&lt;<span class="keyword">button</span> <span class="property">class</span>=<span class="string">"btn btn-teal"</span>&gt;
+  &lt;<span class="keyword">i</span> <span class="property">data-lucide</span>=<span class="string">"shopping-cart"</span>&gt;&lt;/<span class="keyword">i</span>&gt;
+  In winkelwagen
+&lt;/<span class="keyword">button</span>&gt;
+
+<span class="comment">&lt;!-- Small size --&gt;</span>
+&lt;<span class="keyword">button</span> <span class="property">class</span>=<span class="string">"btn btn-teal btn-sm"</span>&gt;
+  &lt;<span class="keyword">i</span> <span class="property">data-lucide</span>=<span class="string">"plus"</span>&gt;&lt;/<span class="keyword">i</span>&gt;
+  Toevoegen
+&lt;/<span class="keyword">button</span>&gt;
+
+<span class="comment">&lt;!-- Disabled state --&gt;</span>
+&lt;<span class="keyword">button</span> <span class="property">class</span>=<span class="string">"btn btn-teal"</span> <span class="property">disabled</span>&gt;
+  Uitverkocht
+&lt;/<span class="keyword">button</span>&gt;
+
+<span class="comment">&lt;!-- Button group --&gt;</span>
+&lt;<span class="keyword">div</span> <span class="property">class</span>=<span class="string">"btn-group"</span>&gt;
+  &lt;<span class="keyword">button</span> <span class="property">class</span>=<span class="string">"btn btn-teal"</span>&gt;Opslaan&lt;/<span class="keyword">button</span>&gt;
+  &lt;<span class="keyword">button</span> <span class="property">class</span>=<span class="string">"btn btn-outline-neutral"</span>&gt;Annuleren&lt;/<span class="keyword">button</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;
+    </div>
+
+    <!-- 3. REACT/NEXT.JS COMPONENT -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 3: React/Next.js Component
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:8px;">
+          <strong>Reusable Button component with TypeScript:</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">// components/ui/Button.tsx</span>
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>
+
+<span class="keyword">type</span> <span class="function">ButtonVariant</span> =
+  | <span class="string">'teal'</span>
+  | <span class="string">'navy'</span>
+  | <span class="string">'coral'</span>
+  | <span class="string">'amber'</span>
+  | <span class="string">'green'</span>
+  | <span class="string">'outline-teal'</span>
+  | <span class="string">'outline-neutral'</span>
+  | <span class="string">'ghost'</span>
+
+<span class="keyword">type</span> <span class="function">ButtonSize</span> = <span class="string">'sm'</span> | <span class="string">'md'</span> | <span class="string">'lg'</span>
+
+<span class="keyword">interface</span> <span class="function">ButtonProps</span> <span class="keyword">extends</span> React.ButtonHTMLAttributes&lt;HTMLButtonElement&gt; {
+  <span class="property">variant</span>?: <span class="function">ButtonVariant</span>
+  <span class="property">size</span>?: <span class="function">ButtonSize</span>
+  <span class="property">icon</span>?: React.ReactNode
+  <span class="property">iconPosition</span>?: <span class="string">'left'</span> | <span class="string">'right'</span>
+}
+
+<span class="keyword">export const</span> <span class="function">Button</span>: React.FC&lt;ButtonProps&gt; = ({
+  variant = <span class="string">'teal'</span>,
+  size = <span class="string">'md'</span>,
+  icon,
+  iconPosition = <span class="string">'left'</span>,
+  className = <span class="string">''</span>,
+  children,
+  ...props
+}) =&gt; {
+  <span class="keyword">const</span> classes = [
+    <span class="string">'btn'</span>,
+    <span class="string">`btn-<span class="keyword">${</span>variant<span class="keyword">}</span>`</span>,
+    size !== <span class="string">'md'</span> && <span class="string">`btn-<span class="keyword">${</span>size<span class="keyword">}</span>`</span>,
+    className,
+  ]
+    .filter(Boolean)
+    .join(<span class="string">' '</span>)
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">button</span> <span class="property">className</span>={classes} {...props}&gt;
+      {icon && iconPosition === <span class="string">'left'</span> && icon}
+      {children}
+      {icon && iconPosition === <span class="string">'right'</span> && icon}
+    &lt;/<span class="keyword">button</span>&gt;
+  )
+}
+
+<span class="comment">// Usage:</span>
+&lt;<span class="function">Button</span> <span class="property">variant</span>=<span class="string">"teal"</span> <span class="property">icon</span>={&lt;ShoppingCart /&gt;}&gt;
+  In winkelwagen
+&lt;/<span class="function">Button</span>&gt;
+
+&lt;<span class="function">Button</span> <span class="property">variant</span>=<span class="string">"coral"</span> <span class="property">size</span>=<span class="string">"sm"</span> <span class="property">onClick</span>={handleDelete}&gt;
+  Verwijderen
+&lt;/<span class="function">Button</span>&gt;
+    </div>
+
+    <!-- 4. USAGE GUIDELINES -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 4: Usage Guidelines
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          <strong>When to use each variant:</strong>
+        </p>
+        <ul style="font-size:12px;color:var(--grey-dark);line-height:2;margin-left:20px;">
+          <li><strong>Teal:</strong> Primary CTAs (add to cart, checkout, save, submit)</li>
+          <li><strong>Navy:</strong> Secondary actions (view details, more info)</li>
+          <li><strong>Coral:</strong> Destructive actions (delete, cancel order, remove)</li>
+          <li><strong>Amber:</strong> Premium/upsell actions (upgrade, PRO features)</li>
+          <li><strong>Green:</strong> Confirmation actions (confirm, approve, accept)</li>
+          <li><strong>Outline Teal:</strong> Secondary teal actions (view, details)</li>
+          <li><strong>Outline Neutral:</strong> Tertiary actions (filter, options, settings)</li>
+          <li><strong>Ghost:</strong> Minimal actions (skip, learn more, read more)</li>
+        </ul>
+        <p style="font-size:13px;color:var(--grey-dark);margin-top:16px;margin-bottom:8px;">
+          <strong>Size selection:</strong>
+        </p>
+        <ul style="font-size:12px;color:var(--grey-dark);line-height:2;margin-left:20px;">
+          <li><strong>Small (sm):</strong> Compact spaces, tables, card actions</li>
+          <li><strong>Default (md):</strong> Standard use, forms, modals</li>
+          <li><strong>Large (lg):</strong> Hero CTAs, emphasis, landing pages</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 5. ACCESSIBILITY -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Step 5: Accessibility Best Practices
+      </div>
+      <div class="box-content">
+        <ul style="font-size:12px;color:var(--grey-dark);line-height:2;margin-left:20px;">
+          <li>✅ Use semantic <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">&lt;button&gt;</code> for actions, <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">&lt;a&gt;</code> for navigation</li>
+          <li>✅ All buttons keyboard accessible (focus ring included)</li>
+          <li>✅ Icon-only buttons need <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">aria-label</code></li>
+          <li>✅ Disabled state uses <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">disabled</code> attribute (not just CSS)</li>
+          <li>✅ Loading state shows spinner + <code style="background:var(--grey-light);padding:2px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">aria-busy="true"</code></li>
+          <li>✅ Color contrast meets WCAG AA (4.5:1 minimum)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:12px;">
+<span class="comment">&lt;!-- Icon-only button (needs aria-label) --&gt;</span>
+&lt;<span class="keyword">button</span> <span class="property">class</span>=<span class="string">"btn btn-teal"</span> <span class="property">aria-label</span>=<span class="string">"In winkelwagen"</span>&gt;
+  &lt;<span class="keyword">i</span> <span class="property">data-lucide</span>=<span class="string">"shopping-cart"</span>&gt;&lt;/<span class="keyword">i</span>&gt;
+&lt;/<span class="keyword">button</span>&gt;
+
+<span class="comment">&lt;!-- Loading state --&gt;</span>
+&lt;<span class="keyword">button</span> <span class="property">class</span>=<span class="string">"btn btn-teal"</span> <span class="property">aria-busy</span>=<span class="string">"true"</span> <span class="property">disabled</span>&gt;
+  &lt;<span class="keyword">i</span> <span class="property">data-lucide</span>=<span class="string">"loader"</span> <span class="property">class</span>=<span class="string">"spin"</span>&gt;&lt;/<span class="keyword">i</span>&gt;
+  Bezig met laden...
+&lt;/<span class="keyword">button</span>&gt;
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS REFERENCE
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="tokens">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">Design Tokens</span>
+        <span class="section-label">CSS Custom Properties Reference</span>
+      </div>
+      <span class="tag tag-token">Reference</span>
+    </div>
+
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Button-Specific Tokens
+      </div>
+      <div class="box-content">
+        <p style="font-size:13px;color:var(--grey-dark);margin-bottom:12px;">
+          All button styles use these CSS custom properties from the design system:
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" style="margin-top:-8px;">
+<span class="comment">/* Colors */</span>
+<span class="property">--teal</span>:        <span class="string">#00897B</span>  <span class="comment">/* Primary CTA */</span>
+<span class="property">--teal-dark</span>:   <span class="string">#00695C</span>  <span class="comment">/* Hover state */</span>
+<span class="property">--navy</span>:        <span class="string">#0A1628</span>  <span class="comment">/* Dark button */</span>
+<span class="property">--coral</span>:       <span class="string">#FF6B6B</span>  <span class="comment">/* Error/delete */</span>
+<span class="property">--amber</span>:       <span class="string">#F59E0B</span>  <span class="comment">/* Pro/premium */</span>
+<span class="property">--green</span>:       <span class="string">#00C853</span>  <span class="comment">/* Success */</span>
+<span class="property">--grey</span>:        <span class="string">#E8ECF1</span>  <span class="comment">/* Border neutral */</span>
+<span class="property">--grey-dark</span>:   <span class="string">#64748B</span>  <span class="comment">/* Text neutral */</span>
+
+<span class="comment">/* Spacing */</span>
+<span class="property">--r-sm</span>:        <span class="string">8px</span>      <span class="comment">/* Border radius */</span>
+
+<span class="comment">/* Animation */</span>
+<span class="property">--dur</span>:         <span class="string">0.2s</span>     <span class="comment">/* Transition duration */</span>
+<span class="property">--ease</span>:        <span class="string">cubic-bezier(0.4, 0, 0.2, 1)</span>
+
+<span class="comment">/* Typography */</span>
+<span class="property">--font</span>:        <span class="string">'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif</span>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

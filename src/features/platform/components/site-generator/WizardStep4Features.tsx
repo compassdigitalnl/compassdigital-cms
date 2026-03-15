@@ -166,17 +166,17 @@ export function WizardStep4Features({
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="space-y-3 pb-6 border-b-2 border-gray-100">
+      <div className="space-y-3 pb-6 border-b-2 border-grey-light">
         <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-rose-600 shadow-lg shadow-orange-500/30">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-coral shadow-lg shadow-amber/30">
             <span className="text-2xl">⚡</span>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Functies & Features</h2>
-            <p className="text-sm text-gray-500 font-medium">Stap 4</p>
+            <h2 className="text-2xl font-bold text-navy">Functies & Features</h2>
+            <p className="text-sm text-grey-mid font-medium">Stap 4</p>
           </div>
         </div>
-        <p className="text-base text-gray-600 pl-15">
+        <p className="text-base text-grey-dark pl-15">
           Standaard functies voor de site. Niet-standaard functies vereisen extra inrichting.
         </p>
       </div>
@@ -205,7 +205,7 @@ export function WizardStep4Features({
                 className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                   isEnabled
                     ? 'border-teal bg-teal-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    : 'border-grey-light hover:border-grey-light'
                 }`}
               >
                 <div className="flex items-start gap-4">
@@ -216,7 +216,7 @@ export function WizardStep4Features({
                   />
                   <div
                     className={`p-2 rounded-lg ${
-                      isEnabled ? 'bg-teal-100 text-teal' : 'bg-gray-100 text-gray-600'
+                      isEnabled ? 'bg-teal-100 text-teal' : 'bg-grey-light text-grey-dark'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -228,7 +228,7 @@ export function WizardStep4Features({
                         <Badge variant="secondary" className="text-xs">Aanbevolen</Badge>
                       )}
                     </div>
-                    <p className="text-xs text-gray-600 mt-1">{feature.description}</p>
+                    <p className="text-xs text-grey-dark mt-1">{feature.description}</p>
                   </div>
                 </div>
               </div>
@@ -238,10 +238,10 @@ export function WizardStep4Features({
       </div>
 
       {/* Niet-standaard / extra features */}
-      <div className="space-y-3 border-t border-gray-100 pt-6">
+      <div className="space-y-3 border-t border-grey-light pt-6">
         <div>
-          <Label className="text-base font-semibold text-gray-800">Niet-standaard functies</Label>
-          <p className="text-xs text-gray-500 mt-1">
+          <Label className="text-base font-semibold text-navy">Niet-standaard functies</Label>
+          <p className="text-xs text-grey-mid mt-1">
             Deze functies vereisen extra inrichting en zijn niet in elk pakket inbegrepen.
             Selecteer wat relevant is — we houden er rekening mee bij het opzetten van het CMS.
           </p>
@@ -259,7 +259,7 @@ export function WizardStep4Features({
                 className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                   isEnabled
                     ? 'border-teal bg-teal-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    : 'border-grey-light hover:border-grey-light'
                 }`}
               >
                 <div className="flex items-start gap-4">
@@ -270,7 +270,7 @@ export function WizardStep4Features({
                   />
                   <div
                     className={`p-2 rounded-lg ${
-                      isEnabled ? 'bg-teal-100 text-teal' : 'bg-gray-100 text-gray-600'
+                      isEnabled ? 'bg-teal-100 text-teal' : 'bg-grey-light text-grey-dark'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -284,7 +284,7 @@ export function WizardStep4Features({
                         </Badge>
                       )}
                     </div>
-                    <p className="text-xs text-gray-600 mt-1">{feature.description}</p>
+                    <p className="text-xs text-grey-dark mt-1">{feature.description}</p>
                   </div>
                 </div>
               </div>

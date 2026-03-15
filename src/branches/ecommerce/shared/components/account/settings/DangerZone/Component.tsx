@@ -11,12 +11,12 @@ export function DangerZone({ onDeleteAccount }: DangerZoneProps) {
         </div>
         <div>
           <h2 className="text-base lg:text-lg font-extrabold text-coral">Account verwijderen</h2>
-          <p className="text-xs lg:text-sm text-gray-500">Deze actie kan niet ongedaan worden gemaakt</p>
+          <p className="text-xs lg:text-sm text-grey-mid">Deze actie kan niet ongedaan worden gemaakt</p>
         </div>
       </div>
 
       <div className="p-3 lg:p-4 rounded-lg lg:rounded-xl mb-3 lg:mb-4 bg-coral-50 border border-coral/20">
-        <p className="text-xs lg:text-sm text-gray-900 leading-relaxed">
+        <p className="text-xs lg:text-sm text-navy leading-relaxed">
           Door je account te verwijderen worden al je gegevens permanent verwijderd.
         </p>
       </div>

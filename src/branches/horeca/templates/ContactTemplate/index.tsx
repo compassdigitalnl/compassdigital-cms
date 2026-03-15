@@ -249,7 +249,7 @@ export function ContactTemplate({ settings }: ContactTemplateProps) {
 
                   {/* Error message */}
                   {error && (
-                    <div className="rounded-lg bg-red-50 p-3 text-sm text-red-600">
+                    <div className="rounded-lg bg-coral-50 p-3 text-sm text-coral">
                       {error}
                     </div>
                   )}

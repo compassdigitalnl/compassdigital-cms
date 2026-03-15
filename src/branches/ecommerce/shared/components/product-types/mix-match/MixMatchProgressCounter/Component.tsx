@@ -24,12 +24,12 @@ export const MixMatchProgressCounter: React.FC<MixMatchProgressCounterProps> = (
 
   return (
     <div
-      className={`box-progress bg-white border-[1.5px] border-gray-200 rounded-[14px] ${
+      className={`box-progress bg-white border-[1.5px] border-grey-light rounded-[14px] ${
         variant === 'compact' ? 'p-3' : 'p-3.5 px-4'
       } flex items-center gap-3.5 max-w-full sm:flex-row flex-col sm:items-center items-stretch ${className}`}
     >
       {/* Progress bar */}
-      <div className="bp-bar flex-1 h-2.5 bg-gray-100 rounded-full overflow-hidden sm:order-1 order-1">
+      <div className="bp-bar flex-1 h-2.5 bg-grey-light rounded-full overflow-hidden sm:order-1 order-1">
         <div
           className={`bp-fill h-full rounded-full transition-all duration-300 ease-out ${
             isComplete ? 'bg-green' : 'bg-[var(--color-primary)]'
@@ -49,12 +49,12 @@ export const MixMatchProgressCounter: React.FC<MixMatchProgressCounterProps> = (
         >
           {currentCount}
         </em>
-        <span className="text-gray-900"> / {maxCount}</span>
+        <span className="text-navy"> / {maxCount}</span>
       </div>
 
       {/* Label */}
       {showLabel && (
-        <div className="bp-label text-[11px] text-gray-500 font-semibold whitespace-nowrap sm:order-3 order-3 sm:text-left text-center">
+        <div className="bp-label text-[11px] text-grey-mid font-semibold whitespace-nowrap sm:order-3 order-3 sm:text-left text-center">
           {isComplete ? completedLabel : label}
         </div>
       )}

@@ -81,11 +81,11 @@ export default function PlatformStats() {
           <Card key={i}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                <div className="h-4 w-24 bg-gray-200 rounded animate-pulse" />
+                <div className="h-4 w-24 bg-grey-light rounded animate-pulse" />
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-8 w-16 bg-gray-200 rounded animate-pulse" />
+              <div className="h-8 w-16 bg-grey-light rounded animate-pulse" />
             </CardContent>
           </Card>
         ))}
@@ -95,7 +95,7 @@ export default function PlatformStats() {
 
   if (!stats) {
     return (
-      <div className="text-center py-8 text-gray-500">
+      <div className="text-center py-8 text-grey-mid">
         <AlertCircle className="mx-auto h-12 w-12 mb-2" />
         <p>Failed to load platform statistics</p>
       </div>
@@ -122,7 +122,7 @@ export default function PlatformStats() {
       value: `€${stats.monthlyRevenue.toLocaleString()}`,
       description: 'Active subscriptions',
       icon: DollarSign,
-      color: 'text-emerald-600',
+      color: 'text-green',
     },
     {
       title: 'Total Revenue',
@@ -143,7 +143,7 @@ export default function PlatformStats() {
       value: stats.criticalClients,
       description: 'Critical or warning status',
       icon: AlertCircle,
-      color: stats.criticalClients > 0 ? 'text-coral' : 'text-gray-400',
+      color: stats.criticalClients > 0 ? 'text-coral' : 'text-grey-mid',
     },
   ]
 

@@ -10,17 +10,22 @@ import { getMeilisearchSettings, mergeSettings, isCollectionIndexed } from '@/fe
 /**
  * POST /api/meilisearch/reindex
  *
- * Manually reindex all enabled collections in Meilisearch
+ * Manually reindex all enabled collections in Meilisearch.
+ * Requires admin authentication.
  *
  * Usage:
  * curl -X POST http://localhost:3020/api/meilisearch/reindex \
  *   -H "Authorization: Bearer YOUR_ADMIN_TOKEN"
- *
- * Or from browser (admin only):
- * fetch('/api/meilisearch/reindex', { method: 'POST' })
  */
 export async function POST(request: NextRequest) {
   try {
+    // Authenticate — admin only
+    const payload = await getPayload({ config })
+    const { user } = await payload.auth({ headers: request.headers })
+    if (!user || !('roles' in user) || !(user as any).roles?.includes('admin')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     // Check if Meilisearch is available
     const available = await isMeilisearchAvailable()
 
@@ -33,9 +38,6 @@ export async function POST(request: NextRequest) {
         { status: 503 }
       )
     }
-
-    // Get Payload instance
-    const payload = await getPayload({ config })
 
     // Initialize indexes (if not already done) with CMS settings
     await initializeMeilisearch(payload)

@@ -3,7 +3,7 @@ import type { AccountLoadingSkeletonProps } from './types'
 
 function Bone({ className = '' }: { className?: string }) {
   return (
-    <div className={`animate-pulse rounded-lg bg-gray-200 ${className}`} />
+    <div className={`animate-pulse rounded-lg bg-grey-light ${className}`} />
   )
 }
 

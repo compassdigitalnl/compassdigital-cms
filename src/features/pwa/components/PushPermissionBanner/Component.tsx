@@ -150,7 +150,7 @@ export function PushPermissionBanner({
 
   return (
     <div
-      className={`fixed bottom-4 left-4 right-4 z-40 mx-auto max-w-lg bg-white border border-gray-200 rounded-lg shadow-lg p-4 animate-in slide-in-from-bottom-4 ${className}`}
+      className={`fixed bottom-4 left-4 right-4 z-40 mx-auto max-w-lg bg-white border border-grey-light rounded-lg shadow-lg p-4 animate-in slide-in-from-bottom-4 ${className}`}
       role="alert"
       aria-label="Push notificaties inschakelen"
     >
@@ -174,10 +174,10 @@ export function PushPermissionBanner({
         </div>
 
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-gray-900 leading-snug">
+          <p className="text-sm font-medium text-navy leading-snug">
             Wil je meldingen ontvangen over bestellingen en aanbiedingen?
           </p>
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-grey-mid mt-1">
             Je kunt dit later altijd uitschakelen in je browserinstellingen.
           </p>
 
@@ -192,7 +192,7 @@ export function PushPermissionBanner({
             </button>
             <button
               onClick={handleDismiss}
-              className="text-sm text-gray-500 hover:text-gray-700 transition-colors px-3 py-2"
+              className="text-sm text-grey-mid hover:text-grey-dark transition-colors px-3 py-2"
               type="button"
             >
               Nee, bedankt

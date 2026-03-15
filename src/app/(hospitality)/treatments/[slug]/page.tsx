@@ -66,21 +66,21 @@ export default async function TreatmentDetailPage({
   })
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-grey-light">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-theme-secondary to-theme-secondary-light px-6 py-12">
         <div className="pointer-events-none absolute -right-10 -top-20 h-[500px] w-[500px] rounded-full bg-gradient-to-r from-theme-primary/10 to-transparent blur-3xl" />
 
         <div className="container relative z-10 mx-auto max-w-6xl">
           {/* Breadcrumb */}
-          <div className="mb-3 flex items-center gap-1.5 text-xs text-gray-500">
-            <Link href="/" className="hover:text-gray-300">
+          <div className="mb-3 flex items-center gap-1.5 text-xs text-grey-mid">
+            <Link href="/" className="hover:text-grey-mid">
               Home
             </Link>
             <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-            <Link href="/behandelingen" className="hover:text-gray-300">
+            <Link href="/behandelingen" className="hover:text-grey-mid">
               Behandelingen
             </Link>
             <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -105,10 +105,10 @@ export default async function TreatmentDetailPage({
               <h1 className="mb-2 font-display text-4xl font-extrabold text-white">
                 {treatment.title}
               </h1>
-              <p className="mb-3 max-w-2xl text-sm text-gray-400">{treatment.excerpt}</p>
+              <p className="mb-3 max-w-2xl text-sm text-grey-mid">{treatment.excerpt}</p>
               <div className="flex flex-wrap gap-1.5">
                 {treatment.duration && (
-                  <span className="flex items-center gap-1 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-gray-400">
+                  <span className="flex items-center gap-1 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-grey-mid">
                     <svg
                       className="h-3 w-3 text-theme-primary"
                       fill="none"
@@ -126,7 +126,7 @@ export default async function TreatmentDetailPage({
                   </span>
                 )}
                 {treatment.insurance === 'covered' && (
-                  <span className="flex items-center gap-1 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-gray-400">
+                  <span className="flex items-center gap-1 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-grey-mid">
                     <svg
                       className="h-3 w-3 text-theme-primary"
                       fill="none"
@@ -143,7 +143,7 @@ export default async function TreatmentDetailPage({
                     Vergoed
                   </span>
                 )}
-                <span className="flex items-center gap-1 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-gray-400">
+                <span className="flex items-center gap-1 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-grey-mid">
                   <svg
                     className="h-3 w-3 text-theme-primary"
                     fill="none"
@@ -168,14 +168,14 @@ export default async function TreatmentDetailPage({
                   <div className="font-display text-2xl font-extrabold text-theme-primary-light">
                     {treatment.successRate}%
                   </div>
-                  <div className="text-[10px] text-gray-500">Klachtenvrij na behandeling</div>
+                  <div className="text-[10px] text-grey-mid">Klachtenvrij na behandeling</div>
                 </div>
                 {treatment.averageTreatments && (
                   <div className="rounded-xl border border-white/10 bg-white/5 p-3 text-center">
                     <div className="font-display text-2xl font-extrabold text-theme-primary-light">
                       {treatment.averageTreatments}
                     </div>
-                    <div className="text-[10px] text-gray-500">Gem. behandelingen</div>
+                    <div className="text-[10px] text-grey-mid">Gem. behandelingen</div>
                   </div>
                 )}
               </div>
@@ -189,7 +189,7 @@ export default async function TreatmentDetailPage({
         <div>
           {/* Description */}
           <section className="mb-6">
-            <h2 className="mb-3 flex items-center gap-2 font-display text-2xl font-extrabold text-gray-900">
+            <h2 className="mb-3 flex items-center gap-2 font-display text-2xl font-extrabold text-navy">
               <svg
                 className="h-5 w-5 text-theme-primary"
                 fill="none"
@@ -205,7 +205,7 @@ export default async function TreatmentDetailPage({
               </svg>
               Wat is {treatment.title?.toLowerCase()}?
             </h2>
-            <div className="prose prose-sm max-w-none text-gray-700">
+            <div className="prose prose-sm max-w-none text-grey-dark">
               {typeof treatment.description === 'string' ? (
                 <p>{treatment.description}</p>
               ) : (
@@ -218,7 +218,7 @@ export default async function TreatmentDetailPage({
           {/* Symptoms */}
           {treatment.symptoms && treatment.symptoms.length > 0 && (
             <section className="mb-6">
-              <h2 className="mb-3 flex items-center gap-2 font-display text-2xl font-extrabold text-gray-900">
+              <h2 className="mb-3 flex items-center gap-2 font-display text-2xl font-extrabold text-navy">
                 <svg
                   className="h-5 w-5 text-theme-primary"
                   fill="none"
@@ -238,7 +238,7 @@ export default async function TreatmentDetailPage({
                 {treatment.symptoms.map((item: any, index: number) => (
                   <div
                     key={index}
-                    className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm font-semibold text-gray-900 transition-all hover:border-theme-primary"
+                    className="flex items-center gap-2 rounded-xl border border-grey-light bg-white px-3 py-2.5 text-sm font-semibold text-navy transition-all hover:border-theme-primary"
                   >
                     <svg
                       className="h-4 w-4 flex-shrink-0 text-theme-primary"
@@ -263,7 +263,7 @@ export default async function TreatmentDetailPage({
           {/* Treatment Process */}
           {treatment.process && treatment.process.length > 0 && (
             <section className="mb-6">
-              <h2 className="mb-3 flex items-center gap-2 font-display text-2xl font-extrabold text-gray-900">
+              <h2 className="mb-3 flex items-center gap-2 font-display text-2xl font-extrabold text-navy">
                 <svg
                   className="h-5 w-5 text-theme-primary"
                   fill="none"
@@ -283,16 +283,16 @@ export default async function TreatmentDetailPage({
                 {treatment.process.map((item: any, index: number) => (
                   <div
                     key={index}
-                    className="flex gap-3 rounded-2xl border border-gray-200 bg-white p-4 transition-all hover:border-theme-primary"
+                    className="flex gap-3 rounded-2xl border border-grey-light bg-white p-4 transition-all hover:border-theme-primary"
                   >
                     <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-theme-primary font-display text-sm font-extrabold text-white">
                       {index + 1}
                     </div>
                     <div>
-                      <h3 className="mb-0.5 font-display text-sm font-extrabold text-gray-900">
+                      <h3 className="mb-0.5 font-display text-sm font-extrabold text-navy">
                         {item.step}
                       </h3>
-                      <p className="text-xs leading-relaxed text-gray-600">{item.description}</p>
+                      <p className="text-xs leading-relaxed text-grey-dark">{item.description}</p>
                     </div>
                   </div>
                 ))}
@@ -303,7 +303,7 @@ export default async function TreatmentDetailPage({
           {/* Related Treatments */}
           {relatedTreatments.length > 0 && (
             <section>
-              <h2 className="mb-3 flex items-center gap-2 font-display text-2xl font-extrabold text-gray-900">
+              <h2 className="mb-3 flex items-center gap-2 font-display text-2xl font-extrabold text-navy">
                 <svg
                   className="h-5 w-5 text-theme-primary"
                   fill="none"
@@ -324,19 +324,19 @@ export default async function TreatmentDetailPage({
                   <Link
                     key={relatedTreatment.id}
                     href={`/behandelingen/${relatedTreatment.slug}`}
-                    className="group flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-3.5 transition-all hover:border-theme-primary"
+                    className="group flex items-center gap-3 rounded-xl border border-grey-light bg-white p-3.5 transition-all hover:border-theme-primary"
                   >
                     <div className="text-2xl">{relatedTreatment.icon || '🏥'}</div>
                     <div className="flex-1">
-                      <h3 className="text-sm font-extrabold text-gray-900">
+                      <h3 className="text-sm font-extrabold text-navy">
                         {relatedTreatment.title}
                       </h3>
-                      <p className="text-[11px] text-gray-500">
+                      <p className="text-[11px] text-grey-mid">
                         {relatedTreatment.category || 'Behandeling'}
                       </p>
                     </div>
                     <svg
-                      className="h-3.5 w-3.5 flex-shrink-0 text-gray-400"
+                      className="h-3.5 w-3.5 flex-shrink-0 text-grey-mid"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -358,8 +358,8 @@ export default async function TreatmentDetailPage({
         {/* Sidebar */}
         <aside className="sticky top-24 flex flex-col gap-3">
           {/* Appointment Form */}
-          <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 flex items-center gap-1.5 font-display text-base font-extrabold text-gray-900">
+          <div className="rounded-2xl border border-grey-light bg-white p-5 shadow-sm">
+            <h3 className="mb-3 flex items-center gap-1.5 font-display text-base font-extrabold text-navy">
               <svg
                 className="h-4 w-4 text-theme-primary"
                 fill="none"
@@ -378,38 +378,38 @@ export default async function TreatmentDetailPage({
 
             <form className="space-y-2">
               <div>
-                <label className="mb-1 block text-[11px] font-bold text-gray-700">
-                  Naam <span className="text-red-500">*</span>
+                <label className="mb-1 block text-[11px] font-bold text-grey-dark">
+                  Naam <span className="text-coral">*</span>
                 </label>
                 <input
                   type="text"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20"
+                  className="w-full rounded-lg border border-grey-light px-3 py-2.5 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20"
                   placeholder="Uw naam"
                 />
               </div>
               <div>
-                <label className="mb-1 block text-[11px] font-bold text-gray-700">
-                  Telefoon <span className="text-red-500">*</span>
+                <label className="mb-1 block text-[11px] font-bold text-grey-dark">
+                  Telefoon <span className="text-coral">*</span>
                 </label>
                 <input
                   type="tel"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20"
+                  className="w-full rounded-lg border border-grey-light px-3 py-2.5 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20"
                   placeholder="06 - 1234 5678"
                 />
               </div>
               <div>
-                <label className="mb-1 block text-[11px] font-bold text-gray-700">E-mail</label>
+                <label className="mb-1 block text-[11px] font-bold text-grey-dark">E-mail</label>
                 <input
                   type="email"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20"
+                  className="w-full rounded-lg border border-grey-light px-3 py-2.5 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20"
                   placeholder="uw@email.nl"
                 />
               </div>
               <div>
-                <label className="mb-1 block text-[11px] font-bold text-gray-700">
+                <label className="mb-1 block text-[11px] font-bold text-grey-dark">
                   Klacht / reden
                 </label>
-                <select className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20">
+                <select className="w-full rounded-lg border border-grey-light px-3 py-2.5 text-sm outline-none transition-all focus:border-theme-primary focus:ring-2 focus:ring-theme-primary/20">
                   <option>Nek-/rugklachten</option>
                   <option>Schouderklachten</option>
                   <option>Knieklachten</option>
@@ -431,15 +431,15 @@ export default async function TreatmentDetailPage({
                 </svg>
                 Afspraak aanvragen
               </button>
-              <p className="text-center text-[10px] text-gray-500">
+              <p className="text-center text-[10px] text-grey-mid">
                 Binnen 4 uur bevestiging · Geen verwijzing nodig
               </p>
             </form>
           </div>
 
           {/* Treatment Details */}
-          <div className="rounded-2xl border border-gray-200 bg-white p-5">
-            <h3 className="mb-3 flex items-center gap-1.5 font-display text-sm font-extrabold text-gray-900">
+          <div className="rounded-2xl border border-grey-light bg-white p-5">
+            <h3 className="mb-3 flex items-center gap-1.5 font-display text-sm font-extrabold text-navy">
               <svg
                 className="h-4 w-4 text-theme-primary"
                 fill="none"
@@ -456,7 +456,7 @@ export default async function TreatmentDetailPage({
               Behandelgegevens
             </h3>
             <div className="space-y-2.5">
-              <div className="flex items-center gap-2 border-b border-gray-100 pb-2.5 text-xs">
+              <div className="flex items-center gap-2 border-b border-grey-light pb-2.5 text-xs">
                 <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-theme-primary/10">
                   <svg
                     className="h-3.5 w-3.5 text-theme-primary"
@@ -473,8 +473,8 @@ export default async function TreatmentDetailPage({
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <div className="text-[10px] text-gray-500">Duur</div>
-                  <div className="font-bold text-gray-900">
+                  <div className="text-[10px] text-grey-mid">Duur</div>
+                  <div className="font-bold text-navy">
                     {treatment.duration} min
                     {treatment.intakeDuration && ` (intake ${treatment.intakeDuration} min)`}
                   </div>
@@ -482,10 +482,10 @@ export default async function TreatmentDetailPage({
               </div>
 
               {treatment.averageTreatments && (
-                <div className="flex items-center gap-2 border-b border-gray-100 pb-2.5 text-xs">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-100">
+                <div className="flex items-center gap-2 border-b border-grey-light pb-2.5 text-xs">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-100">
                     <svg
-                      className="h-3.5 w-3.5 text-blue-600"
+                      className="h-3.5 w-3.5 text-teal"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -499,8 +499,8 @@ export default async function TreatmentDetailPage({
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <div className="text-[10px] text-gray-500">Gemiddeld traject</div>
-                    <div className="font-bold text-gray-900">
+                    <div className="text-[10px] text-grey-mid">Gemiddeld traject</div>
+                    <div className="font-bold text-navy">
                       {treatment.averageTreatments} behandelingen
                     </div>
                   </div>
@@ -508,10 +508,10 @@ export default async function TreatmentDetailPage({
               )}
 
               {treatment.price && (
-                <div className="flex items-center gap-2 border-b border-gray-100 pb-2.5 text-xs">
+                <div className="flex items-center gap-2 border-b border-grey-light pb-2.5 text-xs">
                   <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-green-100">
                     <svg
-                      className="h-3.5 w-3.5 text-green-600"
+                      className="h-3.5 w-3.5 text-green"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -525,8 +525,8 @@ export default async function TreatmentDetailPage({
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <div className="text-[10px] text-gray-500">Tarief</div>
-                    <div className="font-bold text-gray-900">€ {treatment.price.toFixed(2)}</div>
+                    <div className="text-[10px] text-grey-mid">Tarief</div>
+                    <div className="font-bold text-navy">€ {treatment.price.toFixed(2)}</div>
                   </div>
                 </div>
               )}
@@ -548,8 +548,8 @@ export default async function TreatmentDetailPage({
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <div className="text-[10px] text-gray-500">Vergoeding</div>
-                  <div className="font-bold text-gray-900">
+                  <div className="text-[10px] text-grey-mid">Vergoeding</div>
+                  <div className="font-bold text-navy">
                     {treatment.insurance === 'covered'
                       ? 'Aanvullend verzekerd'
                       : treatment.insurance === 'partial'
@@ -577,7 +577,7 @@ export default async function TreatmentDetailPage({
                   d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                 />
               </svg>
-              <span className="text-[10px] text-gray-400">Vragen?</span>
+              <span className="text-[10px] text-grey-mid">Vragen?</span>
             </div>
             <div className="mb-1 font-display text-base font-extrabold">020 - 345 67 89</div>
             <div className="text-[10px] text-theme-primary-light">Ma-Vr 07:30-20:00</div>

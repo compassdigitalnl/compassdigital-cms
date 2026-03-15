@@ -52,7 +52,7 @@ export const StaffelPricingComponent: React.FC<StaffelPricingBlock> = ({
           {(title || subtitle) && (
             <div className="text-center mb-10">
               {title && (
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{title}</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-navy mb-2">{title}</h2>
               )}
               {subtitle && <p className="text-lg text-grey-mid">{subtitle}</p>}
             </div>
@@ -79,17 +79,17 @@ export const StaffelPricingComponent: React.FC<StaffelPricingBlock> = ({
                   {tiers.map((tier, index) => (
                     <tr
                       key={tier.id || index}
-                      className={`border-b border-grey bg-white hover:bg-gray-50 transition-colors ${
+                      className={`border-b border-grey bg-white hover:bg-grey-light transition-colors ${
                         index === tiers.length - 1 ? 'bg-primary/5 font-semibold' : ''
                       }`}
                     >
-                      <td className="px-6 py-4 text-gray-900">
+                      <td className="px-6 py-4 text-navy">
                         <div className="flex items-center gap-2">
                           <Icon name="Package" size={16} className="text-primary" />
                           {formatRange(tier.minQuantity, tier.maxQuantity)} stuks
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-right text-gray-900 font-semibold">
+                      <td className="px-6 py-4 text-right text-navy font-semibold">
                         {formatPrice(tier.price)}
                       </td>
                       <td className="px-6 py-4 text-right">
@@ -136,7 +136,7 @@ export const StaffelPricingComponent: React.FC<StaffelPricingBlock> = ({
                     </div>
 
                     <div
-                      className={`text-3xl font-bold mb-1 ${isBestDeal ? 'text-white' : 'text-gray-900'}`}
+                      className={`text-3xl font-bold mb-1 ${isBestDeal ? 'text-white' : 'text-navy'}`}
                     >
                       {formatPrice(tier.price)}
                     </div>

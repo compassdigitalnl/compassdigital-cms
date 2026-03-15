@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B45: CTA Section Block — Compass Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Single Source of Truth
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* Colors — Primary */
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --navy-mid: #1B2B45;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-dark: #00695C;
+  --teal-glow: rgba(0, 137, 123, 0.15);
+  --teal-bg: #E0F2F1;
+
+  /* Colors — Status */
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --blue: #2196F3;
+  --blue-light: #E3F2FD;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+
+  /* Colors — Neutrals */
+  --white: #FAFBFC;
+  --bg: #F5F7FA;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --grey-700: #334155;
+  --text: #1E293B;
+
+  /* Spacing — 4px Grid */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* Border Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --sh-sm: 0 1px 3px rgba(10, 22, 40, 0.06);
+  --sh-md: 0 4px 20px rgba(10, 22, 40, 0.08);
+  --sh-lg: 0 8px 40px rgba(10, 22, 40, 0.12);
+  --sh-xl: 0 20px 60px rgba(10, 22, 40, 0.16);
+
+  /* Animation */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.2s;
+  --dur-slow: 0.35s;
+
+  /* Typography */
+  --font: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Z-index Scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Simple Top Bar
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-content {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--teal);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.header-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-title span {
+  color: var(--teal-light);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.header-badge {
+  background: var(--purple);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════ */
+.main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION — Component Block
+   ═══════════════════════════════════════════════════════════ */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--grey);
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--grey-light);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+}
+
+.section-label {
+  font-size: 13px;
+  color: var(--grey-dark);
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BOX — Preview Container
+   ═══════════════════════════════════════════════════════════ */
+.box {
+  background: var(--white);
+  border: 1px solid var(--grey);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+
+.box-bar {
+  padding: 8px 16px;
+  background: var(--grey-light);
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+
+.box-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green { background: #28c840; }
+
+.box-content {
+  padding: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK — Developer Notes
+   ═══════════════════════════════════════════════════════════ */
+.code-block {
+  background: #1e1e2e;
+  border-radius: var(--r-sm);
+  padding: 16px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #cdd6f4;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .function { color: #89b4fa; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #fab387; }
+.code-block .property { color: #f5c2e7; }
+
+/* ═══════════════════════════════════════════════════════════
+   CTA SECTION COMPONENT
+   ═══════════════════════════════════════════════════════════ */
+
+/* Base CTA Section */
+.cta-section {
+  padding: 80px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-container {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Variant: Navy Gradient (default) */
+.cta-section.variant-navy {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+}
+
+.cta-section.variant-navy::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, var(--teal-glow), transparent 60%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.cta-section.variant-navy .cta-title,
+.cta-section.variant-navy .cta-description {
+  color: white;
+}
+
+.cta-section.variant-navy .cta-description {
+  opacity: 0.8;
+}
+
+/* Variant: Teal Gradient */
+.cta-section.variant-teal {
+  background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+}
+
+.cta-section.variant-teal::before {
+  content: '';
+  position: absolute;
+  bottom: -120px;
+  left: -120px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 60%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.cta-section.variant-teal .cta-title,
+.cta-section.variant-teal .cta-description {
+  color: white;
+}
+
+.cta-section.variant-teal .cta-description {
+  opacity: 0.85;
+}
+
+/* Variant: White */
+.cta-section.variant-white {
+  background: white;
+  border-top: 1px solid var(--grey);
+  border-bottom: 1px solid var(--grey);
+}
+
+.cta-section.variant-white .cta-title {
+  color: var(--navy);
+}
+
+.cta-section.variant-white .cta-description {
+  color: var(--grey-dark);
+}
+
+/* Typography */
+.cta-overline {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--teal-light);
+  margin-bottom: 16px;
+  display: inline-block;
+}
+
+.cta-section.variant-white .cta-overline {
+  color: var(--teal);
+}
+
+.cta-title {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.cta-description {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Buttons */
+.cta-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cta-btn {
+  padding: 14px 32px;
+  border-radius: var(--r-sm);
+  font-weight: 700;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-family: var(--font);
+}
+
+.cta-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Primary Button */
+.cta-btn-primary {
+  background: white;
+  color: var(--navy);
+  box-shadow: var(--sh-md);
+}
+
+.cta-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sh-lg);
+}
+
+.cta-section.variant-white .cta-btn-primary {
+  background: var(--teal);
+  color: white;
+}
+
+/* Secondary Button */
+.cta-btn-secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.cta-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.cta-section.variant-white .cta-btn-secondary {
+  color: var(--navy);
+  border-color: var(--grey);
+}
+
+.cta-section.variant-white .cta-btn-secondary:hover {
+  background: var(--grey-light);
+  border-color: var(--navy);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cta-section {
+    padding: 56px 24px;
+  }
+
+  .cta-title {
+    font-size: 28px;
+  }
+
+  .cta-description {
+    font-size: 14px;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="header-icon">C</div>
+    <div class="header-title">CTA Section Block<span>New Block (Myo)</span></div>
+    <span class="header-badge">B45 — NEW</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VISUAL REFERENCE SECTION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" id="block-cta-section">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-id">B45</span>
+        <span class="section-label">CTA Section Block</span>
+      </div>
+      <span class="tag" style="background:var(--purple);color:white">NEW</span>
+    </div>
+
+    <p style="font-size:13px;color:var(--grey-dark);margin-bottom:16px">
+      Dedicated Call-to-Action sectie met grote impact. Centered layout, gradient backgrounds, decoratieve glows. Ideaal voor belangrijke conversie punten.
+    </p>
+
+    <div style="background:var(--blue-light);border-left:4px solid var(--blue);padding:12px 16px;border-radius:8px;margin-bottom:16px;">
+      <div style="display:flex;gap:8px;align-items:start;">
+        <span style="font-size:16px;">💡</span>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:4px;">Design Kenmerken:</div>
+          <ul style="font-size:11px;color:var(--grey-700);line-height:1.6;margin:0;padding-left:16px;">
+            <li><strong>3 variants</strong>: Navy gradient (default), Teal gradient, White</li>
+            <li><strong>Decorative glows</strong>: radial gradient pseudo-elements (280-320px circles)</li>
+            <li><strong>Centered content</strong>: max-width 720px, text-center</li>
+            <li><strong>Button group</strong>: flex gap-16px, primary + secondary styling</li>
+            <li><strong>Typography hierarchy</strong>: overline (11px uppercase) → title (36px DM Serif) → description (16px)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- VARIANT 1: Navy Gradient -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Variant 1: Navy Gradient (Default)
+      </div>
+      <div class="box-content" style="padding:0">
+        <div class="cta-section variant-navy">
+          <div class="cta-container">
+            <span class="cta-overline">Start Vandaag</span>
+            <h2 class="cta-title">Klaar om je digitale transformatie te starten?</h2>
+            <p class="cta-description">
+              Ontvang een gratis consultatie en ontdek hoe we jouw bedrijf kunnen helpen groeien met moderne weboplossingen.
+            </p>
+            <div class="cta-buttons">
+              <a href="#" class="cta-btn cta-btn-primary">
+                Gratis Gesprek Plannen
+                <i data-lucide="arrow-right"></i>
+              </a>
+              <a href="#" class="cta-btn cta-btn-secondary">
+                Bekijk Prijzen
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VARIANT 2: Teal Gradient -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Variant 2: Teal Gradient
+      </div>
+      <div class="box-content" style="padding:0">
+        <div class="cta-section variant-teal">
+          <div class="cta-container">
+            <span class="cta-overline">Beperkt Aanbod</span>
+            <h2 class="cta-title">Word partner en ontvang 20% korting</h2>
+            <p class="cta-description">
+              Als early adopter krijg je toegang tot exclusieve functies én permanente korting op alle toekomstige upgrades.
+            </p>
+            <div class="cta-buttons">
+              <a href="#" class="cta-btn cta-btn-primary">
+                Word Partner
+                <i data-lucide="sparkles"></i>
+              </a>
+              <a href="#" class="cta-btn cta-btn-secondary">
+                Meer Info
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VARIANT 3: White -->
+    <div class="box">
+      <div class="box-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        Variant 3: White
+      </div>
+      <div class="box-content" style="padding:0">
+        <div class="cta-section variant-white">
+          <div class="cta-container">
+            <span class="cta-overline">Blijf op de hoogte</span>
+            <h2 class="cta-title">Schrijf je in voor onze nieuwsbrief</h2>
+            <p class="cta-description">
+              Ontvang maandelijks handige tips, cases, en updates over de nieuwste ontwikkelingen in webdevelopment.
+            </p>
+            <div class="cta-buttons">
+              <a href="#" class="cta-btn cta-btn-primary">
+                Aanmelden
+                <i data-lucide="mail"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+<span class="comment">// CTA Section — Payload Schema</span>
+{ <span class="property">slug</span>: <span class="string">'cta-section'</span>, <span class="property">fields</span>: [
+  { <span class="property">name</span>: <span class="string">'overline'</span>, <span class="property">type</span>: <span class="string">'text'</span> },
+  { <span class="property">name</span>: <span class="string">'title'</span>, <span class="property">type</span>: <span class="string">'text'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+  { <span class="property">name</span>: <span class="string">'description'</span>, <span class="property">type</span>: <span class="string">'textarea'</span> },
+  { <span class="property">name</span>: <span class="string">'variant'</span>, <span class="property">type</span>: <span class="string">'select'</span>, <span class="property">options</span>: [
+    { <span class="property">label</span>: <span class="string">'Navy Gradient'</span>, <span class="property">value</span>: <span class="string">'navy'</span> },
+    { <span class="property">label</span>: <span class="string">'Teal Gradient'</span>, <span class="property">value</span>: <span class="string">'teal'</span> },
+    { <span class="property">label</span>: <span class="string">'White'</span>, <span class="property">value</span>: <span class="string">'white'</span> }
+  ], <span class="property">defaultValue</span>: <span class="string">'navy'</span> },
+  { <span class="property">name</span>: <span class="string">'buttons'</span>, <span class="property">type</span>: <span class="string">'array'</span>, <span class="property">maxRows</span>: <span class="number">2</span>, <span class="property">fields</span>: [
+    { <span class="property">name</span>: <span class="string">'text'</span>, <span class="property">type</span>: <span class="string">'text'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+    { <span class="property">name</span>: <span class="string">'href'</span>, <span class="property">type</span>: <span class="string">'text'</span>, <span class="property">required</span>: <span class="keyword">true</span> },
+    { <span class="property">name</span>: <span class="string">'style'</span>, <span class="property">type</span>: <span class="string">'select'</span>, <span class="property">options</span>: [
+      <span class="string">'primary'</span>, <span class="string">'secondary'</span>
+    ]},
+    { <span class="property">name</span>: <span class="string">'icon'</span>, <span class="property">type</span>: <span class="string">'select'</span>, <span class="property">options</span>: [
+      <span class="string">'arrow-right'</span>, <span class="string">'sparkles'</span>, <span class="string">'mail'</span>, <span class="string">'phone'</span>, <span class="string">'calendar'</span>, <span class="string">null</span>
+    ]}
+  ]}
+]}
+    </div>
+
+    <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--navy);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em;">✅ Gebruik Voor:</div>
+        <ul style="font-size:12px;color:var(--grey-dark);line-height:1.7;padding-left:20px;">
+          <li>Bottom-of-page conversie CTA's</li>
+          <li>Belangrijke acties (demo, signup)</li>
+          <li>Nieuwsbrief signup</li>
+          <li>Trial/partner aanmeldingen</li>
+          <li>Contact opname triggers</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--navy);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em;">⚠️ Niet Geschikt Voor:</div>
+        <ul style="font-size:12px;color:var(--grey-dark);line-height:1.7;padding-left:20px;">
+          <li>Meerdere CTA's op 1 pagina (max 1-2)</li>
+          <li>Informatieve content (gebruik B-02)</li>
+          <li>Hero secties (gebruik B-01)</li>
+          <li>Product features (gebruik B-03)</li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       IMPLEMENTATION GUIDE — 8-STEP PROTOCOL
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section class="section" style="margin-top:80px;border-top:4px solid var(--navy);padding-top:40px">
+    <div style="text-align:center;margin-bottom:48px">
+      <div style="display:inline-flex;align-items:center;gap:12px;background:var(--navy);color:white;padding:12px 24px;border-radius:12px">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span style="font-size:18px;font-weight:700">Developer Implementation Guide</span>
+      </div>
+      <p style="font-size:13px;color:var(--grey-dark);margin-top:12px;max-width:680px;margin-left:auto;margin-right:auto">
+        Complete 8-step protocol voor integratie van CTA Section block in Payload CMS + Next.js
+      </p>
+    </div>
+
+    <!-- STEP 1: PAYLOAD CONFIGURATION -->
+    <div style="background:white;border:2px solid var(--navy);border-radius:12px;padding:24px;margin-bottom:24px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <div style="width:40px;height:40px;background:var(--navy);color:white;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px">1</div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--navy)">Payload Block Configuration</div>
+          <div style="font-size:12px;color:var(--grey-dark)">src/payload/blocks/CTASection.ts</div>
+        </div>
+      </div>
+
+      <div class="code-block" style="margin-top:0">
+<span class="keyword">import</span> { Block } <span class="keyword">from</span> <span class="string">'payload'</span>
+
+<span class="keyword">export</span> <span class="keyword">const</span> <span class="function">CTASection</span>: Block = {
+  <span class="property">slug</span>: <span class="string">'cta-section'</span>,
+  <span class="property">labels</span>: {
+    <span class="property">singular</span>: <span class="string">'CTA Section'</span>,
+    <span class="property">plural</span>: <span class="string">'CTA Sections'</span>,
+  },
+  <span class="property">interfaceName</span>: <span class="string">'CTASectionBlock'</span>,
+  <span class="property">fields</span>: [
+    {
+      <span class="property">name</span>: <span class="string">'overline'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">label</span>: <span class="string">'Overline'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Optional small text above title (e.g., "Start Vandaag", "Beperkt Aanbod")'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'title'</span>,
+      <span class="property">type</span>: <span class="string">'text'</span>,
+      <span class="property">label</span>: <span class="string">'Title'</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Main CTA headline (keep it short and action-oriented)'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'description'</span>,
+      <span class="property">type</span>: <span class="string">'textarea'</span>,
+      <span class="property">label</span>: <span class="string">'Description'</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Supporting text below title (1-2 sentences)'</span>,
+        <span class="property">rows</span>: <span class="number">3</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'variant'</span>,
+      <span class="property">type</span>: <span class="string">'select'</span>,
+      <span class="property">label</span>: <span class="string">'Background Variant'</span>,
+      <span class="property">defaultValue</span>: <span class="string">'navy'</span>,
+      <span class="property">options</span>: [
+        {
+          <span class="property">label</span>: <span class="string">'Navy Gradient (Dark)'</span>,
+          <span class="property">value</span>: <span class="string">'navy'</span>
+        },
+        {
+          <span class="property">label</span>: <span class="string">'Teal Gradient (Dark)'</span>,
+          <span class="property">value</span>: <span class="string">'teal'</span>
+        },
+        {
+          <span class="property">label</span>: <span class="string">'White (Light)'</span>,
+          <span class="property">value</span>: <span class="string">'white'</span>
+        },
+      ],
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Choose background style. Dark variants have white text, White variant has dark text.'</span>,
+      },
+    },
+    {
+      <span class="property">name</span>: <span class="string">'buttons'</span>,
+      <span class="property">type</span>: <span class="string">'array'</span>,
+      <span class="property">label</span>: <span class="string">'Buttons'</span>,
+      <span class="property">minRows</span>: <span class="number">1</span>,
+      <span class="property">maxRows</span>: <span class="number">2</span>,
+      <span class="property">required</span>: <span class="keyword">true</span>,
+      <span class="property">admin</span>: {
+        <span class="property">description</span>: <span class="string">'Add 1-2 action buttons (first is primary, second is secondary)'</span>,
+      },
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'text'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Button Text'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+        },
+        {
+          <span class="property">name</span>: <span class="string">'href'</span>,
+          <span class="property">type</span>: <span class="string">'text'</span>,
+          <span class="property">label</span>: <span class="string">'Link URL'</span>,
+          <span class="property">required</span>: <span class="keyword">true</span>,
+          <span class="property">admin</span>: {
+            <span class="property">description</span>: <span class="string">'Internal path (/contact) or external URL (https://...)'</span>,
+          },
+        },
+        {
+          <span class="property">name</span>: <span class="string">'style'</span>,
+          <span class="property">type</span>: <span class="string">'select'</span>,
+          <span class="property">label</span>: <span class="string">'Button Style'</span>,
+          <span class="property">defaultValue</span>: <span class="string">'primary'</span>,
+          <span class="property">options</span>: [
+            { <span class="property">label</span>: <span class="string">'Primary (Solid)'</span>, <span class="property">value</span>: <span class="string">'primary'</span> },
+            { <span class="property">label</span>: <span class="string">'Secondary (Outline)'</span>, <span class="property">value</span>: <span class="string">'secondary'</span> },
+          ],
+        },
+        {
+          <span class="property">name</span>: <span class="string">'icon'</span>,
+          <span class="property">type</span>: <span class="string">'select'</span>,
+          <span class="property">label</span>: <span class="string">'Icon (Optional)'</span>,
+          <span class="property">options</span>: [
+            { <span class="property">label</span>: <span class="string">'None'</span>, <span class="property">value</span>: <span class="string">''</span> },
+            { <span class="property">label</span>: <span class="string">'→ Arrow Right'</span>, <span class="property">value</span>: <span class="string">'arrow-right'</span> },
+            { <span class="property">label</span>: <span class="string">'✨ Sparkles'</span>, <span class="property">value</span>: <span class="string">'sparkles'</span> },
+            { <span class="property">label</span>: <span class="string">'✉️ Mail'</span>, <span class="property">value</span>: <span class="string">'mail'</span> },
+            { <span class="property">label</span>: <span class="string">'📞 Phone'</span>, <span class="property">value</span>: <span class="string">'phone'</span> },
+            { <span class="property">label</span>: <span class="string">'📅 Calendar'</span>, <span class="property">value</span>: <span class="string">'calendar'</span> },
+            { <span class="property">label</span>: <span class="string">'🔗 External Link'</span>, <span class="property">value</span>: <span class="string">'external-link'</span> },
+          ],
+        },
+      ],
+    },
+  ],
+}
+      </div>
+    </div>
+
+    <!-- STEP 2: TYPESCRIPT TYPES -->
+    <div style="background:white;border:2px solid var(--teal);border-radius:12px;padding:24px;margin-bottom:24px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <div style="width:40px;height:40px;background:var(--teal);color:white;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px">2</div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--navy)">TypeScript Type Definitions</div>
+          <div style="font-size:12px;color:var(--grey-dark)">src/types/blocks.ts</div>
+        </div>
+      </div>
+
+      <div class="code-block" style="margin-top:0">
+<span class="keyword">export</span> <span class="keyword">type</span> <span class="function">CTAButton</span> = {
+  <span class="property">text</span>: <span class="keyword">string</span>
+  <span class="property">href</span>: <span class="keyword">string</span>
+  <span class="property">style</span>: <span class="string">'primary'</span> | <span class="string">'secondary'</span>
+  <span class="property">icon</span>?: <span class="string">'arrow-right'</span> | <span class="string">'sparkles'</span> | <span class="string">'mail'</span> | <span class="string">'phone'</span> |
+           <span class="string">'calendar'</span> | <span class="string">'external-link'</span> | <span class="string">''</span>
+  <span class="property">id</span>?: <span class="keyword">string</span> <span class="comment">// Payload generates this</span>
+}
+
+<span class="keyword">export</span> <span class="keyword">interface</span> <span class="function">CTASectionBlock</span> {
+  <span class="property">blockType</span>: <span class="string">'cta-section'</span>
+  <span class="property">overline</span>?: <span class="keyword">string</span>
+  <span class="property">title</span>: <span class="keyword">string</span>
+  <span class="property">description</span>?: <span class="keyword">string</span>
+  <span class="property">variant</span>: <span class="string">'navy'</span> | <span class="string">'teal'</span> | <span class="string">'white'</span>
+  <span class="property">buttons</span>: CTAButton[]
+  <span class="property">blockName</span>?: <span class="keyword">string</span>
+}
+      </div>
+    </div>
+
+    <!-- STEP 3: REACT COMPONENT -->
+    <div style="background:white;border:2px solid var(--purple);border-radius:12px;padding:24px;margin-bottom:24px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <div style="width:40px;height:40px;background:var(--purple);color:white;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px">3</div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--navy)">React Component Implementation</div>
+          <div style="font-size:12px;color:var(--grey-dark)">src/components/blocks/CTASection.tsx</div>
+        </div>
+      </div>
+
+      <div class="code-block" style="margin-top:0">
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> Link <span class="keyword">from</span> <span class="string">'next/link'</span>
+<span class="keyword">import</span> { cn } <span class="keyword">from</span> <span class="string">'@/lib/utils'</span>
+<span class="keyword">import</span> { CTASectionBlock } <span class="keyword">from</span> <span class="string">'@/types/blocks'</span>
+<span class="keyword">import</span> {
+  ArrowRight, Sparkles, Mail, Phone, Calendar, ExternalLink
+} <span class="keyword">from</span> <span class="string">'lucide-react'</span>
+
+<span class="keyword">interface</span> <span class="function">CTASectionProps</span> {
+  <span class="property">block</span>: CTASectionBlock
+}
+
+<span class="comment">// Icon mapping</span>
+<span class="keyword">const</span> <span class="property">iconMap</span> = {
+  <span class="string">'arrow-right'</span>: ArrowRight,
+  <span class="string">'sparkles'</span>: Sparkles,
+  <span class="string">'mail'</span>: Mail,
+  <span class="string">'phone'</span>: Phone,
+  <span class="string">'calendar'</span>: Calendar,
+  <span class="string">'external-link'</span>: ExternalLink,
+} <span class="keyword">as const</span>
+
+<span class="keyword">export</span> <span class="keyword">const</span> <span class="function">CTASection</span>: React.FC&lt;CTASectionProps&gt; = ({ block }) => {
+  <span class="keyword">const</span> { overline, title, description, variant = <span class="string">'navy'</span>, buttons } = block
+
+  <span class="keyword">return</span> (
+    &lt;<span class="property">section</span>
+      <span class="property">className</span>={cn(
+        <span class="string">'relative overflow-hidden py-20 px-6'</span>,
+        variant === <span class="string">'navy'</span> && <span class="string">'bg-gradient-to-br from-navy to-navy-light'</span>,
+        variant === <span class="string">'teal'</span> && <span class="string">'bg-gradient-to-br from-teal-dark to-teal'</span>,
+        variant === <span class="string">'white'</span> && <span class="string">'bg-white border-t border-b border-grey'</span>
+      )}
+    &gt;
+      <span class="comment">{/* Decorative Glow */}</span>
+      {variant === <span class="string">'navy'</span> && (
+        &lt;<span class="property">div</span> <span class="property">className</span>=<span class="string">"absolute -top-24 -right-24 w-[280px] h-[280px] rounded-full opacity-30 pointer-events-none"</span>
+          <span class="property">style</span>={{ background: <span class="string">'radial-gradient(circle, rgba(0,137,123,0.15), transparent 60%)'</span> }}
+        /&gt;
+      )}
+      {variant === <span class="string">'teal'</span> && (
+        &lt;<span class="property">div</span> <span class="property">className</span>=<span class="string">"absolute -bottom-32 -left-32 w-[320px] h-[320px] rounded-full opacity-20 pointer-events-none"</span>
+          <span class="property">style</span>={{ background: <span class="string">'radial-gradient(circle, rgba(255,255,255,0.1), transparent 60%)'</span> }}
+        /&gt;
+      )}
+
+      <span class="comment">{/* Content */}</span>
+      &lt;<span class="property">div</span> <span class="property">className</span>=<span class="string">"relative z-10 max-w-[720px] mx-auto text-center"</span>&gt;
+        {overline && (
+          &lt;<span class="property">span</span> <span class="property">className</span>={cn(
+            <span class="string">'inline-block mb-4 text-xs font-extrabold uppercase tracking-wider'</span>,
+            variant === <span class="string">'white'</span> ? <span class="string">'text-teal'</span> : <span class="string">'text-teal-light'</span>
+          )}&gt;
+            {overline}
+          &lt;/<span class="property">span</span>&gt;
+        )}
+
+        &lt;<span class="property">h2</span> <span class="property">className</span>={cn(
+          <span class="string">'font-display text-3xl md:text-4xl mb-5 leading-tight'</span>,
+          variant === <span class="string">'white'</span> ? <span class="string">'text-navy'</span> : <span class="string">'text-white'</span>
+        )}&gt;
+          {title}
+        &lt;/<span class="property">h2</span>&gt;
+
+        {description && (
+          &lt;<span class="property">p</span> <span class="property">className</span>={cn(
+            <span class="string">'text-base leading-relaxed mb-8 max-w-[560px] mx-auto'</span>,
+            variant === <span class="string">'white'</span> ? <span class="string">'text-grey-dark'</span> : <span class="string">'text-white/80'</span>
+          )}&gt;
+            {description}
+          &lt;/<span class="property">p</span>&gt;
+        )}
+
+        <span class="comment">{/* Buttons */}</span>
+        &lt;<span class="property">div</span> <span class="property">className</span>=<span class="string">"flex items-center justify-center gap-4 flex-wrap"</span>&gt;
+          {buttons.map((button, index) => {
+            <span class="keyword">const</span> Icon = button.icon && iconMap[button.icon as <span class="keyword">keyof typeof</span> iconMap]
+            <span class="keyword">const</span> isPrimary = index === <span class="number">0</span> || button.style === <span class="string">'primary'</span>
+
+            <span class="keyword">return</span> (
+              &lt;Link
+                <span class="property">key</span>={button.id || index}
+                <span class="property">href</span>={button.href}
+                <span class="property">className</span>={cn(
+                  <span class="string">'inline-flex items-center gap-2 px-8 py-3.5 rounded-lg font-bold text-sm transition-all duration-200'</span>,
+                  isPrimary && variant !== <span class="string">'white'</span> && <span class="string">'bg-white text-navy shadow-md hover:shadow-lg hover:-translate-y-0.5'</span>,
+                  isPrimary && variant === <span class="string">'white'</span> && <span class="string">'bg-teal text-white shadow-md hover:shadow-lg hover:-translate-y-0.5'</span>,
+                  !isPrimary && variant !== <span class="string">'white'</span> && <span class="string">'bg-transparent text-white border-2 border-white/30 hover:bg-white/10 hover:border-white/50'</span>,
+                  !isPrimary && variant === <span class="string">'white'</span> && <span class="string">'bg-transparent text-navy border-2 border-grey hover:bg-grey-light hover:border-navy'</span>
+                )}
+              &gt;
+                {button.text}
+                {Icon && &lt;Icon <span class="property">className</span>=<span class="string">"w-[18px] h-[18px]"</span> /&gt;}
+              &lt;/Link&gt;
+            )
+          })}
+        &lt;/<span class="property">div</span>&gt;
+      &lt;/<span class="property">div</span>&gt;
+    &lt;/<span class="property">section</span>&gt;
+  )
+}
+      </div>
+    </div>
+
+    <!-- STEP 4: ADMIN PANEL -->
+    <div style="background:white;border:2px solid var(--amber);border-radius:12px;padding:24px;margin-bottom:24px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <div style="width:40px;height:40px;background:var(--amber);color:white;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px">4</div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--navy)">Admin Panel Structure</div>
+          <div style="font-size:12px;color:var(--grey-dark)">How editors see and use the block</div>
+        </div>
+      </div>
+
+      <div style="background:var(--grey-light);border:1px solid var(--grey);border-radius:8px;padding:16px">
+        <div style="font-size:11px;font-weight:700;color:var(--navy);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.04em">Admin Panel Layout:</div>
+        <div style="font-size:12px;color:var(--grey-700);line-height:1.7;font-family:var(--font-mono)">
+          <div style="margin-bottom:8px">📝 <strong>Overline</strong> [text input, optional]</div>
+          <div style="margin-bottom:8px">🎯 <strong>Title</strong> [text input, required]</div>
+          <div style="margin-bottom:8px">📄 <strong>Description</strong> [textarea, 3 rows, optional]</div>
+          <div style="margin-bottom:8px">🎨 <strong>Background Variant</strong> [select: Navy | Teal | White]</div>
+          <div style="margin-bottom:8px">🔘 <strong>Buttons</strong> [array, 1-2 items]</div>
+          <div style="margin-left:20px;padding-left:16px;border-left:2px solid var(--teal)">
+            <div style="margin-bottom:6px">   ├─ <strong>Button Text</strong> [text input]</div>
+            <div style="margin-bottom:6px">   ├─ <strong>Link URL</strong> [text input]</div>
+            <div style="margin-bottom:6px">   ├─ <strong>Button Style</strong> [select: Primary | Secondary]</div>
+            <div style="margin-bottom:6px">   └─ <strong>Icon</strong> [select: None or 6 icon options]</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;background:var(--blue-light);border-left:4px solid var(--blue);padding:12px 16px;border-radius:8px">
+        <div style="font-size:11px;font-weight:700;color:var(--blue);margin-bottom:6px">💡 Editor Guidance:</div>
+        <ul style="font-size:11px;color:var(--grey-700);line-height:1.6;padding-left:16px;margin:0">
+          <li><strong>Title: kort en krachtig</strong> — max 8-10 woorden voor impact</li>
+          <li><strong>1 primaire button is vaak genoeg</strong> — te veel keuze vermindert conversie</li>
+          <li><strong>Dark variants (navy/teal)</strong> → gebruik aan einde pagina voor conversie</li>
+          <li><strong>White variant</strong> → geschikt voor mid-page CTA's (newsletter, etc.)</li>
+          <li><strong>Icons: gebruik met mate</strong> — alleen bij eerste button voor visuele richting</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 5: TESTING CHECKLIST -->
+    <div style="background:white;border:2px solid var(--green);border-radius:12px;padding:24px;margin-bottom:24px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <div style="width:40px;height:40px;background:var(--green);color:white;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px">5</div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--navy)">Testing Checklist</div>
+          <div style="font-size:12px;color:var(--grey-dark)">Verifieer deze punten voor deployment</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--navy);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em">✅ Functionality</div>
+          <ul style="font-size:12px;color:var(--grey-dark);line-height:1.7;padding-left:20px;margin:0">
+            <li>Navy variant renders correctly (gradient + glow)</li>
+            <li>Teal variant renders correctly (gradient + glow)</li>
+            <li>White variant renders correctly (borders)</li>
+            <li>Buttons link to correct URLs</li>
+            <li>Icons render when selected (6 variants)</li>
+            <li>Primary button styling correct per variant</li>
+            <li>Secondary button styling correct per variant</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--navy);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em">📱 Responsive</div>
+          <ul style="font-size:12px;color:var(--grey-dark);line-height:1.7;padding-left:20px;margin:0">
+            <li>Desktop (1024px+): buttons inline (flex-row)</li>
+            <li>Mobile (< 768px): buttons stacked (flex-col)</li>
+            <li>Title font size adapts (36px → 28px)</li>
+            <li>Description font size adapts (16px → 14px)</li>
+            <li>Glow circles repositioned on mobile</li>
+            <li>Padding reduced on mobile (80px → 56px)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top:16px">
+        <div style="font-size:11px;font-weight:700;color:var(--navy);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em">♿ Accessibility</div>
+        <ul style="font-size:12px;color:var(--grey-dark);line-height:1.7;padding-left:20px;margin:0">
+          <li>Color contrast voldoet (white text on dark bg = 21:1, dark text on white = 12:1)</li>
+          <li>Buttons keyboard accessible (focus states visible)</li>
+          <li>Link text descriptive (no "klik hier")</li>
+          <li>Icons decorative only (not required for understanding)</li>
+          <li>Heading hierarchy correct (h2 for title)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 6: DATABASE MIGRATION -->
+    <div style="background:white;border:2px solid var(--coral);border-radius:12px;padding:24px;margin-bottom:24px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <div style="width:40px;height:40px;background:var(--coral);color:white;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px">6</div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--navy)">Database Migration</div>
+          <div style="font-size:12px;color:var(--grey-dark)">PostgreSQL schema changes</div>
+        </div>
+      </div>
+
+      <div style="background:var(--amber-light);border-left:4px solid var(--amber);padding:12px 16px;border-radius:8px;margin-bottom:16px">
+        <div style="font-size:11px;font-weight:700;color:#92400E;margin-bottom:6px">⚠️ Migration Required</div>
+        <p style="font-size:11px;color:var(--grey-700);line-height:1.6;margin:0">
+          Na toevoegen van dit block aan je Payload config, MOET je een database migratie draaien voor productie (PostgreSQL). Development (SQLite) werkt automatisch.
+        </p>
+      </div>
+
+      <div class="code-block" style="margin-top:0">
+<span class="comment"># 1. Genereer nieuwe migratie</span>
+npx payload migrate:create add_cta_section_block
+
+<span class="comment"># 2. Check gegenereerde SQL in src/migrations/</span>
+<span class="comment"># Moet bevatten: ALTER TABLE voor pages/posts + cta-section relatie</span>
+
+<span class="comment"># 3. Test migratie op development database</span>
+npx payload migrate
+
+<span class="comment"># 4. Deploy naar productie</span>
+<span class="comment"># Migratie draait automatisch via deploy script</span>
+      </div>
+
+      <div style="margin-top:16px">
+        <div style="font-size:11px;font-weight:700;color:var(--navy);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em">Expected Schema Changes:</div>
+        <ul style="font-size:11px;color:var(--grey-dark);line-height:1.7;padding-left:20px;margin:0;font-family:var(--font-mono)">
+          <li>Table: <code>pages_blocks</code> → nieuwe rows met blockType = 'cta-section'</li>
+          <li>Table: <code>posts_blocks</code> → nieuwe rows met blockType = 'cta-section'</li>
+          <li>Array field: <code>buttons</code> → relatie naar sub-collection</li>
+          <li>Columns: overline, title, description, variant, buttons (JSON array)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 7: TROUBLESHOOTING -->
+    <div style="background:white;border:2px solid var(--blue);border-radius:12px;padding:24px;margin-bottom:24px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <div style="width:40px;height:40px;background:var(--blue);color:white;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px">7</div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--navy)">Common Issues & Solutions</div>
+          <div style="font-size:12px;color:var(--grey-dark)">Troubleshooting guide</div>
+        </div>
+      </div>
+
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="background:var(--grey-light);border-bottom:2px solid var(--grey)">
+            <th style="padding:10px;text-align:left;font-weight:700;color:var(--navy);width:35%">Issue</th>
+            <th style="padding:10px;text-align:left;font-weight:700;color:var(--navy)">Solution</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--grey)">
+            <td style="padding:12px;color:var(--coral);font-weight:600">Glow circles not visible</td>
+            <td style="padding:12px;color:var(--grey-dark)">
+              Check <code style="background:var(--grey-light);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-size:11px">overflow: hidden</code> on section.<br>
+              Verify pseudo-element has <code style="background:var(--grey-light);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-size:11px">pointer-events: none</code>
+            </td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--grey)">
+            <td style="padding:12px;color:var(--coral);font-weight:600">Gradient not showing</td>
+            <td style="padding:12px;color:var(--grey-dark)">
+              CSS gradients require Tailwind config or inline styles.<br>
+              Use: <code style="background:var(--grey-light);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-size:11px">bg-gradient-to-br from-navy to-navy-light</code><br>
+              Or define custom gradient utilities in <code style="background:var(--grey-light);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-size:11px">tailwind.config.ts</code>
+            </td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--grey)">
+            <td style="padding:12px;color:var(--coral);font-weight:600">Buttons wrong color on white variant</td>
+            <td style="padding:12px;color:var(--grey-dark)">
+              Check conditional styling: <code style="background:var(--grey-light);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-size:11px">variant === 'white' ? 'bg-teal' : 'bg-white'</code><br>
+              Primary button should be teal on white bg, white on dark bg
+            </td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--grey)">
+            <td style="padding:12px;color:var(--coral);font-weight:600">Icons not rendering</td>
+            <td style="padding:12px;color:var(--grey-dark)">
+              Verify Lucide React import: <code style="background:var(--grey-light);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-size:11px">npm install lucide-react</code><br>
+              Check iconMap has all 6 icon options<br>
+              Ensure icon value in database matches iconMap keys
+            </td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--grey)">
+            <td style="padding:12px;color:var(--coral);font-weight:600">Buttons not stacking on mobile</td>
+            <td style="padding:12px;color:var(--grey-dark)">
+              Add responsive classes: <code style="background:var(--grey-light);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-size:11px">flex-wrap</code> on container<br>
+              Or force column: <code style="background:var(--grey-light);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-size:11px">md:flex-row flex-col</code>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:12px;color:var(--coral);font-weight:600">Text hard to read on gradient</td>
+            <td style="padding:12px;color:var(--grey-dark)">
+              Dark variants MUST use white text: <code style="background:var(--grey-light);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-size:11px">text-white</code><br>
+              Add opacity to description: <code style="background:var(--grey-light);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-size:11px">text-white/80</code><br>
+              If still unclear, adjust gradient colors or add text-shadow
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- STEP 8: REGISTRATION -->
+    <div style="background:white;border:2px solid var(--navy);border-radius:12px;padding:24px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <div style="width:40px;height:40px;background:var(--navy);color:white;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px">8</div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--navy)">Block Registration</div>
+          <div style="font-size:12px;color:var(--grey-dark)">Add to Payload config + component mapping</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px">
+        <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px">Step 1: Add to Payload Config</div>
+        <div class="code-block" style="margin-top:0;margin-bottom:0">
+<span class="comment">// src/payload.config.ts</span>
+<span class="keyword">import</span> { CTASection } <span class="keyword">from</span> <span class="string">'./blocks/CTASection'</span>
+
+<span class="keyword">export</span> <span class="keyword">default</span> <span class="function">buildConfig</span>({
+  <span class="property">collections</span>: [
+    {
+      <span class="property">slug</span>: <span class="string">'pages'</span>,
+      <span class="property">fields</span>: [
+        {
+          <span class="property">name</span>: <span class="string">'layout'</span>,
+          <span class="property">type</span>: <span class="string">'blocks'</span>,
+          <span class="property">blocks</span>: [
+            Hero,
+            Features,
+            ProcessSteps,
+            CTASection, <span class="comment">// ← Add here</span>
+            <span class="comment">// ... other blocks</span>
+          ],
+        },
+      ],
+    },
+  ],
+})
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px">
+        <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px">Step 2: Add to Component Mapping</div>
+        <div class="code-block" style="margin-top:0;margin-bottom:0">
+<span class="comment">// src/components/RenderBlocks.tsx</span>
+<span class="keyword">import</span> { CTASection } <span class="keyword">from</span> <span class="string">'@/components/blocks/CTASection'</span>
+
+<span class="keyword">const</span> <span class="property">blockComponents</span> = {
+  <span class="string">'hero'</span>: Hero,
+  <span class="string">'features'</span>: Features,
+  <span class="string">'process-steps'</span>: ProcessSteps,
+  <span class="string">'cta-section'</span>: CTASection, <span class="comment">// ← Add here</span>
+  <span class="comment">// ... other blocks</span>
+}
+
+<span class="keyword">export</span> <span class="keyword">const</span> <span class="function">RenderBlocks</span> = ({ blocks }) => {
+  <span class="keyword">return</span> (
+    &lt;&gt;
+      {blocks?.map((block, index) => {
+        <span class="keyword">const</span> BlockComponent = blockComponents[block.blockType]
+        <span class="keyword">if</span> (!BlockComponent) <span class="keyword">return null</span>
+        <span class="keyword">return</span> &lt;BlockComponent <span class="property">key</span>={index} <span class="property">block</span>={block} /&gt;
+      })}
+    &lt;/&gt;
+  )
+}
+        </div>
+      </div>
+
+      <div style="background:var(--green-light);border-left:4px solid var(--green);padding:12px 16px;border-radius:8px">
+        <div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:6px">✅ Implementation Complete!</div>
+        <p style="font-size:11px;color:var(--grey-700);line-height:1.6;margin:0">
+          CTA Section block is nu volledig geïntegreerd. Editors kunnen het block toevoegen via Payload CMS admin panel. Gebruik max 1-2× per pagina voor optimale conversie.
+        </p>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

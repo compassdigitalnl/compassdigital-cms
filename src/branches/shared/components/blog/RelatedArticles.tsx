@@ -33,10 +33,10 @@ export const RelatedArticles: React.FC<RelatedArticlesProps> = ({ posts, classNa
   }
 
   return (
-    <section className={`mt-12 pt-10 border-t border-gray-200 ${className}`}>
+    <section className={`mt-12 pt-10 border-t border-grey-light ${className}`}>
       <div className="flex items-center gap-3 mb-6">
         <Icon name="BookOpen" size={22} className="text-[var(--color-primary)]" />
-        <h2 className="text-2xl font-extrabold text-gray-900">Gerelateerde artikelen</h2>
+        <h2 className="text-2xl font-extrabold text-navy">Gerelateerde artikelen</h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -53,7 +53,7 @@ export const RelatedArticles: React.FC<RelatedArticlesProps> = ({ posts, classNa
             <Link
               key={post.id}
               href={`/blog/${categorySlug}/${post.slug}`}
-              className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col"
+              className="bg-white border border-grey-light rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col"
             >
               {/* Image */}
               <div
@@ -67,15 +67,15 @@ export const RelatedArticles: React.FC<RelatedArticlesProps> = ({ posts, classNa
                 <div className="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)] mb-1">
                   {categoryName}
                 </div>
-                <h3 className="text-base font-extrabold text-gray-900 mb-2 line-clamp-2 group-hover:text-[var(--color-primary)] transition-colors">
+                <h3 className="text-base font-extrabold text-navy mb-2 line-clamp-2 group-hover:text-[var(--color-primary)] transition-colors">
                   {post.title}
                 </h3>
                 {post.excerpt && (
-                  <p className="text-sm text-gray-600 line-clamp-2 mb-auto">{post.excerpt}</p>
+                  <p className="text-sm text-grey-dark line-clamp-2 mb-auto">{post.excerpt}</p>
                 )}
 
                 {/* Meta */}
-                <div className="flex items-center gap-3 pt-4 mt-3 border-t border-gray-100 text-xs text-gray-500">
+                <div className="flex items-center gap-3 pt-4 mt-3 border-t border-grey-light text-xs text-grey-mid">
                   {post.publishedAt && (
                     <span className="flex items-center gap-1">
                       <Icon name="Calendar" size={12} />

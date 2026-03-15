@@ -45,7 +45,7 @@ export function InviteUserModal({ open, onClose, onInvite, isSubmitting }: Invit
       {/* Modal */}
       <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-md">
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-gray-100">
+        <div className="flex items-center justify-between p-5 border-b border-grey-light">
           <div className="flex items-center gap-3">
             <div
               className="w-10 h-10 rounded-xl flex items-center justify-center"
@@ -54,35 +54,35 @@ export function InviteUserModal({ open, onClose, onInvite, isSubmitting }: Invit
               <UserPlus className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
             </div>
             <div>
-              <h2 className="text-base font-extrabold text-gray-900">Teamlid uitnodigen</h2>
-              <p className="text-xs text-gray-500">Verstuur een uitnodiging per e-mail</p>
+              <h2 className="text-base font-extrabold text-navy">Teamlid uitnodigen</h2>
+              <p className="text-xs text-grey-mid">Verstuur een uitnodiging per e-mail</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
-            <X className="w-5 h-5 text-gray-400" />
+          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-grey-light transition-colors">
+            <X className="w-5 h-5 text-grey-mid" />
           </button>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-5 space-y-4">
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-900">E-mailadres</label>
+            <label className="block text-sm font-semibold mb-2 text-navy">E-mailadres</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="collega@bedrijf.nl"
-              className="w-full px-4 py-2.5 rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300"
+              className="w-full px-4 py-2.5 rounded-xl text-sm outline-none border border-grey-light focus:border-grey-light"
               autoFocus
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-900">Rol</label>
+            <label className="block text-sm font-semibold mb-2 text-navy">Rol</label>
             <select
               value={role}
               onChange={(e) => setRole(e.target.value as CompanyRole)}
-              className="w-full px-4 py-2.5 rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300"
+              className="w-full px-4 py-2.5 rounded-xl text-sm outline-none border border-grey-light focus:border-grey-light"
             >
               {INVITABLE_ROLES.map((r) => (
                 <option key={r} value={r}>
@@ -93,15 +93,15 @@ export function InviteUserModal({ open, onClose, onInvite, isSubmitting }: Invit
           </div>
 
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-900">
-              Persoonlijk bericht <span className="font-normal text-gray-400">(optioneel)</span>
+            <label className="block text-sm font-semibold mb-2 text-navy">
+              Persoonlijk bericht <span className="font-normal text-grey-mid">(optioneel)</span>
             </label>
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Hoi, ik nodig je uit om mee te bestellen..."
               rows={3}
-              className="w-full px-4 py-2.5 rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300 resize-none"
+              className="w-full px-4 py-2.5 rounded-xl text-sm outline-none border border-grey-light focus:border-grey-light resize-none"
             />
           </div>
 

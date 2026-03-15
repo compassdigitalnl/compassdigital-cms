@@ -70,7 +70,7 @@ export function LicenseCard({
     ? 'border-amber-400'
     : isExpired
       ? 'border-red-300'
-      : 'border-gray-200 hover:border-[var(--color-primary)]'
+      : 'border-grey-light hover:border-[var(--color-primary)]'
 
   const handleCopyKey = async () => {
     try {
@@ -108,14 +108,14 @@ export function LicenseCard({
 
         {/* Info */}
         <div className="flex-1 min-w-0">
-          <div className="font-bold text-gray-900 text-sm lg:text-base truncate">{productName}</div>
+          <div className="font-bold text-navy text-sm lg:text-base truncate">{productName}</div>
           <div className="flex items-center gap-2 flex-wrap mt-0.5">
-            <span className="font-mono text-xs text-gray-500 truncate">{licenseKey}</span>
+            <span className="font-mono text-xs text-grey-mid truncate">{licenseKey}</span>
             <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-teal-100 text-teal-700 flex-shrink-0">
               {getLicenseTypeLabel(type)}
             </span>
           </div>
-          <div className="text-xs text-gray-400 mt-0.5">
+          <div className="text-xs text-grey-mid mt-0.5">
             Gekocht {new Date(purchasedAt).toLocaleDateString('nl-NL')}
             {expiresAt && ` · Verloopt ${new Date(expiresAt).toLocaleDateString('nl-NL')}`}
           </div>
@@ -137,7 +137,7 @@ export function LicenseCard({
 
         {/* Devices count */}
         {maxActivations > 0 && (
-          <span className="text-xs font-semibold text-gray-500 flex-shrink-0 hidden md:block">
+          <span className="text-xs font-semibold text-grey-mid flex-shrink-0 hidden md:block">
             {currentActivations}/{maxActivations} apparaten
           </span>
         )}
@@ -162,19 +162,19 @@ export function LicenseCard({
 
         {/* Chevron */}
         <ChevronDown
-          className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180 text-[var(--color-primary)]' : ''}`}
+          className={`w-4 h-4 text-grey-mid flex-shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180 text-[var(--color-primary)]' : ''}`}
         />
       </div>
 
       {/* Expanded details */}
       {isOpen && (
-        <div className="px-4 pb-5 lg:px-5 border-t border-gray-100 pt-4 space-y-4">
+        <div className="px-4 pb-5 lg:px-5 border-t border-grey-light pt-4 space-y-4">
           {/* License key section */}
           <div>
-            <div className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-2">
+            <div className="text-xs font-bold uppercase tracking-wide text-grey-mid mb-2">
               Licentiesleutel
             </div>
-            <div className="flex items-center gap-3 px-4 py-3 bg-gray-900 rounded-xl">
+            <div className="flex items-center gap-3 px-4 py-3 bg-navy rounded-xl">
               <span className="font-mono text-sm text-white flex-1 select-all">{licenseKey}</span>
               <button
                 onClick={handleCopyKey}
@@ -190,7 +190,7 @@ export function LicenseCard({
           {maxActivations > 0 && (
             <div>
               <div className="flex items-center justify-between mb-2">
-                <div className="text-xs font-bold uppercase tracking-wide text-gray-400">
+                <div className="text-xs font-bold uppercase tracking-wide text-grey-mid">
                   Geactiveerde apparaten ({currentActivations} van {maxActivations})
                 </div>
                 {currentActivations < maxActivations && (
@@ -205,11 +205,11 @@ export function LicenseCard({
                   {activations.map((activation) => (
                     <div
                       key={activation.id}
-                      className="flex items-center gap-3 px-3 py-2.5 bg-gray-50 rounded-lg text-sm"
+                      className="flex items-center gap-3 px-3 py-2.5 bg-grey-light rounded-lg text-sm"
                     >
                       <span className="text-[var(--color-primary)]">{getDeviceIcon(activation.deviceName)}</span>
-                      <span className="font-semibold text-gray-900 flex-1">{activation.deviceName}</span>
-                      <span className="text-xs text-gray-400">
+                      <span className="font-semibold text-navy flex-1">{activation.deviceName}</span>
+                      <span className="text-xs text-grey-mid">
                         {activation.os} · {new Date(activation.activatedAt).toLocaleDateString('nl-NL')}
                       </span>
                       {activation.status === 'active' ? (
@@ -226,7 +226,7 @@ export function LicenseCard({
                           </button>
                         </>
                       ) : (
-                        <span className="flex items-center gap-1 text-xs font-semibold text-gray-400">
+                        <span className="flex items-center gap-1 text-xs font-semibold text-grey-mid">
                           <X className="w-3 h-3" />
                           Gedeactiveerd
                         </span>
@@ -235,7 +235,7 @@ export function LicenseCard({
                   ))}
                 </div>
               ) : (
-                <div className="py-6 text-center text-sm text-gray-400">Geen actieve apparaten</div>
+                <div className="py-6 text-center text-sm text-grey-mid">Geen actieve apparaten</div>
               )}
 
               {currentActivations >= maxActivations && (
@@ -249,17 +249,17 @@ export function LicenseCard({
           {/* Downloads section */}
           {downloads && downloads.length > 0 && (
             <div>
-              <div className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-2">
+              <div className="text-xs font-bold uppercase tracking-wide text-grey-mid mb-2">
                 Downloadhistorie
               </div>
               <div className="space-y-1.5">
                 {downloads.map((dl) => (
                   <div
                     key={dl.version}
-                    className="flex items-center gap-3 px-3 py-2 bg-gray-50 rounded-lg text-sm"
+                    className="flex items-center gap-3 px-3 py-2 bg-grey-light rounded-lg text-sm"
                   >
-                    <span className="font-mono font-bold text-gray-900 text-xs">{dl.version}</span>
-                    <span className="text-xs text-gray-400 flex-1">{dl.releasedAt}</span>
+                    <span className="font-mono font-bold text-navy text-xs">{dl.version}</span>
+                    <span className="text-xs text-grey-mid flex-1">{dl.releasedAt}</span>
                     <a
                       href={dl.url}
                       className="flex items-center gap-1 text-xs font-semibold text-[var(--color-primary)] hover:underline"

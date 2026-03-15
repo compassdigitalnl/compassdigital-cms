@@ -44,8 +44,8 @@ export const ConfiguratorOptionGrid: React.FC<ConfiguratorOptionGridProps> = ({
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-          <p className="text-[15px] text-gray-500">Geen opties beschikbaar</p>
+        <div className="text-center py-12 bg-grey-light rounded-lg border-2 border-dashed border-grey-light">
+          <p className="text-[15px] text-grey-mid">Geen opties beschikbaar</p>
         </div>
       )}
     </div>

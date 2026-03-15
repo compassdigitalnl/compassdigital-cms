@@ -18,12 +18,12 @@ export function AccountStatCard({
         >
           <Icon className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: iconColor }} />
         </div>
-        <div className="text-xl lg:text-2xl font-extrabold text-gray-900 order-1 lg:order-2">
+        <div className="text-xl lg:text-2xl font-extrabold text-navy order-1 lg:order-2">
           {value}
         </div>
       </div>
-      <div className="text-xs lg:text-sm font-semibold text-gray-900 mt-2 lg:mt-0">{label}</div>
-      {subtitle && <div className="text-xs text-gray-500 mt-1">{subtitle}</div>}
+      <div className="text-xs lg:text-sm font-semibold text-navy mt-2 lg:mt-0">{label}</div>
+      {subtitle && <div className="text-xs text-grey-mid mt-1">{subtitle}</div>}
     </div>
   )
 }

@@ -89,7 +89,7 @@ export default async function WorkshopsPage() {
     return (
       <div className="container mx-auto px-6 py-16 text-center">
         <h1 className="text-3xl font-bold mb-4">Workshops niet beschikbaar</h1>
-        <p className="text-gray-600">Deze feature is momenteel niet actief.</p>
+        <p className="text-grey-dark">Deze feature is momenteel niet actief.</p>
       </div>
     )
   }

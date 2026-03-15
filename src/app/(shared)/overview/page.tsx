@@ -7,11 +7,11 @@ export const metadata: Metadata = {
 
 export default function OverviewPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-grey-light to-white">
       <div className="container max-w-7xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-teal-100 rounded-full mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -29,8 +29,8 @@ export default function OverviewPage() {
               <polyline points="9 22 9 12 15 12 15 22"></polyline>
             </svg>
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Site Overview</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <h1 className="text-4xl font-bold text-navy mb-4">Site Overview</h1>
+          <p className="text-xl text-grey-dark max-w-3xl mx-auto">
             Complete overzicht van alle beschikbare pagina's, admin panels en API endpoints
           </p>
           <div className="mt-4 inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full border border-green-200">
@@ -41,9 +41,9 @@ export default function OverviewPage() {
 
         <div className="space-y-8">
           {/* Frontend Pages */}
-          <div className="bg-white border-2 border-blue-200 rounded-2xl p-8 shadow-sm">
+          <div className="bg-white border-2 border-teal-200 rounded-2xl p-8 shadow-sm">
             <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 bg-blue-100 text-teal rounded-xl flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-teal-100 text-teal rounded-xl flex items-center justify-center flex-shrink-0">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -63,23 +63,23 @@ export default function OverviewPage() {
                 </svg>
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-1">
+                <h2 className="text-2xl font-bold text-navy mb-1">
                   🏠 Frontend Pagina's (Public)
                 </h2>
-                <p className="text-gray-600">Publiek toegankelijke pagina's</p>
+                <p className="text-grey-dark">Publiek toegankelijke pagina's</p>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <a
                 href="/"
-                className="bg-teal-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-teal-50 border-2 border-teal-200 hover:border-teal-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       Homepage
                     </h3>
-                    <p className="text-sm text-gray-600">/</p>
+                    <p className="text-sm text-grey-dark">/</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +91,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M5 12h14"></path>
@@ -101,14 +101,14 @@ export default function OverviewPage() {
               </a>
               <a
                 href="/setup/"
-                className="bg-teal-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-teal-50 border-2 border-teal-200 hover:border-teal-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       Setup Guide
                     </h3>
-                    <p className="text-sm text-gray-600">/setup</p>
+                    <p className="text-sm text-grey-dark">/setup</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -120,7 +120,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M5 12h14"></path>
@@ -130,14 +130,14 @@ export default function OverviewPage() {
               </a>
               <a
                 href="/docs/"
-                className="bg-teal-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-teal-50 border-2 border-teal-200 hover:border-teal-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       Documentation
                     </h3>
-                    <p className="text-sm text-gray-600">/docs</p>
+                    <p className="text-sm text-grey-dark">/docs</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +149,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M5 12h14"></path>
@@ -159,14 +159,14 @@ export default function OverviewPage() {
               </a>
               <a
                 href="/site-generator/"
-                className="bg-teal-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-teal-50 border-2 border-teal-200 hover:border-teal-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       AI Site Generator
                     </h3>
-                    <p className="text-sm text-gray-600">/site-generator</p>
+                    <p className="text-sm text-grey-dark">/site-generator</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -178,7 +178,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M5 12h14"></path>
@@ -188,14 +188,14 @@ export default function OverviewPage() {
               </a>
               <a
                 href="/ai-playground/"
-                className="bg-teal-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-teal-50 border-2 border-teal-200 hover:border-teal-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       AI Playground
                     </h3>
-                    <p className="text-sm text-gray-600">/ai-playground</p>
+                    <p className="text-sm text-grey-dark">/ai-playground</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -207,7 +207,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M5 12h14"></path>
@@ -219,9 +219,9 @@ export default function OverviewPage() {
           </div>
 
           {/* Admin & CMS */}
-          <div className="bg-white border-2 border-purple-200 rounded-2xl p-8 shadow-sm">
+          <div className="bg-white border-2 border-teal-200 rounded-2xl p-8 shadow-sm">
             <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 bg-purple-100 text-teal rounded-xl flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-teal-100 text-teal rounded-xl flex items-center justify-center flex-shrink-0">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -240,8 +240,8 @@ export default function OverviewPage() {
                 </svg>
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-1">🔧 Admin & CMS</h2>
-                <p className="text-gray-600">Content beheer systeem</p>
+                <h2 className="text-2xl font-bold text-navy mb-1">🔧 Admin & CMS</h2>
+                <p className="text-grey-dark">Content beheer systeem</p>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -249,14 +249,14 @@ export default function OverviewPage() {
                 href="/admin/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-purple-50 border-2 border-purple-200 hover:border-purple-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-teal-50 border-2 border-teal-200 hover:border-teal-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       CMS Dashboard
                     </h3>
-                    <p className="text-sm text-gray-600">/admin</p>
+                    <p className="text-sm text-grey-dark">/admin</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -268,7 +268,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -281,14 +281,14 @@ export default function OverviewPage() {
                 href="/admin/collections/pages/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-purple-50 border-2 border-purple-200 hover:border-purple-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-teal-50 border-2 border-teal-200 hover:border-teal-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       Pages Collection
                     </h3>
-                    <p className="text-sm text-gray-600">/admin/collections/pages</p>
+                    <p className="text-sm text-grey-dark">/admin/collections/pages</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -300,7 +300,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -313,14 +313,14 @@ export default function OverviewPage() {
                 href="/admin/collections/blog-posts/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-purple-50 border-2 border-purple-200 hover:border-purple-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-teal-50 border-2 border-teal-200 hover:border-teal-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       Blog Posts
                     </h3>
-                    <p className="text-sm text-gray-600">/admin/collections/blog-posts</p>
+                    <p className="text-sm text-grey-dark">/admin/collections/blog-posts</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -332,7 +332,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -345,14 +345,14 @@ export default function OverviewPage() {
                 href="/admin/collections/users/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-purple-50 border-2 border-purple-200 hover:border-purple-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-teal-50 border-2 border-teal-200 hover:border-teal-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       Users
                     </h3>
-                    <p className="text-sm text-gray-600">/admin/collections/users</p>
+                    <p className="text-sm text-grey-dark">/admin/collections/users</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -364,7 +364,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -398,8 +398,8 @@ export default function OverviewPage() {
                 </svg>
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-1">🔌 API Endpoints</h2>
-                <p className="text-gray-600">REST & GraphQL APIs</p>
+                <h2 className="text-2xl font-bold text-navy mb-1">🔌 API Endpoints</h2>
+                <p className="text-grey-dark">REST & GraphQL APIs</p>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -411,10 +411,10 @@ export default function OverviewPage() {
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       Health Check
                     </h3>
-                    <p className="text-sm text-gray-600 font-mono">/api/health</p>
+                    <p className="text-sm text-grey-dark font-mono">/api/health</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -426,7 +426,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -443,10 +443,10 @@ export default function OverviewPage() {
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       OG Image Generator
                     </h3>
-                    <p className="text-sm text-gray-600 font-mono">/api/og</p>
+                    <p className="text-sm text-grey-dark font-mono">/api/og</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -458,7 +458,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -475,10 +475,10 @@ export default function OverviewPage() {
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       GraphQL Playground
                     </h3>
-                    <p className="text-sm text-gray-600 font-mono">/api/graphql-playground</p>
+                    <p className="text-sm text-grey-dark font-mono">/api/graphql-playground</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -490,7 +490,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -507,10 +507,10 @@ export default function OverviewPage() {
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       XML Sitemap
                     </h3>
-                    <p className="text-sm text-gray-600 font-mono">/sitemap.xml</p>
+                    <p className="text-sm text-grey-dark font-mono">/sitemap.xml</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -522,7 +522,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -535,9 +535,9 @@ export default function OverviewPage() {
           </div>
 
           {/* Account Pages */}
-          <div className="bg-white border-2 border-orange-200 rounded-2xl p-8 shadow-sm">
+          <div className="bg-white border-2 border-amber-200 rounded-2xl p-8 shadow-sm">
             <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center flex-shrink-0">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -556,23 +556,23 @@ export default function OverviewPage() {
                 </svg>
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-1">
+                <h2 className="text-2xl font-bold text-navy mb-1">
                   👤 Account & Authenticatie
                 </h2>
-                <p className="text-gray-600">Login en account beheer</p>
+                <p className="text-grey-dark">Login en account beheer</p>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <a
                 href="/inloggen/"
-                className="bg-orange-50 border-2 border-orange-200 hover:border-orange-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-amber-50 border-2 border-amber-200 hover:border-amber-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       Login
                     </h3>
-                    <p className="text-sm text-gray-600">/inloggen</p>
+                    <p className="text-sm text-grey-dark">/inloggen</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -584,7 +584,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M5 12h14"></path>
@@ -594,14 +594,14 @@ export default function OverviewPage() {
               </a>
               <a
                 href="/create-account/"
-                className="bg-orange-50 border-2 border-orange-200 hover:border-orange-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-amber-50 border-2 border-amber-200 hover:border-amber-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       Account Aanmaken
                     </h3>
-                    <p className="text-sm text-gray-600">/create-account</p>
+                    <p className="text-sm text-grey-dark">/create-account</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -613,7 +613,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M5 12h14"></path>
@@ -623,14 +623,14 @@ export default function OverviewPage() {
               </a>
               <a
                 href="/forgot-password/"
-                className="bg-orange-50 border-2 border-orange-200 hover:border-orange-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-amber-50 border-2 border-amber-200 hover:border-amber-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       Wachtwoord Vergeten
                     </h3>
-                    <p className="text-sm text-gray-600">/forgot-password</p>
+                    <p className="text-sm text-grey-dark">/forgot-password</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -642,7 +642,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M5 12h14"></path>
@@ -652,14 +652,14 @@ export default function OverviewPage() {
               </a>
               <a
                 href="/logout/"
-                className="bg-orange-50 border-2 border-orange-200 hover:border-orange-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-amber-50 border-2 border-amber-200 hover:border-amber-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-gray-700">
+                    <h3 className="font-semibold text-navy group-hover:text-grey-dark">
                       Logout
                     </h3>
-                    <p className="text-sm text-gray-600">/logout</p>
+                    <p className="text-sm text-grey-dark">/logout</p>
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -671,7 +671,7 @@ export default function OverviewPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                    className="w-5 h-5 text-grey-mid group-hover:text-grey-dark transition-colors"
                     aria-hidden="true"
                   >
                     <path d="M5 12h14"></path>
@@ -683,9 +683,9 @@ export default function OverviewPage() {
           </div>
 
           {/* PM2 Management */}
-          <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-2xl p-8">
+          <div className="bg-gradient-to-r from-teal-50 to-teal-50 border-2 border-teal-200 rounded-2xl p-8">
             <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-teal-100 text-teal rounded-xl flex items-center justify-center flex-shrink-0">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -705,35 +705,35 @@ export default function OverviewPage() {
                 </svg>
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-1">⚡ PM2 Commando's</h2>
-                <p className="text-gray-600">Server management via terminal</p>
+                <h2 className="text-2xl font-bold text-navy mb-1">⚡ PM2 Commando's</h2>
+                <p className="text-grey-dark">Server management via terminal</p>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div className="bg-white rounded-lg p-4 border border-indigo-200">
-                <code className="text-sm text-indigo-700 font-mono">npm run pm2:status</code>
-                <p className="text-xs text-gray-600 mt-1">Bekijk server status</p>
+              <div className="bg-white rounded-lg p-4 border border-teal-200">
+                <code className="text-sm text-teal-700 font-mono">npm run pm2:status</code>
+                <p className="text-xs text-grey-dark mt-1">Bekijk server status</p>
               </div>
-              <div className="bg-white rounded-lg p-4 border border-indigo-200">
-                <code className="text-sm text-indigo-700 font-mono">npm run pm2:restart</code>
-                <p className="text-xs text-gray-600 mt-1">Herstart de server</p>
+              <div className="bg-white rounded-lg p-4 border border-teal-200">
+                <code className="text-sm text-teal-700 font-mono">npm run pm2:restart</code>
+                <p className="text-xs text-grey-dark mt-1">Herstart de server</p>
               </div>
-              <div className="bg-white rounded-lg p-4 border border-indigo-200">
-                <code className="text-sm text-indigo-700 font-mono">npm run pm2:logs</code>
-                <p className="text-xs text-gray-600 mt-1">Bekijk live logs</p>
+              <div className="bg-white rounded-lg p-4 border border-teal-200">
+                <code className="text-sm text-teal-700 font-mono">npm run pm2:logs</code>
+                <p className="text-xs text-grey-dark mt-1">Bekijk live logs</p>
               </div>
-              <div className="bg-white rounded-lg p-4 border border-indigo-200">
-                <code className="text-sm text-indigo-700 font-mono">npm run pm2:stop</code>
-                <p className="text-xs text-gray-600 mt-1">Stop de server</p>
+              <div className="bg-white rounded-lg p-4 border border-teal-200">
+                <code className="text-sm text-teal-700 font-mono">npm run pm2:stop</code>
+                <p className="text-xs text-grey-dark mt-1">Stop de server</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="mt-12 text-center text-sm text-gray-500">
+        <div className="mt-12 text-center text-sm text-grey-mid">
           <p>
-            💡 Tip: Gebruik <code className="bg-gray-100 px-2 py-0.5 rounded">Cmd+Click</code> om
+            💡 Tip: Gebruik <code className="bg-grey-light px-2 py-0.5 rounded">Cmd+Click</code> om
             links in een nieuw tabblad te openen
           </p>
         </div>

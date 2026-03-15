@@ -43,12 +43,12 @@ function ValueBadge({ value, customValue }: { value: ComparisonValue; customValu
       )
     case 'custom':
       return (
-        <span className="text-sm font-medium text-gray-700">
+        <span className="text-sm font-medium text-grey-dark">
           {customValue || '-'}
         </span>
       )
     default:
-      return <span className="text-gray-400">-</span>
+      return <span className="text-grey-mid">-</span>
   }
 }
 
@@ -115,7 +115,7 @@ export const CompetitorComparisonBlockComponent: React.FC<CompetitorComparisonBl
               <thead>
                 <tr>
                   {/* Empty corner cell */}
-                  <th className="sticky left-0 z-10 bg-white px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 border-b border-gray-200">
+                  <th className="sticky left-0 z-10 bg-white px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-grey-mid border-b border-grey-light">
                     Feature
                   </th>
 
@@ -124,7 +124,7 @@ export const CompetitorComparisonBlockComponent: React.FC<CompetitorComparisonBl
                     className={`px-4 py-4 text-center text-sm font-bold border-b ${
                       highlightColumn
                         ? 'bg-teal text-white rounded-t-lg'
-                        : 'bg-gray-100 text-gray-900 border-gray-200'
+                        : 'bg-grey-light text-navy border-grey-light'
                     }`}
                   >
                     <div className="flex flex-col items-center gap-1">
@@ -141,7 +141,7 @@ export const CompetitorComparisonBlockComponent: React.FC<CompetitorComparisonBl
                   {competitorList.map((competitor, idx) => (
                     <th
                       key={competitor.id || idx}
-                      className="px-4 py-4 text-center text-sm font-bold bg-gray-100 text-gray-700 border-b border-gray-200"
+                      className="px-4 py-4 text-center text-sm font-bold bg-grey-light text-grey-dark border-b border-grey-light"
                     >
                       {competitor.name}
                     </th>
@@ -159,22 +159,22 @@ export const CompetitorComparisonBlockComponent: React.FC<CompetitorComparisonBl
                     <tr key={feature.id || rowIdx} className="group">
                       {/* Feature name */}
                       <td
-                        className={`sticky left-0 z-10 px-4 py-3 text-sm font-medium text-gray-900 border-b border-gray-100 ${
-                          isEven ? 'bg-gray-50' : 'bg-white'
-                        } group-hover:bg-gray-100 transition-colors`}
+                        className={`sticky left-0 z-10 px-4 py-3 text-sm font-medium text-navy border-b border-grey-light ${
+                          isEven ? 'bg-grey-light' : 'bg-white'
+                        } group-hover:bg-grey-light transition-colors`}
                       >
                         {feature.name}
                       </td>
 
                       {/* Our value */}
                       <td
-                        className={`px-4 py-3 text-center border-b border-gray-100 ${
+                        className={`px-4 py-3 text-center border-b border-grey-light ${
                           highlightColumn
                             ? isEven
                               ? 'bg-teal-50'
                               : 'bg-teal/5'
                             : isEven
-                              ? 'bg-gray-50'
+                              ? 'bg-grey-light'
                               : 'bg-white'
                         } group-hover:bg-teal/10 transition-colors`}
                       >
@@ -192,9 +192,9 @@ export const CompetitorComparisonBlockComponent: React.FC<CompetitorComparisonBl
                         return (
                           <td
                             key={compIdx}
-                            className={`px-4 py-3 text-center border-b border-gray-100 ${
-                              isEven ? 'bg-gray-50' : 'bg-white'
-                            } group-hover:bg-gray-100 transition-colors`}
+                            className={`px-4 py-3 text-center border-b border-grey-light ${
+                              isEven ? 'bg-grey-light' : 'bg-white'
+                            } group-hover:bg-grey-light transition-colors`}
                           >
                             <div className="flex items-center justify-center">
                               <ValueBadge

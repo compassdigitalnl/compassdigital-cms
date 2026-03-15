@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Bloom — Hair & Beauty</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--pink:#EC4899;--pink-light:#FCE7F3;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--shadow-lg:0 16px 48px rgba(10,22,40,0.12);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1200px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  .topbar{background:var(--navy);padding:8px 0;font-size:12px;color:rgba(255,255,255,.35);}.topbar .container{display:flex;justify-content:space-between;align-items:center;}.tb-left{display:flex;gap:16px;}.tb-item{display:flex;align-items:center;gap:4px;}.tb-item i{width:12px;height:12px;color:var(--teal);}.tb-right{display:flex;gap:8px;}.tb-link{color:rgba(255,255,255,.35);text-decoration:none;font-weight:600;transition:color .1s;display:flex;align-items:center;gap:3px;}.tb-link:hover{color:var(--teal);}.tb-link i{width:12px;height:12px;}
+
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:flex;align-items:center;justify-content:space-between;}
+  .logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--navy);text-decoration:none;display:flex;align-items:center;gap:8px;}.logo-mark{width:36px;height:36px;background:var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-size:18px;}.logo em{color:var(--teal);font-style:normal;}
+  .nav{display:flex;gap:2px;}.nav-item{padding:10px 16px;font-size:13.5px;font-weight:600;color:var(--grey-dark);text-decoration:none;border-radius:var(--radius-sm);transition:all .12s;}.nav-item:hover,.nav-item.active{color:var(--teal);background:var(--teal-glow);}
+  .header-right{display:flex;align-items:center;gap:8px;}.h-phone{display:flex;align-items:center;gap:5px;font-size:14px;font-weight:700;color:var(--navy);text-decoration:none;}.h-phone i{width:16px;height:16px;color:var(--teal);}
+  .h-cta{height:42px;padding:0 20px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--transition);}.h-cta:hover{background:var(--navy);}.h-cta i{width:14px;height:14px;}
+
+  .section{padding:56px 0;}
+  .section-header{text-align:center;margin-bottom:28px;}
+  .section-badge{display:inline-flex;align-items:center;gap:5px;background:var(--teal-glow);border:1px solid rgba(0,137,123,.15);padding:5px 14px;border-radius:100px;font-size:12px;font-weight:700;color:var(--teal);margin-bottom:6px;}.section-badge i{width:13px;height:13px;}
+  .section-header h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:800;line-height:1.15;}
+  .section-header p{font-size:14px;color:var(--grey-dark);max-width:520px;margin:4px auto 0;}
+
+  /* Hero */
+  .hero{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:72px 0 96px;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;top:-100px;right:-60px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,137,123,.08),transparent 70%);border-radius:50%;}
+  .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:100px;background:linear-gradient(to top,var(--bg),transparent);}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;position:relative;z-index:2;}
+  .hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(0,137,123,.1);border:1px solid rgba(0,137,123,.2);padding:5px 14px;border-radius:100px;font-size:12px;font-weight:700;color:var(--teal-light);margin-bottom:10px;}.hero-badge i{width:12px;height:12px;}
+  .hero h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:42px;font-weight:800;color:white;line-height:1.1;margin-bottom:10px;}.hero h1 em{color:var(--teal-light);font-style:normal;}
+  .hero-desc{font-size:15px;color:rgba(255,255,255,.35);line-height:1.6;margin-bottom:20px;max-width:480px;}
+  .hero-ctas{display:flex;gap:8px;margin-bottom:20px;}
+  .hero-btn{height:50px;padding:0 26px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--transition);border:none;text-decoration:none;}.hero-btn i{width:16px;height:16px;}
+  .hero-btn.primary{background:var(--teal);color:white;box-shadow:0 4px 16px rgba(0,137,123,.3);}.hero-btn.primary:hover{background:white;color:var(--navy);}
+  .hero-btn.outline{background:transparent;color:white;border:1.5px solid rgba(255,255,255,.12);}.hero-btn.outline:hover{border-color:var(--teal);color:var(--teal);}
+  .hero-trust{display:flex;gap:14px;flex-wrap:wrap;}.ht{display:flex;align-items:center;gap:5px;font-size:12px;color:rgba(255,255,255,.3);}.ht i{width:14px;height:14px;color:var(--teal);}
+  .hero-visual{display:flex;justify-content:center;}.hero-img{width:100%;max-width:440px;aspect-ratio:4/3;border-radius:20px;background:rgba(0,137,123,.04);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:100px;position:relative;}
+  .hero-float{position:absolute;background:white;border-radius:14px;padding:10px 14px;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:8px;}.hf-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;}.hf-icon i{width:16px;height:16px;}.hf-text{font-size:12px;font-weight:800;}.hf-sub{font-size:10px;color:var(--grey-mid);}
+  .hf-1{bottom:30px;left:-10px;}.hf-2{top:30px;right:-10px;}
+
+  /* Stats */
+  .stats-bar{margin-top:-40px;position:relative;z-index:10;margin-bottom:20px;}
+  .stats-card{background:white;border:1.5px solid var(--grey);border-radius:18px;padding:20px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;box-shadow:var(--shadow-md);}
+  .stat{text-align:center;padding:0 8px;border-right:1.5px solid var(--grey);}.stat:last-child{border-right:none;}.stat-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;color:var(--teal);}.stat-label{font-size:12px;color:var(--grey-mid);font-weight:600;}
+
+  /* Treatments highlights */
+  .treats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+  .treat{background:white;border:1.5px solid var(--grey);border-radius:16px;overflow:hidden;transition:all .15s;cursor:pointer;}.treat:hover{border-color:var(--teal);transform:translateY(-3px);box-shadow:var(--shadow-md);}
+  .treat-img{height:150px;display:flex;align-items:center;justify-content:center;font-size:44px;position:relative;}
+  .treat-tag{position:absolute;top:8px;right:8px;padding:3px 8px;border-radius:4px;font-size:9px;font-weight:700;}
+  .treat-body{padding:14px;}
+  .treat-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;margin-bottom:2px;}
+  .treat-desc{font-size:12px;color:var(--grey-dark);line-height:1.4;margin-bottom:6px;}
+  .treat-meta{display:flex;justify-content:space-between;align-items:center;}
+  .tm-price{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--teal);}
+  .tm-dur{font-size:11px;color:var(--grey-mid);display:flex;align-items:center;gap:3px;}.tm-dur i{width:11px;height:11px;}
+  .treat-link{display:flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:var(--teal);margin-top:6px;}.treat-link i{width:12px;height:12px;}
+
+  /* About */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;}
+  .about-img{aspect-ratio:4/3;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:80px;background:var(--grey-light);}
+  .about-badge{display:inline-flex;align-items:center;gap:4px;background:var(--teal-glow);padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;color:var(--teal);margin-bottom:8px;}.about-badge i{width:11px;height:11px;}
+  .about-content h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;margin-bottom:8px;}
+  .about-content p{font-size:14px;color:var(--grey-dark);line-height:1.6;margin-bottom:10px;}
+  .about-values{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
+  .av{display:flex;align-items:start;gap:8px;padding:10px;border-radius:10px;background:var(--grey-light);}.av-icon{width:28px;height:28px;border-radius:8px;background:var(--teal-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0;}.av-icon i{width:14px;height:14px;color:var(--teal);}.av-title{font-size:12px;font-weight:800;}.av-desc{font-size:11px;color:var(--grey-mid);}
+
+  /* Team */
+  .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .member{background:white;border:1.5px solid var(--grey);border-radius:16px;overflow:hidden;text-align:center;transition:all .12s;}.member:hover{border-color:var(--teal);}
+  .mem-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:56px;background:var(--grey-light);position:relative;}
+  .mem-badge{position:absolute;top:8px;right:8px;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700;background:var(--teal);color:white;}
+  .mem-body{padding:14px;}.mem-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;}.mem-role{font-size:12px;color:var(--teal);font-weight:600;margin-bottom:2px;}.mem-spec{font-size:11px;color:var(--grey-mid);}
+
+  /* Reviews */
+  .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .review{background:white;border:1.5px solid var(--grey);border-radius:16px;padding:20px;transition:all .12s;}.review:hover{border-color:var(--teal);}
+  .rev-stars{color:var(--amber);font-size:14px;margin-bottom:6px;}
+  .rev-text{font-size:13px;color:var(--grey-dark);line-height:1.6;font-style:italic;margin-bottom:10px;}
+  .rev-author{display:flex;align-items:center;gap:8px;}.ra-av{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:white;flex-shrink:0;}.ra-name{font-size:12px;font-weight:700;}.ra-detail{font-size:10px;color:var(--grey-mid);}
+
+  /* Insta gallery */
+  .insta-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;}
+  .insta{aspect-ratio:1;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:32px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden;}.insta:hover{transform:scale(1.05);}
+  .insta-overlay{position:absolute;inset:0;background:rgba(10,22,40,.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;border-radius:12px;}.insta:hover .insta-overlay{opacity:1;}.insta-overlay i{width:20px;height:20px;color:white;}
+
+  /* Gift card */
+  .gift-banner{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:20px;padding:36px;display:flex;align-items:center;justify-content:space-between;margin:24px 0;}
+  .gb-left{display:flex;align-items:center;gap:16px;color:white;}.gb-icon{font-size:48px;}.gb-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;}.gb-desc{font-size:13px;color:rgba(255,255,255,.35);}
+  .gb-btn{height:48px;padding:0 24px;background:var(--teal);color:white;border:none;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all var(--transition);box-shadow:0 4px 16px rgba(0,137,123,.3);}.gb-btn:hover{background:white;color:var(--navy);}.gb-btn i{width:16px;height:16px;}
+
+  /* Brands */
+  .brands{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;padding:16px 0;}
+  .brand{display:flex;align-items:center;gap:4px;padding:8px 14px;border:1.5px solid var(--grey);border-radius:8px;font-size:12px;font-weight:700;color:var(--grey-mid);background:white;}.brand i{width:14px;height:14px;color:var(--teal);}
+
+  /* CTA */
+  .cta-banner{background:white;border:2px solid var(--teal);border-radius:20px;padding:36px;display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;}
+  .ctb-left{}.ctb-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;margin-bottom:3px;}.ctb-desc{font-size:13px;color:var(--grey-dark);}
+  .ctb-btns{display:flex;gap:8px;}
+  .ctb-btn{height:48px;padding:0 24px;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;border:none;transition:all var(--transition);}.ctb-btn i{width:16px;height:16px;}
+  .ctb-btn.fill{background:var(--teal);color:white;}.ctb-btn.fill:hover{background:var(--navy);}
+  .ctb-btn.ghost{background:white;color:var(--navy);border:1.5px solid var(--grey);}.ctb-btn.ghost:hover{border-color:var(--teal);color:var(--teal);}
+
+  /* Footer */
+  .footer{background:var(--navy);padding:44px 0 20px;color:rgba(255,255,255,.3);}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px;margin-bottom:24px;}
+  .footer-brand .logo{display:inline-flex;margin-bottom:8px;color:white;}.footer-desc{font-size:13px;line-height:1.6;margin-bottom:8px;}
+  .footer h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;color:white;margin-bottom:8px;}
+  .footer-links{display:flex;flex-direction:column;gap:4px;}.fl{font-size:13px;color:rgba(255,255,255,.3);text-decoration:none;transition:color .1s;display:flex;align-items:center;gap:4px;}.fl:hover{color:var(--teal);}.fl i{width:12px;height:12px;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:16px;display:flex;align-items:center;justify-content:space-between;font-size:12px;}
+
+  @media(max-width:900px){.hero-grid,.about-grid{grid-template-columns:1fr;}.hero-visual,.about-img{display:none;}.treats-grid,.reviews-grid{grid-template-columns:1fr;}.team-grid{grid-template-columns:1fr 1fr;}.stats-card{grid-template-columns:1fr 1fr;}.insta-grid{grid-template-columns:repeat(3,1fr);}.gift-banner,.cta-banner{flex-direction:column;gap:14px;text-align:center;}.nav,.topbar{display:none;}.footer-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="container"><div class="tb-left"><span class="tb-item"><i data-lucide="map-pin"></i> Keizersgracht 324, Amsterdam</span><span class="tb-item"><i data-lucide="clock"></i> Di-Za 09:00-21:00</span><span class="tb-item"><i data-lucide="phone"></i> 020 - 789 01 23</span></div><div class="tb-right"><a class="tb-link" href="#"><i data-lucide="gift"></i> Cadeaubon</a><a class="tb-link" href="#"><i data-lucide="instagram"></i> @studiobloom</a></div></div></div>
+
+<header class="header"><div class="container"><a href="#" class="logo"><div class="logo-mark">✿</div>Studio <em>Bloom</em></a><nav class="nav"><a href="#" class="nav-item active">Home</a><a href="#" class="nav-item">Behandelingen</a><a href="#" class="nav-item">Prijslijst</a><a href="#" class="nav-item">Team</a><a href="#" class="nav-item">Portfolio</a><a href="#" class="nav-item">Contact</a></nav><div class="header-right"><a class="h-phone" href="tel:0207890123"><i data-lucide="phone"></i> 020 - 789 01 23</a><button class="h-cta"><i data-lucide="calendar"></i> Online boeken</button></div></div></header>
+
+<!-- Hero -->
+<section class="hero"><div class="container"><div class="hero-grid">
+  <div>
+    <div class="hero-badge"><i data-lucide="award"></i> Best beoordeelde salon Amsterdam 2025</div>
+    <h1>Waar <em>schoonheid</em> tot bloei komt</h1>
+    <p class="hero-desc">Hair, beauty & wellness in het hart van Amsterdam. Persoonlijke behandelingen door vakkundige stylisten met de beste producten. Ontspan, geniet en straal.</p>
+    <div class="hero-ctas">
+      <button class="hero-btn primary"><i data-lucide="calendar"></i> Online boeken</button>
+      <button class="hero-btn outline"><i data-lucide="gift"></i> Cadeaubon kopen</button>
+    </div>
+    <div class="hero-trust"><div class="ht"><i data-lucide="check-circle"></i> Gratis consultatie</div><div class="ht"><i data-lucide="check-circle"></i> 100% vegan producten</div><div class="ht"><i data-lucide="check-circle"></i> Avonduren Di-Vr</div></div>
+  </div>
+  <div class="hero-visual"><div class="hero-img" style="background:linear-gradient(135deg,rgba(0,137,123,.06),rgba(0,137,123,.02));">💇‍♀️
+    <div class="hero-float hf-1"><div class="hf-icon" style="background:var(--amber-light);"><i data-lucide="star" style="color:var(--amber);"></i></div><div><div class="hf-text">4.9 / 5.0</div><div class="hf-sub">380+ reviews</div></div></div>
+    <div class="hero-float hf-2"><div class="hf-icon" style="background:var(--teal-glow);"><i data-lucide="heart" style="color:var(--teal);"></i></div><div><div class="hf-text">12.000+ klanten</div><div class="hf-sub">Sinds 2016</div></div></div>
+  </div></div>
+</div></div></section>
+
+<!-- Stats -->
+<div class="container"><div class="stats-bar"><div class="stats-card">
+  <div class="stat"><div class="stat-num">8+</div><div class="stat-label">Jaar ervaring</div></div>
+  <div class="stat"><div class="stat-num">12K+</div><div class="stat-label">Tevreden klanten</div></div>
+  <div class="stat"><div class="stat-num">6</div><div class="stat-label">Specialisten</div></div>
+  <div class="stat"><div class="stat-num">4.9</div><div class="stat-label">Google rating</div></div>
+</div></div></div>
+
+<!-- Treatments -->
+<section class="section"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="sparkles"></i> Populaire behandelingen</div><h2>Ontdek onze specialiteiten</h2><p>Van knippen & kleuren tot facial & massage — altijd met persoonlijk advies en de beste producten.</p></div>
+  <div class="treats-grid">
+    <div class="treat"><div class="treat-img" style="background:linear-gradient(135deg,var(--teal-glow),rgba(0,137,123,.05));">✂️<div class="treat-tag" style="background:var(--teal);color:white;">Populair</div></div><div class="treat-body"><div class="treat-name">Knippen & stylen</div><div class="treat-desc">Persoonlijk advies, precisie knippen en professionele styling door onze senior stylisten.</div><div class="treat-meta"><span class="tm-price">Vanaf € 49</span><span class="tm-dur"><i data-lucide="clock"></i> 45 min</span></div><div class="treat-link"><i data-lucide="arrow-right"></i> Boek nu</div></div></div>
+    <div class="treat"><div class="treat-img" style="background:linear-gradient(135deg,var(--purple-light),rgba(124,58,237,.05));">🎨<div class="treat-tag" style="background:var(--purple);color:white;">Specialist</div></div><div class="treat-body"><div class="treat-name">Kleuren & highlights</div><div class="treat-desc">Balayage, highlights, full color en creatieve kleurbehandelingen met vegan producten.</div><div class="treat-meta"><span class="tm-price">Vanaf € 85</span><span class="tm-dur"><i data-lucide="clock"></i> 90-180 min</span></div><div class="treat-link"><i data-lucide="arrow-right"></i> Boek nu</div></div></div>
+    <div class="treat"><div class="treat-img" style="background:linear-gradient(135deg,var(--pink-light),rgba(236,72,153,.05));">✨<div class="treat-tag" style="background:var(--pink);color:white;">Nieuw</div></div><div class="treat-body"><div class="treat-name">Luxury facial</div><div class="treat-desc">Dieptereiniging, serum, masker en massage. Complete gezichtsbehandeling voor een stralende huid.</div><div class="treat-meta"><span class="tm-price">Vanaf € 75</span><span class="tm-dur"><i data-lucide="clock"></i> 60 min</span></div><div class="treat-link"><i data-lucide="arrow-right"></i> Boek nu</div></div></div>
+    <div class="treat"><div class="treat-img" style="background:linear-gradient(135deg,var(--amber-light),rgba(245,158,11,.05));">💆‍♀️</div><div class="treat-body"><div class="treat-name">Ontspanningsmassage</div><div class="treat-desc">Volledig ontspannen met een hot stone, Zweedse of aromatherapie massage.</div><div class="treat-meta"><span class="tm-price">Vanaf € 65</span><span class="tm-dur"><i data-lucide="clock"></i> 50 min</span></div><div class="treat-link"><i data-lucide="arrow-right"></i> Boek nu</div></div></div>
+  </div>
+</div></section>
+
+<!-- About -->
+<section class="section" style="background:white;"><div class="container">
+  <div class="about-grid">
+    <div class="about-img">🌿</div>
+    <div class="about-content">
+      <div class="about-badge"><i data-lucide="heart"></i> Over Studio Bloom</div>
+      <h2>Schoonheid begint bij jezelf</h2>
+      <p>Sinds 2016 is Studio Bloom dé plek in Amsterdam voor iedereen die houdt van persoonlijke aandacht en vakmanschap. Ons team van 6 specialisten werkt uitsluitend met cruelty-free en vegan producten.</p>
+      <p>Of je nu komt voor een frisse coupe, een kleuradvies of een ontspannende behandeling — bij ons sta jij centraal.</p>
+      <div class="about-values">
+        <div class="av"><div class="av-icon"><i data-lucide="leaf"></i></div><div><div class="av-title">100% Vegan</div><div class="av-desc">Cruelty-free producten</div></div></div>
+        <div class="av"><div class="av-icon"><i data-lucide="user-check"></i></div><div><div class="av-title">Persoonlijk</div><div class="av-desc">Altijd advies op maat</div></div></div>
+        <div class="av"><div class="av-icon"><i data-lucide="award"></i></div><div><div class="av-title">Vakkundig</div><div class="av-desc">Continu bijgeschoold</div></div></div>
+        <div class="av"><div class="av-icon"><i data-lucide="clock"></i></div><div><div class="av-title">Avonduren</div><div class="av-desc">Di-Vr tot 21:00</div></div></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- Team -->
+<section class="section"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="users"></i> Ons team</div><h2>De gezichten achter Studio Bloom</h2></div>
+  <div class="team-grid">
+    <div class="member"><div class="mem-img">👩‍🎨<div class="mem-badge">Eigenaar</div></div><div class="mem-body"><div class="mem-name">Sophie van Dam</div><div class="mem-role">Creative Director & Colorist</div><div class="mem-spec">Balayage · Kleuradvies</div></div></div>
+    <div class="member"><div class="mem-img">👨‍🎨</div><div class="mem-body"><div class="mem-name">Milan Kowalski</div><div class="mem-role">Senior Stylist</div><div class="mem-spec">Knippen · Herenkapper</div></div></div>
+    <div class="member"><div class="mem-img">👩‍🔬</div><div class="mem-body"><div class="mem-name">Noor Al-Rashid</div><div class="mem-role">Beauty Specialist</div><div class="mem-spec">Facial · Huidverzorging</div></div></div>
+    <div class="member"><div class="mem-img">👩‍🎨</div><div class="mem-body"><div class="mem-name">Emma de Vries</div><div class="mem-role">Stylist & Massage</div><div class="mem-spec">Styling · Ontspanningsmassage</div></div></div>
+  </div>
+</div></section>
+
+<!-- Reviews -->
+<section class="section" style="background:white;"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="star"></i> Reviews</div><h2>Wat onze klanten zeggen</h2></div>
+  <div class="reviews-grid">
+    <div class="review"><div class="rev-stars">★★★★★</div><div class="rev-text">"Sophie is een tovenares met kleur! Mijn balayage ziet er precies uit zoals ik wilde. De sfeer is heerlijk relaxed en het resultaat is prachtig."</div><div class="rev-author"><div class="ra-av" style="background:var(--teal);">LM</div><div><div class="ra-name">Laura M.</div><div class="ra-detail">Balayage · Google Review</div></div></div></div>
+    <div class="review"><div class="rev-stars">★★★★★</div><div class="rev-text">"Beste kapper van Amsterdam! Milan luistert echt naar wat je wilt en geeft eerlijk advies. Ik ga nergens anders meer heen."</div><div class="rev-author"><div class="ra-av" style="background:var(--navy);">TJ</div><div><div class="ra-name">Thomas J.</div><div class="ra-detail">Knippen · Treatwell</div></div></div></div>
+    <div class="review"><div class="rev-stars">★★★★★</div><div class="rev-text">"De facial bij Noor was hemels! Mijn huid voelde zó zacht en fris aan. Perfect cadeau aan mezelf. Zeker een aanrader!"</div><div class="rev-author"><div class="ra-av" style="background:var(--pink);">SK</div><div><div class="ra-name">Sara K.</div><div class="ra-detail">Luxury Facial · Instagram</div></div></div></div>
+  </div>
+</div></section>
+
+<!-- Instagram -->
+<section class="section"><div class="container">
+  <div class="section-header"><div class="section-badge"><i data-lucide="instagram"></i> @studiobloom</div><h2>Volg ons op Instagram</h2></div>
+  <div class="insta-grid">
+    <div class="insta" style="background:linear-gradient(135deg,var(--teal-glow),var(--grey-light));">✂️<div class="insta-overlay"><i data-lucide="heart"></i></div></div>
+    <div class="insta" style="background:linear-gradient(135deg,var(--purple-light),var(--grey-light));">🎨<div class="insta-overlay"><i data-lucide="heart"></i></div></div>
+    <div class="insta" style="background:linear-gradient(135deg,var(--pink-light),var(--grey-light));">✨<div class="insta-overlay"><i data-lucide="heart"></i></div></div>
+    <div class="insta" style="background:linear-gradient(135deg,var(--amber-light),var(--grey-light));">💇‍♀️<div class="insta-overlay"><i data-lucide="heart"></i></div></div>
+    <div class="insta" style="background:linear-gradient(135deg,var(--blue-light),var(--grey-light));">💆‍♀️<div class="insta-overlay"><i data-lucide="heart"></i></div></div>
+    <div class="insta" style="background:linear-gradient(135deg,var(--green-light),var(--grey-light));">🌿<div class="insta-overlay"><i data-lucide="heart"></i></div></div>
+  </div>
+</div></section>
+
+<!-- Brands -->
+<div class="container"><div class="brands">
+  <div class="brand"><i data-lucide="leaf"></i> Olaplex</div>
+  <div class="brand"><i data-lucide="leaf"></i> Kevin Murphy</div>
+  <div class="brand"><i data-lucide="leaf"></i> Davines</div>
+  <div class="brand"><i data-lucide="leaf"></i> Dermalogica</div>
+  <div class="brand"><i data-lucide="leaf"></i> Maria Nila</div>
+</div></div>
+
+<!-- Gift card -->
+<div class="container"><div class="gift-banner">
+  <div class="gb-left"><div class="gb-icon">🎁</div><div><div class="gb-title">Geef een cadeaubon</div><div class="gb-desc">Het perfecte cadeau voor elke gelegenheid. Kies een bedrag of een specifieke behandeling.</div></div></div>
+  <button class="gb-btn"><i data-lucide="gift"></i> Cadeaubon kopen</button>
+</div></div>
+
+<!-- CTA -->
+<div class="container"><div class="cta-banner">
+  <div class="ctb-left"><div class="ctb-title">Klaar voor jouw transformatie?</div><div class="ctb-desc">Boek online je afspraak of bel ons voor persoonlijk advies.</div></div>
+  <div class="ctb-btns"><button class="ctb-btn fill"><i data-lucide="calendar"></i> Online boeken</button><button class="ctb-btn ghost"><i data-lucide="phone"></i> 020 - 789 01 23</button></div>
+</div></div>
+
+<!-- Footer -->
+<footer class="footer"><div class="container">
+  <div class="footer-grid">
+    <div class="footer-brand"><a href="#" class="logo"><div class="logo-mark">✿</div>Studio <em>Bloom</em></a><div class="footer-desc">Hair, beauty & wellness in het hart van Amsterdam. Persoonlijke behandelingen met vegan producten door vakkundige specialisten.</div></div>
+    <div><h4>Behandelingen</h4><div class="footer-links"><a class="fl" href="#">Knippen & stylen</a><a class="fl" href="#">Kleuren</a><a class="fl" href="#">Bridal</a><a class="fl" href="#">Facials</a><a class="fl" href="#">Massage</a></div></div>
+    <div><h4>Salon</h4><div class="footer-links"><a class="fl" href="#"><i data-lucide="map-pin"></i> Keizersgracht 324</a><a class="fl" href="#"><i data-lucide="phone"></i> 020 - 789 01 23</a><a class="fl" href="#"><i data-lucide="mail"></i> hello@studiobloom.nl</a><a class="fl" href="#"><i data-lucide="instagram"></i> @studiobloom</a></div></div>
+    <div><h4>Info</h4><div class="footer-links"><a class="fl" href="#">Over ons</a><a class="fl" href="#">Prijslijst</a><a class="fl" href="#">Cadeaubon</a><a class="fl" href="#">Vacatures</a><a class="fl" href="#">Algemene voorwaarden</a></div></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Studio Bloom · KvK 76543210</span><span>Privacy · Voorwaarden</span></div>
+</div></footer>
+<script>lucide.createIcons();</script>
+</body>
+</html>

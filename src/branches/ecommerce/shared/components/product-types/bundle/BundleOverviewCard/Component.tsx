@@ -38,7 +38,7 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
   const optionalCount = items.filter((item) => !item.required).length
 
   return (
-    <div className={`bundle-overview-card border-2 border-gray-300 rounded-lg bg-white overflow-hidden ${className}`}>
+    <div className={`bundle-overview-card border-2 border-grey-light rounded-lg bg-white overflow-hidden ${className}`}>
       {/* Header */}
       <div className="px-6 py-4 bg-gradient-to-r from-teal to-teal-700 text-white">
         <div className="flex items-start gap-3">
@@ -51,8 +51,8 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
       </div>
 
       {/* Items List */}
-      <div className="px-6 py-4 border-b-2 border-gray-200">
-        <h4 className="text-[15px] font-bold text-gray-900 mb-3">Bundle bevat:</h4>
+      <div className="px-6 py-4 border-b-2 border-grey-light">
+        <h4 className="text-[15px] font-bold text-navy mb-3">Bundle bevat:</h4>
         <div className="space-y-2">
           {items.map((item, index) => {
             const product = typeof item.product === 'object' ? (item.product as Product) : null
@@ -61,13 +61,13 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
               <div key={item.id || index} className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div
-                    className={`w-1.5 h-1.5 rounded-full ${item.required ? 'bg-teal' : 'bg-gray-400'}`}
+                    className={`w-1.5 h-1.5 rounded-full ${item.required ? 'bg-teal' : 'bg-grey-mid'}`}
                   />
-                  <span className="text-[14px] text-gray-700">
+                  <span className="text-[14px] text-grey-dark">
                     {item.quantity}x {product?.title || 'Product'}
                   </span>
                   {!item.required && (
-                    <span className="text-[11px] px-2 py-0.5 bg-gray-200 text-gray-600 rounded-full font-semibold">
+                    <span className="text-[11px] px-2 py-0.5 bg-grey-light text-grey-dark rounded-full font-semibold">
                       Optioneel
                     </span>
                   )}
@@ -81,25 +81,25 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
         </div>
 
         {/* Item Count Summary */}
-        <div className="mt-3 pt-3 border-t border-gray-200 flex items-center gap-4 text-[12px] text-gray-600">
+        <div className="mt-3 pt-3 border-t border-grey-light flex items-center gap-4 text-[12px] text-grey-dark">
           <span>
             <strong className="text-teal">{requiredCount}</strong> verplicht
           </span>
           {optionalCount > 0 && (
             <span>
-              <strong className="text-gray-700">{optionalCount}</strong> optioneel
+              <strong className="text-grey-dark">{optionalCount}</strong> optioneel
             </span>
           )}
         </div>
       </div>
 
       {/* Pricing */}
-      <div className="px-6 py-4 bg-gray-50">
+      <div className="px-6 py-4 bg-grey-light">
         <div className="space-y-2">
           {/* Original Price */}
           <div className="flex items-center justify-between">
-            <span className="text-[14px] text-gray-600">Losse producten:</span>
-            <span className="text-[14px] text-gray-500 line-through font-mono">
+            <span className="text-[14px] text-grey-dark">Losse producten:</span>
+            <span className="text-[14px] text-grey-mid line-through font-mono">
               €{formatPriceStr(originalPrice)}
             </span>
           </div>
@@ -107,7 +107,7 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
           {/* Bundle Discount */}
           {discount > 0 && (
             <div className="flex items-center justify-between">
-              <span className="text-[14px] text-gray-600">Bundle korting ({discount}%):</span>
+              <span className="text-[14px] text-grey-dark">Bundle korting ({discount}%):</span>
               <span className="text-[14px] text-green font-semibold font-mono">
                 -€{formatPriceStr(savings)}
               </span>
@@ -115,11 +115,11 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
           )}
 
           {/* Divider */}
-          <div className="border-t-2 border-gray-300 my-2" />
+          <div className="border-t-2 border-grey-light my-2" />
 
           {/* Total Price */}
           <div className="flex items-center justify-between">
-            <span className="text-[16px] font-bold text-gray-900">Bundle prijs:</span>
+            <span className="text-[16px] font-bold text-navy">Bundle prijs:</span>
             <span className="text-[22px] font-mono font-bold text-teal">
               €{formatPriceStr(totalPrice)}
             </span>

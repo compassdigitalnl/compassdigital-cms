@@ -71,8 +71,8 @@ export function PaywallOverlay({
     return (
       <div
         className={`
-          relative rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-700
-          bg-gradient-to-b from-white/50 to-gray-50/50 dark:from-gray-900/50 dark:to-gray-800/50
+          relative rounded-2xl border-2 border-dashed border-grey-light dark:border-navy
+          bg-gradient-to-b from-white/50 to-grey-light/50 dark:from-navy/50 dark:to-navy/50
           backdrop-blur-sm p-12 text-center
           ${className}
         `}
@@ -80,24 +80,24 @@ export function PaywallOverlay({
         <div className="flex flex-col items-center space-y-6 max-w-md mx-auto">
           {/* Lock Icon */}
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full blur-xl opacity-30 animate-pulse" />
-            <div className="relative bg-gradient-to-br from-amber-400 to-orange-500 rounded-full p-4">
+            <div className="absolute inset-0 bg-gradient-to-br from-amber to-amber-600 rounded-full blur-xl opacity-30 animate-pulse" />
+            <div className="relative bg-gradient-to-br from-amber to-amber-600 rounded-full p-4">
               <Lock className="w-8 h-8 text-white" />
             </div>
           </div>
 
           {/* Message */}
           <div className="space-y-2">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Premium Content</h3>
-            <p className="text-gray-600 dark:text-gray-400 text-lg">{message}</p>
+            <h3 className="text-2xl font-bold text-navy dark:text-white">Premium Content</h3>
+            <p className="text-grey-dark dark:text-grey-mid text-lg">{message}</p>
           </div>
 
           {/* Benefits */}
           <div className="space-y-2 text-left w-full">
-            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <p className="text-sm font-medium text-grey-dark dark:text-grey-mid">
               Met een Pro abonnement krijg je:
             </p>
-            <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+            <ul className="space-y-1 text-sm text-grey-dark dark:text-grey-mid">
               <li className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-amber-500" />
                 Toegang tot alle premium artikelen
@@ -142,7 +142,7 @@ export function PaywallOverlay({
         className="
           absolute inset-0 z-10
           bg-gradient-to-b from-transparent via-white/80 to-white
-          dark:via-gray-900/80 dark:to-gray-900
+          dark:via-navy/80 dark:to-navy
         "
       />
 
@@ -151,8 +151,8 @@ export function PaywallOverlay({
         <div
           className="
             max-w-2xl mx-auto
-            rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-700
-            bg-white/90 dark:bg-gray-900/90 backdrop-blur-md
+            rounded-2xl border-2 border-dashed border-grey-light dark:border-navy
+            bg-white/90 dark:bg-navy/90 backdrop-blur-md
             shadow-2xl p-8 sm:p-12
             text-center
           "
@@ -160,39 +160,39 @@ export function PaywallOverlay({
           <div className="flex flex-col items-center space-y-6">
             {/* Lock Icon with Glow */}
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full blur-xl opacity-30 animate-pulse" />
-              <div className="relative bg-gradient-to-br from-amber-400 to-orange-500 rounded-full p-5">
+              <div className="absolute inset-0 bg-gradient-to-br from-amber to-amber-600 rounded-full blur-xl opacity-30 animate-pulse" />
+              <div className="relative bg-gradient-to-br from-amber to-amber-600 rounded-full p-5">
                 <Lock className="w-10 h-10 text-white" />
               </div>
             </div>
 
             {/* Message */}
             <div className="space-y-3">
-              <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <h3 className="text-3xl font-bold text-navy dark:text-white">
                 Premium Content
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-xl max-w-lg">{message}</p>
+              <p className="text-grey-dark dark:text-grey-mid text-xl max-w-lg">{message}</p>
             </div>
 
             {/* Benefits List */}
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 w-full max-w-md">
-              <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+            <div className="bg-grey-light dark:bg-navy rounded-xl p-6 w-full max-w-md">
+              <p className="text-sm font-semibold text-grey-dark dark:text-grey-mid mb-3">
                 Met een Pro abonnement krijg je:
               </p>
               <ul className="space-y-2 text-left">
-                <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
+                <li className="flex items-center gap-3 text-grey-dark dark:text-grey-mid">
                   <Sparkles className="w-5 h-5 text-amber-500 flex-shrink-0" />
                   <span>Toegang tot 40+ premium artikelen</span>
                 </li>
-                <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
+                <li className="flex items-center gap-3 text-grey-dark dark:text-grey-mid">
                   <Sparkles className="w-5 h-5 text-amber-500 flex-shrink-0" />
                   <span>Expertgidsen en tutorials</span>
                 </li>
-                <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
+                <li className="flex items-center gap-3 text-grey-dark dark:text-grey-mid">
                   <Sparkles className="w-5 h-5 text-amber-500 flex-shrink-0" />
                   <span>Downloadbare PDF resources</span>
                 </li>
-                <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
+                <li className="flex items-center gap-3 text-grey-dark dark:text-grey-mid">
                   <Sparkles className="w-5 h-5 text-amber-500 flex-shrink-0" />
                   <span>Exclusieve e-learning modules</span>
                 </li>
@@ -212,7 +212,7 @@ export function PaywallOverlay({
             </div>
 
             {/* Small Print */}
-            <p className="text-xs text-gray-500 dark:text-gray-500 pt-4">
+            <p className="text-xs text-grey-mid dark:text-grey-mid pt-4">
               Vanaf €9,99/maand • Altijd opzegbaar
             </p>
           </div>

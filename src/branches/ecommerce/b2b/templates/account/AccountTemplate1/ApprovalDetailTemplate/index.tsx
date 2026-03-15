@@ -40,13 +40,13 @@ export default function ApprovalDetailTemplate({
       <div>
         <Link
           href="/account/approvals"
-          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 mb-3"
+          className="inline-flex items-center gap-1 text-sm text-grey-mid hover:text-grey-dark mb-3"
         >
           <ChevronLeft className="w-4 h-4" />
           Terug naar overzicht
         </Link>
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl lg:text-3xl font-extrabold text-gray-900">
+          <h1 className="text-2xl lg:text-3xl font-extrabold text-navy">
             #{request.orderReference}
           </h1>
           <ApprovalStatusBadge status={request.status} size="md" />

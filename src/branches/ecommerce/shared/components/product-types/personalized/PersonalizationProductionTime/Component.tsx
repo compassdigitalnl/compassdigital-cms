@@ -69,10 +69,10 @@ export const PersonalizationProductionTime: React.FC<PersonalizationProductionTi
   }
 
   return (
-    <div className={`personalization-production-time border-2 border-gray-300 rounded-lg bg-white ${className}`}>
+    <div className={`personalization-production-time border-2 border-grey-light rounded-lg bg-white ${className}`}>
       {/* Header */}
-      <div className="px-4 py-3 border-b-2 border-gray-200 bg-gray-50">
-        <h3 className="text-[16px] font-bold text-gray-900 flex items-center gap-2">
+      <div className="px-4 py-3 border-b-2 border-grey-light bg-grey-light">
+        <h3 className="text-[16px] font-bold text-navy flex items-center gap-2">
           <Clock className="w-5 h-5" strokeWidth={2.5} />
           Productietijd
         </h3>
@@ -84,8 +84,8 @@ export const PersonalizationProductionTime: React.FC<PersonalizationProductionTi
         <div className="space-y-2 mb-4">
           {/* Base Production */}
           <div className="flex items-center justify-between">
-            <span className="text-[13px] text-gray-700">Standaard productie:</span>
-            <span className="text-[13px] font-semibold text-gray-900">
+            <span className="text-[13px] text-grey-dark">Standaard productie:</span>
+            <span className="text-[13px] font-semibold text-navy">
               {baseProductionDays} werkdag{baseProductionDays !== 1 ? 'en' : ''}
             </span>
           </div>
@@ -93,7 +93,7 @@ export const PersonalizationProductionTime: React.FC<PersonalizationProductionTi
           {/* Personalization Days (if any) */}
           {personalizationDays > 0 && (
             <div className="flex items-center justify-between">
-              <span className="text-[13px] text-gray-700">Personalisatie:</span>
+              <span className="text-[13px] text-grey-dark">Personalisatie:</span>
               <span className="text-[13px] font-semibold text-[var(--color-primary)]">
                 +{personalizationDays} werkdag{personalizationDays !== 1 ? 'en' : ''}
               </span>
@@ -103,22 +103,22 @@ export const PersonalizationProductionTime: React.FC<PersonalizationProductionTi
           {/* Rush Order (if enabled) */}
           {rushEnabled && (
             <div className="flex items-center justify-between">
-              <span className="text-[13px] text-gray-700 flex items-center gap-1">
-                <Zap className="w-3 h-3 text-yellow-600" strokeWidth={2.5} />
+              <span className="text-[13px] text-grey-dark flex items-center gap-1">
+                <Zap className="w-3 h-3 text-amber-600" strokeWidth={2.5} />
                 Spoedbestelling:
               </span>
-              <span className="text-[13px] font-semibold text-yellow-600">
+              <span className="text-[13px] font-semibold text-amber-600">
                 50% sneller
               </span>
             </div>
           )}
 
           {/* Divider */}
-          <div className="border-t border-gray-300 my-2" />
+          <div className="border-t border-grey-light my-2" />
 
           {/* Total */}
           <div className="flex items-center justify-between">
-            <span className="text-[14px] font-bold text-gray-900">Totale productietijd:</span>
+            <span className="text-[14px] font-bold text-navy">Totale productietijd:</span>
             <span className="text-[16px] font-mono font-bold text-[var(--color-primary)]">
               {totalProductionDays} werkdag{totalProductionDays !== 1 ? 'en' : ''}
             </span>
@@ -141,28 +141,28 @@ export const PersonalizationProductionTime: React.FC<PersonalizationProductionTi
 
         {/* Rush Order Option */}
         {rushAvailable && (
-          <div className="mt-4 p-3 border-2 border-yellow-400 rounded-lg bg-yellow-50">
+          <div className="mt-4 p-3 border-2 border-amber-400 rounded-lg bg-amber-50">
             <label className="flex items-start gap-3 cursor-pointer">
               {/* Checkbox */}
               <input
                 type="checkbox"
                 checked={rushEnabled}
                 onChange={handleRushToggle}
-                className="w-5 h-5 mt-0.5 text-yellow-600 border-2 border-yellow-500 rounded focus:ring-2 focus:ring-yellow-500"
+                className="w-5 h-5 mt-0.5 text-amber-600 border-2 border-amber-500 rounded focus:ring-2 focus:ring-amber-500"
               />
 
               {/* Label */}
               <div className="flex-1">
                 <div className="flex items-center gap-1 mb-1">
-                  <Zap className="w-4 h-4 text-yellow-600" strokeWidth={2.5} />
-                  <span className="text-[14px] font-bold text-yellow-900">
+                  <Zap className="w-4 h-4 text-amber-600" strokeWidth={2.5} />
+                  <span className="text-[14px] font-bold text-amber-900">
                     Spoedbestelling
                   </span>
-                  <span className="text-[12px] text-yellow-700 ml-1">
+                  <span className="text-[12px] text-amber-700 ml-1">
                     (+€25,00)
                   </span>
                 </div>
-                <p className="text-[12px] text-yellow-800">
+                <p className="text-[12px] text-amber-800">
                   Verkort de productietijd met 50% en lever binnen {Math.ceil(totalProductionDays / 2)} werkdag{Math.ceil(totalProductionDays / 2) !== 1 ? 'en' : ''}.
                 </p>
               </div>

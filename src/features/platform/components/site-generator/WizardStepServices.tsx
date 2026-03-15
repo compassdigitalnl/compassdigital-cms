@@ -44,11 +44,11 @@ export function WizardStepServices({ services, onChange }: Props) {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-navy flex items-center gap-2">
           <Briefcase className="w-6 h-6 text-teal" />
           Diensten & Producten
         </h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-sm text-grey-dark">
           Voeg de diensten of producten toe die je aanbiedt. AI zal volledige beschrijvingen
           genereren met SEO-optimalisatie.
         </p>
@@ -92,7 +92,7 @@ export function WizardStepServices({ services, onChange }: Props) {
                 rows={2}
                 className="mt-1"
               />
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 text-xs text-grey-mid">
                 💡 Tip: Als je dit leeg laat, genereert AI een complete beschrijving op basis
                 van de naam
               </p>

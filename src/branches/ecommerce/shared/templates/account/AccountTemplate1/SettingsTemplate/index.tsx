@@ -37,8 +37,8 @@ export default function SettingsTemplate({
     <div className="space-y-4 lg:space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">Instellingen</h1>
-        <p className="text-sm lg:text-base text-gray-500">Beheer je accountgegevens en voorkeuren</p>
+        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-navy">Instellingen</h1>
+        <p className="text-sm lg:text-base text-grey-mid">Beheer je accountgegevens en voorkeuren</p>
       </div>
 
       {/* Profile Settings */}
@@ -48,35 +48,35 @@ export default function SettingsTemplate({
             <User className="w-5 h-5 lg:w-6 lg:h-6 text-[var(--color-primary)]" />
           </div>
           <div>
-            <h2 className="text-base lg:text-lg font-extrabold text-gray-900">Persoonlijke gegevens</h2>
-            <p className="text-xs lg:text-sm text-gray-500">Werk je profiel en contactgegevens bij</p>
+            <h2 className="text-base lg:text-lg font-extrabold text-navy">Persoonlijke gegevens</h2>
+            <p className="text-xs lg:text-sm text-grey-mid">Werk je profiel en contactgegevens bij</p>
           </div>
         </div>
 
         <div className="space-y-3 lg:space-y-4 mb-4 lg:mb-5">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
             <div>
-              <label className="block text-sm font-semibold mb-2 text-gray-900">Voornaam</label>
-              <input type="text" value={profileData.firstName} onChange={(e) => onUpdateProfile({ firstName: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300" />
+              <label className="block text-sm font-semibold mb-2 text-navy">Voornaam</label>
+              <input type="text" value={profileData.firstName} onChange={(e) => onUpdateProfile({ firstName: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-grey-light focus:border-grey-light" />
             </div>
             <div>
-              <label className="block text-sm font-semibold mb-2 text-gray-900">Achternaam</label>
-              <input type="text" value={profileData.lastName} onChange={(e) => onUpdateProfile({ lastName: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300" />
+              <label className="block text-sm font-semibold mb-2 text-navy">Achternaam</label>
+              <input type="text" value={profileData.lastName} onChange={(e) => onUpdateProfile({ lastName: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-grey-light focus:border-grey-light" />
             </div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
             <div>
-              <label className="block text-sm font-semibold mb-2 text-gray-900">E-mailadres</label>
+              <label className="block text-sm font-semibold mb-2 text-navy">E-mailadres</label>
               <div className="relative">
-                <Mail className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input type="email" value={profileData.email} readOnly className="w-full pl-10 lg:pl-12 pr-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 bg-gray-50 text-gray-500" />
+                <Mail className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-grey-mid" />
+                <input type="email" value={profileData.email} readOnly className="w-full pl-10 lg:pl-12 pr-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-grey-light bg-grey-light text-grey-mid" />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-semibold mb-2 text-gray-900">Telefoonnummer</label>
+              <label className="block text-sm font-semibold mb-2 text-navy">Telefoonnummer</label>
               <div className="relative">
-                <Phone className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input type="tel" value={profileData.phone} onChange={(e) => onUpdateProfile({ phone: e.target.value })} className="w-full pl-10 lg:pl-12 pr-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300" />
+                <Phone className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-grey-mid" />
+                <input type="tel" value={profileData.phone} onChange={(e) => onUpdateProfile({ phone: e.target.value })} className="w-full pl-10 lg:pl-12 pr-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-grey-light focus:border-grey-light" />
               </div>
             </div>
           </div>
@@ -95,24 +95,24 @@ export default function SettingsTemplate({
             <Building2 className="w-5 h-5 lg:w-6 lg:h-6 text-[var(--color-primary)]" />
           </div>
           <div>
-            <h2 className="text-base lg:text-lg font-extrabold text-gray-900">Bedrijfsgegevens</h2>
-            <p className="text-xs lg:text-sm text-gray-500">Voor B2B-orders en facturatie</p>
+            <h2 className="text-base lg:text-lg font-extrabold text-navy">Bedrijfsgegevens</h2>
+            <p className="text-xs lg:text-sm text-grey-mid">Voor B2B-orders en facturatie</p>
           </div>
         </div>
 
         <div className="space-y-3 lg:space-y-4 mb-4 lg:mb-5">
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-900">Bedrijfsnaam</label>
-            <input type="text" value={profileData.companyName} onChange={(e) => onUpdateProfile({ companyName: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300" />
+            <label className="block text-sm font-semibold mb-2 text-navy">Bedrijfsnaam</label>
+            <input type="text" value={profileData.companyName} onChange={(e) => onUpdateProfile({ companyName: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-grey-light focus:border-grey-light" />
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
             <div>
-              <label className="block text-sm font-semibold mb-2 text-gray-900">KVK-nummer</label>
-              <input type="text" value={profileData.kvk} onChange={(e) => onUpdateProfile({ kvk: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300" />
+              <label className="block text-sm font-semibold mb-2 text-navy">KVK-nummer</label>
+              <input type="text" value={profileData.kvk} onChange={(e) => onUpdateProfile({ kvk: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-grey-light focus:border-grey-light" />
             </div>
             <div>
-              <label className="block text-sm font-semibold mb-2 text-gray-900">BTW-nummer</label>
-              <input type="text" value={profileData.vat} onChange={(e) => onUpdateProfile({ vat: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300" />
+              <label className="block text-sm font-semibold mb-2 text-navy">BTW-nummer</label>
+              <input type="text" value={profileData.vat} onChange={(e) => onUpdateProfile({ vat: e.target.value })} className="w-full px-4 py-2.5 lg:py-3 rounded-lg lg:rounded-xl text-sm outline-none border border-grey-light focus:border-grey-light" />
             </div>
           </div>
         </div>
@@ -130,8 +130,8 @@ export default function SettingsTemplate({
             <Lock className="w-5 h-5 lg:w-6 lg:h-6 text-[var(--color-primary)]" />
           </div>
           <div>
-            <h2 className="text-base lg:text-lg font-extrabold text-gray-900">Wachtwoord wijzigen</h2>
-            <p className="text-xs lg:text-sm text-gray-500">Minimaal 8 tekens, mix van letters en cijfers aanbevolen</p>
+            <h2 className="text-base lg:text-lg font-extrabold text-navy">Wachtwoord wijzigen</h2>
+            <p className="text-xs lg:text-sm text-grey-mid">Minimaal 8 tekens, mix van letters en cijfers aanbevolen</p>
           </div>
         </div>
 
@@ -141,17 +141,17 @@ export default function SettingsTemplate({
             const showKey = field === 'currentPassword' ? 'current' : field === 'newPassword' ? 'new' : 'confirm'
             return (
               <div key={field}>
-                <label className="block text-sm font-semibold mb-2 text-gray-900">{labels[field]}</label>
+                <label className="block text-sm font-semibold mb-2 text-navy">{labels[field]}</label>
                 <div className="relative">
                   <input
                     type={showPassword[showKey] ? 'text' : 'password'}
                     value={passwordData[field]}
                     onChange={(e) => onUpdatePassword({ [field]: e.target.value })}
-                    className="w-full px-4 py-2.5 lg:py-3 pr-11 lg:pr-12 rounded-lg lg:rounded-xl text-sm outline-none border border-gray-200 focus:border-gray-300"
+                    className="w-full px-4 py-2.5 lg:py-3 pr-11 lg:pr-12 rounded-lg lg:rounded-xl text-sm outline-none border border-grey-light focus:border-grey-light"
                   />
                   <button
                     onClick={() => setShowPassword({ ...showPassword, [showKey]: !showPassword[showKey] })}
-                    className="absolute right-3 lg:right-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    className="absolute right-3 lg:right-4 top-1/2 transform -translate-y-1/2 text-grey-mid"
                   >
                     {showPassword[showKey] ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -178,8 +178,8 @@ export default function SettingsTemplate({
             <Bell className="w-5 h-5 lg:w-6 lg:h-6 text-[var(--color-primary)]" />
           </div>
           <div>
-            <h2 className="text-base lg:text-lg font-extrabold text-gray-900">Notificaties</h2>
-            <p className="text-xs lg:text-sm text-gray-500">Beheer je e-mail voorkeuren</p>
+            <h2 className="text-base lg:text-lg font-extrabold text-navy">Notificaties</h2>
+            <p className="text-xs lg:text-sm text-grey-mid">Beheer je e-mail voorkeuren</p>
           </div>
         </div>
 
@@ -191,10 +191,10 @@ export default function SettingsTemplate({
             { key: 'productUpdates', label: 'Product updates', description: 'Nieuwe producten en categorieën' },
             { key: 'priceAlerts', label: 'Prijsmeldingen', description: 'Waarschuw me bij prijswijzigingen' },
           ].map((item) => (
-            <div key={item.key} className="flex items-start justify-between p-3 lg:p-4 rounded-lg lg:rounded-xl bg-gray-50">
+            <div key={item.key} className="flex items-start justify-between p-3 lg:p-4 rounded-lg lg:rounded-xl bg-grey-light">
               <div className="flex-1 min-w-0 pr-3">
-                <div className="text-xs lg:text-sm font-semibold mb-0.5 lg:mb-1 text-gray-900">{item.label}</div>
-                <div className="text-xs text-gray-500">{item.description}</div>
+                <div className="text-xs lg:text-sm font-semibold mb-0.5 lg:mb-1 text-navy">{item.label}</div>
+                <div className="text-xs text-grey-mid">{item.description}</div>
               </div>
               <div
                 className="w-11 lg:w-12 h-6 rounded-full relative cursor-pointer transition-all flex-shrink-0"
@@ -216,12 +216,12 @@ export default function SettingsTemplate({
           </div>
           <div>
             <h2 className="text-base lg:text-lg font-extrabold text-coral">Account verwijderen</h2>
-            <p className="text-xs lg:text-sm text-gray-500">Deze actie kan niet ongedaan worden gemaakt</p>
+            <p className="text-xs lg:text-sm text-grey-mid">Deze actie kan niet ongedaan worden gemaakt</p>
           </div>
         </div>
 
         <div className="p-3 lg:p-4 rounded-lg lg:rounded-xl mb-3 lg:mb-4 bg-coral-50 border border-coral/20">
-          <p className="text-xs lg:text-sm text-gray-900 leading-relaxed">
+          <p className="text-xs lg:text-sm text-navy leading-relaxed">
             Door je account te verwijderen worden al je gegevens permanent verwijderd.
           </p>
         </div>

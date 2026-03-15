@@ -32,7 +32,7 @@ export const MixMatchProductGrid: React.FC<MixMatchProductGridProps> = ({
 
   if (!hasChildren && showEmptyState) {
     return (
-      <div className={`products-grid-empty text-center py-16 px-6 text-gray-500 ${className}`}>
+      <div className={`products-grid-empty text-center py-16 px-6 text-grey-mid ${className}`}>
         <div className="products-grid-empty-icon mb-3 opacity-50 flex justify-center">
           {emptyStateIcon}
         </div>

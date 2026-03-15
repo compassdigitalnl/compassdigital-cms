@@ -27,10 +27,10 @@ export default function OrdersTemplate({
       {/* Page Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 lg:gap-4">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">
+          <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-navy">
             Bestellingen
           </h1>
-          <p className="text-sm lg:text-base text-gray-500">
+          <p className="text-sm lg:text-base text-grey-mid">
             {totalDocs} bestellingen gevonden
           </p>
         </div>
@@ -54,7 +54,7 @@ export default function OrdersTemplate({
       ) : (
         <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm overflow-hidden">
           <OrdersTable orders={orders} />
-          <div className="lg:hidden divide-y divide-gray-100">
+          <div className="lg:hidden divide-y divide-grey-light">
             {orders.map((order) => (
               <OrderCardMobile key={order.id} order={order} />
             ))}

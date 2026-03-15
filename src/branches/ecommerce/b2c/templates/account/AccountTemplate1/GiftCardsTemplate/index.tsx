@@ -25,10 +25,10 @@ export default function GiftCardsTemplate({
       {/* Page header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 lg:gap-4">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">
+          <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-navy">
             Cadeaubonnen
           </h1>
-          <p className="text-sm lg:text-base text-gray-500">
+          <p className="text-sm lg:text-base text-grey-mid">
             Bekijk je saldo, wissel bonnen in en bekijk transacties
           </p>
         </div>
@@ -75,8 +75,8 @@ export default function GiftCardsTemplate({
           🎁
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-sm font-bold text-gray-900">Verras iemand met een cadeaubon</div>
-          <div className="text-xs text-gray-500 mt-0.5">
+          <div className="text-sm font-bold text-navy">Verras iemand met een cadeaubon</div>
+          <div className="text-xs text-grey-mid mt-0.5">
             Kies een thema, bedrag en verzend direct per e-mail of per post.
           </div>
         </div>

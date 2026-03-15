@@ -93,7 +93,7 @@ export function KnowledgeBaseFilters({
     <div className="space-y-8">
       {/* Content Type Filters */}
       <div>
-        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wide">
+        <h3 className="text-sm font-semibold text-grey-dark dark:text-grey-mid mb-3 uppercase tracking-wide">
           Type Content
         </h3>
         <div className="flex flex-wrap gap-2">
@@ -130,7 +130,7 @@ export function KnowledgeBaseFilters({
 
       {/* Access Level Filters */}
       <div>
-        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wide">
+        <h3 className="text-sm font-semibold text-grey-dark dark:text-grey-mid mb-3 uppercase tracking-wide">
           Toegang
         </h3>
         <div className="flex flex-wrap gap-2">
@@ -172,7 +172,7 @@ export function KnowledgeBaseFilters({
       {/* Category Filters */}
       {categories.length > 0 && (
         <div>
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wide">
+          <h3 className="text-sm font-semibold text-grey-dark dark:text-grey-mid mb-3 uppercase tracking-wide">
             Categorieën
           </h3>
           <div className="flex flex-wrap gap-2">

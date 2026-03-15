@@ -15,10 +15,10 @@ export default function DashboardTemplate({
     <div className="space-y-4 lg:space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">
+        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-navy">
           Dashboard
         </h1>
-        <p className="text-sm lg:text-base text-gray-500">
+        <p className="text-sm lg:text-base text-grey-mid">
           Welkom terug! Hier is een overzicht van je account.
         </p>
       </div>

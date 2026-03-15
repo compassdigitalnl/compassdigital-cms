@@ -72,7 +72,7 @@ export default async function HospitalityHomePage() {
                 Weer <span className="text-theme-primary-light">pijnvrij</span> bewegen begint hier
               </h1>
 
-              <p className="mb-6 max-w-md text-sm leading-relaxed text-gray-400">
+              <p className="mb-6 max-w-md text-sm leading-relaxed text-grey-mid">
                 Persoonlijke fysiotherapie en revalidatie door BIG-geregistreerde therapeuten.
                 Directe toegang — geen verwijzing nodig. Vergoed door alle zorgverzekeraars.
               </p>
@@ -108,7 +108,7 @@ export default async function HospitalityHomePage() {
                 </Link>
               </div>
 
-              <div className="flex flex-wrap gap-4 text-xs text-gray-500">
+              <div className="flex flex-wrap gap-4 text-xs text-grey-mid">
                 <div className="flex items-center gap-1.5">
                   <svg
                     className="h-3.5 w-3.5 text-theme-primary"
@@ -188,7 +188,7 @@ export default async function HospitalityHomePage() {
                   <div className="flex items-center gap-2">
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-100">
                       <svg
-                        className="h-4 w-4 text-green-600"
+                        className="h-4 w-4 text-green"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -202,8 +202,8 @@ export default async function HospitalityHomePage() {
                       </svg>
                     </div>
                     <div>
-                      <div className="text-sm font-extrabold text-gray-900">9.4 / 10</div>
-                      <div className="text-[10px] text-gray-500">Patiënttevredenheid</div>
+                      <div className="text-sm font-extrabold text-navy">9.4 / 10</div>
+                      <div className="text-[10px] text-grey-mid">Patiënttevredenheid</div>
                     </div>
                   </div>
                 </div>
@@ -226,8 +226,8 @@ export default async function HospitalityHomePage() {
                       </svg>
                     </div>
                     <div>
-                      <div className="text-sm font-extrabold text-gray-900">4.200+ patiënten</div>
-                      <div className="text-[10px] text-gray-500">Succesvol behandeld</div>
+                      <div className="text-sm font-extrabold text-navy">4.200+ patiënten</div>
+                      <div className="text-[10px] text-grey-mid">Succesvol behandeld</div>
                     </div>
                   </div>
                 </div>
@@ -239,14 +239,14 @@ export default async function HospitalityHomePage() {
 
       {/* Urgency Bar */}
       <section className="container mx-auto -mt-10 mb-12 max-w-6xl px-6">
-        <div className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-lg md:flex-row md:items-center md:p-6">
+        <div className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-grey-light bg-white p-5 shadow-lg md:flex-row md:items-center md:p-6">
           <div className="flex items-center gap-3">
-            <div className="h-2.5 w-2.5 animate-pulse rounded-full bg-green-500" />
+            <div className="h-2.5 w-2.5 animate-pulse rounded-full bg-green" />
             <div>
-              <div className="text-sm font-bold text-gray-900">
+              <div className="text-sm font-bold text-navy">
                 Vandaag nog terecht voor een intake
               </div>
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-grey-mid">
                 Geen verwijzing nodig · Directe toegang fysiotherapie
               </div>
             </div>
@@ -283,10 +283,10 @@ export default async function HospitalityHomePage() {
               </svg>
               Behandelingen
             </div>
-            <h2 className="mb-2 font-display text-3xl font-extrabold text-gray-900">
+            <h2 className="mb-2 font-display text-3xl font-extrabold text-navy">
               Gespecialiseerde zorg voor elk klacht
             </h2>
-            <p className="mx-auto max-w-xl text-sm text-gray-600">
+            <p className="mx-auto max-w-xl text-sm text-grey-dark">
               Wij bieden een breed scala aan behandelingen, altijd op basis van de laatste
               wetenschappelijke inzichten.
             </p>
@@ -297,18 +297,18 @@ export default async function HospitalityHomePage() {
               <Link
                 key={treatment.id}
                 href={`/behandelingen/${treatment.slug}`}
-                className="group rounded-2xl border border-gray-200 bg-white p-6 transition-all hover:-translate-y-1 hover:border-theme-primary hover:shadow-lg"
+                className="group rounded-2xl border border-grey-light bg-white p-6 transition-all hover:-translate-y-1 hover:border-theme-primary hover:shadow-lg"
               >
                 <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-theme-primary/10 text-2xl">
                   {treatment.icon || '🏥'}
                 </div>
-                <h3 className="mb-1 font-display text-base font-extrabold text-gray-900">
+                <h3 className="mb-1 font-display text-base font-extrabold text-navy">
                   {treatment.title}
                 </h3>
-                <p className="mb-3 line-clamp-2 text-xs leading-relaxed text-gray-600">
+                <p className="mb-3 line-clamp-2 text-xs leading-relaxed text-grey-dark">
                   {treatment.excerpt}
                 </p>
-                <div className="mb-3 flex flex-wrap gap-2 text-[11px] text-gray-500">
+                <div className="mb-3 flex flex-wrap gap-2 text-[11px] text-grey-mid">
                   {treatment.duration && (
                     <span className="flex items-center gap-1">
                       <svg
@@ -379,7 +379,7 @@ export default async function HospitalityHomePage() {
                 </svg>
                 Ons team
               </div>
-              <h2 className="font-display text-3xl font-extrabold text-gray-900">
+              <h2 className="font-display text-3xl font-extrabold text-navy">
                 Uw behandelteam
               </h2>
             </div>
@@ -388,9 +388,9 @@ export default async function HospitalityHomePage() {
               {practitioners.map((practitioner: any) => (
                 <div
                   key={practitioner.id}
-                  className="overflow-hidden rounded-2xl border border-gray-200 bg-white text-center transition-all hover:border-theme-primary"
+                  className="overflow-hidden rounded-2xl border border-grey-light bg-white text-center transition-all hover:border-theme-primary"
                 >
-                  <div className="relative flex h-44 items-center justify-center bg-gray-100 text-6xl">
+                  <div className="relative flex h-44 items-center justify-center bg-grey-light text-6xl">
                     {practitioner.emoji || '👨‍⚕️'}
                     {practitioner.role === 'owner' && (
                       <div className="absolute right-2 top-2 rounded bg-theme-primary px-2 py-0.5 text-[9px] font-bold text-white">
@@ -399,14 +399,14 @@ export default async function HospitalityHomePage() {
                     )}
                   </div>
                   <div className="p-3.5">
-                    <h3 className="font-display text-sm font-extrabold text-gray-900">
+                    <h3 className="font-display text-sm font-extrabold text-navy">
                       {practitioner.name}
                     </h3>
                     <p className="mb-0.5 text-xs font-semibold text-theme-primary">
                       {practitioner.title}
                     </p>
                     {practitioner.specializations && practitioner.specializations.length > 0 && (
-                      <p className="text-[11px] text-gray-500">
+                      <p className="text-[11px] text-grey-mid">
                         {practitioner.specializations[0].specialization}
                       </p>
                     )}
@@ -426,7 +426,7 @@ export default async function HospitalityHomePage() {
               <h2 className="mb-1 font-display text-2xl font-extrabold">
                 Last van pijn of bewegingsbeperking?
               </h2>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-grey-mid">
                 Maak vandaag nog een afspraak. Geen verwijzing nodig, binnen 48 uur terecht.
               </p>
             </div>

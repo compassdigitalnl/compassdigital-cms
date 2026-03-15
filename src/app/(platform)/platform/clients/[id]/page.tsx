@@ -123,7 +123,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
     return (
       <div className="p-8">
         <div className="flex items-center justify-center h-64">
-          <RefreshCw className="h-8 w-8 animate-spin text-gray-400" />
+          <RefreshCw className="h-8 w-8 animate-spin text-grey-mid" />
         </div>
       </div>
     )
@@ -133,7 +133,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
     return (
       <div className="p-8">
         <div className="text-center py-12">
-          <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+          <AlertCircle className="h-12 w-12 text-grey-mid mx-auto mb-4" />
           <p className="text-lg font-medium">Client not found</p>
           <Button asChild className="mt-4">
             <Link href="/platform/clients/">
@@ -149,10 +149,10 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
   function getStatusBadge(status: string) {
     const config: Record<string, { bg: string; text: string; label: string }> = {
       active: { bg: 'bg-green-100', text: 'text-green-800', label: 'Active' },
-      pending: { bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'Pending' },
-      deploying: { bg: 'bg-blue-100', text: 'text-blue-800', label: 'Deploying' },
-      suspended: { bg: 'bg-red-100', text: 'text-red-800', label: 'Suspended' },
-      archived: { bg: 'bg-gray-100', text: 'text-gray-800', label: 'Archived' },
+      pending: { bg: 'bg-amber-50', text: 'text-amber-900', label: 'Pending' },
+      deploying: { bg: 'bg-teal-100', text: 'text-teal-800', label: 'Deploying' },
+      suspended: { bg: 'bg-coral-100', text: 'text-coral-800', label: 'Suspended' },
+      archived: { bg: 'bg-grey-light', text: 'text-navy', label: 'Archived' },
     }
     const style = config[status] || config.pending
     return (
@@ -227,7 +227,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <Badge variant="outline" className="bg-blue-50 text-blue-700">
+            <Badge variant="outline" className="bg-teal-50 text-teal-700">
               {client.template}
             </Badge>
           </CardContent>
@@ -253,7 +253,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-green-600">
+            <p className="text-2xl font-bold text-green">
               €{client.monthlyFee || 0}
             </p>
           </CardContent>
@@ -281,7 +281,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
                     href={client.deploymentUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-blue-600 hover:underline flex items-center gap-1"
+                    className="text-sm text-teal hover:underline flex items-center gap-1"
                   >
                     {client.deploymentUrl}
                     <ExternalLink className="h-3 w-3" />
@@ -302,7 +302,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
                     href={client.adminUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-blue-600 hover:underline flex items-center gap-1"
+                    className="text-sm text-teal hover:underline flex items-center gap-1"
                   >
                     {client.adminUrl}
                     <ExternalLink className="h-3 w-3" />
@@ -356,7 +356,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
                     className={
                       client.billingStatus === 'active'
                         ? 'bg-green-100 text-green-800'
-                        : 'bg-yellow-100 text-yellow-800'
+                        : 'bg-amber-50 text-amber-900'
                     }
                   >
                     {client.billingStatus || 'active'}
@@ -405,13 +405,13 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
               <div className="mt-1 flex items-center gap-2">
                 {client.healthStatus === 'healthy' ? (
                   <>
-                    <CheckCircle2 className="h-4 w-4 text-green-600" />
-                    <span className="text-sm font-medium text-green-600">Healthy</span>
+                    <CheckCircle2 className="h-4 w-4 text-green" />
+                    <span className="text-sm font-medium text-green">Healthy</span>
                   </>
                 ) : (
                   <>
-                    <AlertCircle className="h-4 w-4 text-yellow-600" />
-                    <span className="text-sm font-medium text-yellow-600">
+                    <AlertCircle className="h-4 w-4 text-amber-600" />
+                    <span className="text-sm font-medium text-amber-600">
                       {client.healthStatus || 'Unknown'}
                     </span>
                   </>
@@ -466,7 +466,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
                 </label>
                 <a
                   href={`mailto:${client.contactEmail}`}
-                  className="text-sm text-blue-600 hover:underline block mt-1"
+                  className="text-sm text-teal hover:underline block mt-1"
                 >
                   {client.contactEmail}
                 </a>
@@ -504,7 +504,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
           <CardContent>
             <div className="flex flex-wrap gap-2">
               {client.enabledFeatures.map((item, index) => (
-                <Badge key={index} variant="outline" className="bg-purple-50 text-purple-700">
+                <Badge key={index} variant="outline" className="bg-teal-50 text-teal-700">
                   {item.feature}
                 </Badge>
               ))}

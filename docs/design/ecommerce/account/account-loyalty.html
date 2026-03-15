@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loyalty — Mijn account</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--gold:#D4A843;--gold-light:#FFF8E1;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1240px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);text-decoration:none;}.logo em{color:var(--teal);font-style:normal;}.search-wrap{width:100%;max-width:600px;justify-self:center;position:relative;}.search-field{width:100%;height:44px;padding:0 16px 0 48px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--navy);background:var(--grey-light);outline:none;}.search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);}.search-icon i{width:18px;height:18px;color:var(--grey-mid);}.header-actions{display:flex;align-items:center;gap:6px;}.h-btn{height:42px;border-radius:10px;border:1.5px solid transparent;background:var(--grey-light);color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;}.h-btn i{width:19px;height:19px;}.h-btn:hover{background:var(--teal-glow);color:var(--teal);}.h-btn-icon{width:42px;}.h-btn-cart{width:auto;padding:0 16px 0 12px;gap:8px;font-weight:700;font-size:13.5px;background:var(--navy);color:white;border-color:var(--navy);}.h-btn-cart i{color:white;}.h-btn-cart:hover{background:var(--teal);border-color:var(--teal);}.cart-count{background:var(--coral);color:white;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:100px;display:flex;align-items:center;justify-content:center;padding:0 5px;}
+  .breadcrumb-bar{padding:16px 0;}.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;list-style:none;}.breadcrumb a{color:var(--grey-mid);text-decoration:none;}.breadcrumb .sep i{width:14px;height:14px;color:var(--grey);}.breadcrumb .current{color:var(--navy);font-weight:600;}
+  .account-layout{display:grid;grid-template-columns:240px 1fr;gap:28px;padding-bottom:64px;align-items:start;}
+  .account-nav{background:white;border:1px solid var(--grey);border-radius:16px;overflow:hidden;position:sticky;top:100px;}.an-header{padding:20px;border-bottom:1px solid var(--grey);display:flex;align-items:center;gap:12px;}.an-avatar{width:40px;height:40px;background:linear-gradient(135deg,var(--teal),var(--teal-light));border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:15px;}.an-name{font-size:14px;font-weight:700;}.an-email{font-size:12px;color:var(--grey-mid);}.an-links{padding:8px;}.an-link{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;font-size:14px;font-weight:600;color:var(--navy);text-decoration:none;transition:all .12s;}.an-link:hover{background:var(--grey-light);color:var(--teal);}.an-link.active{background:var(--teal-glow);color:var(--teal);}.an-link i{width:17px;height:17px;}.an-divider{height:1px;background:var(--grey);margin:4px 14px;}
+  .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}.page-header h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;}.ph-sub{font-size:14px;color:var(--grey-mid);}
+
+  /* Hero points card */
+  .pts-hero{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:18px;padding:28px;margin-bottom:16px;position:relative;overflow:hidden;}
+  .pts-hero::before{content:'⭐';position:absolute;right:40px;top:10px;font-size:80px;opacity:0.06;}
+  .pts-top{display:flex;align-items:center;gap:20px;margin-bottom:18px;position:relative;}
+  .pts-avatar{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--gold),#E8C968);display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid rgba(255,255,255,0.2);}
+  .pts-info{}.pts-tier{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;background:rgba(212,168,67,0.15);border:1px solid rgba(212,168,67,0.25);border-radius:100px;font-size:11px;font-weight:700;color:var(--gold);margin-bottom:4px;}.pts-tier i{width:12px;height:12px;}.pts-name{font-size:20px;font-weight:800;color:white;font-family:'Plus Jakarta Sans',sans-serif;}
+  .pts-balance{display:flex;gap:24px;position:relative;}
+  .pts-bal{}.pts-bal-label{font-size:11px;color:rgba(255,255,255,0.35);font-weight:600;margin-bottom:2px;}.pts-bal-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:800;color:white;}.pts-bal-sub{font-size:12px;color:rgba(255,255,255,0.3);}
+
+  /* Tier progress */
+  .tier-bar{margin-top:16px;position:relative;}
+  .tier-track{height:8px;background:rgba(255,255,255,0.08);border-radius:100px;overflow:hidden;}.tier-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:100px;}
+  .tier-labels{display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:rgba(255,255,255,0.3);font-weight:600;}
+  .tier-labels .current-tier{color:var(--gold);}
+  .tier-labels .next-tier{color:rgba(255,255,255,0.5);}
+  .tier-note{font-size:11px;color:rgba(255,255,255,0.4);margin-top:8px;text-align:center;}
+
+  /* Stats row */
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+  .st{background:white;border:1px solid var(--grey);border-radius:14px;padding:14px;text-align:center;}.st-icon{font-size:20px;margin-bottom:4px;}.st-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;}.st-label{font-size:11px;color:var(--grey-mid);}
+
+  /* Earn ways */
+  .sec-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;}.sec-title i{width:17px;height:17px;color:var(--teal);}
+  .earn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+  .earn{background:white;border:1px solid var(--grey);border-radius:14px;padding:16px;text-align:center;transition:all .15s;}.earn:hover{border-color:var(--teal);transform:translateY(-1px);}
+  .earn-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:22px;}
+  .earn-name{font-size:13px;font-weight:700;margin-bottom:2px;}.earn-desc{font-size:11px;color:var(--grey-mid);}
+  .earn-pts{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;background:var(--teal-glow);border-radius:100px;font-size:11px;font-weight:700;color:var(--teal);margin-top:6px;}.earn-pts i{width:11px;height:11px;}
+
+  /* Rewards catalog */
+  .rewards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+  .reward{background:white;border:1.5px solid var(--grey);border-radius:14px;overflow:hidden;transition:all .15s;}.reward:hover{border-color:var(--teal);transform:translateY(-1px);}
+  .rw-visual{height:80px;display:flex;align-items:center;justify-content:center;font-size:36px;position:relative;}
+  .rw-tag{position:absolute;top:8px;right:8px;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:700;}
+  .rw-body{padding:12px;}.rw-name{font-size:13px;font-weight:700;}.rw-desc{font-size:11px;color:var(--grey-mid);margin-top:2px;}
+  .rw-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid var(--grey);}
+  .rw-cost{display:flex;align-items:center;gap:3px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--teal);}.rw-cost i{width:14px;height:14px;}
+  .rw-btn{height:30px;padding:0 12px;background:var(--teal);color:white;border:none;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:3px;}.rw-btn:hover{background:var(--navy);}.rw-btn i{width:11px;height:11px;}
+  .rw-btn.locked{background:var(--grey);cursor:not-allowed;}
+
+  /* Activity feed */
+  .act-card{background:white;border:1px solid var(--grey);border-radius:16px;overflow:hidden;margin-bottom:16px;}
+  .act-header{padding:14px 20px;border-bottom:1px solid var(--grey);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;display:flex;align-items:center;gap:6px;}.act-header i{width:15px;height:15px;color:var(--teal);}
+  .act-row{display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:center;padding:10px 20px;border-bottom:1px solid var(--grey);font-size:13px;}.act-row:last-child{border-bottom:none;}
+  .act-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;}.act-icon i{width:14px;height:14px;}
+  .act-info{}.act-desc{font-weight:600;}.act-meta{font-size:11px;color:var(--grey-mid);}
+  .act-pts{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;}.act-pts.plus{color:var(--green);}.act-pts.minus{color:var(--coral);}
+
+  /* Referral */
+  .ref-card{background:linear-gradient(135deg,var(--teal-glow),rgba(0,137,123,0.04));border:1.5px solid rgba(0,137,123,0.2);border-radius:16px;padding:22px;}
+  .ref-top{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+  .ref-icon{width:48px;height:48px;border-radius:14px;background:var(--teal);display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0;font-size:22px;}
+  .ref-info{flex:1;}.ref-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;}.ref-desc{font-size:13px;color:var(--grey-dark);}
+  .ref-link-row{display:flex;gap:6px;}.ref-link{flex:1;height:40px;padding:0 12px;border:1.5px solid var(--grey);border-radius:var(--radius-sm);background:white;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--navy);display:flex;align-items:center;}.ref-copy{height:40px;padding:0 16px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:4px;flex-shrink:0;}.ref-copy:hover{background:var(--navy);}.ref-copy i{width:14px;height:14px;}
+  .ref-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;}.ref-stat{text-align:center;padding:10px;background:white;border-radius:10px;}.ref-stat-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;}.ref-stat-label{font-size:11px;color:var(--grey-mid);}
+
+  @media(max-width:900px){.account-layout{grid-template-columns:1fr;}.account-nav{position:static;}.stats-grid,.earn-grid,.rewards-grid{grid-template-columns:1fr 1fr;}.pts-top,.pts-balance{flex-direction:column;}.ref-stats{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo">digi<em>store</em></a><div class="search-wrap"><input class="search-field" type="text" placeholder="Zoek producten…"><div class="search-icon"><i data-lucide="search"></i></div></div><div class="header-actions"><button class="h-btn h-btn-icon"><i data-lucide="bell"></i></button><button class="h-btn h-btn-icon"><i data-lucide="user"></i></button><button class="h-btn h-btn-cart"><i data-lucide="shopping-cart"></i><span class="cart-count">2</span></button></div></div></header>
+<div class="breadcrumb-bar"><div class="container"><ol class="breadcrumb"><li><a href="#">Home</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li><a href="#">Mijn account</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li class="current">Loyalty</li></ol></div></div>
+<div class="container"><div class="account-layout">
+  <nav class="account-nav"><div class="an-header"><div class="an-avatar">MK</div><div><div class="an-name">Mark Kokkelkoren</div><div class="an-email">mark@example.nl</div></div></div><div class="an-links"><a href="#" class="an-link"><i data-lucide="layout-dashboard"></i> Dashboard</a><a href="#" class="an-link"><i data-lucide="package"></i> Bestellingen</a><a href="#" class="an-link"><i data-lucide="credit-card"></i> Abonnement</a><a href="#" class="an-link"><i data-lucide="key-round"></i> Licenties</a><a href="#" class="an-link"><i data-lucide="gift"></i> Cadeaubonnen</a><a href="#" class="an-link active"><i data-lucide="award"></i> Loyalty</a><div class="an-divider"></div><a href="#" class="an-link"><i data-lucide="file-text"></i> Facturen</a><a href="#" class="an-link"><i data-lucide="heart"></i> Favorieten</a><a href="#" class="an-link"><i data-lucide="map-pin"></i> Adressen</a><a href="#" class="an-link"><i data-lucide="settings"></i> Instellingen</a><a href="#" class="an-link" style="color:var(--coral);"><i data-lucide="log-out"></i> Uitloggen</a></div></nav>
+
+  <div>
+    <div class="page-header"><div><h1>Loyalty Programma</h1><div class="ph-sub">Verdien punten, bereik hogere tiers en wissel beloningen in</div></div></div>
+
+    <!-- Points hero -->
+    <div class="pts-hero">
+      <div class="pts-top">
+        <div class="pts-avatar">👑</div>
+        <div class="pts-info"><div class="pts-tier"><i data-lucide="crown"></i> Gold Member</div><div class="pts-name">Mark Kokkelkoren</div></div>
+      </div>
+      <div class="pts-balance">
+        <div class="pts-bal"><div class="pts-bal-label">BESCHIKBARE PUNTEN</div><div class="pts-bal-val">2.340</div><div class="pts-bal-sub">≈ €23,40 aan beloningen</div></div>
+        <div class="pts-bal"><div class="pts-bal-label">TOTAAL VERDIEND</div><div class="pts-bal-val">8.750</div><div class="pts-bal-sub">Sinds augustus 2024</div></div>
+        <div class="pts-bal"><div class="pts-bal-label">DEZE MAAND</div><div class="pts-bal-val">+420</div><div class="pts-bal-sub">Uit 3 bestellingen</div></div>
+      </div>
+      <div class="tier-bar">
+        <div class="tier-track"><div class="tier-fill" style="width:68%;"></div></div>
+        <div class="tier-labels"><span class="current-tier">● Gold — 8.750 pts</span><span class="next-tier">Platinum — 15.000 pts →</span></div>
+        <div class="tier-note">Nog 6.250 punten tot Platinum tier — ontgrendel 3× punten en gratis verzending</div>
+      </div>
+    </div>
+
+    <!-- Quick stats -->
+    <div class="stats-grid">
+      <div class="st"><div class="st-icon">🛒</div><div class="st-val">47</div><div class="st-label">Bestellingen</div></div>
+      <div class="st"><div class="st-icon">💰</div><div class="st-val">€6.410</div><div class="st-label">Totaal besteed</div></div>
+      <div class="st"><div class="st-icon">🏆</div><div class="st-val">12</div><div class="st-label">Beloningen ingewisseld</div></div>
+      <div class="st"><div class="st-icon">👥</div><div class="st-val">3</div><div class="st-label">Vrienden doorverwezen</div></div>
+    </div>
+
+    <!-- How to earn -->
+    <div class="sec-title"><i data-lucide="zap"></i> Punten verdienen</div>
+    <div class="earn-grid">
+      <div class="earn"><div class="earn-icon" style="background:var(--teal-glow);">🛒</div><div class="earn-name">Bestellingen</div><div class="earn-desc">Verdien bij elke aankoop</div><div class="earn-pts"><i data-lucide="star"></i> 1pt per €1</div></div>
+      <div class="earn"><div class="earn-icon" style="background:var(--purple-light);">⭐</div><div class="earn-name">Review schrijven</div><div class="earn-desc">Deel je ervaring</div><div class="earn-pts"><i data-lucide="star"></i> 50 pts</div></div>
+      <div class="earn"><div class="earn-icon" style="background:var(--blue-light);">👥</div><div class="earn-name">Vriend doorverwijzen</div><div class="earn-desc">Voor jou én je vriend</div><div class="earn-pts"><i data-lucide="star"></i> 250 pts</div></div>
+      <div class="earn"><div class="earn-icon" style="background:var(--green-light);">🎂</div><div class="earn-name">Verjaardagsbonus</div><div class="earn-desc">Jaarlijkse bonus</div><div class="earn-pts"><i data-lucide="star"></i> 500 pts</div></div>
+      <div class="earn"><div class="earn-icon" style="background:var(--amber-light);">📱</div><div class="earn-name">App downloaden</div><div class="earn-desc">Eenmalige beloning</div><div class="earn-pts"><i data-lucide="star"></i> 100 pts</div></div>
+      <div class="earn"><div class="earn-icon" style="background:var(--coral-light);">🔔</div><div class="earn-name">Nieuwsbrief</div><div class="earn-desc">Blijf op de hoogte</div><div class="earn-pts"><i data-lucide="star"></i> 25 pts</div></div>
+    </div>
+
+    <!-- Rewards catalog -->
+    <div class="sec-title"><i data-lucide="gift"></i> Beloningen inwisselen</div>
+    <div class="rewards-grid">
+      <div class="reward"><div class="rw-visual" style="background:var(--teal-glow);">🏷️<div class="rw-tag" style="background:var(--green-light);color:var(--green);">Beschikbaar</div></div><div class="rw-body"><div class="rw-name">€5 korting</div><div class="rw-desc">Op je volgende bestelling</div><div class="rw-bottom"><div class="rw-cost"><i data-lucide="star"></i> 500</div><button class="rw-btn"><i data-lucide="arrow-right"></i> Inwisselen</button></div></div></div>
+      <div class="reward"><div class="rw-visual" style="background:var(--blue-light);">🚚<div class="rw-tag" style="background:var(--green-light);color:var(--green);">Beschikbaar</div></div><div class="rw-body"><div class="rw-name">Gratis verzending</div><div class="rw-desc">Op je volgende bestelling</div><div class="rw-bottom"><div class="rw-cost"><i data-lucide="star"></i> 300</div><button class="rw-btn"><i data-lucide="arrow-right"></i> Inwisselen</button></div></div></div>
+      <div class="reward"><div class="rw-visual" style="background:var(--purple-light);">🎁<div class="rw-tag" style="background:var(--green-light);color:var(--green);">Beschikbaar</div></div><div class="rw-body"><div class="rw-name">Verraspakket</div><div class="rw-desc">Exclusieve producten</div><div class="rw-bottom"><div class="rw-cost"><i data-lucide="star"></i> 2.000</div><button class="rw-btn"><i data-lucide="arrow-right"></i> Inwisselen</button></div></div></div>
+      <div class="reward"><div class="rw-visual" style="background:var(--amber-light);">⬆️<div class="rw-tag" style="background:var(--amber-light);color:var(--amber);">Nog 660 pts</div></div><div class="rw-body"><div class="rw-name">Upgrade naar Pro</div><div class="rw-desc">1 maand Professional gratis</div><div class="rw-bottom"><div class="rw-cost"><i data-lucide="star"></i> 3.000</div><button class="rw-btn locked"><i data-lucide="lock"></i> 660 tekort</button></div></div></div>
+      <div class="reward"><div class="rw-visual" style="background:var(--gold-light);">👕<div class="rw-tag" style="background:var(--amber-light);color:var(--amber);">Nog 2.660 pts</div></div><div class="rw-body"><div class="rw-name">Exclusieve merch</div><div class="rw-desc">Limited edition t-shirt</div><div class="rw-bottom"><div class="rw-cost"><i data-lucide="star"></i> 5.000</div><button class="rw-btn locked"><i data-lucide="lock"></i> 2.660 tekort</button></div></div></div>
+      <div class="reward"><div class="rw-visual" style="background:var(--coral-light);">🎉<div class="rw-tag" style="background:var(--amber-light);color:var(--amber);">Platinum only</div></div><div class="rw-body"><div class="rw-name">VIP Event toegang</div><div class="rw-desc">Exclusieve productlancering</div><div class="rw-bottom"><div class="rw-cost"><i data-lucide="star"></i> 7.500</div><button class="rw-btn locked"><i data-lucide="lock"></i> Platinum</button></div></div></div>
+    </div>
+
+    <!-- Activity -->
+    <div class="act-card">
+      <div class="act-header"><i data-lucide="list"></i> Recente activiteit</div>
+      <div class="act-row"><div class="act-icon" style="background:var(--green-light);"><i data-lucide="shopping-bag" style="color:var(--green);"></i></div><div class="act-info"><div class="act-desc">Bestelling #DS-2026-0847</div><div class="act-meta">18 feb 2026 · ProDesign Suite</div></div><div class="act-pts plus">+79 pts</div></div>
+      <div class="act-row"><div class="act-icon" style="background:var(--coral-light);"><i data-lucide="gift" style="color:var(--coral);"></i></div><div class="act-info"><div class="act-desc">€5 korting ingewisseld</div><div class="act-meta">15 feb 2026</div></div><div class="act-pts minus">−500 pts</div></div>
+      <div class="act-row"><div class="act-icon" style="background:var(--purple-light);"><i data-lucide="star" style="color:var(--purple);"></i></div><div class="act-info"><div class="act-desc">Review geschreven — ProDesign Suite</div><div class="act-meta">16 feb 2026</div></div><div class="act-pts plus">+50 pts</div></div>
+      <div class="act-row"><div class="act-icon" style="background:var(--blue-light);"><i data-lucide="users" style="color:var(--blue);"></i></div><div class="act-info"><div class="act-desc">Vriend doorverwezen — Anna Bakker</div><div class="act-meta">10 feb 2026</div></div><div class="act-pts plus">+250 pts</div></div>
+      <div class="act-row"><div class="act-icon" style="background:var(--green-light);"><i data-lucide="shopping-bag" style="color:var(--green);"></i></div><div class="act-info"><div class="act-desc">Bestelling #DS-2026-0612</div><div class="act-meta">2 jan 2026 · IconPack + DataViz</div></div><div class="act-pts plus">+78 pts</div></div>
+    </div>
+
+    <!-- Referral -->
+    <div class="ref-card">
+      <div class="ref-top"><div class="ref-icon">🤝</div><div class="ref-info"><div class="ref-title">Verwijs een vriend, verdien 250 punten</div><div class="ref-desc">Jij krijgt 250 punten en je vriend krijgt €5 korting op de eerste bestelling.</div></div></div>
+      <div class="ref-link-row"><div class="ref-link">digistore.nl/r/mark-kk-2026</div><button class="ref-copy"><i data-lucide="copy"></i> Kopiëren</button></div>
+      <div class="ref-stats">
+        <div class="ref-stat"><div class="ref-stat-val" style="color:var(--teal);">3</div><div class="ref-stat-label">Doorverwezen</div></div>
+        <div class="ref-stat"><div class="ref-stat-val" style="color:var(--green);">750</div><div class="ref-stat-label">Punten verdiend</div></div>
+        <div class="ref-stat"><div class="ref-stat-val" style="color:var(--blue);">2</div><div class="ref-stat-label">Actieve gebruikers</div></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+<script>lucide.createIcons();</script>
+</body>
+</html>

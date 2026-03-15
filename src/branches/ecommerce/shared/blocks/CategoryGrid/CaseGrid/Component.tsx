@@ -15,7 +15,7 @@ export const CaseGridBlockComponent: React.FC<CasesBlock> = ({ heading, intro, c
     <section className="case-grid py-16 px-4">
       <div className="container mx-auto">
         {heading && <h2 className="text-3xl font-bold mb-4 text-center">{heading}</h2>}
-        {intro && <p className="text-center mb-12 max-w-2xl mx-auto text-gray-600">{intro}</p>}
+        {intro && <p className="text-center mb-12 max-w-2xl mx-auto text-grey-dark">{intro}</p>}
 
         <div
           className={`grid gap-8 ${
@@ -56,7 +56,7 @@ export const CaseGridBlockComponent: React.FC<CasesBlock> = ({ heading, intro, c
                   <p className="text-sm mb-4" style={{ color: 'var(--color-primary)' }}>
                     {caseItem.client}
                   </p>
-                  <p className="text-gray-700 mb-4 line-clamp-3">{caseItem.excerpt}</p>
+                  <p className="text-grey-dark mb-4 line-clamp-3">{caseItem.excerpt}</p>
 
                   {caseItem.services && caseItem.services.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-4">
@@ -73,7 +73,7 @@ export const CaseGridBlockComponent: React.FC<CasesBlock> = ({ heading, intro, c
                         </span>
                       ))}
                       {caseItem.services.length > 3 && (
-                        <span className="text-xs px-3 py-1 rounded-full bg-gray-200 text-gray-700">
+                        <span className="text-xs px-3 py-1 rounded-full bg-grey-light text-grey-dark">
                           +{caseItem.services.length - 3}
                         </span>
                       )}

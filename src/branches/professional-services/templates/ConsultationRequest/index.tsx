@@ -63,7 +63,7 @@ export async function ConsultationRequestTemplate({
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-grey-dark">
                     <svg
-                      className="mt-0.5 shrink-0 text-green-500"
+                      className="mt-0.5 shrink-0 text-green"
                       width="16"
                       height="16"
                       viewBox="0 0 16 16"

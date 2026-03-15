@@ -27,7 +27,7 @@ export const ConfiguratorStepCard: React.FC<ConfiguratorStepCardProps> = ({
       className={`
         configurator-step-card
         border-2 rounded-lg transition-all duration-200
-        ${isActive ? 'border-[var(--color-primary)] bg-white shadow-lg' : 'border-gray-300 bg-gray-50'}
+        ${isActive ? 'border-[var(--color-primary)] bg-white shadow-lg' : 'border-grey-light bg-grey-light'}
         ${isCompleted ? 'border-green' : ''}
         ${className}
       `}
@@ -36,7 +36,7 @@ export const ConfiguratorStepCard: React.FC<ConfiguratorStepCardProps> = ({
       <div
         className={`
           px-6 py-4 border-b-2 transition-colors
-          ${isActive ? 'border-[var(--color-primary-light)] bg-[var(--color-primary-glow)]' : 'border-gray-200 bg-gray-100'}
+          ${isActive ? 'border-[var(--color-primary-light)] bg-[var(--color-primary-glow)]' : 'border-grey-light bg-grey-light'}
           ${isCompleted ? 'border-green/20 bg-green-50' : ''}
         `}
       >
@@ -50,7 +50,7 @@ export const ConfiguratorStepCard: React.FC<ConfiguratorStepCardProps> = ({
                   flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-[13px] font-bold
                   ${isActive ? 'bg-[var(--color-primary)] text-white' : ''}
                   ${isCompleted ? 'bg-green text-white' : ''}
-                  ${!isActive && !isCompleted ? 'bg-gray-400 text-white' : ''}
+                  ${!isActive && !isCompleted ? 'bg-grey-mid text-white' : ''}
                 `}
               >
                 {step.stepNumber}
@@ -60,7 +60,7 @@ export const ConfiguratorStepCard: React.FC<ConfiguratorStepCardProps> = ({
               <h3
                 className={`
                   text-[18px] font-bold
-                  ${isActive ? 'text-[var(--color-primary)]' : 'text-gray-900'}
+                  ${isActive ? 'text-[var(--color-primary)]' : 'text-navy'}
                   ${isCompleted ? 'text-green-900' : ''}
                 `}
               >
@@ -73,7 +73,7 @@ export const ConfiguratorStepCard: React.FC<ConfiguratorStepCardProps> = ({
               <p
                 className={`
                   text-[14px] ml-9
-                  ${isActive ? 'text-[var(--color-primary)]' : 'text-gray-600'}
+                  ${isActive ? 'text-[var(--color-primary)]' : 'text-grey-dark'}
                   ${isCompleted ? 'text-green-700' : ''}
                 `}
               >
@@ -100,7 +100,7 @@ export const ConfiguratorStepCard: React.FC<ConfiguratorStepCardProps> = ({
                 <span className="text-[12px] font-bold">Verplicht</span>
               </div>
             ) : (
-              <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-200 text-gray-600 rounded-full">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 bg-grey-light text-grey-dark rounded-full">
                 <Circle className="w-4 h-4" strokeWidth={2.5} />
                 <span className="text-[12px] font-bold">Optioneel</span>
               </div>
@@ -112,7 +112,7 @@ export const ConfiguratorStepCard: React.FC<ConfiguratorStepCardProps> = ({
       {/* Content Area (for ConfiguratorOptionGrid or other content) */}
       {isActive && (
         <div className="px-6 py-6">
-          <p className="text-[14px] text-gray-600 text-center">
+          <p className="text-[14px] text-grey-dark text-center">
             {step.required ? 'Selecteer een optie om door te gaan' : 'Selecteer een optie (optioneel)'}
           </p>
         </div>

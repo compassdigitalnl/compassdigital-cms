@@ -124,7 +124,7 @@ function SortableRow({
         <div
           onClick={() => onSelectItem(item.id)}
           className={`w-5 h-5 rounded-md border-2 flex items-center justify-center cursor-pointer transition-all hover:border-[var(--color-primary)] ${
-            isSelected ? 'bg-[var(--color-primary)] border-[var(--color-primary)]' : 'border-gray-300'
+            isSelected ? 'bg-[var(--color-primary)] border-[var(--color-primary)]' : 'border-grey-light'
           }`}
         >
           {isSelected && <span style={{ color: 'white', fontSize: '12px', fontWeight: 700 }}>✓</span>}
@@ -299,7 +299,7 @@ function MobileCard({ item, isSelected, onSelectItem, onQuantityChange, onDelete
         <div
           onClick={() => onSelectItem(item.id)}
           className={`w-5 h-5 rounded-md border-2 flex items-center justify-center cursor-pointer transition-all flex-shrink-0 ${
-            isSelected ? 'bg-[var(--color-primary)] border-[var(--color-primary)]' : 'border-gray-300'
+            isSelected ? 'bg-[var(--color-primary)] border-[var(--color-primary)]' : 'border-grey-light'
           }`}
         >
           {isSelected && <span style={{ color: 'white', fontSize: '12px', fontWeight: 700 }}>✓</span>}
@@ -574,7 +574,7 @@ export function OrderListProductTable({
                     ? 'bg-[var(--color-primary)] border-[var(--color-primary)]'
                     : isSomeSelected
                       ? 'bg-[var(--color-primary)] border-[var(--color-primary)]'
-                      : 'border-gray-300'
+                      : 'border-grey-light'
                 }`}
               >
                 {isAllSelected ? (

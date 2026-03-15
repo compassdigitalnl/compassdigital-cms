@@ -165,9 +165,9 @@ export default function SettingsPage() {
 
       {/* Status Messages */}
       {error && (
-        <Card className="border-red-200 bg-red-50">
+        <Card className="border-coral/20 bg-coral-50">
           <CardContent className="pt-6">
-            <div className="flex items-center gap-2 text-red-800">
+            <div className="flex items-center gap-2 text-coral-800">
               <AlertCircle className="h-5 w-5" />
               <p className="font-medium">{error}</p>
             </div>
@@ -356,7 +356,7 @@ export default function SettingsPage() {
                   href="https://vercel.com/account/tokens"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
+                  className="text-teal hover:underline"
                 >
                   vercel.com/account/tokens
                 </a>
@@ -500,7 +500,7 @@ export default function SettingsPage() {
                 className={
                   settings.vercelApiToken && settings.vercelOrgId
                     ? 'bg-green-100 text-green-800 mt-1'
-                    : 'bg-yellow-100 text-yellow-800 mt-1'
+                    : 'bg-amber-50 text-amber-900 mt-1'
                 }
               >
                 {settings.vercelApiToken && settings.vercelOrgId ? 'Connected' : 'Not Configured'}

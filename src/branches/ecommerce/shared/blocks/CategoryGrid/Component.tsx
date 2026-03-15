@@ -73,11 +73,11 @@ export const CategoryGridComponent: React.FC<CategoryGridType> = async ({
       animationDuration={animationDuration}
       animationDelay={animationDelay}
       as="section"
-      className="py-12 md:py-16 bg-gray-50"
+      className="py-12 md:py-16 bg-grey-light"
     >
       <div className="container mx-auto px-4">
         {title && (
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-10 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-10 text-center">
             {title}
           </h2>
         )}
@@ -102,7 +102,7 @@ export const CategoryGridComponent: React.FC<CategoryGridType> = async ({
                 <div className="absolute top-0 left-0 right-0 h-1 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
 
                 {icon && (
-                  <div className="w-14 h-14 mx-auto bg-gray-100 group-hover:bg-primary-glow rounded-xl flex items-center justify-center mb-4 transition-colors">
+                  <div className="w-14 h-14 mx-auto bg-grey-light group-hover:bg-primary-glow rounded-xl flex items-center justify-center mb-4 transition-colors">
                     <Icon name={icon} size={28} className="text-primary" />
                   </div>
                 )}
@@ -116,11 +116,11 @@ export const CategoryGridComponent: React.FC<CategoryGridType> = async ({
                   </div>
                 )}
 
-                <h3 className="font-bold text-gray-900 mb-1 group-hover:text-primary transition-colors">
+                <h3 className="font-bold text-navy mb-1 group-hover:text-primary transition-colors">
                   {catTitle}
                 </h3>
                 {showCount && productCount > 0 && (
-                  <p className="text-sm text-gray-500">{productCount}+ producten</p>
+                  <p className="text-sm text-grey-mid">{productCount}+ producten</p>
                 )}
               </Link>
             )

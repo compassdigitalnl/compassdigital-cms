@@ -79,12 +79,12 @@ export const ExperienceInfo: React.FC<ExperienceInfoProps> = ({
             ))}
           </div>
           {reviewCount !== undefined && reviewCount > 0 && (
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-grey-mid">
               {reviewCount} beoordelingen
             </span>
           )}
           {topReview && (
-            <span className="text-sm italic text-gray-400">
+            <span className="text-sm italic text-grey-mid">
               &ldquo;{topReview}&rdquo;
             </span>
           )}
@@ -110,7 +110,7 @@ export const ExperienceInfo: React.FC<ExperienceInfoProps> = ({
                   )}
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[11px] font-medium uppercase tracking-wider text-gray-400">
+                  <span className="text-[11px] font-medium uppercase tracking-wider text-grey-mid">
                     {item.label}
                   </span>
                   <span
@@ -129,7 +129,7 @@ export const ExperienceInfo: React.FC<ExperienceInfoProps> = ({
       {/* Description */}
       {description && (
         <div className="mb-6">
-          <p className="text-[15px] leading-relaxed text-gray-600">{description}</p>
+          <p className="text-[15px] leading-relaxed text-grey-dark">{description}</p>
         </div>
       )}
 
@@ -158,7 +158,7 @@ export const ExperienceInfo: React.FC<ExperienceInfoProps> = ({
                     />
                   )}
                 </div>
-                <span className="text-sm text-gray-600">{item.label}</span>
+                <span className="text-sm text-grey-dark">{item.label}</span>
               </div>
             ))}
           </div>

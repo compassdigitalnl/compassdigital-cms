@@ -29,7 +29,7 @@ export function ExitNode({ data, selected }: NodeProps) {
         <span className="text-sm font-bold text-coral">{d.name || 'Einde'}</span>
       </div>
       {d.exitReason && (
-        <div className="text-[10px] text-gray-500 mt-1">{d.exitReason}</div>
+        <div className="text-[10px] text-grey-mid mt-1">{d.exitReason}</div>
       )}
     </div>
   )

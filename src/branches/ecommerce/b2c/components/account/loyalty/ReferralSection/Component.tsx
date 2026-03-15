@@ -30,10 +30,10 @@ export function ReferralSection({
           <Users className="w-6 h-6" />
         </div>
         <div>
-          <div className="text-base font-extrabold text-gray-900">
+          <div className="text-base font-extrabold text-navy">
             Verwijs een vriend, verdien 250 punten
           </div>
-          <div className="text-sm text-gray-600 mt-0.5">
+          <div className="text-sm text-grey-dark mt-0.5">
             Jij krijgt 250 punten en je vriend krijgt €5 korting op de eerste bestelling.
           </div>
         </div>
@@ -42,7 +42,7 @@ export function ReferralSection({
       {/* Referral link row */}
       <div className="flex gap-2 mb-4">
         <div
-          className="flex-1 h-10 px-3 border border-gray-200 rounded-lg bg-white font-mono text-sm text-gray-900 flex items-center overflow-hidden"
+          className="flex-1 h-10 px-3 border border-grey-light rounded-lg bg-white font-mono text-sm text-navy flex items-center overflow-hidden"
         >
           <span className="truncate">{displayUrl}</span>
         </div>
@@ -68,19 +68,19 @@ export function ReferralSection({
           >
             {referralCount}
           </div>
-          <div className="text-xs text-gray-500">Doorverwezen</div>
+          <div className="text-xs text-grey-mid">Doorverwezen</div>
         </div>
         <div className="text-center p-2.5 bg-white rounded-xl">
           <div className="text-lg font-extrabold" style={{ color: 'var(--color-success)' }}>
             {referralPointsEarned.toLocaleString('nl-NL')}
           </div>
-          <div className="text-xs text-gray-500">Punten verdiend</div>
+          <div className="text-xs text-grey-mid">Punten verdiend</div>
         </div>
         <div className="text-center p-2.5 bg-white rounded-xl">
           <div className="text-lg font-extrabold" style={{ color: '#2196F3' }}>
             {referralActiveUsers}
           </div>
-          <div className="text-xs text-gray-500">Actieve gebruikers</div>
+          <div className="text-xs text-grey-mid">Actieve gebruikers</div>
         </div>
       </div>
     </div>

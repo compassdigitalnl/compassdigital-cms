@@ -14,21 +14,21 @@ export const AddressItem: React.FC<AddressItemProps> = ({
   return (
     <div
       className={`p-4 border rounded-lg cursor-pointer transition-colors ${
-        isSelected ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]' : 'border-gray-200 hover:border-gray-300'
+        isSelected ? 'border-[var(--color-primary)] bg-[var(--color-primary-glow)]' : 'border-grey-light hover:border-grey-light'
       } ${className}`}
       onClick={onClick}
     >
       <div className="flex items-start gap-3">
         <MapPin className="w-5 h-5 text-[var(--color-primary)] flex-shrink-0 mt-0.5" />
         <div className="flex-1 min-w-0">
-          <div className="text-sm font-semibold text-gray-900">{address?.name || 'Adres'}</div>
+          <div className="text-sm font-semibold text-navy">{address?.name || 'Adres'}</div>
           {address?.street && (
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-grey-dark">
               {address.street} {address.houseNumber}
             </div>
           )}
           {address?.postalCode && address?.city && (
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-grey-dark">
               {address.postalCode} {address.city}
             </div>
           )}

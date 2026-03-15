@@ -25,10 +25,10 @@ export const branchMetadata = {
   displayName: 'Zakelijke Dienstverlening',
   description: 'Complete template voor zakelijke dienstverleners',
   collections: [
-    'professional-services',
-    'professional-cases',
-    'professional-reviews',
-    'consultation-requests',
+    'content-services',
+    'content-cases',
+    'content-reviews',
+    'content-inquiries',
   ],
   routes: [
     '/(professional-services)/dienstverlening',

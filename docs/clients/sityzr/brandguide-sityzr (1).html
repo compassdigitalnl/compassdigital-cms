@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visuele Brandguide — Sityzr · Compass Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--cd-dark:#0F1117;--cd-border:rgba(255,255,255,.06);--cd-text:#E8EAF0;--cd-muted:#7C8298;--cd-dim:#4A4F64;--cd-accent:#6C5CE7;--ui-bg:#FAFBFD;--ui-surface:#FFF;--ui-border:#E2E8F0;--ui-text:#0F172A;--ui-text-sec:#64748B}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Outfit',sans-serif;color:var(--ui-text);background:var(--ui-bg);-webkit-font-smoothing:antialiased}
+.toolbar{position:fixed;top:20px;right:20px;z-index:1000;display:flex;gap:8px}.toolbar button{display:flex;align-items:center;gap:8px;padding:10px 20px;border:none;border-radius:50px;font-family:'Outfit';font-size:13px;font-weight:600;cursor:pointer;transition:all .25s;box-shadow:0 4px 20px rgba(0,0,0,.12);backdrop-filter:blur(20px)}.btn-pdf{background:#1E293B;color:#fff}.btn-pdf:hover{transform:translateY(-2px)}.btn-back{background:rgba(255,255,255,.92);color:var(--ui-text);border:1px solid var(--ui-border)!important}.btn-back:hover{background:#fff;transform:translateY(-2px)}
+.cd-cover{background:var(--cd-dark);color:var(--cd-text);position:relative;overflow:hidden}.cd-cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 30%,rgba(108,92,231,.08) 0%,transparent 50%)}.cd-cover-inner{max-width:1100px;margin:0 auto;padding:60px 48px 50px;position:relative;z-index:1}
+.cd-logo-row{display:flex;align-items:center;gap:12px;margin-bottom:60px}.cd-logo-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);display:flex;align-items:center;justify-content:center}.cd-logo-text{font-size:15px;font-weight:700;letter-spacing:.5px;color:var(--cd-text)}.cd-logo-text span{color:var(--cd-muted);font-weight:400;margin-left:4px}
+.cd-cover-label{font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--cd-accent);margin-bottom:16px;display:flex;align-items:center;gap:10px}.cd-cover-label::before{content:'';width:32px;height:2px;background:var(--cd-accent)}
+.cd-cover h1{font-family:'Source Serif 4',serif;font-size:clamp(36px,5vw,56px);font-weight:700;line-height:1.1;margin-bottom:16px;color:#fff}.cd-cover h1 em{font-style:normal;color:var(--cd-muted);font-weight:400}
+.cd-cover-desc{font-size:17px;line-height:1.7;color:var(--cd-muted);max-width:580px;margin-bottom:40px}.cd-cover-meta{display:flex;gap:40px;padding-top:32px;border-top:1px solid var(--cd-border)}.cd-meta-item{display:flex;flex-direction:column;gap:4px}.cd-meta-item .label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--cd-dim)}.cd-meta-item .value{font-size:14px;font-weight:500;color:var(--cd-text)}
+.main-page{max-width:1100px;margin:0 auto;padding:0 48px}
+.intro-section{padding:56px 0 40px;border-bottom:1px solid var(--ui-border)}.intro-section h2{font-family:'Source Serif 4',serif;font-size:28px;font-weight:700;margin-bottom:16px}.intro-section p{font-size:15px;line-height:1.8;color:var(--ui-text-sec);max-width:720px;margin-bottom:12px}
+.context-section{padding:40px 0}.context-card{background:var(--ui-surface);border:1px solid var(--ui-border);border-radius:16px;padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:24px}.context-card h3{font-size:18px;font-weight:700;margin-bottom:16px;grid-column:1/-1}.context-item{display:flex;flex-direction:column;gap:2px;padding:12px 0;border-bottom:1px solid #F1F5F9}.context-item .ci-label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--ui-text-sec)}.context-item .ci-value{font-size:15px;font-weight:600}
+
+/* TAGLINE OPTIONS */
+.tagline-options{padding:40px 0}.tagline-card{background:var(--ui-surface);border:1px solid var(--ui-border);border-radius:16px;padding:32px}.tagline-card h3{font-size:18px;font-weight:700;margin-bottom:8px}.tagline-card>p{font-size:14px;color:var(--ui-text-sec);margin-bottom:20px}
+.tagline-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.tagline-opt{padding:16px 20px;border-radius:10px;border:1px solid #E2E8F0;background:#F8FAFC;transition:all .2s}.tagline-opt:hover{border-color:#6C5CE7;background:#F8F7FF}
+.tagline-opt .tl-main{font-family:'JetBrains Mono';font-size:15px;font-weight:600;color:var(--ui-text);margin-bottom:4px}.tagline-opt .tl-sub{font-size:12px;color:var(--ui-text-sec);line-height:1.5}
+.tagline-opt.rec{border-color:#6C5CE7;background:#F8F7FF;position:relative}.tagline-opt.rec::after{content:'⭐';position:absolute;top:8px;right:12px;font-size:12px}
+
+.section-heading{padding:40px 0 24px}.section-heading h2{font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;margin-bottom:6px}.section-heading p{font-size:15px;color:var(--ui-text-sec)}
+.variant-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:48px}
+.variant-card{background:#fff;border:2px solid var(--ui-border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);position:relative}.variant-card:hover{border-color:#6C5CE7;transform:translateY(-4px);box-shadow:0 16px 48px rgba(108,92,231,.1)}.variant-card.rec{border-color:#6C5CE7;box-shadow:0 4px 20px rgba(108,92,231,.08)}.variant-card.rec::before{content:'✨ Aanbevolen';position:absolute;top:12px;right:12px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;z-index:5;box-shadow:0 4px 12px rgba(108,92,231,.3)}
+.variant-preview{height:220px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px;padding:20px;position:relative;overflow:hidden}.variant-info{padding:22px}.variant-info h3{font-size:18px;font-weight:700;margin-bottom:4px}.variant-info .subtitle{font-size:13px;color:var(--ui-text-sec);margin-bottom:16px;line-height:1.5}
+.color-dots{display:flex;gap:6px;margin-bottom:16px}.color-dot{width:30px;height:30px;border-radius:8px;border:2px solid rgba(0,0,0,.06)}.font-preview{margin-bottom:16px;padding:14px;background:#F8FAFC;border-radius:10px;border:1px solid #F1F5F9}.font-preview .heading-font{font-size:20px;font-weight:700;line-height:1.2;margin-bottom:2px}.font-preview .body-font{font-size:13px;color:var(--ui-text-sec)}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}.tag{font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;background:#F1F5F9;color:var(--ui-text-sec)}.btn-view{width:100%;padding:12px;border:none;border-radius:10px;font-family:'Outfit';font-size:13px;font-weight:600;cursor:pointer;background:#F1F5F9;color:var(--ui-text);transition:all .2s}.btn-view:hover{background:#E2E8F0}
+.advice-section{padding:48px 0;border-top:1px solid var(--ui-border)}.advice-card{background:linear-gradient(135deg,#F8FAFF,#F1F0FF);border:1px solid rgba(108,92,231,.15);border-radius:16px;padding:36px;position:relative;overflow:hidden}.advice-card::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(108,92,231,.06),transparent 60%)}.advice-card h3{font-family:'Source Serif 4',serif;font-size:22px;font-weight:700;margin-bottom:16px;position:relative}.advice-card p{font-size:15px;line-height:1.8;color:var(--ui-text-sec);position:relative;margin-bottom:12px}.advice-highlight{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#fff;border:1px solid rgba(108,92,231,.2);border-radius:8px;font-size:14px;font-weight:600;color:#6C5CE7;margin-top:8px;box-shadow:0 2px 8px rgba(108,92,231,.08)}
+.closing-section{padding:40px 0 56px}.closing-section h2{font-family:'Source Serif 4',serif;font-size:22px;font-weight:700;margin-bottom:12px}.closing-section p{font-size:15px;line-height:1.8;color:var(--ui-text-sec);max-width:720px;margin-bottom:12px}
+.cd-footer{background:var(--cd-dark);padding:40px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}.cd-footer-left{display:flex;align-items:center;gap:12px}.cd-footer-text{font-size:13px;color:var(--cd-dim)}.cd-footer-right{font-size:12px;color:var(--cd-dim)}
+#detailView{display:none}.brandguide-container{max-width:920px;margin:0 auto;padding:0 24px 80px}
+.bg-cover{border-radius:16px;overflow:hidden;margin:32px 0;position:relative;min-height:420px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px 48px;text-align:center}.bg-cover h2{font-size:48px;font-weight:800;color:#fff;position:relative;z-index:1;margin-bottom:8px}.bg-cover .tagline{font-size:14px;color:rgba(255,255,255,.35);position:relative;z-index:1}.bg-cover .cover-footer{position:absolute;bottom:24px;left:0;right:0;font-size:11px;color:rgba(255,255,255,.15);text-align:center}
+.cover-badge-outline{color:rgba(255,255,255,.3);font-size:12px;border:1px solid rgba(255,255,255,.1);padding:6px 16px;border-radius:6px}.cover-badge-rec{color:#fff;font-size:11px;padding:6px 14px;border-radius:6px;font-weight:700}
+.bg-section{background:#fff;border:1px solid var(--ui-border);border-radius:16px;padding:36px;margin-bottom:20px}.bg-section-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #F1F5F9}.bg-section-num{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}.bg-section-header h3{font-size:20px;font-weight:700}.bg-section h4{font-size:14px;margin:24px 0 8px;font-weight:600}
+.swatch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}.swatch-card{border-radius:12px;overflow:hidden;border:1px solid var(--ui-border)}.swatch-color{height:80px;display:flex;align-items:flex-end;padding:10px 14px}.swatch-color span{font-size:11px;font-weight:600;text-shadow:0 1px 3px rgba(0,0,0,.3)}.swatch-info{padding:12px 14px;background:#FAFBFD}.swatch-info .name{font-size:13px;font-weight:600;margin-bottom:2px}.swatch-info .hex{font-family:'JetBrains Mono';font-size:12px;color:var(--ui-text-sec)}.swatch-info .usage{font-size:11px;color:#94A3B8;margin-top:4px}
+.swatch-grid-sm{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:16px 0}.swatch-sm{border-radius:10px;overflow:hidden;border:1px solid var(--ui-border)}.swatch-sm .color-block{height:48px}.swatch-sm .info{padding:8px 10px;background:#FAFBFD;font-size:10px}.swatch-sm .info .name{font-weight:600;font-size:11px}.swatch-sm .info .hex{font-family:'JetBrains Mono';color:var(--ui-text-sec);font-size:10px}
+.type-specimen{padding:28px;background:#09090B;border-radius:12px;margin:16px 0;border:1px solid #27272A;color:#FAFAFA}.type-specimen h4{margin-bottom:16px;font-weight:600}.type-row{display:flex;align-items:baseline;gap:20px;padding:10px 0;border-bottom:1px solid #1C1C1E}.type-row:last-child{border-bottom:none}.type-label{min-width:70px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#71717A}
+.btn-preview-grid{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}.btn-demo{padding:12px 28px;font-weight:600;font-size:14px;border:none;cursor:default;display:inline-flex;align-items:center;gap:8px}
+.specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}.spec-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#F8FAFC;border-radius:8px;border:1px solid #F1F5F9}.spec-item .label{font-size:13px;color:var(--ui-text-sec)}.spec-item .value{font-size:13px;font-weight:600;font-family:'JetBrains Mono'}
+.do-dont-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}.do-block,.dont-block{padding:20px;border-radius:12px}.do-block{background:#ECFDF5;border:1px solid #A7F3D0}.dont-block{background:#FEF2F2;border:1px solid #FECACA}.do-block h4{color:#047857;font-size:14px;margin-bottom:8px}.dont-block h4{color:#B91C1C;font-size:14px;margin-bottom:8px}.do-block li,.dont-block li{font-size:13px;margin-bottom:4px;color:var(--ui-text-sec);list-style:none}.do-block li::before{content:'✓ ';color:#10B981;font-weight:700}.dont-block li::before{content:'✗ ';color:#EF4444;font-weight:700}
+.rationale-block{padding:28px;border-radius:12px;margin:20px 0;border-left:4px solid}.rationale-block h4{font-size:15px;font-weight:700;margin-bottom:10px}.rationale-block p{font-size:14px;line-height:1.8;color:var(--ui-text-sec)}
+.hero-preview-box{border-radius:12px;overflow:hidden;padding:40px 32px;margin:16px 0;display:flex;flex-direction:column;align-items:flex-start;gap:12px;position:relative}.hero-preview-box p{font-size:14px;color:rgba(255,255,255,.4)}.hero-preview-box .hero-btn{display:inline-block;padding:10px 24px;font-weight:600;font-size:13px}
+.code-line{font-family:'JetBrains Mono';font-size:12px;color:rgba(255,255,255,.15);position:absolute;right:20px;bottom:16px}
+@media(max-width:900px){.variant-grid{grid-template-columns:1fr}.cd-cover-inner{padding:40px 24px}.main-page{padding:0 24px}.cd-cover-meta{flex-direction:column;gap:16px}.context-card,.tagline-grid{grid-template-columns:1fr}.swatch-grid{grid-template-columns:repeat(2,1fr)}.swatch-grid-sm{grid-template-columns:repeat(3,1fr)}.specs-grid,.do-dont-grid{grid-template-columns:1fr}.cd-footer{padding:32px 24px}}
+@media print{.toolbar,.btn-view,.btn-back{display:none!important}#detailView{display:block!important}#selectionView{display:block!important}.cd-cover,.cd-footer{break-after:page}body{background:#fff}.bg-section{break-inside:avoid;border:1px solid #ddd}.bg-cover{break-after:page}@page{size:A4;margin:12mm 14mm}}
+</style>
+</head>
+<body>
+<div class="toolbar"><button class="btn-back" onclick="showSelection()" id="btnBack" style="display:none">← Terug naar overzicht</button><button class="btn-pdf" onclick="window.print()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg> Download PDF</button></div>
+
+<div class="cd-cover"><div class="cd-cover-inner">
+  <div class="cd-logo-row"><div class="cd-logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="18" height="18"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="8.5" x2="22" y2="8.5"/></svg></div><div class="cd-logo-text">Compass Digital<span> · Online Marketing Bureau</span></div></div>
+  <div class="cd-cover-label">Visuele Brandguide</div>
+  <h1>Sityzr</h1>
+  <p class="cd-cover-desc">Visuele identiteit voor Sityzr — de multi-tenant CMS SaaS-oplossing van Compass Digital. Drie tech-forward richtingen voor een product dat gebouwd is voor bureaus en hun klanten. Van nul naar merk.</p>
+  <div class="cd-cover-meta">
+    <div class="cd-meta-item"><span class="label">Product</span><span class="value">Sityzr — Multi-Tenant CMS</span></div>
+    <div class="cd-meta-item"><span class="label">Branche</span><span class="value">SaaS / Developer Tools</span></div>
+    <div class="cd-meta-item"><span class="label">Document</span><span class="value">Visuele Brandguide</span></div>
+    <div class="cd-meta-item"><span class="label">Datum</span><span class="value">Maart 2026</span></div>
+  </div>
+</div></div>
+
+<div id="selectionView"><div class="main-page">
+  <div class="intro-section">
+    <h2>Over dit document</h2>
+    <p>Dit is de visuele merkidentiteit voor Sityzr — jouw multi-tenant Payload CMS SaaS-oplossing. Sityzr is een nieuw product zonder bestaande visuele identiteit, wat de vrijheid geeft om vanaf nul een sterk, onderscheidend merk neer te zetten dat past bij de tech-forward positionering.</p>
+    <p>De doelgroep is tweeledig: webdesign bureaus die Sityzr gebruiken om sites te bouwen, en hun klanten die het CMS dagelijks gebruiken. De branding moet daarom zowel technisch competent als toegankelijk voelen. Denk Vercel, Linear, Supabase — maar dan met een eigen karakter.</p>
+  </div>
+
+  <div class="context-section"><div class="context-card"><h3>Projectcontext</h3>
+    <div class="context-item"><span class="ci-label">Product</span><span class="ci-value">Sityzr — Multi-Tenant Payload CMS SaaS</span></div>
+    <div class="context-item"><span class="ci-label">Stack</span><span class="ci-value">Next.js · Payload CMS · PostgreSQL · Meilisearch</span></div>
+    <div class="context-item"><span class="ci-label">Doelgroep primair</span><span class="ci-value">Webdesign bureaus / agencies</span></div>
+    <div class="context-item"><span class="ci-label">Doelgroep secundair</span><span class="ci-value">Klanten van bureaus (CMS-gebruikers)</span></div>
+    <div class="context-item"><span class="ci-label">Gewenste uitstraling</span><span class="ci-value">Developer/tech-forward (Vercel, Linear, Supabase)</span></div>
+    <div class="context-item"><span class="ci-label">Relatie Compass Digital</span><span class="ci-value">Product van Compass Digital — eigen merk-identiteit</span></div>
+  </div></div>
+
+  <!-- TAGLINE OPTIES -->
+  <div class="tagline-options"><div class="tagline-card">
+    <h3>Naam & Tagline opties</h3>
+    <p>Sityzr is kort en herkenbaar. Hieronder een aantal tagline-opties die het product positioneren — van minimaal tot verklarend.</p>
+    <div class="tagline-grid">
+      <div class="tagline-opt rec"><div class="tl-main">sityzr</div><div class="tl-sub">Clean, zonder tagline. Sterk als het merk al bekend is. Vergelijkbaar met hoe Vercel en Linear het doen.</div></div>
+      <div class="tagline-opt"><div class="tl-main">sityzr <span style="color:var(--ui-text-sec);font-weight:400">cms</span></div><div class="tl-sub">Voegt direct context toe. "sityzr cms" positioneert het product, vergelijkbaar met "payload cms".</div></div>
+      <div class="tagline-opt"><div class="tl-main">sityzr</div><div class="tl-sub" style="font-style:italic;color:#6C5CE7">"Multi-tenant sites, one platform."</div></div>
+      <div class="tagline-opt"><div class="tl-main">sityzr</div><div class="tl-sub" style="font-style:italic;color:#6C5CE7">"Build once. Deploy everywhere."</div></div>
+      <div class="tagline-opt"><div class="tl-main">sityzr</div><div class="tl-sub" style="font-style:italic;color:#6C5CE7">"Sites as a service."</div></div>
+      <div class="tagline-opt"><div class="tl-main">sityzr</div><div class="tl-sub" style="font-style:italic;color:#6C5CE7">"Your clients' CMS. Your platform."</div></div>
+    </div>
+  </div></div>
+
+  <div class="section-heading"><h2>Drie varianten</h2><p>Klik op een variant om de volledige brandguide te bekijken.</p></div>
+
+  <div class="variant-grid">
+    <!-- V1: Void -->
+    <div class="variant-card rec" onclick="showDetail(1)">
+      <div class="variant-preview" style="background:#09090B">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(124,58,237,.08),transparent 60%)"></div>
+        <span style="color:#FAFAFA;font-family:'Inter';font-weight:700;font-size:30px;letter-spacing:-1px;position:relative">sityzr</span>
+        <span style="color:rgba(250,250,250,.25);font-family:'JetBrains Mono';font-size:11px;letter-spacing:1px;position:relative">multi-tenant cms</span>
+      </div>
+      <div class="variant-info"><h3>Void</h3>
+        <p class="subtitle">Puur zwart + wit + paars accent. De Linear/Vercel-aanpak — radicaal minimaal. Content is koning, UI verdwijnt.</p>
+        <div class="color-dots"><div class="color-dot" style="background:#09090B"></div><div class="color-dot" style="background:#18181B"></div><div class="color-dot" style="background:#7C3AED"></div><div class="color-dot" style="background:#A78BFA"></div><div class="color-dot" style="background:#FAFAFA"></div></div>
+        <div class="font-preview"><div class="heading-font" style="font-family:'Inter';font-weight:700;letter-spacing:-.5px">Inter (tight tracking)</div><div class="body-font" style="font-family:'Inter'">Inter — leestekst + mono accent</div></div>
+        <div class="tags"><span class="tag">Minimaal</span><span class="tag">Developer</span><span class="tag">Premium</span></div>
+        <button class="btn-view" onclick="event.stopPropagation();showDetail(1)">Bekijk volledige brandguide →</button>
+      </div>
+    </div>
+
+    <!-- V2: Signal -->
+    <div class="variant-card" onclick="showDetail(2)">
+      <div class="variant-preview" style="background:linear-gradient(165deg,#0A0A0F 0%,#0F1729 60%,#1A2744 100%)">
+        <span style="color:#FAFAFA;font-family:'Sora';font-weight:700;font-size:28px;letter-spacing:-.5px;position:relative">sityzr</span>
+        <span style="color:#38BDF8;font-family:'JetBrains Mono';font-size:11px;letter-spacing:1px;position:relative">multi-tenant cms</span>
+      </div>
+      <div class="variant-info"><h3>Signal</h3>
+        <p class="subtitle">Donker navy + elektrisch blauw. Meer kleur dan Void — communiceert betrouwbaarheid en technische diepte.</p>
+        <div class="color-dots"><div class="color-dot" style="background:#0A0A0F"></div><div class="color-dot" style="background:#0F1729"></div><div class="color-dot" style="background:#2563EB"></div><div class="color-dot" style="background:#38BDF8"></div><div class="color-dot" style="background:#F1F5F9"></div></div>
+        <div class="font-preview"><div class="heading-font" style="font-family:'Sora';font-weight:700">Sora</div><div class="body-font" style="font-family:'DM Sans'">DM Sans — leestekst</div></div>
+        <div class="tags"><span class="tag">Technisch</span><span class="tag">Betrouwbaar</span><span class="tag">Diepte</span></div>
+        <button class="btn-view" onclick="event.stopPropagation();showDetail(2)">Bekijk volledige brandguide →</button>
+      </div>
+    </div>
+
+    <!-- V3: Neon Mint -->
+    <div class="variant-card" onclick="showDetail(3)">
+      <div class="variant-preview" style="background:linear-gradient(165deg,#09090B 0%,#0D1117 60%,#0A1A14 100%)">
+        <span style="color:#FAFAFA;font-family:'Manrope';font-weight:800;font-size:28px;letter-spacing:-.5px;position:relative">sityzr</span>
+        <span style="color:#10B981;font-family:'JetBrains Mono';font-size:11px;letter-spacing:1px;position:relative">multi-tenant cms</span>
+      </div>
+      <div class="variant-info"><h3>Neon Mint</h3>
+        <p class="subtitle">Donkere basis + levendig groen. Energiek en fris — de GitHub/Supabase-achtige aanpak. Groei, snelheid, performance.</p>
+        <div class="color-dots"><div class="color-dot" style="background:#09090B"></div><div class="color-dot" style="background:#0D1117"></div><div class="color-dot" style="background:#10B981"></div><div class="color-dot" style="background:#34D399"></div><div class="color-dot" style="background:#F0FDF4"></div></div>
+        <div class="font-preview"><div class="heading-font" style="font-family:'Manrope';font-weight:800">Manrope</div><div class="body-font" style="font-family:'Inter'">Inter — leestekst</div></div>
+        <div class="tags"><span class="tag">Energiek</span><span class="tag">Fris</span><span class="tag">Groeigericht</span></div>
+        <button class="btn-view" onclick="event.stopPropagation();showDetail(3)">Bekijk volledige brandguide →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="advice-section"><div class="advice-card">
+    <h3>⚡ Ons advies: Void</h3>
+    <p>Wij adviseren <strong>Variant 1: Void</strong> als beste match voor Sityzr. De radicaal minimalistische aanpak — puur zwart, wit en één accentkleur — is precies wat developer-tools als Linear, Vercel en Raycast zo sterk maakt. Het communiceert: "wij focussen op het product, niet op opsmuk."</p>
+    <p>Inter als enige font (in combinatie met JetBrains Mono voor code-elementen) geeft maximale consistentie en herkenbaarheid. De tight letter-spacing op headings (-0.5px tot -1px) geeft de moderne, zelfverzekerde uitstraling die developers verwachten. Het paarse accent onderscheidt Sityzr van de blauwe (Vercel) en groene (Supabase) concurrenten.</p>
+    <p>Signal is een sterk alternatief als je meer visuele warmte wilt — het elektrische blauw communiceert vertrouwen en stabiliteit. Neon Mint past als je Sityzr als energiek groeiplatform wilt positioneren.</p>
+    <div class="advice-highlight">⚡ Aanbeveling: Void + Inter + JetBrains Mono + Violet accent</div>
+  </div></div>
+
+  <div class="closing-section">
+    <h2>Vervolg</h2>
+    <p>Na de keuze werken we de variant uit naar: marketing website, dashboard UI, documentatie, CLI output en social media templates. De brandguide dient als fundament voor alle visuele beslissingen — van de landing page tot de admin interface die bureaus en hun klanten dagelijks gebruiken.</p>
+    <p>Wil je varianten combineren of specifieke elementen aanpassen? Laat het weten.</p>
+  </div>
+</div></div>
+
+<div id="footerMain" class="cd-footer"><div class="cd-footer-left"><div class="cd-logo-mark" style="width:28px;height:28px;border-radius:7px"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" style="width:14px;height:14px"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"/></svg></div><span class="cd-footer-text">Compass Digital · Online Marketing Bureau</span></div><span class="cd-footer-right">Vertrouwelijk document · maart 2026</span></div>
+
+<!-- ═══════════════ DETAIL VIEWS ═══════════════ -->
+<div id="detailView"><div class="brandguide-container">
+
+<!-- V1: VOID -->
+<div class="variant-detail" id="variant1">
+  <div class="bg-cover" style="background:#09090B">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(124,58,237,.06),transparent 50%)"></div>
+    <div style="position:absolute;inset:0;opacity:.03;background-image:linear-gradient(rgba(250,250,250,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(250,250,250,.05) 1px,transparent 1px);background-size:64px 64px"></div>
+    <h2 style="font-family:'Inter';font-weight:800;letter-spacing:-1.5px;font-size:52px">sityzr</h2>
+    <div class="tagline" style="font-family:'JetBrains Mono';letter-spacing:1px;font-size:13px;color:rgba(250,250,250,.2)">multi-tenant cms</div>
+    <div style="display:flex;gap:16px;margin-top:32px;position:relative;z-index:1"><span class="cover-badge-outline">Variant 1: Void</span><span class="cover-badge-rec" style="background:#7C3AED">✨ Aanbevolen</span></div>
+    <div class="cover-footer">Compass Digital — maart 2026</div>
+  </div>
+
+  <div class="bg-section"><div class="bg-section-header"><div class="bg-section-num" style="background:#7C3AED">01</div><h3>Kleurenpalet</h3></div>
+    <p style="color:var(--ui-text-sec);margin-bottom:20px;font-size:14px">Radicaal minimaal. Zwart en wit doen het zware werk; violet verschijnt alleen waar het telt — CTA's, actieve states, accentuering. Dit is hoe Linear, Vercel en Raycast hun merk bouwen: laat het product spreken.</p>
+    <h4 style="color:#7C3AED">Primaire Kleuren</h4>
+    <div class="swatch-grid">
+      <div class="swatch-card"><div class="swatch-color" style="background:#09090B"><span style="color:#fff">#09090B</span></div><div class="swatch-info"><div class="name">Void Black</div><div class="hex">#09090B</div><div class="usage">Primair — basis, headers, nav</div></div></div>
+      <div class="swatch-card"><div class="swatch-color" style="background:#7C3AED"><span style="color:#fff">#7C3AED</span></div><div class="swatch-info"><div class="name">Sityzr Violet</div><div class="hex">#7C3AED</div><div class="usage">Accent — CTA's, links, focus</div></div></div>
+      <div class="swatch-card"><div class="swatch-color" style="background:#FAFAFA;border:1px solid #E4E4E7"><span style="color:#09090B">#FAFAFA</span></div><div class="swatch-info"><div class="name">Off-white</div><div class="hex">#FAFAFA</div><div class="usage">Achtergrond, tekst op donker</div></div></div>
+    </div>
+    <h4 style="color:#7C3AED">Volledig Palet</h4>
+    <div class="swatch-grid-sm">
+      <div class="swatch-sm"><div class="color-block" style="background:#09090B"></div><div class="info"><div class="name">Void</div><div class="hex">#09090B</div></div></div>
+      <div class="swatch-sm"><div class="color-block" style="background:#18181B"></div><div class="info"><div class="name">Surface</div><div class="hex">#18181B</div></div></div>
+      <div class="swatch-sm"><div class="color-block" style="background:#27272A"></div><div class="info"><div class="name">Border</div><div class="hex">#27272A</div></div></div>
+      <div class="swatch-sm"><div class="color-block" style="background:#7C3AED"></div><div class="info"><div class="name">Violet</div><div class="hex">#7C3AED</div></div></div>
+      <div class="swatch-sm"><div class="color-block" style="background:#FAFAFA;border:1px solid #E4E4E7"></div><div class="info"><div class="name">White</div><div class="hex">#FAFAFA</div></div></div>
+    </div>
+    <h4 style="color:#7C3AED">Hero Preview — Dark Mode (standaard)</h4>
+    <div class="hero-preview-box" style="background:#09090B;border:1px solid #27272A">
+      <span style="font-family:'JetBrains Mono';font-size:11px;font-weight:500;letter-spacing:1px;color:#7C3AED">INTRODUCING SITYZR</span>
+      <h3 style="font-family:'Inter';font-weight:800;font-size:36px;color:#FAFAFA;line-height:1.1;letter-spacing:-1px">Multi-tenant sites.<br><span style="color:#A78BFA">One platform.</span></h3>
+      <p style="font-family:'Inter';color:#71717A;font-size:15px">Bouw, deploy en beheer honderden sites vanuit één Payload CMS. Voor bureaus die schalen.</p>
+      <div style="display:flex;gap:12px;margin-top:4px">
+        <span class="hero-btn" style="background:#FAFAFA;color:#09090B;border-radius:8px;font-family:'Inter';font-weight:600">Get started</span>
+        <span class="hero-btn" style="background:transparent;color:#A1A1AA;border:1px solid #27272A;border-radius:8px;font-family:'Inter';font-weight:500">View docs →</span>
+      </div>
+      <span class="code-line">npx create-sityzr@latest</span>
+    </div>
+    <h4 style="color:#7C3AED">Hero Preview — Light Mode</h4>
+    <div class="hero-preview-box" style="background:#FAFAFA;border:1px solid #E4E4E7">
+      <span style="font-family:'JetBrains Mono';font-size:11px;font-weight:500;letter-spacing:1px;color:#7C3AED">INTRODUCING SITYZR</span>
+      <h3 style="font-family:'Inter';font-weight:800;font-size:36px;color:#09090B;line-height:1.1;letter-spacing:-1px">Multi-tenant sites.<br><span style="color:#7C3AED">One platform.</span></h3>
+      <p style="font-family:'Inter';color:#71717A;font-size:15px">Bouw, deploy en beheer honderden sites vanuit één Payload CMS.</p>
+      <div style="display:flex;gap:12px;margin-top:4px">
+        <span class="hero-btn" style="background:#09090B;color:#FAFAFA;border-radius:8px;font-family:'Inter';font-weight:600">Get started</span>
+        <span class="hero-btn" style="background:transparent;color:#71717A;border:1px solid #E4E4E7;border-radius:8px;font-family:'Inter';font-weight:500">View docs →</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-section"><div class="bg-section-header"><div class="bg-section-num" style="background:#7C3AED">02</div><h3>Typografie</h3></div>
+    <div class="type-specimen">
+      <h4 style="color:#7C3AED">Heading: Inter (600–800, tight tracking)</h4>
+      <div class="type-row"><span class="type-label">H1 — 48px</span><span style="font-family:'Inter';font-size:42px;font-weight:800;color:#FAFAFA;letter-spacing:-1px">Build once. Deploy everywhere.</span></div>
+      <div class="type-row"><span class="type-label">H2 — 32px</span><span style="font-family:'Inter';font-size:30px;font-weight:700;color:#FAFAFA;letter-spacing:-.5px">Multi-tenant architecture</span></div>
+      <div class="type-row"><span class="type-label">H3 — 22px</span><span style="font-family:'Inter';font-size:20px;font-weight:600;color:#FAFAFA">Tenant configuration</span></div>
+    </div>
+    <div class="type-specimen">
+      <h4 style="color:#7C3AED">Body: Inter (400–500) + JetBrains Mono (code)</h4>
+      <div class="type-row"><span class="type-label">Body — 16px</span><span style="font-family:'Inter';font-size:16px;color:#A1A1AA;line-height:1.7">Sityzr maakt het mogelijk om vanuit één codebase en één database honderden unieke websites te draaien, elk met eigen domein, thema en content.</span></div>
+      <div class="type-row"><span class="type-label">Code — 14px</span><span style="font-family:'JetBrains Mono';font-size:14px;color:#7C3AED">const tenant = await sityzr.tenants.create()</span></div>
+      <div class="type-row"><span class="type-label">Meta — 13px</span><span style="font-family:'Inter';font-size:13px;color:#52525B">Last deployed 2 minutes ago · 47 tenants active</span></div>
+    </div>
+  </div>
+
+  <div class="bg-section"><div class="bg-section-header"><div class="bg-section-num" style="background:#7C3AED">03</div><h3>UI Componenten & Richtlijnen</h3></div>
+    <h4>Buttons</h4>
+    <div class="btn-preview-grid">
+      <span class="btn-demo" style="background:#FAFAFA;color:#09090B;border-radius:8px;font-family:'Inter';font-weight:600;font-size:14px">Get started</span>
+      <span class="btn-demo" style="background:#7C3AED;color:#fff;border-radius:8px;font-family:'Inter';font-weight:600;font-size:14px">Deploy now</span>
+      <span class="btn-demo" style="background:transparent;color:#A1A1AA;border:1px solid #27272A;border-radius:8px;font-family:'Inter';font-weight:500;font-size:14px">View docs →</span>
+    </div>
+    <h4>Specificaties</h4>
+    <div class="specs-grid">
+      <div class="spec-item"><span class="label">Border radius</span><span class="value">8px</span></div>
+      <div class="spec-item"><span class="label">Heading tracking</span><span class="value">-0.5px tot -1px</span></div>
+      <div class="spec-item"><span class="label">Standaard thema</span><span class="value">dark</span></div>
+      <div class="spec-item"><span class="label">Body line-height</span><span class="value">1.7</span></div>
+      <div class="spec-item"><span class="label">Logo casing</span><span class="value">lowercase</span></div>
+      <div class="spec-item"><span class="label">Code font</span><span class="value">JetBrains Mono</span></div>
+    </div>
+    <div class="do-dont-grid">
+      <div class="do-block"><h4>✓ Do's</h4><ul>
+        <li>Inter voor alles — headings, body, UI, buttons</li>
+        <li>JetBrains Mono voor code, CLI commands, technische labels</li>
+        <li>Dark mode als standaard, light mode als optie</li>
+        <li>Violet accent alleen voor interactieve elementen</li>
+        <li>Logo altijd in lowercase: "sityzr"</li>
+        <li>Veel negatieve ruimte — laat content ademen</li>
+      </ul></div>
+      <div class="dont-block"><h4>✗ Don'ts</h4><ul>
+        <li>Geen warme kleuren (oranje, rood, geel)</li>
+        <li>Geen serif fonts — nergens</li>
+        <li>Geen gradients op buttons of cards</li>
+        <li>Geen rounded/pill buttons (te speels)</li>
+        <li>Nooit "Sityzr" met hoofdletter S in lopende tekst</li>
+        <li>Geen meer dan 1 accentkleur per view</li>
+      </ul></div>
+    </div>
+    <div class="rationale-block" style="background:rgba(124,58,237,.04);border-color:#7C3AED">
+      <h4 style="color:#7C3AED">⚡ Waarom Void?</h4>
+      <p>Void is de visuele taal van de beste developer tools van dit moment: Linear, Vercel, Raycast. Het is radicaal minimaal — zwart, wit en één accentkleur. Dat communiceert exact wat developers willen horen: "dit product focust op wat het doet, niet op hoe het eruitziet." Het paarse accent (#7C3AED) onderscheidt Sityzr van de blauwe tools (Vercel), groene tools (Supabase) en het donkere purple van Linear (#5E6AD2) — het is nét lichter en levendiger. Inter als enige font is geen beperking maar een statement: het is het beste UI-font dat er is, en door het consequent in te zetten bouw je een extreem consistente merkervaring. De tight letter-spacing op headings (-0.5px tot -1px) geeft de moderne spanning die developers verwachten. JetBrains Mono als code-font is de industriestandaard — het geeft Sityzr directe geloofwaardigheid in de developer community.</p>
+    </div>
+  </div>
+</div>
+
+<!-- V2: SIGNAL -->
+<div class="variant-detail" id="variant2" style="display:none">
+  <div class="bg-cover" style="background:linear-gradient(165deg,#0A0A0F 0%,#0F1729 60%,#1A2744 100%)">
+    <div style="position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#38BDF8 1px,transparent 1px);background-size:32px 32px"></div>
+    <h2 style="font-family:'Sora';font-weight:700;letter-spacing:-.5px;font-size:48px">sityzr</h2>
+    <div class="tagline" style="font-family:'JetBrains Mono';letter-spacing:1px;font-size:13px">multi-tenant cms</div>
+    <div style="margin-top:32px;position:relative;z-index:1"><span class="cover-badge-outline">Variant 2: Signal</span></div>
+    <div class="cover-footer">Compass Digital — maart 2026</div>
+  </div>
+  <div class="bg-section"><div class="bg-section-header"><div class="bg-section-num" style="background:#2563EB">01</div><h3>Kleurenpalet — Signal</h3></div>
+    <p style="color:var(--ui-text-sec);margin-bottom:20px;font-size:14px">Diep navy met elektrisch blauw accent. Meer visuele warmte dan Void — het diepe blauw communiceert stabiliteit, betrouwbaarheid en technische diepte. Denk meer Stripe dan Vercel: premium tech met vertrouwen.</p>
+    <div class="swatch-grid">
+      <div class="swatch-card"><div class="swatch-color" style="background:#0A0A0F"><span style="color:#fff">#0A0A0F</span></div><div class="swatch-info"><div class="name">Deep Space</div><div class="hex">#0A0A0F</div><div class="usage">Primair — basis, headers</div></div></div>
+      <div class="swatch-card"><div class="swatch-color" style="background:#2563EB"><span style="color:#fff">#2563EB</span></div><div class="swatch-info"><div class="name">Electric Blue</div><div class="hex">#2563EB</div><div class="usage">Accent — CTA's, links, focus</div></div></div>
+      <div class="swatch-card"><div class="swatch-color" style="background:#38BDF8"><span style="color:#0A0A0F">#38BDF8</span></div><div class="swatch-info"><div class="name">Sky</div><div class="hex">#38BDF8</div><div class="usage">Secundair — hover, highlights</div></div></div>
+    </div>
+    <h4 style="color:#2563EB">Hero Preview</h4>
+    <div class="hero-preview-box" style="background:linear-gradient(165deg,#0A0A0F,#0F1729);border:1px solid rgba(37,99,235,.15)">
+      <span style="font-family:'JetBrains Mono';font-size:11px;font-weight:500;letter-spacing:1px;color:#38BDF8">INTRODUCING SITYZR</span>
+      <h3 style="font-family:'Sora';font-weight:700;font-size:34px;color:#FAFAFA;line-height:1.1;letter-spacing:-.5px">Your clients' CMS.<br><span style="color:#38BDF8">Your platform.</span></h3>
+      <p style="font-family:'DM Sans';color:#64748B;font-size:15px">Multi-tenant Payload CMS voor bureaus die hun klanten de beste ervaring willen geven.</p>
+      <span class="hero-btn" style="background:#2563EB;color:#fff;border-radius:8px;font-family:'DM Sans';font-weight:600">Start free trial</span>
+      <span class="code-line" style="color:rgba(56,189,248,.15)">npx create-sityzr@latest</span>
+    </div>
+    <div class="rationale-block" style="background:rgba(37,99,235,.04);border-color:#2563EB"><h4 style="color:#2563EB">🔵 Waarom Signal?</h4><p>Signal brengt meer visuele warmte en diepte dan Void. Het diepe navy (#0F1729) gecombineerd met elektrisch blauw voelt vertrouwd voor bureaus die gewend zijn aan tools als Stripe, Tailwind en Digital Ocean. Sora als heading font is geometrisch maar warm — het communiceert technische competentie zonder kil te worden. Dit palet past als Sityzr zich wil positioneren als betrouwbare, premium SaaS-oplossing waar bureaus hun klanten aan toevertrouwen.</p></div>
+  </div>
+  <div class="bg-section"><div class="bg-section-header"><div class="bg-section-num" style="background:#2563EB">02</div><h3>Typografie</h3></div>
+    <div class="type-specimen"><h4 style="color:#38BDF8">Heading: Sora (600–700)</h4>
+      <div class="type-row"><span class="type-label">H1 — 44px</span><span style="font-family:'Sora';font-size:38px;font-weight:700;color:#FAFAFA;letter-spacing:-.5px">Sites as a service</span></div>
+      <div class="type-row"><span class="type-label">H2 — 30px</span><span style="font-family:'Sora';font-size:28px;font-weight:600;color:#FAFAFA">Tenant management</span></div>
+      <div class="type-row"><span class="type-label">Code</span><span style="font-family:'JetBrains Mono';font-size:14px;color:#38BDF8">sityzr deploy --tenant=acme-corp</span></div>
+    </div>
+    <div class="type-specimen"><h4 style="color:#38BDF8">Body: DM Sans (400–600)</h4>
+      <div class="type-row"><span class="type-label">Body — 16px</span><span style="font-family:'DM Sans';font-size:16px;color:#94A3B8;line-height:1.7">Beheer al je client-sites vanuit één dashboard. Elk met eigen domein, thema en content — allemaal op dezelfde codebase.</span></div>
+      <div class="type-row"><span class="type-label">Meta</span><span style="font-family:'DM Sans';font-size:13px;color:#475569">47 tenants · 99.9% uptime · Last deploy: 2m ago</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- V3: NEON MINT -->
+<div class="variant-detail" id="variant3" style="display:none">
+  <div class="bg-cover" style="background:linear-gradient(165deg,#09090B 0%,#0D1117 60%,#0A1A14 100%)">
+    <div style="position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#10B981 1px,transparent 1px);background-size:40px 40px"></div>
+    <h2 style="font-family:'Manrope';font-weight:800;letter-spacing:-.5px;font-size:48px">sityzr</h2>
+    <div class="tagline" style="font-family:'JetBrains Mono';letter-spacing:1px;font-size:13px">multi-tenant cms</div>
+    <div style="margin-top:32px;position:relative;z-index:1"><span class="cover-badge-outline">Variant 3: Neon Mint</span></div>
+    <div class="cover-footer">Compass Digital — maart 2026</div>
+  </div>
+  <div class="bg-section"><div class="bg-section-header"><div class="bg-section-num" style="background:#10B981">01</div><h3>Kleurenpalet — Neon Mint</h3></div>
+    <p style="color:var(--ui-text-sec);margin-bottom:20px;font-size:14px">Energiek en fris. Het levendige groen op donkere basis communiceert groei, performance en snelheid — de Supabase/GitHub-achtige aanpak. Groen zegt: "go, deploy, ship it."</p>
+    <div class="swatch-grid">
+      <div class="swatch-card"><div class="swatch-color" style="background:#09090B"><span style="color:#fff">#09090B</span></div><div class="swatch-info"><div class="name">Void Black</div><div class="hex">#09090B</div><div class="usage">Primair — basis</div></div></div>
+      <div class="swatch-card"><div class="swatch-color" style="background:#10B981"><span style="color:#fff">#10B981</span></div><div class="swatch-info"><div class="name">Neon Mint</div><div class="hex">#10B981</div><div class="usage">Accent — CTA's, success, links</div></div></div>
+      <div class="swatch-card"><div class="swatch-color" style="background:#34D399"><span style="color:#09090B">#34D399</span></div><div class="swatch-info"><div class="name">Licht Mint</div><div class="hex">#34D399</div><div class="usage">Secundair — hover, highlights</div></div></div>
+    </div>
+    <h4 style="color:#10B981">Hero Preview</h4>
+    <div class="hero-preview-box" style="background:#09090B;border:1px solid #1C1C1E">
+      <span style="font-family:'JetBrains Mono';font-size:11px;font-weight:500;letter-spacing:1px;color:#10B981">NOW IN BETA</span>
+      <h3 style="font-family:'Manrope';font-weight:800;font-size:34px;color:#FAFAFA;line-height:1.1;letter-spacing:-.5px">Ship sites faster.<br><span style="color:#34D399">Scale without limits.</span></h3>
+      <p style="font-family:'Inter';color:#71717A;font-size:15px">Multi-tenant CMS gebouwd op Payload + Next.js. Deploy in minuten.</p>
+      <span class="hero-btn" style="background:#10B981;color:#09090B;border-radius:8px;font-family:'Inter';font-weight:600">Start building →</span>
+      <span class="code-line" style="color:rgba(16,185,129,.15)">npx create-sityzr@latest</span>
+    </div>
+    <div class="rationale-block" style="background:rgba(16,185,129,.04);border-color:#10B981"><h4 style="color:#10B981">🌿 Waarom Neon Mint?</h4><p>Groen is de kleur van "go" — deploy, ship it, scale. Het communiceert groei, performance en snelheid. Manrope als heading font is zwaar en modern met een subtiele warmte die het toegankelijker maakt dan Inter. Dit palet past als Sityzr zich wil positioneren als een energiek, snel groeiend platform — de "Supabase van multi-tenant CMS." Het groen valt op in een markt die gedomineerd wordt door blauw (Vercel, Contentful) en paars (Linear, Prisma).</p></div>
+  </div>
+  <div class="bg-section"><div class="bg-section-header"><div class="bg-section-num" style="background:#10B981">02</div><h3>Typografie</h3></div>
+    <div class="type-specimen"><h4 style="color:#10B981">Heading: Manrope (600–800)</h4>
+      <div class="type-row"><span class="type-label">H1 — 44px</span><span style="font-family:'Manrope';font-size:38px;font-weight:800;color:#FAFAFA;letter-spacing:-.5px">Build once. Deploy everywhere.</span></div>
+      <div class="type-row"><span class="type-label">H2 — 30px</span><span style="font-family:'Manrope';font-size:28px;font-weight:700;color:#FAFAFA">Performance dashboard</span></div>
+      <div class="type-row"><span class="type-label">Code</span><span style="font-family:'JetBrains Mono';font-size:14px;color:#10B981">sityzr tenants:list --active</span></div>
+    </div>
+    <div class="type-specimen"><h4 style="color:#10B981">Body: Inter (400–500)</h4>
+      <div class="type-row"><span class="type-label">Body — 16px</span><span style="font-family:'Inter';font-size:16px;color:#A1A1AA;line-height:1.7">Deploy een nieuwe tenant in onder de 30 seconden. Inclusief eigen domein, thema en content — volledig geïsoleerd.</span></div>
+      <div class="type-row"><span class="type-label">Meta</span><span style="font-family:'Inter';font-size:13px;color:#52525B">47 active tenants · Avg. deploy time: 12s · 99.99% uptime</span></div>
+    </div>
+  </div>
+</div>
+
+</div></div>
+
+<script>
+function showDetail(n){document.getElementById('selectionView').style.display='none';document.getElementById('footerMain').style.display='none';document.getElementById('detailView').style.display='block';document.getElementById('btnBack').style.display='flex';document.querySelectorAll('.variant-detail').forEach(e=>e.style.display='none');document.getElementById('variant'+n).style.display='block';window.scrollTo({top:0,behavior:'smooth'})}
+function showSelection(){document.getElementById('selectionView').style.display='block';document.getElementById('footerMain').style.display='flex';document.getElementById('detailView').style.display='none';document.getElementById('btnBack').style.display='none';window.scrollTo({top:0,behavior:'smooth'})}
+</script>
+</body>
+</html>

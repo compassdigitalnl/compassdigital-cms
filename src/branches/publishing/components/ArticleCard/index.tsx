@@ -127,10 +127,10 @@ export function ArticleCard({
         href={url}
         className={`
           group block
-          bg-white dark:bg-gray-900
-          border border-gray-200 dark:border-gray-800
+          bg-white dark:bg-navy
+          border border-grey-light dark:border-navy
           rounded-lg p-4
-          hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-700
+          hover:shadow-lg hover:border-grey-light dark:hover:border-navy
           transition-all duration-200
           ${className}
         `}
@@ -142,12 +142,12 @@ export function ArticleCard({
           {/* Content */}
           <div className="flex-1 min-w-0">
             {/* Title */}
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors line-clamp-2">
+            <h3 className="text-lg font-semibold text-navy dark:text-white group-hover:text-primary transition-colors line-clamp-2">
               {post.title}
             </h3>
 
             {/* Meta */}
-            <div className="flex items-center gap-3 mt-2 text-sm text-gray-600 dark:text-gray-400">
+            <div className="flex items-center gap-3 mt-2 text-sm text-grey-dark dark:text-grey-mid">
               {/* Content Type */}
               <span className="flex items-center gap-1">
                 <contentType.icon className="w-3.5 h-3.5" />
@@ -185,16 +185,16 @@ export function ArticleCard({
         href={url}
         className={`
           group block
-          bg-white dark:bg-gray-900
-          border border-gray-200 dark:border-gray-800
+          bg-white dark:bg-navy
+          border border-grey-light dark:border-navy
           rounded-2xl overflow-hidden
-          hover:shadow-2xl hover:border-gray-300 dark:hover:border-gray-700
+          hover:shadow-2xl hover:border-grey-light dark:hover:border-navy
           transition-all duration-300
           ${className}
         `}
       >
         {/* Image */}
-        <div className="relative aspect-[21/9] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
+        <div className="relative aspect-[21/9] bg-gradient-to-br from-grey-light to-grey-light dark:from-navy dark:to-navy">
           {imageUrl ? (
             <Image
               src={imageUrl}
@@ -213,7 +213,7 @@ export function ArticleCard({
             {showPremiumBadge && isPremium && (
               <PremiumBadge variant="solid" size="md" icon="crown" text="Pro" pill />
             )}
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm text-sm font-medium text-gray-900 dark:text-white">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 dark:bg-navy/90 backdrop-blur-sm text-sm font-medium text-navy dark:text-white">
               <contentType.icon className="w-4 h-4" />
               {contentType.label}
             </span>
@@ -230,20 +230,20 @@ export function ArticleCard({
           )}
 
           {/* Title */}
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors mb-4">
+          <h2 className="text-3xl font-bold text-navy dark:text-white group-hover:text-primary transition-colors mb-4">
             {post.title}
           </h2>
 
           {/* Excerpt */}
           {showExcerpt && post.excerpt && (
-            <p className="text-gray-600 dark:text-gray-400 text-lg mb-4 line-clamp-3">
+            <p className="text-grey-dark dark:text-grey-mid text-lg mb-4 line-clamp-3">
               {post.excerpt}
             </p>
           )}
 
           {/* Meta */}
           {readingTime && (
-            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-500">
+            <div className="flex items-center gap-2 text-sm text-grey-mid dark:text-grey-mid">
               <Clock className="w-4 h-4" />
               {readingTime.text}
             </div>
@@ -259,16 +259,16 @@ export function ArticleCard({
       href={url}
       className={`
         group block
-        bg-white dark:bg-gray-900
-        border border-gray-200 dark:border-gray-800
+        bg-white dark:bg-navy
+        border border-grey-light dark:border-navy
         rounded-xl overflow-hidden
-        hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-700
+        hover:shadow-xl hover:border-grey-light dark:hover:border-navy
         transition-all duration-200
         ${className}
       `}
     >
       {/* Image */}
-      <div className="relative aspect-[16/9] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
+      <div className="relative aspect-[16/9] bg-gradient-to-br from-grey-light to-grey-light dark:from-navy dark:to-navy">
         {imageUrl ? (
           <Image
             src={imageUrl}
@@ -299,28 +299,28 @@ export function ArticleCard({
               {category.title as React.ReactNode}
             </span>
           )}
-          {category && typeof category === 'object' && <span className="text-gray-400">•</span>}
-          <span className="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400">
+          {category && typeof category === 'object' && <span className="text-grey-mid">•</span>}
+          <span className="flex items-center gap-1 text-xs text-grey-dark dark:text-grey-mid">
             <contentType.icon className="w-3.5 h-3.5" />
             {contentType.label}
           </span>
         </div>
 
         {/* Title */}
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors mb-3 line-clamp-2">
+        <h3 className="text-xl font-bold text-navy dark:text-white group-hover:text-primary transition-colors mb-3 line-clamp-2">
           {post.title}
         </h3>
 
         {/* Excerpt */}
         {showExcerpt && post.excerpt && (
-          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">
+          <p className="text-grey-dark dark:text-grey-mid text-sm mb-4 line-clamp-3">
             {post.excerpt}
           </p>
         )}
 
         {/* Meta */}
         {readingTime && (
-          <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500">
+          <div className="flex items-center gap-2 text-xs text-grey-mid dark:text-grey-mid">
             <Clock className="w-3.5 h-3.5" />
             {readingTime.text}
           </div>

@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plastimed — Premium Kennisbank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a2647;
+    --navy-deep: #061a33;
+    --navy-light: #0d3059;
+    --teal: #00897b;
+    --teal-light: #26a69a;
+    --teal-dark: #00695c;
+    --teal-bg: #e0f2f1;
+    --coral: #e94560;
+    --gold: #f59e0b;
+    --gold-bg: #fffbeb;
+    --gold-border: #fde68a;
+    --bg: #f8f9fb;
+    --white: #ffffff;
+    --gray-50: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-400: #94a3b8;
+    --gray-500: #64748b;
+    --gray-600: #475569;
+    --gray-700: #334155;
+    --text: #1e293b;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --radius-lg: 20px;
+    --shadow-sm: 0 1px 3px rgba(10,38,71,0.06);
+    --shadow-md: 0 4px 20px rgba(10,38,71,0.08);
+    --shadow-lg: 0 8px 40px rgba(10,38,71,0.12);
+    --shadow-xl: 0 20px 60px rgba(10,38,71,0.18);
+    --font: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    --font-display: 'DM Serif Display', Georgia, serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); }
+
+  /* ─── TOPBAR ─── */
+  .topbar {
+    background: var(--navy-deep); color: rgba(255,255,255,0.7);
+    font-size: 12px; padding: 8px 0; letter-spacing: 0.02em;
+  }
+  .topbar .container { display: flex; justify-content: space-between; align-items: center; }
+  .topbar-left { display: flex; gap: 24px; }
+  .topbar-right { display: flex; gap: 16px; }
+  .topbar-right a { color: rgba(255,255,255,0.7); text-decoration: none; }
+  .topbar-right a:hover { color: var(--teal-light); }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--navy); padding: 16px 0;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+  }
+  .header .container { display: flex; align-items: center; gap: 32px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-icon {
+    width: 38px; height: 38px; background: var(--teal);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 18px;
+  }
+  .logo-text { color: white; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .logo-text span { color: var(--teal-light); }
+  .header-actions { display: flex; gap: 8px; margin-left: auto; }
+  .header-btn {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+    color: white; padding: 8px 14px; border-radius: var(--radius-sm);
+    cursor: pointer; font-size: 14px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .header-btn.premium {
+    background: linear-gradient(135deg, var(--gold), #d97706);
+    border: none; font-weight: 700;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* ─── ARTICLE LAYOUT ─── */
+  .article-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 40px;
+    padding: 40px 0 80px;
+    align-items: start;
+  }
+
+  /* ─── BREADCRUMB ─── */
+  .breadcrumb {
+    padding: 16px 0 0;
+    font-size: 13px; color: var(--gray-400);
+    grid-column: 1 / -1;
+  }
+  .breadcrumb a { color: var(--gray-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--teal); }
+
+  /* ─── ARTICLE ─── */
+  .article {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+
+  .article-hero {
+    height: 280px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 60%, #041526 100%);
+    position: relative;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+  }
+  .article-hero::before {
+    content: '';
+    position: absolute;
+    top: -30%; right: -10%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,137,123,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .article-hero::after {
+    content: '🔬';
+    position: absolute;
+    top: 30px; right: 40px;
+    font-size: 80px;
+    opacity: 0.15;
+  }
+  .article-category {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,137,123,0.2); border: 1px solid rgba(0,137,123,0.3);
+    padding: 4px 12px; border-radius: 20px;
+    color: var(--teal-light); font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 12px; width: fit-content;
+    position: relative; z-index: 1;
+  }
+  .premium-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: linear-gradient(135deg, var(--gold), #d97706);
+    padding: 4px 10px; border-radius: 20px;
+    color: white; font-size: 10px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-left: 8px;
+  }
+  .article-hero h1 {
+    font-family: var(--font-display);
+    font-size: 32px; color: white;
+    line-height: 1.25;
+    position: relative; z-index: 1;
+    max-width: 600px;
+  }
+  .article-meta {
+    display: flex; align-items: center; gap: 16px;
+    margin-top: 14px;
+    position: relative; z-index: 1;
+  }
+  .article-meta-item {
+    font-size: 12px; color: rgba(255,255,255,0.6);
+    display: flex; align-items: center; gap: 5px;
+  }
+  .author-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--teal); display: flex; align-items: center;
+    justify-content: center; color: white; font-size: 12px;
+    font-weight: 700;
+  }
+
+  .article-body { padding: 40px; }
+  .article-body h2 {
+    font-family: var(--font-display);
+    font-size: 24px; color: var(--navy);
+    margin: 32px 0 16px;
+  }
+  .article-body h2:first-child { margin-top: 0; }
+  .article-body p {
+    font-size: 15px; line-height: 1.8;
+    color: var(--gray-600);
+    margin-bottom: 16px;
+  }
+  .article-body ul {
+    margin: 12px 0 20px 20px;
+    font-size: 15px; line-height: 1.8;
+    color: var(--gray-600);
+  }
+  .article-body li { margin-bottom: 6px; }
+  .article-body .highlight-box {
+    background: var(--teal-bg);
+    border-left: 4px solid var(--teal);
+    padding: 18px 22px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin: 24px 0;
+    font-size: 14px;
+    color: var(--teal-dark);
+    line-height: 1.7;
+  }
+  .article-body .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  .data-table th {
+    background: var(--navy);
+    color: white; padding: 12px 16px;
+    text-align: left; font-weight: 600;
+    font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .data-table th:first-child { border-radius: 8px 0 0 0; }
+  .data-table th:last-child { border-radius: 0 8px 0 0; }
+  .data-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--gray-100);
+    color: var(--gray-600);
+  }
+  .data-table tr:hover td { background: var(--gray-50); }
+
+  /* ─── PAYWALL / CONTENT LOCK ─── */
+  .content-lock-zone {
+    position: relative;
+    margin-top: -20px;
+  }
+  .blurred-content {
+    filter: blur(6px);
+    -webkit-filter: blur(6px);
+    user-select: none;
+    pointer-events: none;
+    opacity: 0.5;
+    padding: 0 40px 40px;
+  }
+  .blurred-content p, .blurred-content h2, .blurred-content ul {
+    color: var(--gray-400);
+  }
+
+  .paywall-overlay {
+    position: relative;
+    margin-top: -180px;
+    padding: 0 24px 40px;
+    z-index: 10;
+  }
+  .paywall-card {
+    background: var(--white);
+    border: 2px solid var(--gold-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl), 0 0 60px rgba(245,158,11,0.08);
+    overflow: hidden;
+    position: relative;
+  }
+  .paywall-glow {
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px;
+    background: linear-gradient(135deg, var(--gold), transparent 40%, transparent 60%, var(--teal-light));
+    border-radius: var(--radius-lg);
+    z-index: -1;
+    opacity: 0.3;
+  }
+  .paywall-header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+    padding: 28px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .paywall-header::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -20%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .paywall-icon {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, var(--gold), #d97706);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 16px;
+    box-shadow: 0 4px 20px rgba(245,158,11,0.3);
+    position: relative;
+  }
+  .paywall-title {
+    font-family: var(--font-display);
+    font-size: 26px; color: white;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .paywall-subtitle {
+    font-size: 14px; color: rgba(255,255,255,0.6);
+    max-width: 400px; margin: 0 auto;
+    line-height: 1.5;
+    position: relative;
+  }
+
+  .paywall-body { padding: 28px 32px; }
+
+  .paywall-benefits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .paywall-benefit {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px;
+    background: var(--gray-50);
+    border-radius: var(--radius-sm);
+    font-size: 13px; font-weight: 600;
+    color: var(--gray-700);
+  }
+  .benefit-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .benefit-icon.teal { background: var(--teal-bg); }
+  .benefit-icon.gold { background: var(--gold-bg); }
+  .benefit-icon.navy { background: rgba(10,38,71,0.06); }
+
+  .paywall-cta-group {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .paywall-btn-primary {
+    width: 100%; padding: 16px;
+    background: linear-gradient(135deg, var(--gold), #d97706);
+    color: white; border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 16px; font-weight: 800;
+    cursor: pointer; transition: all 0.25s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    position: relative; overflow: hidden;
+    letter-spacing: 0.01em;
+  }
+  .paywall-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(245,158,11,0.35);
+  }
+  .paywall-btn-primary::after {
+    content: ''; position: absolute;
+    top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+  .paywall-btn-primary:hover::after { left: 100%; }
+
+  .paywall-btn-secondary {
+    width: 100%; padding: 14px;
+    background: var(--teal); color: white;
+    border: none; border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .paywall-btn-secondary:hover {
+    background: var(--teal-dark);
+    transform: translateY(-1px);
+  }
+  .paywall-btn-tertiary {
+    width: 100%; padding: 12px;
+    background: transparent; color: var(--gray-500);
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .paywall-btn-tertiary:hover {
+    border-color: var(--gray-400); color: var(--gray-700);
+  }
+
+  .paywall-pricing {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: var(--gold-bg);
+    border: 1px solid var(--gold-border);
+    border-radius: var(--radius-sm);
+  }
+  .pricing-amount {
+    font-family: var(--font-display);
+    font-size: 36px; color: var(--navy);
+  }
+  .pricing-period {
+    font-size: 14px; color: var(--gray-500); font-weight: 500;
+  }
+  .pricing-note {
+    font-size: 12px; color: var(--gray-400); margin-top: 4px;
+  }
+
+  .paywall-social-proof {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; padding-top: 16px;
+    border-top: 1px solid var(--gray-100);
+    margin-top: 20px;
+  }
+  .proof-avatars {
+    display: flex;
+  }
+  .proof-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 2px solid white;
+    margin-left: -8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: white;
+  }
+  .proof-avatar:first-child { margin-left: 0; }
+  .proof-avatar.a1 { background: var(--teal); }
+  .proof-avatar.a2 { background: var(--navy); }
+  .proof-avatar.a3 { background: var(--coral); }
+  .proof-avatar.a4 { background: var(--gold); }
+  .proof-text {
+    font-size: 12px; color: var(--gray-500);
+  }
+  .proof-text strong { color: var(--navy); }
+
+  /* ─── READING PROGRESS ─── */
+  .reading-progress {
+    position: fixed; top: 68px; left: 0; right: 0;
+    height: 3px; background: var(--gray-200);
+    z-index: 99;
+  }
+  .reading-fill {
+    height: 100%; width: 35%;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+    border-radius: 0 2px 2px 0;
+    transition: width 0.1s;
+  }
+
+  /* ─── SIDEBAR ─── */
+  .sidebar { position: sticky; top: 90px; display: flex; flex-direction: column; gap: 16px; }
+
+  .sidebar-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .sidebar-card-head {
+    padding: 16px 20px;
+    font-size: 13px; font-weight: 700; color: var(--navy);
+    border-bottom: 1px solid var(--gray-100);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .sidebar-card-body { padding: 16px 20px; }
+
+  /* TOC */
+  .toc-list { list-style: none; }
+  .toc-item {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--gray-50);
+  }
+  .toc-item:last-child { border-bottom: none; }
+  .toc-link {
+    font-size: 13px; color: var(--gray-600);
+    text-decoration: none; display: flex;
+    align-items: center; gap: 8px;
+    transition: color 0.15s;
+  }
+  .toc-link:hover { color: var(--teal); }
+  .toc-link.active { color: var(--teal); font-weight: 700; }
+  .toc-num {
+    width: 22px; height: 22px; border-radius: 6px;
+    background: var(--gray-100);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 800; color: var(--gray-400);
+    flex-shrink: 0;
+  }
+  .toc-link.active .toc-num { background: var(--teal); color: white; }
+  .toc-link.locked { color: var(--gray-300); }
+  .toc-link.locked .toc-num { background: var(--gold-bg); color: var(--gold); }
+  .toc-lock { margin-left: auto; font-size: 12px; }
+
+  /* Premium promo sidebar */
+  .promo-card {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+    border-radius: var(--radius);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .promo-card::before {
+    content: '';
+    position: absolute;
+    top: -40%; right: -30%;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .promo-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: linear-gradient(135deg, var(--gold), #d97706);
+    padding: 4px 10px; border-radius: 12px;
+    font-size: 10px; font-weight: 800; color: white;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 12px;
+  }
+  .promo-title {
+    font-family: var(--font-display);
+    font-size: 20px; color: white;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .promo-desc {
+    font-size: 13px; color: rgba(255,255,255,0.55);
+    line-height: 1.6; margin-bottom: 16px;
+    position: relative;
+  }
+  .promo-price {
+    font-family: var(--font-display);
+    font-size: 24px; color: var(--gold);
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .promo-price small { font-family: var(--font); font-size: 13px; color: rgba(255,255,255,0.4); }
+  .promo-btn {
+    width: 100%; padding: 12px;
+    background: linear-gradient(135deg, var(--gold), #d97706);
+    color: white; border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+    position: relative;
+  }
+  .promo-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(245,158,11,0.3);
+  }
+
+  /* Related articles */
+  .related-item {
+    display: flex; gap: 12px; padding: 12px 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .related-item:last-child { border-bottom: none; }
+  .related-thumb {
+    width: 56px; height: 56px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--gray-100), var(--gray-200));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; flex-shrink: 0;
+  }
+  .related-info { min-width: 0; }
+  .related-badge {
+    font-size: 9px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 2px 6px; border-radius: 4px;
+    display: inline-block; margin-bottom: 3px;
+  }
+  .related-badge.free { background: var(--teal-bg); color: var(--teal); }
+  .related-badge.premium { background: var(--gold-bg); color: #b45309; }
+  .related-title {
+    font-size: 13px; font-weight: 600; color: var(--text);
+    line-height: 1.4;
+    cursor: pointer;
+  }
+  .related-title:hover { color: var(--teal); }
+  .related-meta { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+
+  @media (max-width: 900px) {
+    .article-layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    .paywall-benefits { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- READING PROGRESS -->
+<div class="reading-progress">
+  <div class="reading-fill"></div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-left">
+      <span>✓ Voordelige B2B prijzen</span>
+      <span>🚚 Gratis verzending vanaf €150</span>
+      <span>🔒 Veilig & achteraf betalen</span>
+    </div>
+    <div class="topbar-right">
+      <a href="#">Klant worden</a>
+      <a href="#">Help & Contact</a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="container">
+    <a href="#" class="logo">
+      <div class="logo-icon">P</div>
+      <div class="logo-text">plasti<span>med</span></div>
+    </a>
+    <div class="header-actions">
+      <button class="header-btn">📞 0251-247233</button>
+      <button class="header-btn">♡</button>
+      <button class="header-btn">👤</button>
+      <button class="header-btn premium">⭐ Pro</button>
+      <button class="header-btn">🛒</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="#">Home</a> › <a href="#">Kennisbank</a> › <a href="#">Diagnostiek</a> › <strong style="color:var(--text)">Bloeddrukmeters vergelijken</strong>
+  </div>
+</div>
+
+<div class="container">
+  <div class="article-layout">
+
+    <!-- ARTICLE -->
+    <div>
+      <div class="article">
+
+        <!-- HERO -->
+        <div class="article-hero">
+          <div class="article-category">
+            📊 Productgids
+            <span class="premium-badge">⭐ Premium</span>
+          </div>
+          <h1>De complete gids: bloeddrukmeters vergelijken voor uw praktijk</h1>
+          <div class="article-meta">
+            <div class="author-avatar">JV</div>
+            <span class="article-meta-item">Dr. Jan van der Berg</span>
+            <span class="article-meta-item">•</span>
+            <span class="article-meta-item">📅 18 feb 2026</span>
+            <span class="article-meta-item">•</span>
+            <span class="article-meta-item">⏱ 12 min leestijd</span>
+          </div>
+        </div>
+
+        <!-- VISIBLE CONTENT (FREE) -->
+        <div class="article-body">
+          <h2>Waarom de juiste bloeddrukmeter cruciaal is</h2>
+          <p>
+            Het kiezen van de juiste bloeddrukmeter voor uw praktijk of instelling is een beslissing die direct invloed heeft op de kwaliteit van diagnostiek en patiënttevredenheid. Met tientallen modellen op de markt, variërend van eenvoudige handmatige meters tot geavanceerde digitale systemen, kan de keuze overweldigend zijn.
+          </p>
+          <p>
+            In deze uitgebreide gids vergelijken we de meest populaire bloeddrukmeters die beschikbaar zijn voor de Nederlandse zorgprofessional. We bekijken niet alleen de technische specificaties, maar ook de praktijkervaring, de totale kosten van eigendom, en de geschiktheid per type zorgomgeving.
+          </p>
+
+          <div class="highlight-box">
+            <strong>💡 Kernpunt:</strong> Uit onderzoek van het RIVM blijkt dat tot 30% van de bloeddrukmetingen in de eerstelijnszorg onnauwkeurig is, vaak als gevolg van verouderde of ongeschikte apparatuur. De juiste meterkeuzet kan dit percentage drastisch verlagen.
+          </div>
+
+          <h2>Overzicht: top 5 bloeddrukmeters 2026</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Type</th>
+                <th>Nauwkeurigheid</th>
+                <th>Prijs</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Hartmann Tensoval Comfort</strong></td>
+                <td>Digitaal — bovenarm</td>
+                <td>±3 mmHg</td>
+                <td>€89,95</td>
+              </tr>
+              <tr>
+                <td><strong>Omron M6 Comfort IT</strong></td>
+                <td>Digitaal — bovenarm</td>
+                <td>±3 mmHg</td>
+                <td>€109,00</td>
+              </tr>
+              <tr>
+                <td><strong>Welch Allyn DuraShock DS58</strong></td>
+                <td>Aneroid — handmatig</td>
+                <td>±2 mmHg</td>
+                <td>€149,95</td>
+              </tr>
+              <tr>
+                <td><strong>Microlife WatchBP Office</strong></td>
+                <td>Automatisch — ABPM</td>
+                <td>±2 mmHg</td>
+                <td>€395,00</td>
+              </tr>
+              <tr>
+                <td><strong>A&D Medical UA-1200</strong></td>
+                <td>Professioneel — klinisch</td>
+                <td>±1 mmHg</td>
+                <td>€575,00</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>
+            Elk van deze meters heeft specifieke sterktes die ze geschikt maken voor verschillende zorgomgevingen. Hieronder gaan we dieper in op de individuele modellen, met hands-on testresultaten en ervaringen uit de praktijk.
+          </p>
+        </div>
+
+        <!-- BLURRED / LOCKED CONTENT -->
+        <div class="content-lock-zone">
+          <div class="blurred-content">
+            <h2>Diepteanalyse per model</h2>
+            <p>
+              De Hartmann Tensoval Comfort is al jaren een betrouwbare standaard in de Nederlandse huisartsenpraktijk. Met zijn IntelliWrap manchet past hij op armomtrekken van 22 tot 42 centimeter, wat hem geschikt maakt voor vrijwel alle patiënten. De gepatenteerde Comfort Air Technology zorgt voor een aangenaam meetproces, wat vooral belangrijk is bij angstige patiënten.
+            </p>
+            <h2>Kostenvergelijking op lange termijn</h2>
+            <p>
+              Bij de aanschaf van bloeddrukmeters is het belangrijk om verder te kijken dan de initiële aankoopprijs. De totale kosten over vijf jaar omvatten kalibratie, manchetvervanging, batterijen of netvoeding, en eventuele reparaties. Onze berekening laat zien dat de goedkoopste optie bij aanschaf niet altijd de meest kostenefficiënte keuze is.
+            </p>
+            <ul>
+              <li>Jaarlijkse kalibratiekosten per model vergeleken</li>
+              <li>Manchetvervanging: frequentie en kosten per merk</li>
+              <li>Garantievoorwaarden en servicecontracten</li>
+              <li>Return on investment berekening per zorgomgeving</li>
+            </ul>
+            <h2>Aanbevelingen per zorgomgeving</h2>
+            <p>
+              Op basis van onze uitgebreide tests en gesprekken met praktijkhouders hebben we specifieke aanbevelingen opgesteld voor vijf veelvoorkomende zorgomgevingen: de huisartsenpraktijk, het verpleeghuis, de thuiszorg, de spoedeisende hulp, en de polikliniek.
+            </p>
+          </div>
+
+          <!-- PAYWALL OVERLAY -->
+          <div class="paywall-overlay">
+            <div class="paywall-card">
+              <div class="paywall-glow"></div>
+              <div class="paywall-header">
+                <div class="paywall-icon">⭐</div>
+                <h2 class="paywall-title">Dit is premium content</h2>
+                <p class="paywall-subtitle">Krijg toegang tot diepgaande analyses, kostenvergelijkingen en expertaanbevelingen met Plastimed Pro.</p>
+              </div>
+              <div class="paywall-body">
+                <div class="paywall-benefits">
+                  <div class="paywall-benefit">
+                    <div class="benefit-icon teal">📊</div>
+                    Uitgebreide productanalyses
+                  </div>
+                  <div class="paywall-benefit">
+                    <div class="benefit-icon gold">📋</div>
+                    Downloadbare vergelijkings-PDF's
+                  </div>
+                  <div class="paywall-benefit">
+                    <div class="benefit-icon teal">💰</div>
+                    Exclusieve staffelprijzen
+                  </div>
+                  <div class="paywall-benefit">
+                    <div class="benefit-icon navy">🎓</div>
+                    E-learning & certificeringen
+                  </div>
+                </div>
+
+                <div class="paywall-pricing">
+                  <div class="pricing-amount">€14,<small style="font-size:20px;">95</small></div>
+                  <div class="pricing-period">per maand · jaarlijks gefactureerd</div>
+                  <div class="pricing-note">Of €19,95/maand bij maandelijkse betaling</div>
+                </div>
+
+                <div class="paywall-cta-group">
+                  <button class="paywall-btn-primary">⭐ Start Plastimed Pro — 14 dagen gratis</button>
+                  <button class="paywall-btn-secondary">Bekijk alle Pro-voordelen</button>
+                  <button class="paywall-btn-tertiary">Ik ben al Pro-lid → Inloggen</button>
+                </div>
+
+                <div class="paywall-social-proof">
+                  <div class="proof-avatars">
+                    <div class="proof-avatar a1">JV</div>
+                    <div class="proof-avatar a2">MK</div>
+                    <div class="proof-avatar a3">AB</div>
+                    <div class="proof-avatar a4">+</div>
+                  </div>
+                  <span class="proof-text"><strong>380+ zorgprofessionals</strong> gingen u voor</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+      <!-- TOC -->
+      <div class="sidebar-card">
+        <div class="sidebar-card-head">📖 Inhoudsopgave</div>
+        <div class="sidebar-card-body">
+          <ul class="toc-list">
+            <li class="toc-item">
+              <a href="#" class="toc-link active">
+                <span class="toc-num">1</span>
+                Waarom de juiste meter cruciaal is
+              </a>
+            </li>
+            <li class="toc-item">
+              <a href="#" class="toc-link">
+                <span class="toc-num">2</span>
+                Top 5 bloeddrukmeters 2026
+              </a>
+            </li>
+            <li class="toc-item">
+              <a href="#" class="toc-link locked">
+                <span class="toc-num">3</span>
+                Diepteanalyse per model
+                <span class="toc-lock">🔒</span>
+              </a>
+            </li>
+            <li class="toc-item">
+              <a href="#" class="toc-link locked">
+                <span class="toc-num">4</span>
+                Kostenvergelijking 5 jaar
+                <span class="toc-lock">🔒</span>
+              </a>
+            </li>
+            <li class="toc-item">
+              <a href="#" class="toc-link locked">
+                <span class="toc-num">5</span>
+                Aanbevelingen per omgeving
+                <span class="toc-lock">🔒</span>
+              </a>
+            </li>
+            <li class="toc-item">
+              <a href="#" class="toc-link locked">
+                <span class="toc-num">6</span>
+                Download: vergelijkings-PDF
+                <span class="toc-lock">🔒</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Premium promo -->
+      <div class="promo-card">
+        <div class="promo-badge">⭐ Plastimed Pro</div>
+        <div class="promo-title">Volledige toegang tot alle guides</div>
+        <div class="promo-desc">40+ productgidsen, kostenvergelijkingen, e-learning modules en exclusieve B2B-prijzen.</div>
+        <div class="promo-price">€14,95 <small>/maand</small></div>
+        <button class="promo-btn">14 dagen gratis proberen</button>
+      </div>
+
+      <!-- Related -->
+      <div class="sidebar-card">
+        <div class="sidebar-card-head">📚 Gerelateerde artikelen</div>
+        <div class="sidebar-card-body">
+          <div class="related-item">
+            <div class="related-thumb">🌡️</div>
+            <div class="related-info">
+              <span class="related-badge free">Gratis</span>
+              <div class="related-title">Koortsthermometers: welke kiest u?</div>
+              <div class="related-meta">6 min · Diagnostiek</div>
+            </div>
+          </div>
+          <div class="related-item">
+            <div class="related-thumb">🩺</div>
+            <div class="related-info">
+              <span class="related-badge premium">⭐ Premium</span>
+              <div class="related-title">Stethoscopen: Littmann vs alternatieven</div>
+              <div class="related-meta">15 min · Diagnostiek</div>
+            </div>
+          </div>
+          <div class="related-item">
+            <div class="related-thumb">🧤</div>
+            <div class="related-info">
+              <span class="related-badge free">Gratis</span>
+              <div class="related-title">Handschoenen kiezen: nitril, latex of vinyl?</div>
+              <div class="related-meta">8 min · Verbruiksmateriaal</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

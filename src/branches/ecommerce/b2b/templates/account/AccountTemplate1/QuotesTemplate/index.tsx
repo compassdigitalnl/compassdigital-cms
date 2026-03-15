@@ -37,10 +37,10 @@ export default function QuotesTemplate({
     <div className="space-y-5 lg:space-y-6">
       {/* Page header */}
       <div>
-        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-gray-900">
+        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 lg:mb-2 text-navy">
           Offerte aanvragen
         </h1>
-        <p className="text-sm lg:text-base text-gray-500">
+        <p className="text-sm lg:text-base text-grey-mid">
           Grote bestelling of specifieke wensen? Vraag een offerte aan en ontvang scherpe volume-prijzen binnen 24 uur.
         </p>
       </div>

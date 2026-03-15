@@ -111,10 +111,10 @@ export default function ClientsPage() {
   function getStatusBadge(status: string) {
     const config: Record<string, { bg: string; text: string; label: string }> = {
       active: { bg: 'bg-green-100', text: 'text-green-800', label: 'Active' },
-      pending: { bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'Pending' },
-      deploying: { bg: 'bg-blue-100', text: 'text-blue-800', label: 'Deploying' },
-      suspended: { bg: 'bg-red-100', text: 'text-red-800', label: 'Suspended' },
-      archived: { bg: 'bg-gray-100', text: 'text-gray-800', label: 'Archived' },
+      pending: { bg: 'bg-amber-50', text: 'text-amber-900', label: 'Pending' },
+      deploying: { bg: 'bg-teal-100', text: 'text-teal-800', label: 'Deploying' },
+      suspended: { bg: 'bg-coral-100', text: 'text-coral-800', label: 'Suspended' },
+      archived: { bg: 'bg-grey-light', text: 'text-navy', label: 'Archived' },
     }
     const style = config[status] || config.pending
     return (
@@ -133,7 +133,7 @@ export default function ClientsPage() {
       corporate: 'Corporate',
     }
     return (
-      <Badge variant="outline" className="bg-blue-50 text-blue-700 hover:bg-blue-50">
+      <Badge variant="outline" className="bg-teal-50 text-teal-700 hover:bg-teal-50">
         {labels[template] || template}
       </Badge>
     )
@@ -145,7 +145,7 @@ export default function ClientsPage() {
     return (
       <div className="p-8">
         <div className="flex items-center justify-center h-64">
-          <RefreshCw className="h-8 w-8 animate-spin text-gray-400" />
+          <RefreshCw className="h-8 w-8 animate-spin text-grey-mid" />
         </div>
       </div>
     )
@@ -287,7 +287,7 @@ export default function ClientsPage() {
               <div className="border rounded-lg overflow-hidden">
                 <Table>
                   <TableHeader>
-                    <TableRow className="bg-gray-50">
+                    <TableRow className="bg-grey-light">
                       <TableHead className="font-semibold">Name</TableHead>
                       <TableHead className="font-semibold">Domain</TableHead>
                       <TableHead className="font-semibold">Template</TableHead>
@@ -299,10 +299,10 @@ export default function ClientsPage() {
                   </TableHeader>
                   <TableBody>
                     {clients.map((client) => (
-                      <TableRow key={client.id} className="hover:bg-gray-50">
+                      <TableRow key={client.id} className="hover:bg-grey-light">
                         <TableCell className="font-medium">{client.name}</TableCell>
                         <TableCell>
-                          <code className="text-xs bg-gray-100 px-2 py-1 rounded font-mono">
+                          <code className="text-xs bg-grey-light px-2 py-1 rounded font-mono">
                             {client.domain}
                           </code>
                         </TableCell>
@@ -315,7 +315,7 @@ export default function ClientsPage() {
                         </TableCell>
                         <TableCell>
                           {client.monthlyFee > 0 ? (
-                            <span className="font-medium text-green-600">
+                            <span className="font-medium text-green">
                               €{client.monthlyFee}/mo
                             </span>
                           ) : (

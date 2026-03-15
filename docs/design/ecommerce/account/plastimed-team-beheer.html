@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Beheer — Plastimed.nl</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root {
+    --navy: #0A1628; --navy-light: #121F33;
+    --teal: #00897B; --teal-light: #26A69A; --teal-glow: rgba(0,137,123,0.15); --teal-dark: #00695C; --teal-bg: #E0F2F1;
+    --white: #FAFBFC; --grey: #E8ECF1; --grey-light: #F1F4F8; --grey-mid: #94A3B8; --grey-dark: #64748B;
+    --green: #00C853; --green-light: #E8F5E9;
+    --coral: #FF6B6B; --coral-light: #FFF0F0;
+    --amber: #F59E0B; --amber-light: #FFF8E1;
+    --blue: #2196F3; --blue-light: #E3F2FD;
+    --purple: #7C3AED; --purple-light: #EDE9FE;
+    --bg: #F5F7FA;
+    --r-sm: 8px; --r-md: 12px; --r-lg: 16px;
+    --sh-sm: 0 1px 3px rgba(10,22,40,0.06);
+    --sh-md: 0 4px 20px rgba(10,22,40,0.08);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--navy); -webkit-font-smoothing:antialiased; }
+  .container { max-width:1240px; margin:0 auto; padding:0 24px; }
+
+  /* ═══ TOPBAR ═══ */
+  .topbar { background:var(--navy); color:rgba(255,255,255,0.7); font-size:13px; padding:8px 0; }
+  .topbar .container { display:flex; justify-content:space-between; align-items:center; }
+
+  /* ═══ HEADER ═══ */
+  .header { background:white; border-bottom:1px solid var(--grey); position:sticky; top:0; z-index:100; box-shadow:0 1px 3px rgba(10,22,40,0.04); }
+  .header .container { display:flex; align-items:center; padding:16px 24px; gap:32px; }
+  .logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .logo-icon { width:42px; height:42px; background:linear-gradient(135deg,var(--teal),var(--teal-light)); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-size:20px; font-weight:800; font-family:'Plus Jakarta Sans',sans-serif; }
+  .logo-text { font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:22px; color:var(--navy); }
+  .logo-text em { color:var(--teal); font-style:normal; }
+
+  /* ═══ ACCOUNT LAYOUT ═══ */
+  .account-layout { display:grid; grid-template-columns:260px 1fr; gap:28px; padding:32px 0 80px; align-items:start; }
+
+  /* ═══ SIDEBAR NAV ═══ */
+  .account-user { background:white; border:1px solid var(--grey); border-radius:16px; padding:24px; margin-bottom:16px; text-align:center; }
+  .user-avatar { width:64px; height:64px; background:linear-gradient(135deg,var(--teal),var(--teal-light)); border-radius:16px; display:flex; align-items:center; justify-content:center; color:white; font-family:'Plus Jakarta Sans',sans-serif; font-size:24px; font-weight:800; margin:0 auto 12px; }
+  .user-name { font-family:'Plus Jakarta Sans',sans-serif; font-size:16px; font-weight:800; }
+  .user-company { font-size:13px; color:var(--grey-mid); margin-top:2px; }
+  .user-since { font-size:11px; color:var(--grey-mid); margin-top:8px; display:flex; align-items:center; justify-content:center; gap:4px; }
+  .user-since i { width:12px; height:12px; }
+
+  .account-nav { background:white; border:1px solid var(--grey); border-radius:16px; overflow:hidden; }
+  .nav-link { display:flex; align-items:center; gap:12px; padding:14px 20px; border-bottom:1px solid var(--grey); cursor:pointer; transition:all .15s; font-size:14px; font-weight:500; color:var(--navy); text-decoration:none; }
+  .nav-link:last-child { border-bottom:none; }
+  .nav-link:hover { background:var(--teal-glow); color:var(--teal); }
+  .nav-link.active { background:var(--teal-glow); color:var(--teal); font-weight:700; border-left:3px solid var(--teal); }
+  .nav-link i { width:18px; height:18px; flex-shrink:0; }
+  .nav-link .badge { margin-left:auto; background:var(--coral); color:white; font-size:10px; font-weight:700; padding:2px 7px; border-radius:100px; }
+
+  /* ═══ MAIN CONTENT ═══ */
+  .account-main { min-width:0; }
+  .section-card { background:white; border:1px solid var(--grey); border-radius:16px; padding:28px; margin-bottom:20px; }
+
+  /* ─── PAGE HEADER [AccountPageHeader] ─── */
+  .page-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; }
+  .page-header h1 { font-family:'Plus Jakarta Sans',sans-serif; font-size:24px; font-weight:800; display:flex; align-items:center; gap:10px; }
+  .page-header h1 i { width:24px; height:24px; color:var(--teal); }
+  .page-header .subtitle { font-size:14px; color:var(--grey-mid); margin-top:4px; }
+
+  .btn-primary { display:inline-flex; align-items:center; gap:8px; padding:11px 22px; background:var(--teal); color:white; border:none; border-radius:var(--r-sm); font-size:14px; font-weight:700; font-family:'DM Sans',sans-serif; cursor:pointer; transition:all .2s; }
+  .btn-primary:hover { background:var(--teal-dark); transform:translateY(-1px); box-shadow:var(--sh-md); }
+  .btn-primary i { width:16px; height:16px; }
+  .btn-secondary { display:inline-flex; align-items:center; gap:8px; padding:11px 22px; background:white; color:var(--navy); border:1.5px solid var(--grey); border-radius:var(--r-sm); font-size:14px; font-weight:600; font-family:'DM Sans',sans-serif; cursor:pointer; transition:all .2s; }
+  .btn-secondary:hover { border-color:var(--teal); color:var(--teal); }
+  .btn-secondary i { width:16px; height:16px; }
+
+  /* ─── STATS GRID [AccountStatCard x4] ─── */
+  .stats-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-bottom:24px; }
+  .stat-card { background:white; border:1px solid var(--grey); border-radius:14px; padding:20px; transition:all .2s; }
+  .stat-card:hover { border-color:rgba(0,137,123,0.2); transform:translateY(-2px); box-shadow:var(--sh-md); }
+  .stat-icon { width:42px; height:42px; border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:12px; }
+  .stat-icon i { width:20px; height:20px; }
+  .stat-icon.teal { background:var(--teal-glow); color:var(--teal); }
+  .stat-icon.green { background:var(--green-light); color:var(--green); }
+  .stat-icon.amber { background:var(--amber-light); color:var(--amber); }
+  .stat-icon.blue { background:var(--blue-light); color:var(--blue); }
+  .stat-icon.purple { background:var(--purple-light); color:var(--purple); }
+  .stat-number { font-family:'Plus Jakarta Sans',sans-serif; font-size:24px; font-weight:800; }
+  .stat-label { font-size:13px; color:var(--grey-mid); margin-top:2px; }
+
+  /* ─── SEARCH + FILTER BAR [TeamSearchBar] ─── */
+  .search-filter-bar { display:flex; gap:12px; margin-bottom:20px; align-items:center; }
+  .search-input { flex:1; position:relative; }
+  .search-input input { width:100%; padding:11px 16px 11px 42px; border:1.5px solid var(--grey); border-radius:var(--r-sm); font-size:14px; font-family:'DM Sans',sans-serif; background:white; transition:all .2s; }
+  .search-input input:focus { outline:none; border-color:var(--teal); box-shadow:0 0 0 3px var(--teal-glow); }
+  .search-input i { position:absolute; left:14px; top:50%; transform:translateY(-50%); width:16px; height:16px; color:var(--grey-mid); }
+  .filter-select { padding:11px 36px 11px 16px; border:1.5px solid var(--grey); border-radius:var(--r-sm); font-size:14px; font-family:'DM Sans',sans-serif; background:white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right 12px center no-repeat; appearance:none; cursor:pointer; color:var(--navy); }
+  .filter-select:focus { outline:none; border-color:var(--teal); }
+
+  /* ─── TEAM MEMBER TABLE [TeamMemberList → TeamMemberRow] ─── */
+  .team-table { width:100%; border-collapse:collapse; }
+  .team-table th { text-align:left; padding:12px 16px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--grey-mid); border-bottom:2px solid var(--grey); background:var(--grey-light); }
+  .team-table th:first-child { border-radius:8px 0 0 0; }
+  .team-table th:last-child { border-radius:0 8px 0 0; text-align:right; }
+  .team-table td { padding:16px; font-size:14px; border-bottom:1px solid var(--grey); vertical-align:middle; }
+  .team-table tr:hover td { background:rgba(0,137,123,0.02); }
+
+  .member-info { display:flex; align-items:center; gap:12px; }
+  .member-avatar { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:800; color:white; flex-shrink:0; }
+  .member-avatar.teal { background:linear-gradient(135deg,var(--teal),var(--teal-light)); }
+  .member-avatar.blue { background:linear-gradient(135deg,var(--blue),#42A5F5); }
+  .member-avatar.purple { background:linear-gradient(135deg,var(--purple),#9F67FF); }
+  .member-avatar.amber { background:linear-gradient(135deg,var(--amber),#FBBF24); }
+  .member-name { font-weight:700; color:var(--navy); }
+  .member-email { font-size:12px; color:var(--grey-mid); margin-top:1px; }
+
+  /* ─── ROLE BADGE [RoleBadge] ─── */
+  .role-badge { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:700; }
+  .role-badge i { width:13px; height:13px; }
+  .role-badge.admin { background:var(--teal-glow); color:var(--teal); }
+  .role-badge.inkoper { background:var(--blue-light); color:var(--blue); }
+  .role-badge.manager { background:var(--purple-light); color:var(--purple); }
+  .role-badge.financieel { background:var(--amber-light); color:var(--amber); }
+  .role-badge.viewer { background:var(--grey-light); color:var(--grey-dark); }
+
+  /* ─── STATUS DOT [StatusBadge — BESTAAND] ─── */
+  .status { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; }
+  .status-dot { width:8px; height:8px; border-radius:50%; }
+  .status.active .status-dot { background:var(--green); }
+  .status.active { color:var(--green); }
+  .status.pending .status-dot { background:var(--amber); }
+  .status.pending { color:var(--amber); }
+  .status.inactive .status-dot { background:var(--grey-mid); }
+  .status.inactive { color:var(--grey-mid); }
+
+  .last-login { font-size:12px; color:var(--grey-mid); }
+
+  .row-actions { display:flex; gap:6px; justify-content:flex-end; }
+  .icon-btn { width:34px; height:34px; border-radius:8px; border:1px solid var(--grey); background:white; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s; color:var(--grey-dark); }
+  .icon-btn:hover { border-color:var(--teal); color:var(--teal); background:var(--teal-glow); }
+  .icon-btn.danger:hover { border-color:var(--coral); color:var(--coral); background:var(--coral-light); }
+  .icon-btn i { width:15px; height:15px; }
+
+  /* ─── INVITE MODAL [InviteUserModal] ─── */
+  .modal-overlay { position:fixed; inset:0; background:rgba(10,22,40,0.5); z-index:400; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
+  .modal { background:white; border-radius:var(--r-lg); width:520px; max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(10,22,40,0.2); }
+  .modal-header { padding:24px 28px 0; display:flex; align-items:center; justify-content:space-between; }
+  .modal-header h2 { font-family:'Plus Jakarta Sans',sans-serif; font-size:20px; font-weight:800; display:flex; align-items:center; gap:10px; }
+  .modal-header h2 i { width:22px; height:22px; color:var(--teal); }
+  .modal-close { width:36px; height:36px; border-radius:8px; border:none; background:var(--grey-light); cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--grey-dark); transition:all .15s; }
+  .modal-close:hover { background:var(--coral-light); color:var(--coral); }
+  .modal-close i { width:18px; height:18px; }
+  .modal-body { padding:24px 28px; }
+  .modal-footer { padding:0 28px 24px; display:flex; gap:12px; justify-content:flex-end; }
+
+  .form-group { margin-bottom:20px; }
+  .form-label { display:block; font-size:13px; font-weight:700; color:var(--navy); margin-bottom:6px; }
+  .form-label .optional { font-weight:400; color:var(--grey-mid); }
+  .form-input { width:100%; padding:11px 16px; border:1.5px solid var(--grey); border-radius:var(--r-sm); font-size:14px; font-family:'DM Sans',sans-serif; transition:all .2s; }
+  .form-input:focus { outline:none; border-color:var(--teal); box-shadow:0 0 0 3px var(--teal-glow); }
+  .form-input::placeholder { color:var(--grey-mid); }
+  textarea.form-input { resize:vertical; min-height:80px; }
+
+  /* ─── ROLE SELECTOR [RoleSelector] ─── */
+  .role-options { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .role-option { display:flex; align-items:center; gap:10px; padding:14px 16px; border:1.5px solid var(--grey); border-radius:var(--r-sm); cursor:pointer; transition:all .2s; }
+  .role-option:hover { border-color:var(--teal); background:var(--teal-glow); }
+  .role-option.selected { border-color:var(--teal); background:var(--teal-glow); }
+  .role-option .role-icon { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; }
+  .role-option .role-icon i { width:18px; height:18px; }
+  .role-option .role-icon.admin { background:var(--teal-glow); color:var(--teal); }
+  .role-option .role-icon.inkoper { background:var(--blue-light); color:var(--blue); }
+  .role-option .role-icon.manager { background:var(--purple-light); color:var(--purple); }
+  .role-option .role-icon.financieel { background:var(--amber-light); color:var(--amber); }
+  .role-option .role-name { font-weight:700; font-size:14px; }
+  .role-option .role-desc { font-size:11px; color:var(--grey-mid); margin-top:1px; }
+
+  /* ─── PENDING INVITES SECTION [PendingInvitesList → PendingInviteRow] ─── */
+  .invite-row { display:flex; align-items:center; padding:14px 0; border-bottom:1px solid var(--grey); gap:16px; }
+  .invite-row:last-child { border-bottom:none; }
+  .invite-icon { width:40px; height:40px; border-radius:10px; background:var(--amber-light); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .invite-icon i { width:18px; height:18px; color:var(--amber); }
+  .invite-info { flex:1; }
+  .invite-email { font-weight:600; font-size:14px; }
+  .invite-meta { font-size:12px; color:var(--grey-mid); margin-top:2px; }
+  .invite-actions { display:flex; gap:8px; }
+
+  .btn-sm { padding:7px 14px; font-size:12px; font-weight:700; border-radius:6px; border:none; cursor:pointer; transition:all .15s; font-family:'DM Sans',sans-serif; }
+  .btn-sm.resend { background:var(--teal-glow); color:var(--teal); }
+  .btn-sm.resend:hover { background:var(--teal); color:white; }
+  .btn-sm.revoke { background:var(--coral-light); color:var(--coral); }
+  .btn-sm.revoke:hover { background:var(--coral); color:white; }
+
+  /* ─── COMPANY INFO CARD [CompanyInfoCard] ─── */
+  .company-card { background:linear-gradient(135deg, var(--navy), var(--navy-light)); border-radius:var(--r-lg); padding:24px; color:white; margin-bottom:20px; }
+  .company-card h3 { font-family:'Plus Jakarta Sans',sans-serif; font-size:18px; font-weight:800; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  .company-card h3 i { width:20px; height:20px; color:var(--teal-light); }
+  .company-details { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .company-detail-label { font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:rgba(255,255,255,0.5); margin-bottom:3px; }
+  .company-detail-value { font-size:14px; font-weight:600; }
+
+  /* ═══ COMPONENT INDEX ═══ */
+  .component-index { background:var(--navy); color:white; padding:48px 0; margin-top:60px; }
+  .component-index h2 { font-family:'Plus Jakarta Sans',sans-serif; font-size:24px; font-weight:800; margin-bottom:24px; }
+  .component-index table { width:100%; border-collapse:collapse; }
+  .component-index th { text-align:left; padding:10px 16px; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--teal-light); border-bottom:1px solid rgba(255,255,255,0.1); }
+  .component-index td { padding:10px 16px; font-size:13px; border-bottom:1px solid rgba(255,255,255,0.05); }
+  .component-index td:first-child { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--teal-light); font-weight:600; }
+  .ci-new { display:inline-block; padding:2px 6px; border-radius:4px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; background:var(--green); color:white; margin-left:6px; }
+  .ci-exists { display:inline-block; padding:2px 6px; border-radius:4px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; background:var(--blue); color:white; margin-left:6px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     TOPBAR
+     ═══════════════════════════════════════════════ -->
+<div class="topbar">
+  <div class="container">
+    <span>Plastimed.nl — Medische hulpmiddelen</span>
+    <span>☎ 010 - 303 6688</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════════ -->
+<div class="header">
+  <div class="container">
+    <a class="logo" href="#">
+      <div class="logo-icon">P</div>
+      <div class="logo-text">Plasti<em>med</em></div>
+    </a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ACCOUNT LAYOUT
+     ═══════════════════════════════════════════════ -->
+<div class="container">
+<div class="account-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="account-sidebar">
+    <div class="account-user">
+      <div class="user-avatar">JV</div>
+      <div class="user-name">Jan de Vries</div>
+      <div class="user-company">Huisartsenpraktijk De Vries</div>
+      <div class="user-since"><i data-lucide="calendar"></i> Lid sinds jan. 2024</div>
+    </div>
+    <nav class="account-nav">
+      <a class="nav-link" href="#"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+      <a class="nav-link" href="#"><i data-lucide="package"></i> Bestellingen</a>
+      <a class="nav-link" href="#"><i data-lucide="file-text"></i> Offertes</a>
+      <a class="nav-link active" href="#"><i data-lucide="users"></i> Team <span class="badge">5</span></a>
+      <a class="nav-link" href="#"><i data-lucide="check-circle"></i> Goedkeuringen <span class="badge">2</span></a>
+      <a class="nav-link" href="#"><i data-lucide="list-ordered"></i> Bestellijsten</a>
+      <a class="nav-link" href="#"><i data-lucide="repeat"></i> Herhaalbest.</a>
+      <a class="nav-link" href="#"><i data-lucide="receipt"></i> Facturen</a>
+      <a class="nav-link" href="#"><i data-lucide="map-pin"></i> Adressen</a>
+      <a class="nav-link" href="#"><i data-lucide="settings"></i> Instellingen</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="account-main">
+
+    <!-- ─── COMPANY INFO CARD [CompanyInfoCard] ─── -->
+    <div class="company-card">
+      <h3><i data-lucide="building-2"></i> Huisartsenpraktijk De Vries</h3>
+      <div class="company-details">
+        <div>
+          <div class="company-detail-label">KvK-nummer</div>
+          <div class="company-detail-value">12345678</div>
+        </div>
+        <div>
+          <div class="company-detail-label">BTW-nummer</div>
+          <div class="company-detail-value">NL123456789B01</div>
+        </div>
+        <div>
+          <div class="company-detail-label">Abonnement</div>
+          <div class="company-detail-value">Business Pro</div>
+        </div>
+        <div>
+          <div class="company-detail-label">Actief sinds</div>
+          <div class="company-detail-value">15 jan. 2024</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── PAGE HEADER [AccountPageHeader — BESTAAND] ─── -->
+    <div class="page-header">
+      <div>
+        <h1><i data-lucide="users"></i> Teambeheer</h1>
+        <div class="subtitle">Beheer gebruikers, rollen en uitnodigingen voor uw bedrijfsaccount</div>
+      </div>
+      <button class="btn-primary" onclick="document.getElementById('invite-modal').style.display='flex'">
+        <i data-lucide="user-plus"></i> Uitnodigen
+      </button>
+    </div>
+
+    <!-- ─── STATS [AccountStatCard x4 — BESTAAND] ─── -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon teal"><i data-lucide="users"></i></div>
+        <div class="stat-number">5</div>
+        <div class="stat-label">Actieve gebruikers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon amber"><i data-lucide="mail"></i></div>
+        <div class="stat-number">2</div>
+        <div class="stat-label">Openstaande uitnodigingen</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green"><i data-lucide="shield-check"></i></div>
+        <div class="stat-number">3</div>
+        <div class="stat-label">Rollen geconfigureerd</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon blue"><i data-lucide="activity"></i></div>
+        <div class="stat-number">12</div>
+        <div class="stat-label">Bestellingen deze maand</div>
+      </div>
+    </div>
+
+    <!-- ─── SEARCH + FILTER [TeamSearchBar — NIEUW] ─── -->
+    <div class="section-card">
+      <div class="search-filter-bar">
+        <div class="search-input">
+          <i data-lucide="search"></i>
+          <input type="text" placeholder="Zoek op naam of e-mailadres...">
+        </div>
+        <select class="filter-select">
+          <option>Alle rollen</option>
+          <option>Admin</option>
+          <option>Inkoper</option>
+          <option>Manager</option>
+          <option>Financieel</option>
+          <option>Alleen-lezen</option>
+        </select>
+        <select class="filter-select">
+          <option>Alle statussen</option>
+          <option>Actief</option>
+          <option>Uitgenodigd</option>
+          <option>Inactief</option>
+        </select>
+      </div>
+
+      <!-- ─── TEAM MEMBERS TABLE [TeamMemberList → TeamMemberRow — NIEUW] ─── -->
+      <table class="team-table">
+        <thead>
+          <tr>
+            <th>Gebruiker</th>
+            <th>Rol</th>
+            <th>Status</th>
+            <th>Laatste login</th>
+            <th style="text-align:right">Acties</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="member-info">
+                <div class="member-avatar teal">JV</div>
+                <div>
+                  <div class="member-name">Jan de Vries</div>
+                  <div class="member-email">jan@huisartspraktijkdevries.nl</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="role-badge admin"><i data-lucide="shield"></i> Admin</span></td>
+            <td><span class="status active"><span class="status-dot"></span> Actief</span></td>
+            <td><span class="last-login">Vandaag, 14:32</span></td>
+            <td>
+              <div class="row-actions">
+                <button class="icon-btn" title="Bewerken"><i data-lucide="pencil"></i></button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="member-info">
+                <div class="member-avatar blue">LB</div>
+                <div>
+                  <div class="member-name">Lisa Bakker</div>
+                  <div class="member-email">lisa@huisartspraktijkdevries.nl</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="role-badge inkoper"><i data-lucide="shopping-cart"></i> Inkoper</span></td>
+            <td><span class="status active"><span class="status-dot"></span> Actief</span></td>
+            <td><span class="last-login">Gisteren, 09:15</span></td>
+            <td>
+              <div class="row-actions">
+                <button class="icon-btn" title="Bewerken"><i data-lucide="pencil"></i></button>
+                <button class="icon-btn danger" title="Verwijderen"><i data-lucide="trash-2"></i></button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="member-info">
+                <div class="member-avatar purple">MJ</div>
+                <div>
+                  <div class="member-name">Mark Jansen</div>
+                  <div class="member-email">mark@huisartspraktijkdevries.nl</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="role-badge manager"><i data-lucide="user-check"></i> Manager</span></td>
+            <td><span class="status active"><span class="status-dot"></span> Actief</span></td>
+            <td><span class="last-login">7 mrt. 2026</span></td>
+            <td>
+              <div class="row-actions">
+                <button class="icon-btn" title="Bewerken"><i data-lucide="pencil"></i></button>
+                <button class="icon-btn danger" title="Verwijderen"><i data-lucide="trash-2"></i></button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="member-info">
+                <div class="member-avatar amber">PK</div>
+                <div>
+                  <div class="member-name">Petra Kuiper</div>
+                  <div class="member-email">petra@huisartspraktijkdevries.nl</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="role-badge financieel"><i data-lucide="calculator"></i> Financieel</span></td>
+            <td><span class="status active"><span class="status-dot"></span> Actief</span></td>
+            <td><span class="last-login">5 mrt. 2026</span></td>
+            <td>
+              <div class="row-actions">
+                <button class="icon-btn" title="Bewerken"><i data-lucide="pencil"></i></button>
+                <button class="icon-btn danger" title="Verwijderen"><i data-lucide="trash-2"></i></button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="member-info">
+                <div class="member-avatar blue">RH</div>
+                <div>
+                  <div class="member-name">Rik Hendriks</div>
+                  <div class="member-email">rik@huisartspraktijkdevries.nl</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="role-badge viewer"><i data-lucide="eye"></i> Alleen-lezen</span></td>
+            <td><span class="status active"><span class="status-dot"></span> Actief</span></td>
+            <td><span class="last-login">1 mrt. 2026</span></td>
+            <td>
+              <div class="row-actions">
+                <button class="icon-btn" title="Bewerken"><i data-lucide="pencil"></i></button>
+                <button class="icon-btn danger" title="Verwijderen"><i data-lucide="trash-2"></i></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ─── PENDING INVITES [PendingInvitesList → PendingInviteRow — NIEUW] ─── -->
+    <div class="section-card">
+      <h2 style="font-family:'Plus Jakarta Sans',sans-serif; font-size:18px; font-weight:800; margin-bottom:16px; display:flex; align-items:center; gap:8px;">
+        <i data-lucide="mail" style="width:20px; height:20px; color:var(--amber);"></i>
+        Openstaande uitnodigingen
+      </h2>
+
+      <div class="invite-row">
+        <div class="invite-icon"><i data-lucide="clock"></i></div>
+        <div class="invite-info">
+          <div class="invite-email">sophie@huisartspraktijkdevries.nl</div>
+          <div class="invite-meta">Uitgenodigd als <strong>Inkoper</strong> · 3 dagen geleden</div>
+        </div>
+        <div class="invite-actions">
+          <button class="btn-sm resend">Opnieuw versturen</button>
+          <button class="btn-sm revoke">Intrekken</button>
+        </div>
+      </div>
+
+      <div class="invite-row">
+        <div class="invite-icon"><i data-lucide="clock"></i></div>
+        <div class="invite-info">
+          <div class="invite-email">tom@huisartspraktijkdevries.nl</div>
+          <div class="invite-meta">Uitgenodigd als <strong>Alleen-lezen</strong> · 1 week geleden</div>
+        </div>
+        <div class="invite-actions">
+          <button class="btn-sm resend">Opnieuw versturen</button>
+          <button class="btn-sm revoke">Intrekken</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     INVITE MODAL [InviteUserModal — NIEUW]
+     ═══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="invite-modal" style="display:flex">
+  <div class="modal">
+    <div class="modal-header">
+      <h2><i data-lucide="user-plus"></i> Teamlid uitnodigen</h2>
+      <button class="modal-close" onclick="document.getElementById('invite-modal').style.display='none'"><i data-lucide="x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">E-mailadres</label>
+        <input type="email" class="form-input" placeholder="collega@bedrijf.nl">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Rol toewijzen</label>
+        <!-- ─── ROLE SELECTOR [RoleSelector — NIEUW] ─── -->
+        <div class="role-options">
+          <div class="role-option">
+            <div class="role-icon admin"><i data-lucide="shield"></i></div>
+            <div>
+              <div class="role-name">Admin</div>
+              <div class="role-desc">Volledige toegang & beheer</div>
+            </div>
+          </div>
+          <div class="role-option selected">
+            <div class="role-icon inkoper"><i data-lucide="shopping-cart"></i></div>
+            <div>
+              <div class="role-name">Inkoper</div>
+              <div class="role-desc">Bestellen & lijsten beheren</div>
+            </div>
+          </div>
+          <div class="role-option">
+            <div class="role-icon manager"><i data-lucide="user-check"></i></div>
+            <div>
+              <div class="role-name">Manager</div>
+              <div class="role-desc">Bestellingen goedkeuren</div>
+            </div>
+          </div>
+          <div class="role-option">
+            <div class="role-icon financieel"><i data-lucide="calculator"></i></div>
+            <div>
+              <div class="role-name">Financieel</div>
+              <div class="role-desc">Facturen & budgetten</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Persoonlijk bericht <span class="optional">(optioneel)</span></label>
+        <textarea class="form-input" placeholder="Voeg een bericht toe aan de uitnodiging..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="document.getElementById('invite-modal').style.display='none'">Annuleren</button>
+      <button class="btn-primary"><i data-lucide="send"></i> Uitnodiging versturen</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     COMPONENT INDEX — Overzicht van alle componenten
+     ═══════════════════════════════════════════════════════ -->
+<div class="component-index">
+  <div class="container">
+    <h2>📋 Component Index — Team Beheer (Fase 5.1)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Status</th>
+          <th>Pad</th>
+          <th>Beschrijving</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AccountPageHeader</td>
+          <td><span class="ci-exists">BESTAAND</span></td>
+          <td>shared/components/account/ui/AccountPageHeader</td>
+          <td>Paginatitel met subtitle en actieknoppen</td>
+        </tr>
+        <tr>
+          <td>AccountStatCard</td>
+          <td><span class="ci-exists">BESTAAND</span></td>
+          <td>shared/components/account/ui/AccountStatCard</td>
+          <td>Statistiek-kaart met icoon, waarde en label</td>
+        </tr>
+        <tr>
+          <td>StatusBadge</td>
+          <td><span class="ci-exists">BESTAAND</span></td>
+          <td>shared/components/account/ui/StatusBadge</td>
+          <td>Kleur-gecodeerde status met dot indicator</td>
+        </tr>
+        <tr>
+          <td>AccountEmptyState</td>
+          <td><span class="ci-exists">BESTAAND</span></td>
+          <td>shared/components/account/ui/AccountEmptyState</td>
+          <td>Lege staat met icoon en actieknop</td>
+        </tr>
+        <tr>
+          <td>CompanyInfoCard</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/team/CompanyInfoCard</td>
+          <td>Navy-gradient kaart met bedrijfsgegevens (KvK, BTW, abonnement)</td>
+        </tr>
+        <tr>
+          <td>TeamMemberList</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/team/TeamMemberList</td>
+          <td>Tabel met alle teamleden, zoek/filter, sortering</td>
+        </tr>
+        <tr>
+          <td>TeamMemberRow</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/team/TeamMemberRow</td>
+          <td>Enkele rij: avatar, naam, email, rol, status, login, acties</td>
+        </tr>
+        <tr>
+          <td>RoleBadge</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/team/RoleBadge</td>
+          <td>Kleur-gecodeerde rolbadge (admin=teal, inkoper=blue, etc.)</td>
+        </tr>
+        <tr>
+          <td>TeamSearchBar</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/team/TeamSearchBar</td>
+          <td>Zoekveld + rol-filter + status-filter dropdowns</td>
+        </tr>
+        <tr>
+          <td>InviteUserModal</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/team/InviteUserModal</td>
+          <td>Modal: e-mail, rolkeuze, optioneel bericht, verzenden</td>
+        </tr>
+        <tr>
+          <td>RoleSelector</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/team/RoleSelector</td>
+          <td>2×2 grid kaarten met rol-icoon, naam, beschrijving</td>
+        </tr>
+        <tr>
+          <td>PendingInvitesList</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/team/PendingInvitesList</td>
+          <td>Lijst openstaande uitnodigingen met resend/revoke acties</td>
+        </tr>
+        <tr>
+          <td>PendingInviteRow</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/components/account/team/PendingInviteRow</td>
+          <td>Enkele uitnodiging: e-mail, rol, datum, acties</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 style="margin-top:40px">📄 Template & Pagina</h2>
+    <table>
+      <thead>
+        <tr><th>Type</th><th>Status</th><th>Pad</th><th>Beschrijving</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>TeamTemplate</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>b2b/templates/account/AccountTemplate1/TeamTemplate</td>
+          <td>CompanyInfoCard + PageHeader + Stats + TeamMemberList + PendingInvitesList</td>
+        </tr>
+        <tr>
+          <td>team/page.tsx</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>app/(ecommerce)/account/team/page.tsx</td>
+          <td>Data-fetching → TeamTemplate</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 style="margin-top:40px">🗄 Backend (Payload CMS)</h2>
+    <table>
+      <thead>
+        <tr><th>Item</th><th>Status</th><th>Beschrijving</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CompanyAccounts collectie</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>Bedrijfsaccount met KvK, BTW, plan, eigenaar, credits</td>
+        </tr>
+        <tr>
+          <td>CompanyInvites collectie</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>Uitnodigingen: email, rol, token, status, verlooptijd</td>
+        </tr>
+        <tr>
+          <td>Users uitbreiden</td>
+          <td><span class="ci-exists">UITBREIDEN</span></td>
+          <td>+ companyAccount (relatie), + companyRole (select)</td>
+        </tr>
+        <tr>
+          <td>API routes</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>/api/account/team (GET/POST), /api/account/team/invite, /api/account/team/[id] (PATCH/DELETE)</td>
+        </tr>
+        <tr>
+          <td>Migratie</td>
+          <td><span class="ci-new">NIEUW</span></td>
+          <td>company_accounts tabel, company_invites tabel, users → company_account_id + company_role</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

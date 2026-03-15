@@ -3,8 +3,8 @@ import Link from 'next/link'
 import type { CallToActionBlock } from '@/payload-types'
 
 const bgClasses: Record<string, string> = {
-  white: 'bg-white text-gray-900',
-  grey: 'bg-gray-100 text-gray-900',
+  white: 'bg-white text-navy',
+  grey: 'bg-grey-light text-navy',
   teal: 'bg-teal text-white',
 }
 

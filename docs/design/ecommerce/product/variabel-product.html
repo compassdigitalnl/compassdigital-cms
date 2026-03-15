@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variabel Product: Custom Sneaker — digistore</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{--navy:#0A1628;--navy-light:#121F33;--teal:#00897B;--teal-light:#26A69A;--teal-glow:rgba(0,137,123,0.12);--white:#FAFBFC;--grey:#E8ECF1;--grey-light:#F1F4F8;--grey-mid:#94A3B8;--grey-dark:#64748B;--green:#00C853;--green-light:#E8F5E9;--coral:#FF6B6B;--coral-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFF8E1;--blue:#2196F3;--blue-light:#E3F2FD;--purple:#7C3AED;--purple-light:#EDE9FE;--bg:#F5F7FA;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(10,22,40,0.06);--shadow-md:0 8px 24px rgba(10,22,40,0.08);--transition:0.2s cubic-bezier(0.4,0,0.2,1);--container:1240px;--gutter:24px;}
+  *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;}.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+
+  /* Header */
+  .header{background:white;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--grey);box-shadow:var(--shadow-sm);}.header .container{height:72px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;}.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);text-decoration:none;}.logo em{color:var(--teal);font-style:normal;}.search-wrap{width:100%;max-width:600px;justify-self:center;position:relative;}.search-field{width:100%;height:44px;padding:0 16px 0 48px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--navy);background:var(--grey-light);outline:none;}.search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);}.search-icon i{width:18px;height:18px;color:var(--grey-mid);}.header-actions{display:flex;align-items:center;gap:6px;}.h-btn{height:42px;border-radius:10px;border:1.5px solid transparent;background:var(--grey-light);color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;}.h-btn i{width:19px;height:19px;}.h-btn:hover{background:var(--teal-glow);color:var(--teal);}.h-btn-icon{width:42px;}.h-btn-cart{width:auto;padding:0 16px 0 12px;gap:8px;font-weight:700;font-size:13.5px;background:var(--navy);color:white;border-color:var(--navy);}.h-btn-cart i{color:white;}.h-btn-cart:hover{background:var(--teal);border-color:var(--teal);}.cart-count{background:var(--coral);color:white;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:100px;display:flex;align-items:center;justify-content:center;padding:0 5px;}
+  .breadcrumb-bar{padding:16px 0;}.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;list-style:none;}.breadcrumb a{color:var(--grey-mid);text-decoration:none;}.breadcrumb .sep i{width:14px;height:14px;color:var(--grey);}.breadcrumb .current{color:var(--navy);font-weight:600;}
+
+  /* Layout */
+  .product-layout{display:grid;grid-template-columns:1fr 1fr;gap:36px;padding-bottom:64px;align-items:start;}
+
+  /* Gallery */
+  .gallery{position:sticky;top:100px;}
+  .main-img{width:100%;aspect-ratio:1;border-radius:20px;background:linear-gradient(135deg,#f8f9fa,#e9ecef);display:flex;align-items:center;justify-content:center;font-size:140px;position:relative;overflow:hidden;margin-bottom:10px;border:1px solid var(--grey);}
+  .img-badge{position:absolute;top:14px;left:14px;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:800;z-index:2;display:flex;align-items:center;gap:4px;}.img-badge i{width:13px;height:13px;}
+  .badge-new{background:var(--teal);color:white;}
+  .badge-config{position:absolute;top:14px;right:14px;background:rgba(10,22,40,.7);backdrop-filter:blur(8px);color:white;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:700;z-index:2;display:flex;align-items:center;gap:3px;}.badge-config i{width:11px;height:11px;}
+  .thumb-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
+  .thumb{aspect-ratio:1;border-radius:10px;background:var(--grey-light);display:flex;align-items:center;justify-content:center;font-size:28px;border:2px solid transparent;cursor:pointer;transition:all .12s;}.thumb:hover{border-color:var(--teal);}.thumb.active{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+
+  /* Right: Product info */
+  .product-info{padding-top:4px;}
+  .prod-cat{font-size:12px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
+  .prod-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;line-height:1.15;margin-bottom:6px;}
+  .prod-rating{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:13px;}.prod-stars{color:var(--amber);}.prod-count{color:var(--grey-mid);}
+  .prod-short{font-size:14px;color:var(--grey-dark);line-height:1.6;margin-bottom:16px;}
+
+  /* Price display */
+  .price-display{display:flex;align-items:baseline;gap:10px;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--grey);}
+  .price-current{font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:800;color:var(--navy);}
+  .price-original{font-size:16px;color:var(--grey-mid);text-decoration:line-through;}
+  .price-save{padding:4px 10px;border-radius:6px;font-size:12px;font-weight:800;background:var(--coral-light);color:var(--coral);}
+  .price-note{font-size:11px;color:var(--grey-mid);margin-top:4px;}
+
+  /* Variant sections */
+  .variant-section{margin-bottom:18px;}
+  .var-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+  .var-label{font-size:14px;font-weight:700;display:flex;align-items:center;gap:5px;}.var-label i{width:15px;height:15px;color:var(--teal);}
+  .var-selected{font-size:12px;color:var(--teal);font-weight:700;background:var(--teal-glow);padding:2px 8px;border-radius:4px;}
+  .var-type-badge{font-size:10px;color:var(--grey-mid);font-weight:700;padding:2px 6px;border-radius:3px;background:var(--grey-light);text-transform:uppercase;letter-spacing:.03em;}
+
+  /* === VARIANT TYPE 1: Color swatches (Radio visual) === */
+  .color-swatches{display:flex;gap:6px;flex-wrap:wrap;}
+  .swatch{width:44px;height:44px;border-radius:12px;cursor:pointer;position:relative;transition:all .12s;border:2.5px solid transparent;display:flex;align-items:center;justify-content:center;}
+  .swatch:hover{transform:scale(1.08);}
+  .swatch.selected{border-color:var(--navy);box-shadow:0 0 0 3px var(--teal-glow);}
+  .swatch-check{width:18px;height:18px;border-radius:50%;background:white;display:none;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.2);}.swatch-check i{width:12px;height:12px;color:var(--navy);}
+  .swatch.selected .swatch-check{display:flex;}
+  .swatch-tooltip{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;color:var(--navy);white-space:nowrap;opacity:0;transition:opacity .1s;pointer-events:none;}
+  .swatch:hover .swatch-tooltip,.swatch.selected .swatch-tooltip{opacity:1;}
+
+  /* === VARIANT TYPE 2: Size radio buttons === */
+  .size-radios{display:flex;gap:5px;flex-wrap:wrap;}
+  .size-radio{width:52px;height:44px;border:2px solid var(--grey);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;cursor:pointer;transition:all .12s;position:relative;}
+  .size-radio:hover{border-color:var(--teal);}
+  .size-radio.selected{border-color:var(--teal);background:var(--teal);color:white;box-shadow:0 0 0 3px var(--teal-glow);}
+  .size-radio.oos{opacity:.35;cursor:not-allowed;text-decoration:line-through;}
+  .size-radio .stock-dot{position:absolute;top:-3px;right:-3px;width:8px;height:8px;border-radius:50%;border:1.5px solid white;}
+  .stock-green{background:var(--green);}.stock-amber{background:var(--amber);}.stock-red{background:var(--coral);}
+
+  /* === VARIANT TYPE 3: Dropdown select === */
+  .var-dropdown{position:relative;}
+  .dropdown-trigger{width:100%;height:48px;padding:0 42px 0 14px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--navy);background:white;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .12s;appearance:none;outline:none;}
+  .dropdown-trigger:focus,.dropdown-trigger.open{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+  .dd-arrow{position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;}.dd-arrow i{width:16px;height:16px;color:var(--grey-mid);}
+  .dd-icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+  .dropdown-menu{position:absolute;top:calc(100% + 4px);left:0;right:0;background:white;border:1.5px solid var(--grey);border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:100;display:none;overflow:hidden;max-height:240px;overflow-y:auto;}
+  .dropdown-menu.show{display:block;}
+  .dd-item{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;transition:background .08s;font-size:13px;font-weight:600;border-bottom:1px solid var(--grey);}.dd-item:last-child{border-bottom:none;}
+  .dd-item:hover{background:var(--teal-glow);}
+  .dd-item.selected{background:var(--teal-glow);color:var(--teal);}
+  .dd-item-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+  .dd-item-info{flex:1;}.dd-item-name{font-weight:700;}.dd-item-desc{font-size:10px;color:var(--grey-mid);}
+  .dd-item-price{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;flex-shrink:0;}
+  .dd-item-check{width:18px;height:18px;border-radius:50%;background:var(--teal);display:none;align-items:center;justify-content:center;flex-shrink:0;}.dd-item-check i{width:10px;height:10px;color:white;}.dd-item.selected .dd-item-check{display:flex;}
+
+  /* === VARIANT TYPE 4: Checkbox add-ons === */
+  .addon-grid{display:flex;flex-direction:column;gap:5px;}
+  .addon{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1.5px solid var(--grey);border-radius:10px;cursor:pointer;transition:all .12s;}.addon:hover{border-color:var(--teal);}.addon.selected{border-color:var(--teal);background:var(--teal-glow);}
+  .addon-check{width:20px;height:20px;border-radius:5px;border:2px solid var(--grey);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .12s;}.addon.selected .addon-check{background:var(--teal);border-color:var(--teal);}.addon-check i{width:12px;height:12px;color:white;display:none;}.addon.selected .addon-check i{display:block;}
+  .addon-icon{font-size:20px;flex-shrink:0;}
+  .addon-info{flex:1;}.addon-name{font-size:13px;font-weight:700;}.addon-desc{font-size:10px;color:var(--grey-mid);}
+  .addon-price{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;flex-shrink:0;color:var(--teal);}
+
+  /* === VARIANT TYPE 5: Custom text/number input === */
+  .custom-input-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .custom-field{position:relative;}
+  .cf-input{width:100%;height:46px;padding:0 14px;border:2px solid var(--grey);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--navy);outline:none;transition:all .12s;}.cf-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+  .cf-label{position:absolute;top:-8px;left:10px;background:white;padding:0 4px;font-size:10px;font-weight:700;color:var(--grey-mid);}
+  .cf-hint{font-size:10px;color:var(--grey-mid);margin-top:3px;padding-left:2px;}
+  .cf-counter{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--grey-mid);}
+
+  /* Image variant buttons */
+  .img-radios{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+  .img-radio{border:2px solid var(--grey);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .12s;text-align:center;padding-bottom:8px;}.img-radio:hover{border-color:var(--teal);}.img-radio.selected{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+  .ir-img{width:100%;aspect-ratio:1;background:var(--grey-light);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:4px;}
+  .ir-name{font-size:11px;font-weight:700;}.ir-price{font-size:10px;color:var(--teal);font-weight:700;}
+
+  /* Quantity + Add to cart */
+  .purchase-row{display:flex;gap:8px;margin-top:20px;padding-top:18px;border-top:1px solid var(--grey);}
+  .qty-wrap{display:flex;align-items:center;border:2px solid var(--grey);border-radius:var(--radius);overflow:hidden;height:52px;}
+  .qty-btn{width:42px;height:100%;border:none;background:var(--grey-light);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--navy);transition:background .1s;}.qty-btn:hover{background:var(--teal-glow);color:var(--teal);}
+  .qty-val{width:48px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;border:none;outline:none;background:white;}
+  .add-btn{flex:1;height:52px;background:var(--teal);color:white;border:none;border-radius:var(--radius);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all var(--transition);box-shadow:0 4px 16px rgba(0,137,123,.3);}.add-btn:hover{background:var(--navy);transform:translateY(-1px);}.add-btn i{width:18px;height:18px;}
+  .wish-btn{width:52px;height:52px;border:2px solid var(--grey);border-radius:var(--radius);background:white;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;flex-shrink:0;}.wish-btn:hover{border-color:var(--coral);color:var(--coral);}.wish-btn i{width:20px;height:20px;}
+
+  /* Config summary */
+  .config-summary{margin-top:14px;background:var(--grey-light);border-radius:14px;padding:14px;font-size:12px;}
+  .cs-title{font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:4px;}.cs-title i{width:13px;height:13px;color:var(--teal);}
+  .cs-row{display:flex;justify-content:space-between;padding:3px 0;}.cs-label{color:var(--grey-mid);}.cs-val{font-weight:700;}
+  .cs-total{display:flex;justify-content:space-between;padding-top:8px;margin-top:6px;border-top:2px solid var(--navy);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;}
+
+  /* Trust */
+  .trust-row{display:flex;gap:12px;margin-top:14px;}
+  .trust{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--grey-mid);font-weight:600;}.trust i{width:14px;height:14px;color:var(--teal);}
+
+  /* Tabs below */
+  .tabs-section{margin-top:32px;grid-column:1/-1;}
+  .tabs-nav{display:flex;gap:4px;border-bottom:2px solid var(--grey);padding-bottom:0;}
+  .tab-btn{padding:10px 20px;font-size:14px;font-weight:700;color:var(--grey-mid);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .12s;}.tab-btn:hover{color:var(--navy);}.tab-btn.active{color:var(--teal);border-bottom-color:var(--teal);}
+  .tab-content{padding:20px 0;font-size:14px;color:var(--grey-dark);line-height:1.7;}
+  .tab-content p{margin-bottom:8px;}
+
+  @media(max-width:900px){.product-layout{grid-template-columns:1fr;}.gallery{position:static;}.img-radios{grid-template-columns:repeat(2,1fr);}.custom-input-group{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header class="header"><div class="container"><a href="#" class="logo">digi<em>store</em></a><div class="search-wrap"><input class="search-field" type="text" placeholder="Zoek producten…"><div class="search-icon"><i data-lucide="search"></i></div></div><div class="header-actions"><button class="h-btn h-btn-icon"><i data-lucide="heart"></i></button><button class="h-btn h-btn-icon"><i data-lucide="user"></i></button><button class="h-btn h-btn-cart"><i data-lucide="shopping-cart"></i><span class="cart-count">2</span></button></div></div></header>
+<div class="breadcrumb-bar"><div class="container"><ol class="breadcrumb"><li><a href="#">Home</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li><a href="#">Schoenen</a></li><li class="sep"><i data-lucide="chevron-right"></i></li><li class="current">Custom Sneaker Pro X</li></ol></div></div>
+
+<div class="container"><div class="product-layout">
+  <!-- LEFT: Gallery -->
+  <div class="gallery">
+    <div class="main-img">
+      <div class="img-badge badge-new"><i data-lucide="sparkles"></i> Nieuw</div>
+      <div class="badge-config"><i data-lucide="sliders"></i> 6 opties configureerbaar</div>
+      👟
+    </div>
+    <div class="thumb-row">
+      <div class="thumb active">👟</div>
+      <div class="thumb">🎨</div>
+      <div class="thumb">📐</div>
+      <div class="thumb">📦</div>
+      <div class="thumb">🏷️</div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Product info + variants -->
+  <div class="product-info">
+    <div class="prod-cat">Schoenen · Custom</div>
+    <h1 class="prod-title">Custom Sneaker Pro X — Ontwerp Je Eigen</h1>
+    <div class="prod-rating"><span class="prod-stars">★★★★★</span> 4.8 <span class="prod-count">(214 reviews)</span></div>
+    <p class="prod-short">Ontwerp je perfecte sneaker. Kies kleur, maat, zooltype en personaliseer met je eigen tekst. Elke schoen wordt op bestelling gemaakt in ons atelier.</p>
+
+    <div class="price-display">
+      <div>
+        <div style="display:flex;align-items:baseline;gap:10px;">
+          <span class="price-current" id="totalPrice">€ 159,95</span>
+          <span class="price-original">€ 189,95</span>
+          <span class="price-save">-16%</span>
+        </div>
+        <div class="price-note">Incl. BTW · Gratis verzending vanaf €100</div>
+      </div>
+    </div>
+
+    <!-- VARIANT 1: Color swatches (Radio visual) -->
+    <div class="variant-section">
+      <div class="var-header">
+        <div class="var-label"><i data-lucide="palette"></i> Kleur</div>
+        <div><span class="var-type-badge">Swatches</span> <span class="var-selected" id="colorSelected">Midnight Black</span></div>
+      </div>
+      <div class="color-swatches">
+        <div class="swatch selected" style="background:#1a1a2e;" onclick="selectSwatch(this,'Midnight Black')"><div class="swatch-check"><i data-lucide="check"></i></div><span class="swatch-tooltip">Midnight Black</span></div>
+        <div class="swatch" style="background:#FAFAFA;border-color:var(--grey);" onclick="selectSwatch(this,'Arctic White')"><div class="swatch-check"><i data-lucide="check"></i></div><span class="swatch-tooltip">Arctic White</span></div>
+        <div class="swatch" style="background:#c0392b;" onclick="selectSwatch(this,'Ruby Red')"><div class="swatch-check"><i data-lucide="check"></i></div><span class="swatch-tooltip">Ruby Red</span></div>
+        <div class="swatch" style="background:var(--teal);" onclick="selectSwatch(this,'Ocean Teal')"><div class="swatch-check"><i data-lucide="check"></i></div><span class="swatch-tooltip">Ocean Teal</span></div>
+        <div class="swatch" style="background:#f39c12;" onclick="selectSwatch(this,'Sunset Gold')"><div class="swatch-check"><i data-lucide="check"></i></div><span class="swatch-tooltip">Sunset Gold</span></div>
+        <div class="swatch" style="background:linear-gradient(135deg,#667eea,#764ba2);" onclick="selectSwatch(this,'Galaxy Purple')"><div class="swatch-check"><i data-lucide="check"></i></div><span class="swatch-tooltip">Galaxy Purple</span></div>
+        <div class="swatch" style="background:linear-gradient(135deg,#11998e,#38ef7d);" onclick="selectSwatch(this,'Neon Mint')"><div class="swatch-check"><i data-lucide="check"></i></div><span class="swatch-tooltip">Neon Mint</span></div>
+        <div class="swatch" style="background:linear-gradient(135deg,#e1e1e1,#f5f5f5);border-color:var(--grey);" onclick="selectSwatch(this,'Silver Chrome +€10')"><div class="swatch-check"><i data-lucide="check"></i></div><span class="swatch-tooltip">Silver Chrome +€10</span></div>
+      </div>
+    </div>
+
+    <!-- VARIANT 2: Size radio buttons -->
+    <div class="variant-section">
+      <div class="var-header">
+        <div class="var-label"><i data-lucide="ruler"></i> Maat (EU)</div>
+        <div><span class="var-type-badge">Radio</span> <span class="var-selected" id="sizeSelected">43</span> <a href="#" style="font-size:11px;color:var(--teal);margin-left:6px;">Maattabel</a></div>
+      </div>
+      <div class="size-radios">
+        <div class="size-radio" onclick="selectSize(this,'38')">38 <span class="stock-dot stock-green"></span></div>
+        <div class="size-radio" onclick="selectSize(this,'39')">39 <span class="stock-dot stock-green"></span></div>
+        <div class="size-radio" onclick="selectSize(this,'40')">40 <span class="stock-dot stock-green"></span></div>
+        <div class="size-radio" onclick="selectSize(this,'41')">41 <span class="stock-dot stock-amber"></span></div>
+        <div class="size-radio" onclick="selectSize(this,'42')">42 <span class="stock-dot stock-green"></span></div>
+        <div class="size-radio selected" onclick="selectSize(this,'43')">43 <span class="stock-dot stock-green"></span></div>
+        <div class="size-radio" onclick="selectSize(this,'44')">44 <span class="stock-dot stock-green"></span></div>
+        <div class="size-radio" onclick="selectSize(this,'45')">45 <span class="stock-dot stock-amber"></span></div>
+        <div class="size-radio oos">46</div>
+        <div class="size-radio" onclick="selectSize(this,'47')">47 <span class="stock-dot stock-red"></span></div>
+      </div>
+    </div>
+
+    <!-- VARIANT 3: Dropdown select -->
+    <div class="variant-section">
+      <div class="var-header">
+        <div class="var-label"><i data-lucide="layers"></i> Zooltype</div>
+        <div><span class="var-type-badge">Dropdown</span></div>
+      </div>
+      <div class="var-dropdown">
+        <div class="dropdown-trigger" id="ddTrigger" onclick="toggleDropdown()">
+          <div class="dd-icon" style="background:var(--teal-glow);">🏃</div>
+          <span>ComfortFlex — Dagelijks gebruik</span>
+        </div>
+        <div class="dd-arrow"><i data-lucide="chevron-down"></i></div>
+        <div class="dropdown-menu" id="ddMenu">
+          <div class="dd-item selected" onclick="selectDdItem(this,'ComfortFlex','🏃','Dagelijks gebruik','Incl.')"><div class="dd-item-icon" style="background:var(--teal-glow);">🏃</div><div class="dd-item-info"><div class="dd-item-name">ComfortFlex</div><div class="dd-item-desc">Dagelijks gebruik · EVA schuim</div></div><div class="dd-item-price" style="color:var(--green);">Incl.</div><div class="dd-item-check"><i data-lucide="check"></i></div></div>
+          <div class="dd-item" onclick="selectDdItem(this,'SportGrip Pro','⚡','Hardlopen & sport','+ €15')"><div class="dd-item-icon" style="background:var(--blue-light);">⚡</div><div class="dd-item-info"><div class="dd-item-name">SportGrip Pro</div><div class="dd-item-desc">Hardlopen & sport · Carbon-fiber plaat</div></div><div class="dd-item-price">+ €15</div><div class="dd-item-check"><i data-lucide="check"></i></div></div>
+          <div class="dd-item" onclick="selectDdItem(this,'TrailMaster','🏔️','Off-road & hiking','+ €20')"><div class="dd-item-icon" style="background:var(--amber-light);">🏔️</div><div class="dd-item-info"><div class="dd-item-name">TrailMaster</div><div class="dd-item-desc">Off-road & hiking · Vibram rubber</div></div><div class="dd-item-price">+ €20</div><div class="dd-item-check"><i data-lucide="check"></i></div></div>
+          <div class="dd-item" onclick="selectDdItem(this,'EcoStep','🌱','100% gerecycled materiaal','+ €10')"><div class="dd-item-icon" style="background:var(--green-light);">🌱</div><div class="dd-item-info"><div class="dd-item-name">EcoStep</div><div class="dd-item-desc">100% gerecycled materiaal · B-Corp</div></div><div class="dd-item-price">+ €10</div><div class="dd-item-check"><i data-lucide="check"></i></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VARIANT 4: Image select (radio) -->
+    <div class="variant-section">
+      <div class="var-header">
+        <div class="var-label"><i data-lucide="image"></i> Vetersluiting</div>
+        <div><span class="var-type-badge">Afbeelding</span></div>
+      </div>
+      <div class="img-radios">
+        <div class="img-radio selected" onclick="selectImgRadio(this)"><div class="ir-img" style="background:var(--grey-light);">🎀</div><div class="ir-name">Klassiek</div><div class="ir-price">Incl.</div></div>
+        <div class="img-radio" onclick="selectImgRadio(this)"><div class="ir-img" style="background:var(--blue-light);">⚡</div><div class="ir-name">Speed Lace</div><div class="ir-price">+€5</div></div>
+        <div class="img-radio" onclick="selectImgRadio(this)"><div class="ir-img" style="background:var(--purple-light);">🧲</div><div class="ir-name">Magnetisch</div><div class="ir-price">+€12</div></div>
+        <div class="img-radio" onclick="selectImgRadio(this)"><div class="ir-img" style="background:var(--amber-light);">🔄</div><div class="ir-name">Slip-on</div><div class="ir-price">+€8</div></div>
+      </div>
+    </div>
+
+    <!-- VARIANT 5: Checkbox add-ons -->
+    <div class="variant-section">
+      <div class="var-header">
+        <div class="var-label"><i data-lucide="plus-circle"></i> Extra's</div>
+        <div><span class="var-type-badge">Checkbox</span></div>
+      </div>
+      <div class="addon-grid">
+        <div class="addon selected" onclick="this.classList.toggle('selected');updateTotal()"><div class="addon-check"><i data-lucide="check"></i></div><div class="addon-icon">🧴</div><div class="addon-info"><div class="addon-name">Beschermende coating</div><div class="addon-desc">Water- en vuilafstotende nano-coating</div></div><div class="addon-price">+ €12,50</div></div>
+        <div class="addon" onclick="this.classList.toggle('selected');updateTotal()"><div class="addon-check"><i data-lucide="check"></i></div><div class="addon-icon">🎁</div><div class="addon-info"><div class="addon-name">Premium verpakking</div><div class="addon-desc">Houten geschenkdoos met zijdepapier</div></div><div class="addon-price">+ €9,95</div></div>
+        <div class="addon" onclick="this.classList.toggle('selected');updateTotal()"><div class="addon-check"><i data-lucide="check"></i></div><div class="addon-icon">🔧</div><div class="addon-info"><div class="addon-name">Extra veters set</div><div class="addon-desc">3 extra kleuren veters bijgeleverd</div></div><div class="addon-price">+ €7,50</div></div>
+        <div class="addon" onclick="this.classList.toggle('selected');updateTotal()"><div class="addon-check"><i data-lucide="check"></i></div><div class="addon-icon">📦</div><div class="addon-info"><div class="addon-name">Express productie (5 dagen)</div><div class="addon-desc">Normaal 14 dagen, nu binnen 5 dagen</div></div><div class="addon-price">+ €19,95</div></div>
+      </div>
+    </div>
+
+    <!-- VARIANT 6: Custom text input -->
+    <div class="variant-section">
+      <div class="var-header">
+        <div class="var-label"><i data-lucide="type"></i> Personalisatie</div>
+        <div><span class="var-type-badge">Tekstveld</span> <span style="font-size:11px;color:var(--grey-mid);">Optioneel</span></div>
+      </div>
+      <div class="custom-input-group">
+        <div class="custom-field">
+          <div class="cf-label">Tekst linker schoen</div>
+          <input class="cf-input" type="text" placeholder="bijv. uw naam" maxlength="12">
+          <div class="cf-counter"><span>0</span>/12</div>
+          <div class="cf-hint">Max. 12 karakters · Gratis</div>
+        </div>
+        <div class="custom-field">
+          <div class="cf-label">Tekst rechter schoen</div>
+          <input class="cf-input" type="text" placeholder="bijv. jaartal" maxlength="12">
+          <div class="cf-counter"><span>0</span>/12</div>
+          <div class="cf-hint">Max. 12 karakters · Gratis</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Config summary -->
+    <div class="config-summary">
+      <div class="cs-title"><i data-lucide="clipboard-list"></i> Jouw configuratie</div>
+      <div class="cs-row"><span class="cs-label">Basisprijs</span><span class="cs-val">€ 159,95</span></div>
+      <div class="cs-row"><span class="cs-label">Kleur: Midnight Black</span><span class="cs-val">Incl.</span></div>
+      <div class="cs-row"><span class="cs-label">Maat: 43</span><span class="cs-val">Incl.</span></div>
+      <div class="cs-row"><span class="cs-label">Zool: ComfortFlex</span><span class="cs-val">Incl.</span></div>
+      <div class="cs-row"><span class="cs-label">Sluiting: Klassiek</span><span class="cs-val">Incl.</span></div>
+      <div class="cs-row"><span class="cs-label">Beschermende coating</span><span class="cs-val">+ € 12,50</span></div>
+      <div class="cs-total"><span>Totaal</span><span id="summaryTotal">€ 172,45</span></div>
+    </div>
+
+    <!-- Add to cart -->
+    <div class="purchase-row">
+      <div class="qty-wrap"><button class="qty-btn">−</button><input class="qty-val" type="text" value="1" readonly><button class="qty-btn">+</button></div>
+      <button class="add-btn"><i data-lucide="shopping-cart"></i> In winkelmand — € 172,45</button>
+      <button class="wish-btn"><i data-lucide="heart"></i></button>
+    </div>
+
+    <div class="trust-row">
+      <div class="trust"><i data-lucide="truck"></i> Gratis verzending</div>
+      <div class="trust"><i data-lucide="shield-check"></i> 30 dagen retour</div>
+      <div class="trust"><i data-lucide="clock"></i> Op maat gemaakt in 14 dagen</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs-section">
+    <div class="tabs-nav">
+      <button class="tab-btn active">Beschrijving</button>
+      <button class="tab-btn">Specificaties</button>
+      <button class="tab-btn">Reviews (214)</button>
+      <button class="tab-btn">FAQ</button>
+    </div>
+    <div class="tab-content">
+      <p>De Custom Sneaker Pro X is volledig aanpasbaar. Elke schoen wordt op bestelling gemaakt in ons atelier in Amsterdam. Gebruik de configuratieopties hierboven om jouw unieke sneaker samen te stellen.</p>
+      <p>Het bovenwerk is gemaakt van premium gerecycled mesh en synthetisch leder. De zool is beschikbaar in vier varianten, elk geoptimaliseerd voor een ander gebruiksscenario. Personaliseer met je eigen tekst op de hiel — ideaal als cadeau.</p>
+    </div>
+  </div>
+</div></div>
+
+<script>
+lucide.createIcons();
+function selectSwatch(el,name){document.querySelectorAll('.swatch').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');document.getElementById('colorSelected').textContent=name;lucide.createIcons();}
+function selectSize(el,size){if(el.classList.contains('oos'))return;document.querySelectorAll('.size-radio').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');document.getElementById('sizeSelected').textContent=size;}
+function toggleDropdown(){const m=document.getElementById('ddMenu');m.classList.toggle('show');document.getElementById('ddTrigger').classList.toggle('open');}
+function selectDdItem(el,name,icon,desc,price){document.querySelectorAll('.dd-item').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');document.getElementById('ddTrigger').innerHTML='<div class="dd-icon" style="background:var(--teal-glow);">'+icon+'</div><span>'+name+' — '+desc+'</span>';document.getElementById('ddMenu').classList.remove('show');document.getElementById('ddTrigger').classList.remove('open');lucide.createIcons();}
+function selectImgRadio(el){document.querySelectorAll('.img-radio').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}
+function updateTotal(){}
+document.querySelectorAll('.thumb').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('.thumb').forEach(e=>e.classList.remove('active'));el.classList.add('active');}));
+document.querySelectorAll('.tab-btn').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('.tab-btn').forEach(e=>e.classList.remove('active'));el.classList.add('active');}));
+document.querySelectorAll('.qty-btn').forEach(el=>el.addEventListener('click',()=>{const inp=el.parentElement.querySelector('.qty-val');let v=parseInt(inp.value);if(el.textContent==='−')v=Math.max(1,v-1);else v=Math.min(99,v+1);inp.value=v;}));
+document.querySelectorAll('.cf-input').forEach(el=>el.addEventListener('input',()=>{el.parentElement.querySelector('.cf-counter span').textContent=el.value.length;}));
+document.addEventListener('click',e=>{if(!e.target.closest('.var-dropdown')){document.getElementById('ddMenu').classList.remove('show');document.getElementById('ddTrigger').classList.remove('open');}});
+</script>
+</body>
+</html>

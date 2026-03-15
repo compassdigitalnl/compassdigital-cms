@@ -59,9 +59,9 @@ export const BundleBuilderComponent: React.FC<BundleBuilderBlock> = ({
           {(title || description) && (
             <div className="mb-8">
               {title && (
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{title}</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-navy mb-2">{title}</h2>
               )}
-              {description && <p className="text-gray-600">{description}</p>}
+              {description && <p className="text-grey-dark">{description}</p>}
             </div>
           )}
 
@@ -97,10 +97,10 @@ export const BundleBuilderComponent: React.FC<BundleBuilderBlock> = ({
                 return (
                   <div
                     key={product.id}
-                    className="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-4 px-6 py-4 hover:bg-grey-light transition-colors"
                   >
                     {/* Product image */}
-                    <div className="w-16 h-16 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
+                    <div className="w-16 h-16 rounded-lg bg-grey-light overflow-hidden flex-shrink-0">
                       {firstImage && firstImage.url ? (
                         <img
                           src={firstImage.url}
@@ -109,7 +109,7 @@ export const BundleBuilderComponent: React.FC<BundleBuilderBlock> = ({
                         />
                       ) : (
                         <div className="flex items-center justify-center h-full">
-                          <Icon name="Package" size={24} className="text-gray-300" />
+                          <Icon name="Package" size={24} className="text-grey-mid" />
                         </div>
                       )}
                     </div>
@@ -118,19 +118,19 @@ export const BundleBuilderComponent: React.FC<BundleBuilderBlock> = ({
                     <div className="flex-1 min-w-0">
                       <Link
                         href={`/shop/${product.slug}`}
-                        className="font-semibold text-gray-900 hover:text-primary transition-colors line-clamp-1"
+                        className="font-semibold text-navy hover:text-primary transition-colors line-clamp-1"
                       >
                         {product.title}
                       </Link>
                       {product.sku && (
-                        <p className="text-xs text-gray-400 font-mono">Art. {product.sku}</p>
+                        <p className="text-xs text-grey-mid font-mono">Art. {product.sku}</p>
                       )}
                     </div>
 
                     {/* Price */}
                     <div className="text-right flex-shrink-0">
                       {product.price != null && (
-                        <span className="font-semibold text-gray-900">
+                        <span className="font-semibold text-navy">
                           {formatPrice(product.price)}
                         </span>
                       )}
@@ -138,7 +138,7 @@ export const BundleBuilderComponent: React.FC<BundleBuilderBlock> = ({
 
                     {/* Connector line between items */}
                     {index < products.length - 1 && (
-                      <div className="absolute right-8 -bottom-3 z-10 w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 text-xs font-bold">
+                      <div className="absolute right-8 -bottom-3 z-10 w-6 h-6 rounded-full bg-grey-light flex items-center justify-center text-grey-mid text-xs font-bold">
                         +
                       </div>
                     )}
@@ -148,7 +148,7 @@ export const BundleBuilderComponent: React.FC<BundleBuilderBlock> = ({
             </div>
 
             {/* Total section */}
-            <div className="bg-gray-50 px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="bg-grey-light px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
               <div>
                 {discount > 0 && (
                   <div className="text-sm text-grey-mid line-through mb-1">

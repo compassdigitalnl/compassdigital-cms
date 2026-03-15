@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ansell Micro-Touch Handschoenen — Multi-Variant Selectie | Plastimed</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&family=DM+Serif+Display:wght@400&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-light: #121F33;
+  --teal: #00897B;
+  --teal-light: #26A69A;
+  --teal-glow: rgba(0, 137, 123, 0.12);
+  --green: #00C853;
+  --green-light: #E8F5E9;
+  --coral: #FF6B6B;
+  --coral-light: #FFF0F0;
+  --amber: #F59E0B;
+  --amber-light: #FFF8E1;
+  --purple: #7C3AED;
+  --purple-light: #EDE9FE;
+  --grey: #E8ECF1;
+  --grey-light: #F1F4F8;
+  --grey-mid: #94A3B8;
+  --grey-dark: #64748B;
+  --white: #FAFBFC;
+  --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+  --shadow-lg: 0 16px 48px rgba(10,22,40,0.12);
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-sm: 8px;
+  --radius: 12px;
+  --container: 1200px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--grey-light);
+  color: var(--navy);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Product Hero */
+.product-hero {
+  background: white;
+  border-bottom: 1px solid var(--grey);
+  padding: 32px 0;
+  margin-bottom: 32px;
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.product-image {
+  width: 200px;
+  height: 200px;
+  background: var(--grey-light);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  border: 1.5px solid var(--grey);
+}
+
+.product-info {
+  flex: 1;
+}
+
+.product-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--purple-light);
+  border: 1px solid var(--purple);
+  border-radius: 100px;
+  color: var(--purple);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+
+.product-badge i {
+  width: 14px;
+  height: 14px;
+}
+
+.product-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.product-sku {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--grey-mid);
+  margin-bottom: 16px;
+}
+
+.product-description {
+  font-size: 14px;
+  color: var(--grey-dark);
+  line-height: 1.7;
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+
+.product-meta {
+  display: flex;
+  gap: 32px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--grey-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.meta-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.meta-value.price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  color: var(--teal);
+}
+
+/* Toolbar */
+.variant-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.toolbar-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolbar-title i {
+  width: 20px;
+  height: 20px;
+  color: var(--teal);
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.view-toggle {
+  display: flex;
+  gap: 4px;
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+}
+
+.view-toggle-btn {
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--grey-dark);
+}
+
+.view-toggle-btn i {
+  width: 16px;
+  height: 16px;
+}
+
+.view-toggle-btn.active {
+  background: var(--teal);
+  color: white;
+}
+
+.bulk-action-btn {
+  padding: 8px 16px;
+  border: 1.5px solid var(--grey);
+  background: white;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--grey-dark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bulk-action-btn i {
+  width: 14px;
+  height: 14px;
+}
+
+.bulk-action-btn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+/* Main Layout */
+.variant-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Variant Grid */
+.variant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.variant-grid.hidden {
+  display: none;
+}
+
+/* Variant List */
+.variant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.variant-list.hidden {
+  display: none;
+}
+
+/* Variant Card (Grid) */
+.variant-card {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 14px;
+  padding: 20px;
+  transition: all var(--transition);
+  position: relative;
+}
+
+.variant-card:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.variant-card.selected {
+  border-color: var(--teal);
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.variant-card.out-of-stock {
+  opacity: 0.6;
+  filter: grayscale(0.5);
+}
+
+/* Checkbox */
+.variant-checkbox-wrapper {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+}
+
+.variant-checkbox {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--grey);
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+
+.variant-checkbox.checked {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+
+.variant-checkbox.checked i {
+  width: 16px;
+  height: 16px;
+  color: white;
+}
+
+.variant-checkbox:hover {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px var(--teal-glow);
+}
+
+.variant-checkbox[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Variant Label */
+.variant-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--grey-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.variant-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--navy);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.variant-full-name {
+  font-size: 13px;
+  color: var(--grey-dark);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* Variant Price */
+.variant-price {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.variant-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.variant-price-current {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.variant-price-old {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--grey-mid);
+  text-decoration: line-through;
+}
+
+.variant-price-note {
+  font-size: 11px;
+  color: var(--grey-mid);
+}
+
+/* Stock Indicator */
+.variant-stock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  padding: 8px 12px;
+  background: var(--grey-light);
+  border-radius: var(--radius-sm);
+}
+
+.stock-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.variant-stock.in-stock {
+  color: var(--green);
+  background: var(--green-light);
+}
+
+.variant-stock.in-stock .stock-dot {
+  background: var(--green);
+}
+
+.variant-stock.low-stock {
+  color: var(--amber);
+  background: var(--amber-light);
+}
+
+.variant-stock.low-stock .stock-dot {
+  background: var(--amber);
+}
+
+.variant-stock.out-of-stock {
+  color: var(--coral);
+  background: var(--coral-light);
+}
+
+.variant-stock.out-of-stock .stock-dot {
+  background: var(--coral);
+}
+
+.variant-stock.pre-order {
+  color: var(--purple);
+  background: var(--purple-light);
+}
+
+.variant-stock.pre-order .stock-dot {
+  background: var(--purple);
+}
+
+/* Quantity Stepper */
+.variant-quantity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.quantity-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--grey-mid);
+}
+
+.quantity-stepper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1.5px solid var(--grey);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-left: auto;
+}
+
+.quantity-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: white;
+  color: var(--grey-dark);
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background: var(--teal);
+  color: white;
+}
+
+.quantity-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.quantity-input {
+  width: 48px;
+  height: 32px;
+  border: none;
+  border-left: 1px solid var(--grey);
+  border-right: 1px solid var(--grey);
+  background: white;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.quantity-input:focus {
+  outline: none;
+  background: var(--grey-light);
+}
+
+/* Variant Row (List) */
+.variant-row {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 14px;
+  padding: 16px 20px;
+  transition: all var(--transition);
+  display: grid;
+  grid-template-columns: 40px 100px 1fr auto auto auto;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.variant-row:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-md);
+}
+
+.variant-row.selected {
+  border-color: var(--teal);
+  background: rgba(0, 137, 123, 0.02);
+}
+
+.variant-row.out-of-stock {
+  opacity: 0.6;
+  filter: grayscale(0.5);
+}
+
+.variant-row .variant-checkbox-wrapper {
+  position: static;
+}
+
+.variant-row .variant-name-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.variant-row .variant-name-large {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.variant-row .variant-name-full {
+  font-size: 13px;
+  color: var(--grey-dark);
+}
+
+.variant-row .variant-price {
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.variant-row .variant-stock {
+  margin-bottom: 0;
+  padding: 6px 12px;
+}
+
+.variant-row .variant-quantity {
+  margin-bottom: 0;
+}
+
+/* Selection Summary Sidebar */
+.selection-summary {
+  background: white;
+  border: 1.5px solid var(--grey);
+  border-radius: 14px;
+  padding: 24px;
+  position: sticky;
+  top: 24px;
+}
+
+.summary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--grey);
+}
+
+.summary-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.summary-title i {
+  width: 18px;
+  height: 18px;
+  color: var(--teal);
+}
+
+.summary-count {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--teal);
+  background: var(--teal-glow);
+  padding: 4px 12px;
+  border-radius: 100px;
+}
+
+/* Selected Items List */
+.selected-items {
+  margin-bottom: 20px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.selected-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--grey-light);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+}
+
+.selected-item-size {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy);
+  min-width: 32px;
+  text-align: center;
+}
+
+.selected-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.selected-item-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.selected-item-qty {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--grey-mid);
+}
+
+.selected-item-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.selected-item-remove {
+  padding: 6px;
+  border: none;
+  background: none;
+  color: var(--coral);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected-item-remove i {
+  width: 16px;
+  height: 16px;
+}
+
+.selected-item-remove:hover {
+  background: var(--coral-light);
+}
+
+/* Price Breakdown */
+.price-breakdown {
+  padding: 16px 0;
+  border-top: 1px solid var(--grey);
+  border-bottom: 1px solid var(--grey);
+  margin-bottom: 20px;
+}
+
+.price-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.price-line:last-child {
+  margin-bottom: 0;
+}
+
+.price-line-label {
+  color: var(--grey-mid);
+}
+
+.price-line-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.price-line.total {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--grey);
+}
+
+.price-line.total .price-line-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.price-line.total .price-line-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+/* Summary CTA */
+.summary-cta {
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--teal);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.summary-cta i {
+  width: 18px;
+  height: 18px;
+}
+
+.summary-cta:hover:not(:disabled) {
+  background: var(--navy);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.summary-cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.summary-note {
+  font-size: 11px;
+  color: var(--grey-mid);
+  text-align: center;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--grey-mid);
+}
+
+.empty-state i {
+  width: 48px;
+  height: 48px;
+  color: var(--grey);
+  margin-bottom: 16px;
+}
+
+.empty-state p {
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .variant-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .selection-summary {
+    position: static;
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+  }
+
+  .product-image {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .variant-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .variant-row {
+    grid-template-columns: 40px 1fr;
+    gap: 12px;
+  }
+
+  .variant-row .variant-name-cell {
+    grid-column: 2;
+  }
+
+  .variant-row .variant-price,
+  .variant-row .variant-stock,
+  .variant-row .variant-quantity {
+    grid-column: 2;
+    margin-top: 8px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Product Hero -->
+<div class="product-hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="product-image">🧤</div>
+
+      <div class="product-info">
+        <div class="product-badge">
+          <i data-lucide="award"></i>
+          Premium Kwaliteit
+        </div>
+
+        <h1 class="product-title">Ansell Micro-Touch Nitra-Tex</h1>
+        <p class="product-sku">SKU: ANS-MT-NT</p>
+
+        <p class="product-description">
+          Onderzoekshandschoenen poedervrij, nitril, blauw. Hypoallergeen en zeer comfortabel. Geschikt voor medisch onderzoek en chirurgische handelingen. Verkrijgbaar in alle gangbare maten.
+        </p>
+
+        <div class="product-meta">
+          <div class="meta-item">
+            <span class="meta-label">Vanaf</span>
+            <span class="meta-value price">€4,50</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Beschikbaar</span>
+            <span class="meta-value">6 maten</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Levering</span>
+            <span class="meta-value">24-48 uur</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" style="padding-bottom: 64px;">
+
+  <!-- Toolbar -->
+  <div class="variant-toolbar">
+    <div class="toolbar-title">
+      <i data-lucide="grid-2x2"></i>
+      Selecteer maten
+    </div>
+
+    <div class="toolbar-actions">
+      <div class="view-toggle">
+        <button class="view-toggle-btn active" data-view="grid">
+          <i data-lucide="grid-2x2"></i>
+          Grid
+        </button>
+        <button class="view-toggle-btn" data-view="list">
+          <i data-lucide="list"></i>
+          Lijst
+        </button>
+      </div>
+
+      <button class="bulk-action-btn" id="selectAllBtn">
+        <i data-lucide="check-square"></i>
+        Alles
+      </button>
+      <button class="bulk-action-btn" id="deselectAllBtn">
+        <i data-lucide="square"></i>
+        Wissen
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="variant-layout">
+
+    <!-- Variants Section -->
+    <div>
+      <!-- Grid View -->
+      <div class="variant-grid" id="gridView">
+
+        <!-- Variant: XS -->
+        <div class="variant-card" data-variant-id="xs" data-price="4.50">
+          <div class="variant-checkbox-wrapper">
+            <div class="variant-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+          </div>
+
+          <div class="variant-label">Maat</div>
+          <div class="variant-name">XS</div>
+          <div class="variant-full-name">Extra Small</div>
+
+          <div class="variant-price">
+            <div class="variant-price-row">
+              <span class="variant-price-current">€4,50</span>
+            </div>
+            <div class="variant-price-note">excl. btw</div>
+          </div>
+
+          <div class="variant-stock pre-order">
+            <span class="stock-dot"></span>
+            Beschikbaar via nabestelling
+          </div>
+
+          <div class="variant-quantity">
+            <span class="quantity-label">Aantal:</span>
+            <div class="quantity-stepper">
+              <button class="quantity-btn minus" disabled>−</button>
+              <input type="number" class="quantity-input" value="0" min="0" max="999">
+              <button class="quantity-btn plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Variant: S -->
+        <div class="variant-card" data-variant-id="s" data-price="4.50">
+          <div class="variant-checkbox-wrapper">
+            <div class="variant-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+          </div>
+
+          <div class="variant-label">Maat</div>
+          <div class="variant-name">S</div>
+          <div class="variant-full-name">Small</div>
+
+          <div class="variant-price">
+            <div class="variant-price-row">
+              <span class="variant-price-current">€4,50</span>
+            </div>
+            <div class="variant-price-note">excl. btw</div>
+          </div>
+
+          <div class="variant-stock in-stock">
+            <span class="stock-dot"></span>
+            Op voorraad (kan nabesteld worden)
+          </div>
+
+          <div class="variant-quantity">
+            <span class="quantity-label">Aantal:</span>
+            <div class="quantity-stepper">
+              <button class="quantity-btn minus" disabled>−</button>
+              <input type="number" class="quantity-input" value="0" min="0" max="999">
+              <button class="quantity-btn plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Variant: M -->
+        <div class="variant-card" data-variant-id="m" data-price="4.50">
+          <div class="variant-checkbox-wrapper">
+            <div class="variant-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+          </div>
+
+          <div class="variant-label">Maat</div>
+          <div class="variant-name">M</div>
+          <div class="variant-full-name">Medium</div>
+
+          <div class="variant-price">
+            <div class="variant-price-row">
+              <span class="variant-price-current">€4,50</span>
+            </div>
+            <div class="variant-price-note">excl. btw</div>
+          </div>
+
+          <div class="variant-stock in-stock">
+            <span class="stock-dot"></span>
+            Op voorraad (kan nabesteld worden)
+          </div>
+
+          <div class="variant-quantity">
+            <span class="quantity-label">Aantal:</span>
+            <div class="quantity-stepper">
+              <button class="quantity-btn minus" disabled>−</button>
+              <input type="number" class="quantity-input" value="0" min="0" max="999">
+              <button class="quantity-btn plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Variant: L -->
+        <div class="variant-card" data-variant-id="l" data-price="4.50">
+          <div class="variant-checkbox-wrapper">
+            <div class="variant-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+          </div>
+
+          <div class="variant-label">Maat</div>
+          <div class="variant-name">L</div>
+          <div class="variant-full-name">Large</div>
+
+          <div class="variant-price">
+            <div class="variant-price-row">
+              <span class="variant-price-current">€4,50</span>
+            </div>
+            <div class="variant-price-note">excl. btw</div>
+          </div>
+
+          <div class="variant-stock in-stock">
+            <span class="stock-dot"></span>
+            Op voorraad (kan nabesteld worden)
+          </div>
+
+          <div class="variant-quantity">
+            <span class="quantity-label">Aantal:</span>
+            <div class="quantity-stepper">
+              <button class="quantity-btn minus" disabled>−</button>
+              <input type="number" class="quantity-input" value="0" min="0" max="999">
+              <button class="quantity-btn plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Variant: XL -->
+        <div class="variant-card" data-variant-id="xl" data-price="4.50">
+          <div class="variant-checkbox-wrapper">
+            <div class="variant-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+          </div>
+
+          <div class="variant-label">Maat</div>
+          <div class="variant-name">XL</div>
+          <div class="variant-full-name">Extra Large</div>
+
+          <div class="variant-price">
+            <div class="variant-price-row">
+              <span class="variant-price-current">€4,50</span>
+            </div>
+            <div class="variant-price-note">excl. btw</div>
+          </div>
+
+          <div class="variant-stock in-stock">
+            <span class="stock-dot"></span>
+            Op voorraad (kan nabesteld worden)
+          </div>
+
+          <div class="variant-quantity">
+            <span class="quantity-label">Aantal:</span>
+            <div class="quantity-stepper">
+              <button class="quantity-btn minus" disabled>−</button>
+              <input type="number" class="quantity-input" value="0" min="0" max="999">
+              <button class="quantity-btn plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Variant: XXL -->
+        <div class="variant-card" data-variant-id="xxl" data-price="4.75">
+          <div class="variant-checkbox-wrapper">
+            <div class="variant-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+          </div>
+
+          <div class="variant-label">Maat</div>
+          <div class="variant-name">XXL</div>
+          <div class="variant-full-name">2X Large</div>
+
+          <div class="variant-price">
+            <div class="variant-price-row">
+              <span class="variant-price-current">€4,75</span>
+            </div>
+            <div class="variant-price-note">excl. btw · +€0,25</div>
+          </div>
+
+          <div class="variant-stock low-stock">
+            <span class="stock-dot"></span>
+            Beperkt op voorraad
+          </div>
+
+          <div class="variant-quantity">
+            <span class="quantity-label">Aantal:</span>
+            <div class="quantity-stepper">
+              <button class="quantity-btn minus" disabled>−</button>
+              <input type="number" class="quantity-input" value="0" min="0" max="999">
+              <button class="quantity-btn plus">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- List View -->
+      <div class="variant-list hidden" id="listView">
+
+        <!-- Variant: XS -->
+        <div class="variant-row" data-variant-id="xs" data-price="4.50">
+          <div class="variant-checkbox-wrapper">
+            <div class="variant-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+          </div>
+
+          <div class="variant-name-large">XS</div>
+
+          <div class="variant-name-cell">
+            <div class="variant-name-full">Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - XS</div>
+          </div>
+
+          <div class="variant-price">
+            <div class="variant-price-row">
+              <span class="variant-price-current">€4,50</span>
+            </div>
+            <div class="variant-price-note">excl. btw</div>
+          </div>
+
+          <div class="variant-stock pre-order">
+            <span class="stock-dot"></span>
+            Beschikbaar via nabestelling
+          </div>
+
+          <div class="variant-quantity">
+            <div class="quantity-stepper">
+              <button class="quantity-btn minus" disabled>−</button>
+              <input type="number" class="quantity-input" value="0" min="0" max="999">
+              <button class="quantity-btn plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Variant: S -->
+        <div class="variant-row" data-variant-id="s" data-price="4.50">
+          <div class="variant-checkbox-wrapper">
+            <div class="variant-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+          </div>
+
+          <div class="variant-name-large">S</div>
+
+          <div class="variant-name-cell">
+            <div class="variant-name-full">Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - S</div>
+          </div>
+
+          <div class="variant-price">
+            <div class="variant-price-row">
+              <span class="variant-price-current">€4,50</span>
+            </div>
+            <div class="variant-price-note">excl. btw</div>
+          </div>
+
+          <div class="variant-stock in-stock">
+            <span class="stock-dot"></span>
+            Op voorraad (kan nabesteld worden)
+          </div>
+
+          <div class="variant-quantity">
+            <div class="quantity-stepper">
+              <button class="quantity-btn minus" disabled>−</button>
+              <input type="number" class="quantity-input" value="0" min="0" max="999">
+              <button class="quantity-btn plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Variant: M -->
+        <div class="variant-row" data-variant-id="m" data-price="4.50">
+          <div class="variant-checkbox-wrapper">
+            <div class="variant-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+          </div>
+
+          <div class="variant-name-large">M</div>
+
+          <div class="variant-name-cell">
+            <div class="variant-name-full">Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - M</div>
+          </div>
+
+          <div class="variant-price">
+            <div class="variant-price-row">
+              <span class="variant-price-current">€4,50</span>
+            </div>
+            <div class="variant-price-note">excl. btw</div>
+          </div>
+
+          <div class="variant-stock in-stock">
+            <span class="stock-dot"></span>
+            Op voorraad (kan nabesteld worden)
+          </div>
+
+          <div class="variant-quantity">
+            <div class="quantity-stepper">
+              <button class="quantity-btn minus" disabled>−</button>
+              <input type="number" class="quantity-input" value="0" min="0" max="999">
+              <button class="quantity-btn plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Variant: L -->
+        <div class="variant-row" data-variant-id="l" data-price="4.50">
+          <div class="variant-checkbox-wrapper">
+            <div class="variant-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+          </div>
+
+          <div class="variant-name-large">L</div>
+
+          <div class="variant-name-cell">
+            <div class="variant-name-full">Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - L</div>
+          </div>
+
+          <div class="variant-price">
+            <div class="variant-price-row">
+              <span class="variant-price-current">€4,50</span>
+            </div>
+            <div class="variant-price-note">excl. btw</div>
+          </div>
+
+          <div class="variant-stock in-stock">
+            <span class="stock-dot"></span>
+            Op voorraad (kan nabesteld worden)
+          </div>
+
+          <div class="variant-quantity">
+            <div class="quantity-stepper">
+              <button class="quantity-btn minus" disabled>−</button>
+              <input type="number" class="quantity-input" value="0" min="0" max="999">
+              <button class="quantity-btn plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Variant: XL -->
+        <div class="variant-row" data-variant-id="xl" data-price="4.50">
+          <div class="variant-checkbox-wrapper">
+            <div class="variant-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+          </div>
+
+          <div class="variant-name-large">XL</div>
+
+          <div class="variant-name-cell">
+            <div class="variant-name-full">Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - XL</div>
+          </div>
+
+          <div class="variant-price">
+            <div class="variant-price-row">
+              <span class="variant-price-current">€4,50</span>
+            </div>
+            <div class="variant-price-note">excl. btw</div>
+          </div>
+
+          <div class="variant-stock in-stock">
+            <span class="stock-dot"></span>
+            Op voorraad (kan nabesteld worden)
+          </div>
+
+          <div class="variant-quantity">
+            <div class="quantity-stepper">
+              <button class="quantity-btn minus" disabled>−</button>
+              <input type="number" class="quantity-input" value="0" min="0" max="999">
+              <button class="quantity-btn plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Variant: XXL -->
+        <div class="variant-row" data-variant-id="xxl" data-price="4.75">
+          <div class="variant-checkbox-wrapper">
+            <div class="variant-checkbox" role="checkbox" aria-checked="false" tabindex="0">
+              <i data-lucide="check" style="display: none;"></i>
+            </div>
+          </div>
+
+          <div class="variant-name-large">XXL</div>
+
+          <div class="variant-name-cell">
+            <div class="variant-name-full">Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - XXL</div>
+          </div>
+
+          <div class="variant-price">
+            <div class="variant-price-row">
+              <span class="variant-price-current">€4,75</span>
+            </div>
+            <div class="variant-price-note">excl. btw · +€0,25</div>
+          </div>
+
+          <div class="variant-stock low-stock">
+            <span class="stock-dot"></span>
+            Beperkt op voorraad
+          </div>
+
+          <div class="variant-quantity">
+            <div class="quantity-stepper">
+              <button class="quantity-btn minus" disabled>−</button>
+              <input type="number" class="quantity-input" value="0" min="0" max="999">
+              <button class="quantity-btn plus">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Selection Summary -->
+    <div class="selection-summary">
+      <div class="summary-header">
+        <div class="summary-title">
+          <i data-lucide="shopping-bag"></i>
+          Selectie
+        </div>
+        <span class="summary-count" id="summaryCount">0 varianten</span>
+      </div>
+
+      <!-- Selected Items List -->
+      <div class="selected-items" id="selectedItemsList">
+        <div class="empty-state">
+          <i data-lucide="package-open"></i>
+          <p>Selecteer varianten om te starten</p>
+        </div>
+      </div>
+
+      <!-- Price Breakdown -->
+      <div class="price-breakdown">
+        <div class="price-line">
+          <span class="price-line-label">Totaal aantal</span>
+          <span class="price-line-value" id="totalQty">0 stuks</span>
+        </div>
+        <div class="price-line total">
+          <span class="price-line-label">Totaal</span>
+          <span class="price-line-value" id="total">€0,00</span>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <button class="summary-cta" id="addSelectedBtn" disabled>
+        <i data-lucide="shopping-cart"></i>
+        + In Winkelwand
+      </button>
+      <p class="summary-note">Gratis verzending vanaf €60 · 24-48u levering</p>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// Initialize Lucide icons
+lucide.createIcons();
+
+// State
+const state = {
+  selectedVariants: {},
+  viewMode: 'grid'
+};
+
+const variants = [
+  { id: 'xs', name: 'XS', fullName: 'Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - XS', price: 4.50 },
+  { id: 's', name: 'S', fullName: 'Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - S', price: 4.50 },
+  { id: 'm', name: 'M', fullName: 'Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - M', price: 4.50 },
+  { id: 'l', name: 'L', fullName: 'Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - L', price: 4.50 },
+  { id: 'xl', name: 'XL', fullName: 'Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - XL', price: 4.50 },
+  { id: 'xxl', name: 'XXL', fullName: 'Ansell Micro-Touch Nitra-Tex onderzoekshandschoenen poedervrij - XXL', price: 4.75 }
+];
+
+// View toggle
+document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const view = btn.dataset.view;
+
+    document.querySelectorAll('.view-toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    if (view === 'grid') {
+      document.getElementById('gridView').classList.remove('hidden');
+      document.getElementById('listView').classList.add('hidden');
+    } else {
+      document.getElementById('gridView').classList.add('hidden');
+      document.getElementById('listView').classList.remove('hidden');
+    }
+
+    state.viewMode = view;
+  });
+});
+
+// Setup checkboxes
+document.querySelectorAll('.variant-checkbox').forEach(checkbox => {
+  const container = checkbox.closest('[data-variant-id]');
+  if (container) {
+    const variantId = container.dataset.variantId;
+
+    checkbox.addEventListener('click', () => toggleVariant(variantId));
+    checkbox.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        toggleVariant(variantId);
+      }
+    });
+  }
+});
+
+// Setup quantity steppers
+document.querySelectorAll('.quantity-stepper').forEach(stepper => {
+  const container = stepper.closest('[data-variant-id]');
+  if (container) {
+    const variantId = container.dataset.variantId;
+    const input = stepper.querySelector('.quantity-input');
+    const minusBtn = stepper.querySelector('.minus');
+    const plusBtn = stepper.querySelector('.plus');
+
+    minusBtn.addEventListener('click', () => {
+      const val = parseInt(input.value) || 0;
+      if (val > 0) {
+        input.value = val - 1;
+        updateQuantity(variantId, val - 1);
+      }
+    });
+
+    plusBtn.addEventListener('click', () => {
+      const val = parseInt(input.value) || 0;
+      input.value = val + 1;
+      updateQuantity(variantId, val + 1);
+    });
+
+    input.addEventListener('change', () => {
+      const val = Math.max(0, parseInt(input.value) || 0);
+      input.value = val;
+      updateQuantity(variantId, val);
+    });
+  }
+});
+
+// Toggle variant selection
+function toggleVariant(variantId) {
+  const containers = document.querySelectorAll(`[data-variant-id="${variantId}"]`);
+
+  containers.forEach(container => {
+    const checkbox = container.querySelector('.variant-checkbox');
+    const checkIcon = checkbox.querySelector('i');
+    const input = container.querySelector('.quantity-input');
+    const isChecked = checkbox.getAttribute('aria-checked') === 'true';
+
+    if (!isChecked) {
+      // Select
+      checkbox.classList.add('checked');
+      checkbox.setAttribute('aria-checked', 'true');
+      checkIcon.style.display = 'block';
+      container.classList.add('selected');
+
+      // Set quantity to 1 if 0
+      const currentQty = parseInt(input.value) || 0;
+      if (currentQty === 0) {
+        input.value = 1;
+        updateQuantity(variantId, 1);
+      }
+    } else {
+      // Deselect
+      checkbox.classList.remove('checked');
+      checkbox.setAttribute('aria-checked', 'false');
+      checkIcon.style.display = 'none';
+      container.classList.remove('selected');
+
+      // Set quantity to 0
+      input.value = 0;
+      updateQuantity(variantId, 0);
+    }
+  });
+
+  updateSummary();
+  lucide.createIcons();
+}
+
+// Update quantity
+function updateQuantity(variantId, qty) {
+  const variant = variants.find(v => v.id === variantId);
+
+  if (qty > 0) {
+    state.selectedVariants[variantId] = { ...variant, quantity: qty };
+
+    // Ensure checkbox is checked
+    document.querySelectorAll(`[data-variant-id="${variantId}"]`).forEach(container => {
+      const checkbox = container.querySelector('.variant-checkbox');
+      const checkIcon = checkbox.querySelector('i');
+
+      if (checkbox.getAttribute('aria-checked') !== 'true') {
+        checkbox.classList.add('checked');
+        checkbox.setAttribute('aria-checked', 'true');
+        checkIcon.style.display = 'block';
+        container.classList.add('selected');
+      }
+    });
+  } else {
+    delete state.selectedVariants[variantId];
+
+    // Uncheck checkbox
+    document.querySelectorAll(`[data-variant-id="${variantId}"]`).forEach(container => {
+      const checkbox = container.querySelector('.variant-checkbox');
+      const checkIcon = checkbox.querySelector('i');
+
+      checkbox.classList.remove('checked');
+      checkbox.setAttribute('aria-checked', 'false');
+      checkIcon.style.display = 'none';
+      container.classList.remove('selected');
+    });
+  }
+
+  // Update minus button state
+  document.querySelectorAll(`[data-variant-id="${variantId}"]`).forEach(container => {
+    const minusBtn = container.querySelector('.minus');
+    minusBtn.disabled = qty === 0;
+  });
+
+  updateSummary();
+  lucide.createIcons();
+}
+
+// Select all
+document.getElementById('selectAllBtn').addEventListener('click', () => {
+  variants.forEach(variant => {
+    const containers = document.querySelectorAll(`[data-variant-id="${variant.id}"]`);
+    containers.forEach(container => {
+      const input = container.querySelector('.quantity-input');
+      const currentQty = parseInt(input.value) || 0;
+
+      if (currentQty === 0) {
+        input.value = 1;
+        updateQuantity(variant.id, 1);
+      }
+    });
+  });
+});
+
+// Deselect all
+document.getElementById('deselectAllBtn').addEventListener('click', () => {
+  variants.forEach(variant => {
+    const containers = document.querySelectorAll(`[data-variant-id="${variant.id}"]`);
+    containers.forEach(container => {
+      const input = container.querySelector('.quantity-input');
+      input.value = 0;
+      updateQuantity(variant.id, 0);
+    });
+  });
+});
+
+// Update summary
+function updateSummary() {
+  const selected = Object.values(state.selectedVariants);
+  const count = selected.length;
+  const totalQty = selected.reduce((sum, v) => sum + v.quantity, 0);
+  const totalPrice = selected.reduce((sum, v) => sum + (v.price * v.quantity), 0);
+
+  // Update count
+  document.getElementById('summaryCount').textContent = `${count} variant${count !== 1 ? 'en' : ''}`;
+
+  // Update items list
+  const itemsList = document.getElementById('selectedItemsList');
+
+  if (count === 0) {
+    itemsList.innerHTML = `
+      <div class="empty-state">
+        <i data-lucide="package-open"></i>
+        <p>Selecteer varianten om te starten</p>
+      </div>
+    `;
+  } else {
+    itemsList.innerHTML = selected.map(variant => `
+      <div class="selected-item">
+        <div class="selected-item-size">${variant.name}</div>
+        <div class="selected-item-info">
+          <div class="selected-item-name">Maat ${variant.name}</div>
+          <div class="selected-item-qty">${variant.quantity}× stuks</div>
+        </div>
+        <div class="selected-item-price">€${(variant.price * variant.quantity).toFixed(2)}</div>
+        <button class="selected-item-remove" data-variant-id="${variant.id}">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+    `).join('');
+
+    // Add remove handlers
+    itemsList.querySelectorAll('.selected-item-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const variantId = btn.dataset.variantId;
+        document.querySelectorAll(`[data-variant-id="${variantId}"]`).forEach(container => {
+          const input = container.querySelector('.quantity-input');
+          input.value = 0;
+          updateQuantity(variantId, 0);
+        });
+      });
+    });
+  }
+
+  // Update totals
+  document.getElementById('totalQty').textContent = `${totalQty} stuks`;
+  document.getElementById('total').textContent = `€${totalPrice.toFixed(2)}`;
+
+  // Enable/disable CTA
+  const addBtn = document.getElementById('addSelectedBtn');
+  addBtn.disabled = count === 0;
+
+  lucide.createIcons();
+}
+
+// Add to cart
+document.getElementById('addSelectedBtn').addEventListener('click', () => {
+  const selected = Object.values(state.selectedVariants);
+  const totalQty = selected.reduce((sum, v) => sum + v.quantity, 0);
+
+  alert(`${totalQty} items toegevoegd aan winkelwand!\n\n${selected.map(v => `${v.quantity}× Maat ${v.name}`).join('\n')}`);
+
+  // Clear selection
+  state.selectedVariants = {};
+  document.querySelectorAll('.quantity-input').forEach(input => input.value = 0);
+  document.querySelectorAll('.variant-card, .variant-row').forEach(card => {
+    card.classList.remove('selected');
+    const checkbox = card.querySelector('.variant-checkbox');
+    checkbox.classList.remove('checked');
+    checkbox.setAttribute('aria-checked', 'false');
+    checkbox.querySelector('i').style.display = 'none';
+  });
+  updateSummary();
+});
+
+// Initial render
+updateSummary();
+</script>
+
+</body>
+</html>

@@ -66,7 +66,7 @@ export async function ExperienceCategoryGridComponent(props: any) {
               </h2>
             )}
             {heading.description && (
-              <p className="text-gray-600 max-w-2xl mx-auto">{heading.description}</p>
+              <p className="text-grey-dark max-w-2xl mx-auto">{heading.description}</p>
             )}
           </div>
         )}
@@ -87,7 +87,7 @@ export async function ExperienceCategoryGridComponent(props: any) {
                 {cat.name}
               </span>
               {showCount && cat.experienceCount !== undefined && (
-                <span className="text-xs text-gray-400">{cat.experienceCount} ervaringen</span>
+                <span className="text-xs text-grey-mid">{cat.experienceCount} ervaringen</span>
               )}
             </Link>
           ))}

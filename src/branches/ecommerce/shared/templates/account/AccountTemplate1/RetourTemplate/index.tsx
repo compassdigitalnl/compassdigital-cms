@@ -73,10 +73,10 @@ export default function RetourTemplate({
           <ChevronLeft className="w-4 h-4" />
           Terug naar bestelling
         </Link>
-        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 text-gray-900">
+        <h1 className="text-2xl lg:text-3xl font-extrabold mb-1 text-navy">
           Retour aanvragen
         </h1>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-grey-mid">
           Bestelling <span className="font-mono font-bold">{orderNumber}</span>
         </p>
       </div>

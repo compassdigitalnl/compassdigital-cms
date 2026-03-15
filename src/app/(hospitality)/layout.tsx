@@ -68,7 +68,7 @@ export default async function HospitalityLayout({ children }: { children: ReactN
               <HeaderClient header={headerGlobal} theme={themeGlobal} settings={settingsGlobal} />
 
               {/* Main Content */}
-              <main className="bg-gray-50">{children}</main>
+              <main className="bg-grey-light">{children}</main>
 
               {/* Footer (CMS-driven) */}
               <Footer />

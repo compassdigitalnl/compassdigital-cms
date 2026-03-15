@@ -89,7 +89,7 @@ export function SegmentPreview({ conditions }: SegmentPreviewProps) {
         )}
 
         {!loading && !error && count === null && (
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-grey-mid">
             Voeg voorwaarden toe om een preview te zien
           </span>
         )}

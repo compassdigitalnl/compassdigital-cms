@@ -58,14 +58,14 @@ export const BundleProductCard: React.FC<BundleProductCardProps> = ({
         bundle-product-card
         border-2 rounded-lg overflow-hidden bg-white
         transition-all duration-200
-        ${selected ? 'border-teal shadow-lg' : 'border-gray-300 hover:border-teal-400'}
+        ${selected ? 'border-teal shadow-lg' : 'border-grey-light hover:border-teal-400'}
         ${isSelectable ? 'cursor-pointer' : 'cursor-default'}
         ${isSelectable && 'hover:shadow-md'}
         ${className}
       `}
     >
       {/* Image Section */}
-      <div className="relative w-full aspect-square bg-gray-100">
+      <div className="relative w-full aspect-square bg-grey-light">
         {productImage && productImage.url ? (
           <Image
             src={productImage.url}
@@ -76,7 +76,7 @@ export const BundleProductCard: React.FC<BundleProductCardProps> = ({
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <Package className="w-16 h-16 text-gray-400" strokeWidth={1.5} />
+            <Package className="w-16 h-16 text-grey-mid" strokeWidth={1.5} />
           </div>
         )}
 
@@ -86,7 +86,7 @@ export const BundleProductCard: React.FC<BundleProductCardProps> = ({
             className={`
               absolute top-3 right-3 w-6 h-6 rounded-full border-2 flex items-center justify-center
               transition-all duration-200
-              ${selected ? 'bg-teal border-teal' : 'bg-white border-gray-400'}
+              ${selected ? 'bg-teal border-teal' : 'bg-white border-grey-light'}
             `}
           >
             {selected && <Check className="w-4 h-4 text-white" strokeWidth={3} />}
@@ -112,19 +112,19 @@ export const BundleProductCard: React.FC<BundleProductCardProps> = ({
       {/* Content Section */}
       <div className="p-4">
         {/* Product Title */}
-        <h3 className="text-[16px] font-bold text-gray-900 mb-1 line-clamp-2">
+        <h3 className="text-[16px] font-bold text-navy mb-1 line-clamp-2">
           {product?.title || 'Product'}
         </h3>
 
         {/* Product Description */}
         {product?.shortDescription && (
-          <p className="text-[13px] text-gray-600 mb-3 line-clamp-2">{product.shortDescription}</p>
+          <p className="text-[13px] text-grey-dark mb-3 line-clamp-2">{product.shortDescription}</p>
         )}
 
         {/* Quantity */}
         <div className="flex items-center gap-1 mb-2">
-          <span className="text-[13px] text-gray-600">Aantal:</span>
-          <span className="text-[13px] font-bold text-gray-900">{item.quantity}x</span>
+          <span className="text-[13px] text-grey-dark">Aantal:</span>
+          <span className="text-[13px] font-bold text-navy">{item.quantity}x</span>
         </div>
 
         {/* Price Display */}
@@ -135,12 +135,12 @@ export const BundleProductCard: React.FC<BundleProductCardProps> = ({
                 <span className="text-[16px] font-mono font-bold text-teal">
                   €{formatPriceStr(discountedPrice * item.quantity)}
                 </span>
-                <span className="text-[13px] font-mono text-gray-400 line-through">
+                <span className="text-[13px] font-mono text-grey-mid line-through">
                   €{formatPriceStr(productPrice * item.quantity)}
                 </span>
               </>
             ) : (
-              <span className="text-[16px] font-mono font-bold text-gray-900">
+              <span className="text-[16px] font-mono font-bold text-navy">
                 €{formatPriceStr(productPrice * item.quantity)}
               </span>
             )}

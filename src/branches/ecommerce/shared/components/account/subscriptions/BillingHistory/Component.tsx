@@ -24,17 +24,17 @@ function statusClasses(status: SubscriptionInvoice['status']): string {
     case 'open':
       return 'bg-amber-100 text-amber-700'
     case 'void':
-      return 'bg-gray-100 text-gray-500'
+      return 'bg-grey-light text-grey-mid'
     default:
-      return 'bg-gray-100 text-gray-500'
+      return 'bg-grey-light text-grey-mid'
   }
 }
 
 export function BillingHistory({ invoices }: BillingHistoryProps) {
   return (
     <div className="mb-6">
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-        <div className="p-4 border-b border-gray-200 flex justify-between items-center">
+      <div className="bg-white border border-grey-light rounded-lg overflow-hidden">
+        <div className="p-4 border-b border-grey-light flex justify-between items-center">
           <h3 className="font-bold flex items-center gap-2">
             <CreditCard className="w-4 h-4 text-[var(--color-primary)]" />
             Recente facturen
@@ -48,7 +48,7 @@ export function BillingHistory({ invoices }: BillingHistoryProps) {
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-xs font-bold uppercase text-gray-500">
+            <thead className="bg-grey-light text-xs font-bold uppercase text-grey-mid">
               <tr>
                 <th className="p-3 text-left">Datum</th>
                 <th className="p-3 text-left">Beschrijving</th>
@@ -61,12 +61,12 @@ export function BillingHistory({ invoices }: BillingHistoryProps) {
               {invoices.map((invoice) => (
                 <tr
                   key={invoice.id}
-                  className="border-b border-gray-200 last:border-0 hover:bg-gray-50 transition-colors"
+                  className="border-b border-grey-light last:border-0 hover:bg-grey-light transition-colors"
                 >
                   <td className="p-3 font-semibold">
                     {new Date(invoice.date).toLocaleDateString('nl-NL')}
                   </td>
-                  <td className="p-3 text-gray-600">{invoice.description}</td>
+                  <td className="p-3 text-grey-dark">{invoice.description}</td>
                   <td className="p-3 text-right font-mono font-bold">&euro;{invoice.amount}</td>
                   <td className="p-3 text-center">
                     <span

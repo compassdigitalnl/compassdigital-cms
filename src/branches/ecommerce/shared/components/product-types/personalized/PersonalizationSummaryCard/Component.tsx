@@ -67,11 +67,11 @@ export const PersonalizationSummaryCard: React.FC<PersonalizationSummaryCardProp
   const filledOptions = options.filter((option) => personalization[option.fieldName]?.value)
 
   return (
-    <div className={`personalization-summary-card border-2 border-gray-300 rounded-lg bg-white ${className}`}>
+    <div className={`personalization-summary-card border-2 border-grey-light rounded-lg bg-white ${className}`}>
       {/* Header */}
-      <div className="px-4 py-3 border-b-2 border-gray-200 bg-gray-50">
-        <h3 className="text-[16px] font-bold text-gray-900">Personalisatie Overzicht</h3>
-        <p className="text-[12px] text-gray-600 mt-0.5">
+      <div className="px-4 py-3 border-b-2 border-grey-light bg-grey-light">
+        <h3 className="text-[16px] font-bold text-navy">Personalisatie Overzicht</h3>
+        <p className="text-[12px] text-grey-dark mt-0.5">
           {filledOptions.length} van {options.length} velden ingevuld
         </p>
       </div>
@@ -86,7 +86,7 @@ export const PersonalizationSummaryCard: React.FC<PersonalizationSummaryCardProp
             return (
               <div
                 key={option.fieldName}
-                className="flex items-start justify-between gap-3 p-3 rounded-lg border-2 border-gray-200 bg-gray-50"
+                className="flex items-start justify-between gap-3 p-3 rounded-lg border-2 border-grey-light bg-grey-light"
               >
                 {/* Left: Icon + Field Info */}
                 <div className="flex items-start gap-2 flex-1 min-w-0">
@@ -97,8 +97,8 @@ export const PersonalizationSummaryCard: React.FC<PersonalizationSummaryCardProp
 
                   {/* Field Info */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-[13px] font-semibold text-gray-900">{option.fieldName}</p>
-                    <p className="text-[12px] text-gray-600 truncate" title={displayValue}>
+                    <p className="text-[13px] font-semibold text-navy">{option.fieldName}</p>
+                    <p className="text-[12px] text-grey-dark truncate" title={displayValue}>
                       {displayValue}
                     </p>
                     {option.priceModifier && option.priceModifier !== 0 && (
@@ -125,16 +125,16 @@ export const PersonalizationSummaryCard: React.FC<PersonalizationSummaryCardProp
           })
         ) : (
           <div className="text-center py-6">
-            <p className="text-[14px] text-gray-500">Nog geen personalisatie toegevoegd</p>
+            <p className="text-[14px] text-grey-mid">Nog geen personalisatie toegevoegd</p>
           </div>
         )}
       </div>
 
       {/* Footer: Total Cost */}
       {filledOptions.length > 0 && totalCost !== 0 && (
-        <div className="px-4 py-3 border-t-2 border-gray-200 bg-gray-50">
+        <div className="px-4 py-3 border-t-2 border-grey-light bg-grey-light">
           <div className="flex items-center justify-between">
-            <span className="text-[14px] font-semibold text-gray-900">
+            <span className="text-[14px] font-semibold text-navy">
               Totale personalisatie kosten:
             </span>
             <span className="text-[16px] font-mono font-bold text-[var(--color-primary)]">

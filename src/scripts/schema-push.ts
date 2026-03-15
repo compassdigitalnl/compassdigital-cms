@@ -31,6 +31,7 @@ import config from '@payload-config'
 import readline from 'readline'
 
 const isDryRun = process.argv.includes('--dry-run')
+const isForce = process.argv.includes('--force')
 
 // Prevent Payload's connect() from running its own push/migrate
 process.env.PAYLOAD_MIGRATING = 'true'
@@ -128,11 +129,14 @@ async function run() {
       }
     }
 
-    if (hasDataLoss) {
+    if (hasDataLoss && !isForce) {
       console.error('[schema-push] DATA LOSS detected — refusing to apply changes!')
-      console.error('[schema-push] Review the warnings above and handle manually if needed.')
+      console.error('[schema-push] Review the warnings above. Use --force to apply anyway.')
       // Exit 0 so deploy continues — the app will still start, just without destructive schema changes
       process.exit(0)
+    }
+    if (hasDataLoss && isForce) {
+      console.log('[schema-push] DATA LOSS detected but --force specified — proceeding')
     }
 
     // Step 5: Apply changes (unless dry run)

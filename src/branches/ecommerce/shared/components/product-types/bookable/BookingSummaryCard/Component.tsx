@@ -30,10 +30,10 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
 
   return (
     <div
-      className={`booking-summary-card bg-white border-[1.5px] border-gray-200 rounded-[20px] overflow-hidden shadow-lg max-w-[360px] ${className}`}
+      className={`booking-summary-card bg-white border-[1.5px] border-grey-light rounded-[20px] overflow-hidden shadow-lg max-w-[360px] ${className}`}
     >
       {/* Header */}
-      <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-5 text-center relative overflow-hidden">
+      <div className="bg-gradient-to-br from-navy to-navy p-5 text-center relative overflow-hidden">
         <div
           className="absolute -top-8 -right-8 w-30 h-30 rounded-full pointer-events-none"
           style={{
@@ -52,10 +52,10 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
           <div className="flex items-start gap-3">
             <Calendar className="w-5 h-5 text-[var(--color-primary)] flex-shrink-0 mt-0.5" />
             <div className="flex-1">
-              <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <div className="text-xs font-semibold text-grey-mid uppercase tracking-wide">
                 Datum
               </div>
-              <div className="text-sm font-bold text-gray-900 mt-0.5">
+              <div className="text-sm font-bold text-navy mt-0.5">
                 {formatDate(summary.date)}
               </div>
             </div>
@@ -75,13 +75,13 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
           <div className="flex items-start gap-3">
             <Clock className="w-5 h-5 text-[var(--color-primary)] flex-shrink-0 mt-0.5" />
             <div className="flex-1">
-              <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <div className="text-xs font-semibold text-grey-mid uppercase tracking-wide">
                 Tijd
               </div>
-              <div className="text-sm font-bold text-gray-900 mt-0.5">
+              <div className="text-sm font-bold text-navy mt-0.5">
                 {summary.time}
                 {summary.duration && (
-                  <span className="text-gray-500 font-normal ml-2">
+                  <span className="text-grey-mid font-normal ml-2">
                     ({summary.duration})
                   </span>
                 )}
@@ -103,15 +103,15 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
           <div className="flex items-start gap-3">
             <Users className="w-5 h-5 text-[var(--color-primary)] flex-shrink-0 mt-0.5" />
             <div className="flex-1">
-              <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
+              <div className="text-xs font-semibold text-grey-mid uppercase tracking-wide mb-1">
                 Deelnemers
               </div>
               {summary.participants.map((p, index) => (
                 <div key={index} className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-700">
+                  <span className="text-grey-dark">
                     {p.count}x {p.category}
                   </span>
-                  <span className="font-mono font-semibold text-gray-900">
+                  <span className="font-mono font-semibold text-navy">
                     €{formatPriceStr(p.count * p.price)}
                   </span>
                 </div>
@@ -133,13 +133,13 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
           <div className="flex items-start gap-3">
             <Package className="w-5 h-5 text-[var(--color-primary)] flex-shrink-0 mt-0.5" />
             <div className="flex-1">
-              <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
+              <div className="text-xs font-semibold text-grey-mid uppercase tracking-wide mb-1">
                 Extra's
               </div>
               {summary.addOns.map((addon, index) => (
                 <div key={index} className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-700">{addon.label}</span>
-                  <span className="font-mono font-semibold text-gray-900">
+                  <span className="text-grey-dark">{addon.label}</span>
+                  <span className="font-mono font-semibold text-navy">
                     €{formatPriceStr(addon.price)}
                   </span>
                 </div>
@@ -157,10 +157,10 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
         )}
 
         {/* Divider */}
-        <div className="border-t border-gray-200 pt-4">
+        <div className="border-t border-grey-light pt-4">
           {/* Subtotals */}
           {summary.basePrice && (
-            <div className="flex justify-between text-sm text-gray-600 mb-1">
+            <div className="flex justify-between text-sm text-grey-dark mb-1">
               <span>Basisprijs</span>
               <span className="font-mono">€{formatPriceStr(summary.basePrice)}</span>
             </div>
@@ -168,8 +168,8 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
 
           {/* Total */}
           <div className="flex justify-between items-baseline mt-3">
-            <span className="text-base font-bold text-gray-900">Totaal</span>
-            <span className="text-2xl font-extrabold font-heading text-gray-900">
+            <span className="text-base font-bold text-navy">Totaal</span>
+            <span className="text-2xl font-extrabold font-heading text-navy">
               €{formatPriceStr(summary.totalPrice)}
             </span>
           </div>
@@ -196,7 +196,7 @@ export const BookingSummaryCard: React.FC<BookingSummaryCardProps> = ({
         )}
 
         {!canBook && (
-          <p className="text-center text-xs text-gray-400 mt-2">
+          <p className="text-center text-xs text-grey-mid mt-2">
             Selecteer datum, tijd en aantal deelnemers
           </p>
         )}
