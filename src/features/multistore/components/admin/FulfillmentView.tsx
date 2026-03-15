@@ -1,6 +1,7 @@
 import { DefaultTemplate } from '@payloadcms/next/templates'
 import { Gutter } from '@payloadcms/ui'
 import { Fulfillment } from './Fulfillment'
+import './multistore.scss'
 
 export async function FulfillmentView({ initPageResult, params, searchParams }: any) {
   return (
@@ -15,14 +16,14 @@ export async function FulfillmentView({ initPageResult, params, searchParams }: 
       visibleEntities={initPageResult.visibleEntities}
     >
       <Gutter>
-        <div style={{ paddingTop: '1rem', paddingBottom: '2rem' }}>
-          <div style={{ marginBottom: '1.5rem' }}>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1a1a2e', margin: 0 }}>
-              Fulfillment
-            </h1>
-            <p style={{ fontSize: '0.8rem', color: '#6b7280', marginTop: '0.25rem' }}>
-              Pick, pack &amp; ship workflow voor alle webshopbestellingen
-            </p>
+        <div className="ms-page">
+          <div className="ms-header">
+            <div>
+              <h1 className="ms-header__title">Fulfillment</h1>
+              <p className="ms-header__subtitle">
+                Pick, pack &amp; ship workflow voor alle webshopbestellingen
+              </p>
+            </div>
           </div>
           <Fulfillment />
         </div>

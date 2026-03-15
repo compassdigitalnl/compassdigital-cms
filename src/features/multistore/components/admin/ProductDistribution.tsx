@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 
 interface Site {
   id: number
@@ -20,6 +20,12 @@ interface Product {
   }>
 }
 
+const SYNC_STATUS_MAP: Record<string, string> = {
+  synced: 'synced',
+  pending: 'pending',
+  error: 'error',
+}
+
 export function ProductDistribution() {
   const [sites, setSites] = useState<Site[]>([])
   const [products, setProducts] = useState<Product[]>([])
@@ -30,31 +36,21 @@ export function ProductDistribution() {
   const [distributing, setDistributing] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  async function fetchData() {
+  const fetchData = useCallback(async () => {
     setLoading(true)
     try {
-      // Fetch sites
-      const sitesRes = await fetch('/api/multistore-sites?limit=100&depth=0')
-      if (!sitesRes.ok) throw new Error('Kan webshops niet ophalen')
-      const sitesData = await sitesRes.json()
-      setSites(
-        sitesData.docs.map((s: any) => ({
-          id: s.id,
-          name: s.name,
-          status: s.status,
-        })),
-      )
+      const [sitesRes, productsRes] = await Promise.all([
+        fetch('/api/multistore-sites?limit=100&depth=0'),
+        fetch('/api/products?limit=500&depth=0&where[multistoreSyncEnabled][equals]=true&sort=title'),
+      ])
 
-      // Fetch products
-      const productsRes = await fetch(
-        '/api/products?limit=500&depth=0&where[multistoreSyncEnabled][equals]=true&sort=title',
-      )
+      if (!sitesRes.ok) throw new Error('Kan webshops niet ophalen')
       if (!productsRes.ok) throw new Error('Kan producten niet ophalen')
+
+      const sitesData = await sitesRes.json()
       const productsData = await productsRes.json()
+
+      setSites(sitesData.docs.map((s: any) => ({ id: s.id, name: s.name, status: s.status })))
       setProducts(
         productsData.docs.map((p: any) => ({
           id: p.id,
@@ -69,7 +65,21 @@ export function ProductDistribution() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
+
+  const filteredProducts = searchQuery
+    ? products.filter(
+        (p) =>
+          p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.sku.toLowerCase().includes(searchQuery.toLowerCase()),
+      )
+    : products
+
+  const activeSites = sites.filter((s) => s.status === 'active')
 
   function toggleProduct(id: number) {
     const next = new Set(selectedProducts)
@@ -108,7 +118,6 @@ export function ProductDistribution() {
         const product = products.find((p) => p.id === productId)
         if (!product) continue
 
-        // Build updated distributedTo array
         const existing = product.distributedTo || []
         const newEntries = [...existing]
 
@@ -117,12 +126,8 @@ export function ProductDistribution() {
             const sid = typeof e.site === 'object' ? e.site.id : e.site
             return sid === siteId
           })
-
           if (!alreadyDistributed) {
-            newEntries.push({
-              site: siteId,
-              syncStatus: 'pending',
-            })
+            newEntries.push({ site: siteId, syncStatus: 'pending' })
           }
         }
 
@@ -130,12 +135,8 @@ export function ProductDistribution() {
           const res = await fetch(`/api/products/${productId}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              distributedTo: newEntries,
-              multistoreSyncEnabled: true,
-            }),
+            body: JSON.stringify({ distributedTo: newEntries, multistoreSyncEnabled: true }),
           })
-
           if (res.ok) succeeded++
           else failed++
         } catch {
@@ -143,11 +144,7 @@ export function ProductDistribution() {
         }
       }
 
-      alert(
-        `Distributie voltooid: ${succeeded} geslaagd${failed > 0 ? `, ${failed} mislukt` : ''}. Sync jobs worden automatisch aangemaakt.`,
-      )
-
-      // Refresh
+      alert(`Distributie voltooid: ${succeeded} geslaagd${failed > 0 ? `, ${failed} mislukt` : ''}. Sync jobs worden automatisch aangemaakt.`)
       setSelectedProducts(new Set())
       setSelectedSites(new Set())
       await fetchData()
@@ -158,103 +155,73 @@ export function ProductDistribution() {
     }
   }
 
-  const filteredProducts = searchQuery
-    ? products.filter(
-        (p) =>
-          p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.sku.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
-    : products
-
-  const activeSites = sites.filter((s) => s.status === 'active')
-
-  if (error) {
-    return (
-      <div style={{ padding: '1rem', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', color: '#991b1b' }}>
-        {error}
-      </div>
-    )
-  }
+  if (error) return <div className="ms-error">{error}</div>
 
   return (
-    <div>
-      {/* Site Selection */}
-      <div style={{ marginBottom: '1.5rem' }}>
-        <h3 style={{ fontSize: '0.85rem', fontWeight: 700, marginBottom: '0.5rem', color: '#374151' }}>
-          1. Selecteer webshops
-        </h3>
+    <div className="ms-page">
+      {/* Step 1: Select shops */}
+      <div className="ms-section">
+        <div className="ms-section__header">
+          <h2 className="ms-section__title">1. Selecteer webshops</h2>
+        </div>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
           {activeSites.map((site) => (
             <button
               key={site.id}
+              className={`ms-chip${selectedSites.has(site.id) ? ' ms-chip--active' : ''}`}
               onClick={() => toggleSite(site.id)}
-              style={{
-                padding: '0.4rem 0.75rem',
-                borderRadius: '6px',
-                border: selectedSites.has(site.id) ? '2px solid #2563eb' : '1px solid #d1d5db',
-                background: selectedSites.has(site.id) ? '#eff6ff' : '#fff',
-                cursor: 'pointer',
-                fontSize: '0.8rem',
-                fontWeight: selectedSites.has(site.id) ? 600 : 400,
-                color: selectedSites.has(site.id) ? '#2563eb' : '#4b5563',
-              }}
             >
               {site.name}
             </button>
           ))}
           {activeSites.length === 0 && (
-            <span style={{ color: '#9ca3af', fontSize: '0.8rem' }}>Geen actieve webshops</span>
+            <span className="ms-table__muted">Geen actieve webshops</span>
           )}
         </div>
       </div>
 
-      {/* Product Selection */}
-      <div style={{ marginBottom: '1.5rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-          <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: '#374151', margin: 0 }}>
+      {/* Step 2: Select products */}
+      <div className="ms-section">
+        <div className="ms-section__header">
+          <h2 className="ms-section__title">
             2. Selecteer producten ({selectedProducts.size} / {filteredProducts.length})
-          </h3>
+          </h2>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <input
               type="text"
+              className="ms-input"
               placeholder="Zoek op naam of SKU..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                padding: '0.4rem 0.75rem',
-                borderRadius: '6px',
-                border: '1px solid #d1d5db',
-                fontSize: '0.8rem',
-                width: '200px',
-              }}
+              style={{ width: '200px' }}
             />
-            <button onClick={toggleAllProducts} style={btnStyle}>
+            <button className="ms-btn ms-btn--sm" onClick={toggleAllProducts}>
               {selectedProducts.size === filteredProducts.length ? 'Deselecteer alles' : 'Selecteer alles'}
             </button>
           </div>
         </div>
 
-        <div style={{ maxHeight: '400px', overflowY: 'auto', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
+        <div className="ms-table-wrap" style={{ maxHeight: '450px', overflowY: 'auto' }}>
+          <table className="ms-table">
             <thead>
-              <tr style={{ borderBottom: '2px solid #e5e7eb', textAlign: 'left', position: 'sticky', top: 0, background: '#fff' }}>
-                <th style={{ ...thStyle, width: '30px' }} />
-                <th style={thStyle}>Product</th>
-                <th style={thStyle}>SKU</th>
-                <th style={thStyle}>Gedistribueerd naar</th>
+              <tr>
+                <th style={{ width: '30px' }} />
+                <th>Product</th>
+                <th>SKU</th>
+                <th>Gedistribueerd naar</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={4} style={{ ...tdStyle, textAlign: 'center', color: '#9ca3af' }}>
-                    Laden...
+                  <td colSpan={4}>
+                    <div className="ms-loading"><div className="ms-spinner" />Laden...</div>
                   </td>
                 </tr>
               ) : filteredProducts.length === 0 ? (
                 <tr>
-                  <td colSpan={4} style={{ ...tdStyle, textAlign: 'center', color: '#9ca3af' }}>
-                    Geen producten met sync gevonden
+                  <td colSpan={4}>
+                    <div className="ms-empty">Geen producten met sync gevonden</div>
                   </td>
                 </tr>
               ) : (
@@ -263,52 +230,35 @@ export function ProductDistribution() {
                     key={product.id}
                     onClick={() => toggleProduct(product.id)}
                     style={{
-                      borderBottom: '1px solid #f3f4f6',
                       cursor: 'pointer',
-                      background: selectedProducts.has(product.id) ? '#eff6ff' : 'transparent',
+                      background: selectedProducts.has(product.id) ? '#f0fdfa' : undefined,
                     }}
                   >
-                    <td style={{ ...tdStyle, textAlign: 'center' }}>
+                    <td className="ms-table__center">
                       <input
                         type="checkbox"
+                        className="ms-checkbox"
                         checked={selectedProducts.has(product.id)}
                         onChange={() => toggleProduct(product.id)}
                         onClick={(e) => e.stopPropagation()}
                       />
                     </td>
-                    <td style={tdStyle}>{product.title}</td>
-                    <td style={{ ...tdStyle, fontFamily: 'monospace', fontSize: '0.7rem' }}>
-                      {product.sku}
-                    </td>
-                    <td style={tdStyle}>
+                    <td>{product.title}</td>
+                    <td className="ms-table__mono">{product.sku}</td>
+                    <td>
                       <div style={{ display: 'flex', gap: '0.25rem', flexWrap: 'wrap' }}>
                         {product.distributedTo.map((entry, i) => {
                           const siteId = typeof entry.site === 'object' ? entry.site.id : entry.site
                           const site = sites.find((s) => s.id === siteId)
-                          const statusColor =
-                            entry.syncStatus === 'synced'
-                              ? '#059669'
-                              : entry.syncStatus === 'error'
-                                ? '#ef4444'
-                                : '#f59e0b'
+                          const statusClass = SYNC_STATUS_MAP[entry.syncStatus] || 'pending'
                           return (
-                            <span
-                              key={i}
-                              style={{
-                                padding: '0.1rem 0.4rem',
-                                borderRadius: '4px',
-                                background: `${statusColor}15`,
-                                border: `1px solid ${statusColor}40`,
-                                fontSize: '0.65rem',
-                                color: statusColor,
-                              }}
-                            >
+                            <span key={i} className={`ms-dist-tag ms-dist-tag--${statusClass}`}>
                               {site?.name || `Site ${siteId}`}
                             </span>
                           )
                         })}
                         {product.distributedTo.length === 0 && (
-                          <span style={{ color: '#d1d5db', fontSize: '0.7rem' }}>Geen</span>
+                          <span className="ms-table__muted">Geen</span>
                         )}
                       </div>
                     </td>
@@ -321,45 +271,20 @@ export function ProductDistribution() {
       </div>
 
       {/* Action */}
-      <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+      <div className="ms-toolbar">
         <button
+          className="ms-btn ms-btn--primary"
           onClick={handleDistribute}
           disabled={distributing || selectedProducts.size === 0 || selectedSites.size === 0}
-          style={{
-            padding: '0.6rem 1.25rem',
-            borderRadius: '8px',
-            border: 'none',
-            background: selectedProducts.size > 0 && selectedSites.size > 0 ? '#2563eb' : '#d1d5db',
-            color: '#fff',
-            cursor: selectedProducts.size > 0 && selectedSites.size > 0 ? 'pointer' : 'not-allowed',
-            fontSize: '0.85rem',
-            fontWeight: 600,
-            opacity: distributing ? 0.5 : 1,
-          }}
         >
           {distributing
             ? 'Distribueren...'
             : `Distribueer ${selectedProducts.size} product(en) naar ${selectedSites.size} webshop(s)`}
         </button>
-        <button onClick={() => fetchData()} style={btnStyle}>
+        <button className="ms-btn ms-btn--sm" onClick={() => fetchData()}>
           Vernieuwen
         </button>
       </div>
     </div>
   )
-}
-
-// ═══════════════════════════════════════════════════════════
-// STYLES
-// ═══════════════════════════════════════════════════════════
-
-const thStyle: React.CSSProperties = { padding: '0.5rem 0.75rem', fontWeight: 600, color: '#374151', fontSize: '0.75rem' }
-const tdStyle: React.CSSProperties = { padding: '0.4rem 0.75rem', color: '#4b5563' }
-const btnStyle: React.CSSProperties = {
-  padding: '0.4rem 0.75rem',
-  borderRadius: '6px',
-  border: '1px solid #d1d5db',
-  background: '#fff',
-  cursor: 'pointer',
-  fontSize: '0.8rem',
 }

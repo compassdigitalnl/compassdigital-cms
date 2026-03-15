@@ -1,6 +1,7 @@
 import { DefaultTemplate } from '@payloadcms/next/templates'
 import { Gutter } from '@payloadcms/ui'
 import { Reports } from './Reports'
+import './multistore.scss'
 
 export async function ReportsView({ initPageResult, params, searchParams }: any) {
   return (
@@ -15,14 +16,14 @@ export async function ReportsView({ initPageResult, params, searchParams }: any)
       visibleEntities={initPageResult.visibleEntities}
     >
       <Gutter>
-        <div style={{ paddingTop: '1rem', paddingBottom: '2rem' }}>
-          <div style={{ marginBottom: '1.5rem' }}>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1a1a2e', margin: 0 }}>
-              Rapporten
-            </h1>
-            <p style={{ fontSize: '0.8rem', color: '#6b7280', marginTop: '0.25rem' }}>
-              Omzet, commissie en orderstatistieken per webshop
-            </p>
+        <div className="ms-page">
+          <div className="ms-header">
+            <div>
+              <h1 className="ms-header__title">Rapporten</h1>
+              <p className="ms-header__subtitle">
+                Omzet, commissie en orderstatistieken per webshop
+              </p>
+            </div>
           </div>
           <Reports />
         </div>

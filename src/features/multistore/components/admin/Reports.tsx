@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 
 interface SiteRevenue {
   siteId: number
@@ -10,35 +10,38 @@ interface SiteRevenue {
   totalCommission: number
   avgOrderValue: number
   ordersByStatus: Record<string, number>
-  fulfillmentByStatus: Record<string, number>
 }
 
-interface ReportPeriod {
-  label: string
-  days: number
-}
-
-const periods: ReportPeriod[] = [
+const PERIODS = [
   { label: '7 dagen', days: 7 },
   { label: '30 dagen', days: 30 },
   { label: '90 dagen', days: 90 },
   { label: 'Alles', days: 0 },
 ]
 
+const STATUS_LABELS: Record<string, string> = {
+  pending: 'In behandeling',
+  paid: 'Betaald',
+  processing: 'In voorbereiding',
+  shipped: 'Verzonden',
+  delivered: 'Geleverd',
+  cancelled: 'Geannuleerd',
+  refunded: 'Terugbetaald',
+}
+
+function formatCurrency(amount: number): string {
+  return new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(amount)
+}
+
 export function Reports() {
   const [siteRevenues, setSiteRevenues] = useState<SiteRevenue[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [period, setPeriod] = useState<number>(30)
+  const [period, setPeriod] = useState(30)
 
-  useEffect(() => {
-    fetchReport()
-  }, [period])
-
-  async function fetchReport() {
+  const fetchReport = useCallback(async () => {
     setLoading(true)
     try {
-      // Fetch sites
       const sitesRes = await fetch('/api/multistore-sites?limit=100&depth=0&where[status][equals]=active')
       if (!sitesRes.ok) throw new Error('Kan webshops niet ophalen')
       const sitesData = await sitesRes.json()
@@ -46,53 +49,39 @@ export function Reports() {
       const revenues: SiteRevenue[] = []
 
       for (const site of sitesData.docs) {
-        // Build date filter
-        const whereParams = new URLSearchParams({
-          limit: '0',
+        const params = new URLSearchParams({
+          limit: '500',
           depth: '0',
           'where[sourceSite][equals]': String(site.id),
         })
-
         if (period > 0) {
           const since = new Date()
           since.setDate(since.getDate() - period)
-          whereParams.set('where[createdAt][greater_than]', since.toISOString())
+          params.set('where[createdAt][greater_than]', since.toISOString())
         }
 
-        // Fetch order count
-        const countRes = await fetch(`/api/orders?${whereParams}`)
-        const countData = countRes.ok ? await countRes.json() : { totalDocs: 0 }
-
-        // Fetch actual orders for revenue calculation (limit to 500)
-        whereParams.set('limit', '500')
-        const ordersRes = await fetch(`/api/orders?${whereParams}`)
-        const ordersData = ordersRes.ok ? await ordersRes.json() : { docs: [] }
+        const ordersRes = await fetch(`/api/orders?${params}`)
+        const ordersData = ordersRes.ok ? await ordersRes.json() : { docs: [], totalDocs: 0 }
 
         let totalRevenue = 0
         let totalCommission = 0
         const ordersByStatus: Record<string, number> = {}
-        const fulfillmentByStatus: Record<string, number> = {}
 
         for (const order of ordersData.docs) {
           totalRevenue += order.total || 0
           totalCommission += order.commission || 0
-
           const status = order.status || 'unknown'
           ordersByStatus[status] = (ordersByStatus[status] || 0) + 1
-
-          const fStatus = order.fulfillmentStatus || 'new'
-          fulfillmentByStatus[fStatus] = (fulfillmentByStatus[fStatus] || 0) + 1
         }
 
         revenues.push({
           siteId: site.id,
           siteName: site.name,
-          totalOrders: countData.totalDocs,
+          totalOrders: ordersData.totalDocs,
           totalRevenue,
           totalCommission,
-          avgOrderValue: countData.totalDocs > 0 ? totalRevenue / countData.totalDocs : 0,
+          avgOrderValue: ordersData.totalDocs > 0 ? totalRevenue / ordersData.totalDocs : 0,
           ordersByStatus,
-          fulfillmentByStatus,
         })
       }
 
@@ -102,7 +91,11 @@ export function Reports() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [period])
+
+  useEffect(() => {
+    fetchReport()
+  }, [fetchReport])
 
   const totals = siteRevenues.reduce(
     (acc, s) => ({
@@ -113,189 +106,166 @@ export function Reports() {
     { orders: 0, revenue: 0, commission: 0 },
   )
 
-  const statusLabels: Record<string, string> = {
-    pending: 'In behandeling',
-    paid: 'Betaald',
-    processing: 'In voorbereiding',
-    shipped: 'Verzonden',
-    delivered: 'Geleverd',
-    cancelled: 'Geannuleerd',
-    refunded: 'Terugbetaald',
-  }
+  const maxRevenue = Math.max(...siteRevenues.map((s) => s.totalRevenue), 1)
 
-  if (error) {
-    return (
-      <div style={{ padding: '1rem', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', color: '#991b1b' }}>
-        {error}
-      </div>
-    )
-  }
+  if (error) return <div className="ms-error">{error}</div>
 
   return (
-    <div>
+    <div className="ms-page">
       {/* Period Selector */}
-      <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-        {periods.map((p) => (
-          <button
-            key={p.days}
-            onClick={() => setPeriod(p.days)}
-            style={{
-              padding: '0.4rem 0.75rem',
-              borderRadius: '6px',
-              border: period === p.days ? '2px solid #2563eb' : '1px solid #d1d5db',
-              background: period === p.days ? '#eff6ff' : '#fff',
-              cursor: 'pointer',
-              fontSize: '0.85rem',
-              fontWeight: period === p.days ? 600 : 400,
-              color: period === p.days ? '#2563eb' : '#4b5563',
-            }}
-          >
-            {p.label}
-          </button>
-        ))}
-        <button onClick={() => fetchReport()} style={btnStyle}>
+      <div className="ms-toolbar">
+        <div className="ms-period">
+          {PERIODS.map((p) => (
+            <button
+              key={p.days}
+              className={`ms-period__btn${period === p.days ? ' ms-period__btn--active' : ''}`}
+              onClick={() => setPeriod(p.days)}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+        <button className="ms-btn ms-btn--sm" onClick={() => fetchReport()}>
           Vernieuwen
         </button>
       </div>
 
-      {/* Totals KPI */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
-        <KPICard label="Totaal Bestellingen" value={String(totals.orders)} />
-        <KPICard label="Totaal Omzet" value={formatCurrency(totals.revenue)} />
-        <KPICard label="Totaal Commissie" value={formatCurrency(totals.commission)} />
-        <KPICard
-          label="Gem. Orderwaarde"
-          value={formatCurrency(totals.orders > 0 ? totals.revenue / totals.orders : 0)}
-        />
+      {/* KPI Cards */}
+      <div className="ms-kpi-grid">
+        <div className="ms-kpi">
+          <div className="ms-kpi__top">
+            <span className="ms-kpi__label">Totaal Bestellingen</span>
+            <span className="ms-kpi__icon ms-kpi__icon--blue">📦</span>
+          </div>
+          <div className="ms-kpi__value">{loading ? '...' : totals.orders}</div>
+        </div>
+        <div className="ms-kpi">
+          <div className="ms-kpi__top">
+            <span className="ms-kpi__label">Totaal Omzet</span>
+            <span className="ms-kpi__icon ms-kpi__icon--green">💰</span>
+          </div>
+          <div className="ms-kpi__value">{loading ? '...' : formatCurrency(totals.revenue)}</div>
+        </div>
+        <div className="ms-kpi">
+          <div className="ms-kpi__top">
+            <span className="ms-kpi__label">Totaal Commissie</span>
+            <span className="ms-kpi__icon ms-kpi__icon--teal">🏦</span>
+          </div>
+          <div className="ms-kpi__value">{loading ? '...' : formatCurrency(totals.commission)}</div>
+        </div>
+        <div className="ms-kpi">
+          <div className="ms-kpi__top">
+            <span className="ms-kpi__label">Gem. Orderwaarde</span>
+            <span className="ms-kpi__icon ms-kpi__icon--amber">📊</span>
+          </div>
+          <div className="ms-kpi__value">
+            {loading ? '...' : formatCurrency(totals.orders > 0 ? totals.revenue / totals.orders : 0)}
+          </div>
+        </div>
       </div>
 
-      {/* Per-Site Breakdown */}
-      <h2 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.75rem' }}>Per Webshop</h2>
+      {/* Revenue bars */}
+      {!loading && siteRevenues.length > 0 && (
+        <div className="ms-section">
+          <div className="ms-section__header">
+            <h2 className="ms-section__title">Omzet per Webshop</h2>
+          </div>
+          <div className="ms-card">
+            <div className="ms-card__body">
+              {siteRevenues.map((site) => (
+                <div key={site.siteId} className="ms-bar">
+                  <span className="ms-bar__label">{site.siteName}</span>
+                  <div className="ms-bar__track">
+                    <div
+                      className="ms-bar__fill ms-bar__fill--teal"
+                      style={{ width: `${(site.totalRevenue / maxRevenue) * 100}%` }}
+                    />
+                  </div>
+                  <span className="ms-bar__value">{formatCurrency(site.totalRevenue)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
-      {loading ? (
-        <div style={{ padding: '2rem', color: '#9ca3af', textAlign: 'center' }}>Laden...</div>
-      ) : siteRevenues.length === 0 ? (
-        <div style={{ padding: '2rem', color: '#9ca3af', textAlign: 'center' }}>Geen webshops gevonden</div>
-      ) : (
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
+      {/* Detail Table */}
+      <div className="ms-section">
+        <div className="ms-section__header">
+          <h2 className="ms-section__title">Detail per Webshop</h2>
+        </div>
+
+        <div className="ms-table-wrap">
+          <table className="ms-table">
             <thead>
-              <tr style={{ borderBottom: '2px solid #e5e7eb', textAlign: 'left' }}>
-                <th style={thStyle}>Webshop</th>
-                <th style={{ ...thStyle, textAlign: 'right' }}>Bestellingen</th>
-                <th style={{ ...thStyle, textAlign: 'right' }}>Omzet</th>
-                <th style={{ ...thStyle, textAlign: 'right' }}>Commissie</th>
-                <th style={{ ...thStyle, textAlign: 'right' }}>Gem. Order</th>
-                <th style={thStyle}>Orderstatus</th>
+              <tr>
+                <th>Webshop</th>
+                <th className="ms-table__right">Bestellingen</th>
+                <th className="ms-table__right">Omzet</th>
+                <th className="ms-table__right">Commissie</th>
+                <th className="ms-table__right">Gem. Order</th>
+                <th>Orderstatus</th>
               </tr>
             </thead>
             <tbody>
-              {siteRevenues.map((site) => (
-                <tr key={site.siteId} style={{ borderBottom: '1px solid #f3f4f6' }}>
-                  <td style={tdStyle}>
-                    <a
-                      href={`/admin/collections/multistore-sites/${site.siteId}`}
-                      style={{ color: '#2563eb', textDecoration: 'none', fontWeight: 500 }}
-                    >
-                      {site.siteName}
-                    </a>
-                  </td>
-                  <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>
-                    {site.totalOrders}
-                  </td>
-                  <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 600 }}>
-                    {formatCurrency(site.totalRevenue)}
-                  </td>
-                  <td style={{ ...tdStyle, textAlign: 'right', color: '#059669', fontWeight: 600 }}>
-                    {formatCurrency(site.totalCommission)}
-                  </td>
-                  <td style={{ ...tdStyle, textAlign: 'right' }}>
-                    {formatCurrency(site.avgOrderValue)}
-                  </td>
-                  <td style={tdStyle}>
-                    <div style={{ display: 'flex', gap: '0.25rem', flexWrap: 'wrap' }}>
-                      {Object.entries(site.ordersByStatus).map(([status, count]) => (
-                        <span
-                          key={status}
-                          style={{
-                            padding: '0.1rem 0.4rem',
-                            borderRadius: '4px',
-                            background: '#f3f4f6',
-                            fontSize: '0.65rem',
-                            color: '#4b5563',
-                          }}
-                        >
-                          {statusLabels[status] || status}: {count}
-                        </span>
-                      ))}
-                    </div>
+              {loading ? (
+                <tr>
+                  <td colSpan={6}>
+                    <div className="ms-loading"><div className="ms-spinner" />Laden...</div>
                   </td>
                 </tr>
-              ))}
+              ) : siteRevenues.length === 0 ? (
+                <tr>
+                  <td colSpan={6}>
+                    <div className="ms-empty">Geen webshops gevonden</div>
+                  </td>
+                </tr>
+              ) : (
+                siteRevenues.map((site) => (
+                  <tr key={site.siteId}>
+                    <td>
+                      <a href={`/admin/collections/multistore-sites/${site.siteId}`} className="ms-table__link">
+                        {site.siteName}
+                      </a>
+                    </td>
+                    <td className="ms-table__right" style={{ fontWeight: 600 }}>{site.totalOrders}</td>
+                    <td className="ms-table__right" style={{ fontWeight: 600 }}>{formatCurrency(site.totalRevenue)}</td>
+                    <td className="ms-table__right" style={{ color: '#059669', fontWeight: 600 }}>
+                      {formatCurrency(site.totalCommission)}
+                    </td>
+                    <td className="ms-table__right">{formatCurrency(site.avgOrderValue)}</td>
+                    <td>
+                      <div style={{ display: 'flex', gap: '0.25rem', flexWrap: 'wrap' }}>
+                        {Object.entries(site.ordersByStatus).map(([status, count]) => (
+                          <span key={status} className="ms-pill ms-pill--gray">
+                            {STATUS_LABELS[status] || status}: {count}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
-            <tfoot>
-              <tr style={{ borderTop: '2px solid #e5e7eb', fontWeight: 700 }}>
-                <td style={tdStyle}>Totaal</td>
-                <td style={{ ...tdStyle, textAlign: 'right' }}>{totals.orders}</td>
-                <td style={{ ...tdStyle, textAlign: 'right' }}>{formatCurrency(totals.revenue)}</td>
-                <td style={{ ...tdStyle, textAlign: 'right', color: '#059669' }}>
-                  {formatCurrency(totals.commission)}
-                </td>
-                <td style={{ ...tdStyle, textAlign: 'right' }}>
-                  {formatCurrency(totals.orders > 0 ? totals.revenue / totals.orders : 0)}
-                </td>
-                <td style={tdStyle} />
-              </tr>
-            </tfoot>
+            {!loading && siteRevenues.length > 0 && (
+              <tfoot>
+                <tr>
+                  <td>Totaal</td>
+                  <td className="ms-table__right">{totals.orders}</td>
+                  <td className="ms-table__right">{formatCurrency(totals.revenue)}</td>
+                  <td className="ms-table__right" style={{ color: '#059669' }}>
+                    {formatCurrency(totals.commission)}
+                  </td>
+                  <td className="ms-table__right">
+                    {formatCurrency(totals.orders > 0 ? totals.revenue / totals.orders : 0)}
+                  </td>
+                  <td />
+                </tr>
+              </tfoot>
+            )}
           </table>
         </div>
-      )}
-    </div>
-  )
-}
-
-// ═══════════════════════════════════════════════════════════
-// SUB-COMPONENTS
-// ═══════════════════════════════════════════════════════════
-
-function KPICard({ label, value }: { label: string; value: string }) {
-  return (
-    <div style={cardStyle}>
-      <div style={{ fontSize: '0.7rem', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-        {label}
-      </div>
-      <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1a1a2e', marginTop: '0.25rem' }}>
-        {value}
       </div>
     </div>
   )
-}
-
-// ═══════════════════════════════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════════════════════════════
-
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(amount)
-}
-
-// ═══════════════════════════════════════════════════════════
-// STYLES
-// ═══════════════════════════════════════════════════════════
-
-const cardStyle: React.CSSProperties = {
-  background: '#fff',
-  border: '1px solid #e5e7eb',
-  borderRadius: '8px',
-  padding: '1.25rem',
-}
-const thStyle: React.CSSProperties = { padding: '0.5rem 0.75rem', fontWeight: 600, color: '#374151', fontSize: '0.75rem' }
-const tdStyle: React.CSSProperties = { padding: '0.5rem 0.75rem', color: '#4b5563' }
-const btnStyle: React.CSSProperties = {
-  padding: '0.4rem 0.75rem',
-  borderRadius: '6px',
-  border: '1px solid #d1d5db',
-  background: '#fff',
-  cursor: 'pointer',
-  fontSize: '0.85rem',
 }

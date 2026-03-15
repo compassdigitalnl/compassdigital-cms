@@ -1,6 +1,7 @@
 import { DefaultTemplate } from '@payloadcms/next/templates'
 import { Gutter } from '@payloadcms/ui'
 import { InventoryOverview } from './InventoryOverview'
+import './multistore.scss'
 
 export async function InventoryOverviewView({ initPageResult, params, searchParams }: any) {
   return (
@@ -15,14 +16,14 @@ export async function InventoryOverviewView({ initPageResult, params, searchPara
       visibleEntities={initPageResult.visibleEntities}
     >
       <Gutter>
-        <div style={{ paddingTop: '1rem', paddingBottom: '2rem' }}>
-          <div style={{ marginBottom: '1.5rem' }}>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1a1a2e', margin: 0 }}>
-              Voorraadbeheer
-            </h1>
-            <p style={{ fontSize: '0.8rem', color: '#6b7280', marginTop: '0.25rem' }}>
-              Voorraadniveaus per product en per webshop
-            </p>
+        <div className="ms-page">
+          <div className="ms-header">
+            <div>
+              <h1 className="ms-header__title">Voorraadbeheer</h1>
+              <p className="ms-header__subtitle">
+                Voorraadniveaus per product en per webshop
+              </p>
+            </div>
           </div>
           <InventoryOverview />
         </div>

@@ -22,6 +22,22 @@ interface FulfillmentOrder {
 
 type FulfillmentFilter = '' | 'new' | 'picking' | 'packing' | 'shipped' | 'delivered'
 
+const FULFILLMENT_MAP: Record<string, { label: string; color: string }> = {
+  new:       { label: 'Nieuw', color: 'gray' },
+  picking:   { label: 'Picken', color: 'amber' },
+  packing:   { label: 'Inpakken', color: 'blue' },
+  shipped:   { label: 'Verzonden', color: 'purple' },
+  delivered: { label: 'Afgeleverd', color: 'green' },
+}
+
+function formatCurrency(amount: number): string {
+  return new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(amount)
+}
+
+function formatTime(dateStr: string): string {
+  return new Date(dateStr).toLocaleString('nl-NL', { dateStyle: 'short', timeStyle: 'short' })
+}
+
 export function Fulfillment() {
   const [orders, setOrders] = useState<FulfillmentOrder[]>([])
   const [loading, setLoading] = useState(true)
@@ -46,25 +62,25 @@ export function Fulfillment() {
       if (!res.ok) throw new Error('Kan bestellingen niet ophalen')
       const data = await res.json()
 
-      const mapped: FulfillmentOrder[] = data.docs.map((order: any) => ({
-        id: order.id,
-        orderNumber: order.orderNumber,
-        remoteOrderNumber: order.remoteOrderNumber,
-        sourceSiteName: typeof order.sourceSite === 'object' ? order.sourceSite?.name : undefined,
-        status: order.status,
-        fulfillmentStatus: order.fulfillmentStatus || 'new',
-        total: order.total,
-        customerEmail: order.customerEmail || order.guestEmail,
-        itemCount: order.items?.length || 0,
-        pickedBy: typeof order.pickedBy === 'object' ? order.pickedBy?.email : undefined,
-        pickedAt: order.pickedAt,
-        packedAt: order.packedAt,
-        trackingCode: order.trackingCode,
-        shippingProvider: order.shippingProvider,
-        createdAt: order.createdAt,
-      }))
-
-      setOrders(mapped)
+      setOrders(
+        data.docs.map((order: any) => ({
+          id: order.id,
+          orderNumber: order.orderNumber,
+          remoteOrderNumber: order.remoteOrderNumber,
+          sourceSiteName: typeof order.sourceSite === 'object' ? order.sourceSite?.name : undefined,
+          status: order.status,
+          fulfillmentStatus: order.fulfillmentStatus || 'new',
+          total: order.total || 0,
+          customerEmail: order.customerEmail || order.guestEmail,
+          itemCount: order.items?.length || 0,
+          pickedBy: typeof order.pickedBy === 'object' ? order.pickedBy?.email : undefined,
+          pickedAt: order.pickedAt,
+          packedAt: order.packedAt,
+          trackingCode: order.trackingCode,
+          shippingProvider: order.shippingProvider,
+          createdAt: order.createdAt,
+        })),
+      )
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Onbekende fout')
     } finally {
@@ -76,27 +92,15 @@ export function Fulfillment() {
     fetchOrders()
   }, [fetchOrders])
 
-  async function updateFulfillment(
-    orderId: number,
-    newStatus: string,
-    extraData?: Record<string, any>,
-  ) {
+  async function updateFulfillment(orderId: number, newStatus: string, extraData?: Record<string, any>) {
     setUpdating(orderId)
     try {
-      const data: Record<string, any> = {
-        fulfillmentStatus: newStatus,
-        ...extraData,
-      }
-
       const res = await fetch(`/api/orders/${orderId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ fulfillmentStatus: newStatus, ...extraData }),
       })
-
       if (!res.ok) throw new Error('Update mislukt')
-
-      // Refresh the list
       await fetchOrders()
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Fout bij update')
@@ -105,56 +109,25 @@ export function Fulfillment() {
     }
   }
 
-  function handleStartPicking(orderId: number) {
-    updateFulfillment(orderId, 'picking', {
-      pickedAt: new Date().toISOString(),
-    })
-  }
+  const handleStartPicking = (id: number) =>
+    updateFulfillment(id, 'picking', { pickedAt: new Date().toISOString() })
 
-  function handleMarkPacked(orderId: number) {
-    updateFulfillment(orderId, 'packing', {
-      packedAt: new Date().toISOString(),
-    })
-  }
+  const handleMarkPacked = (id: number) =>
+    updateFulfillment(id, 'packing', { packedAt: new Date().toISOString() })
 
-  function handleMarkShipped(orderId: number) {
+  const handleMarkShipped = (id: number) => {
     const trackingCode = prompt('Track & Trace code (optioneel):')
     const shippingProvider = prompt('Verzendpartij (postnl/dhl/dpd/ups):')
-
-    const extraData: Record<string, any> = {}
-    if (trackingCode) extraData.trackingCode = trackingCode
-    if (shippingProvider) extraData.shippingProvider = shippingProvider
-
-    updateFulfillment(orderId, 'shipped', {
-      ...extraData,
-      status: 'shipped',
-    })
+    const extra: Record<string, any> = { status: 'shipped' }
+    if (trackingCode) extra.trackingCode = trackingCode
+    if (shippingProvider) extra.shippingProvider = shippingProvider
+    updateFulfillment(id, 'shipped', extra)
   }
 
-  function handleMarkDelivered(orderId: number) {
-    updateFulfillment(orderId, 'delivered', {
-      status: 'delivered',
-      actualDeliveryDate: new Date().toISOString(),
-    })
-  }
+  const handleMarkDelivered = (id: number) =>
+    updateFulfillment(id, 'delivered', { status: 'delivered', actualDeliveryDate: new Date().toISOString() })
 
-  const fulfillmentLabels: Record<string, string> = {
-    new: 'Nieuw',
-    picking: 'Picken',
-    packing: 'Inpakken',
-    shipped: 'Verzonden',
-    delivered: 'Afgeleverd',
-  }
-
-  const fulfillmentColors: Record<string, string> = {
-    new: '#6b7280',
-    picking: '#f59e0b',
-    packing: '#3b82f6',
-    shipped: '#8b5cf6',
-    delivered: '#059669',
-  }
-
-  // Stats
+  // Stats per pipeline step
   const stats = {
     new: orders.filter((o) => o.fulfillmentStatus === 'new').length,
     picking: orders.filter((o) => o.fulfillmentStatus === 'picking').length,
@@ -163,136 +136,105 @@ export function Fulfillment() {
     delivered: orders.filter((o) => o.fulfillmentStatus === 'delivered').length,
   }
 
-  if (error) {
-    return (
-      <div style={{ padding: '1rem', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', color: '#991b1b' }}>
-        {error}
-      </div>
-    )
-  }
+  if (error) return <div className="ms-error">{error}</div>
 
   return (
-    <div>
-      {/* Pipeline Overview */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.75rem', marginBottom: '1.5rem' }}>
-        {(['new', 'picking', 'packing', 'shipped', 'delivered'] as const).map((status) => (
+    <div className="ms-page">
+      {/* Pipeline */}
+      <div className="ms-pipeline">
+        {(['new', 'picking', 'packing', 'shipped', 'delivered'] as const).map((step, i) => (
           <button
-            key={status}
-            onClick={() => setFilter(filter === status ? '' : status)}
-            style={{
-              padding: '0.75rem',
-              borderRadius: '8px',
-              border: filter === status ? `2px solid ${fulfillmentColors[status]}` : '1px solid #e5e7eb',
-              background: filter === status ? `${fulfillmentColors[status]}10` : '#fff',
-              cursor: 'pointer',
-              textAlign: 'center',
-            }}
+            key={step}
+            className={`ms-pipeline__step ms-pipeline__step--${step}${filter === step ? ` ms-pipeline__step--active ms-pipeline__step--${step}--active` : ''}`}
+            onClick={() => setFilter(filter === step ? '' : step)}
           >
-            <div style={{ fontSize: '1.5rem', fontWeight: 800, color: fulfillmentColors[status] }}>
-              {stats[status]}
-            </div>
-            <div style={{ fontSize: '0.7rem', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              {fulfillmentLabels[status]}
-            </div>
+            <div className="ms-pipeline__count">{stats[step]}</div>
+            <div className="ms-pipeline__label">{FULFILLMENT_MAP[step].label}</div>
+            {i < 4 && <span className="ms-pipeline__arrow">→</span>}
           </button>
         ))}
       </div>
 
       {/* Toolbar */}
-      <div style={{ marginBottom: '1rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-        <button onClick={() => fetchOrders()} style={btnStyle}>
+      <div className="ms-toolbar">
+        <button className="ms-btn ms-btn--sm" onClick={() => fetchOrders()}>
           Vernieuwen
         </button>
         {filter && (
-          <button onClick={() => setFilter('')} style={{ ...btnStyle, color: '#ef4444' }}>
+          <button className="ms-btn ms-btn--sm ms-btn--danger" onClick={() => setFilter('')}>
             Filter wissen
           </button>
         )}
-        <span style={{ fontSize: '0.75rem', color: '#9ca3af', marginLeft: '0.5rem' }}>
-          {orders.length} bestellingen
-        </span>
+        <span className="ms-toolbar__count">{orders.length} bestellingen</span>
       </div>
 
-      {/* Orders Table */}
-      <div style={{ overflowX: 'auto' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
+      {/* Table */}
+      <div className="ms-table-wrap">
+        <table className="ms-table">
           <thead>
-            <tr style={{ borderBottom: '2px solid #e5e7eb', textAlign: 'left' }}>
-              <th style={thStyle}>Bestelling</th>
-              <th style={thStyle}>Webshop</th>
-              <th style={thStyle}>Status</th>
-              <th style={thStyle}>Items</th>
-              <th style={thStyle}>Totaal</th>
-              <th style={thStyle}>Info</th>
-              <th style={thStyle}>Actie</th>
+            <tr>
+              <th>Bestelling</th>
+              <th>Webshop</th>
+              <th>Status</th>
+              <th className="ms-table__center">Items</th>
+              <th className="ms-table__right">Totaal</th>
+              <th>Info</th>
+              <th>Actie</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={7} style={{ ...tdStyle, textAlign: 'center', color: '#9ca3af' }}>
-                  Laden...
+                <td colSpan={7}>
+                  <div className="ms-loading"><div className="ms-spinner" />Laden...</div>
                 </td>
               </tr>
             ) : orders.length === 0 ? (
               <tr>
-                <td colSpan={7} style={{ ...tdStyle, textAlign: 'center', color: '#9ca3af' }}>
-                  Geen bestellingen gevonden
+                <td colSpan={7}>
+                  <div className="ms-empty">Geen bestellingen gevonden</div>
                 </td>
               </tr>
             ) : (
-              orders.map((order) => (
-                <tr key={order.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
-                  <td style={tdStyle}>
-                    <a
-                      href={`/admin/collections/orders/${order.id}`}
-                      style={{ color: '#2563eb', textDecoration: 'none', fontWeight: 500 }}
-                    >
-                      {order.orderNumber}
-                    </a>
-                    {order.remoteOrderNumber && order.remoteOrderNumber !== order.orderNumber && (
-                      <div style={{ fontSize: '0.65rem', color: '#9ca3af' }}>
-                        {order.remoteOrderNumber}
-                      </div>
-                    )}
-                  </td>
-                  <td style={tdStyle}>{order.sourceSiteName || '—'}</td>
-                  <td style={tdStyle}>
-                    <span
-                      style={{
-                        display: 'inline-block',
-                        padding: '0.15rem 0.5rem',
-                        borderRadius: '9999px',
-                        fontSize: '0.7rem',
-                        fontWeight: 600,
-                        color: '#fff',
-                        background: fulfillmentColors[order.fulfillmentStatus] || '#6b7280',
-                      }}
-                    >
-                      {fulfillmentLabels[order.fulfillmentStatus] || order.fulfillmentStatus}
-                    </span>
-                  </td>
-                  <td style={{ ...tdStyle, textAlign: 'center' }}>{order.itemCount}</td>
-                  <td style={{ ...tdStyle, fontWeight: 600 }}>
-                    {new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(
-                      order.total,
-                    )}
-                  </td>
-                  <td style={tdStyle}>
-                    <FulfillmentInfo order={order} />
-                  </td>
-                  <td style={tdStyle}>
-                    <FulfillmentActions
-                      order={order}
-                      updating={updating === order.id}
-                      onStartPicking={() => handleStartPicking(order.id)}
-                      onMarkPacked={() => handleMarkPacked(order.id)}
-                      onMarkShipped={() => handleMarkShipped(order.id)}
-                      onMarkDelivered={() => handleMarkDelivered(order.id)}
-                    />
-                  </td>
-                </tr>
-              ))
+              orders.map((order) => {
+                const info = FULFILLMENT_MAP[order.fulfillmentStatus] || { label: order.fulfillmentStatus, color: 'gray' }
+                return (
+                  <tr key={order.id}>
+                    <td>
+                      <a href={`/admin/collections/orders/${order.id}`} className="ms-table__link">
+                        {order.orderNumber}
+                      </a>
+                      {order.remoteOrderNumber && order.remoteOrderNumber !== order.orderNumber && (
+                        <div className="ms-table__muted">{order.remoteOrderNumber}</div>
+                      )}
+                    </td>
+                    <td>{order.sourceSiteName || '—'}</td>
+                    <td>
+                      <span className={`ms-pill ms-pill--${info.color}`}>
+                        <span className={`ms-pill__dot ms-pill__dot--${info.color}`} />
+                        {info.label}
+                      </span>
+                    </td>
+                    <td className="ms-table__center">{order.itemCount}</td>
+                    <td className="ms-table__right" style={{ fontWeight: 600 }}>
+                      {formatCurrency(order.total)}
+                    </td>
+                    <td>
+                      <FulfillmentInfo order={order} />
+                    </td>
+                    <td>
+                      <FulfillmentActions
+                        order={order}
+                        updating={updating === order.id}
+                        onStartPicking={() => handleStartPicking(order.id)}
+                        onMarkPacked={() => handleMarkPacked(order.id)}
+                        onMarkShipped={() => handleMarkShipped(order.id)}
+                        onMarkDelivered={() => handleMarkDelivered(order.id)}
+                      />
+                    </td>
+                  </tr>
+                )
+              })
             )}
           </tbody>
         </table>
@@ -300,10 +242,6 @@ export function Fulfillment() {
     </div>
   )
 }
-
-// ═══════════════════════════════════════════════════════════
-// SUB-COMPONENTS
-// ═══════════════════════════════════════════════════════════
 
 function FulfillmentInfo({ order }: { order: FulfillmentOrder }) {
   const parts: string[] = []
@@ -313,12 +251,10 @@ function FulfillmentInfo({ order }: { order: FulfillmentOrder }) {
   if (order.trackingCode) parts.push(`T&T: ${order.trackingCode}`)
   if (order.shippingProvider) parts.push(order.shippingProvider.toUpperCase())
 
-  if (parts.length === 0) {
-    return <span style={{ color: '#d1d5db' }}>—</span>
-  }
+  if (parts.length === 0) return <span className="ms-table__muted">—</span>
 
   return (
-    <div style={{ fontSize: '0.65rem', color: '#6b7280', lineHeight: '1.4' }}>
+    <div className="ms-fulfillment-info">
       {parts.map((part, i) => (
         <div key={i}>{part}</div>
       ))}
@@ -341,75 +277,20 @@ function FulfillmentActions({
   onMarkShipped: () => void
   onMarkDelivered: () => void
 }) {
-  if (updating) {
-    return <span style={{ color: '#9ca3af', fontSize: '0.75rem' }}>Bijwerken...</span>
-  }
+  if (updating) return <span className="ms-table__muted">Bijwerken...</span>
 
   switch (order.fulfillmentStatus) {
     case 'new':
-      return (
-        <button onClick={onStartPicking} style={actionBtnStyle('#f59e0b')}>
-          Start Picken
-        </button>
-      )
+      return <button className="ms-action-btn ms-action-btn--amber" onClick={onStartPicking}>Start Picken</button>
     case 'picking':
-      return (
-        <button onClick={onMarkPacked} style={actionBtnStyle('#3b82f6')}>
-          Ingepakt
-        </button>
-      )
+      return <button className="ms-action-btn ms-action-btn--blue" onClick={onMarkPacked}>Ingepakt</button>
     case 'packing':
-      return (
-        <button onClick={onMarkShipped} style={actionBtnStyle('#8b5cf6')}>
-          Verzenden
-        </button>
-      )
+      return <button className="ms-action-btn ms-action-btn--purple" onClick={onMarkShipped}>Verzenden</button>
     case 'shipped':
-      return (
-        <button onClick={onMarkDelivered} style={actionBtnStyle('#059669')}>
-          Afgeleverd
-        </button>
-      )
+      return <button className="ms-action-btn ms-action-btn--green" onClick={onMarkDelivered}>Afgeleverd</button>
     case 'delivered':
-      return <span style={{ color: '#059669', fontSize: '0.75rem', fontWeight: 600 }}>Compleet</span>
+      return <span className="ms-action-btn__complete">Compleet</span>
     default:
       return null
   }
-}
-
-// ═══════════════════════════════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════════════════════════════
-
-function formatTime(dateStr: string): string {
-  return new Date(dateStr).toLocaleString('nl-NL', { dateStyle: 'short', timeStyle: 'short' })
-}
-
-function actionBtnStyle(color: string): React.CSSProperties {
-  return {
-    padding: '0.3rem 0.6rem',
-    borderRadius: '6px',
-    border: `1px solid ${color}`,
-    background: `${color}15`,
-    color,
-    cursor: 'pointer',
-    fontSize: '0.75rem',
-    fontWeight: 600,
-    whiteSpace: 'nowrap',
-  }
-}
-
-// ═══════════════════════════════════════════════════════════
-// STYLES
-// ═══════════════════════════════════════════════════════════
-
-const thStyle: React.CSSProperties = { padding: '0.5rem 0.75rem', fontWeight: 600, color: '#374151', fontSize: '0.75rem' }
-const tdStyle: React.CSSProperties = { padding: '0.5rem 0.75rem', color: '#4b5563' }
-const btnStyle: React.CSSProperties = {
-  padding: '0.4rem 0.75rem',
-  borderRadius: '6px',
-  border: '1px solid #d1d5db',
-  background: '#fff',
-  cursor: 'pointer',
-  fontSize: '0.85rem',
 }

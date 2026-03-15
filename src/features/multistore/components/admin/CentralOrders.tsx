@@ -1,32 +1,73 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 
 interface Order {
   id: number
   orderNumber: string
   remoteOrderNumber?: string
   sourceSiteName?: string
+  sourceSiteId?: number
   status: string
   fulfillmentStatus?: string
   total: number
   customerEmail?: string
+  itemCount: number
   createdAt: string
+}
+
+interface SiteOption {
+  id: number
+  name: string
+}
+
+const STATUS_MAP: Record<string, { label: string; color: string }> = {
+  pending:    { label: 'In behandeling', color: 'amber' },
+  paid:       { label: 'Betaald', color: 'green' },
+  processing: { label: 'In voorbereiding', color: 'blue' },
+  shipped:    { label: 'Verzonden', color: 'purple' },
+  delivered:  { label: 'Geleverd', color: 'green' },
+  cancelled:  { label: 'Geannuleerd', color: 'red' },
+  refunded:   { label: 'Terugbetaald', color: 'gray' },
+}
+
+const FULFILLMENT_MAP: Record<string, { label: string; color: string }> = {
+  new:       { label: 'Nieuw', color: 'gray' },
+  picking:   { label: 'Picken', color: 'amber' },
+  packing:   { label: 'Inpakken', color: 'blue' },
+  shipped:   { label: 'Verzonden', color: 'purple' },
+  delivered: { label: 'Afgeleverd', color: 'green' },
+}
+
+function formatCurrency(amount: number): string {
+  return new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(amount)
+}
+
+function formatDate(dateStr: string): string {
+  return new Date(dateStr).toLocaleString('nl-NL', { dateStyle: 'short', timeStyle: 'short' })
 }
 
 export function CentralOrders() {
   const [orders, setOrders] = useState<Order[]>([])
+  const [sites, setSites] = useState<SiteOption[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
-  const [statusFilter, setStatusFilter] = useState<string>('')
+  const [totalDocs, setTotalDocs] = useState(0)
+  const [statusFilter, setStatusFilter] = useState('')
+  const [siteFilter, setSiteFilter] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
 
+  // Fetch sites for filter dropdown
   useEffect(() => {
-    fetchOrders()
-  }, [page, statusFilter])
+    fetch('/api/multistore-sites?limit=100&depth=0')
+      .then((res) => (res.ok ? res.json() : { docs: [] }))
+      .then((data) => setSites(data.docs.map((s: any) => ({ id: s.id, name: s.name }))))
+      .catch(() => {})
+  }, [])
 
-  async function fetchOrders() {
+  const fetchOrders = useCallback(async () => {
     setLoading(true)
     try {
       const params = new URLSearchParams({
@@ -36,161 +77,174 @@ export function CentralOrders() {
         sort: '-createdAt',
         'where[sourceSite][exists]': 'true',
       })
-      if (statusFilter) {
-        params.set('where[status][equals]', statusFilter)
-      }
+      if (statusFilter) params.set('where[status][equals]', statusFilter)
+      if (siteFilter) params.set('where[sourceSite][equals]', siteFilter)
 
       const res = await fetch(`/api/orders?${params}`)
       if (!res.ok) throw new Error('Kan bestellingen niet ophalen')
       const data = await res.json()
 
-      const mapped: Order[] = data.docs.map((order: any) => ({
-        id: order.id,
-        orderNumber: order.orderNumber,
-        remoteOrderNumber: order.remoteOrderNumber,
-        sourceSiteName: typeof order.sourceSite === 'object' ? order.sourceSite?.name : undefined,
-        status: order.status,
-        fulfillmentStatus: order.fulfillmentStatus,
-        total: order.total,
-        customerEmail: order.customerEmail || order.guestEmail,
-        createdAt: order.createdAt,
-      }))
-
-      setOrders(mapped)
+      setOrders(
+        data.docs.map((order: any) => ({
+          id: order.id,
+          orderNumber: order.orderNumber,
+          remoteOrderNumber: order.remoteOrderNumber,
+          sourceSiteName: typeof order.sourceSite === 'object' ? order.sourceSite?.name : undefined,
+          sourceSiteId: typeof order.sourceSite === 'object' ? order.sourceSite?.id : order.sourceSite,
+          status: order.status,
+          fulfillmentStatus: order.fulfillmentStatus,
+          total: order.total || 0,
+          customerEmail: order.customerEmail || order.guestEmail,
+          itemCount: order.items?.length || 0,
+          createdAt: order.createdAt,
+        })),
+      )
       setTotalPages(data.totalPages || 1)
+      setTotalDocs(data.totalDocs || 0)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Onbekende fout')
     } finally {
       setLoading(false)
     }
-  }
+  }, [page, statusFilter, siteFilter])
 
-  const statusLabels: Record<string, string> = {
-    pending: 'In behandeling',
-    paid: 'Betaald',
-    processing: 'In voorbereiding',
-    shipped: 'Verzonden',
-    delivered: 'Geleverd',
-    cancelled: 'Geannuleerd',
-    refunded: 'Terugbetaald',
-  }
+  useEffect(() => {
+    fetchOrders()
+  }, [fetchOrders])
 
-  const fulfillmentLabels: Record<string, string> = {
-    new: 'Nieuw',
-    picking: 'Picken',
-    packing: 'Inpakken',
-    shipped: 'Verzonden',
-    delivered: 'Afgeleverd',
-  }
+  if (error) return <div className="ms-error">{error}</div>
 
-  const statusColors: Record<string, string> = {
-    pending: '#f59e0b',
-    paid: '#10b981',
-    processing: '#3b82f6',
-    shipped: '#8b5cf6',
-    delivered: '#059669',
-    cancelled: '#ef4444',
-    refunded: '#6b7280',
-  }
-
-  if (error) {
-    return (
-      <div style={{ padding: '1rem', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', color: '#991b1b' }}>
-        {error}
-      </div>
-    )
-  }
+  const filteredOrders = searchQuery
+    ? orders.filter(
+        (o) =>
+          o.orderNumber?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          o.customerEmail?.toLowerCase().includes(searchQuery.toLowerCase()),
+      )
+    : orders
 
   return (
-    <div>
-      {/* Filters */}
-      <div style={{ marginBottom: '1rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+    <div className="ms-page">
+      {/* Toolbar */}
+      <div className="ms-toolbar">
         <select
+          className="ms-select"
           value={statusFilter}
           onChange={(e) => { setStatusFilter(e.target.value); setPage(1) }}
-          style={{ padding: '0.4rem 0.75rem', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
         >
           <option value="">Alle statussen</option>
-          {Object.entries(statusLabels).map(([value, label]) => (
+          {Object.entries(STATUS_MAP).map(([value, { label }]) => (
             <option key={value} value={value}>{label}</option>
           ))}
         </select>
-        <button
-          onClick={() => fetchOrders()}
-          style={{ padding: '0.4rem 0.75rem', borderRadius: '6px', border: '1px solid #d1d5db', background: '#fff', cursor: 'pointer', fontSize: '0.85rem' }}
+
+        <select
+          className="ms-select"
+          value={siteFilter}
+          onChange={(e) => { setSiteFilter(e.target.value); setPage(1) }}
         >
+          <option value="">Alle webshops</option>
+          {sites.map((site) => (
+            <option key={site.id} value={site.id}>{site.name}</option>
+          ))}
+        </select>
+
+        <input
+          type="text"
+          className="ms-input"
+          placeholder="Zoek op bestelnr of e-mail..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={{ width: '220px' }}
+        />
+
+        <button className="ms-btn ms-btn--sm" onClick={() => fetchOrders()}>
           Vernieuwen
         </button>
+
+        {(statusFilter || siteFilter) && (
+          <button
+            className="ms-btn ms-btn--sm ms-btn--danger"
+            onClick={() => { setStatusFilter(''); setSiteFilter(''); setPage(1) }}
+          >
+            Filters wissen
+          </button>
+        )}
+
+        <span className="ms-toolbar__count">{totalDocs} bestellingen</span>
       </div>
 
-      {/* Orders Table */}
-      <div style={{ overflowX: 'auto' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
+      {/* Table */}
+      <div className="ms-table-wrap">
+        <table className="ms-table">
           <thead>
-            <tr style={{ borderBottom: '2px solid #e5e7eb', textAlign: 'left' }}>
-              <th style={thStyle}>Bestelnr.</th>
-              <th style={thStyle}>Webshop</th>
-              <th style={thStyle}>Status</th>
-              <th style={thStyle}>Fulfillment</th>
-              <th style={thStyle}>Totaal</th>
-              <th style={thStyle}>Klant</th>
-              <th style={thStyle}>Datum</th>
+            <tr>
+              <th>Bestelnr.</th>
+              <th>Webshop</th>
+              <th>Status</th>
+              <th>Fulfillment</th>
+              <th className="ms-table__right">Totaal</th>
+              <th>Klant</th>
+              <th className="ms-table__right">Items</th>
+              <th>Datum</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={7} style={{ ...tdStyle, textAlign: 'center', color: '#9ca3af' }}>
-                  Laden...
+                <td colSpan={8}>
+                  <div className="ms-loading">
+                    <div className="ms-spinner" />
+                    Laden...
+                  </div>
                 </td>
               </tr>
-            ) : orders.length === 0 ? (
+            ) : filteredOrders.length === 0 ? (
               <tr>
-                <td colSpan={7} style={{ ...tdStyle, textAlign: 'center', color: '#9ca3af' }}>
-                  Geen bestellingen gevonden
+                <td colSpan={8}>
+                  <div className="ms-empty">Geen bestellingen gevonden</div>
                 </td>
               </tr>
             ) : (
-              orders.map((order) => (
-                <tr key={order.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
-                  <td style={tdStyle}>
-                    <a href={`/admin/collections/orders/${order.id}`} style={{ color: '#2563eb', textDecoration: 'none', fontWeight: 500 }}>
-                      {order.orderNumber}
-                    </a>
-                    {order.remoteOrderNumber && order.remoteOrderNumber !== order.orderNumber && (
-                      <div style={{ fontSize: '0.7rem', color: '#9ca3af' }}>
-                        Remote: {order.remoteOrderNumber}
-                      </div>
-                    )}
-                  </td>
-                  <td style={tdStyle}>{order.sourceSiteName || '—'}</td>
-                  <td style={tdStyle}>
-                    <span style={{
-                      display: 'inline-block',
-                      padding: '0.15rem 0.5rem',
-                      borderRadius: '9999px',
-                      fontSize: '0.75rem',
-                      fontWeight: 500,
-                      color: '#fff',
-                      background: statusColors[order.status] || '#6b7280',
-                    }}>
-                      {statusLabels[order.status] || order.status}
-                    </span>
-                  </td>
-                  <td style={tdStyle}>
-                    {order.fulfillmentStatus
-                      ? fulfillmentLabels[order.fulfillmentStatus] || order.fulfillmentStatus
-                      : '—'}
-                  </td>
-                  <td style={{ ...tdStyle, fontWeight: 600 }}>
-                    {new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(order.total)}
-                  </td>
-                  <td style={tdStyle}>{order.customerEmail || '—'}</td>
-                  <td style={tdStyle}>
-                    {new Date(order.createdAt).toLocaleString('nl-NL', { dateStyle: 'short', timeStyle: 'short' })}
-                  </td>
-                </tr>
-              ))
+              filteredOrders.map((order) => {
+                const statusInfo = STATUS_MAP[order.status] || { label: order.status, color: 'gray' }
+                const fulfillInfo = order.fulfillmentStatus
+                  ? FULFILLMENT_MAP[order.fulfillmentStatus] || { label: order.fulfillmentStatus, color: 'gray' }
+                  : null
+
+                return (
+                  <tr key={order.id}>
+                    <td>
+                      <a href={`/admin/collections/orders/${order.id}`} className="ms-table__link">
+                        {order.orderNumber}
+                      </a>
+                      {order.remoteOrderNumber && order.remoteOrderNumber !== order.orderNumber && (
+                        <div className="ms-table__muted">Remote: {order.remoteOrderNumber}</div>
+                      )}
+                    </td>
+                    <td>{order.sourceSiteName || '—'}</td>
+                    <td>
+                      <span className={`ms-pill ms-pill--${statusInfo.color}`}>
+                        {statusInfo.label}
+                      </span>
+                    </td>
+                    <td>
+                      {fulfillInfo ? (
+                        <span className={`ms-pill ms-pill--${fulfillInfo.color}`}>
+                          {fulfillInfo.label}
+                        </span>
+                      ) : (
+                        <span className="ms-table__muted">—</span>
+                      )}
+                    </td>
+                    <td className="ms-table__right" style={{ fontWeight: 600 }}>
+                      {formatCurrency(order.total)}
+                    </td>
+                    <td>{order.customerEmail || <span className="ms-table__muted">—</span>}</td>
+                    <td className="ms-table__right">{order.itemCount}</td>
+                    <td>{formatDate(order.createdAt)}</td>
+                  </tr>
+                )
+              })
             )}
           </tbody>
         </table>
@@ -198,21 +252,21 @@ export function CentralOrders() {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginTop: '1rem' }}>
+        <div className="ms-pagination">
           <button
+            className="ms-btn ms-btn--sm"
             disabled={page <= 1}
             onClick={() => setPage(page - 1)}
-            style={{ ...paginationBtnStyle, opacity: page <= 1 ? 0.5 : 1 }}
           >
             Vorige
           </button>
-          <span style={{ padding: '0.4rem 0.75rem', fontSize: '0.85rem', color: '#6b7280' }}>
+          <span className="ms-pagination__info">
             Pagina {page} van {totalPages}
           </span>
           <button
+            className="ms-btn ms-btn--sm"
             disabled={page >= totalPages}
             onClick={() => setPage(page + 1)}
-            style={{ ...paginationBtnStyle, opacity: page >= totalPages ? 0.5 : 1 }}
           >
             Volgende
           </button>
@@ -220,15 +274,4 @@ export function CentralOrders() {
       )}
     </div>
   )
-}
-
-const thStyle: React.CSSProperties = { padding: '0.5rem 0.75rem', fontWeight: 600, color: '#374151' }
-const tdStyle: React.CSSProperties = { padding: '0.5rem 0.75rem', color: '#4b5563' }
-const paginationBtnStyle: React.CSSProperties = {
-  padding: '0.4rem 0.75rem',
-  borderRadius: '6px',
-  border: '1px solid #d1d5db',
-  background: '#fff',
-  cursor: 'pointer',
-  fontSize: '0.85rem',
 }
