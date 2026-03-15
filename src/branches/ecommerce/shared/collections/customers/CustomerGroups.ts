@@ -45,10 +45,12 @@ export const CustomerGroups: CollectionConfig = {
       type: 'select',
       required: true,
       defaultValue: 'b2c',
+      label: 'Type',
       options: [
         { label: 'B2C (Consument)', value: 'b2c' },
         { label: 'B2B (Zakelijk)', value: 'b2b' },
       ],
+      admin: { position: 'sidebar' },
     },
     {
       name: 'discount',
@@ -57,6 +59,11 @@ export const CustomerGroups: CollectionConfig = {
       defaultValue: 0,
       min: 0,
       max: 100,
+      label: 'Korting (%)',
+      admin: {
+        position: 'sidebar',
+        description: 'Standaard korting voor deze groep',
+      },
     },
     {
       name: 'priority',
@@ -65,6 +72,11 @@ export const CustomerGroups: CollectionConfig = {
       defaultValue: 50,
       min: 1,
       max: 100,
+      label: 'Prioriteit',
+      admin: {
+        position: 'sidebar',
+        description: 'Hogere waarde = hogere prioriteit',
+      },
     },
     {
       name: 'minOrderAmount',
@@ -75,6 +87,11 @@ export const CustomerGroups: CollectionConfig = {
       name: 'isDefault',
       type: 'checkbox',
       defaultValue: false,
+      label: 'Standaard groep',
+      admin: {
+        position: 'sidebar',
+        description: 'Nieuwe klanten krijgen automatisch deze groep',
+      },
     },
     {
       name: 'canViewCatalog',

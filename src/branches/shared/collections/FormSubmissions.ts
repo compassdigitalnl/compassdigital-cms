@@ -30,6 +30,7 @@ export const FormSubmissions: CollectionConfig = {
         { label: 'Overig', value: 'other' },
       ],
       defaultValue: 'contact',
+      admin: { position: 'sidebar' },
     },
     {
       name: 'submittedAt',
@@ -68,7 +69,8 @@ export const FormSubmissions: CollectionConfig = {
       label: 'Verwerkt',
       defaultValue: false,
       admin: {
-        description: 'Markeer als verwerkt wanneer je dit bericht hebt behandeld',
+        position: 'sidebar',
+        description: 'Markeer als verwerkt',
       },
     },
     {

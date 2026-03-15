@@ -52,7 +52,8 @@ export const FAQs: CollectionConfig = {
         { label: 'Overig', value: 'overig' },
       ],
       admin: {
-        description: 'Categoriseer de vraag voor betere filtering',
+        position: 'sidebar',
+        description: 'Categoriseer de vraag',
       },
     },
     {
@@ -61,7 +62,8 @@ export const FAQs: CollectionConfig = {
       label: 'Uitgelicht',
       defaultValue: false,
       admin: {
-        description: 'Toon deze vraag op homepage of belangrijke pagina\'s',
+        position: 'sidebar',
+        description: 'Toon op homepage of belangrijke pagina\'s',
       },
     },
     {
@@ -70,7 +72,8 @@ export const FAQs: CollectionConfig = {
       label: 'Volgorde',
       defaultValue: 0,
       admin: {
-        description: 'Sorteer volgorde (lager = eerder getoond)',
+        position: 'sidebar',
+        description: 'Lager = eerder getoond',
       },
     },
     {

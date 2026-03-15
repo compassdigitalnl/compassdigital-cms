@@ -44,7 +44,8 @@ export const ProductCategories: CollectionConfig = {
       required: true,
       unique: true,
       admin: {
-        description: 'Auto-gegenereerd uit naam (kan handmatig overschreven worden)',
+        position: 'sidebar',
+        description: 'Auto-gegenereerd uit naam',
       },
       hooks: {
         beforeValidate: [autoGenerateSlugFromName],
@@ -94,11 +95,18 @@ export const ProductCategories: CollectionConfig = {
       name: 'order',
       type: 'number',
       defaultValue: 0,
+      label: 'Volgorde',
+      admin: {
+        position: 'sidebar',
+        description: 'Lagere waarde = eerder getoond',
+      },
     },
     {
       name: 'visible',
       type: 'checkbox',
       defaultValue: true,
+      label: 'Zichtbaar',
+      admin: { position: 'sidebar' },
     },
     // ═══════════════════════════════════════════════════════════
     // NAVIGATION FIELDS
@@ -118,8 +126,9 @@ export const ProductCategories: CollectionConfig = {
       label: 'Tonen in navigatie',
       defaultValue: true,
       admin: {
-        description: 'Toon deze categorie in de hoofdnavigatie balk (alleen voor level 0 categorieën)',
-        condition: (data) => !data.parent, // Alleen voor root categorieën
+        position: 'sidebar',
+        description: 'Toon in hoofdnavigatie (alleen root categorieën)',
+        condition: (data) => !data.parent,
       },
     },
     {
@@ -128,8 +137,9 @@ export const ProductCategories: CollectionConfig = {
       label: 'Navigatie volgorde',
       defaultValue: 0,
       admin: {
-        description: 'Volgorde in de navigatie balk (lager getal = eerder getoond)',
-        condition: (data) => !data.parent && data.showInNavigation, // Alleen relevant als showInNavigation = true
+        position: 'sidebar',
+        description: 'Lager getal = eerder getoond',
+        condition: (data) => !data.parent && data.showInNavigation,
       },
     },
     // ═══════════════════════════════════════════════════════════

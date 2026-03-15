@@ -74,6 +74,7 @@ export const ProductReviews: CollectionConfig = {
       max: 5,
       label: 'Beoordeling',
       admin: {
+        position: 'sidebar',
         description: '1-5 sterren',
         step: 1,
       },

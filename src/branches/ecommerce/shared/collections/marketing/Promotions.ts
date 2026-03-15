@@ -50,6 +50,76 @@ export const Promotions: CollectionConfig = {
     ],
   },
   fields: [
+    // ── Sidebar fields (top-level for correct positioning) ───
+    {
+      name: 'status',
+      label: 'Status',
+      type: 'select',
+      defaultValue: 'draft',
+      options: [
+        { label: 'Concept', value: 'draft' },
+        { label: 'Actief', value: 'active' },
+        { label: 'Verlopen', value: 'expired' },
+        { label: 'Gepauzeerd', value: 'paused' },
+      ],
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'promotionMode',
+      label: 'Modus',
+      type: 'select',
+      required: true,
+      defaultValue: 'automatic',
+      options: [
+        { label: 'Automatisch (geen code nodig)', value: 'automatic' },
+        { label: 'Kortingscode', value: 'coupon' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description: 'Automatisch of met kortingscode',
+      },
+    },
+    {
+      name: 'startDate',
+      label: 'Startdatum',
+      type: 'date',
+      admin: {
+        position: 'sidebar',
+        date: { pickerAppearance: 'dayAndTime', displayFormat: 'dd-MM-yyyy HH:mm' },
+      },
+    },
+    {
+      name: 'endDate',
+      label: 'Einddatum',
+      type: 'date',
+      admin: {
+        position: 'sidebar',
+        date: { pickerAppearance: 'dayAndTime', displayFormat: 'dd-MM-yyyy HH:mm' },
+      },
+    },
+    {
+      name: 'isFlashSale',
+      label: 'Flash Sale',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'Toont countdown timer',
+      },
+    },
+    {
+      name: 'usedCount',
+      label: 'Aantal gebruikt',
+      type: 'number',
+      defaultValue: 0,
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'Automatisch bijgehouden',
+      },
+    },
+
+    // ── Tabs ───────────────────────────────────────────────
     {
       type: 'tabs',
       tabs: [
@@ -72,20 +142,6 @@ export const Promotions: CollectionConfig = {
               unique: true,
               admin: {
                 description: 'Wordt automatisch gegenereerd op basis van de titel',
-              },
-            },
-            {
-              name: 'promotionMode',
-              label: 'Modus',
-              type: 'select',
-              required: true,
-              defaultValue: 'automatic',
-              options: [
-                { label: 'Automatisch (geen code nodig)', value: 'automatic' },
-                { label: 'Kortingscode (klant voert code in)', value: 'coupon' },
-              ],
-              admin: {
-                description: 'Automatisch = wordt automatisch toegepast. Kortingscode = klant moet code invoeren.',
               },
             },
             {
@@ -140,66 +196,11 @@ export const Promotions: CollectionConfig = {
                 },
               ],
             },
-            {
-              name: 'status',
-              label: 'Status',
-              type: 'select',
-              defaultValue: 'draft',
-              options: [
-                { label: 'Concept', value: 'draft' },
-                { label: 'Actief', value: 'active' },
-                { label: 'Verlopen', value: 'expired' },
-                { label: 'Gepauzeerd', value: 'paused' },
-              ],
-              admin: {
-                position: 'sidebar',
-              },
-            },
           ],
         },
         {
           label: 'Planning',
           fields: [
-            {
-              type: 'row',
-              fields: [
-                {
-                  name: 'startDate',
-                  label: 'Startdatum',
-                  type: 'date',
-                  admin: {
-                    width: '50%',
-                    description: 'Wanneer de promotie ingaat (optioneel)',
-                    date: {
-                      pickerAppearance: 'dayAndTime',
-                      displayFormat: 'dd-MM-yyyy HH:mm',
-                    },
-                  },
-                },
-                {
-                  name: 'endDate',
-                  label: 'Einddatum',
-                  type: 'date',
-                  admin: {
-                    width: '50%',
-                    description: 'Wanneer de promotie eindigt (optioneel)',
-                    date: {
-                      pickerAppearance: 'dayAndTime',
-                      displayFormat: 'dd-MM-yyyy HH:mm',
-                    },
-                  },
-                },
-              ],
-            },
-            {
-              name: 'isFlashSale',
-              label: 'Flash Sale',
-              type: 'checkbox',
-              defaultValue: false,
-              admin: {
-                description: 'Markeer als flash sale (toont countdown timer)',
-              },
-            },
             {
               name: 'flashSaleLabel',
               label: 'Flash Sale label',
@@ -277,29 +278,12 @@ export const Promotions: CollectionConfig = {
               ],
             },
             {
-              type: 'row',
-              fields: [
-                {
-                  name: 'maxUses',
-                  label: 'Max. gebruik',
-                  type: 'number',
-                  admin: {
-                    width: '50%',
-                    description: 'Maximaal aantal keer te gebruiken (leeg = onbeperkt)',
-                  },
-                },
-                {
-                  name: 'usedCount',
-                  label: 'Aantal gebruikt',
-                  type: 'number',
-                  defaultValue: 0,
-                  admin: {
-                    width: '50%',
-                    readOnly: true,
-                    description: 'Automatisch bijgehouden',
-                  },
-                },
-              ],
+              name: 'maxUses',
+              label: 'Max. gebruik',
+              type: 'number',
+              admin: {
+                description: 'Maximaal aantal keer te gebruiken (leeg = onbeperkt)',
+              },
             },
             {
               name: 'stackable',

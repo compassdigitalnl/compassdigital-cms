@@ -56,6 +56,7 @@ export const GiftVouchers: CollectionConfig = {
       required: true,
       label: 'Original Amount (€)',
       admin: {
+        position: 'sidebar',
         description: 'Original voucher value',
       },
     },
@@ -65,6 +66,7 @@ export const GiftVouchers: CollectionConfig = {
       required: true,
       label: 'Current Balance (€)',
       admin: {
+        position: 'sidebar',
         description: 'Remaining balance',
       },
     },
@@ -80,6 +82,7 @@ export const GiftVouchers: CollectionConfig = {
         { label: 'Canceled', value: 'canceled' },
       ],
       defaultValue: 'active',
+      admin: { position: 'sidebar' },
     },
     {
       name: 'occasion',
@@ -161,6 +164,7 @@ export const GiftVouchers: CollectionConfig = {
       type: 'date',
       label: 'Expires At',
       admin: {
+        position: 'sidebar',
         description: 'Leave empty for no expiration',
         date: {
           pickerAppearance: 'dayOnly',

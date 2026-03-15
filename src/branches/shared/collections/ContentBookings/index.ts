@@ -71,6 +71,30 @@ export const ContentBookings: CollectionConfig = {
       ],
       admin: { position: 'sidebar' },
     },
+    {
+      name: 'date',
+      type: 'date',
+      required: true,
+      label: 'Datum',
+      admin: {
+        position: 'sidebar',
+        date: { pickerAppearance: 'dayOnly' },
+      },
+    },
+    {
+      name: 'service',
+      type: 'relationship',
+      relationTo: 'content-services',
+      label: 'Dienst / Behandeling',
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'staffMember',
+      type: 'relationship',
+      relationTo: 'content-team',
+      label: 'Medewerker',
+      admin: { position: 'sidebar' },
+    },
 
     // ─── TABS ──────────────────────────────────────────────
     {
@@ -117,29 +141,10 @@ export const ContentBookings: CollectionConfig = {
           label: 'Boeking',
           fields: [
             {
-              name: 'date',
-              type: 'date',
-              required: true,
-              label: 'Datum',
-              admin: { date: { pickerAppearance: 'dayOnly' } },
-            },
-            {
               name: 'time',
               type: 'text',
               label: 'Tijd',
               admin: { placeholder: '14:00' },
-            },
-            {
-              name: 'service',
-              type: 'relationship',
-              relationTo: 'content-services',
-              label: 'Dienst / Behandeling',
-            },
-            {
-              name: 'staffMember',
-              type: 'relationship',
-              relationTo: 'content-team',
-              label: 'Medewerker',
             },
             { name: 'remarks', type: 'textarea', label: 'Opmerkingen' },
             // Beauty-specifiek

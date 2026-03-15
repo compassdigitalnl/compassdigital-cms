@@ -36,6 +36,7 @@ export const UserSubscriptions: CollectionConfig = {
       required: true,
       label: 'User',
       hasMany: false,
+      admin: { position: 'sidebar' },
     },
     {
       name: 'plan',
@@ -44,6 +45,7 @@ export const UserSubscriptions: CollectionConfig = {
       required: true,
       label: 'Subscription Plan',
       hasMany: false,
+      admin: { position: 'sidebar' },
     },
     {
       name: 'status',
@@ -58,6 +60,7 @@ export const UserSubscriptions: CollectionConfig = {
         { label: 'Unpaid', value: 'unpaid' },
       ],
       defaultValue: 'active',
+      admin: { position: 'sidebar' },
     },
     {
       name: 'startDate',
@@ -98,7 +101,8 @@ export const UserSubscriptions: CollectionConfig = {
       label: 'Cancel at Period End',
       defaultValue: false,
       admin: {
-        description: 'Subscription will cancel when current period ends',
+        position: 'sidebar',
+        description: 'Cancel when current period ends',
       },
     },
     {

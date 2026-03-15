@@ -95,6 +95,7 @@ export const SubscriptionPlans: CollectionConfig = {
         { label: 'Lifetime', value: 'lifetime' },
       ],
       defaultValue: 'monthly',
+      admin: { position: 'sidebar' },
     },
     {
       name: 'limits',
@@ -124,7 +125,8 @@ export const SubscriptionPlans: CollectionConfig = {
       label: 'Active',
       defaultValue: true,
       admin: {
-        description: 'Whether this plan is available for new subscriptions',
+        position: 'sidebar',
+        description: 'Available for new subscriptions',
       },
     },
     {
@@ -133,7 +135,8 @@ export const SubscriptionPlans: CollectionConfig = {
       label: 'Featured',
       defaultValue: false,
       admin: {
-        description: 'Highlight this plan (e.g., "Most Popular")',
+        position: 'sidebar',
+        description: 'Highlight this plan ("Most Popular")',
       },
     },
     // === SPRINT 7: PREMIUM CONTENT ACCESS ===

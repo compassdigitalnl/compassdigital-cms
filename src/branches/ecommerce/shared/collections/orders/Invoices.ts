@@ -320,7 +320,8 @@ export const Invoices: CollectionConfig = {
       defaultValue: 0,
       label: 'Aantal herinneringen',
       admin: {
-        description: 'Aantal verstuurde betalingsherinneringen',
+        position: 'sidebar',
+        description: 'Aantal verstuurde herinneringen',
         readOnly: true,
       },
     },

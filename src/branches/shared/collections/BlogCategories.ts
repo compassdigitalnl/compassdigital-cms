@@ -41,7 +41,8 @@ export const BlogCategories: CollectionConfig = {
         beforeValidate: [autoGenerateSlugFromName],
       },
       admin: {
-        description: 'Auto-gegenereerd uit categorie naam. Gebruikt in URL: /blog/{slug}',
+        position: 'sidebar',
+        description: 'Auto-gegenereerd uit categorie naam',
       },
     },
     {
@@ -82,7 +83,8 @@ export const BlogCategories: CollectionConfig = {
         { label: '🔧 Wrench (Onderhoud)', value: 'Wrench' },
       ],
       admin: {
-        description: 'Lucide icon voor categorie badges en chips',
+        position: 'sidebar',
+        description: 'Lucide icon voor categorie badges',
       },
     },
     {
@@ -100,7 +102,8 @@ export const BlogCategories: CollectionConfig = {
         { label: '🌸 Pink', value: 'pink' },
       ],
       admin: {
-        description: 'Kleur voor categorie badges en article cards (gebruikt CSS custom properties)',
+        position: 'sidebar',
+        description: 'Kleur voor categorie badges',
       },
     },
     {
@@ -118,7 +121,8 @@ export const BlogCategories: CollectionConfig = {
       label: 'Volgorde',
       defaultValue: 0,
       admin: {
-        description: 'Sorteervolgorde (lager = eerder)',
+        position: 'sidebar',
+        description: 'Lager = eerder getoond',
       },
     },
   ],

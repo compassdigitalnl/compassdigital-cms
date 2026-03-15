@@ -83,6 +83,25 @@ export const ContentTeam: CollectionConfig = {
       ],
       admin: { position: 'sidebar' },
     },
+    {
+      name: 'availability',
+      type: 'select',
+      label: 'Beschikbaarheid',
+      options: [
+        { label: 'Beschikbaar', value: 'available' },
+        { label: 'Beperkt beschikbaar', value: 'limited' },
+        { label: 'Volgeboekt', value: 'booked' },
+        { label: 'Niet beschikbaar', value: 'unavailable' },
+      ],
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'bookable',
+      type: 'checkbox',
+      label: 'Online boekbaar',
+      defaultValue: false,
+      admin: { position: 'sidebar' },
+    },
 
     // ─── TABS ──────────────────────────────────────────────
     {
@@ -137,28 +156,11 @@ export const ContentTeam: CollectionConfig = {
           label: 'Beschikbaarheid',
           fields: [
             {
-              name: 'availability',
-              type: 'select',
-              label: 'Beschikbaarheid',
-              options: [
-                { label: 'Beschikbaar', value: 'available' },
-                { label: 'Beperkt beschikbaar', value: 'limited' },
-                { label: 'Volgeboekt', value: 'booked' },
-                { label: 'Niet beschikbaar', value: 'unavailable' },
-              ],
-            },
-            {
               name: 'workDays',
               type: 'select',
               hasMany: true,
               label: 'Werkdagen',
               options: workDayOptions,
-            },
-            {
-              name: 'bookable',
-              type: 'checkbox',
-              label: 'Online boekbaar',
-              defaultValue: false,
             },
           ],
         },
