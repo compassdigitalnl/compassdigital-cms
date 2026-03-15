@@ -14,39 +14,31 @@ export const basicInfoTab: Tab = {
   label: 'Basis Info',
   description: 'Algemene productinformatie',
   fields: [
+    // ── Sidebar fields (order = display order in sidebar) ──────────
     {
-      name: 'title',
-      type: 'text',
+      name: 'status',
+      type: 'select',
+      defaultValue: 'draft',
       required: true,
-      label: 'Product Naam',
-      admin: {
-        components: {
-          Field: '@/branches/shared/components/admin/fields/AITextField#AITextField',
-        },
-      },
+      label: 'Status',
+      options: [
+        { label: 'Concept', value: 'draft' },
+        { label: 'Gepubliceerd', value: 'published' },
+        { label: 'Uitverkocht', value: 'sold-out' },
+        { label: 'Gearchiveerd', value: 'archived' },
+      ],
+      admin: { position: 'sidebar' },
     },
     {
-      name: 'slug',
-      type: 'text',
-      unique: true,
-      label: 'URL Slug',
-      hooks: {
-        beforeValidate: [autoGenerateSlug],
-      },
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+      label: 'Featured',
       admin: {
         position: 'sidebar',
-        description: 'Laat leeg voor automatische generatie o.b.v. productnaam. Vul in om handmatig te overrulen.',
+        description: 'Toon in featured secties',
       },
     },
-    ...featureField('editionNotifications', {
-      name: 'magazineTitle',
-      type: 'text',
-      label: 'Periodieke Publicatie Naam',
-      admin: {
-        position: 'sidebar',
-        description: 'Bijv. "WINELIFE" — Voor editie-notificaties. Alle producten met dezelfde naam worden als edities van dezelfde publicatie behandeld.',
-      },
-    }),
     {
       name: 'productType',
       type: 'select',
@@ -58,6 +50,88 @@ export const basicInfoTab: Tab = {
         position: 'sidebar',
         description: 'Simple = normaal, Grouped = multi-select, Variable = configureerbaar',
       },
+    },
+    {
+      name: 'publishAt',
+      type: 'date',
+      label: 'Publiceren op',
+      admin: {
+        position: 'sidebar',
+        date: { pickerAppearance: 'dayAndTime' },
+        description: 'Automatisch publiceren op dit tijdstip.',
+        condition: (data: any) => data?.status === 'draft',
+      },
+    },
+    {
+      name: 'unpublishAt',
+      type: 'date',
+      label: 'Depubliceren op',
+      admin: {
+        position: 'sidebar',
+        date: { pickerAppearance: 'dayAndTime' },
+        description: 'Automatisch depubliceren op dit tijdstip.',
+        condition: (data: any) => data?.status === 'published',
+      },
+    },
+    ...featureField('editionNotifications', {
+      name: 'magazineTitle',
+      type: 'text',
+      label: 'Periodieke Publicatie Naam',
+      admin: {
+        position: 'sidebar',
+        description: 'Bijv. "WINELIFE" — Voor editie-notificaties.',
+      },
+    }),
+    {
+      name: 'categories',
+      type: 'relationship',
+      relationTo: 'product-categories',
+      hasMany: true,
+      label: 'Categorieen',
+      admin: { position: 'sidebar' },
+    },
+    ...featureField('catalogBranches', {
+      name: 'branches',
+      type: 'relationship',
+      relationTo: 'branches',
+      hasMany: true,
+      label: 'Branches',
+      admin: {
+        position: 'sidebar',
+        description: 'Selecteer branches waar dit product bij hoort',
+      },
+    }),
+
+    // ── Main content fields ───────────────────────────────────────
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          required: true,
+          label: 'Product Naam',
+          admin: {
+            width: '50%',
+            components: {
+              Field: '@/branches/shared/components/admin/fields/AITextField#AITextField',
+            },
+          },
+        },
+        {
+          name: 'slug',
+          type: 'text',
+          unique: true,
+          label: 'URL Slug',
+          hooks: {
+            beforeValidate: [autoGenerateSlug],
+          },
+          admin: {
+            width: '50%',
+            description: 'Automatisch gegenereerd uit de titel',
+          },
+        },
+      ],
     },
     {
       type: 'row',
@@ -148,25 +222,6 @@ export const basicInfoTab: Tab = {
       },
     }),
     {
-      name: 'categories',
-      type: 'relationship',
-      relationTo: 'product-categories',
-      hasMany: true,
-      label: 'Categorieen',
-      admin: { position: 'sidebar' },
-    },
-    ...featureField('catalogBranches', {
-      name: 'branches',
-      type: 'relationship',
-      relationTo: 'branches',
-      hasMany: true,
-      label: 'Branches',
-      admin: {
-        position: 'sidebar',
-        description: 'Selecteer branches waar dit product bij hoort',
-      },
-    }),
-    {
       name: 'tags',
       type: 'array',
       label: 'Tags',
@@ -178,27 +233,6 @@ export const basicInfoTab: Tab = {
     {
       type: 'row',
       fields: [
-        {
-          name: 'status',
-          type: 'select',
-          defaultValue: 'draft',
-          required: true,
-          label: 'Status',
-          options: [
-            { label: 'Concept', value: 'draft' },
-            { label: 'Gepubliceerd', value: 'published' },
-            { label: 'Uitverkocht', value: 'sold-out' },
-            { label: 'Gearchiveerd', value: 'archived' },
-          ],
-          admin: { width: '25%' },
-        },
-        {
-          name: 'featured',
-          type: 'checkbox',
-          defaultValue: false,
-          label: 'Featured',
-          admin: { width: '25%', description: 'Toon in featured secties' },
-        },
         {
           name: 'condition',
           type: 'select',
@@ -217,44 +251,12 @@ export const basicInfoTab: Tab = {
           label: 'Garantie',
           admin: { width: '25%', placeholder: 'Bijv: 2 jaar, Lifetime' },
         },
-      ],
-    },
-    {
-      type: 'row',
-      fields: [
-        {
-          name: 'publishAt',
-          type: 'date',
-          label: 'Inplannen: publiceren op',
-          admin: {
-            width: '50%',
-            date: { pickerAppearance: 'dayAndTime' },
-            description: 'Automatisch publiceren op dit tijdstip.',
-            condition: (data: any) => data?.status === 'draft',
-          },
-        },
-        {
-          name: 'unpublishAt',
-          type: 'date',
-          label: 'Inplannen: depubliceren op',
-          admin: {
-            width: '50%',
-            date: { pickerAppearance: 'dayAndTime' },
-            description: 'Automatisch depubliceren op dit tijdstip.',
-            condition: (data: any) => data?.status === 'published',
-          },
-        },
-      ],
-    },
-    {
-      type: 'row',
-      fields: [
         {
           name: 'releaseDate',
           type: 'date',
           label: 'Release Datum',
           admin: {
-            width: '50%',
+            width: '25%',
             date: { pickerAppearance: 'dayOnly' },
           },
         },
@@ -272,8 +274,8 @@ export const basicInfoTab: Tab = {
             { label: 'Uitverkocht', value: 'sold-out' },
           ],
           admin: {
-            width: '50%',
-            description: 'Handmatige badge. Bij "Geen" wordt automatisch bepaald o.b.v. actieprijs, voorraad en populariteit.',
+            width: '25%',
+            description: 'Handmatige badge. Bij "Geen" wordt automatisch bepaald.',
           },
         },
       ],
