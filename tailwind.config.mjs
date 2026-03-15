@@ -2,7 +2,31 @@ import plugin from 'tailwindcss/plugin.js'
 import typographyPlugin from '@tailwindcss/typography'
 
 // Helper: CSS variable color with Tailwind opacity modifier support
-const withOpacity = (cssVar) => `rgb(var(${cssVar}) / <alpha-value>)`
+// Includes fallback RGB values so colors work even without ThemeProvider
+const fallbacks = {
+  '--color-primary-rgb': '0 137 123',
+  '--color-primary-light-rgb': '38 166 154',
+  '--color-secondary-rgb': '10 22 40',
+  '--color-secondary-light-rgb': '18 31 51',
+  '--color-accent-rgb': '139 92 246',
+  '--color-grey-light-rgb': '241 244 248',
+  '--color-grey-mid-rgb': '148 163 184',
+  '--color-grey-dark-rgb': '100 116 139',
+  '--color-success-rgb': '0 200 83',
+  '--color-success-light-rgb': '232 245 233',
+  '--color-warning-rgb': '245 158 11',
+  '--color-warning-light-rgb': '255 248 225',
+  '--color-error-rgb': '239 68 68',
+  '--color-error-light-rgb': '255 240 240',
+  '--color-info-rgb': '0 137 123',
+  '--color-info-light-rgb': '224 242 241',
+}
+const withOpacity = (cssVar) => {
+  const fb = fallbacks[cssVar]
+  return fb
+    ? `rgb(var(${cssVar}, ${fb}) / <alpha-value>)`
+    : `rgb(var(${cssVar}) / <alpha-value>)`
+}
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -70,51 +94,51 @@ export default {
             light: withOpacity('--color-secondary-light-rgb'),
           },
           accent: withOpacity('--color-accent-rgb'),
-          bg: 'var(--color-background)',
-          background: 'var(--color-background)',
-          surface: 'var(--color-surface)',
-          border: 'var(--color-border)',
+          bg: 'var(--color-background, #F5F7FA)',
+          background: 'var(--color-background, #F5F7FA)',
+          surface: 'var(--color-surface, #ffffff)',
+          border: 'var(--color-border, #E8ECF1)',
           grey: {
             light: withOpacity('--color-grey-light-rgb'),
             mid: withOpacity('--color-grey-mid-rgb'),
             dark: withOpacity('--color-grey-dark-rgb'),
           },
           text: {
-            primary: 'var(--color-text-primary)',
-            secondary: 'var(--color-text-secondary)',
-            muted: 'var(--color-text-muted)',
+            primary: 'var(--color-text-primary, #0A1628)',
+            secondary: 'var(--color-text-secondary, #64748b)',
+            muted: 'var(--color-text-muted, #94a3b8)',
           },
-          success: 'var(--color-success)',
-          warning: 'var(--color-warning)',
-          error: 'var(--color-error)',
-          info: 'var(--color-info)',
+          success: 'var(--color-success, #00C853)',
+          warning: 'var(--color-warning, #F59E0B)',
+          error: 'var(--color-error, #EF4444)',
+          info: 'var(--color-info, #00897B)',
         },
 
         // ─── Primary brand (follows --color-primary from Theme global) ───
         teal: {
           DEFAULT: withOpacity('--color-primary-rgb'),
           light: withOpacity('--color-primary-light-rgb'),
-          dark: 'var(--color-primary)',
-          glow: 'var(--color-primary-glow)',
-          50: 'color-mix(in srgb, var(--color-primary) 8%, white)',
-          100: 'color-mix(in srgb, var(--color-primary) 15%, white)',
-          200: 'color-mix(in srgb, var(--color-primary) 30%, white)',
-          300: 'color-mix(in srgb, var(--color-primary) 50%, white)',
-          400: 'color-mix(in srgb, var(--color-primary) 75%, white)',
+          dark: 'var(--color-primary, #00897B)',
+          glow: 'var(--color-primary-glow, rgba(0,137,123,0.12))',
+          50: 'color-mix(in srgb, var(--color-primary, #00897B) 8%, white)',
+          100: 'color-mix(in srgb, var(--color-primary, #00897B) 15%, white)',
+          200: 'color-mix(in srgb, var(--color-primary, #00897B) 30%, white)',
+          300: 'color-mix(in srgb, var(--color-primary, #00897B) 50%, white)',
+          400: 'color-mix(in srgb, var(--color-primary, #00897B) 75%, white)',
           500: withOpacity('--color-primary-rgb'),
-          600: 'color-mix(in srgb, var(--color-primary) 88%, black)',
-          700: 'color-mix(in srgb, var(--color-primary) 75%, black)',
-          800: 'color-mix(in srgb, var(--color-primary) 60%, black)',
-          900: 'color-mix(in srgb, var(--color-primary) 45%, black)',
+          600: 'color-mix(in srgb, var(--color-primary, #00897B) 88%, black)',
+          700: 'color-mix(in srgb, var(--color-primary, #00897B) 75%, black)',
+          800: 'color-mix(in srgb, var(--color-primary, #00897B) 60%, black)',
+          900: 'color-mix(in srgb, var(--color-primary, #00897B) 45%, black)',
         },
 
         // ─── Secondary brand (follows --color-secondary from Theme global) ───
         navy: {
           DEFAULT: withOpacity('--color-secondary-rgb'),
           light: withOpacity('--color-secondary-light-rgb'),
-          dark: 'var(--color-secondary)',
+          dark: 'var(--color-secondary, #0A1628)',
           700: withOpacity('--color-secondary-light-rgb'),
-          800: 'color-mix(in srgb, var(--color-secondary) 90%, var(--color-secondary-light))',
+          800: 'color-mix(in srgb, var(--color-secondary, #0A1628) 90%, var(--color-secondary-light, #121F33))',
           900: withOpacity('--color-secondary-rgb'),
         },
 
@@ -131,7 +155,7 @@ export default {
           light: withOpacity('--color-info-light-rgb'),
           50: withOpacity('--color-info-light-rgb'),
           500: withOpacity('--color-info-rgb'),
-          900: 'var(--color-info-dark)',
+          900: 'var(--color-info-dark, #004D40)',
         },
 
         // ─── Semantic: Success (green) ───────────────────────────────────
@@ -140,7 +164,7 @@ export default {
           light: withOpacity('--color-success-light-rgb'),
           50: withOpacity('--color-success-light-rgb'),
           500: withOpacity('--color-success-rgb'),
-          900: 'var(--color-success-dark)',
+          900: 'var(--color-success-dark, #1B5E20)',
         },
 
         // ─── Semantic: Warning (amber) ───────────────────────────────────
@@ -149,8 +173,8 @@ export default {
           light: withOpacity('--color-warning-light-rgb'),
           50: withOpacity('--color-warning-light-rgb'),
           500: withOpacity('--color-warning-rgb'),
-          600: 'color-mix(in srgb, var(--color-warning) 88%, black)',
-          900: 'var(--color-warning-dark)',
+          600: 'color-mix(in srgb, var(--color-warning, #F59E0B) 88%, black)',
+          900: 'var(--color-warning-dark, #92400E)',
         },
 
         // ─── Semantic: Error (coral) ─────────────────────────────────────
@@ -159,7 +183,7 @@ export default {
           light: withOpacity('--color-error-light-rgb'),
           50: withOpacity('--color-error-light-rgb'),
           500: withOpacity('--color-error-rgb'),
-          900: 'var(--color-error-dark)',
+          900: 'var(--color-error-dark, #991B1B)',
         },
 
         // ═══════════════════════════════════════════════════════════════════
