@@ -92,8 +92,12 @@ export function HideCollections() {
     const unique = [...new Set(allDisabled)]
     if (unique.length > 0) {
       applyHiddenStyles(unique)
-      // Wait for CSS to apply, then hide empty nav groups
-      requestAnimationFrame(() => hideEmptyNavGroups())
+      // Hide empty nav groups after styles have been painted
+      setTimeout(() => {
+        hideEmptyNavGroups()
+        // Run again after a short delay in case of late rendering
+        setTimeout(() => hideEmptyNavGroups(), 500)
+      }, 100)
     }
   }
 
@@ -209,9 +213,11 @@ export function HideCollections() {
       if (links.length === 0) return
 
       const allHidden = Array.from(links).every((link) => {
+        // Check if the link itself or its parent li is hidden
+        if (getComputedStyle(link).display === 'none') return true
         const li = link.closest('li')
-        if (!li) return link.closest('[style*="display: none"]') !== null
-        return getComputedStyle(li).display === 'none'
+        if (li && getComputedStyle(li).display === 'none') return true
+        return false
       })
 
       if (allHidden) {
