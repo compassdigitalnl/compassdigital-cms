@@ -362,7 +362,7 @@ export default function OrderListsTemplate({ lists, loading, error, onRetry, onA
                       <div style={{ borderTop: '1px solid #E8ECF1', margin: '4px 0' }} />
                       <button
                         onClick={(e) => { e.preventDefault(); setOpenDropdown(null); onDeleteList?.(list.id) }}
-                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-red-50"
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-coral-50"
                         style={{ fontSize: '13px', color: 'var(--color-error)' }}
                       >
                         <Trash2 className="w-4 h-4" />

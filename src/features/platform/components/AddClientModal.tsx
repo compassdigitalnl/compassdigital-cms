@@ -91,7 +91,7 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
             the admin user.
           </p>
           {loading && (
-            <p className="text-blue-600 mt-2 font-medium">⏳ This may take 3-5 minutes...</p>
+            <p className="text-teal mt-2 font-medium">⏳ This may take 3-5 minutes...</p>
           )}
         </div>
 
@@ -99,7 +99,7 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Error */}
           {error && (
-            <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div className="p-4 bg-coral-50 border border-coral/20 rounded-lg">
               <p className="text-red-800 text-sm">{error}</p>
             </div>
           )}
@@ -120,7 +120,7 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
                 required
                 disabled={loading}
                 placeholder="ACME Corp"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-gray-100"
               />
             </div>
 
@@ -136,7 +136,7 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
                   disabled={loading}
                   placeholder="acme"
                   pattern="[a-z0-9-]+"
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-gray-100"
                 />
                 <span className="text-gray-500">.yourplatform.com</span>
               </div>
@@ -158,7 +158,7 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
                   required
                   disabled={loading}
                   placeholder="admin@acme.com"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-gray-100"
                 />
               </div>
 
@@ -173,7 +173,7 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
                   onChange={handleChange}
                   disabled={loading}
                   placeholder="John Doe"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-gray-100"
                 />
               </div>
             </div>
@@ -191,7 +191,7 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
                 onChange={handleChange}
                 required
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-gray-100"
               >
                 <option value="ecommerce">E-commerce Store</option>
                 <option value="blog">Blog & Magazine</option>
@@ -211,7 +211,7 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
                 onChange={handleChange}
                 required
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent disabled:bg-gray-100"
               >
                 <option value="free">Free - €0/month</option>
                 <option value="starter">Starter - €25/month</option>
@@ -234,7 +234,7 @@ export default function AddClientModal({ isOpen, onClose }: AddClientModalProps)
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-6 py-3 bg-teal text-white rounded-lg hover:bg-teal-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Creating & Deploying...' : 'Create & Deploy'}
             </button>

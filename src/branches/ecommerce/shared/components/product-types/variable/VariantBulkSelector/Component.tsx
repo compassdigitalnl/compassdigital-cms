@@ -110,7 +110,7 @@ export function VariantBulkSelector({
       <div className="flex items-center justify-between">
         <h3 className="text-base font-semibold text-gray-900">Select Quantities</h3>
         {totalItems > 0 && (
-          <span className="text-sm font-medium text-blue-600">
+          <span className="text-sm font-medium text-teal">
             {totalItems} {totalItems === 1 ? 'item' : 'items'} selected
           </span>
         )}
@@ -252,7 +252,7 @@ export function VariantBulkSelector({
 
                   {/* Subtotal */}
                   <td className="px-4 py-3 text-right">
-                    <span className={cn('text-sm font-medium', quantity > 0 ? 'text-blue-600' : 'text-gray-400')}>
+                    <span className={cn('text-sm font-medium', quantity > 0 ? 'text-teal' : 'text-gray-400')}>
                       {subtotal > 0 ? '+' : ''}€{formatPriceStr(subtotal)}
                     </span>
                   </td>
@@ -265,18 +265,18 @@ export function VariantBulkSelector({
 
       {/* Total Summary */}
       {showTotalSummary && totalItems > 0 && (
-        <div className="rounded-lg bg-blue-50 p-4">
+        <div className="rounded-lg bg-teal-50 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm font-semibold text-blue-900">Total Order Summary</div>
-              <div className="mt-1 text-sm text-blue-800">
+              <div className="text-sm font-semibold text-navy">Total Order Summary</div>
+              <div className="mt-1 text-sm text-teal-800">
                 {totalItems} {totalItems === 1 ? 'item' : 'items'} across {Object.keys(variantQuantities).filter(k => variantQuantities[k] > 0).length} variants
               </div>
             </div>
             {totalPrice !== 0 && (
               <div className="text-right">
-                <div className="text-xs text-blue-700">Total Price Adjustment</div>
-                <div className="text-xl font-bold text-blue-900">
+                <div className="text-xs text-teal-700">Total Price Adjustment</div>
+                <div className="text-xl font-bold text-navy">
                   {totalPrice > 0 ? '+' : ''}€{formatPriceStr(totalPrice)}
                 </div>
               </div>

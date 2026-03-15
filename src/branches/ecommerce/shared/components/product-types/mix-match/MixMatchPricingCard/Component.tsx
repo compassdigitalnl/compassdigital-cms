@@ -90,7 +90,7 @@ export const MixMatchPricingCard: React.FC<MixMatchPricingCardProps> = ({
 
           {/* Savings (if any) */}
           {savings !== undefined && savings > 0 && (
-            <div className="flex justify-between text-xs text-green-600 font-bold">
+            <div className="flex justify-between text-xs text-green font-bold">
               <span>Besparing</span>
               <span className="font-mono">-€{formatPriceStr(savings)}</span>
             </div>

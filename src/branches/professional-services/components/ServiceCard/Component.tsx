@@ -59,7 +59,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
           <ul className="mt-6 space-y-2 p-0">
             {features.slice(0, 4).map((feature, index) => (
               <li key={index} className="flex items-start gap-3 text-[0.9375rem] leading-normal text-[var(--color-base-800)]">
-                <svg className="mt-1 shrink-0 text-green-500" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <svg className="mt-1 shrink-0 text-green" width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M13.3 4.7L6 12l-3.3-3.3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 {feature.feature}

@@ -70,16 +70,16 @@ export default function RecentActivity() {
       case 'client_created':
         return <UserPlus className="h-4 w-4" />
       case 'client_activated':
-        return <CheckCircle2 className="h-4 w-4 text-green-600" />
+        return <CheckCircle2 className="h-4 w-4 text-green" />
       case 'client_suspended':
-        return <XCircle className="h-4 w-4 text-red-600" />
+        return <XCircle className="h-4 w-4 text-coral" />
       case 'payment_received':
-        return <DollarSign className="h-4 w-4 text-green-600" />
+        return <DollarSign className="h-4 w-4 text-green" />
       case 'health_check':
         if (status === 'error') {
-          return <AlertCircle className="h-4 w-4 text-red-600" />
+          return <AlertCircle className="h-4 w-4 text-coral" />
         }
-        return <Activity className="h-4 w-4 text-green-600" />
+        return <Activity className="h-4 w-4 text-green" />
       default:
         return <Globe className="h-4 w-4" />
     }
@@ -94,7 +94,7 @@ export default function RecentActivity() {
       case 'error':
         return <Badge variant="default" className="bg-red-100 text-red-800">Error</Badge>
       default:
-        return <Badge variant="default" className="bg-blue-100 text-blue-800">Info</Badge>
+        return <Badge variant="default" className="bg-teal-100 text-blue-800">Info</Badge>
     }
   }
 

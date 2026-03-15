@@ -38,7 +38,7 @@ export default function PlatformSidebar() {
               href={item.href}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                 isActive
-                  ? 'bg-blue-50 text-blue-700'
+                  ? 'bg-teal-50 text-teal-700'
                   : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
@@ -52,7 +52,7 @@ export default function PlatformSidebar() {
       {/* Footer */}
       <div className="p-4 border-t border-gray-200">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
             <span className="text-lg">👤</span>
           </div>
           <div>

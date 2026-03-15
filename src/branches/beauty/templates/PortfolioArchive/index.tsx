@@ -19,28 +19,25 @@ export function PortfolioArchiveTemplate({
   currentPage,
 }: PortfolioArchiveProps) {
   return (
-    <div style={{ backgroundColor: 'var(--color-bg, #ffffff)' }}>
+    <div className="bg-white">
       {/* Breadcrumb */}
       <div className="mx-auto max-w-7xl px-6 py-4">
-        <nav className="flex items-center gap-2 text-sm" style={{ color: 'var(--color-grey-mid, #94A3B8)' }}>
-          <Link href="/" className="transition-colors hover:opacity-80" style={{ color: 'var(--color-primary, #ec4899)' }}>
+        <nav className="flex items-center gap-2 text-sm text-grey-mid">
+          <Link href="/" className="text-teal transition-colors hover:opacity-80">
             Home
           </Link>
           <span>/</span>
-          <span style={{ color: 'var(--color-navy, #1a2b4a)' }}>Portfolio</span>
+          <span className="text-navy">Portfolio</span>
         </nav>
       </div>
 
       {/* Hero section with beauty gradient */}
       <section
         className="py-12 md:py-16"
-        style={{ background: 'linear-gradient(135deg, #ec4899, #8b5cf6)' }}
+        style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-accent, var(--color-primary)))' }}
       >
         <div className="mx-auto max-w-7xl px-6 text-center">
-          <h1
-            className="text-3xl font-bold text-white md:text-4xl lg:text-5xl"
-            style={{ fontFamily: 'var(--font-display, var(--font-serif, Georgia, serif))' }}
-          >
+          <h1 className="font-display text-3xl font-bold text-white md:text-4xl lg:text-5xl">
             Ons portfolio
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-white/80">
@@ -64,7 +61,7 @@ export function PortfolioArchiveTemplate({
             ))}
           </div>
         ) : (
-          <div className="py-12 text-center" style={{ color: 'var(--color-grey-mid, #94A3B8)' }}>
+          <div className="py-12 text-center text-grey-mid">
             Geen portfolio items gevonden.
           </div>
         )}
@@ -76,12 +73,11 @@ export function PortfolioArchiveTemplate({
               <Link
                 key={i}
                 href={'/portfolio' + (i > 0 ? '?page=' + (i + 1) : '')}
-                className="flex h-10 w-10 items-center justify-center rounded-lg text-sm font-medium transition-colors"
-                style={
+                className={`flex h-10 w-10 items-center justify-center rounded-lg text-sm font-medium transition-colors ${
                   currentPage === i + 1
-                    ? { backgroundColor: 'var(--color-primary, #ec4899)', color: '#ffffff' }
-                    : { backgroundColor: 'var(--color-grey-light, #f1f5f9)', color: 'var(--color-grey-dark, #475569)' }
-                }
+                    ? 'bg-teal text-white'
+                    : 'bg-grey-light text-grey-dark'
+                }`}
               >
                 {i + 1}
               </Link>
@@ -92,12 +88,9 @@ export function PortfolioArchiveTemplate({
         {/* CTA section */}
         <section
           className="mt-16 rounded-2xl p-8 text-center md:p-12"
-          style={{ background: 'linear-gradient(135deg, #ec4899, #8b5cf6)' }}
+          style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-accent, var(--color-primary)))' }}
         >
-          <h2
-            className="text-2xl font-bold text-white md:text-3xl"
-            style={{ fontFamily: 'var(--font-display, var(--font-serif, Georgia, serif))' }}
-          >
+          <h2 className="font-display text-2xl font-bold text-white md:text-3xl">
             Benieuwd naar jouw resultaat?
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-white/80">
@@ -105,8 +98,7 @@ export function PortfolioArchiveTemplate({
           </p>
           <Link
             href="/boeken"
-            className="mt-6 inline-flex items-center gap-2 rounded-lg px-6 py-3 text-base font-semibold text-white transition-opacity hover:opacity-90"
-            style={{ backgroundColor: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(4px)' }}
+            className="btn mt-6 inline-flex items-center gap-2 rounded-lg bg-white/20 px-6 py-3 text-base font-semibold text-white backdrop-blur-sm transition-opacity hover:opacity-90"
           >
             Afspraak maken
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">

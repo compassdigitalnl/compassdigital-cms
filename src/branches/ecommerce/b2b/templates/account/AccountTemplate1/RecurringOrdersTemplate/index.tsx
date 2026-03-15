@@ -22,14 +22,14 @@ export default function RecurringOrdersTemplate({
       </div>
 
       {recurringOrders.length > 0 && (
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+        <div className="bg-teal-50 border border-teal-200 rounded-xl p-4">
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <RefreshCw className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <RefreshCw className="w-5 h-5 text-teal" />
             </div>
             <div className="flex-1">
-              <h3 className="font-bold text-sm text-blue-900 mb-1">Automatische bestellingen</h3>
-              <p className="text-xs text-blue-700">
+              <h3 className="font-bold text-sm text-navy mb-1">Automatische bestellingen</h3>
+              <p className="text-xs text-teal-700">
                 Je terugkerende bestellingen worden automatisch verwerkt op de ingestelde datum.
                 Je ontvangt 3 dagen van tevoren een herinneringsmail.
               </p>

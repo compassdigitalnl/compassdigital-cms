@@ -24,7 +24,7 @@ export const BrandCertifications: React.FC<BrandCertificationsProps> = ({
             key={cert.name}
             className="flex items-center gap-1.5 rounded-[10px] border border-[var(--grey,#E8ECF1)] bg-white px-3.5 py-2 text-[13px] font-semibold text-theme-navy"
           >
-            <CheckCircle className="h-4 w-4 text-green-500" />
+            <CheckCircle className="h-4 w-4 text-green" />
             {cert.name}
           </div>
         ))}

@@ -39,7 +39,7 @@ export const BundleDiscountTiers: React.FC<BundleDiscountTiersProps> = ({
       {/* Header */}
       <div className="mb-4">
         <h3 className="text-[18px] font-bold text-gray-900 mb-1 flex items-center gap-2">
-          <TrendingUp className="w-5 h-5 text-purple-600" strokeWidth={2.5} />
+          <TrendingUp className="w-5 h-5 text-teal" strokeWidth={2.5} />
           Volume Korting
         </h3>
         <p className="text-[14px] text-gray-600">
@@ -58,7 +58,7 @@ export const BundleDiscountTiers: React.FC<BundleDiscountTiersProps> = ({
               key={index}
               className={`
                 relative p-4 rounded-lg border-2 transition-all duration-200
-                ${isActive ? 'border-green-600 bg-green-50' : isUnlocked ? 'border-green-400 bg-green-50/50' : 'border-gray-300 bg-gray-50'}
+                ${isActive ? 'border-green bg-green-50' : isUnlocked ? 'border-green-400 bg-green-50/50' : 'border-gray-300 bg-gray-50'}
               `}
             >
               {/* Tier Content */}
@@ -69,7 +69,7 @@ export const BundleDiscountTiers: React.FC<BundleDiscountTiersProps> = ({
                   <div
                     className={`
                       flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center
-                      ${isUnlocked ? 'bg-green-600' : 'bg-gray-400'}
+                      ${isUnlocked ? 'bg-green' : 'bg-gray-400'}
                     `}
                   >
                     {isUnlocked ? (
@@ -98,7 +98,7 @@ export const BundleDiscountTiers: React.FC<BundleDiscountTiersProps> = ({
                 <div
                   className={`
                     flex-shrink-0 px-3 py-1.5 rounded-md
-                    ${isUnlocked ? 'bg-green-600' : 'bg-gray-400'}
+                    ${isUnlocked ? 'bg-green' : 'bg-gray-400'}
                   `}
                 >
                   <span className="text-[14px] font-bold text-white">
@@ -123,12 +123,12 @@ export const BundleDiscountTiers: React.FC<BundleDiscountTiersProps> = ({
 
       {/* Next Tier Message */}
       {nextTier && (
-        <div className="mt-4 p-4 bg-purple-50 border-2 border-purple-200 rounded-lg">
-          <p className="text-[14px] text-purple-900">
+        <div className="mt-4 p-4 bg-teal-50 border-2 border-teal-200 rounded-lg">
+          <p className="text-[14px] text-navy">
             <span className="font-bold">Bijna daar!</span> Voeg nog{' '}
-            <span className="font-bold text-purple-600">{itemsToNextTier}</span>{' '}
+            <span className="font-bold text-teal">{itemsToNextTier}</span>{' '}
             {itemsToNextTier === 1 ? 'item' : 'items'} toe om{' '}
-            <span className="font-bold text-purple-600">{nextTier.discountPercentage}% korting</span>{' '}
+            <span className="font-bold text-teal">{nextTier.discountPercentage}% korting</span>{' '}
             te ontgrendelen.
           </p>
         </div>
@@ -136,7 +136,7 @@ export const BundleDiscountTiers: React.FC<BundleDiscountTiersProps> = ({
 
       {/* Max Tier Reached */}
       {!nextTier && activeTier && (
-        <div className="mt-4 p-4 bg-green-50 border-2 border-green-200 rounded-lg">
+        <div className="mt-4 p-4 bg-green-50 border-2 border-green/20 rounded-lg">
           <p className="text-[14px] text-green-900 font-bold flex items-center gap-2">
             <Check className="w-4 h-4" strokeWidth={3} />
             Maximale korting bereikt! ({activeTier.discountPercentage}%)

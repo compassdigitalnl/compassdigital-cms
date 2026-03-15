@@ -32,7 +32,7 @@ function FormField({
     <div className="flex flex-col gap-1.5">
       <label className="text-xs font-bold" style={{ color: 'var(--color-foreground)' }}>
         {label}
-        {required && <span className="text-red-500 ml-0.5">*</span>}
+        {required && <span className="text-coral ml-0.5">*</span>}
       </label>
       {children}
     </div>

@@ -52,7 +52,7 @@ export function WizardStepTestimonials({ testimonials, onChange }: Props) {
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <MessageSquare className="w-6 h-6 text-blue-600" />
+          <MessageSquare className="w-6 h-6 text-teal" />
           Testimonials & Reviews
         </h2>
         <p className="mt-2 text-sm text-gray-600">
@@ -64,7 +64,7 @@ export function WizardStepTestimonials({ testimonials, onChange }: Props) {
       {/* Testimonials List */}
       <div className="space-y-4">
         {testimonials.map((testimonial, index) => (
-          <Card key={index} className="border-l-4 border-l-blue-500">
+          <Card key={index} className="border-l-4 border-l-teal">
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
                 <div className="flex-1 space-y-3">
@@ -131,7 +131,7 @@ export function WizardStepTestimonials({ testimonials, onChange }: Props) {
                   variant="ghost"
                   size="sm"
                   onClick={() => removeTestimonial(index)}
-                  className="text-red-500 hover:text-red-700 hover:bg-red-50 ml-2"
+                  className="text-coral hover:text-coral-700 hover:bg-coral-50 ml-2"
                 >
                   <X className="w-4 h-4" />
                 </Button>
@@ -165,7 +165,7 @@ export function WizardStepTestimonials({ testimonials, onChange }: Props) {
       )}
 
       {isAdding && (
-        <Card className="border-2 border-blue-500">
+        <Card className="border-2 border-teal">
           <CardHeader>
             <CardTitle className="text-lg">Nieuwe testimonial toevoegen</CardTitle>
             <CardDescription>Testimonials zijn optioneel maar verhogen vertrouwen</CardDescription>
@@ -266,7 +266,7 @@ export function WizardStepTestimonials({ testimonials, onChange }: Props) {
 
       {/* Info Message */}
       {testimonials.length === 0 && !isAdding && (
-        <Card className="bg-blue-50 border-blue-200">
+        <Card className="bg-teal-50 border-teal-200">
           <CardContent className="pt-6">
             <p className="text-sm text-blue-800">
               <strong>💡 Testimonials zijn optioneel</strong>
@@ -274,7 +274,7 @@ export function WizardStepTestimonials({ testimonials, onChange }: Props) {
               Heb je al testimonials van tevreden klanten? Voeg ze toe! Als je er nog geen hebt,
               kan AI realistische voorbeelden genereren voor demo-doeleinden.
             </p>
-            <ul className="mt-2 text-sm text-blue-700 space-y-1 ml-4 list-disc">
+            <ul className="mt-2 text-sm text-teal-700 space-y-1 ml-4 list-disc">
               <li>Verhoogt vertrouwen en geloofwaardigheid</li>
               <li>Social proof voor potentiële klanten</li>
               <li>AI kan voorbeelden genereren als je er nog geen hebt</li>

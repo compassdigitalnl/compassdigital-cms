@@ -125,30 +125,30 @@ const docCategories = [
 
 const colorClasses: Record<string, { bg: string; border: string; icon: string; hover: string; badge: string }> = {
   blue: {
-    bg: 'bg-blue-50',
+    bg: 'bg-teal-50',
     border: 'border-blue-200',
-    icon: 'bg-blue-100 text-blue-600',
+    icon: 'bg-blue-100 text-teal',
     hover: 'hover:border-blue-300',
-    badge: 'bg-blue-100 text-blue-700',
+    badge: 'bg-blue-100 text-teal-700',
   },
   red: {
-    bg: 'bg-red-50',
-    border: 'border-red-200',
-    icon: 'bg-red-100 text-red-600',
+    bg: 'bg-coral-50',
+    border: 'border-coral/20',
+    icon: 'bg-red-100 text-coral',
     hover: 'hover:border-red-300',
-    badge: 'bg-red-100 text-red-700',
+    badge: 'bg-red-100 text-coral-700',
   },
   green: {
     bg: 'bg-green-50',
     border: 'border-green-200',
-    icon: 'bg-green-100 text-green-600',
+    icon: 'bg-green-100 text-green',
     hover: 'hover:border-green-300',
     badge: 'bg-green-100 text-green-700',
   },
   purple: {
     bg: 'bg-purple-50',
     border: 'border-purple-200',
-    icon: 'bg-purple-100 text-purple-600',
+    icon: 'bg-purple-100 text-teal',
     hover: 'hover:border-purple-300',
     badge: 'bg-purple-100 text-purple-700',
   },
@@ -203,7 +203,7 @@ export default function DocsPage() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-            <Book className="w-8 h-8 text-blue-600" />
+            <Book className="w-8 h-8 text-teal" />
           </div>
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Documentation
@@ -216,17 +216,17 @@ export default function DocsPage() {
         </div>
 
         {/* Quick Links */}
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-6 mb-12">
+        <div className="bg-gradient-to-r from-teal-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-6 mb-12">
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">
-              <CheckCircle2 className="w-6 h-6 text-blue-600" />
+              <CheckCircle2 className="w-6 h-6 text-teal" />
             </div>
             <div className="flex-1">
               <h2 className="text-lg font-bold text-gray-900 mb-2">New to SiteForge?</h2>
               <p className="text-gray-700 mb-4">Start with the Setup Guide to get your production environment ready in 30-60 minutes!</p>
               <a 
                 href="/setup/"
-                className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                className="inline-flex items-center gap-2 bg-teal text-white px-4 py-2 rounded-lg font-semibold hover:bg-teal-700 transition-colors"
               >
                 Go to Setup Guide
                 <ArrowRight className="w-4 h-4" />

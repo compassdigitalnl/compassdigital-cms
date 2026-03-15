@@ -50,7 +50,7 @@ export default function DeploymentsTable() {
     const styles: Record<string, string> = {
       success: 'bg-green-100 text-green-800',
       failed: 'bg-red-100 text-red-800',
-      in_progress: 'bg-blue-100 text-blue-800',
+      in_progress: 'bg-teal-100 text-blue-800',
       pending: 'bg-yellow-100 text-yellow-800',
       rolled_back: 'bg-orange-100 text-orange-800',
     }
@@ -79,16 +79,16 @@ export default function DeploymentsTable() {
       {/* Filters */}
       <div className="p-6 border-b border-gray-200">
         <div className="flex gap-4">
-          <select className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <select className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent">
             <option value="all">All Clients</option>
           </select>
-          <select className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <select className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent">
             <option value="all">All Status</option>
             <option value="success">Success</option>
             <option value="failed">Failed</option>
             <option value="in_progress">In Progress</option>
           </select>
-          <select className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <select className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent">
             <option value="all">All Types</option>
             <option value="initial">Initial</option>
             <option value="update">Update</option>
@@ -132,7 +132,7 @@ export default function DeploymentsTable() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <a
                     href={`/platform/clients/${deployment.clientId}`}
-                    className="font-medium text-blue-600 hover:text-blue-700"
+                    className="font-medium text-teal hover:text-teal-700"
                   >
                     {deployment.client}
                   </a>

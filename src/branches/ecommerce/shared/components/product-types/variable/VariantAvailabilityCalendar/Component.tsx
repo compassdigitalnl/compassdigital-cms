@@ -123,7 +123,7 @@ export function VariantAvailabilityCalendar({
       <div className="flex items-center justify-between">
         <h3 className="text-base font-semibold text-gray-900">
           {option.optionName}
-          {option.required && <span className="ml-1 text-red-500">*</span>}
+          {option.required && <span className="ml-1 text-coral">*</span>}
         </h3>
         {selectedDate && (
           <span className="text-sm text-gray-600">
@@ -198,7 +198,7 @@ export function VariantAvailabilityCalendar({
                 className={cn(
                   'relative aspect-square rounded-lg text-sm font-medium transition-all',
                   selected
-                    ? 'bg-blue-600 text-white ring-2 ring-blue-600 ring-offset-2'
+                    ? 'bg-teal text-white ring-2 ring-teal ring-offset-2'
                     : available && !past
                       ? 'bg-white text-gray-900 hover:bg-gray-50'
                       : 'cursor-not-allowed bg-gray-100 text-gray-400',
@@ -217,7 +217,7 @@ export function VariantAvailabilityCalendar({
                   <div
                     className={cn(
                       'absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full',
-                      isLowAvailability ? 'bg-orange-500' : 'bg-green-500',
+                      isLowAvailability ? 'bg-orange-500' : 'bg-green',
                     )}
                   />
                 )}
@@ -244,7 +244,7 @@ export function VariantAvailabilityCalendar({
       {showLegend && (
         <div className="flex flex-wrap items-center gap-4 text-xs text-gray-600">
           <div className="flex items-center gap-1.5">
-            <div className="h-3 w-3 rounded-full bg-green-500"></div>
+            <div className="h-3 w-3 rounded-full bg-green"></div>
             <span>Available</span>
           </div>
           <div className="flex items-center gap-1.5">
@@ -256,7 +256,7 @@ export function VariantAvailabilityCalendar({
             <span>Unavailable</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="h-3 w-3 rounded-full bg-blue-600"></div>
+            <div className="h-3 w-3 rounded-full bg-teal"></div>
             <span>Selected</span>
           </div>
         </div>
@@ -264,10 +264,10 @@ export function VariantAvailabilityCalendar({
 
       {/* Selected Date Info */}
       {selectedDate && option.values && (
-        <div className="rounded-lg bg-blue-50 p-4">
-          <div className="mb-2 text-sm font-semibold text-blue-900">Selected Date:</div>
+        <div className="rounded-lg bg-teal-50 p-4">
+          <div className="mb-2 text-sm font-semibold text-navy">Selected Date:</div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-blue-800">
+            <span className="text-sm text-teal-800">
               {selectedDate.toLocaleDateString('en-US', {
                 weekday: 'long',
                 year: 'numeric',
@@ -280,7 +280,7 @@ export function VariantAvailabilityCalendar({
               return (
                 typeof availability === 'number' &&
                 availability > 0 && (
-                  <span className="text-sm font-medium text-blue-900">
+                  <span className="text-sm font-medium text-navy">
                     {availability} {availability === 1 ? 'slot' : 'slots'} available
                   </span>
                 )
@@ -292,7 +292,7 @@ export function VariantAvailabilityCalendar({
 
       {/* Required Field Helper Text */}
       {option.required && !selectedDate && (
-        <p className="text-xs text-red-600">Please select a date to continue</p>
+        <p className="text-xs text-coral">Please select a date to continue</p>
       )}
 
       {/* Helper Text */}

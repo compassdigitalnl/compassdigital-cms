@@ -153,7 +153,7 @@ export const ConfiguratorStepIndicator: React.FC<ConfiguratorStepIndicatorProps>
 
                 {/* Required Badge */}
                 {step.required && stepState !== 'completed' && (
-                  <span className="flex-shrink-0 px-2 py-0.5 bg-red-100 text-red-700 rounded-full text-[10px] font-bold uppercase">
+                  <span className="flex-shrink-0 px-2 py-0.5 bg-red-100 text-coral-700 rounded-full text-[10px] font-bold uppercase">
                     Verplicht
                   </span>
                 )}

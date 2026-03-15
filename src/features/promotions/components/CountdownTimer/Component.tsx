@@ -37,7 +37,7 @@ export function CountdownTimer({ endDate, label, className = '' }: CountdownTime
 
   if (!timeLeft) {
     return (
-      <div className={`inline-flex items-center gap-1 text-sm font-medium text-red-600 ${className}`}>
+      <div className={`inline-flex items-center gap-1 text-sm font-medium text-coral ${className}`}>
         Verlopen
       </div>
     )

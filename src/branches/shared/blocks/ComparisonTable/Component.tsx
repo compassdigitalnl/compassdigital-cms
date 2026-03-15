@@ -18,7 +18,7 @@ function ValueBadge({ value, customValue }: { value: ComparisonValue; customValu
   switch (value) {
     case 'yes':
       return (
-        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-600">
+        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-50 text-green">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="20 6 9 17 4 12" />
           </svg>
@@ -26,7 +26,7 @@ function ValueBadge({ value, customValue }: { value: ComparisonValue; customValu
       )
     case 'no':
       return (
-        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-red-100 text-red-600">
+        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-coral-50 text-coral">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
@@ -35,7 +35,7 @@ function ValueBadge({ value, customValue }: { value: ComparisonValue; customValu
       )
     case 'partial':
       return (
-        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-orange-100 text-orange-600">
+        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-amber-50 text-amber">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <line x1="5" y1="12" x2="19" y2="12" />
           </svg>
@@ -123,7 +123,7 @@ export const CompetitorComparisonBlockComponent: React.FC<CompetitorComparisonBl
                   <th
                     className={`px-4 py-4 text-center text-sm font-bold border-b ${
                       highlightColumn
-                        ? 'bg-blue-600 text-white rounded-t-lg'
+                        ? 'bg-teal text-white rounded-t-lg'
                         : 'bg-gray-100 text-gray-900 border-gray-200'
                     }`}
                   >
@@ -171,12 +171,12 @@ export const CompetitorComparisonBlockComponent: React.FC<CompetitorComparisonBl
                         className={`px-4 py-3 text-center border-b border-gray-100 ${
                           highlightColumn
                             ? isEven
-                              ? 'bg-blue-50'
-                              : 'bg-blue-50/50'
+                              ? 'bg-teal-50'
+                              : 'bg-teal/5'
                             : isEven
                               ? 'bg-gray-50'
                               : 'bg-white'
-                        } group-hover:bg-blue-100/60 transition-colors`}
+                        } group-hover:bg-teal/10 transition-colors`}
                       >
                         <div className="flex items-center justify-center">
                           <ValueBadge
@@ -214,10 +214,10 @@ export const CompetitorComparisonBlockComponent: React.FC<CompetitorComparisonBl
               <tfoot>
                 <tr>
                   <td className="px-4 py-5" />
-                  <td className={`px-4 py-5 text-center ${highlightColumn ? 'bg-blue-50/30 rounded-b-lg' : ''}`}>
+                  <td className={`px-4 py-5 text-center ${highlightColumn ? 'bg-teal/5 rounded-b-lg' : ''}`}>
                     <a
                       href="/contact"
-                      className="inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-sm hover:shadow-md"
+                      className="btn btn-primary"
                     >
                       Start gratis
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1.5">

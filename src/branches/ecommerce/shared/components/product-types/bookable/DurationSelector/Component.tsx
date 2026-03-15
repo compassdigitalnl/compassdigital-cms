@@ -53,7 +53,7 @@ export const DurationSelector: React.FC<DurationSelectorProps> = ({
             >
               {/* Popular badge */}
               {option.popular && !isSelected && (
-                <div className="absolute top-2 right-2 px-2 py-0.5 bg-purple-100 text-purple-700 text-[10px] font-extrabold rounded-full uppercase">
+                <div className="absolute top-2 right-2 px-2 py-0.5 bg-teal-100 text-teal-700 text-[10px] font-extrabold rounded-full uppercase">
                   Populair
                 </div>
               )}

@@ -434,8 +434,8 @@ export const AIPageGenerator: React.FC<AIPageGeneratorProps> = ({
                   </div>
                 </div>
 
-                <div className="p-3 bg-blue-50 dark:bg-blue-950/30 rounded-md text-sm">
-                  <p className="text-blue-900 dark:text-blue-100">
+                <div className="p-3 bg-teal-50 dark:bg-teal-950/30 rounded-md text-sm">
+                  <p className="text-teal-900 dark:text-teal-100">
                     <strong>Let op:</strong> Dit is een preview. Je kunt de pagina bewerken
                     nadat je deze hebt geaccepteerd.
                   </p>

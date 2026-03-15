@@ -160,7 +160,7 @@ export const EnrollmentSidebar: React.FC<EnrollmentSidebarProps> = ({ course }) 
 
           {/* Timer */}
           {timeLeft && (
-            <div className="mt-2 flex items-center gap-1.5 text-xs font-medium text-red-500">
+            <div className="mt-2 flex items-center gap-1.5 text-xs font-medium text-coral">
               <svg
                 className="h-3.5 w-3.5"
                 viewBox="0 0 24 24"
@@ -234,7 +234,7 @@ export const EnrollmentSidebar: React.FC<EnrollmentSidebarProps> = ({ course }) 
                 className="flex items-center gap-1.5 text-[11px] text-[var(--color-base-500)]"
               >
                 <svg
-                  className="h-3 w-3 text-green-500"
+                  className="h-3 w-3 text-green"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"

@@ -175,7 +175,7 @@ export function WizardStep3Content({ data, siteGoal, onChange }: Props) {
       {/* Header */}
       <div className="space-y-3 pb-6 border-b-2 border-gray-100">
         <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-green-500 to-teal-600 shadow-lg shadow-green-500/30">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-green to-teal-600 shadow-lg shadow-green/30">
             <span className="text-2xl">📝</span>
           </div>
           <div>
@@ -220,7 +220,7 @@ export function WizardStep3Content({ data, siteGoal, onChange }: Props) {
               }
               className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                 data.tone === tone.value
-                  ? 'border-blue-600 bg-blue-50'
+                  ? 'border-teal bg-teal-50'
                   : 'border-gray-200 hover:border-gray-300'
               }`}
             >
@@ -245,7 +245,7 @@ export function WizardStep3Content({ data, siteGoal, onChange }: Props) {
                 key={page.id}
                 className={`p-4 border-2 rounded-lg transition-all ${
                   isChecked
-                    ? 'border-blue-600 bg-blue-50'
+                    ? 'border-teal bg-teal-50'
                     : 'border-gray-200 hover:border-gray-300'
                 } ${page.required ? 'opacity-100' : 'cursor-pointer'}`}
                 onClick={() => togglePage(page.id)}

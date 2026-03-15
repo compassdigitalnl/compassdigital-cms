@@ -52,7 +52,7 @@ export function VariantComparisonTable({
             Select up to {maxCompare} variants to compare side-by-side
           </p>
         </div>
-        <span className="text-sm font-medium text-blue-600">
+        <span className="text-sm font-medium text-teal">
           {selectedVariants.length} / {maxCompare} selected
         </span>
       </div>
@@ -78,7 +78,7 @@ export function VariantComparisonTable({
                 className={cn(
                   'rounded-lg border-2 px-4 py-2 text-sm font-medium transition-all',
                   isSelected
-                    ? 'border-blue-600 bg-blue-50 text-blue-900'
+                    ? 'border-teal bg-teal-50 text-navy'
                     : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400 hover:bg-gray-50',
                   isDisabled && 'cursor-not-allowed opacity-50',
                 )}
@@ -112,7 +112,7 @@ export function VariantComparisonTable({
                         <button
                           type="button"
                           onClick={() => handleVariantToggle(variantValue)}
-                          className="btn btn-ghost btn-sm text-red-600"
+                          className="btn btn-ghost btn-sm text-coral"
                         >
                           Remove
                         </button>
@@ -136,9 +136,9 @@ export function VariantComparisonTable({
                         className={cn(
                           'text-sm font-semibold',
                           variant?.priceModifier && variant.priceModifier > 0
-                            ? 'text-red-600'
+                            ? 'text-coral'
                             : variant?.priceModifier && variant.priceModifier < 0
-                              ? 'text-green-600'
+                              ? 'text-green'
                               : 'text-gray-600',
                         )}
                       >
@@ -231,7 +231,7 @@ export function VariantComparisonTable({
                       <span
                         className={cn(
                           'inline-block rounded-full px-3 py-1 text-xs font-medium',
-                          isDisabled ? 'bg-gray-100 text-gray-800' : 'bg-blue-100 text-blue-800',
+                          isDisabled ? 'bg-gray-100 text-gray-800' : 'bg-teal-100 text-teal-800',
                         )}
                       >
                         {isDisabled ? 'Unavailable' : 'Available'}
@@ -263,16 +263,16 @@ export function VariantComparisonTable({
 
       {/* Winner Recommendation */}
       {selectedVariants.length > 1 && (
-        <div className="rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-4">
+        <div className="rounded-lg bg-gradient-to-r from-teal-50 to-teal-100 p-4">
           <div className="flex items-start gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-teal text-white">
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
             </div>
             <div className="flex-1">
-              <div className="text-sm font-semibold text-blue-900">Recommendation</div>
-              <p className="mt-1 text-sm text-blue-800">
+              <div className="text-sm font-semibold text-navy">Recommendation</div>
+              <p className="mt-1 text-sm text-teal-800">
                 Based on availability and value, we recommend:{' '}
                 <span className="font-semibold">
                   {(() => {

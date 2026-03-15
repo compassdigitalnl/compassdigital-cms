@@ -18,7 +18,7 @@ export function WizardStep2Design({ data, onChange }: Props) {
       value: 'modern',
       label: 'Modern',
       description: 'Strak, minimalistisch met veel wit en heldere kleuren',
-      preview: 'bg-gradient-to-br from-blue-50 to-white',
+      preview: 'bg-gradient-to-br from-teal-50 to-white',
     },
     {
       value: 'classic',
@@ -176,7 +176,7 @@ export function WizardStep2Design({ data, onChange }: Props) {
               key={style.value}
               className={`p-4 cursor-pointer transition-all border-2 ${
                 data.style === style.value
-                  ? 'border-blue-600 bg-blue-50'
+                  ? 'border-teal bg-teal-50'
                   : 'border-gray-200 hover:border-gray-300'
               }`}
               onClick={() =>

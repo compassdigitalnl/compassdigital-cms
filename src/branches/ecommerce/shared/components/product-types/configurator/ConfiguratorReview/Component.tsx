@@ -51,7 +51,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
               key={step.stepNumber}
               className={`
                 border-2 rounded-lg overflow-hidden
-                ${hasSelection ? 'border-green-500' : 'border-gray-300'}
+                ${hasSelection ? 'border-green' : 'border-gray-300'}
               `}
             >
               {/* Step Header */}
@@ -66,7 +66,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
                   <div
                     className={`
                       w-7 h-7 rounded-full flex items-center justify-center text-[13px] font-bold
-                      ${hasSelection ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}
+                      ${hasSelection ? 'bg-green text-white' : 'bg-gray-400 text-white'}
                     `}
                   >
                     {hasSelection ? <Check className="w-4 h-4" strokeWidth={3} /> : step.stepNumber}
@@ -119,7 +119,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
                       )}
                       {selection.price !== 0 && (
                         <p
-                          className={`text-[14px] font-mono font-bold ${selection.price > 0 ? 'text-[var(--color-primary)]' : 'text-red-600'}`}
+                          className={`text-[14px] font-mono font-bold ${selection.price > 0 ? 'text-[var(--color-primary)]' : 'text-coral'}`}
                         >
                           {selection.price > 0 ? '+' : ''}€{formatPriceStr(selection.price)}
                         </p>
@@ -152,7 +152,7 @@ export const ConfiguratorReview: React.FC<ConfiguratorReviewProps> = ({
               <div key={step.stepNumber} className="flex items-center justify-between">
                 <span className="text-[14px] text-gray-700">{step.title}:</span>
                 <span
-                  className={`text-[14px] font-mono font-semibold ${selection.price > 0 ? 'text-[var(--color-primary)]' : 'text-red-600'}`}
+                  className={`text-[14px] font-mono font-semibold ${selection.price > 0 ? 'text-[var(--color-primary)]' : 'text-coral'}`}
                 >
                   {selection.price > 0 ? '+' : ''}€{formatPriceStr(selection.price)}
                 </span>

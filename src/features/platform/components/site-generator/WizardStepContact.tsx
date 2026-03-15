@@ -83,7 +83,7 @@ export function WizardStepContact({ contactInfo, onChange }: Props) {
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <Phone className="w-6 h-6 text-blue-600" />
+          <Phone className="w-6 h-6 text-teal" />
           Contact Informatie
         </h2>
         <p className="mt-2 text-sm text-gray-600">
@@ -211,7 +211,7 @@ export function WizardStepContact({ contactInfo, onChange }: Props) {
         <CardContent className="space-y-3">
           <div>
             <Label htmlFor="facebook" className="flex items-center gap-2">
-              <Facebook className="w-4 h-4 text-blue-600" />
+              <Facebook className="w-4 h-4 text-teal" />
               Facebook
             </Label>
             <Input
@@ -237,7 +237,7 @@ export function WizardStepContact({ contactInfo, onChange }: Props) {
           </div>
           <div>
             <Label htmlFor="linkedin" className="flex items-center gap-2">
-              <Linkedin className="w-4 h-4 text-blue-700" />
+              <Linkedin className="w-4 h-4 text-teal-700" />
               LinkedIn
             </Label>
             <Input
@@ -263,7 +263,7 @@ export function WizardStepContact({ contactInfo, onChange }: Props) {
           </div>
           <div>
             <Label htmlFor="youtube" className="flex items-center gap-2">
-              <Youtube className="w-4 h-4 text-red-600" />
+              <Youtube className="w-4 h-4 text-coral" />
               YouTube
             </Label>
             <Input
@@ -278,7 +278,7 @@ export function WizardStepContact({ contactInfo, onChange }: Props) {
       </Card>
 
       {/* Contact Form Configuration */}
-      <Card className="border-2 border-blue-500">
+      <Card className="border-2 border-teal">
         <CardHeader>
           <CardTitle className="text-lg">Contactformulier Configuratie</CardTitle>
           <CardDescription>
@@ -398,14 +398,14 @@ export function WizardStepContact({ contactInfo, onChange }: Props) {
       </Card>
 
       {/* Info Message */}
-      <Card className="bg-blue-50 border-blue-200">
+      <Card className="bg-teal-50 border-teal-200">
         <CardContent className="pt-6">
           <p className="text-sm text-blue-800">
             <strong>💡 AI Verrijking</strong>
             <br />
             Op basis van deze informatie genereert AI:
           </p>
-          <ul className="mt-2 text-sm text-blue-700 space-y-1 ml-4 list-disc">
+          <ul className="mt-2 text-sm text-teal-700 space-y-1 ml-4 list-disc">
             <li>Professionele contactpagina content</li>
             <li>Geoptimaliseerde formulier labels en placeholders</li>
             <li>Gebruiksvriendelijke error messages</li>

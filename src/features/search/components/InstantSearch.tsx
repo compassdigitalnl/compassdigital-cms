@@ -84,7 +84,7 @@ function getHitSection(results: SearchResults | null, collection: string): HitSe
 const SECTION_COLORS: Record<string, { bg: string; badge: string; badgeText: string }> = {
   'products': { bg: 'bg-teal-50', badge: 'bg-teal-100 text-teal-700', badgeText: 'Product' },
   'blog-posts': { bg: 'bg-amber-50', badge: 'bg-amber-100 text-amber-700', badgeText: 'Artikel' },
-  'pages': { bg: 'bg-blue-50', badge: 'bg-blue-100 text-blue-700', badgeText: 'Pagina' },
+  'pages': { bg: 'bg-teal-50', badge: 'bg-blue-100 text-teal-700', badgeText: 'Pagina' },
 }
 
 export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose }) => {
@@ -349,7 +349,7 @@ export const InstantSearch: React.FC<InstantSearchProps> = ({ isOpen, onClose })
             className="text-sm font-medium text-gray-900 truncate"
             dangerouslySetInnerHTML={{ __html: hit._formatted?.title || hit.title }}
           />
-          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-700 flex-shrink-0">
+          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-teal-700 flex-shrink-0">
             Pagina
           </span>
         </div>

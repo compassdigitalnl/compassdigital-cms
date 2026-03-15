@@ -81,19 +81,19 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
     <div className="space-y-6">
       {/* Magazine Title Header */}
       {product.magazineTitle && (
-        <div className="text-center py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg">
+        <div className="text-center py-4 bg-gradient-to-r from-teal to-teal-400 rounded-lg">
           <h2 className="text-2xl md:text-3xl font-bold text-white">
             {product.magazineTitle}
           </h2>
-          <p className="text-blue-100 mt-1">
+          <p className="text-white/80 mt-1">
             Kies uw abonnement
           </p>
         </div>
       )}
 
       {/* Subscription Info */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <p className="text-sm text-blue-900">
+      <div className="bg-teal-50 border border-teal-200 rounded-lg p-4">
+        <p className="text-sm text-navy">
           ℹ️ Dit is een abonnementsproduct. U ontvangt meerdere edities gedurende de looptijd van uw abonnement.
         </p>
       </div>
@@ -114,15 +114,15 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
               className={`
                 relative p-6 rounded-xl border-2 text-left transition-all
                 ${isSelected
-                  ? 'border-blue-600 bg-blue-50 shadow-lg scale-105'
-                  : 'border-gray-300 bg-white hover:border-blue-400 hover:shadow-md'
+                  ? 'border-teal bg-teal-50 shadow-lg scale-105'
+                  : 'border-gray-300 bg-white hover:border-teal-400 hover:shadow-md'
                 }
-                ${isPopular && !isSelected ? 'ring-2 ring-blue-200' : ''}
+                ${isPopular && !isSelected ? 'ring-2 ring-teal-200' : ''}
               `}
             >
               {/* Popular Badge */}
               {isPopular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-blue-600 text-white text-xs font-bold rounded-full">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-teal text-white text-xs font-bold rounded-full">
                   POPULAIR
                 </div>
               )}
@@ -130,7 +130,7 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
               {/* Selected Check */}
               {isSelected && (
                 <div className="absolute top-4 right-4">
-                  <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
+                  <div className="w-6 h-6 bg-teal rounded-full flex items-center justify-center">
                     <Check className="w-4 h-4 text-white" />
                   </div>
                 </div>
@@ -138,7 +138,7 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
 
               {/* Type Icon & Label */}
               <div className="flex items-center gap-2 mb-3">
-                <div className={`${isSelected ? 'text-blue-600' : 'text-gray-600'}`}>
+                <div className={`${isSelected ? 'text-teal' : 'text-gray-600'}`}>
                   {getSubscriptionIcon(variant.subscriptionType)}
                 </div>
                 <h3 className="text-lg font-bold text-gray-900">
@@ -175,7 +175,7 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
                         €{formatPriceStr(fullPrice, product.taxClass as any)}
                       </span>
                     </div>
-                    <p className="text-sm font-semibold text-green-600">
+                    <p className="text-sm font-semibold text-green">
                       Bespaar {variant.discountPercentage}%
                     </p>
                   </>
@@ -190,24 +190,24 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
               {/* Features */}
               <ul className="space-y-2 mb-4">
                 <li className="flex items-start gap-2 text-sm text-gray-700">
-                  <Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                  <Check className="w-4 h-4 text-green flex-shrink-0 mt-0.5" />
                   <span>{variant.issues} edities per jaar</span>
                 </li>
                 {variant.autoRenew && (
                   <li className="flex items-start gap-2 text-sm text-gray-700">
-                    <Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                    <Check className="w-4 h-4 text-green flex-shrink-0 mt-0.5" />
                     <span>Automatisch verlengd</span>
                   </li>
                 )}
                 {!variant.autoRenew && (
                   <li className="flex items-start gap-2 text-sm text-gray-700">
-                    <Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                    <Check className="w-4 h-4 text-green flex-shrink-0 mt-0.5" />
                     <span>Eenmalig abonnement</span>
                   </li>
                 )}
                 {variant.subscriptionType === 'gift' && (
                   <li className="flex items-start gap-2 text-sm text-gray-700">
-                    <Gift className="w-4 h-4 text-purple-600 flex-shrink-0 mt-0.5" />
+                    <Gift className="w-4 h-4 text-teal-400 flex-shrink-0 mt-0.5" />
                     <span>Inclusief cadeaukaart</span>
                   </li>
                 )}
@@ -217,11 +217,11 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
               {variant.stockLevel !== undefined && variant.stockLevel !== null && (
                 <div className="text-xs">
                   {variant.stockLevel > 0 ? (
-                    <span className="text-green-600">
+                    <span className="text-green">
                       ✓ Beschikbaar
                     </span>
                   ) : (
-                    <span className="text-red-600">
+                    <span className="text-coral">
                       ✗ Uitverkocht
                     </span>
                   )}
@@ -253,7 +253,7 @@ export function SubscriptionPricingTable({ product, onSelectionChange }: Subscri
                 €{formatPriceStr(calculateDiscountedPrice(selectedVariant), product.taxClass as any)}
               </p>
               {selectedVariant.discountPercentage && selectedVariant.discountPercentage > 0 && (
-                <p className="text-xs text-green-600">
+                <p className="text-xs text-green">
                   Bespaar {selectedVariant.discountPercentage}%
                 </p>
               )}

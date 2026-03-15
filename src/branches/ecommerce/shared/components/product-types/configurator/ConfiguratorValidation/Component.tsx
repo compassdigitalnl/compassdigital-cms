@@ -38,12 +38,12 @@ export const ConfiguratorValidation: React.FC<ConfiguratorValidationProps> = ({
       <div
         className={`
           configurator-validation
-          p-4 rounded-lg border-l-4 border-red-500 bg-red-50
+          p-4 rounded-lg border-l-4 border-coral bg-coral-50
           ${className}
         `}
       >
         <div className="flex items-start gap-3">
-          <XCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" strokeWidth={2.5} />
+          <XCircle className="w-5 h-5 text-coral flex-shrink-0 mt-0.5" strokeWidth={2.5} />
           <div className="flex-1">
             <p className="text-[14px] font-semibold text-red-900 mb-1">Fout</p>
             <p className="text-[13px] text-red-800">{error}</p>
@@ -82,15 +82,15 @@ export const ConfiguratorValidation: React.FC<ConfiguratorValidationProps> = ({
       <div
         className={`
           configurator-validation
-          p-4 rounded-lg border-l-4 border-blue-500 bg-blue-50
+          p-4 rounded-lg border-l-4 border-teal bg-teal-50
           ${className}
         `}
       >
         <div className="flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" strokeWidth={2.5} />
+          <AlertCircle className="w-5 h-5 text-teal flex-shrink-0 mt-0.5" strokeWidth={2.5} />
           <div className="flex-1">
-            <p className="text-[14px] font-semibold text-blue-900 mb-1">Optionele stap</p>
-            <p className="text-[13px] text-blue-800">
+            <p className="text-[14px] font-semibold text-navy mb-1">Optionele stap</p>
+            <p className="text-[13px] text-teal-800">
               Deze stap is optioneel. Je kunt verdergaan zonder een selectie te maken.
             </p>
           </div>

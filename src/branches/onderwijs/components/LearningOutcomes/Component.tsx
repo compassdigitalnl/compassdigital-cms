@@ -9,7 +9,7 @@ export const LearningOutcomes: React.FC<LearningOutcomesProps> = ({
 
   return (
     <div
-      className={`rounded-xl border border-blue-100 bg-blue-50/50 p-6 md:p-8 ${className}`}
+      className={`rounded-xl border border-teal-100 bg-teal-50/50 p-6 md:p-8 ${className}`}
     >
       <h2 className="mb-5 flex items-center gap-2.5 text-xl font-extrabold text-[var(--color-base-1000)]">
         <svg
@@ -35,7 +35,7 @@ export const LearningOutcomes: React.FC<LearningOutcomesProps> = ({
           >
             <div className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-green-100">
               <svg
-                className="h-3 w-3 text-green-600"
+                className="h-3 w-3 text-green"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"

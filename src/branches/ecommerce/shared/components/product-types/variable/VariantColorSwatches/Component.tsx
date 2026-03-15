@@ -29,7 +29,7 @@ export function VariantColorSwatches({
       <div className="flex items-center justify-between">
         <label className="text-sm font-medium text-gray-900">
           {option.optionName}
-          {option.required && <span className="ml-1 text-red-500">*</span>}
+          {option.required && <span className="ml-1 text-coral">*</span>}
         </label>
         {selectedValue && (
           <span className="text-sm text-gray-600">{selectedValue.label}</span>
@@ -63,7 +63,7 @@ export function VariantColorSwatches({
                 className={cn(
                   'relative h-12 w-12 rounded-full border-2 transition-all',
                   isSelected
-                    ? 'border-blue-600 ring-2 ring-blue-600 ring-offset-2'
+                    ? 'border-teal ring-2 ring-teal ring-offset-2'
                     : 'border-gray-300 hover:border-gray-400',
                   isDisabled && 'cursor-not-allowed',
                   !isDisabled && !isSelected && 'hover:scale-110',
@@ -90,7 +90,7 @@ export function VariantColorSwatches({
                 {/* Out of Stock Slash */}
                 {isDisabled && (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="h-0.5 w-16 rotate-45 bg-red-500" />
+                    <div className="h-0.5 w-16 rotate-45 bg-coral" />
                   </div>
                 )}
 
@@ -107,7 +107,7 @@ export function VariantColorSwatches({
                 <span
                   className={cn(
                     'text-xs font-medium',
-                    isSelected ? 'text-blue-600' : 'text-gray-700',
+                    isSelected ? 'text-teal' : 'text-gray-700',
                     isDisabled && 'text-gray-400',
                   )}
                 >
@@ -130,9 +130,9 @@ export function VariantColorSwatches({
                       'text-[10px]',
                       hasStock
                         ? isLowStock
-                          ? 'text-orange-600'
-                          : 'text-green-600'
-                        : 'text-red-600',
+                          ? 'text-amber'
+                          : 'text-green'
+                        : 'text-coral',
                     )}
                   >
                     {hasStock

@@ -59,7 +59,7 @@ export const MixMatchSelectionSummary: React.FC<MixMatchSelectionSummaryProps> =
               className="btn btn-ghost btn-sm bi-remove w-5 h-5 flex items-center justify-center flex-shrink-0"
               aria-label={`Remove ${item.name}`}
             >
-              <X className="w-3 h-3 text-red-400" />
+              <X className="w-3 h-3 text-coral" />
             </button>
           )}
         </div>

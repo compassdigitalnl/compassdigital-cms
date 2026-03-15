@@ -64,7 +64,7 @@ export function SegmentCard({ segment, onEdit, onDuplicate, onDelete }: SegmentC
             <button
               type="button"
               onClick={onEdit}
-              className="rounded px-3 py-1.5 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-50"
+              className="rounded px-3 py-1.5 text-sm font-medium text-teal transition-colors hover:bg-teal-50"
             >
               Bewerken
             </button>
@@ -82,7 +82,7 @@ export function SegmentCard({ segment, onEdit, onDuplicate, onDelete }: SegmentC
             <button
               type="button"
               onClick={onDelete}
-              className="ml-auto rounded px-3 py-1.5 text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
+              className="ml-auto rounded px-3 py-1.5 text-sm font-medium text-coral transition-colors hover:bg-coral-50"
             >
               Verwijderen
             </button>

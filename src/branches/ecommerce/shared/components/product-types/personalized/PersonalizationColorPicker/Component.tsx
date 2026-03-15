@@ -84,7 +84,7 @@ export const PersonalizationColorPicker: React.FC<PersonalizationColorPickerProp
       <label className="block mb-2">
         <span className="text-[15px] font-bold text-gray-900">
           {option.fieldName}
-          {option.required && <span className="text-red-600 ml-1">*</span>}
+          {option.required && <span className="text-coral ml-1">*</span>}
         </span>
         {priceText && (
           <span className="text-[13px] text-[var(--color-primary)] font-semibold ml-2">{priceText}</span>

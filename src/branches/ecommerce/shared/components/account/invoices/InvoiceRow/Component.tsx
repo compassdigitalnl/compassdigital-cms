@@ -9,11 +9,11 @@ import type { InvoiceRowProps } from './types'
 const getStatusColor = (status: string) => {
   switch (status) {
     case 'paid':
-      return { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200', label: 'Betaald' }
+      return { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green/20', label: 'Betaald' }
     case 'pending':
       return { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', label: 'Openstaand' }
     case 'failed':
-      return { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200', label: 'Mislukt' }
+      return { bg: 'bg-coral-50', text: 'text-coral-700', border: 'border-coral/20', label: 'Mislukt' }
     default:
       return { bg: 'bg-gray-50', text: 'text-gray-700', border: 'border-gray-200', label: status }
   }
@@ -27,8 +27,8 @@ export function InvoiceRow({ invoice }: InvoiceRowProps) {
     <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div className="flex items-start gap-4 flex-1 min-w-0">
-          <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
-            <FileText className="w-6 h-6 text-blue-600" />
+          <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center flex-shrink-0">
+            <FileText className="w-6 h-6 text-teal" />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
@@ -63,7 +63,7 @@ export function InvoiceRow({ invoice }: InvoiceRowProps) {
                 href={typeof invoice.invoicePDF === 'object' ? invoice.invoicePDF.url : '#'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                className="p-2 text-teal hover:bg-teal-50 rounded-lg transition-colors"
                 title="Download factuur"
               >
                 <Download className="w-4 h-4" />

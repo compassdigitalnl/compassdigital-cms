@@ -61,8 +61,8 @@ export const MixMatchProductCard: React.FC<MixMatchProductCardProps> = ({
   const tagStyles = {
     popular: 'bg-amber-500 text-white',
     new: 'bg-[var(--color-primary)] text-white',
-    vegan: 'bg-green-500 text-white',
-    spicy: 'bg-red-400 text-white',
+    vegan: 'bg-green text-white',
+    spicy: 'bg-coral text-white',
   }
 
   // Default metadata
@@ -137,7 +137,7 @@ export const MixMatchProductCard: React.FC<MixMatchProductCardProps> = ({
         <div className="mmp-footer flex items-center justify-between">
           {/* Price or "Included" */}
           {priceIncluded ? (
-            <div className="mmp-price included text-green-500 text-xs font-bold">
+            <div className="mmp-price included text-green text-xs font-bold">
               Inbegrepen
             </div>
           ) : (

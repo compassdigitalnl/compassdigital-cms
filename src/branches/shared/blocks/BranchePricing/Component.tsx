@@ -19,7 +19,7 @@ import type {
 function getBgClasses(bg: BranchePricingBgColor): string {
   switch (bg) {
     case 'gradient':
-      return 'bg-gradient-to-br from-blue-50 to-indigo-50'
+      return 'bg-gradient-to-br from-teal-50 to-teal-100'
     case 'light-grey':
       return 'bg-grey-light'
     case 'white':
@@ -58,7 +58,7 @@ const CheckIcon: React.FC = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-green-500 shrink-0"
+    className="text-green shrink-0"
   >
     <polyline points="20 6 9 17 4 12" />
   </svg>
@@ -77,7 +77,7 @@ const XIcon: React.FC = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-red-400 shrink-0"
+    className="text-coral shrink-0"
   >
     <line x1="18" y1="6" x2="6" y2="18" />
     <line x1="6" y1="6" x2="18" y2="18" />
@@ -135,14 +135,14 @@ export const BranchePricingBlockComponent: React.FC<BranchePricingBlockProps> = 
                     relative rounded-2xl p-8 transition-all duration-300
                     ${
                       isFeatured
-                        ? 'bg-white border-2 border-blue-600 shadow-lg scale-105 z-10'
+                        ? 'bg-white border-2 border-teal shadow-lg scale-105 z-10'
                         : 'bg-white border border-gray-200 shadow-sm hover:shadow-lg'
                     }
                   `}
                 >
                   {/* Featured badge */}
                   {isFeatured && plan.badge && (
-                    <span className="absolute top-0 right-4 -translate-y-1/2 bg-blue-600 text-white rounded-full px-3 py-1 text-sm font-medium">
+                    <span className="absolute top-0 right-4 -translate-y-1/2 bg-teal text-white rounded-full px-3 py-1 text-sm font-medium">
                       {plan.badge}
                     </span>
                   )}
@@ -192,14 +192,9 @@ export const BranchePricingBlockComponent: React.FC<BranchePricingBlockProps> = 
                   {/* CTA button */}
                   <a
                     href={plan.buttonLink || '#'}
-                    className={`
-                      block w-full text-center py-3 px-6 rounded-lg font-semibold text-sm transition-colors duration-200
-                      ${
-                        isFeatured
-                          ? 'bg-blue-600 text-white hover:bg-blue-700'
-                          : 'border border-blue-600 text-blue-600 hover:bg-blue-50'
-                      }
-                    `}
+                    className={`btn block w-full text-center ${
+                      isFeatured ? 'btn-primary' : 'btn-outline-primary'
+                    }`}
                   >
                     {plan.buttonLabel || 'Start nu'}
                   </a>

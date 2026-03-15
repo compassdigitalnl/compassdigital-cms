@@ -45,7 +45,7 @@ export function WizardStepServices({ services, onChange }: Props) {
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <Briefcase className="w-6 h-6 text-blue-600" />
+          <Briefcase className="w-6 h-6 text-teal" />
           Diensten & Producten
         </h2>
         <p className="mt-2 text-sm text-gray-600">
@@ -57,7 +57,7 @@ export function WizardStepServices({ services, onChange }: Props) {
       {/* Services List */}
       <div className="space-y-4">
         {services.map((service, index) => (
-          <Card key={index} className="border-l-4 border-l-blue-500">
+          <Card key={index} className="border-l-4 border-l-teal">
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
@@ -74,7 +74,7 @@ export function WizardStepServices({ services, onChange }: Props) {
                   variant="ghost"
                   size="sm"
                   onClick={() => removeService(index)}
-                  className="text-red-500 hover:text-red-700 hover:bg-red-50 ml-2"
+                  className="text-coral hover:text-coral-700 hover:bg-coral-50 ml-2"
                 >
                   <X className="w-4 h-4" />
                 </Button>
@@ -114,7 +114,7 @@ export function WizardStepServices({ services, onChange }: Props) {
       )}
 
       {isAdding && (
-        <Card className="border-2 border-blue-500">
+        <Card className="border-2 border-teal">
           <CardHeader>
             <CardTitle className="text-lg">Nieuwe dienst toevoegen</CardTitle>
             <CardDescription>Minimaal 1 dienst is verplicht</CardDescription>
@@ -162,14 +162,14 @@ export function WizardStepServices({ services, onChange }: Props) {
 
       {/* Info Message */}
       {services.length === 0 && !isAdding && (
-        <Card className="bg-blue-50 border-blue-200">
+        <Card className="bg-teal-50 border-teal-200">
           <CardContent className="pt-6">
             <p className="text-sm text-blue-800">
               <strong>💡 Hoe werkt dit?</strong>
               <br />
               Voeg minimaal 1 dienst toe. AI genereert dan automatisch:
             </p>
-            <ul className="mt-2 text-sm text-blue-700 space-y-1 ml-4 list-disc">
+            <ul className="mt-2 text-sm text-teal-700 space-y-1 ml-4 list-disc">
               <li>Volledige beschrijvingen (200-300 woorden)</li>
               <li>SEO-geoptimaliseerde teksten</li>
               <li>Call-to-action per dienst</li>

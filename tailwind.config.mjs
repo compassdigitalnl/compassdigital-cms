@@ -1,6 +1,9 @@
 import plugin from 'tailwindcss/plugin.js'
 import typographyPlugin from '@tailwindcss/typography'
 
+// Helper: CSS variable color with Tailwind opacity modifier support
+const withOpacity = (cssVar) => `rgb(var(${cssVar}) / <alpha-value>)`
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -51,134 +54,112 @@ export default {
       },
       colors: {
         // ═══════════════════════════════════════════════════════════════════
-        // THEME-AWARE COLORS (CMS-driven via ThemeProvider)
-        // These reference CSS custom properties set by the Theme global
+        // THEME-AWARE COLORS (CMS-driven via ThemeProvider CSS variables)
+        // All colors follow the Theme global at /admin/globals/theme/
         // ═══════════════════════════════════════════════════════════════════
+
+        // Theme tokens (use as bg-theme-primary, text-theme-text-primary, etc.)
         theme: {
-          // Primary brand colors
           primary: {
-            DEFAULT: 'var(--color-primary)',
-            light: 'var(--color-primary-light)',
+            DEFAULT: withOpacity('--color-primary-rgb'),
+            light: withOpacity('--color-primary-light-rgb'),
             glow: 'var(--color-primary-glow)',
           },
-          // Secondary brand colors
           secondary: {
-            DEFAULT: 'var(--color-secondary)',
-            light: 'var(--color-secondary-light)',
+            DEFAULT: withOpacity('--color-secondary-rgb'),
+            light: withOpacity('--color-secondary-light-rgb'),
           },
-          // Aliassen (eerste definitie — wordt overschreven door onderstaande)
-          // Bewust verwijderd: navy/teal/coral staan hieronder correct
-          // Background
-          bg: 'var(--bg)',
-          // Accent color
-          accent: 'var(--color-accent)',
-          // Surface colors
+          accent: withOpacity('--color-accent-rgb'),
+          bg: 'var(--color-background)',
           background: 'var(--color-background)',
           surface: 'var(--color-surface)',
           border: 'var(--color-border)',
-          bg: 'var(--color-bg, #F5F7FA)', // Theme-aware background color
-          // Grey scale
           grey: {
-            light: 'var(--color-grey-light)',
-            mid: 'var(--color-grey-mid)',
-            dark: 'var(--color-grey-dark)',
+            light: withOpacity('--color-grey-light-rgb'),
+            mid: withOpacity('--color-grey-mid-rgb'),
+            dark: withOpacity('--color-grey-dark-rgb'),
           },
-          // Text colors
           text: {
             primary: 'var(--color-text-primary)',
             secondary: 'var(--color-text-secondary)',
             muted: 'var(--color-text-muted)',
           },
-          // Semantic colors
           success: 'var(--color-success)',
           warning: 'var(--color-warning)',
           error: 'var(--color-error)',
           info: 'var(--color-info)',
-          // Aliassen — mappen naar echte theme tokens
-          navy: {
-            DEFAULT: 'var(--color-secondary)',
-            light: 'var(--color-secondary-light)',
-          },
-          teal: {
-            DEFAULT: 'var(--color-primary)',
-            light: 'var(--color-primary-light)',
-            dark: 'var(--color-primary)',
-            glow: 'var(--color-primary-glow)',
-          },
-          coral: {
-            DEFAULT: 'var(--color-error)',
-            light: 'var(--color-error-light)',
-          },
-          amber: {
-            DEFAULT: 'var(--color-warning)',
-            light: 'var(--color-warning-light)',
-          },
         },
 
-        // ═══════════════════════════════════════════════════════════════════
-        // LEGACY: Hard-coded Plastimed colors (for backward compatibility)
-        // Prefer using theme.* colors above for CMS-driven designs
-        // ═══════════════════════════════════════════════════════════════════
-        navy: {
-          DEFAULT: '#0A1628',
-          light: '#121F33',
-          dark: '#0D2137',
-          900: '#0A1628',
-          800: '#0D1A2F',
-          700: '#121F33',
-        },
+        // ─── Primary brand (follows --color-primary from Theme global) ───
         teal: {
-          DEFAULT: '#00897B',
-          50: '#E0F2F1',
-          100: '#B2DFDB',
-          200: '#80CBC4',
-          300: '#4DB6AC',
-          400: '#26A69A',
-          500: '#00897B',
-          600: '#00796B',
-          700: '#00695C',
-          800: '#004D40',
-          900: '#00332A',
-          glow: 'rgba(0, 137, 123, 0.15)',
-          light: '#26A69A',
+          DEFAULT: withOpacity('--color-primary-rgb'),
+          light: withOpacity('--color-primary-light-rgb'),
+          dark: 'var(--color-primary)',
+          glow: 'var(--color-primary-glow)',
+          50: 'color-mix(in srgb, var(--color-primary) 8%, white)',
+          100: 'color-mix(in srgb, var(--color-primary) 15%, white)',
+          200: 'color-mix(in srgb, var(--color-primary) 30%, white)',
+          300: 'color-mix(in srgb, var(--color-primary) 50%, white)',
+          400: 'color-mix(in srgb, var(--color-primary) 75%, white)',
+          500: withOpacity('--color-primary-rgb'),
+          600: 'color-mix(in srgb, var(--color-primary) 88%, black)',
+          700: 'color-mix(in srgb, var(--color-primary) 75%, black)',
+          800: 'color-mix(in srgb, var(--color-primary) 60%, black)',
+          900: 'color-mix(in srgb, var(--color-primary) 45%, black)',
         },
 
-        // ═══════════════════════════════════════════════════════════════════
-        // SPRINT 6 COLORS: InfoBox & Banner blocks (Extended for theme compliance)
-        // ═══════════════════════════════════════════════════════════════════
-        blue: {
-          DEFAULT: '#2196F3', // Base blue (info)
-          light: '#E3F2FD',   // Light blue backgrounds
-          50: '#E3F2FD',
-          500: '#2196F3',
-          900: '#0D47A1',
+        // ─── Secondary brand (follows --color-secondary from Theme global) ───
+        navy: {
+          DEFAULT: withOpacity('--color-secondary-rgb'),
+          light: withOpacity('--color-secondary-light-rgb'),
+          dark: 'var(--color-secondary)',
+          700: withOpacity('--color-secondary-light-rgb'),
+          800: 'color-mix(in srgb, var(--color-secondary) 90%, var(--color-secondary-light))',
+          900: withOpacity('--color-secondary-rgb'),
         },
-        green: {
-          DEFAULT: '#00C853', // Base green (success)
-          light: '#E8F5E9',   // Light green backgrounds
-          50: '#E8F5E9',
-          500: '#00C853',
-          900: '#1B5E20',
-        },
-        amber: {
-          DEFAULT: '#F59E0B', // Base amber (warning)
-          light: '#FFF8E1',   // Light amber backgrounds
-          50: '#FFF8E1',
-          500: '#F59E0B',
-          600: '#D97706',
-          900: '#78350F',
-        },
-        coral: {
-          DEFAULT: '#FF6B6B', // Base coral (error)
-          light: '#FFF0F0',   // Light coral backgrounds
-          50: '#FFF0F0',
-          500: '#FF6B6B',
-          900: '#7F1D1D',
-        },
+
+        // ─── Grey scale ──────────────────────────────────────────────────
         grey: {
-          light: '#F1F4F8',
-          mid: '#94A3B8',
-          dark: '#64748B',
+          light: withOpacity('--color-grey-light-rgb'),
+          mid: withOpacity('--color-grey-mid-rgb'),
+          dark: withOpacity('--color-grey-dark-rgb'),
+        },
+
+        // ─── Semantic: Info (blue) ───────────────────────────────────────
+        blue: {
+          DEFAULT: withOpacity('--color-info-rgb'),
+          light: withOpacity('--color-info-light-rgb'),
+          50: withOpacity('--color-info-light-rgb'),
+          500: withOpacity('--color-info-rgb'),
+          900: 'var(--color-info-dark)',
+        },
+
+        // ─── Semantic: Success (green) ───────────────────────────────────
+        green: {
+          DEFAULT: withOpacity('--color-success-rgb'),
+          light: withOpacity('--color-success-light-rgb'),
+          50: withOpacity('--color-success-light-rgb'),
+          500: withOpacity('--color-success-rgb'),
+          900: 'var(--color-success-dark)',
+        },
+
+        // ─── Semantic: Warning (amber) ───────────────────────────────────
+        amber: {
+          DEFAULT: withOpacity('--color-warning-rgb'),
+          light: withOpacity('--color-warning-light-rgb'),
+          50: withOpacity('--color-warning-light-rgb'),
+          500: withOpacity('--color-warning-rgb'),
+          600: 'color-mix(in srgb, var(--color-warning) 88%, black)',
+          900: 'var(--color-warning-dark)',
+        },
+
+        // ─── Semantic: Error (coral) ─────────────────────────────────────
+        coral: {
+          DEFAULT: withOpacity('--color-error-rgb'),
+          light: withOpacity('--color-error-light-rgb'),
+          50: withOpacity('--color-error-light-rgb'),
+          500: withOpacity('--color-error-rgb'),
+          900: 'var(--color-error-dark)',
         },
 
         // ═══════════════════════════════════════════════════════════════════

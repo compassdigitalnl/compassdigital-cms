@@ -168,8 +168,8 @@ export function SearchResults() {
                   </div>
                 )}
                 {hit.stock !== undefined && hit.stock > 0 && (
-                  <div className="text-xs text-green-600 flex items-center gap-1">
-                    <span className="w-2 h-2 bg-green-600 rounded-full" />
+                  <div className="text-xs text-green flex items-center gap-1">
+                    <span className="w-2 h-2 bg-green rounded-full" />
                     Op voorraad
                   </div>
                 )}

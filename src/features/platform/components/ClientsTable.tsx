@@ -54,8 +54,8 @@ export default function ClientsTable() {
     const styles: Record<string, string> = {
       active: 'bg-green-100 text-green-800',
       pending: 'bg-yellow-100 text-yellow-800',
-      provisioning: 'bg-blue-100 text-blue-800',
-      deploying: 'bg-blue-100 text-blue-800',
+      provisioning: 'bg-teal-100 text-blue-800',
+      deploying: 'bg-teal-100 text-blue-800',
       failed: 'bg-red-100 text-red-800',
       suspended: 'bg-gray-100 text-gray-800',
       archived: 'bg-gray-100 text-gray-600',
@@ -104,7 +104,7 @@ export default function ClientsTable() {
               placeholder="Search clients..."
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent"
             />
           </div>
 
@@ -112,7 +112,7 @@ export default function ClientsTable() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent"
           >
             <option value="all">All Status</option>
             <option value="active">Active</option>
@@ -187,7 +187,7 @@ export default function ClientsTable() {
                     <div className="flex gap-2">
                       <Link
                         href={`/platform/clients/${client.id}`}
-                        className="text-blue-600 hover:text-blue-700 font-medium"
+                        className="text-teal hover:text-teal-700 font-medium"
                       >
                         View
                       </Link>
@@ -196,7 +196,7 @@ export default function ClientsTable() {
                           href={client.deploymentUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-700"
+                          className="text-teal hover:text-teal-700"
                         >
                           Visit
                         </a>
@@ -206,7 +206,7 @@ export default function ClientsTable() {
                           href={client.adminUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-700"
+                          className="text-teal hover:text-teal-700"
                         >
                           Admin
                         </a>

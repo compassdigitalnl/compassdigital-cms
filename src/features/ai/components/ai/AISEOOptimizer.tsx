@@ -139,14 +139,14 @@ export const AISEOOptimizer: React.FC<AISEOOptimizerProps> = ({
       case 'warning':
         return <AlertTriangle className="size-5 text-yellow-600" />
       case 'info':
-        return <Info className="size-5 text-blue-600" />
+        return <Info className="size-5 text-teal" />
       default:
         return null
     }
   }
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-600'
+    if (score >= 80) return 'text-green'
     if (score >= 60) return 'text-yellow-600'
     return 'text-destructive'
   }
@@ -325,9 +325,9 @@ export const AISEOOptimizer: React.FC<AISEOOptimizerProps> = ({
                     )}
 
                     {analysis.keywords.suggestions.length > 0 && (
-                      <div className="p-3 bg-blue-50 dark:bg-blue-950/30 rounded-md">
+                      <div className="p-3 bg-teal-50 dark:bg-teal-950/30 rounded-md">
                         <p className="text-sm font-medium mb-2">Keyword Suggesties:</p>
-                        <ul className="text-sm space-y-1 text-blue-900 dark:text-blue-100">
+                        <ul className="text-sm space-y-1 text-teal-900 dark:text-teal-100">
                           {analysis.keywords.suggestions.map((suggestion, index) => (
                             <li key={index}>• {suggestion}</li>
                           ))}
@@ -376,7 +376,7 @@ export const AISEOOptimizer: React.FC<AISEOOptimizerProps> = ({
                         </p>
                       </div>
                       {analysis.metadata.title.optimal ? (
-                        <CheckCircle2 className="size-5 text-green-600" />
+                        <CheckCircle2 className="size-5 text-green" />
                       ) : (
                         <AlertTriangle className="size-5 text-yellow-600" />
                       )}
@@ -389,7 +389,7 @@ export const AISEOOptimizer: React.FC<AISEOOptimizerProps> = ({
                         </p>
                       </div>
                       {analysis.metadata.description.optimal ? (
-                        <CheckCircle2 className="size-5 text-green-600" />
+                        <CheckCircle2 className="size-5 text-green" />
                       ) : (
                         <AlertTriangle className="size-5 text-yellow-600" />
                       )}

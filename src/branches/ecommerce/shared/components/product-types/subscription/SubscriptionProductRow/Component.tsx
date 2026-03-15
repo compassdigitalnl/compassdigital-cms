@@ -25,9 +25,9 @@ export const SubscriptionProductRow: React.FC<SubscriptionProductRowProps> = ({
   const { formatPriceStr } = usePriceMode()
 
   const badgeVariantStyles = {
-    popular: 'bg-purple-100 text-purple-700',
+    popular: 'bg-teal-100 text-teal-700',
     personal: 'bg-gray-100 text-gray-700',
-    gift: 'bg-red-50 text-red-500',
+    gift: 'bg-coral-50 text-coral',
   }
 
   return (
@@ -100,7 +100,7 @@ export const SubscriptionProductRow: React.FC<SubscriptionProductRowProps> = ({
           </div>
         )}
         {savingsPercent && savingsPercent > 0 && (
-          <div className="text-[10px] font-bold text-green-600">
+          <div className="text-[10px] font-bold text-green">
             -{savingsPercent}%
           </div>
         )}

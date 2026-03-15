@@ -103,13 +103,13 @@ export const ConfiguratorOptionCard: React.FC<ConfiguratorOptionCardProps> = ({
         {showPrice && (
           <div className="mt-2">
             {option.price === 0 ? (
-              <p className="text-[14px] font-semibold text-green-600">Inbegrepen</p>
+              <p className="text-[14px] font-semibold text-green">Inbegrepen</p>
             ) : option.price > 0 ? (
               <p className="text-[15px] font-mono font-bold text-[var(--color-primary)]">
                 +€{formatPriceStr(option.price)}
               </p>
             ) : (
-              <p className="text-[15px] font-mono font-bold text-red-600">
+              <p className="text-[15px] font-mono font-bold text-coral">
                 €{formatPriceStr(option.price)}
               </p>
             )}

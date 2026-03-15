@@ -50,7 +50,7 @@ export function CurrentPlanCard({ subscription }: CurrentPlanCardProps) {
         </div>
         <div className="p-4">
           <div className="text-xs text-gray-500 mb-1">Verlenging</div>
-          <div className="font-bold text-sm text-green-600">Automatisch</div>
+          <div className="font-bold text-sm text-green">Automatisch</div>
         </div>
       </div>
     </div>

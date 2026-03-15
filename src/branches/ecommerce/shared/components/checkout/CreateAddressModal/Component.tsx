@@ -137,7 +137,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
           {/* Name */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-              Adres naam <span className="text-red-500">*</span>
+              Adres naam <span className="text-coral">*</span>
             </label>
             <input
               type="text"
@@ -169,7 +169,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-4">
             <div className="lg:col-span-2">
               <label htmlFor="street" className="block text-sm font-medium text-gray-700 mb-2">
-                Straatnaam <span className="text-red-500">*</span>
+                Straatnaam <span className="text-coral">*</span>
               </label>
               <input
                 type="text"
@@ -183,7 +183,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
             </div>
             <div>
               <label htmlFor="houseNumber" className="block text-sm font-medium text-gray-700 mb-2">
-                Huisnr. <span className="text-red-500">*</span>
+                Huisnr. <span className="text-coral">*</span>
               </label>
               <div className="flex gap-2">
                 <input
@@ -211,7 +211,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
             <div>
               <label htmlFor="postalCode" className="block text-sm font-medium text-gray-700 mb-2">
-                Postcode <span className="text-red-500">*</span>
+                Postcode <span className="text-coral">*</span>
               </label>
               <input
                 type="text"
@@ -225,7 +225,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
             </div>
             <div>
               <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
-                Plaats <span className="text-red-500">*</span>
+                Plaats <span className="text-coral">*</span>
               </label>
               <input
                 type="text"
@@ -242,7 +242,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
           {/* Country */}
           <div>
             <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-2">
-              Land <span className="text-red-500">*</span>
+              Land <span className="text-coral">*</span>
             </label>
             <select
               id="country"
@@ -261,7 +261,7 @@ export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({
           {/* Phone */}
           <div>
             <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-              Telefoonnummer <span className="text-red-500">*</span>
+              Telefoonnummer <span className="text-coral">*</span>
             </label>
             <input
               type="tel"

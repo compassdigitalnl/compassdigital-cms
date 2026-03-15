@@ -56,7 +56,7 @@ export const StaffelHintBanner: React.FC<StaffelHintBannerProps> = ({
         ${isCompact ? 'px-4 py-2.5 text-xs' : 'px-5 py-3 text-[13px]'}
         ${
           isSuccess
-            ? 'bg-green-50 border-green-200 text-green-800'
+            ? 'bg-green-50 border-green/20 text-green-800'
             : 'bg-amber-50 border-amber-200 text-amber-900'
         }
         ${className}
@@ -68,7 +68,7 @@ export const StaffelHintBanner: React.FC<StaffelHintBannerProps> = ({
       {/* Icon */}
       {isSuccess ? (
         <CheckCircle
-          className={`flex-shrink-0 text-green-600 ${isCompact ? 'w-3.5 h-3.5' : 'w-4 h-4'}`}
+          className={`flex-shrink-0 text-green ${isCompact ? 'w-3.5 h-3.5' : 'w-4 h-4'}`}
           aria-hidden="true"
         />
       ) : (

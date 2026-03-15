@@ -44,7 +44,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
       {/* Header */}
       <div
         className="rounded-t-xl p-5"
-        style={{ background: 'linear-gradient(135deg, #ec4899, #8b5cf6)' }}
+        style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-accent, var(--color-primary)))' }}
       >
         <h3 className="text-lg font-bold text-white">Jouw afspraak</h3>
       </div>
@@ -98,7 +98,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
         <div className="space-y-2">
           {guarantees.map((g, i) => (
             <div key={i} className="flex items-center gap-2 text-sm text-[var(--color-base-600)]">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 text-green-500">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 text-green">
                 <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
                 <polyline points="22 4 12 14.01 9 11.01" />
               </svg>

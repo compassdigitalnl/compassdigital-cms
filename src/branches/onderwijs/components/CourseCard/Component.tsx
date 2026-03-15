@@ -47,9 +47,9 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, className = '' }
 
   // Level badge colors
   const levelColors: Record<string, string> = {
-    beginner: 'bg-green-100 text-green-700 border-green-200',
-    gevorderd: 'bg-blue-100 text-blue-700 border-blue-200',
-    expert: 'bg-purple-100 text-purple-700 border-purple-200',
+    beginner: 'bg-green-100 text-green-700 border-green/20',
+    gevorderd: 'bg-teal-100 text-teal-700 border-teal/20',
+    expert: 'bg-teal-100 text-teal-700 border-teal/20',
   }
 
   return (
@@ -89,7 +89,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, className = '' }
             Bestseller
           </span>
         ) : isNew ? (
-          <span className="absolute left-3 top-3 rounded-full bg-green-500 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+          <span className="absolute left-3 top-3 rounded-full bg-green px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
             Nieuw
           </span>
         ) : null}

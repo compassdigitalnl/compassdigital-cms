@@ -58,7 +58,7 @@ export const BundleProductCard: React.FC<BundleProductCardProps> = ({
         bundle-product-card
         border-2 rounded-lg overflow-hidden bg-white
         transition-all duration-200
-        ${selected ? 'border-purple-600 shadow-lg' : 'border-gray-300 hover:border-purple-400'}
+        ${selected ? 'border-teal shadow-lg' : 'border-gray-300 hover:border-teal-400'}
         ${isSelectable ? 'cursor-pointer' : 'cursor-default'}
         ${isSelectable && 'hover:shadow-md'}
         ${className}
@@ -86,7 +86,7 @@ export const BundleProductCard: React.FC<BundleProductCardProps> = ({
             className={`
               absolute top-3 right-3 w-6 h-6 rounded-full border-2 flex items-center justify-center
               transition-all duration-200
-              ${selected ? 'bg-purple-600 border-purple-600' : 'bg-white border-gray-400'}
+              ${selected ? 'bg-teal border-teal' : 'bg-white border-gray-400'}
             `}
           >
             {selected && <Check className="w-4 h-4 text-white" strokeWidth={3} />}
@@ -95,7 +95,7 @@ export const BundleProductCard: React.FC<BundleProductCardProps> = ({
 
         {/* Discount Badge (Top Left) */}
         {hasDiscount && (
-          <div className="absolute top-3 left-3 px-2 py-1 bg-red-600 text-white rounded-md flex items-center gap-1">
+          <div className="absolute top-3 left-3 px-2 py-1 bg-coral text-white rounded-md flex items-center gap-1">
             <Tag className="w-3 h-3" strokeWidth={2.5} />
             <span className="text-[11px] font-bold">-{item.discount}%</span>
           </div>
@@ -103,7 +103,7 @@ export const BundleProductCard: React.FC<BundleProductCardProps> = ({
 
         {/* Required Badge (Bottom Left) */}
         {item.required && (
-          <div className="absolute bottom-3 left-3 px-2 py-1 bg-purple-600 text-white rounded-md">
+          <div className="absolute bottom-3 left-3 px-2 py-1 bg-teal text-white rounded-md">
             <span className="text-[11px] font-bold">Verplicht</span>
           </div>
         )}
@@ -132,7 +132,7 @@ export const BundleProductCard: React.FC<BundleProductCardProps> = ({
           <div className="flex items-baseline gap-2">
             {hasDiscount ? (
               <>
-                <span className="text-[16px] font-mono font-bold text-purple-600">
+                <span className="text-[16px] font-mono font-bold text-teal">
                   €{formatPriceStr(discountedPrice * item.quantity)}
                 </span>
                 <span className="text-[13px] font-mono text-gray-400 line-through">
@@ -151,7 +151,7 @@ export const BundleProductCard: React.FC<BundleProductCardProps> = ({
       {/* Selected State Overlay (Optional Visual Feedback) */}
       {selected && (
         <div className="px-4 pb-3">
-          <div className="w-full h-1 bg-purple-600 rounded-full" />
+          <div className="w-full h-1 bg-teal rounded-full" />
         </div>
       )}
     </div>

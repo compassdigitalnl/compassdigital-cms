@@ -105,7 +105,7 @@ function getBgClasses(bg: PainPointsBgColor): string {
     case 'white':
       return 'bg-white'
     case 'red-tint':
-      return 'bg-red-50'
+      return 'bg-coral-50'
     case 'light-grey':
     default:
       return 'bg-[#F8F9FA]'
@@ -162,7 +162,7 @@ export const PainPointsBlockComponent: React.FC<PainPointsBlockProps> = ({
                   className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md"
                 >
                   {/* Icon circle */}
-                  <div className="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-coral-100 text-coral flex items-center justify-center mb-4">
                     {iconSvg}
                   </div>
 

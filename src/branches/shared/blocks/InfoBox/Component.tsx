@@ -14,15 +14,15 @@ import type { InfoBoxBlockProps, InfoBoxVariant } from './types'
 
 const variantStyles: Record<InfoBoxVariant, { container: string; border: string; icon: string; iconPath: string }> = {
   info: {
-    container: 'bg-blue-50 text-blue-900',
-    border: 'border-l-4 border-blue-500',
-    icon: 'text-blue-500',
+    container: 'bg-teal-50 text-navy',
+    border: 'border-l-4 border-teal',
+    icon: 'text-teal',
     iconPath: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
   },
   success: {
     container: 'bg-green-50 text-green-900',
-    border: 'border-l-4 border-green-500',
-    icon: 'text-green-500',
+    border: 'border-l-4 border-green',
+    icon: 'text-green',
     iconPath: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
   },
   warning: {
@@ -32,9 +32,9 @@ const variantStyles: Record<InfoBoxVariant, { container: string; border: string;
     iconPath: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',
   },
   error: {
-    container: 'bg-red-50 text-red-900',
-    border: 'border-l-4 border-red-500',
-    icon: 'text-red-500',
+    container: 'bg-coral-50 text-coral-900',
+    border: 'border-l-4 border-coral',
+    icon: 'text-coral',
     iconPath: 'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z',
   },
 }

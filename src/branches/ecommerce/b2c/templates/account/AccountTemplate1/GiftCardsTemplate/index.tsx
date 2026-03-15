@@ -90,9 +90,9 @@ export default function GiftCardsTemplate({
       </div>
 
       {/* Info box */}
-      <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
-        <h4 className="font-bold text-sm mb-2 text-blue-900">Over cadeaubonnen</h4>
-        <ul className="text-xs text-blue-700 space-y-1">
+      <div className="p-4 bg-teal-50 border border-teal-200 rounded-xl">
+        <h4 className="font-bold text-sm mb-2 text-navy">Over cadeaubonnen</h4>
+        <ul className="text-xs text-teal-700 space-y-1">
           <li>Cadeaubonnen zijn 1 jaar geldig vanaf aankoopdatum</li>
           <li>Je kunt cadeaubonnen gebruiken voor alle producten in de webshop</li>
           <li>Het restbedrag blijft beschikbaar voor toekomstige aankopen</li>

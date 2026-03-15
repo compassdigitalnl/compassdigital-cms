@@ -240,7 +240,7 @@ export function AccountDesktopSidebar({
           <div className="mt-3 pt-3" style={{ borderTop: '1px solid #E8ECF1' }}>
             <button
               onClick={onLogout}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-red-50"
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all hover:bg-coral-50"
               style={{ color: 'var(--color-error)' }}
             >
               <LogOut className="w-4.5 h-4.5 flex-shrink-0" />

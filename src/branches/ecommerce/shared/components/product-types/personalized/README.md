@@ -388,7 +388,7 @@ export function PersonalizedProductForm({ product }: { product: Product }) {
         <div>
           <label className="block mb-2 text-[15px] font-bold">
             Tekst
-            <span className="text-red-600 ml-1">*</span>
+            <span className="text-coral ml-1">*</span>
           </label>
           <input
             type="text"

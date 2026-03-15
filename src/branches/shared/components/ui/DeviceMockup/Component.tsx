@@ -38,7 +38,7 @@ export const DeviceMockup: React.FC<DeviceMockupProps> = ({
             style={{ borderColor: 'var(--grey)', backgroundColor: 'var(--bg)' }}
           >
             <div className="flex gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
+              <span className="h-2.5 w-2.5 rounded-full bg-coral" />
               <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
               <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
             </div>

@@ -69,7 +69,7 @@ export function SegmentGroupBlock({ group, onChange, onDelete, index }: SegmentG
         <button
           type="button"
           onClick={onDelete}
-          className="rounded p-1 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
+          className="rounded p-1 text-gray-400 transition-colors hover:bg-coral-50 hover:text-coral"
           title="Groep verwijderen"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -105,7 +105,7 @@ export function SegmentGroupBlock({ group, onChange, onDelete, index }: SegmentG
         <button
           type="button"
           onClick={handleAddCondition}
-          className="mt-2 flex w-full items-center justify-center rounded border border-dashed border-gray-300 px-3 py-2 text-sm text-gray-500 transition-colors hover:border-blue-400 hover:text-blue-600"
+          className="mt-2 flex w-full items-center justify-center rounded border border-dashed border-gray-300 px-3 py-2 text-sm text-gray-500 transition-colors hover:border-blue-400 hover:text-teal"
         >
           + Voorwaarde toevoegen
         </button>

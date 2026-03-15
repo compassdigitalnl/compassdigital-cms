@@ -112,7 +112,7 @@ export const EmailCaptureForm: React.FC<EmailCaptureFormProps> = ({
             placeholder={formLabel || 'Vul je e-mailadres in'}
             className={`w-full rounded-lg border px-4 py-3 pl-10 text-sm outline-none transition-colors ${
               status === 'error'
-                ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
+                ? 'border-coral focus:border-coral focus:ring-2 focus:ring-coral/20'
                 : isDark
                   ? 'border-white/20 bg-white/10 text-white placeholder:text-white/40 focus:border-teal focus:ring-2 focus:ring-teal/20'
                   : 'border-grey bg-white text-navy placeholder:text-grey-dark focus:border-teal focus:ring-2 focus:ring-teal/20'
@@ -132,7 +132,7 @@ export const EmailCaptureForm: React.FC<EmailCaptureFormProps> = ({
         </button>
       </div>
       {status === 'error' && errorMessage && (
-        <p className="mt-2 text-xs text-red-400">{errorMessage}</p>
+        <p className="mt-2 text-xs text-coral">{errorMessage}</p>
       )}
     </form>
   )

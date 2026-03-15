@@ -182,7 +182,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
                   </label>
                 ))}
               </div>
-              {errors.serviceType && <span className="mt-2 block text-sm text-red-500">{errors.serviceType}</span>}
+              {errors.serviceType && <span className="mt-2 block text-sm text-coral">{errors.serviceType}</span>}
             </div>
           </div>
         )}
@@ -206,7 +206,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
                 value={formData.projectDescription || ''}
                 onChange={(e) => updateFormData('projectDescription', e.target.value)}
               />
-              {errors.projectDescription && <span className="mt-2 block text-sm text-red-500">{errors.projectDescription}</span>}
+              {errors.projectDescription && <span className="mt-2 block text-sm text-coral">{errors.projectDescription}</span>}
             </div>
 
             <div className="mb-6">
@@ -226,7 +226,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
                 <option value="100k+">€ 100.000+</option>
                 <option value="unknown">Nog niet bekend</option>
               </select>
-              {errors.budget && <span className="mt-2 block text-sm text-red-500">{errors.budget}</span>}
+              {errors.budget && <span className="mt-2 block text-sm text-coral">{errors.budget}</span>}
             </div>
 
             <div>
@@ -245,7 +245,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
                 <option value="3-6-months">Binnen 3-6 maanden</option>
                 <option value="flexible">Flexibel</option>
               </select>
-              {errors.timeline && <span className="mt-2 block text-sm text-red-500">{errors.timeline}</span>}
+              {errors.timeline && <span className="mt-2 block text-sm text-coral">{errors.timeline}</span>}
             </div>
           </div>
         )}
@@ -269,7 +269,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
                 value={formData.name || ''}
                 onChange={(e) => updateFormData('name', e.target.value)}
               />
-              {errors.name && <span className="mt-2 block text-sm text-red-500">{errors.name}</span>}
+              {errors.name && <span className="mt-2 block text-sm text-coral">{errors.name}</span>}
             </div>
 
             <div className="mb-6">
@@ -284,7 +284,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
                 value={formData.email || ''}
                 onChange={(e) => updateFormData('email', e.target.value)}
               />
-              {errors.email && <span className="mt-2 block text-sm text-red-500">{errors.email}</span>}
+              {errors.email && <span className="mt-2 block text-sm text-coral">{errors.email}</span>}
             </div>
 
             <div className="mb-6">
@@ -299,7 +299,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
                 value={formData.phone || ''}
                 onChange={(e) => updateFormData('phone', e.target.value)}
               />
-              {errors.phone && <span className="mt-2 block text-sm text-red-500">{errors.phone}</span>}
+              {errors.phone && <span className="mt-2 block text-sm text-coral">{errors.phone}</span>}
             </div>
 
             <div className="mb-6">
@@ -394,7 +394,7 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({
             </div>
 
             {errors.submit && (
-              <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-4 text-[0.9375rem] text-red-700">
+              <div className="mt-4 rounded-lg border border-coral/20 bg-coral-50 p-4 text-[0.9375rem] text-coral-700">
                 {errors.submit}
               </div>
             )}

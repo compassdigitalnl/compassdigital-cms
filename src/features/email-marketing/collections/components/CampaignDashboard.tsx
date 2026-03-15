@@ -107,15 +107,15 @@ export const CampaignDashboard: React.FC<{ field: Field; data: CampaignData }> =
       case 'draft':
         return 'bg-gray-500'
       case 'scheduled':
-        return 'bg-blue-500'
+        return 'bg-teal'
       case 'running':
-        return 'bg-green-500'
+        return 'bg-green'
       case 'paused':
         return 'bg-yellow-500'
       case 'finished':
-        return 'bg-purple-500'
+        return 'bg-teal'
       case 'cancelled':
-        return 'bg-red-500'
+        return 'bg-coral'
       default:
         return 'bg-gray-500'
     }

@@ -296,15 +296,15 @@ export function GroupedProductTable({ parentProduct, childProducts }: GroupedPro
                         </>
                       ) : isInStock ? (
                         <>
-                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <div className="w-2 h-2 bg-green rounded-full"></div>
                           <span className="text-sm text-green-700">
                             {(selection.product.stock ?? 0) ? `${(selection.product.stock ?? 0)} stuks` : 'Op voorraad'}
                           </span>
                         </>
                       ) : (
                         <>
-                          <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                          <span className="text-sm text-red-700">Uitverkocht</span>
+                          <div className="w-2 h-2 bg-coral rounded-full"></div>
+                          <span className="text-sm text-coral-700">Uitverkocht</span>
                         </>
                       )}
                     </div>

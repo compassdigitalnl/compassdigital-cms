@@ -178,7 +178,7 @@ export default function MonitoringDashboard() {
               )}
 
               {(data?.criticalClients || 0) > 0 && data && (
-                <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-coral-50 rounded-lg">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">🔴</span>
                     <div>

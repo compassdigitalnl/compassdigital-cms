@@ -33,23 +33,23 @@ export function ConditionNode({ data, selected }: NodeProps) {
       >
         {/* Header */}
         <div className="flex items-center gap-2.5 px-3 py-2.5" style={{ background: '#faf5ff' }}>
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 bg-purple-500 text-white">
+          <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 bg-teal text-white">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-xs font-bold text-purple-600 truncate">{d.name || 'Voorwaarde'}</div>
+            <div className="text-xs font-bold text-teal truncate">{d.name || 'Voorwaarde'}</div>
             <div className="text-[10px] text-gray-500 truncate">{summary}</div>
           </div>
         </div>
 
         {/* Two output handles */}
         <div className="flex border-t" style={{ borderColor: '#e5e7eb' }}>
-          <div className="flex-1 text-center py-1.5 text-[10px] font-bold text-green-600 border-r" style={{ borderColor: '#e5e7eb', background: '#f0fdf4' }}>
+          <div className="flex-1 text-center py-1.5 text-[10px] font-bold text-green border-r" style={{ borderColor: '#e5e7eb', background: '#f0fdf4' }}>
             Ja
           </div>
-          <div className="flex-1 text-center py-1.5 text-[10px] font-bold text-red-500" style={{ background: '#fef2f2' }}>
+          <div className="flex-1 text-center py-1.5 text-[10px] font-bold text-coral" style={{ background: '#fef2f2' }}>
             Nee
           </div>
         </div>

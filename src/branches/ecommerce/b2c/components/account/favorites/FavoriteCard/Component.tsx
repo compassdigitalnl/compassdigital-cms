@@ -27,10 +27,10 @@ export function FavoriteCard({ favorite, onRemove }: FavoriteCardProps) {
         )}
         <button
           onClick={() => onRemove(favorite.id)}
-          className="absolute top-2 left-2 w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-red-50 transition-colors"
+          className="absolute top-2 left-2 w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-coral-50 transition-colors"
           title="Verwijder uit favorieten"
         >
-          <Heart className="w-4 h-4 text-red-600 fill-red-600" />
+          <Heart className="w-4 h-4 text-coral fill-coral" />
         </button>
       </div>
 

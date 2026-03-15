@@ -15,7 +15,7 @@ export default function AddClientButton() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center gap-2"
+        className="px-6 py-3 bg-teal text-white rounded-lg hover:bg-teal-700 transition-colors font-medium flex items-center gap-2"
       >
         <span className="text-xl">+</span>
         Add New Client

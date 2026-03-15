@@ -18,15 +18,15 @@ export const RelatedArticles: React.FC<RelatedArticlesProps> = ({ posts, classNa
   const getCategoryGradient = (color?: string) => {
     switch (color) {
       case 'blue':
-        return 'from-blue-50 to-blue-100'
+        return 'from-teal-50 to-teal-100'
       case 'green':
         return 'from-green-50 to-green-100'
       case 'coral':
-        return 'from-red-50 to-red-100'
+        return 'from-coral-50 to-coral-100'
       case 'amber':
         return 'from-amber-50 to-amber-100'
       case 'purple':
-        return 'from-purple-50 to-purple-100'
+        return 'from-teal-50 to-teal-100'
       default:
         return 'from-[var(--color-primary-glow)] to-[var(--color-primary-glow)]'
     }

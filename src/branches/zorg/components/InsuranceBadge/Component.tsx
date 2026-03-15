@@ -7,7 +7,7 @@ const STATUS_CONFIG: Record<
 > = {
   covered: {
     label: 'Vergoed',
-    bgClass: 'bg-green-50 border-green-200',
+    bgClass: 'bg-green-50 border-green/20',
     textClass: 'text-green-700',
     icon: '\u2713',
   },

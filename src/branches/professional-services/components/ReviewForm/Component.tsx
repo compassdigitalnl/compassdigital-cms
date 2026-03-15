@@ -54,9 +54,9 @@ export function ReviewForm({ caseSlug, serviceSlug, className }: ReviewFormProps
 
   if (status === 'success') {
     return (
-      <div className={`rounded-xl border border-green-200 bg-green-50 p-6 text-center ${className || ''}`}>
+      <div className={`rounded-xl border border-green/20 bg-green-50 p-6 text-center ${className || ''}`}>
         <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-          <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="h-6 w-6 text-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
@@ -71,7 +71,7 @@ export function ReviewForm({ caseSlug, serviceSlug, className }: ReviewFormProps
       {/* Name */}
       <div>
         <label htmlFor="review-name" className="mb-1 block text-sm font-medium text-gray-700">
-          Uw naam <span className="text-red-500">*</span>
+          Uw naam <span className="text-coral">*</span>
         </label>
         <input
           id="review-name"
@@ -102,7 +102,7 @@ export function ReviewForm({ caseSlug, serviceSlug, className }: ReviewFormProps
       {/* Star Rating */}
       <div>
         <label className="mb-2 block text-sm font-medium text-gray-700">
-          Beoordeling <span className="text-red-500">*</span>
+          Beoordeling <span className="text-coral">*</span>
         </label>
         <div className="flex gap-1">
           {[1, 2, 3, 4, 5].map((star) => (
@@ -137,7 +137,7 @@ export function ReviewForm({ caseSlug, serviceSlug, className }: ReviewFormProps
       {/* Review text */}
       <div>
         <label htmlFor="review-quote" className="mb-1 block text-sm font-medium text-gray-700">
-          Uw review <span className="text-red-500">*</span>
+          Uw review <span className="text-coral">*</span>
         </label>
         <textarea
           id="review-quote"
@@ -152,7 +152,7 @@ export function ReviewForm({ caseSlug, serviceSlug, className }: ReviewFormProps
 
       {/* Error message */}
       {status === 'error' && errorMessage && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div className="rounded-lg border border-coral/20 bg-coral-50 px-4 py-3 text-sm text-coral-700">
           {errorMessage}
         </div>
       )}

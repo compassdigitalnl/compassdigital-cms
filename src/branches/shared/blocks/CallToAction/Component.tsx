@@ -24,10 +24,10 @@ export const CallToActionComponent: React.FC<CallToActionBlock> = ({
       {buttonLabel && buttonLink && (
         <Link
           href={buttonLink}
-          className={`inline-block rounded-md px-6 py-2.5 text-sm font-medium transition-colors ${
+          className={`btn ${
             backgroundColor === 'teal'
-              ? 'bg-white text-teal hover:bg-gray-100'
-              : 'bg-teal text-white hover:bg-teal-dark'
+              ? 'btn-outline-neutral bg-white'
+              : 'btn-primary'
           }`}
         >
           {buttonLabel}

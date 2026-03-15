@@ -270,7 +270,7 @@ function SEOOptimizerDemo() {
 
         {result && (
           <div className="mt-4 space-y-4">
-            <div className="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-teal-50 border border-blue-200 rounded-lg">
               <div>
                 <p className="text-sm text-gray-600">SEO Score</p>
                 <p className="text-3xl font-bold">{result.score}/100</p>
@@ -300,7 +300,7 @@ function SEOOptimizerDemo() {
                 <ul className="space-y-1 text-sm">
                   {result.suggestions.slice(0, 5).map((suggestion: string, i: number) => (
                     <li key={i} className="flex items-start gap-2">
-                      <span className="text-green-600">✓</span>
+                      <span className="text-green">✓</span>
                       <span>{suggestion}</span>
                     </li>
                   ))}
@@ -375,7 +375,7 @@ function ContentAnalyzerDemo() {
 
             {/* Quick Metrics */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-3 bg-blue-50 border border-blue-200 rounded">
+              <div className="p-3 bg-teal-50 border border-blue-200 rounded">
                 <p className="text-xs text-gray-600">Leesbaarheid</p>
                 <p className="text-xl font-bold">{result.readability?.score}/100</p>
                 <p className="text-xs text-gray-500">{result.readability?.level}</p>
@@ -602,7 +602,7 @@ function BlockGeneratorDemo() {
         </Button>
 
         {result && (
-          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="mt-4 p-4 bg-teal-50 border border-blue-200 rounded-lg">
             <Label className="mb-2 block">Gegenereerd Block (JSON):</Label>
             <pre className="text-xs bg-white p-3 rounded overflow-auto max-h-96">
               {JSON.stringify(result, null, 2)}
@@ -698,7 +698,7 @@ function PageGeneratorDemo() {
 
         {result && (
           <div className="mt-4 space-y-4">
-            <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="p-4 bg-teal-50 border border-blue-200 rounded-lg">
               <Label className="mb-2 block">Pagina Metadata:</Label>
               <div className="text-sm space-y-1">
                 <p><strong>Titel:</strong> {result.metadata?.title}</p>
@@ -799,7 +799,7 @@ function MultiLanguageDemo() {
                 onClick={() => toggleLanguage(lang.code)}
                 className={`p-2 border rounded cursor-pointer transition-colors ${
                   selectedLanguages.includes(lang.code)
-                    ? 'border-blue-600 bg-blue-50'
+                    ? 'border-teal bg-teal-50'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >

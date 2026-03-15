@@ -183,14 +183,14 @@ export function WizardStep4Features({
 
       {/* Standaard features */}
       <div className="space-y-3">
-        <div className="flex items-center justify-between p-3 bg-blue-50 border border-blue-200 rounded-lg">
+        <div className="flex items-center justify-between p-3 bg-teal-50 border border-teal-200 rounded-lg">
           <div>
             <p className="font-semibold text-sm text-blue-800">Standaard functies</p>
-            <p className="text-xs text-blue-600 mt-0.5">
+            <p className="text-xs text-teal mt-0.5">
               {enabledCount} van {visibleStandard.length} geactiveerd
             </p>
           </div>
-          <Badge className="bg-blue-600 text-white px-3 py-1">{enabledCount}</Badge>
+          <Badge className="bg-teal text-white px-3 py-1">{enabledCount}</Badge>
         </div>
 
         <div className="space-y-2">
@@ -204,7 +204,7 @@ export function WizardStep4Features({
                 onClick={() => toggleFeature(feature.key)}
                 className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                   isEnabled
-                    ? 'border-blue-600 bg-blue-50'
+                    ? 'border-teal bg-teal-50'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
@@ -216,7 +216,7 @@ export function WizardStep4Features({
                   />
                   <div
                     className={`p-2 rounded-lg ${
-                      isEnabled ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'
+                      isEnabled ? 'bg-teal-100 text-teal' : 'bg-gray-100 text-gray-600'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -258,7 +258,7 @@ export function WizardStep4Features({
                 onClick={() => toggleExtra(feature.key)}
                 className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                   isEnabled
-                    ? 'border-purple-500 bg-purple-50'
+                    ? 'border-teal bg-teal-50'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
@@ -270,7 +270,7 @@ export function WizardStep4Features({
                   />
                   <div
                     className={`p-2 rounded-lg ${
-                      isEnabled ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 text-gray-600'
+                      isEnabled ? 'bg-teal-100 text-teal' : 'bg-gray-100 text-gray-600'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -279,7 +279,7 @@ export function WizardStep4Features({
                     <div className="flex items-center gap-2">
                       <h3 className="font-semibold text-sm">{feature.name}</h3>
                       {feature.badge && (
-                        <Badge variant="outline" className="text-xs border-purple-300 text-purple-700">
+                        <Badge variant="outline" className="text-xs border-teal-300 text-teal-700">
                           {feature.badge}
                         </Badge>
                       )}

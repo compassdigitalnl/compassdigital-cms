@@ -178,7 +178,7 @@ export const AITranslator: React.FC<AITranslatorProps> = ({
 
           {/* Error */}
           {error && (
-            <div className="rounded-lg bg-red-50 p-4 border border-red-200">
+            <div className="rounded-lg bg-coral-50 p-4 border border-coral/20">
               <p className="text-sm text-red-800">{error}</p>
             </div>
           )}
@@ -210,18 +210,18 @@ export const AITranslator: React.FC<AITranslatorProps> = ({
                 </TabsContent>
 
                 <TabsContent value="translation" className="mt-4">
-                  <div className="rounded-lg border border-green-200 p-4 bg-green-50">
+                  <div className="rounded-lg border border-green/20 p-4 bg-green-50">
                     <p className="text-sm whitespace-pre-wrap">{translation.translatedText}</p>
                   </div>
 
                   {/* Notes */}
                   {translation.notes && translation.notes.length > 0 && (
-                    <div className="mt-4 rounded-lg bg-blue-50 p-4 border border-blue-200">
+                    <div className="mt-4 rounded-lg bg-teal-50 p-4 border border-teal/20">
                       <h4 className="font-medium text-sm mb-2">Notities:</h4>
                       <ul className="text-sm space-y-1">
                         {translation.notes.map((note, index) => (
                           <li key={index} className="flex items-start gap-2">
-                            <span className="text-blue-600">•</span>
+                            <span className="text-teal">•</span>
                             <span>{note}</span>
                           </li>
                         ))}
@@ -255,7 +255,7 @@ export const AITranslator: React.FC<AITranslatorProps> = ({
           {loading && (
             <div className="flex items-center justify-center py-12">
               <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal mx-auto mb-4"></div>
                 <p className="text-sm text-gray-600">Vertalen naar {LANGUAGES.find(l => l.code === targetLanguage)?.name}...</p>
               </div>
             </div>

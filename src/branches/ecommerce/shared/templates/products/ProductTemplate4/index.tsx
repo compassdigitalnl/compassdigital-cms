@@ -965,8 +965,8 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
             {/* OUT OF STOCK + BackInStockNotifier — Desktop */}
             {isOutOfStock && (
               <div className="mb-5">
-                <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 font-semibold text-sm mb-3">
-                  <span className="w-2 h-2 bg-red-500 rounded-full shrink-0" />
+                <div className="flex items-center gap-2 p-4 bg-coral-50 border border-coral/20 rounded-xl text-coral-700 font-semibold text-sm mb-3">
+                  <span className="w-2 h-2 bg-coral rounded-full shrink-0" />
                   Tijdelijk uitverkocht
                 </div>
                 {ecomSettings.features.enableStockNotifications && (
@@ -1106,7 +1106,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                               Op bestelling
                             </div>
                           ) : (
-                            <div className="text-[11px] text-red-500 font-medium flex items-center gap-[3px]">
+                            <div className="text-[11px] text-coral font-medium flex items-center gap-[3px]">
                               <Info className="w-[11px] h-[11px]" />
                               Uitverkocht
                             </div>
@@ -1337,8 +1337,8 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
           {/* OUT OF STOCK + BackInStockNotifier — Mobile */}
           {isOutOfStock && (
             <div className="mb-4">
-              <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 font-semibold text-sm mb-3">
-                <span className="w-2 h-2 bg-red-500 rounded-full shrink-0" />
+              <div className="flex items-center gap-2 p-4 bg-coral-50 border border-coral/20 rounded-xl text-coral-700 font-semibold text-sm mb-3">
+                <span className="w-2 h-2 bg-coral rounded-full shrink-0" />
                 Tijdelijk uitverkocht
               </div>
               {ecomSettings.features.enableStockNotifications && (
@@ -1437,7 +1437,7 @@ export default function ProductTemplate4({ product, parentGroupedProduct, defaul
                               Op bestelling
                             </div>
                           ) : (
-                            <div className="text-[11px] text-red-500 font-medium mt-0.5">
+                            <div className="text-[11px] text-coral font-medium mt-0.5">
                               Uitverkocht
                             </div>
                           )}

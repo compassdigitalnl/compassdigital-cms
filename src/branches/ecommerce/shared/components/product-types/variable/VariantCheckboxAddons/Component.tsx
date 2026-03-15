@@ -35,11 +35,11 @@ export function VariantCheckboxAddons({
         <label className="text-sm font-medium text-gray-900">
           {option.optionName}
           {option.required && selectedValues.length === 0 && (
-            <span className="ml-1 text-red-500">*</span>
+            <span className="ml-1 text-coral">*</span>
           )}
         </label>
         {selectedValues.length > 0 && (
-          <span className="text-sm font-semibold text-blue-600">
+          <span className="text-sm font-semibold text-teal">
             {selectedValues.length} selected
             {totalPrice !== 0 && ` (+€${formatPriceStr(totalPrice)})`}
           </span>
@@ -60,7 +60,7 @@ export function VariantCheckboxAddons({
               className={cn(
                 'flex cursor-pointer items-center gap-3 rounded-lg border-2 p-4 transition-all',
                 isSelected
-                  ? 'border-blue-600 bg-blue-50'
+                  ? 'border-teal bg-teal-50'
                   : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50',
                 isDisabled && 'cursor-not-allowed opacity-60',
               )}
@@ -71,7 +71,7 @@ export function VariantCheckboxAddons({
                 checked={isSelected}
                 onChange={() => !isDisabled && onToggle(value)}
                 disabled={isDisabled}
-                className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
+                className="h-5 w-5 rounded border-gray-300 text-teal focus:ring-2 focus:ring-teal focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
               />
 
               {/* Content */}
@@ -81,7 +81,7 @@ export function VariantCheckboxAddons({
                   <span
                     className={cn(
                       'text-sm font-medium',
-                      isSelected ? 'text-blue-900' : 'text-gray-900',
+                      isSelected ? 'text-navy' : 'text-gray-900',
                       isDisabled && 'text-gray-500',
                     )}
                   >
@@ -95,9 +95,9 @@ export function VariantCheckboxAddons({
                         'text-xs',
                         hasStock
                           ? isLowStock
-                            ? 'text-orange-600'
-                            : 'text-green-600'
-                          : 'text-red-600',
+                            ? 'text-amber'
+                            : 'text-green'
+                          : 'text-coral',
                       )}
                     >
                       {hasStock
@@ -116,7 +116,7 @@ export function VariantCheckboxAddons({
                     <span
                       className={cn(
                         'text-sm font-semibold',
-                        isSelected ? 'text-blue-600' : 'text-gray-600',
+                        isSelected ? 'text-teal' : 'text-gray-600',
                       )}
                     >
                       {value.priceModifier > 0 ? '+' : ''}€{formatPriceStr(value.priceModifier)}
@@ -130,16 +130,16 @@ export function VariantCheckboxAddons({
 
       {/* Summary Card */}
       {selectedValues.length > 0 && (
-        <div className="rounded-lg bg-blue-50 p-4">
-          <div className="mb-2 text-sm font-semibold text-blue-900">Selected Add-ons:</div>
+        <div className="rounded-lg bg-teal-50 p-4">
+          <div className="mb-2 text-sm font-semibold text-navy">Selected Add-ons:</div>
           <div className="space-y-1">
             {selectedValues.map(value => (
               <div key={value.value} className="flex items-center justify-between text-sm">
-                <span className="text-blue-800">{value.label}</span>
+                <span className="text-teal-800">{value.label}</span>
                 {value.priceModifier !== undefined &&
                   value.priceModifier !== null &&
                   value.priceModifier !== 0 && (
-                    <span className="font-medium text-blue-900">
+                    <span className="font-medium text-navy">
                       {value.priceModifier > 0 ? '+' : ''}€{formatPriceStr(value.priceModifier)}
                     </span>
                   )}
@@ -147,7 +147,7 @@ export function VariantCheckboxAddons({
             ))}
           </div>
           {totalPrice !== 0 && (
-            <div className="mt-2 flex items-center justify-between border-t border-blue-200 pt-2 text-sm font-bold text-blue-900">
+            <div className="mt-2 flex items-center justify-between border-t border-teal-200 pt-2 text-sm font-bold text-navy">
               <span>Total Add-ons:</span>
               <span>+€{formatPriceStr(totalPrice)}</span>
             </div>
@@ -157,7 +157,7 @@ export function VariantCheckboxAddons({
 
       {/* Required Field Helper Text */}
       {option.required && selectedValues.length === 0 && (
-        <p className="text-xs text-red-600">
+        <p className="text-xs text-coral">
           Please select at least one {option.optionName.toLowerCase()}
         </p>
       )}

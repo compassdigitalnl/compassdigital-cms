@@ -111,7 +111,7 @@ export function LicenseCard({
           <div className="font-bold text-gray-900 text-sm lg:text-base truncate">{productName}</div>
           <div className="flex items-center gap-2 flex-wrap mt-0.5">
             <span className="font-mono text-xs text-gray-500 truncate">{licenseKey}</span>
-            <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-700 flex-shrink-0">
+            <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-teal-100 text-teal-700 flex-shrink-0">
               {getLicenseTypeLabel(type)}
             </span>
           </div>
@@ -129,7 +129,7 @@ export function LicenseCard({
               {daysUntilExpiry}d
             </span>
           ) : isExpired ? (
-            <span className="px-2 py-1 bg-red-100 text-red-600 rounded-lg text-xs font-bold">Verlopen</span>
+            <span className="px-2 py-1 bg-red-100 text-coral rounded-lg text-xs font-bold">Verlopen</span>
           ) : (
             <span className="px-2 py-1 bg-green-100 text-green-700 rounded-lg text-xs font-bold">Actief</span>
           )}
@@ -214,13 +214,13 @@ export function LicenseCard({
                       </span>
                       {activation.status === 'active' ? (
                         <>
-                          <span className="flex items-center gap-1 text-xs font-semibold text-green-600">
+                          <span className="flex items-center gap-1 text-xs font-semibold text-green">
                             <Check className="w-3 h-3" />
                             Actief
                           </span>
                           <button
                             onClick={() => onDeactivateDevice(id, activation.id)}
-                            className="text-xs font-semibold text-red-500 hover:underline"
+                            className="text-xs font-semibold text-coral hover:underline"
                           >
                             Deactiveren
                           </button>

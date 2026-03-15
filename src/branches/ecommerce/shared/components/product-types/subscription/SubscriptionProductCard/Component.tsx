@@ -27,9 +27,9 @@ export const SubscriptionProductCard: React.FC<SubscriptionProductCardProps> = (
   const { formatPriceStr } = usePriceMode()
 
   const badgeVariantStyles = {
-    popular: 'bg-purple-100 text-purple-700',
+    popular: 'bg-teal-100 text-teal-700',
     personal: 'bg-gray-100 text-gray-700',
-    gift: 'bg-red-50 text-red-500',
+    gift: 'bg-coral-50 text-coral',
   }
 
   return (
@@ -91,7 +91,7 @@ export const SubscriptionProductCard: React.FC<SubscriptionProductCardProps> = (
             </div>
           )}
           {savingsPercent && savingsPercent > 0 && (
-            <div className="mt-2 text-xs font-bold text-green-600">
+            <div className="mt-2 text-xs font-bold text-green">
               Bespaar {savingsPercent}% op losse edities
             </div>
           )}

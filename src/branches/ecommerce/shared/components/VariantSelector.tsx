@@ -95,7 +95,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                     className={`
                       relative w-10 h-10 rounded-full border-2 transition-all
                       ${currentSelection?.value === value.value
-                        ? 'border-blue-600 ring-2 ring-blue-600 ring-offset-2'
+                        ? 'border-teal ring-2 ring-teal ring-offset-2'
                         : 'border-gray-300 hover:border-gray-400'
                       }
                       ${value.stockLevel === 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
@@ -122,7 +122,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                     className={`
                       px-4 py-2 rounded-lg border-2 text-sm font-medium transition-all
                       ${currentSelection?.value === value.value
-                        ? 'border-blue-600 bg-blue-50 text-blue-700'
+                        ? 'border-teal bg-teal-50 text-teal-700'
                         : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
                       }
                       ${value.stockLevel === 0 ? 'opacity-50 cursor-not-allowed line-through' : 'cursor-pointer'}
@@ -143,7 +143,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                   const value = option.values?.find((v: VariantOptionValue) => v.value === e.target.value)
                   if (value) handleSelection(option.optionName || '', value)
                 }}
-                className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-teal"
               >
                 <option value="">Selecteer {option.optionName}</option>
                 {option.values?.map((value: VariantOptionValue) => (
@@ -173,7 +173,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                       className={`
                         relative aspect-square rounded-lg border-2 overflow-hidden transition-all
                         ${currentSelection?.value === value.value
-                          ? 'border-blue-600 ring-2 ring-blue-600'
+                          ? 'border-teal ring-2 ring-teal'
                           : 'border-gray-300 hover:border-gray-400'
                         }
                         ${value.stockLevel === 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
@@ -192,8 +192,8 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                         </div>
                       )}
                       {currentSelection?.value === value.value && (
-                        <div className="absolute inset-0 bg-blue-600 bg-opacity-10 flex items-center justify-center">
-                          <Check className="w-6 h-6 text-blue-600 drop-shadow-md" />
+                        <div className="absolute inset-0 bg-teal bg-opacity-10 flex items-center justify-center">
+                          <Check className="w-6 h-6 text-teal drop-shadow-md" />
                         </div>
                       )}
                     </button>
@@ -211,7 +211,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                     className={`
                       flex items-center p-3 border rounded-lg cursor-pointer transition-all
                       ${currentSelection?.value === value.value
-                        ? 'border-blue-600 bg-blue-50'
+                        ? 'border-teal bg-teal-50'
                         : 'border-gray-300 hover:border-gray-400'
                       }
                       ${value.stockLevel === 0 ? 'opacity-50 cursor-not-allowed' : ''}
@@ -232,7 +232,7 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
                         }
                       }}
                       disabled={value.stockLevel === 0}
-                      className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                      className="w-4 h-4 text-teal rounded focus:ring-teal"
                     />
                     <span className="ml-3 flex-1">
                       {value.label}
@@ -251,11 +251,11 @@ export function VariantSelector({ product, onSelectionChange }: VariantSelectorP
             {currentSelection && currentSelection.stockLevel !== undefined && currentSelection.stockLevel !== null && (
               <p className="text-sm text-gray-600">
                 {currentSelection.stockLevel > 0 ? (
-                  <span className="text-green-600">
+                  <span className="text-green">
                     ✓ Op voorraad ({currentSelection.stockLevel} beschikbaar)
                   </span>
                 ) : (
-                  <span className="text-red-600">
+                  <span className="text-coral">
                     ✗ Uitverkocht
                   </span>
                 )}

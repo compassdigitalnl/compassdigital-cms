@@ -43,9 +43,9 @@ export const VariantRowCompact: React.FC<VariantRowCompactProps> = ({
 
   // Stock indicator styling
   const stockIndicatorColors = {
-    'in-stock': 'bg-green-500 text-white',
+    'in-stock': 'bg-green text-white',
     'low-stock': 'bg-yellow-500 text-white',
-    'pre-order': 'bg-blue-500 text-white',
+    'pre-order': 'bg-teal text-white',
     'out-of-stock': 'bg-gray-400 text-white',
   }
 

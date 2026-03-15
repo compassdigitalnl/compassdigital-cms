@@ -8,7 +8,7 @@ import type { RecurringOrderCardProps } from './types'
 const getStatusColor = (status: string) => {
   switch (status) {
     case 'active':
-      return { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200', label: 'Actief' }
+      return { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green/20', label: 'Actief' }
     case 'paused':
       return { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', label: 'Gepauzeerd' }
     default:
@@ -28,7 +28,7 @@ export function RecurringOrderCard({ order, onTogglePause, onDelete }: Recurring
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div className="flex items-start gap-4 flex-1">
-            <div className="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center flex-shrink-0">
               <RefreshCw className="w-4 h-4" />
             </div>
             <div className="flex-1">

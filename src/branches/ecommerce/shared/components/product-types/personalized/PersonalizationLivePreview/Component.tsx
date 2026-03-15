@@ -141,11 +141,11 @@ export const PersonalizationLivePreview: React.FC<PersonalizationLivePreviewProp
       </div>
 
       {/* Info */}
-      <div className="mt-3 p-3 bg-blue-50 rounded-lg">
-        <p className="text-[12px] font-semibold text-blue-900 mb-1">
+      <div className="mt-3 p-3 bg-teal-50 rounded-lg">
+        <p className="text-[12px] font-semibold text-navy mb-1">
           ℹ️ Preview Notitie:
         </p>
-        <p className="text-[11px] text-blue-800">
+        <p className="text-[11px] text-teal-800">
           Dit is een indicatieve preview. Het eindresultaat kan enigszins afwijken afhankelijk van het product en de personalisatie-methode.
         </p>
       </div>

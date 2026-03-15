@@ -289,7 +289,7 @@ export const CourseFilters: React.FC<CourseFiltersProps> = ({
       {hasActiveFilters && (
         <button
           onClick={resetFilters}
-          className="flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--color-base-200)] bg-[var(--color-base-50)] px-4 py-2.5 text-[13px] font-semibold text-[var(--color-base-500)] transition-colors hover:border-red-300 hover:text-red-500"
+          className="flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--color-base-200)] bg-[var(--color-base-50)] px-4 py-2.5 text-[13px] font-semibold text-[var(--color-base-500)] transition-colors hover:border-coral/30 hover:text-coral"
         >
           <svg
             className="h-3.5 w-3.5"

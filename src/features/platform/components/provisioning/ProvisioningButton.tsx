@@ -184,7 +184,7 @@ export function ProvisioningButton({
   // Show button only if not deployed
   if (clientStatus === 'active' && state.status === 'idle') {
     return (
-      <Badge variant="outline" className="text-green-600">
+      <Badge variant="outline" className="text-green">
         <Check className="w-3 h-3 mr-1" />
         Already Deployed
       </Badge>
@@ -252,7 +252,7 @@ export function ProvisioningButton({
                 href={state.deploymentUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
+                className="flex items-center gap-2 text-teal hover:text-teal-800"
               >
                 <Globe className="w-4 h-4" />
                 {state.deploymentUrl}
@@ -265,7 +265,7 @@ export function ProvisioningButton({
                 href={state.adminUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
+                className="flex items-center gap-2 text-teal hover:text-teal-800"
               >
                 <Globe className="w-4 h-4" />
                 Admin Panel: {state.adminUrl}
@@ -295,9 +295,9 @@ export function ProvisioningButton({
   // Failed
   if (state.status === 'failed') {
     return (
-      <Card className="w-full max-w-2xl border-red-200 bg-red-50">
+      <Card className="w-full max-w-2xl border-coral/20 bg-coral-50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-red-700">
+          <CardTitle className="flex items-center gap-2 text-coral-700">
             <X className="w-5 h-5" />
             Provisioning Failed
           </CardTitle>
@@ -305,7 +305,7 @@ export function ProvisioningButton({
         </CardHeader>
         <CardContent className="space-y-4">
           {state.error && (
-            <div className="text-sm text-red-600 bg-red-100 p-3 rounded">
+            <div className="text-sm text-coral bg-red-100 p-3 rounded">
               <p className="font-semibold">Error:</p>
               <p>{state.error}</p>
             </div>

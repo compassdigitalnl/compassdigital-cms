@@ -166,7 +166,7 @@ export function WizardStep2Goal({ data, onChange }: Props) {
       {/* Header */}
       <div className="space-y-3 pb-6 border-b-2 border-gray-100">
         <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/30">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-teal to-teal shadow-lg shadow-teal/30">
             <span className="text-2xl">🎯</span>
           </div>
           <div>
@@ -192,12 +192,12 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                 onClick={() => selectPrimary(type.value)}
                 className={`relative p-5 rounded-xl border-2 text-left transition-all duration-200 ${
                   isSelected
-                    ? 'border-indigo-600 bg-indigo-50 shadow-md shadow-indigo-100'
+                    ? 'border-teal bg-teal-50 shadow-md shadow-indigo-100'
                     : 'border-gray-200 hover:border-gray-300 bg-white'
                 }`}
               >
                 {isSelected && (
-                  <span className="absolute top-3 right-3 flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-white text-xs font-bold">
+                  <span className="absolute top-3 right-3 flex h-5 w-5 items-center justify-center rounded-full bg-teal text-white text-xs font-bold">
                     ✓
                   </span>
                 )}
@@ -205,7 +205,7 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                 <h3 className={`font-bold text-base ${isSelected ? 'text-indigo-800' : 'text-gray-800'}`}>
                   {type.label}
                 </h3>
-                <p className={`text-xs mt-1 ${isSelected ? 'text-indigo-600' : 'text-gray-500'}`}>
+                <p className={`text-xs mt-1 ${isSelected ? 'text-teal' : 'text-gray-500'}`}>
                   {type.description}
                 </p>
               </button>
@@ -232,7 +232,7 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                   onClick={() => update({ [field]: sub.value })}
                   className={`p-4 rounded-lg border-2 text-left transition-all duration-200 ${
                     isSelected
-                      ? 'border-indigo-500 bg-indigo-50'
+                      ? 'border-teal bg-teal-50'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
@@ -242,7 +242,7 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                       <h4 className={`font-semibold text-sm ${isSelected ? 'text-indigo-800' : 'text-gray-800'}`}>
                         {sub.label}
                       </h4>
-                      <p className={`text-xs mt-0.5 ${isSelected ? 'text-indigo-600' : 'text-gray-500'}`}>
+                      <p className={`text-xs mt-0.5 ${isSelected ? 'text-teal' : 'text-gray-500'}`}>
                         {sub.description}
                       </p>
                     </div>
@@ -268,7 +268,7 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                   onClick={() => update({ shopModel: model.value, pricingModel: undefined })}
                   className={`p-4 rounded-lg border-2 text-left transition-all duration-200 ${
                     isSelected
-                      ? 'border-indigo-500 bg-indigo-50'
+                      ? 'border-teal bg-teal-50'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
@@ -278,7 +278,7 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                       <h4 className={`font-semibold text-sm ${isSelected ? 'text-indigo-800' : 'text-gray-800'}`}>
                         {model.label}
                       </h4>
-                      <p className={`text-xs mt-0.5 ${isSelected ? 'text-indigo-600' : 'text-gray-500'}`}>
+                      <p className={`text-xs mt-0.5 ${isSelected ? 'text-teal' : 'text-gray-500'}`}>
                         {model.description}
                       </p>
                     </div>
@@ -304,7 +304,7 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                   onClick={() => update({ pricingModel: pm.value, hasCustomerGroups: pm.value === 'customer-groups' })}
                   className={`w-full p-4 rounded-lg border-2 text-left transition-all duration-200 ${
                     isSelected
-                      ? 'border-indigo-500 bg-indigo-50'
+                      ? 'border-teal bg-teal-50'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
@@ -313,12 +313,12 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                       <h4 className={`font-semibold text-sm ${isSelected ? 'text-indigo-800' : 'text-gray-800'}`}>
                         {pm.label}
                       </h4>
-                      <p className={`text-xs mt-0.5 ${isSelected ? 'text-indigo-600' : 'text-gray-500'}`}>
+                      <p className={`text-xs mt-0.5 ${isSelected ? 'text-teal' : 'text-gray-500'}`}>
                         {pm.description}
                       </p>
                     </div>
                     {isSelected && (
-                      <Badge className="bg-indigo-600 text-white text-xs">Geselecteerd</Badge>
+                      <Badge className="bg-teal text-white text-xs">Geselecteerd</Badge>
                     )}
                   </div>
                 </button>
@@ -363,7 +363,7 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                 onClick={() => update({ [option.key]: !data?.[option.key] })}
                 className={`flex items-start gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   data?.[option.key]
-                    ? 'border-indigo-500 bg-indigo-50'
+                    ? 'border-teal bg-teal-50'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
@@ -376,7 +376,7 @@ export function WizardStep2Goal({ data, onChange }: Props) {
                   <h4 className={`font-semibold text-sm ${data?.[option.key] ? 'text-indigo-800' : 'text-gray-800'}`}>
                     {option.label}
                   </h4>
-                  <p className={`text-xs mt-0.5 ${data?.[option.key] ? 'text-indigo-600' : 'text-gray-500'}`}>
+                  <p className={`text-xs mt-0.5 ${data?.[option.key] ? 'text-teal' : 'text-gray-500'}`}>
                     {option.description}
                   </p>
                 </div>

@@ -6,7 +6,7 @@ type ApkStatus = 'valid' | 'expiring' | 'expired'
 const STATUS_CONFIG: Record<ApkStatus, { label: string; bgClass: string; textClass: string; icon: string }> = {
   valid: {
     label: 'APK geldig',
-    bgClass: 'bg-green-50 border-green-200',
+    bgClass: 'bg-green-50 border-green/20',
     textClass: 'text-green-700',
     icon: '\u2713',
   },
@@ -18,8 +18,8 @@ const STATUS_CONFIG: Record<ApkStatus, { label: string; bgClass: string; textCla
   },
   expired: {
     label: 'APK verlopen',
-    bgClass: 'bg-red-50 border-red-200',
-    textClass: 'text-red-700',
+    bgClass: 'bg-coral-50 border-coral/20',
+    textClass: 'text-coral-700',
     icon: '\u2717',
   },
 }

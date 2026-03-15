@@ -97,7 +97,7 @@ export const VehicleCompare: React.FC<VehicleCompareProps> = ({
                       <button
                         type="button"
                         onClick={() => onRemove(vehicle.id)}
-                        className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-100 text-red-600 text-xs transition-colors hover:bg-red-200"
+                        className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-coral-50 text-coral text-xs transition-colors hover:bg-coral/20"
                         title="Verwijderen"
                       >
                         &times;
@@ -155,7 +155,7 @@ export const VehicleCompare: React.FC<VehicleCompareProps> = ({
                         key={vehicle.id}
                         className={`p-3 text-center text-sm ${
                           isDifferent && value != null
-                            ? 'font-semibold text-green-700 bg-green-50'
+                            ? 'font-semibold text-green-700 bg-green/5'
                             : 'text-[var(--color-base-1000)]'
                         }`}
                       >

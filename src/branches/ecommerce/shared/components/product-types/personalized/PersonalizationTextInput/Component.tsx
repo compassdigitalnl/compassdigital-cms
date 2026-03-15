@@ -38,7 +38,7 @@ export const PersonalizationTextInput: React.FC<PersonalizationTextInputProps> =
       {/* Label */}
       <label className="block text-sm font-semibold text-gray-900 mb-2">
         {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {required && <span className="text-coral ml-1">*</span>}
       </label>
 
       {/* Input */}
@@ -67,7 +67,7 @@ export const PersonalizationTextInput: React.FC<PersonalizationTextInputProps> =
             absolute right-3 top-1/2 -translate-y-1/2
             text-xs font-medium transition-colors
             ${isNearLimit ? 'text-orange-600' : 'text-gray-500'}
-            ${remaining === 0 ? 'text-red-600' : ''}
+            ${remaining === 0 ? 'text-coral' : ''}
           `}
           aria-live="polite"
         >

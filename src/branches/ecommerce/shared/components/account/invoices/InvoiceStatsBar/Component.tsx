@@ -11,8 +11,8 @@ export function InvoiceStatsBar({ stats }: InvoiceStatsBarProps) {
             <div className="text-sm text-gray-600 mb-1">Totaal facturen</div>
             <div className="text-2xl font-bold">{stats.totalInvoices}</div>
           </div>
-          <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
-            <FileText className="w-6 h-6 text-blue-600" />
+          <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center">
+            <FileText className="w-6 h-6 text-teal" />
           </div>
         </div>
       </div>
@@ -20,10 +20,10 @@ export function InvoiceStatsBar({ stats }: InvoiceStatsBarProps) {
         <div className="flex items-center justify-between">
           <div>
             <div className="text-sm text-gray-600 mb-1">Betaald</div>
-            <div className="text-2xl font-bold text-green-600">{stats.paidInvoices}</div>
+            <div className="text-2xl font-bold text-green">{stats.paidInvoices}</div>
           </div>
           <div className="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center">
-            <Euro className="w-6 h-6 text-green-600" />
+            <Euro className="w-6 h-6 text-green" />
           </div>
         </div>
       </div>

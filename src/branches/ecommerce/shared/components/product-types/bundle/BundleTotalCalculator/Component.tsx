@@ -45,7 +45,7 @@ export const BundleTotalCalculator: React.FC<BundleTotalCalculatorProps> = ({
       {/* Header */}
       <div className="mb-4 pb-3 border-b-2 border-gray-200">
         <h3 className="text-[18px] font-bold text-gray-900 flex items-center gap-2">
-          <Calculator className="w-5 h-5 text-purple-600" strokeWidth={2.5} />
+          <Calculator className="w-5 h-5 text-teal" strokeWidth={2.5} />
           Prijs Overzicht
         </h3>
       </div>
@@ -64,10 +64,10 @@ export const BundleTotalCalculator: React.FC<BundleTotalCalculatorProps> = ({
         {discountPercentage > 0 && (
           <div className="flex items-center justify-between">
             <span className="text-[15px] text-gray-700 flex items-center gap-1">
-              <TrendingDown className="w-4 h-4 text-green-600" strokeWidth={2.5} />
+              <TrendingDown className="w-4 h-4 text-green" strokeWidth={2.5} />
               Korting ({discountPercentage}%):
             </span>
-            <span className="text-[15px] font-mono font-semibold text-green-600">
+            <span className="text-[15px] font-mono font-semibold text-green">
               -€{formatPriceStr(discountAmount)}
             </span>
           </div>
@@ -102,7 +102,7 @@ export const BundleTotalCalculator: React.FC<BundleTotalCalculatorProps> = ({
         {shipping === 0 && (
           <div className="flex items-center justify-between">
             <span className="text-[15px] text-gray-700">Verzendkosten:</span>
-            <span className="text-[15px] font-semibold text-green-600">Gratis!</span>
+            <span className="text-[15px] font-semibold text-green">Gratis!</span>
           </div>
         )}
 
@@ -122,7 +122,7 @@ export const BundleTotalCalculator: React.FC<BundleTotalCalculatorProps> = ({
         {/* Total */}
         <div className="flex items-center justify-between pt-2">
           <span className="text-[18px] font-bold text-gray-900">Totaal:</span>
-          <span className="text-[22px] font-mono font-bold text-purple-600">
+          <span className="text-[22px] font-mono font-bold text-teal">
             €{formatPriceStr(total)}
           </span>
         </div>
@@ -130,7 +130,7 @@ export const BundleTotalCalculator: React.FC<BundleTotalCalculatorProps> = ({
 
       {/* Savings Summary (if discount applied) */}
       {discountPercentage > 0 && (
-        <div className="mt-4 p-3 bg-green-50 border-2 border-green-200 rounded-lg">
+        <div className="mt-4 p-3 bg-green-50 border-2 border-green/20 rounded-lg">
           <p className="text-[13px] text-green-900 text-center">
             <span className="font-bold">Je bespaart €{formatPriceStr(discountAmount)}</span> met deze bundel!
           </p>

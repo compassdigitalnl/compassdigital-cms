@@ -52,7 +52,7 @@ export function WizardStep1Company({ data, onChange }: Props) {
       {/* Modern section header with gradient accent */}
       <div className="space-y-3 pb-6 border-b-2 border-gray-100">
         <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg shadow-blue-500/30">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-teal to-teal shadow-lg shadow-teal/30">
             <span className="text-2xl">📋</span>
           </div>
           <div>
@@ -68,7 +68,7 @@ export function WizardStep1Company({ data, onChange }: Props) {
       {/* Company Name */}
       <div className="space-y-2">
         <Label htmlFor="company-name">
-          Bedrijfsnaam <span className="text-red-500">*</span>
+          Bedrijfsnaam <span className="text-coral">*</span>
         </Label>
         <Input
           id="company-name"
@@ -82,7 +82,7 @@ export function WizardStep1Company({ data, onChange }: Props) {
       {/* Business Type */}
       <div className="space-y-2">
         <Label htmlFor="business-type">
-          Type bedrijf <span className="text-red-500">*</span>
+          Type bedrijf <span className="text-coral">*</span>
         </Label>
         <Select
           value={data.businessType}
@@ -105,7 +105,7 @@ export function WizardStep1Company({ data, onChange }: Props) {
       {/* Industry */}
       <div className="space-y-2">
         <Label htmlFor="industry">
-          Industrie <span className="text-red-500">*</span>
+          Industrie <span className="text-coral">*</span>
         </Label>
         <Input
           id="industry"
@@ -160,11 +160,11 @@ export function WizardStep1Company({ data, onChange }: Props) {
         {data.coreValues.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {data.coreValues.map((value, index) => (
-              <Badge key={index} variant="secondary" className="px-3 py-1.5 font-medium bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 transition-colors">
+              <Badge key={index} variant="secondary" className="px-3 py-1.5 font-medium bg-teal-50 text-teal-700 border-teal-200 hover:bg-teal-100 transition-colors">
                 {value}
                 <button
                   onClick={() => removeCoreValue(index)}
-                  className="ml-2 hover:text-red-600 transition-colors"
+                  className="ml-2 hover:text-coral transition-colors"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -208,7 +208,7 @@ export function WizardStep1Company({ data, onChange }: Props) {
             {data.usps.map((usp, index) => (
               <Badge key={index} variant="secondary" className="px-3 py-1.5 font-medium bg-green-50 text-green-700 border-green-200 hover:bg-green-100 transition-colors">
                 {usp}
-                <button onClick={() => removeUSP(index)} className="ml-2 hover:text-red-600 transition-colors">
+                <button onClick={() => removeUSP(index)} className="ml-2 hover:text-coral transition-colors">
                   <X className="w-3 h-3" />
                 </button>
               </Badge>

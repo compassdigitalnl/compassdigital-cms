@@ -78,7 +78,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
             {/* Before/After indicator */}
             {hasBefore && hasAfter && (
-              <div className="absolute right-3 top-3 z-[2] flex items-center gap-1.5 rounded-md bg-orange-500/90 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+              <div className="absolute right-3 top-3 z-[2] flex items-center gap-1.5 rounded-md bg-amber/90 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
                 Voor/Na
               </div>
             )}

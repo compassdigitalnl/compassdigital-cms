@@ -17,8 +17,8 @@ import type { PricingGradientBlock } from '@/payload-types'
 const gradientClasses: Record<string, string> = {
   navy: 'bg-gradient-to-br from-navy to-navy-light',
   teal: 'bg-gradient-to-br from-teal to-teal-dark',
-  purple: 'bg-gradient-to-br from-purple-700 to-purple-900',
-  blue: 'bg-gradient-to-br from-blue-600 to-blue-800',
+  purple: 'bg-gradient-to-br from-teal-700 to-teal-800',
+  blue: 'bg-gradient-to-br from-teal to-teal-800',
 }
 
 const glowClasses: Record<string, string> = {

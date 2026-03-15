@@ -45,7 +45,7 @@ export function VariantImageRadio({
       <div className="flex items-center justify-between">
         <label className="text-sm font-medium text-gray-900">
           {option.optionName}
-          {option.required && <span className="ml-1 text-red-500">*</span>}
+          {option.required && <span className="ml-1 text-coral">*</span>}
         </label>
         {selectedValue && (
           <span className="text-sm text-gray-600">{selectedValue.label}</span>
@@ -80,7 +80,7 @@ export function VariantImageRadio({
                   'relative overflow-hidden rounded-lg border-2 transition-all',
                   sizeClasses[imageSize],
                   isSelected
-                    ? 'border-blue-600 ring-2 ring-blue-600 ring-offset-2'
+                    ? 'border-teal ring-2 ring-teal ring-offset-2'
                     : 'border-gray-300 hover:border-gray-400',
                   isDisabled && 'cursor-not-allowed',
                   !isDisabled && !isSelected && 'hover:scale-105',
@@ -102,8 +102,8 @@ export function VariantImageRadio({
 
                 {/* Selected Overlay */}
                 {isSelected && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-blue-600/20">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 shadow-lg">
+                  <div className="absolute inset-0 flex items-center justify-center bg-teal/20">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-teal shadow-lg">
                       <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                         <path
                           fillRule="evenodd"
@@ -137,7 +137,7 @@ export function VariantImageRadio({
                 <span
                   className={cn(
                     'text-xs font-medium',
-                    isSelected ? 'text-blue-600' : 'text-gray-700',
+                    isSelected ? 'text-teal' : 'text-gray-700',
                     isDisabled && 'text-gray-400',
                   )}
                 >

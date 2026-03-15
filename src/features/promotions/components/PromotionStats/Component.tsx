@@ -48,7 +48,7 @@ export function PromotionStats({ promotionId }: PromotionStatsProps) {
 
   if (error || !stats) {
     return (
-      <div className="bg-red-50 text-red-600 rounded-lg p-4 text-sm">
+      <div className="bg-coral-50 text-coral rounded-lg p-4 text-sm">
         {error || 'Geen statistieken beschikbaar'}
       </div>
     )

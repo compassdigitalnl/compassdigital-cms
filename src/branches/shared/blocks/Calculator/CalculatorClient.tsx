@@ -94,7 +94,7 @@ export function CalculatorClient({
             <div key={slider.id || idx}>
               <div className="flex items-center justify-between mb-2">
                 <label className="text-sm font-medium text-gray-700">{slider.label}</label>
-                <span className="text-sm font-bold text-blue-600">
+                <span className="text-sm font-bold text-teal">
                   {formatValue(value, unit)}
                   {unit === 'hours' && (
                     <span className="text-xs font-normal text-gray-400 ml-1">
@@ -110,7 +110,7 @@ export function CalculatorClient({
                 step={step}
                 value={value}
                 onChange={(e) => handleChange(idx, Number(e.target.value))}
-                className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-blue-600 bg-gray-200"
+                className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-teal bg-gray-200"
               />
               <div className="flex justify-between mt-1">
                 <span className="text-xs text-gray-400">{formatValue(min, unit)}</span>
@@ -136,7 +136,7 @@ export function CalculatorClient({
           {/* Our price */}
           <div className="flex items-center justify-between mb-4">
             <span className="text-gray-600">CompassDigital</span>
-            <span className="text-lg font-semibold text-blue-600">
+            <span className="text-lg font-semibold text-teal">
               &euro;{ourMonthlyPrice.toLocaleString('nl-NL')}
               <span className="text-sm font-normal text-gray-400"> /mnd</span>
             </span>
@@ -147,7 +147,7 @@ export function CalculatorClient({
 
           {/* Monthly savings */}
           <div className="text-center mb-2">
-            <div className="text-3xl md:text-4xl font-bold text-green-600">
+            <div className="text-3xl md:text-4xl font-bold text-green">
               &euro;{savings.toLocaleString('nl-NL')}
             </div>
             <div className="text-sm text-gray-500 mt-1">besparing per maand</div>
@@ -155,17 +155,17 @@ export function CalculatorClient({
 
           {/* Yearly savings */}
           <div className="text-center mt-4 py-3 bg-green-50 rounded-lg">
-            <div className="text-lg font-bold text-green-700">
+            <div className="text-lg font-bold text-green-900">
               &euro;{yearlySavings.toLocaleString('nl-NL')}
             </div>
-            <div className="text-xs text-green-600">besparing per jaar</div>
+            <div className="text-xs text-green">besparing per jaar</div>
           </div>
         </div>
 
         {/* CTA button */}
         <a
           href={ctaLink || '#contact'}
-          className="mt-6 block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors duration-200"
+          className="btn btn-primary mt-6 block w-full text-center"
         >
           {ctaLabel || 'Start nu en bespaar'}
         </a>

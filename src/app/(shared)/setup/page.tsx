@@ -14,7 +14,7 @@ export default function SetupGuidePage() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-            <Check className="w-8 h-8 text-blue-600" />
+            <Check className="w-8 h-8 text-teal" />
           </div>
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Setup Guide
@@ -31,7 +31,7 @@ export default function SetupGuidePage() {
           <div className="flex items-start gap-4 mb-6">
             <div className="flex-shrink-0">
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <Check className="w-6 h-6 text-green-600" />
+                <Check className="w-6 h-6 text-green" />
               </div>
             </div>
             <div className="flex-1">
@@ -48,15 +48,15 @@ export default function SetupGuidePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <div className="text-green-700 font-semibold mb-1">✅ Features</div>
-              <div className="text-sm text-green-600">All implemented</div>
+              <div className="text-sm text-green">All implemented</div>
             </div>
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <div className="text-green-700 font-semibold mb-1">✅ Testing</div>
-              <div className="text-sm text-green-600">30+ tests ready</div>
+              <div className="text-sm text-green">30+ tests ready</div>
             </div>
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <div className="text-green-700 font-semibold mb-1">✅ CI/CD</div>
-              <div className="text-sm text-green-600">Workflows created</div>
+              <div className="text-sm text-green">Workflows created</div>
             </div>
           </div>
         </div>
@@ -68,7 +68,7 @@ export default function SetupGuidePage() {
             <div className="flex items-start gap-6">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                  <Database className="w-6 h-6 text-blue-600" />
+                  <Database className="w-6 h-6 text-teal" />
                 </div>
               </div>
               <div className="flex-1">
@@ -80,7 +80,7 @@ export default function SetupGuidePage() {
                     <Clock className="w-4 h-4" />
                     15 min
                   </span>
-                  <span className="inline-flex items-center text-sm text-red-600 bg-red-50 px-3 py-1 rounded-full border border-red-200 font-semibold">
+                  <span className="inline-flex items-center text-sm text-coral bg-coral-50 px-3 py-1 rounded-full border border-coral/20 font-semibold">
                     Required
                   </span>
                 </div>
@@ -101,7 +101,7 @@ export default function SetupGuidePage() {
                             href="https://railway.app" 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="text-blue-600 hover:text-blue-700 text-sm inline-flex items-center gap-1"
+                            className="text-teal hover:text-teal-700 text-sm inline-flex items-center gap-1"
                           >
                             railway.app
                             <ExternalLink className="w-3 h-3" />
@@ -150,7 +150,7 @@ export default function SetupGuidePage() {
                         href="https://supabase.com" 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-700 inline-flex items-center gap-1"
+                        className="text-teal hover:text-teal-700 inline-flex items-center gap-1"
                       >
                         supabase.com - Free tier: 500MB
                         <ExternalLink className="w-4 h-4" />
@@ -167,7 +167,7 @@ export default function SetupGuidePage() {
             <div className="flex items-start gap-6">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                  <Key className="w-6 h-6 text-purple-600" />
+                  <Key className="w-6 h-6 text-teal" />
                 </div>
               </div>
               <div className="flex-1">
@@ -198,7 +198,7 @@ export default function SetupGuidePage() {
                       href="https://analytics.google.com" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-700 text-sm inline-flex items-center gap-1"
+                      className="text-teal hover:text-teal-700 text-sm inline-flex items-center gap-1"
                     >
                       analytics.google.com → Get G-XXXXXXXXXX
                       <ExternalLink className="w-3 h-3" />
@@ -219,7 +219,7 @@ export default function SetupGuidePage() {
                       href="https://sentry.io" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-700 text-sm inline-flex items-center gap-1"
+                      className="text-teal hover:text-teal-700 text-sm inline-flex items-center gap-1"
                     >
                       sentry.io → Create Next.js project
                       <ExternalLink className="w-3 h-3" />
@@ -240,7 +240,7 @@ export default function SetupGuidePage() {
                       href="https://www.google.com/recaptcha/admin/create" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-700 text-sm inline-flex items-center gap-1"
+                      className="text-teal hover:text-teal-700 text-sm inline-flex items-center gap-1"
                     >
                       google.com/recaptcha → Select v3
                       <ExternalLink className="w-3 h-3" />
@@ -267,7 +267,7 @@ export default function SetupGuidePage() {
                       href="https://resend.com" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-700 text-sm inline-flex items-center gap-1"
+                      className="text-teal hover:text-teal-700 text-sm inline-flex items-center gap-1"
                     >
                       resend.com → 100 emails/day free
                       <ExternalLink className="w-3 h-3" />
@@ -332,9 +332,9 @@ export default function SetupGuidePage() {
                     </div>
                   </div>
 
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="bg-teal-50 border border-blue-200 rounded-lg p-4">
                     <div className="font-semibold text-blue-900 mb-2">📖 Complete Guide</div>
-                    <p className="text-sm text-blue-700">
+                    <p className="text-sm text-teal-700">
                       See <code className="bg-white px-1.5 py-0.5 rounded text-xs">.github/workflows/README.md</code> for detailed setup instructions.
                     </p>
                   </div>
@@ -348,7 +348,7 @@ export default function SetupGuidePage() {
             <div className="flex items-start gap-6">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <Activity className="w-6 h-6 text-green-600" />
+                  <Activity className="w-6 h-6 text-green" />
                 </div>
               </div>
               <div className="flex-1">
@@ -379,7 +379,7 @@ export default function SetupGuidePage() {
                           href="https://uptimerobot.com" 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-700 text-sm inline-flex items-center gap-1"
+                          className="text-teal hover:text-teal-700 text-sm inline-flex items-center gap-1"
                         >
                           uptimerobot.com
                           <ExternalLink className="w-3 h-3" />
@@ -412,7 +412,7 @@ export default function SetupGuidePage() {
         </div>
 
         {/* Next Steps */}
-        <div className="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200 rounded-2xl p-8">
+        <div className="mt-12 bg-gradient-to-r from-teal-50 to-purple-50 border-2 border-blue-200 rounded-2xl p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
             After Setup - Deploy! 🚀
           </h2>

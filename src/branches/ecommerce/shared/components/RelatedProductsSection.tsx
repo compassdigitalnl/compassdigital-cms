@@ -39,7 +39,7 @@ function ProductCard({ product, badge }: { product: Product; badge?: string }) {
           </div>
         )}
         {badge && (
-          <div className="absolute top-2 right-2 px-2 py-1 bg-blue-600 text-white text-xs font-bold rounded">
+          <div className="absolute top-2 right-2 px-2 py-1 bg-teal text-white text-xs font-bold rounded">
             {badge}
           </div>
         )}
@@ -47,7 +47,7 @@ function ProductCard({ product, badge }: { product: Product; badge?: string }) {
 
       {/* Info */}
       <div className="p-4">
-        <h3 className="font-semibold text-gray-900 text-sm mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors">
+        <h3 className="font-semibold text-gray-900 text-sm mb-1 line-clamp-2 group-hover:text-teal transition-colors">
           {product.title}
         </h3>
         {product.shortDescription && (
@@ -90,9 +90,9 @@ export function RelatedProductsSection({
     <div className={`space-y-12 ${className}`}>
       {/* Up-Sells - Show ABOVE add to cart button in template integration */}
       {upSellProducts.length > 0 && (
-        <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-200">
+        <div className="bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl p-6 border border-teal-200">
           <div className="flex items-center gap-2 mb-4">
-            <ArrowUpRight className="w-5 h-5 text-blue-600" />
+            <ArrowUpRight className="w-5 h-5 text-teal" />
             <h2 className="text-xl font-bold text-gray-900">
               Upgrade naar een betere optie
             </h2>

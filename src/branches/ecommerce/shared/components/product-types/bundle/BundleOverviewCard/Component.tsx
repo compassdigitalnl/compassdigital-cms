@@ -40,12 +40,12 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
   return (
     <div className={`bundle-overview-card border-2 border-gray-300 rounded-lg bg-white overflow-hidden ${className}`}>
       {/* Header */}
-      <div className="px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-700 text-white">
+      <div className="px-6 py-4 bg-gradient-to-r from-teal to-teal-700 text-white">
         <div className="flex items-start gap-3">
           <Package className="w-6 h-6 flex-shrink-0 mt-1" strokeWidth={2.5} />
           <div className="flex-1">
             <h3 className="text-[20px] font-bold mb-1">{title}</h3>
-            {description && <p className="text-[14px] text-purple-100">{description}</p>}
+            {description && <p className="text-[14px] text-teal-100">{description}</p>}
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
               <div key={item.id || index} className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div
-                    className={`w-1.5 h-1.5 rounded-full ${item.required ? 'bg-purple-600' : 'bg-gray-400'}`}
+                    className={`w-1.5 h-1.5 rounded-full ${item.required ? 'bg-teal' : 'bg-gray-400'}`}
                   />
                   <span className="text-[14px] text-gray-700">
                     {item.quantity}x {product?.title || 'Product'}
@@ -73,7 +73,7 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
                   )}
                 </div>
                 {item.discount && item.discount > 0 && (
-                  <span className="text-[12px] text-green-600 font-semibold">-{item.discount}%</span>
+                  <span className="text-[12px] text-green font-semibold">-{item.discount}%</span>
                 )}
               </div>
             )
@@ -83,7 +83,7 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
         {/* Item Count Summary */}
         <div className="mt-3 pt-3 border-t border-gray-200 flex items-center gap-4 text-[12px] text-gray-600">
           <span>
-            <strong className="text-purple-600">{requiredCount}</strong> verplicht
+            <strong className="text-teal">{requiredCount}</strong> verplicht
           </span>
           {optionalCount > 0 && (
             <span>
@@ -108,7 +108,7 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
           {discount > 0 && (
             <div className="flex items-center justify-between">
               <span className="text-[14px] text-gray-600">Bundle korting ({discount}%):</span>
-              <span className="text-[14px] text-green-600 font-semibold font-mono">
+              <span className="text-[14px] text-green font-semibold font-mono">
                 -€{formatPriceStr(savings)}
               </span>
             </div>
@@ -120,7 +120,7 @@ export const BundleOverviewCard: React.FC<BundleOverviewCardProps> = ({
           {/* Total Price */}
           <div className="flex items-center justify-between">
             <span className="text-[16px] font-bold text-gray-900">Bundle prijs:</span>
-            <span className="text-[22px] font-mono font-bold text-purple-600">
+            <span className="text-[22px] font-mono font-bold text-teal">
               €{formatPriceStr(totalPrice)}
             </span>
           </div>

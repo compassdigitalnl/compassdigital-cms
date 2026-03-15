@@ -97,7 +97,7 @@ export function WizardStepPortfolio({ portfolioCases, onChange }: Props) {
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <Award className="w-6 h-6 text-blue-600" />
+          <Award className="w-6 h-6 text-teal" />
           Portfolio & Case Studies
         </h2>
         <p className="mt-2 text-sm text-gray-600">
@@ -109,7 +109,7 @@ export function WizardStepPortfolio({ portfolioCases, onChange }: Props) {
       {/* Cases List */}
       <div className="space-y-4">
         {portfolioCases.map((caseItem, index) => (
-          <Card key={index} className="border-l-4 border-l-purple-500">
+          <Card key={index} className="border-l-4 border-l-teal">
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
                 <div className="flex-1 space-y-3">
@@ -163,7 +163,7 @@ export function WizardStepPortfolio({ portfolioCases, onChange }: Props) {
                   variant="ghost"
                   size="sm"
                   onClick={() => removeCase(index)}
-                  className="text-red-500 hover:text-red-700 hover:bg-red-50 ml-2"
+                  className="text-coral hover:text-coral-700 hover:bg-coral-50 ml-2"
                 >
                   <X className="w-4 h-4" />
                 </Button>
@@ -227,7 +227,7 @@ export function WizardStepPortfolio({ portfolioCases, onChange }: Props) {
                       {tech}
                       <button
                         onClick={() => removeTechnology(index, techIndex)}
-                        className="ml-1 hover:text-red-600"
+                        className="ml-1 hover:text-coral"
                       >
                         <X className="w-3 h-3" />
                       </button>
@@ -282,7 +282,7 @@ export function WizardStepPortfolio({ portfolioCases, onChange }: Props) {
       )}
 
       {isAdding && (
-        <Card className="border-2 border-purple-500">
+        <Card className="border-2 border-teal">
           <CardHeader>
             <CardTitle className="text-lg">Nieuwe case study toevoegen</CardTitle>
             <CardDescription>Portfolio items zijn optioneel maar maken grote indruk</CardDescription>
@@ -391,7 +391,7 @@ export function WizardStepPortfolio({ portfolioCases, onChange }: Props) {
                     {tech}
                     <button
                       onClick={() => removeTechFromNewCase(techIndex)}
-                      className="ml-1 hover:text-red-600"
+                      className="ml-1 hover:text-coral"
                     >
                       <X className="w-3 h-3" />
                     </button>
@@ -474,7 +474,7 @@ export function WizardStepPortfolio({ portfolioCases, onChange }: Props) {
 
       {/* Info Message */}
       {portfolioCases.length === 0 && !isAdding && (
-        <Card className="bg-purple-50 border-purple-200">
+        <Card className="bg-teal-50 border-teal-200">
           <CardContent className="pt-6">
             <p className="text-sm text-purple-800">
               <strong>💼 Portfolio & Case Studies zijn optioneel</strong>
@@ -482,7 +482,7 @@ export function WizardStepPortfolio({ portfolioCases, onChange }: Props) {
               Heb je projecten waar je trots op bent? Voeg ze toe! AI genereert dan volledige case
               studies met:
             </p>
-            <ul className="mt-2 text-sm text-purple-700 space-y-1 ml-4 list-disc">
+            <ul className="mt-2 text-sm text-teal-700 space-y-1 ml-4 list-disc">
               <li>Professionele project beschrijvingen</li>
               <li>Challenge-Solution-Results structuur</li>
               <li>Impact metrics en succesverhalen</li>

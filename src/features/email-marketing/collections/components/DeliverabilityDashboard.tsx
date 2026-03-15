@@ -68,10 +68,10 @@ export const DeliverabilityDashboard: React.FC = () => {
   // Status color
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'excellent': return 'text-green-600 bg-green-50'
-      case 'good': return 'text-blue-600 bg-blue-50'
+      case 'excellent': return 'text-green bg-green-50'
+      case 'good': return 'text-teal bg-teal-50'
       case 'needs-improvement': return 'text-yellow-600 bg-yellow-50'
-      case 'critical': return 'text-red-600 bg-red-50'
+      case 'critical': return 'text-coral bg-coral-50'
       default: return 'text-gray-600 bg-gray-50'
     }
   }

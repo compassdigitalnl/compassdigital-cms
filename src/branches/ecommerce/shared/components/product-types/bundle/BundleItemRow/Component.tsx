@@ -93,7 +93,7 @@ export const BundleItemRow: React.FC<BundleItemRowProps> = ({
             {product?.title || 'Product'}
           </h4>
           {item.required && (
-            <span className="text-[10px] px-2 py-0.5 bg-purple-600 text-white rounded-full font-semibold flex-shrink-0">
+            <span className="text-[10px] px-2 py-0.5 bg-teal text-white rounded-full font-semibold flex-shrink-0">
               Verplicht
             </span>
           )}

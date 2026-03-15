@@ -23,7 +23,7 @@ export default function Error({
         {/* Error Illustration */}
         <div className="mb-8">
           <svg
-            className="mx-auto h-48 w-48 text-red-300"
+            className="mx-auto h-48 w-48 text-coral/30"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -51,15 +51,15 @@ export default function Error({
 
         {/* Error Details (Only in development) */}
         {process.env.NODE_ENV === 'development' && error.message && (
-          <details className="mb-8 text-left bg-red-50 border border-red-200 rounded-lg p-4 max-w-md mx-auto">
-            <summary className="cursor-pointer font-semibold text-red-800 mb-2">
+          <details className="mb-8 text-left bg-coral-50 border border-coral/20 rounded-lg p-4 max-w-md mx-auto">
+            <summary className="cursor-pointer font-semibold text-coral mb-2">
               Error Details (Development Only)
             </summary>
-            <pre className="text-xs text-red-700 whitespace-pre-wrap break-words">
+            <pre className="text-xs text-coral whitespace-pre-wrap break-words">
               {error.message}
             </pre>
             {error.digest && (
-              <p className="text-xs text-red-600 mt-2">Error ID: {error.digest}</p>
+              <p className="text-xs text-coral mt-2">Error ID: {error.digest}</p>
             )}
           </details>
         )}
@@ -102,7 +102,7 @@ export default function Error({
         <div className="mt-12 pt-8 border-t border-gray-200">
           <p className="text-sm text-gray-500">
             Blijft het probleem zich voordoen?{' '}
-            <Link href="/contact/" className="text-blue-600 hover:text-blue-700 underline">
+            <Link href="/contact/" className="text-teal hover:text-teal-700 underline">
               Neem contact op
             </Link>
           </p>

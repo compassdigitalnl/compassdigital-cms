@@ -74,7 +74,7 @@ export function MegaNav({
 
               {error && (
                 <div className="px-5 py-4">
-                  <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-3 text-xs text-white">
+                  <div className="bg-coral/20 border border-coral/30 rounded-lg p-3 text-xs text-white">
                     <div className="flex items-start gap-2 mb-2">
                       <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
                       <div>

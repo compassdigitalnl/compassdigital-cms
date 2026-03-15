@@ -94,7 +94,7 @@ export function WizardStepPricing({ pricingPackages, onChange }: Props) {
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <DollarSign className="w-6 h-6 text-green-600" />
+          <DollarSign className="w-6 h-6 text-green" />
           Prijzen & Pakketten
         </h2>
         <p className="mt-2 text-sm text-gray-600">
@@ -109,7 +109,7 @@ export function WizardStepPricing({ pricingPackages, onChange }: Props) {
           <Card
             key={index}
             className={`border-l-4 ${
-              pkg.highlighted ? 'border-l-green-500 bg-green-50/50' : 'border-l-gray-300'
+              pkg.highlighted ? 'border-l-green bg-green-50/50' : 'border-l-gray-300'
             }`}
           >
             <CardHeader className="pb-3">
@@ -197,7 +197,7 @@ export function WizardStepPricing({ pricingPackages, onChange }: Props) {
                   variant="ghost"
                   size="sm"
                   onClick={() => removePackage(index)}
-                  className="text-red-500 hover:text-red-700 hover:bg-red-50 ml-2"
+                  className="text-coral hover:text-coral-700 hover:bg-coral-50 ml-2"
                 >
                   <X className="w-4 h-4" />
                 </Button>
@@ -224,7 +224,7 @@ export function WizardStepPricing({ pricingPackages, onChange }: Props) {
                       key={featureIndex}
                       className="flex items-center gap-2 bg-gray-50 p-2 rounded"
                     >
-                      <Check className="w-4 h-4 text-green-600 flex-shrink-0" />
+                      <Check className="w-4 h-4 text-green flex-shrink-0" />
                       <span className="flex-1 text-sm">{feature}</span>
                       <Button
                         variant="ghost"
@@ -273,7 +273,7 @@ export function WizardStepPricing({ pricingPackages, onChange }: Props) {
       )}
 
       {isAdding && (
-        <Card className="border-2 border-green-500">
+        <Card className="border-2 border-green">
           <CardHeader>
             <CardTitle className="text-lg">Nieuw prijspakket toevoegen</CardTitle>
             <CardDescription>Prijzen zijn optioneel maar helpen bij conversie</CardDescription>
@@ -376,7 +376,7 @@ export function WizardStepPricing({ pricingPackages, onChange }: Props) {
               <div className="space-y-2 mt-1">
                 {newPackage.features.map((feature, featureIndex) => (
                   <div key={featureIndex} className="flex items-center gap-2 bg-gray-50 p-2 rounded">
-                    <Check className="w-4 h-4 text-green-600 flex-shrink-0" />
+                    <Check className="w-4 h-4 text-green flex-shrink-0" />
                     <span className="flex-1 text-sm">{feature}</span>
                     <Button
                       variant="ghost"

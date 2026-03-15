@@ -110,7 +110,7 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <Package className="w-6 h-6 text-green-600" />
+          <Package className="w-6 h-6 text-green" />
           Product Import
         </h2>
         <p className="mt-2 text-sm text-gray-600">
@@ -119,10 +119,10 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
       </div>
 
       {/* Configuration Summary */}
-      <Card className="bg-blue-50 border-blue-200">
+      <Card className="bg-teal-50 border-teal-200">
         <CardContent className="pt-6">
           <div className="flex items-start gap-3">
-            <Info className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+            <Info className="w-5 h-5 text-teal flex-shrink-0 mt-0.5" />
             <div className="flex-1">
               <h3 className="font-semibold text-blue-900 text-sm">
                 Je E-commerce Configuratie
@@ -147,7 +147,7 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
       </Card>
 
       {/* Template Selection */}
-      <Card className="border-2 border-green-500">
+      <Card className="border-2 border-green">
         <CardHeader>
           <CardTitle className="text-lg">1. Selecteer Template Type</CardTitle>
           <CardDescription>
@@ -163,7 +163,7 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
                 onClick={() => setSelectedTemplate(template.type)}
                 className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                   isSelected
-                    ? 'border-green-600 bg-green-50'
+                    ? 'border-green bg-green-50'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
@@ -192,7 +192,7 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
                           key={index}
                           className="text-xs text-gray-600 flex items-start gap-1"
                         >
-                          <CheckCircle2 className="w-3 h-3 text-green-600 flex-shrink-0 mt-0.5" />
+                          <CheckCircle2 className="w-3 h-3 text-green flex-shrink-0 mt-0.5" />
                           {feature}
                         </li>
                       ))}
@@ -219,7 +219,7 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
               <div className="text-2xl font-bold text-gray-900">{columnCount}</div>
               <div className="text-xs text-gray-600 mt-1">Totaal Kolommen</div>
             </div>
-            <div className="p-3 bg-blue-50 rounded-lg text-center">
+            <div className="p-3 bg-teal-50 rounded-lg text-center">
               <div className="text-2xl font-bold text-blue-900">{requiredColumns}</div>
               <div className="text-xs text-gray-600 mt-1">Verplichte Velden</div>
             </div>
@@ -244,9 +244,9 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
           </div>
 
           {ecommerceSettings.customRoles.length > 0 && (
-            <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg">
+            <div className="p-3 bg-teal-50 border border-teal-200 rounded-lg">
               <div className="flex items-start gap-2">
-                <Zap className="w-4 h-4 text-purple-600 flex-shrink-0 mt-0.5" />
+                <Zap className="w-4 h-4 text-teal flex-shrink-0 mt-0.5" />
                 <div className="text-xs text-purple-800">
                   <strong>Custom Pricing Kolommen Toegevoegd!</strong>
                   <br />
@@ -263,7 +263,7 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
       </Card>
 
       {/* Download Template */}
-      <Card className="border-2 border-green-500">
+      <Card className="border-2 border-green">
         <CardHeader>
           <CardTitle className="text-lg">2. Download Template</CardTitle>
           <CardDescription>
@@ -328,16 +328,16 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
       </Card>
 
       {/* AI Verification Info */}
-      <Card className="bg-purple-50 border-purple-200">
+      <Card className="bg-teal-50 border-teal-200">
         <CardContent className="pt-6">
           <div className="flex items-start gap-3">
-            <Zap className="w-6 h-6 text-purple-600 flex-shrink-0" />
+            <Zap className="w-6 h-6 text-teal flex-shrink-0" />
             <div>
               <h3 className="font-semibold text-purple-900">AI Verificatie & Enrichment</h3>
-              <p className="text-sm text-purple-700 mt-1">
+              <p className="text-sm text-teal-700 mt-1">
                 Wanneer je producten uploadt, voert AI automatisch de volgende controles uit:
               </p>
-              <ul className="mt-2 text-sm text-purple-700 space-y-1 ml-4 list-disc">
+              <ul className="mt-2 text-sm text-teal-700 space-y-1 ml-4 list-disc">
                 <li>
                   <strong>Data validatie</strong>: Controleert verplichte velden, formaten, en
                   datatypes
@@ -358,7 +358,7 @@ export function WizardStepProductImport({ ecommerceSettings }: Props) {
                   <strong>Categorie matching</strong>: Matcht producten aan juiste categorieën
                 </li>
               </ul>
-              <p className="text-xs text-purple-600 mt-2">
+              <p className="text-xs text-teal mt-2">
                 Verwerking gebeurt op de achtergrond, je kunt de wizard afsluiten tijdens import.
               </p>
             </div>

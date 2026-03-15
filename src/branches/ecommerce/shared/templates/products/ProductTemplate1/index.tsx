@@ -797,8 +797,8 @@ export default function ProductTemplate1({ product, parentGroupedProduct, defaul
             <div className="flex flex-col gap-2.5 mb-5">
               {/* Out-of-stock notice */}
               {isOutOfStock && (
-                <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 font-semibold text-sm">
-                  <span className="w-2 h-2 bg-red-500 rounded-full shrink-0" />
+                <div className="flex items-center gap-2 p-4 bg-coral-50 border border-coral/20 rounded-xl text-coral-700 font-semibold text-sm">
+                  <span className="w-2 h-2 bg-coral rounded-full shrink-0" />
                   Tijdelijk uitverkocht
                 </div>
               )}
@@ -1073,8 +1073,8 @@ export default function ProductTemplate1({ product, parentGroupedProduct, defaul
 
           {/* Main CTA - Mobile */}
           {isOutOfStock ? (
-            <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 font-semibold text-sm mb-3">
-              <span className="w-2 h-2 bg-red-500 rounded-full shrink-0" />
+            <div className="flex items-center gap-2 p-4 bg-coral-50 border border-coral/20 rounded-xl text-coral-700 font-semibold text-sm mb-3">
+              <span className="w-2 h-2 bg-coral rounded-full shrink-0" />
               Tijdelijk uitverkocht
             </div>
           ) : (

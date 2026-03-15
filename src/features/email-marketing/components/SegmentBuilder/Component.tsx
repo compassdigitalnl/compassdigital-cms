@@ -87,7 +87,7 @@ export function SegmentBuilder({ value, onChange }: SegmentBuilderProps) {
       <button
         type="button"
         onClick={handleAddGroup}
-        className="flex w-full items-center justify-center rounded-lg border-2 border-dashed border-gray-300 px-4 py-3 text-sm font-medium text-gray-600 transition-colors hover:border-blue-400 hover:text-blue-600"
+        className="flex w-full items-center justify-center rounded-lg border-2 border-dashed border-gray-300 px-4 py-3 text-sm font-medium text-gray-600 transition-colors hover:border-blue-400 hover:text-teal"
       >
         + Groep toevoegen
       </button>

@@ -108,23 +108,23 @@ export function CreateLabelButton({
     const url = result?.trackingUrl || trackingUrl
 
     return (
-      <div className="p-4 rounded-lg border border-green-200 bg-green-50">
+      <div className="p-4 rounded-lg border border-green/20 bg-green-50">
         <div className="flex items-center gap-2 mb-2">
-          <svg className="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-5 h-5 text-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
           <span className="text-sm font-bold text-green-700">Verzendlabel aangemaakt</span>
         </div>
 
         {code && (
-          <p className="text-xs text-green-600 mb-2 font-mono">{code}</p>
+          <p className="text-xs text-green mb-2 font-mono">{code}</p>
         )}
 
         <div className="flex gap-2">
           <button
             onClick={handleDownloadLabel}
             disabled={isDownloading}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-bold text-white bg-green-600 hover:bg-green-700 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-bold text-white bg-green hover:bg-green-700 disabled:opacity-50"
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -147,7 +147,7 @@ export function CreateLabelButton({
           )}
         </div>
 
-        {error && <p className="text-xs text-red-500 mt-2">{error}</p>}
+        {error && <p className="text-xs text-coral mt-2">{error}</p>}
       </div>
     )
   }
@@ -168,13 +168,13 @@ export function CreateLabelButton({
     <div className="p-4 rounded-lg border border-gray-200 bg-white">
       <div className="flex items-center justify-between mb-3">
         <span className="text-sm font-bold text-gray-700">Verzending</span>
-        <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-bold uppercase">
+        <span className="text-[10px] px-2 py-0.5 rounded-full bg-teal-50 text-teal font-bold uppercase">
           {provider}
         </span>
       </div>
 
       {error && (
-        <div className="p-2 mb-3 rounded text-xs bg-red-50 border border-red-200 text-red-600">
+        <div className="p-2 mb-3 rounded text-xs bg-coral-50 border border-coral/20 text-coral">
           {error}
         </div>
       )}

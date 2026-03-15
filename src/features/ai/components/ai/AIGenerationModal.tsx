@@ -69,9 +69,9 @@ export const AIGenerationModal: React.FC<AIGenerationModalProps> = ({
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {/* Prompt Display */}
           {prompt && (
-            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-              <p className="text-sm font-medium text-purple-900 mb-1">Prompt:</p>
-              <p className="text-sm text-purple-700">{prompt}</p>
+            <div className="bg-teal-50 border border-teal/20 rounded-lg p-4">
+              <p className="text-sm font-medium text-teal-900 mb-1">Prompt:</p>
+              <p className="text-sm text-teal-700">{prompt}</p>
             </div>
           )}
 
@@ -79,7 +79,7 @@ export const AIGenerationModal: React.FC<AIGenerationModalProps> = ({
           {loading && (
             <div className="flex items-center justify-center py-12">
               <div className="text-center space-y-4">
-                <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-200 border-t-purple-600 mx-auto" />
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-teal/20 border-t-teal mx-auto" />
                 <p className="text-gray-600">AI is aan het genereren...</p>
               </div>
             </div>
@@ -87,9 +87,9 @@ export const AIGenerationModal: React.FC<AIGenerationModalProps> = ({
 
           {/* Error State */}
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <p className="text-sm font-medium text-red-900 mb-1">Error:</p>
-              <p className="text-sm text-red-700">{error}</p>
+            <div className="bg-coral-50 border border-coral/20 rounded-lg p-4">
+              <p className="text-sm font-medium text-coral-900 mb-1">Error:</p>
+              <p className="text-sm text-coral-700">{error}</p>
             </div>
           )}
 
@@ -131,7 +131,7 @@ export const AIGenerationModal: React.FC<AIGenerationModalProps> = ({
               <textarea
                 value={editedContent}
                 onChange={(e) => setEditedContent(e.target.value)}
-                className="w-full min-h-[200px] p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-y font-mono text-sm"
+                className="w-full min-h-[200px] p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal focus:border-transparent resize-y font-mono text-sm"
                 placeholder="Gegenereerde content verschijnt hier..."
               />
               <p className="text-xs text-gray-500">
@@ -152,7 +152,7 @@ export const AIGenerationModal: React.FC<AIGenerationModalProps> = ({
           <button
             onClick={handleAccept}
             disabled={!editedContent || loading}
-            className="px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2 bg-gradient-to-r from-teal to-teal text-white rounded-lg hover:from-teal-700 hover:to-teal-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Accepteer & Gebruik
           </button>

@@ -87,7 +87,7 @@ export function SegmentList({ onEdit }: SegmentListProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-teal border-t-transparent" />
         <span className="ml-3 text-sm text-gray-500">Segmenten laden...</span>
       </div>
     )
@@ -95,7 +95,7 @@ export function SegmentList({ onEdit }: SegmentListProps) {
 
   if (error) {
     return (
-      <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+      <div className="rounded-lg border border-coral/20 bg-coral-50 px-4 py-3 text-sm text-coral-700">
         {error}
       </div>
     )
@@ -110,7 +110,7 @@ export function SegmentList({ onEdit }: SegmentListProps) {
           <button
             type="button"
             onClick={() => onEdit(0)}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700"
+            className="rounded-lg bg-teal px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-teal-700"
           >
             Nieuw segment
           </button>

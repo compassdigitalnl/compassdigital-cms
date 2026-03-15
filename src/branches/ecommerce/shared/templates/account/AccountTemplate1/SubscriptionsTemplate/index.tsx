@@ -68,7 +68,7 @@ export default function SubscriptionsTemplate({
               key={index}
               className="bg-white border border-gray-200 rounded-lg p-4 flex items-center gap-3"
             >
-              <div className="w-9 h-9 bg-blue-50 rounded-lg flex items-center justify-center text-lg flex-shrink-0">
+              <div className="w-9 h-9 bg-teal-50 rounded-lg flex items-center justify-center text-lg flex-shrink-0">
                 {addon.icon}
               </div>
               <div className="flex-1 min-w-0">
@@ -129,8 +129,8 @@ export default function SubscriptionsTemplate({
 
       {/* Cancel Subscription */}
       <div className="bg-white border border-gray-200 rounded-lg p-4 flex items-center gap-3">
-        <div className="w-9 h-9 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
-          <XCircle className="w-5 h-5 text-red-500" />
+        <div className="w-9 h-9 bg-coral-50 rounded-lg flex items-center justify-center flex-shrink-0">
+          <XCircle className="w-5 h-5 text-coral" />
         </div>
         <div className="flex-1">
           <div className="font-bold text-sm">Abonnement opzeggen</div>

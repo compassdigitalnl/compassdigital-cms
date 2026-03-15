@@ -117,7 +117,7 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
                 <button
                   type="button"
                   onClick={() => onRemoveVariant(variant.id)}
-                  className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full hover:bg-red-100 text-gray-500 hover:text-red-600 transition-colors"
+                  className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full hover:bg-red-100 text-gray-500 hover:text-coral transition-colors"
                   aria-label={`Verwijder ${variant.name}`}
                 >
                   <X className="w-4 h-4" strokeWidth={2.5} />
@@ -139,10 +139,10 @@ export const VariantSelectionSidebar: React.FC<VariantSelectionSidebarProps> = (
             {/* Discount (if applicable) */}
             {hasDiscount && (
               <div className="flex items-center justify-between text-sm">
-                <span className="text-green-600 font-semibold">
+                <span className="text-green font-semibold">
                   Staffelkorting (−{((discount / subtotal) * 100).toFixed(0)}%)
                 </span>
-                <span className="font-mono font-semibold text-green-600">
+                <span className="font-mono font-semibold text-green">
                   −€{formatPriceStr(discount)}
                 </span>
               </div>

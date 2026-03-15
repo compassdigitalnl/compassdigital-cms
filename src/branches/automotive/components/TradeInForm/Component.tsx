@@ -112,7 +112,7 @@ export const TradeInForm: React.FC<TradeInFormProps> = ({ className = '' }) => {
 
   if (submitResult?.success) {
     return (
-      <div className={`rounded-xl border border-green-200 bg-green-50 p-8 text-center ${className}`}>
+      <div className={`rounded-xl border border-green/20 bg-green-50 p-8 text-center ${className}`}>
         <div className="mb-4 text-4xl">&#10003;</div>
         <h3 className="mb-2 text-xl font-bold text-green-800">Aanvraag ontvangen!</h3>
         <p className="text-green-700">{submitResult.message}</p>
@@ -183,26 +183,26 @@ export const TradeInForm: React.FC<TradeInFormProps> = ({ className = '' }) => {
             </div>
 
             {lookupError && (
-              <div className="mt-3 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+              <div className="mt-3 rounded-lg border border-coral/20 bg-coral-50 p-3 text-sm text-coral-700">
                 {lookupError}
               </div>
             )}
 
             {formData.rdwInfo && (
-              <div className="mt-4 rounded-lg border border-green-200 bg-green-50 p-4">
+              <div className="mt-4 rounded-lg border border-green/20 bg-green-50 p-4">
                 <h4 className="mb-2 text-sm font-semibold text-green-800">Voertuig gevonden</h4>
                 <div className="grid grid-cols-2 gap-2 text-sm text-green-700">
                   <div>
-                    <span className="text-green-600">Merk:</span> {formData.rdwInfo.brand}
+                    <span className="text-green">Merk:</span> {formData.rdwInfo.brand}
                   </div>
                   <div>
-                    <span className="text-green-600">Model:</span> {formData.rdwInfo.model}
+                    <span className="text-green">Model:</span> {formData.rdwInfo.model}
                   </div>
                   <div>
-                    <span className="text-green-600">Bouwjaar:</span> {formData.rdwInfo.year}
+                    <span className="text-green">Bouwjaar:</span> {formData.rdwInfo.year}
                   </div>
                   <div>
-                    <span className="text-green-600">Brandstof:</span> {formData.rdwInfo.fuelType}
+                    <span className="text-green">Brandstof:</span> {formData.rdwInfo.fuelType}
                   </div>
                 </div>
               </div>
@@ -318,7 +318,7 @@ export const TradeInForm: React.FC<TradeInFormProps> = ({ className = '' }) => {
             </div>
 
             {submitResult && !submitResult.success && (
-              <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+              <div className="mt-4 rounded-lg border border-coral/20 bg-coral-50 p-3 text-sm text-coral-700">
                 {submitResult.message}
               </div>
             )}

@@ -27,7 +27,7 @@ function statusClasses(status: GiftCard['status']): string {
 }
 
 function badgeBg(status: GiftCard['status']): string {
-  if (status === 'active') return 'bg-green-500'
+  if (status === 'active') return 'bg-green'
   return 'bg-gray-400'
 }
 
@@ -43,16 +43,16 @@ function balanceColor(status: GiftCard['status']): string {
 
 function txIconBg(tx: GiftCardTransaction): string {
   if (tx.type === 'credit') return 'bg-green-100'
-  if (tx.description.toLowerCase().includes('bestel')) return 'bg-blue-100'
-  return 'bg-purple-100'
+  if (tx.description.toLowerCase().includes('bestel')) return 'bg-teal-100'
+  return 'bg-teal-100'
 }
 
 function TxIcon({ tx }: { tx: GiftCardTransaction }) {
   if (tx.type === 'credit')
-    return <ArrowDownLeft className="w-4 h-4 text-green-600" />
+    return <ArrowDownLeft className="w-4 h-4 text-green" />
   if (tx.description.toLowerCase().includes('bestel'))
-    return <ShoppingBag className="w-4 h-4 text-blue-600" />
-  return <ArrowUpRight className="w-4 h-4 text-purple-600" />
+    return <ShoppingBag className="w-4 h-4 text-teal" />
+  return <ArrowUpRight className="w-4 h-4 text-teal" />
 }
 
 // ── sub-components ─────────────────────────────────────────────────────────
@@ -153,7 +153,7 @@ function TransactionRow({ tx }: { tx: GiftCardTransaction }) {
           {tx.code && <span>{tx.code}</span>}
         </div>
       </div>
-      <div className={`font-mono font-bold text-sm ${tx.type === 'credit' ? 'text-green-600' : 'text-gray-900'}`}>
+      <div className={`font-mono font-bold text-sm ${tx.type === 'credit' ? 'text-green' : 'text-gray-900'}`}>
         {tx.type === 'credit' ? '+ ' : '− '}€{formatPriceStr(tx.amount)}
       </div>
     </div>

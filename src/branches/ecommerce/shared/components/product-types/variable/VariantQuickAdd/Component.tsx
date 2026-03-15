@@ -98,7 +98,7 @@ export function VariantQuickAdd({
               className={cn(
                 'rounded-lg border-2 transition-all',
                 compactMode ? 'border-0 border-b-2 p-3 last:border-b-0' : 'border-gray-200 p-4',
-                quantity > 0 && 'border-blue-600 bg-blue-50',
+                quantity > 0 && 'border-teal bg-teal-50',
                 isDisabled && 'opacity-50',
               )}
             >
@@ -157,8 +157,8 @@ export function VariantQuickAdd({
                               hasStock
                                 ? isLowStock
                                   ? 'text-orange-600'
-                                  : 'text-green-600'
-                                : 'text-red-600',
+                                  : 'text-green'
+                                : 'text-coral',
                             )}
                           >
                             {hasStock
@@ -256,11 +256,11 @@ export function VariantQuickAdd({
 
       {/* Summary */}
       {totalSelectedItems > 0 && (
-        <div className="rounded-lg bg-blue-50 p-4">
+        <div className="rounded-lg bg-teal-50 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm font-semibold text-blue-900">Cart Summary</div>
-              <div className="mt-1 text-sm text-blue-800">
+              <div className="text-sm font-semibold text-navy">Cart Summary</div>
+              <div className="mt-1 text-sm text-teal-800">
                 {totalSelectedItems} {totalSelectedItems === 1 ? 'item' : 'items'} ready to add
               </div>
             </div>

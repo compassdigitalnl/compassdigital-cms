@@ -194,7 +194,7 @@ export async function SiteFooter() {
             const Icon = trustIcons[badge.icon] || Check
             return (
               <div key={i} className="flex items-center gap-2 text-xs text-gray-400">
-                <Icon className="w-3.5 h-3.5 text-green-500" />
+                <Icon className="w-3.5 h-3.5 text-green" />
                 {badge.text}
               </div>
             )

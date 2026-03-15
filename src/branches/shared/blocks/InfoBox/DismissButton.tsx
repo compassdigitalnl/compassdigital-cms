@@ -7,10 +7,10 @@ interface DismissButtonProps {
 }
 
 const hoverColors: Record<string, string> = {
-  info: 'hover:bg-blue-200',
+  info: 'hover:bg-teal-200',
   success: 'hover:bg-green-200',
   warning: 'hover:bg-amber-200',
-  error: 'hover:bg-red-200',
+  error: 'hover:bg-coral-200',
 }
 
 /**

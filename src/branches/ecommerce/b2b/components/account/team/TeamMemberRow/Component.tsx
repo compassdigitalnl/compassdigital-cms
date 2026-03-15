@@ -111,7 +111,7 @@ export function TeamMemberRow({
                     }
                     setMenuOpen(false)
                   }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-600 hover:bg-red-50"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-coral hover:bg-coral-50"
                 >
                   <Trash2 className="w-4 h-4" />
                   Verwijderen

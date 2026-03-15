@@ -30,9 +30,9 @@ export const AIButton: React.FC<AIButtonProps> = ({
   const baseStyles = 'inline-flex items-center gap-2 font-medium transition-all rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2'
 
   const variantStyles = {
-    primary: 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white focus:ring-purple-500',
+    primary: 'bg-gradient-to-r from-teal to-teal hover:from-teal-700 hover:to-teal-700 text-white focus:ring-teal',
     secondary: 'bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 focus:ring-gray-500',
-    icon: 'bg-purple-100 hover:bg-purple-200 text-purple-700 focus:ring-purple-500 p-2 rounded-full',
+    icon: 'bg-teal-100 hover:bg-teal/20 text-teal-700 focus:ring-teal p-2 rounded-full',
   }
 
   const sizeStyles = {

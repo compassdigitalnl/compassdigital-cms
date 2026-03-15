@@ -129,7 +129,7 @@ export function WizardStep5Generate({ wizardData }: Props) {
 
       {/* Summary */}
       {status === 'idle' && (
-        <Card className="border-2 border-blue-200 bg-blue-50">
+        <Card className="border-2 border-teal-200 bg-teal-50">
           <CardContent className="pt-6">
             <h3 className="font-semibold text-lg mb-4">📋 Samenvatting</h3>
             <div className="space-y-3 text-sm">
@@ -180,7 +180,7 @@ export function WizardStep5Generate({ wizardData }: Props) {
                       </Badge>
                     ))}
                   {(wizardData.extraFeatures ?? []).map((f) => (
-                    <Badge key={f} variant="outline" className="text-xs border-purple-300 text-purple-700">
+                    <Badge key={f} variant="outline" className="text-xs border-teal-300 text-teal-700">
                       {f}
                     </Badge>
                   ))}
@@ -193,11 +193,11 @@ export function WizardStep5Generate({ wizardData }: Props) {
 
       {/* Generation Progress */}
       {status === 'generating' && (
-        <Card className="border-2 border-blue-600">
+        <Card className="border-2 border-teal">
           <CardContent className="pt-6">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <Loader2 className="w-6 h-6 text-blue-600 animate-spin" />
+                <Loader2 className="w-6 h-6 text-teal animate-spin" />
                 <div className="flex-1">
                   <h3 className="font-semibold text-lg">Uw website wordt gegenereerd...</h3>
                   <p className="text-sm text-gray-600">{getCurrentProgressLabel()}</p>
@@ -210,7 +210,7 @@ export function WizardStep5Generate({ wizardData }: Props) {
               {/* Progress Bar */}
               <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
                 <div
-                  className="bg-gradient-to-r from-blue-500 to-blue-600 h-4 transition-all duration-500 ease-out flex items-center justify-end pr-2"
+                  className="bg-gradient-to-r from-teal to-teal h-4 transition-all duration-500 ease-out flex items-center justify-end pr-2"
                   style={{ width: `${progress}%` }}
                 >
                   {progress > 10 && (
@@ -220,7 +220,7 @@ export function WizardStep5Generate({ wizardData }: Props) {
               </div>
 
               {/* Estimated Time */}
-              <div className="p-3 bg-blue-50 rounded-lg text-sm">
+              <div className="p-3 bg-teal-50 rounded-lg text-sm">
                 <p className="text-gray-600">
                   ⏱️ Geschatte tijd: 5-10 minuten (database + Ploi deployment + DNS)
                 </p>
@@ -232,11 +232,11 @@ export function WizardStep5Generate({ wizardData }: Props) {
 
       {/* Completion */}
       {status === 'completed' && (
-        <Card className="border-2 border-green-600 bg-green-50">
+        <Card className="border-2 border-green bg-green-50">
           <CardContent className="pt-6">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 bg-green rounded-full flex items-center justify-center">
                   <Check className="w-7 h-7 text-white" />
                 </div>
                 <div className="flex-1">
@@ -274,16 +274,16 @@ export function WizardStep5Generate({ wizardData }: Props) {
 
       {/* Error */}
       {status === 'failed' && (
-        <Card className="border-2 border-red-600 bg-red-50">
+        <Card className="border-2 border-coral bg-coral-50">
           <CardContent className="pt-6">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 bg-coral rounded-full flex items-center justify-center">
                   <X className="w-7 h-7 text-white" />
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-xl text-red-900">Er is een fout opgetreden</h3>
-                  <p className="text-sm text-red-700 mt-1">{error}</p>
+                  <p className="text-sm text-coral-700 mt-1">{error}</p>
                 </div>
               </div>
 
@@ -301,7 +301,7 @@ export function WizardStep5Generate({ wizardData }: Props) {
           <Button
             onClick={startGeneration}
             size="lg"
-            className="w-full text-lg py-6 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
+            className="w-full text-lg py-6 bg-gradient-to-r from-teal to-teal-700 hover:from-teal-700 hover:to-blue-800"
           >
             <Rocket className="w-5 h-5 mr-2" />
             CMS Provisionen & Deployen

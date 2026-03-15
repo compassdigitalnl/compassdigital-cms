@@ -212,7 +212,7 @@ export function QuoteProductTable({ products, onQuantityChange, onRemove, onAddP
                       aria-label="Verwijder product"
                     >
                       <Trash2
-                        className="w-3.5 h-3.5 text-gray-400 group-hover:text-red-500 transition-colors"
+                        className="w-3.5 h-3.5 text-gray-400 group-hover:text-coral transition-colors"
                       />
                     </button>
                   </td>

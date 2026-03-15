@@ -56,7 +56,7 @@ export default function FavoritesTemplate({
               disabled={isTogglingShare}
               className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 shareEnabled
-                  ? 'bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100'
+                  ? 'bg-teal-50 text-teal-700 border border-teal-200 hover:bg-teal-100'
                   : 'bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100'
               } ${isTogglingShare ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
@@ -75,8 +75,8 @@ export default function FavoritesTemplate({
               >
                 {copied ? (
                   <>
-                    <Check className="w-4 h-4 text-green-500" />
-                    <span className="text-green-600">Gekopieerd!</span>
+                    <Check className="w-4 h-4 text-green" />
+                    <span className="text-green">Gekopieerd!</span>
                   </>
                 ) : (
                   <>
@@ -94,7 +94,7 @@ export default function FavoritesTemplate({
         <div className="text-sm text-gray-600">
           <strong>{favorites.length}</strong> {favorites.length === 1 ? 'product' : 'producten'} in je favorieten
           {shareEnabled && (
-            <span className="ml-2 inline-flex items-center gap-1 text-blue-600">
+            <span className="ml-2 inline-flex items-center gap-1 text-teal">
               <Share2 className="w-3.5 h-3.5" />
               Gedeeld
             </span>

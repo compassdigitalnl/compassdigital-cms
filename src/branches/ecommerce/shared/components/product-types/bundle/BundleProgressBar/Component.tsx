@@ -48,7 +48,7 @@ export const BundleProgressBar: React.FC<BundleProgressBarProps> = ({
           {/* Value Display */}
           {showValue && (
             <span
-              className={`text-[14px] font-bold ${isComplete ? 'text-green-600' : 'text-purple-600'}`}
+              className={`text-[14px] font-bold ${isComplete ? 'text-green' : 'text-teal'}`}
             >
               {current} / {max}
             </span>
@@ -63,7 +63,7 @@ export const BundleProgressBar: React.FC<BundleProgressBarProps> = ({
           className={`
             absolute top-0 left-0 h-full
             transition-all duration-500 ease-out
-            ${isComplete ? 'bg-gradient-to-r from-green-500 to-green-600' : 'bg-gradient-to-r from-purple-500 to-purple-600'}
+            ${isComplete ? 'bg-gradient-to-r from-green to-green' : 'bg-gradient-to-r from-teal to-teal'}
           `}
           style={{ width: `${percentage}%` }}
         />
@@ -93,7 +93,7 @@ export const BundleProgressBar: React.FC<BundleProgressBarProps> = ({
       ) : (
         <div className="mt-2 text-center">
           <p className="text-[13px] text-gray-600">
-            Nog <span className="font-bold text-purple-600">{max - current}</span>{' '}
+            Nog <span className="font-bold text-teal">{max - current}</span>{' '}
             {max - current === 1 ? 'item' : 'items'} nodig
           </p>
         </div>

@@ -108,14 +108,14 @@ export default function PlatformStats() {
       value: stats.totalClients,
       description: 'All registered clients',
       icon: Users,
-      color: 'text-blue-600',
+      color: 'text-teal',
     },
     {
       title: 'Active Clients',
       value: stats.activeClients,
       description: `${Math.round((stats.activeClients / Math.max(stats.totalClients, 1)) * 100)}% of total`,
       icon: Globe,
-      color: 'text-green-600',
+      color: 'text-green',
     },
     {
       title: 'Monthly Revenue',
@@ -129,21 +129,21 @@ export default function PlatformStats() {
       value: `€${stats.totalRevenue.toLocaleString()}`,
       description: 'All clients combined',
       icon: TrendingUp,
-      color: 'text-purple-600',
+      color: 'text-teal',
     },
     {
       title: 'Healthy Clients',
       value: stats.healthyClients,
       description: `${Math.round((stats.healthyClients / Math.max(stats.totalClients, 1)) * 100)}% uptime`,
       icon: Activity,
-      color: 'text-green-600',
+      color: 'text-green',
     },
     {
       title: 'Needs Attention',
       value: stats.criticalClients,
       description: 'Critical or warning status',
       icon: AlertCircle,
-      color: stats.criticalClients > 0 ? 'text-red-600' : 'text-gray-400',
+      color: stats.criticalClients > 0 ? 'text-coral' : 'text-gray-400',
     },
   ]
 

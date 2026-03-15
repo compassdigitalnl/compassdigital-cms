@@ -36,7 +36,7 @@ export function VariantDropdownSelector({
       {/* Option Label */}
       <label htmlFor={`variant-${option.optionName}`} className="block text-sm font-medium text-gray-900">
         {option.optionName}
-        {option.required && <span className="ml-1 text-red-500">*</span>}
+        {option.required && <span className="ml-1 text-coral">*</span>}
       </label>
 
       {/* Dropdown Select */}
@@ -47,7 +47,7 @@ export function VariantDropdownSelector({
           onChange={handleChange}
           className={cn(
             'block w-full appearance-none rounded-lg border-2 border-gray-300 bg-white px-4 py-3 pr-10 text-base text-gray-900 transition-colors',
-            'focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20',
+            'focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/20',
             !selectedValue && 'text-gray-500',
           )}
           required={option.required}
@@ -116,7 +116,7 @@ export function VariantDropdownSelector({
               {selectedValue.priceModifier !== undefined &&
                 selectedValue.priceModifier !== null &&
                 selectedValue.priceModifier !== 0 && (
-                  <span className="font-semibold text-blue-600">
+                  <span className="font-semibold text-teal">
                     {selectedValue.priceModifier > 0 ? '+' : ''}€
                     {formatPriceStr(selectedValue.priceModifier)}
                   </span>
@@ -130,7 +130,7 @@ export function VariantDropdownSelector({
                     selectedValue.stock > 5
                       ? 'bg-green-100 text-green-800'
                       : selectedValue.stock > 0
-                        ? 'bg-orange-100 text-orange-800'
+                        ? 'bg-amber-50 text-orange-800'
                         : 'bg-red-100 text-red-800',
                   )}
                 >

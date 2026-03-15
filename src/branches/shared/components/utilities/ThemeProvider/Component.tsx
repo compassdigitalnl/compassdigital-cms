@@ -2,6 +2,20 @@
 import React from 'react'
 import type { ThemeProviderProps } from './types'
 
+/** Convert hex/rgb/rgba color to space-separated RGB values for Tailwind opacity support */
+function hexToRgb(color: string): string {
+  if (!color || color.includes('gradient') || color.includes('var(')) return '0 0 0'
+  if (color.startsWith('rgb')) {
+    const m = color.match(/(\d+)\s*[, ]\s*(\d+)\s*[, ]\s*(\d+)/)
+    return m ? `${m[1]} ${m[2]} ${m[3]}` : '0 0 0'
+  }
+  const hex = color.replace('#', '')
+  const full = hex.length === 3 ? hex.split('').map(c => c + c).join('') : hex
+  const n = parseInt(full, 16)
+  if (isNaN(n)) return '0 0 0'
+  return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`
+}
+
 export function ThemeProvider({ theme, children }: ThemeProviderProps) {
   const defaults = {
     primaryColor: '#00897B',
@@ -29,7 +43,7 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
     errorLight: '#FFF0F0',
     errorDark: '#991B1B',
     infoColor: '#00897B',
-    infoLight: 'rgba(0,137,123,0.12)',
+    infoLight: '#E0F2F1',
     infoDark: '#004D40',
     primaryGradient: 'linear-gradient(135deg, #00897B 0%, #26A69A 100%)',
     secondaryGradient: 'linear-gradient(135deg, #0A1628 0%, #1a2847 100%)',
@@ -122,6 +136,30 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
     '--color-info': t.infoColor,
     '--color-info-light': t.infoLight,
     '--color-info-dark': t.infoDark,
+
+    // ─── RGB Decompositions (for Tailwind opacity modifiers like bg-teal/10) ──
+    '--color-primary-rgb': hexToRgb(t.primaryColor),
+    '--color-primary-light-rgb': hexToRgb(t.primaryLight),
+    '--color-secondary-rgb': hexToRgb(t.secondaryColor),
+    '--color-secondary-light-rgb': hexToRgb(t.secondaryLight),
+    '--color-accent-rgb': hexToRgb(t.accentColor),
+    '--color-background-rgb': hexToRgb(t.backgroundColor),
+    '--color-surface-rgb': hexToRgb(t.surfaceColor),
+    '--color-border-rgb': hexToRgb(t.borderColor),
+    '--color-grey-light-rgb': hexToRgb(t.greyLight),
+    '--color-grey-mid-rgb': hexToRgb(t.greyMid),
+    '--color-grey-dark-rgb': hexToRgb(t.greyDark),
+    '--color-text-primary-rgb': hexToRgb(t.textPrimary),
+    '--color-text-secondary-rgb': hexToRgb(t.textSecondary),
+    '--color-text-muted-rgb': hexToRgb(t.textMuted),
+    '--color-success-rgb': hexToRgb(t.successColor),
+    '--color-success-light-rgb': hexToRgb(t.successLight),
+    '--color-warning-rgb': hexToRgb(t.warningColor),
+    '--color-warning-light-rgb': hexToRgb(t.warningLight),
+    '--color-error-rgb': hexToRgb(t.errorColor),
+    '--color-error-light-rgb': hexToRgb(t.errorLight),
+    '--color-info-rgb': hexToRgb(t.infoColor),
+    '--color-info-light-rgb': hexToRgb(t.infoLight),
 
     // ─── Gradients ────────────────────────────────────
     '--gradient-primary': t.primaryGradient,

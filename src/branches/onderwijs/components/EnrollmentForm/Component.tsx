@@ -194,7 +194,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
               <div
                 className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all ${
                   step.number < currentStep
-                    ? 'bg-green-500 text-white'
+                    ? 'bg-green text-white'
                     : step.number === currentStep
                       ? 'bg-[var(--color-primary)] text-white'
                       : 'border-2 border-[var(--color-base-200)] bg-white text-[var(--color-base-400)]'
@@ -224,7 +224,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
 
       {/* Error message */}
       {error && (
-        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+        <div className="mb-4 rounded-lg border border-coral/20 bg-coral-50 p-3 text-sm text-coral-700">
           {error}
         </div>
       )}
@@ -299,7 +299,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
               <div className="mb-5 grid grid-cols-2 gap-4">
                 <div>
                   <label className="mb-2 block text-xs font-semibold text-[var(--color-base-1000)]">
-                    Voornaam <span className="text-red-500">*</span>
+                    Voornaam <span className="text-coral">*</span>
                   </label>
                   <input
                     type="text"
@@ -311,7 +311,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
                 </div>
                 <div>
                   <label className="mb-2 block text-xs font-semibold text-[var(--color-base-1000)]">
-                    Achternaam <span className="text-red-500">*</span>
+                    Achternaam <span className="text-coral">*</span>
                   </label>
                   <input
                     type="text"
@@ -324,7 +324,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
               </div>
               <div className="mb-5">
                 <label className="mb-2 block text-xs font-semibold text-[var(--color-base-1000)]">
-                  E-mailadres <span className="text-red-500">*</span>
+                  E-mailadres <span className="text-coral">*</span>
                 </label>
                 <input
                   type="email"
@@ -336,7 +336,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
               </div>
               <div className="mb-5">
                 <label className="mb-2 block text-xs font-semibold text-[var(--color-base-1000)]">
-                  Wachtwoord <span className="text-red-500">*</span>
+                  Wachtwoord <span className="text-coral">*</span>
                 </label>
                 <input
                   type="password"
@@ -379,7 +379,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
                     <a href="/privacy" className="text-[var(--color-primary)] no-underline hover:underline">
                       privacybeleid
                     </a>{' '}
-                    <span className="text-red-500">*</span>
+                    <span className="text-coral">*</span>
                   </span>
                 </label>
               </div>
@@ -391,7 +391,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
             <>
               <div className="mb-5">
                 <label className="mb-2 block text-xs font-semibold text-[var(--color-base-1000)]">
-                  E-mailadres <span className="text-red-500">*</span>
+                  E-mailadres <span className="text-coral">*</span>
                 </label>
                 <input
                   type="email"
@@ -403,7 +403,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
               </div>
               <div className="mb-5">
                 <label className="mb-2 block text-xs font-semibold text-[var(--color-base-1000)]">
-                  Wachtwoord <span className="text-red-500">*</span>
+                  Wachtwoord <span className="text-coral">*</span>
                 </label>
                 <input
                   type="password"
@@ -501,7 +501,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
           {paymentData.method === 'ideal' && (
             <div className="mb-5">
               <label className="mb-2 block text-xs font-semibold text-[var(--color-base-1000)]">
-                Kies je bank <span className="text-red-500">*</span>
+                Kies je bank <span className="text-coral">*</span>
               </label>
               <select
                 value={paymentData.idealBank}
@@ -522,7 +522,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
             <>
               <div className="mb-5">
                 <label className="mb-2 block text-xs font-semibold text-[var(--color-base-1000)]">
-                  Kaartnummer <span className="text-red-500">*</span>
+                  Kaartnummer <span className="text-coral">*</span>
                 </label>
                 <input
                   type="text"
@@ -536,7 +536,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
               <div className="mb-5 grid grid-cols-3 gap-4">
                 <div>
                   <label className="mb-2 block text-xs font-semibold text-[var(--color-base-1000)]">
-                    Vervaldatum <span className="text-red-500">*</span>
+                    Vervaldatum <span className="text-coral">*</span>
                   </label>
                   <input
                     type="text"
@@ -549,7 +549,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
                 </div>
                 <div>
                   <label className="mb-2 block text-xs font-semibold text-[var(--color-base-1000)]">
-                    CVC <span className="text-red-500">*</span>
+                    CVC <span className="text-coral">*</span>
                   </label>
                   <input
                     type="text"
@@ -562,7 +562,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
                 </div>
                 <div>
                   <label className="mb-2 block text-xs font-semibold text-[var(--color-base-1000)]">
-                    Naam <span className="text-red-500">*</span>
+                    Naam <span className="text-coral">*</span>
                   </label>
                   <input
                     type="text"
@@ -622,7 +622,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
           <div className="text-center">
             {/* Success icon */}
             <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
-              <svg className="h-10 w-10 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg className="h-10 w-10 text-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
@@ -660,7 +660,7 @@ export const EnrollmentForm: React.FC<EnrollmentFormProps> = ({ course, courseSl
                   key={guarantee.label}
                   className="flex items-center gap-1.5 text-xs text-[var(--color-base-500)]"
                 >
-                  <svg className="h-3.5 w-3.5 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg className="h-3.5 w-3.5 text-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                   {guarantee.label}

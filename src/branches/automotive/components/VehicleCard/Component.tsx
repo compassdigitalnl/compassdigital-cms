@@ -5,7 +5,7 @@ import type { VehicleCardProps } from './types'
 const STATUS_CONFIG: Record<string, { label: string; bgClass: string; textClass: string }> = {
   beschikbaar: {
     label: 'Beschikbaar',
-    bgClass: 'bg-green-500',
+    bgClass: 'bg-green',
     textClass: 'text-white',
   },
   gereserveerd: {
@@ -15,7 +15,7 @@ const STATUS_CONFIG: Record<string, { label: string; bgClass: string; textClass:
   },
   verkocht: {
     label: 'Verkocht',
-    bgClass: 'bg-red-500',
+    bgClass: 'bg-coral',
     textClass: 'text-white',
   },
 }

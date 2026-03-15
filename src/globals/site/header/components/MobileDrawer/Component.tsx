@@ -172,7 +172,7 @@ export function MobileDrawer({
                   className={cn(
                     'flex items-center gap-3 px-5 py-3 text-base font-semibold transition-colors',
                     item.highlight
-                      ? 'text-[var(--color-error)] hover:bg-red-50'
+                      ? 'text-[var(--color-error)] hover:bg-coral-50'
                       : 'hover:bg-gray-50',
                   )}
                   style={{ color: item.highlight ? 'var(--color-error)' : secondaryColor }}

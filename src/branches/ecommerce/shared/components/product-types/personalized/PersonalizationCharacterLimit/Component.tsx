@@ -34,9 +34,9 @@ export const PersonalizationCharacterLimit: React.FC<PersonalizationCharacterLim
   // Determine colors
   const statusColors = {
     normal: {
-      bg: 'bg-green-500',
-      text: 'text-green-600',
-      border: 'border-green-500',
+      bg: 'bg-green',
+      text: 'text-green',
+      border: 'border-green',
     },
     warning: {
       bg: 'bg-yellow-500',
@@ -44,9 +44,9 @@ export const PersonalizationCharacterLimit: React.FC<PersonalizationCharacterLim
       border: 'border-yellow-500',
     },
     limit: {
-      bg: 'bg-red-500',
-      text: 'text-red-600',
-      border: 'border-red-500',
+      bg: 'bg-coral',
+      text: 'text-coral',
+      border: 'border-coral',
     },
   }
 
@@ -84,8 +84,8 @@ export const PersonalizationCharacterLimit: React.FC<PersonalizationCharacterLim
 
       {/* Limit Reached Message (at 100%) */}
       {isAtLimit && (
-        <div className="flex items-start gap-2 mt-2 p-2 bg-red-50 border-l-4 border-red-500 rounded">
-          <AlertTriangle className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" strokeWidth={2.5} />
+        <div className="flex items-start gap-2 mt-2 p-2 bg-coral-50 border-l-4 border-coral rounded">
+          <AlertTriangle className="w-4 h-4 text-coral flex-shrink-0 mt-0.5" strokeWidth={2.5} />
           <p className="text-[12px] text-red-800 font-semibold">
             Maximale limiet bereikt! Je kunt geen extra karakters meer toevoegen.
           </p>

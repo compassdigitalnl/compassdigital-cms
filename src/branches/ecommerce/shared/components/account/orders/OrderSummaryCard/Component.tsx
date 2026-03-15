@@ -31,13 +31,13 @@ export function OrderSummaryCard({ order, onReorder }: OrderSummaryCardProps) {
         <div className="flex items-center justify-between">
           <span className="text-xs lg:text-sm text-gray-500">Verzendkosten</span>
           <span className="text-xs lg:text-sm font-semibold text-gray-900">
-            {order.shippingCost === 0 ? <span className="text-green-600">Gratis</span> : `€${formatPriceStr(order.shippingCost)}`}
+            {order.shippingCost === 0 ? <span className="text-green">Gratis</span> : `€${formatPriceStr(order.shippingCost)}`}
           </span>
         </div>
         {order.discount > 0 && (
           <div className="flex items-center justify-between">
             <span className="text-xs lg:text-sm text-gray-500">Korting</span>
-            <span className="text-xs lg:text-sm font-semibold text-green-600">-€{formatPriceStr(order.discount)}</span>
+            <span className="text-xs lg:text-sm font-semibold text-green">-€{formatPriceStr(order.discount)}</span>
           </div>
         )}
         <div className="flex items-center justify-between">

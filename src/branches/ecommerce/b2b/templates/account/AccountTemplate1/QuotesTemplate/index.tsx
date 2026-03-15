@@ -143,7 +143,7 @@ export default function QuotesTemplate({
             <ul className="space-y-2">
               {TRUST_ITEMS.map((item) => (
                 <li key={item} className="flex items-center gap-2 text-sm" style={{ color: 'var(--color-foreground)' }}>
-                  <Check className="w-4 h-4 flex-shrink-0 text-green-500" />
+                  <Check className="w-4 h-4 flex-shrink-0 text-green" />
                   {item}
                 </li>
               ))}

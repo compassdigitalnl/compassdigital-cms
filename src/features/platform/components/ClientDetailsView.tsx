@@ -118,7 +118,7 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
     return (
       <div className="text-center py-12">
         <p className="text-gray-600">Client not found</p>
-        <Link href="/platform/clients/" className="text-blue-600 hover:text-blue-700 mt-4">
+        <Link href="/platform/clients/" className="text-teal hover:text-teal-700 mt-4">
           ← Back to Clients
         </Link>
       </div>
@@ -129,8 +129,8 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
     const styles: Record<string, string> = {
       active: 'bg-green-100 text-green-800',
       pending: 'bg-yellow-100 text-yellow-800',
-      provisioning: 'bg-blue-100 text-blue-800',
-      deploying: 'bg-blue-100 text-blue-800',
+      provisioning: 'bg-teal-100 text-blue-800',
+      deploying: 'bg-teal-100 text-blue-800',
       failed: 'bg-red-100 text-red-800',
       suspended: 'bg-gray-100 text-gray-800',
     }
@@ -139,9 +139,9 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
 
   const getHealthBadge = (health: string) => {
     const badges: Record<string, { icon: string; color: string }> = {
-      healthy: { icon: '🟢', color: 'text-green-600' },
+      healthy: { icon: '🟢', color: 'text-green' },
       warning: { icon: '🟡', color: 'text-yellow-600' },
-      critical: { icon: '🔴', color: 'text-red-600' },
+      critical: { icon: '🔴', color: 'text-coral' },
       unknown: { icon: '⚪', color: 'text-gray-600' },
     }
     return badges[health] || badges.unknown
@@ -250,7 +250,7 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
           <button
             onClick={() => handleAction('redeploy')}
             disabled={!!actionLoading}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+            className="px-4 py-2 bg-teal text-white rounded-lg hover:bg-teal-700 transition-colors disabled:opacity-50"
           >
             {actionLoading === 'redeploy' ? 'Redeploying...' : 'Redeploy'}
           </button>
@@ -281,7 +281,7 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
                       {deployment.duration && ` • ${deployment.duration}s`}
                     </p>
                     {deployment.errorMessage && (
-                      <p className="text-sm text-red-600 mt-2">{deployment.errorMessage}</p>
+                      <p className="text-sm text-coral mt-2">{deployment.errorMessage}</p>
                     )}
                   </div>
                   <span className="text-xs text-gray-500 capitalize">{deployment.environment}</span>
@@ -309,7 +309,7 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
             <button
               onClick={() => handleAction('activate')}
               disabled={!!actionLoading}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
+              className="px-4 py-2 bg-green text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
             >
               {actionLoading === 'activate' ? 'Activating...' : 'Activate Client'}
             </button>
@@ -317,7 +317,7 @@ export default function ClientDetailsView({ clientId }: { clientId: string }) {
           <button
             onClick={() => handleAction('delete')}
             disabled={!!actionLoading}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
+            className="px-4 py-2 bg-coral text-white rounded-lg hover:bg-coral-700 transition-colors disabled:opacity-50"
           >
             {actionLoading === 'delete' ? 'Deleting...' : 'Delete Client'}
           </button>

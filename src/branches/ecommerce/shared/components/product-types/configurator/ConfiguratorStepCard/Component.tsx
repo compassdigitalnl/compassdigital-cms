@@ -28,7 +28,7 @@ export const ConfiguratorStepCard: React.FC<ConfiguratorStepCardProps> = ({
         configurator-step-card
         border-2 rounded-lg transition-all duration-200
         ${isActive ? 'border-[var(--color-primary)] bg-white shadow-lg' : 'border-gray-300 bg-gray-50'}
-        ${isCompleted ? 'border-green-500' : ''}
+        ${isCompleted ? 'border-green' : ''}
         ${className}
       `}
     >
@@ -37,7 +37,7 @@ export const ConfiguratorStepCard: React.FC<ConfiguratorStepCardProps> = ({
         className={`
           px-6 py-4 border-b-2 transition-colors
           ${isActive ? 'border-[var(--color-primary-light)] bg-[var(--color-primary-glow)]' : 'border-gray-200 bg-gray-100'}
-          ${isCompleted ? 'border-green-200 bg-green-50' : ''}
+          ${isCompleted ? 'border-green/20 bg-green-50' : ''}
         `}
       >
         <div className="flex items-start justify-between gap-4">
@@ -49,7 +49,7 @@ export const ConfiguratorStepCard: React.FC<ConfiguratorStepCardProps> = ({
                 className={`
                   flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-[13px] font-bold
                   ${isActive ? 'bg-[var(--color-primary)] text-white' : ''}
-                  ${isCompleted ? 'bg-green-600 text-white' : ''}
+                  ${isCompleted ? 'bg-green text-white' : ''}
                   ${!isActive && !isCompleted ? 'bg-gray-400 text-white' : ''}
                 `}
               >
@@ -95,7 +95,7 @@ export const ConfiguratorStepCard: React.FC<ConfiguratorStepCardProps> = ({
                 <span className="text-[12px] font-bold">Actief</span>
               </div>
             ) : step.required ? (
-              <div className="flex items-center gap-1.5 px-3 py-1.5 bg-red-100 text-red-700 rounded-full">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 bg-red-100 text-coral-700 rounded-full">
                 <AlertCircle className="w-4 h-4" strokeWidth={2.5} />
                 <span className="text-[12px] font-bold">Verplicht</span>
               </div>
@@ -120,7 +120,7 @@ export const ConfiguratorStepCard: React.FC<ConfiguratorStepCardProps> = ({
 
       {/* Completed State Summary */}
       {isCompleted && (
-        <div className="px-6 py-4 bg-green-50 border-t-2 border-green-200">
+        <div className="px-6 py-4 bg-green-50 border-t-2 border-green/20">
           <p className="text-[13px] text-green-700 flex items-center gap-1.5">
             <CheckCircle className="w-4 h-4" strokeWidth={2.5} />
             Keuze opgeslagen. Klik op "Bewerk" om te wijzigen.

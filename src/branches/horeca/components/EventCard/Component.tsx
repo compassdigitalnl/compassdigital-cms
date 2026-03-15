@@ -105,7 +105,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event, className = '' }) =
               {priceType === 'free' ? 'Gratis' : formatPrice(price)}
             </span>
           ) : priceType === 'free' ? (
-            <span className="font-semibold text-green-600">Gratis</span>
+            <span className="font-semibold text-green">Gratis</span>
           ) : null}
 
           {maxParticipants && (

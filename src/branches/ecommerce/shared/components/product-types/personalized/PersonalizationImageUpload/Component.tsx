@@ -140,7 +140,7 @@ export const PersonalizationImageUpload: React.FC<PersonalizationImageUploadProp
       <label className="block mb-2">
         <span className="text-[15px] font-bold text-gray-900">
           {option.fieldName}
-          {option.required && <span className="text-red-600 ml-1">*</span>}
+          {option.required && <span className="text-coral ml-1">*</span>}
         </span>
         {priceText && (
           <span className="text-[13px] text-[var(--color-primary)] font-semibold ml-2">{priceText}</span>
@@ -218,16 +218,16 @@ export const PersonalizationImageUpload: React.FC<PersonalizationImageUploadProp
 
       {/* Error Message */}
       {error && (
-        <p className="text-[13px] text-red-600 mt-2 font-semibold">{error}</p>
+        <p className="text-[13px] text-coral mt-2 font-semibold">{error}</p>
       )}
 
       {/* Guidelines */}
-      <div className="mt-3 p-3 bg-blue-50 rounded-lg">
-        <p className="text-[12px] font-semibold text-blue-900 mb-1 flex items-center gap-1">
+      <div className="mt-3 p-3 bg-teal-50 rounded-lg">
+        <p className="text-[12px] font-semibold text-navy mb-1 flex items-center gap-1">
           <ImageIcon className="w-4 h-4" />
           Afbeeldingsrichtlijnen:
         </p>
-        <ul className="text-[11px] text-blue-800 space-y-0.5 ml-5 list-disc">
+        <ul className="text-[11px] text-teal-800 space-y-0.5 ml-5 list-disc">
           <li>Minimale resolutie: 800×800 pixels</li>
           <li>Gebruik een hoge-kwaliteit afbeelding voor het beste resultaat</li>
           <li>Afbeelding wordt gecentreerd en bijgesneden indien nodig</li>

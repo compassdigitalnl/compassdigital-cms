@@ -31,7 +31,7 @@ export function VariantSizeSelector({
       <div className="flex items-center justify-between">
         <label className="text-sm font-medium text-gray-900">
           {option.optionName}
-          {option.required && <span className="ml-1 text-red-500">*</span>}
+          {option.required && <span className="ml-1 text-coral">*</span>}
         </label>
         {showSizeGuide && (
           <button
@@ -46,12 +46,12 @@ export function VariantSizeSelector({
 
       {/* Selected Size Display */}
       {selectedValue && (
-        <div className="rounded-md bg-blue-50 px-3 py-2 text-sm text-blue-900">
+        <div className="rounded-md bg-teal-50 px-3 py-2 text-sm text-navy">
           Selected: <span className="font-semibold">{selectedValue.label}</span>
           {selectedValue.priceModifier !== undefined &&
             selectedValue.priceModifier !== null &&
             selectedValue.priceModifier !== 0 && (
-              <span className="ml-2 text-blue-700">
+              <span className="ml-2 text-teal-700">
                 ({selectedValue.priceModifier > 0 ? '+' : ''}€
                 {formatPriceStr(selectedValue.priceModifier)})
               </span>
@@ -76,7 +76,7 @@ export function VariantSizeSelector({
               className={cn(
                 'group relative flex flex-col items-center justify-center gap-1 rounded-lg border-2 px-4 py-3 text-center transition-all',
                 isSelected
-                  ? 'border-blue-600 bg-blue-50 text-blue-900'
+                  ? 'border-teal bg-teal-50 text-navy'
                   : 'border-gray-300 bg-white text-gray-900 hover:border-gray-400',
                 isDisabled
                   ? 'cursor-not-allowed border-gray-200 bg-gray-50 text-gray-400 opacity-60'
@@ -98,7 +98,7 @@ export function VariantSizeSelector({
 
               {/* Out of Stock */}
               {isDisabled && (
-                <span className="text-[10px] font-medium text-red-500">Out</span>
+                <span className="text-[10px] font-medium text-coral">Out</span>
               )}
 
               {/* Price Modifier */}
@@ -113,7 +113,7 @@ export function VariantSizeSelector({
 
               {/* Selected Indicator */}
               {isSelected && (
-                <div className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600">
+                <div className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-teal">
                   <svg className="h-3 w-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path
                       fillRule="evenodd"
@@ -131,7 +131,7 @@ export function VariantSizeSelector({
       {/* Stock Status Legend */}
       <div className="flex items-center gap-4 text-xs text-gray-500">
         <div className="flex items-center gap-1">
-          <div className="h-3 w-3 rounded-full bg-green-500" />
+          <div className="h-3 w-3 rounded-full bg-green" />
           <span>In Stock</span>
         </div>
         <div className="flex items-center gap-1">

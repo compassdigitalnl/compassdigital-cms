@@ -122,7 +122,7 @@ export const AIMultiLanguage: React.FC<AIMultiLanguageProps> = ({
                   key={lang.code}
                   className={`rounded-lg border p-3 cursor-pointer transition-colors ${
                     selectedLanguages.includes(lang.code)
-                      ? 'border-blue-600 bg-blue-50'
+                      ? 'border-teal bg-teal-50'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                   onClick={() => toggleLanguage(lang.code)}
@@ -154,7 +154,7 @@ export const AIMultiLanguage: React.FC<AIMultiLanguageProps> = ({
 
           {/* Error */}
           {error && (
-            <div className="rounded-lg bg-red-50 p-4 border border-red-200">
+            <div className="rounded-lg bg-coral-50 p-4 border border-coral/20">
               <p className="text-sm text-red-800">{error}</p>
             </div>
           )}
@@ -183,7 +183,7 @@ export const AIMultiLanguage: React.FC<AIMultiLanguageProps> = ({
                 return (
                   <div
                     key={langCode}
-                    className="rounded-lg border border-green-200 p-4 bg-green-50"
+                    className="rounded-lg border border-green/20 p-4 bg-green-50"
                   >
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-2xl">{lang?.flag}</span>
@@ -221,7 +221,7 @@ export const AIMultiLanguage: React.FC<AIMultiLanguageProps> = ({
           {loading && (
             <div className="flex items-center justify-center py-12">
               <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal mx-auto mb-4"></div>
                 <p className="text-sm text-gray-600">
                   Vertalen naar {selectedLanguages.length} {selectedLanguages.length === 1 ? 'taal' : 'talen'}...
                 </p>

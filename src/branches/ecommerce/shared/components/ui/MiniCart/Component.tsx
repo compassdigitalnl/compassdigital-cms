@@ -148,7 +148,7 @@ export function MiniCartProvider({
                             </div>
                             <button
                               onClick={() => removeItem(item.id)}
-                              className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-red-50 transition-colors text-gray-400 hover:text-red-500"
+                              className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-coral-50 transition-colors text-gray-400 hover:text-coral"
                               aria-label="Verwijderen"
                             >
                               <Trash2 className="w-3.5 h-3.5" />

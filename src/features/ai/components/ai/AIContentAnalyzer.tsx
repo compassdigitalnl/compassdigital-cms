@@ -66,10 +66,10 @@ export const AIContentAnalyzer: React.FC<AIContentAnalyzerProps> = ({
   }
 
   const getScoreColor = (score: number): string => {
-    if (score >= 85) return 'text-green-600'
+    if (score >= 85) return 'text-green'
     if (score >= 70) return 'text-yellow-600'
     if (score >= 50) return 'text-orange-600'
-    return 'text-red-600'
+    return 'text-coral'
   }
 
   const getScoreBadge = (score: number): string => {
@@ -97,14 +97,14 @@ export const AIContentAnalyzer: React.FC<AIContentAnalyzerProps> = ({
         {loading && (
           <div className="flex items-center justify-center py-12">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal mx-auto mb-4"></div>
               <p className="text-sm text-gray-600">Content analyseren...</p>
             </div>
           </div>
         )}
 
         {error && (
-          <div className="rounded-lg bg-red-50 p-4 border border-red-200">
+          <div className="rounded-lg bg-coral-50 p-4 border border-coral/20">
             <p className="text-sm text-red-800">{error}</p>
           </div>
         )}
@@ -177,8 +177,8 @@ export const AIContentAnalyzer: React.FC<AIContentAnalyzerProps> = ({
                       <p className="text-sm text-gray-600 mb-2">{improvement.suggestion}</p>
                       {improvement.example && (
                         <div className="mt-3 space-y-2 text-sm">
-                          <div className="rounded bg-red-50 p-2 border border-red-200">
-                            <span className="font-medium text-red-700">Voor: </span>
+                          <div className="rounded bg-coral-50 p-2 border border-coral/20">
+                            <span className="font-medium text-coral-700">Voor: </span>
                             <span className="text-gray-700">{improvement.example.before}</span>
                           </div>
                           <div className="rounded bg-green-50 p-2 border border-green-200">
@@ -252,7 +252,7 @@ export const AIContentAnalyzer: React.FC<AIContentAnalyzerProps> = ({
                       <ul className="text-sm space-y-1">
                         {analysis.readability.suggestions.map((suggestion, index) => (
                           <li key={index} className="flex items-start gap-2">
-                            <span className="text-blue-600">•</span>
+                            <span className="text-teal">•</span>
                             <span>{suggestion}</span>
                           </li>
                         ))}
@@ -324,7 +324,7 @@ export const AIContentAnalyzer: React.FC<AIContentAnalyzerProps> = ({
                       <ul className="text-sm space-y-1">
                         {analysis.tone.suggestions.map((suggestion, index) => (
                           <li key={index} className="flex items-start gap-2">
-                            <span className="text-blue-600">•</span>
+                            <span className="text-teal">•</span>
                             <span>{suggestion}</span>
                           </li>
                         ))}
@@ -348,9 +348,9 @@ export const AIContentAnalyzer: React.FC<AIContentAnalyzerProps> = ({
                     <p className="text-sm text-gray-600 mb-4">{analysis.grammar.summary}</p>
 
                     <div className="grid grid-cols-3 gap-3 mb-4">
-                      <div className="rounded bg-white p-3 border border-red-200">
+                      <div className="rounded bg-white p-3 border border-coral/20">
                         <div className="text-sm text-gray-600">Kritiek</div>
-                        <div className="text-2xl font-semibold text-red-600">
+                        <div className="text-2xl font-semibold text-coral">
                           {analysis.grammar.issuesBySeverity.critical}
                         </div>
                       </div>
@@ -360,9 +360,9 @@ export const AIContentAnalyzer: React.FC<AIContentAnalyzerProps> = ({
                           {analysis.grammar.issuesBySeverity.warning}
                         </div>
                       </div>
-                      <div className="rounded bg-white p-3 border border-blue-200">
+                      <div className="rounded bg-white p-3 border border-teal/20">
                         <div className="text-sm text-gray-600">Suggestie</div>
-                        <div className="text-2xl font-semibold text-blue-600">
+                        <div className="text-2xl font-semibold text-teal">
                           {analysis.grammar.issuesBySeverity.suggestion}
                         </div>
                       </div>
@@ -376,10 +376,10 @@ export const AIContentAnalyzer: React.FC<AIContentAnalyzerProps> = ({
                             key={index}
                             className={`rounded-lg border p-3 ${
                               issue.severity === 'critical'
-                                ? 'bg-red-50 border-red-200'
+                                ? 'bg-coral-50 border-coral/20'
                                 : issue.severity === 'warning'
                                   ? 'bg-yellow-50 border-yellow-200'
-                                  : 'bg-blue-50 border-blue-200'
+                                  : 'bg-teal-50 border-teal/20'
                             }`}
                           >
                             <div className="flex items-start justify-between mb-1">
@@ -505,7 +505,7 @@ export const AIContentAnalyzer: React.FC<AIContentAnalyzerProps> = ({
                       <ul className="text-sm space-y-1">
                         {analysis.structure.flow.suggestions.map((suggestion, index) => (
                           <li key={index} className="flex items-start gap-2">
-                            <span className="text-blue-600">•</span>
+                            <span className="text-teal">•</span>
                             <span>{suggestion}</span>
                           </li>
                         ))}
@@ -520,7 +520,7 @@ export const AIContentAnalyzer: React.FC<AIContentAnalyzerProps> = ({
                       <ul className="text-sm space-y-1">
                         {analysis.structure.improvements.map((improvement, index) => (
                           <li key={index} className="flex items-start gap-2">
-                            <span className="text-blue-600">•</span>
+                            <span className="text-teal">•</span>
                             <span>{improvement}</span>
                           </li>
                         ))}
@@ -561,7 +561,7 @@ export const AIContentAnalyzer: React.FC<AIContentAnalyzerProps> = ({
                       <div className="flex items-center gap-2">
                         <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-blue-600"
+                            className="h-full bg-teal"
                             style={{ width: `${analysis.sentiment.subjectivity}%` }}
                           ></div>
                         </div>
@@ -573,7 +573,7 @@ export const AIContentAnalyzer: React.FC<AIContentAnalyzerProps> = ({
                       <div className="flex items-center gap-2">
                         <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-purple-600"
+                            className="h-full bg-teal"
                             style={{ width: `${analysis.sentiment.intensity}%` }}
                           ></div>
                         </div>
@@ -591,7 +591,7 @@ export const AIContentAnalyzer: React.FC<AIContentAnalyzerProps> = ({
                             <span className="text-sm w-24 capitalize">{emotion.emotion}</span>
                             <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
                               <div
-                                className="h-full bg-indigo-600"
+                                className="h-full bg-teal"
                                 style={{ width: `${emotion.strength}%` }}
                               ></div>
                             </div>
@@ -632,7 +632,7 @@ export const AIContentAnalyzer: React.FC<AIContentAnalyzerProps> = ({
                       <ul className="text-sm space-y-1">
                         {analysis.sentiment.suggestions.map((suggestion, index) => (
                           <li key={index} className="flex items-start gap-2">
-                            <span className="text-blue-600">•</span>
+                            <span className="text-teal">•</span>
                             <span>{suggestion}</span>
                           </li>
                         ))}

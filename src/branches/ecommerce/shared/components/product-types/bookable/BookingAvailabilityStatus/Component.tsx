@@ -16,9 +16,9 @@ export const BookingAvailabilityStatus: React.FC<BookingAvailabilityStatusProps>
   const statusConfig = {
     available: {
       icon: CheckCircle,
-      color: 'text-green-600',
+      color: 'text-green',
       bgColor: 'bg-green-50',
-      borderColor: 'border-green-200',
+      borderColor: 'border-green/20',
       defaultMessage: 'Beschikbaar',
     },
     limited: {
@@ -32,9 +32,9 @@ export const BookingAvailabilityStatus: React.FC<BookingAvailabilityStatusProps>
     },
     full: {
       icon: XCircle,
-      color: 'text-red-600',
-      bgColor: 'bg-red-50',
-      borderColor: 'border-red-200',
+      color: 'text-coral',
+      bgColor: 'bg-coral-50',
+      borderColor: 'border-coral/20',
       defaultMessage: 'Volgeboekt',
     },
     unavailable: {

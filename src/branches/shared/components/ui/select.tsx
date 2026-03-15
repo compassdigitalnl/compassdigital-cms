@@ -41,14 +41,14 @@ function SelectTrigger({
         'transition-all duration-200 ease-out',
 
         // Focus state - gradient accent with glow
-        'focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20',
+        'focus:outline-none focus:border-teal focus:ring-4 focus:ring-teal/20',
         'focus:bg-white focus:shadow-md',
 
         // Hover state
         'hover:border-gray-300 hover:bg-white/80',
 
         // Invalid state
-        'aria-invalid:border-red-500 aria-invalid:ring-4 aria-invalid:ring-red-500/20',
+        'aria-invalid:border-coral aria-invalid:ring-4 aria-invalid:ring-coral/20',
 
         // Disabled state
         'disabled:bg-gray-50 disabled:border-gray-200 disabled:text-gray-400',
@@ -160,9 +160,9 @@ function SelectItem({
         'transition-all duration-150 ease-out',
 
         // Hover/Focus state - subtle highlight with gradient
-        'hover:bg-blue-50 hover:text-blue-900',
-        'focus:bg-blue-50 focus:text-blue-900',
-        'data-[state=checked]:bg-blue-100 data-[state=checked]:text-blue-900',
+        'hover:bg-teal-50 hover:text-navy',
+        'focus:bg-teal-50 focus:text-navy',
+        'data-[state=checked]:bg-teal-100 data-[state=checked]:text-navy',
         'data-[state=checked]:font-semibold',
 
         // Disabled state
@@ -182,7 +182,7 @@ function SelectItem({
     >
       <span className="absolute right-2.5 flex size-4 items-center justify-center">
         <SelectPrimitive.ItemIndicator>
-          <CheckIcon className="size-4 text-blue-600" />
+          <CheckIcon className="size-4 text-teal" />
         </SelectPrimitive.ItemIndicator>
       </span>
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>

@@ -169,7 +169,7 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <ShoppingCart className="w-6 h-6 text-green-600" />
+          <ShoppingCart className="w-6 h-6 text-green" />
           E-commerce Setup
         </h2>
         <p className="mt-2 text-sm text-gray-600">
@@ -178,7 +178,7 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
       </div>
 
       {/* Shop Type Selection */}
-      <Card className="border-2 border-green-500">
+      <Card className="border-2 border-green">
         <CardHeader>
           <CardTitle className="text-lg">Shop Type *</CardTitle>
           <CardDescription>Welk type webshop wil je opzetten?</CardDescription>
@@ -193,13 +193,13 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
                 onClick={() => updateField('shopType', type.value)}
                 className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                   isSelected
-                    ? 'border-green-600 bg-green-50'
+                    ? 'border-green bg-green-50'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
                 <div className="flex items-start gap-3">
                   <Icon
-                    className={`w-6 h-6 flex-shrink-0 ${isSelected ? 'text-green-600' : 'text-gray-400'}`}
+                    className={`w-6 h-6 flex-shrink-0 ${isSelected ? 'text-green' : 'text-gray-400'}`}
                   />
                   <div className="flex-1">
                     <h3 className="font-semibold text-sm">{type.label}</h3>
@@ -250,9 +250,9 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
             </Select>
 
             {(data.pricingStrategy === 'role-based' || data.pricingStrategy === 'hybrid') && (
-              <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="mt-4 p-4 bg-teal-50 border border-teal-200 rounded-lg">
                 <div className="flex items-start gap-2">
-                  <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <AlertCircle className="w-5 h-5 text-teal flex-shrink-0 mt-0.5" />
                   <div className="text-sm text-blue-800">
                     <strong>Role-based pricing is actief.</strong>
                     <br />
@@ -268,7 +268,7 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
 
       {/* Custom Pricing Roles */}
       {(data.pricingStrategy === 'role-based' || data.pricingStrategy === 'hybrid') && (
-        <Card className="border-2 border-purple-500">
+        <Card className="border-2 border-teal">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Users className="w-5 h-5" />
@@ -287,7 +287,7 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
                   .map((role, index) => (
                     <div
                       key={role.id}
-                      className={`p-3 border-2 rounded-lg ${role.isDefault ? 'border-purple-500 bg-purple-50' : 'border-gray-200 bg-white'}`}
+                      className={`p-3 border-2 rounded-lg ${role.isDefault ? 'border-teal bg-teal-50' : 'border-gray-200 bg-white'}`}
                     >
                       <div className="flex items-start gap-3">
                         <div className="flex flex-col gap-1">
@@ -353,7 +353,7 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
                           variant="ghost"
                           size="sm"
                           onClick={() => removeRole(role.id)}
-                          className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                          className="text-coral hover:text-coral-700 hover:bg-coral-50"
                         >
                           <X className="w-4 h-4" />
                         </Button>
@@ -376,7 +376,7 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
             )}
 
             {isAddingRole && (
-              <Card className="border-2 border-purple-500">
+              <Card className="border-2 border-teal">
                 <CardContent className="pt-4 space-y-3">
                   <div>
                     <Label htmlFor="new-role-name">Rol Naam *</Label>
@@ -529,7 +529,7 @@ export function WizardStepEcommerce({ ecommerceSettings, onChange }: Props) {
         <Card className="bg-green-50 border-green-200">
           <CardContent className="pt-6">
             <div className="flex items-start gap-3">
-              <Package className="w-6 h-6 text-green-600 flex-shrink-0" />
+              <Package className="w-6 h-6 text-green flex-shrink-0" />
               <div>
                 <h3 className="font-semibold text-green-900">Product Import</h3>
                 <p className="text-sm text-green-700 mt-1">

@@ -22,7 +22,7 @@ export default function OverviewPage() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="w-8 h-8 text-purple-600"
+              className="w-8 h-8 text-teal"
               aria-hidden="true"
             >
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -34,7 +34,7 @@ export default function OverviewPage() {
             Complete overzicht van alle beschikbare pagina's, admin panels en API endpoints
           </p>
           <div className="mt-4 inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full border border-green-200">
-            <span className="inline-block w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+            <span className="inline-block w-2 h-2 bg-green rounded-full animate-pulse"></span>
             Server draait op <strong>http://localhost:3015</strong>
           </div>
         </div>
@@ -43,7 +43,7 @@ export default function OverviewPage() {
           {/* Frontend Pages */}
           <div className="bg-white border-2 border-blue-200 rounded-2xl p-8 shadow-sm">
             <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-blue-100 text-teal rounded-xl flex items-center justify-center flex-shrink-0">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -72,7 +72,7 @@ export default function OverviewPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <a
                 href="/"
-                className="bg-blue-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-teal-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
@@ -101,7 +101,7 @@ export default function OverviewPage() {
               </a>
               <a
                 href="/setup/"
-                className="bg-blue-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-teal-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
@@ -130,7 +130,7 @@ export default function OverviewPage() {
               </a>
               <a
                 href="/docs/"
-                className="bg-blue-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-teal-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
@@ -159,7 +159,7 @@ export default function OverviewPage() {
               </a>
               <a
                 href="/site-generator/"
-                className="bg-blue-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-teal-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
@@ -188,7 +188,7 @@ export default function OverviewPage() {
               </a>
               <a
                 href="/ai-playground/"
-                className="bg-blue-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
+                className="bg-teal-50 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-4 transition-all hover:shadow-md group"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
@@ -221,7 +221,7 @@ export default function OverviewPage() {
           {/* Admin & CMS */}
           <div className="bg-white border-2 border-purple-200 rounded-2xl p-8 shadow-sm">
             <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-purple-100 text-teal rounded-xl flex items-center justify-center flex-shrink-0">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -379,7 +379,7 @@ export default function OverviewPage() {
           {/* API Endpoints */}
           <div className="bg-white border-2 border-green-200 rounded-2xl p-8 shadow-sm">
             <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-green-100 text-green rounded-xl flex items-center justify-center flex-shrink-0">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"

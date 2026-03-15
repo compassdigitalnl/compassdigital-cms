@@ -17,30 +17,24 @@ export function BookingWizardTemplate({
   preselectedStylist,
 }: BookingWizardProps) {
   return (
-    <div style={{ backgroundColor: 'var(--color-bg, #ffffff)' }}>
+    <div className="bg-white">
       {/* Breadcrumb */}
       <div className="mx-auto max-w-7xl px-6 py-4">
-        <nav className="flex items-center gap-2 text-sm" style={{ color: 'var(--color-grey-mid, #94A3B8)' }}>
-          <Link href="/" className="transition-colors hover:opacity-80" style={{ color: 'var(--color-primary, #ec4899)' }}>
+        <nav className="flex items-center gap-2 text-sm text-grey-mid">
+          <Link href="/" className="text-teal transition-colors hover:opacity-80">
             Home
           </Link>
           <span>/</span>
-          <span style={{ color: 'var(--color-navy, #1a2b4a)' }}>Boeken</span>
+          <span className="text-navy">Boeken</span>
         </nav>
       </div>
 
       {/* Header */}
       <div className="mx-auto max-w-7xl px-6 pb-6">
-        <h1
-          className="text-3xl font-bold md:text-4xl"
-          style={{
-            color: 'var(--color-navy, #1a2b4a)',
-            fontFamily: 'var(--font-display, var(--font-serif, Georgia, serif))',
-          }}
-        >
+        <h1 className="font-display text-3xl font-bold text-navy md:text-4xl">
           Afspraak maken
         </h1>
-        <p className="mt-2 text-lg" style={{ color: 'var(--color-grey-dark, #475569)' }}>
+        <p className="mt-2 text-lg text-grey-dark">
           Kies je behandeling, specialist en tijdstip
         </p>
       </div>
@@ -50,13 +44,7 @@ export function BookingWizardTemplate({
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Main content - BookingForm */}
           <div className="lg:col-span-2">
-            <div
-              className="rounded-xl border p-6 md:p-8"
-              style={{
-                borderColor: 'var(--color-grey, #e2e8f0)',
-                backgroundColor: 'var(--color-white, #ffffff)',
-              }}
-            >
+            <div className="rounded-xl border border-gray-200 bg-white p-6 md:p-8">
               <BookingForm
                 services={services}
                 stylists={stylists}

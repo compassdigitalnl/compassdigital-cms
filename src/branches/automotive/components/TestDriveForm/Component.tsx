@@ -65,7 +65,7 @@ export const TestDriveForm: React.FC<TestDriveFormProps> = ({
 
   if (submitResult?.success) {
     return (
-      <div className={`rounded-xl border border-green-200 bg-green-50 p-8 text-center ${className}`}>
+      <div className={`rounded-xl border border-green/20 bg-green-50 p-8 text-center ${className}`}>
         <div className="mb-4 text-4xl">&#10003;</div>
         <h3 className="mb-2 text-xl font-bold text-green-800">Proefrit aangevraagd!</h3>
         <p className="text-green-700">{submitResult.message}</p>
@@ -173,7 +173,7 @@ export const TestDriveForm: React.FC<TestDriveFormProps> = ({
         </div>
 
         {submitResult && !submitResult.success && (
-          <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          <div className="rounded-lg border border-coral/20 bg-coral-50 p-3 text-sm text-coral-700">
             {submitResult.message}
           </div>
         )}

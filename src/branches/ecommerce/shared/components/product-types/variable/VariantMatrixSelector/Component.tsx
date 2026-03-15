@@ -58,7 +58,7 @@ export function VariantMatrixSelector({
         {selectedCombination && (
           <div className="flex items-center gap-2 text-sm">
             <span className="text-gray-600">Selected:</span>
-            <span className="font-medium text-blue-600">
+            <span className="font-medium text-teal">
               {primaryOption.values.find(v => v.value === selectedCombination.primary)?.label} /{' '}
               {secondaryOption.values.find(v => v.value === selectedCombination.secondary)?.label}
             </span>
@@ -135,7 +135,7 @@ export function VariantMatrixSelector({
                         className={cn(
                           'h-full w-full p-3 text-center transition-all',
                           selected
-                            ? 'bg-blue-600 text-white'
+                            ? 'bg-teal text-white'
                             : 'bg-white text-gray-700 hover:bg-gray-50',
                           disabled && 'cursor-not-allowed bg-gray-100 text-gray-400',
                         )}
@@ -164,9 +164,9 @@ export function VariantMatrixSelector({
                                 ? 'text-white'
                                 : hasStock
                                   ? isLowStock
-                                    ? 'text-orange-600'
-                                    : 'text-green-600'
-                                  : 'text-red-600',
+                                    ? 'text-amber'
+                                    : 'text-green'
+                                  : 'text-coral',
                             )}
                           >
                             {!hasStock
@@ -185,7 +185,7 @@ export function VariantMatrixSelector({
                             <div
                               className={cn(
                                 'mt-1 text-xs',
-                                selected ? 'text-blue-100' : 'text-gray-600',
+                                selected ? 'text-teal-100' : 'text-gray-600',
                               )}
                             >
                               +€
@@ -206,11 +206,11 @@ export function VariantMatrixSelector({
 
       {/* Selected Combination Details */}
       {selectedCombination && (
-        <div className="rounded-lg bg-blue-50 p-4">
+        <div className="rounded-lg bg-teal-50 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm font-semibold text-blue-900">Selected Combination:</div>
-              <div className="mt-1 text-sm text-blue-800">
+              <div className="text-sm font-semibold text-navy">Selected Combination:</div>
+              <div className="mt-1 text-sm text-teal-800">
                 {primaryOption.values.find(v => v.value === selectedCombination.primary)?.label} +{' '}
                 {secondaryOption.values.find(v => v.value === selectedCombination.secondary)?.label}
               </div>
@@ -227,7 +227,7 @@ export function VariantMatrixSelector({
 
               return (
                 totalModifier !== 0 && (
-                  <div className="text-base font-bold text-blue-900">
+                  <div className="text-base font-bold text-navy">
                     {totalModifier > 0 ? '+' : ''}€{formatPriceStr(totalModifier)}
                   </div>
                 )
@@ -239,7 +239,7 @@ export function VariantMatrixSelector({
 
       {/* Helper Text */}
       {(primaryOption.required || secondaryOption.required) && !selectedCombination && (
-        <p className="text-xs text-red-600">
+        <p className="text-xs text-coral">
           Please select a combination of {primaryOption.optionName.toLowerCase()} and{' '}
           {secondaryOption.optionName.toLowerCase()}
         </p>
@@ -249,15 +249,15 @@ export function VariantMatrixSelector({
       {showStock && (
         <div className="flex flex-wrap items-center gap-4 text-xs text-gray-600">
           <div className="flex items-center gap-1">
-            <div className="h-3 w-3 rounded-full bg-green-600"></div>
+            <div className="h-3 w-3 rounded-full bg-green"></div>
             <span>In Stock</span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="h-3 w-3 rounded-full bg-orange-600"></div>
+            <div className="h-3 w-3 rounded-full bg-amber"></div>
             <span>Low Stock</span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="h-3 w-3 rounded-full bg-red-600"></div>
+            <div className="h-3 w-3 rounded-full bg-coral"></div>
             <span>Out of Stock</span>
           </div>
         </div>
