@@ -1,7 +1,6 @@
 import { DefaultTemplate } from '@payloadcms/next/templates'
 import { Gutter } from '@payloadcms/ui'
 import { ProductDistribution } from './ProductDistribution'
-import './multistore.scss'
 
 export async function ProductDistributionView({ initPageResult, params, searchParams }: any) {
   return (

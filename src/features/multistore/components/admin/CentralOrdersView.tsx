@@ -1,7 +1,6 @@
 import { DefaultTemplate } from '@payloadcms/next/templates'
 import { Gutter } from '@payloadcms/ui'
 import { CentralOrders } from './CentralOrders'
-import './multistore.scss'
 
 export async function CentralOrdersView({ initPageResult, params, searchParams }: any) {
   return (

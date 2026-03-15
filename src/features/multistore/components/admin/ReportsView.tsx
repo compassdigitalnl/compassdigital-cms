@@ -1,7 +1,6 @@
 import { DefaultTemplate } from '@payloadcms/next/templates'
 import { Gutter } from '@payloadcms/ui'
 import { Reports } from './Reports'
-import './multistore.scss'
 
 export async function ReportsView({ initPageResult, params, searchParams }: any) {
   return (

@@ -1,7 +1,6 @@
 import { DefaultTemplate } from '@payloadcms/next/templates'
 import { Gutter } from '@payloadcms/ui'
 import { MultistoreDashboard } from './MultistoreDashboard'
-import './multistore.scss'
 
 export async function MultistoreDashboardView({ initPageResult, params, searchParams }: any) {
   return (

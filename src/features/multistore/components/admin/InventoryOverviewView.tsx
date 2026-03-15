@@ -1,7 +1,6 @@
 import { DefaultTemplate } from '@payloadcms/next/templates'
 import { Gutter } from '@payloadcms/ui'
 import { InventoryOverview } from './InventoryOverview'
-import './multistore.scss'
 
 export async function InventoryOverviewView({ initPageResult, params, searchParams }: any) {
   return (

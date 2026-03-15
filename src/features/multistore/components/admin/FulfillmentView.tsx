@@ -1,7 +1,6 @@
 import { DefaultTemplate } from '@payloadcms/next/templates'
 import { Gutter } from '@payloadcms/ui'
 import { Fulfillment } from './Fulfillment'
-import './multistore.scss'
 
 export async function FulfillmentView({ initPageResult, params, searchParams }: any) {
   return (

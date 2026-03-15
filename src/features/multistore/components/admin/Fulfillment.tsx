@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState, useCallback } from 'react'
+import './multistore.scss'
 
 interface FulfillmentOrder {
   id: number
