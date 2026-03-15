@@ -11,7 +11,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ProjectCard } from '@/branches/shared/components/ProjectCard'
+import { ProjectCard } from '@/branches/shared/components/ui/data-display/ProjectCard'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0

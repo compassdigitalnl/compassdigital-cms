@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 import SubscriptionPricingTemplate1 from '@/branches/publishing/templates/subscription/SubscriptionPricingTemplate1'
 import SubscriptionCheckoutTemplate1 from '@/branches/publishing/templates/subscription/SubscriptionCheckoutTemplate1'
-import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
+import type { PricingPlan } from '@/branches/shared/components/ui/ecommerce/pricing/PricingPlanCard/types'
 import type { Metadata } from 'next'
 
 interface TrustItem {

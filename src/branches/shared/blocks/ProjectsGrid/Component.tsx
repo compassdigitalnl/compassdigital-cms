@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { AnimationWrapper } from '../_shared/AnimationWrapper'
-import { ProjectCard } from '@/branches/shared/components/ProjectCard'
+import { ProjectCard } from '@/branches/shared/components/ui/data-display/ProjectCard'
 import type { ProjectsGridBlockProps } from './types'
 
 const gridColsClasses: Record<string, string> = {

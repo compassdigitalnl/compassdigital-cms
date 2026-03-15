@@ -36,7 +36,7 @@ const PONumberInput = dynamic(
 )
 import { OrderSummary } from '@/branches/ecommerce/shared/components/ui/OrderSummary'
 import { CouponInput } from '@/branches/ecommerce/shared/components/ui/CouponInput'
-import { TrustSignals } from '@/branches/shared/components/ui/TrustSignals'
+import { TrustSignals } from '@/branches/shared/components/ui/marketing/TrustSignals'
 
 export default function CheckoutTemplate2() {
   const { user } = useAuth()

@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Card, CardContent } from '@/branches/shared/components/ui/card'
-import { Button } from '@/branches/shared/components/ui/button'
-import { Badge } from '@/branches/shared/components/ui/badge'
+import { Card, CardContent } from '@/branches/shared/components/ui/primitives/card'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
+import { Badge } from '@/branches/shared/components/ui/primitives/badge'
 import { Check } from 'lucide-react'
 import type { WizardState, SiteGoal } from '@/features/platform/lib/siteGenerator/types'
 

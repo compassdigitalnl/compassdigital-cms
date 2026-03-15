@@ -3,10 +3,10 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { Sparkles, Building, CheckCircle, MessageCircle, Calendar } from 'lucide-react'
-import { PricingPlansGrid } from '@/branches/shared/components/ui/pricing/PricingPlansGrid'
-import { PricingToggle } from '@/branches/shared/components/ui/pricing/PricingToggle'
-import { PricingFeatureTable } from '@/branches/shared/components/ui/pricing/PricingFeatureTable'
-import { PricingFAQ } from '@/branches/shared/components/ui/pricing/PricingFAQ'
+import { PricingPlansGrid } from '@/branches/shared/components/ui/ecommerce/pricing/PricingPlansGrid'
+import { PricingToggle } from '@/branches/shared/components/ui/ecommerce/pricing/PricingToggle'
+import { PricingFeatureTable } from '@/branches/shared/components/ui/ecommerce/pricing/PricingFeatureTable'
+import { PricingFAQ } from '@/branches/shared/components/ui/ecommerce/pricing/PricingFAQ'
 import type { SubscriptionPricingTemplate1Props } from './types'
 
 export default function SubscriptionPricingTemplate1({

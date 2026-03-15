@@ -8,8 +8,8 @@
 
 import React from 'react'
 import { Search, BookOpen, GraduationCap, Clock } from 'lucide-react'
-import { Input } from '@/branches/shared/components/ui/input'
-import { Button } from '@/branches/shared/components/ui/button'
+import { Input } from '@/branches/shared/components/ui/primitives/input'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 
 export interface KnowledgeBaseHeroProps {
   /**

@@ -3,7 +3,7 @@ import config from '@payload-config'
 import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound, redirect } from 'next/navigation'
 import SubscriptionCheckoutClient from './SubscriptionCheckoutClient'
-import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
+import type { PricingPlan } from '@/branches/shared/components/ui/ecommerce/pricing/PricingPlanCard/types'
 import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'

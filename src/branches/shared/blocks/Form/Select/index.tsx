@@ -1,14 +1,14 @@
 import type { SelectField } from '@payloadcms/plugin-form-builder/types'
 import type { Control, FieldErrorsImpl, FieldValues } from 'react-hook-form'
 
-import { Label } from '@/branches/shared/components/ui/label'
+import { Label } from '@/branches/shared/components/ui/primitives/label'
 import {
   Select as SelectComponent,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/branches/shared/components/ui/select'
+} from '@/branches/shared/components/ui/primitives/select'
 import React from 'react'
 import { Controller } from 'react-hook-form'
 

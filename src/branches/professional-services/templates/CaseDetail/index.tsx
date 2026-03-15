@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { CaseCard } from '@/branches/professional-services/components/CaseCard'
-import { PhoneCard } from '@/branches/shared/components/ui/PhoneCard'
+import { PhoneCard } from '@/branches/shared/components/ui/media/PhoneCard'
 import { RichText } from '@/branches/shared/components/common/RichText'
 import type { CaseDetailProps } from './types'
 

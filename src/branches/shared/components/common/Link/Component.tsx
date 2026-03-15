@@ -1,4 +1,4 @@
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 import { cn } from '@/utilities/cn'
 import Link from 'next/link'
 import React from 'react'

@@ -1,9 +1,9 @@
 'use client'
 
 import React from 'react'
-import { Badge } from '@/branches/shared/components/ui/badge'
-import { Checkbox } from '@/branches/shared/components/ui/checkbox'
-import { Label } from '@/branches/shared/components/ui/label'
+import { Badge } from '@/branches/shared/components/ui/primitives/badge'
+import { Checkbox } from '@/branches/shared/components/ui/primitives/checkbox'
+import { Label } from '@/branches/shared/components/ui/primitives/label'
 import type {
   SiteGoal,
   PrimaryType,

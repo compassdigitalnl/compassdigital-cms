@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { FeaturedCard } from '@/branches/shared/components/ui/FeaturedCard'
+import { FeaturedCard } from '@/branches/shared/components/ui/marketing/FeaturedCard'
 import { CaseCard } from '@/branches/professional-services/components/CaseCard'
 import type { CasesArchiveProps } from './types'
 import type { Media } from '@/payload-types'

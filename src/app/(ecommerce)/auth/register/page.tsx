@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { RenderParams } from '@/branches/shared/components/utilities/RenderParams'
+import { RenderParams } from '@/branches/shared/components/providers/RenderParams'
 import { mergeOpenGraph } from '@/features/seo/lib/mergeOpenGraph'
 import React from 'react'
 import { headers as getHeaders } from 'next/headers'

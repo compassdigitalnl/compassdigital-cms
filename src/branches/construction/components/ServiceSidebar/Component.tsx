@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { QuoteForm } from '@/branches/construction/components/QuoteForm'
-import { PhoneCard } from '@/branches/shared/components/ui/PhoneCard'
+import { PhoneCard } from '@/branches/shared/components/ui/media/PhoneCard'
 import type { ServiceSidebarProps } from './types'
 
 /**

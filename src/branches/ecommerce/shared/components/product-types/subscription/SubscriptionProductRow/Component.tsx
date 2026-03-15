@@ -2,7 +2,7 @@
 
 import React from 'react'
 import * as LucideIcons from 'lucide-react'
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 import type { SubscriptionProductRowProps } from './types'
 export type { Badge, SubscriptionProductRowProps } from './types'

@@ -9,7 +9,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Lock, Sparkles } from 'lucide-react'
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 import { getAccessDenialMessage } from '@/branches/publishing/utils/checkContentAccess'
 import type { ContentAccessResult } from '@/branches/publishing/utils/checkContentAccess'
 

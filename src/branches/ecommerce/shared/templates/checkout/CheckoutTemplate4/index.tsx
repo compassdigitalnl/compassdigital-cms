@@ -47,7 +47,7 @@ import { TrustBadges } from '@/branches/ecommerce/shared/components/auth/TrustBa
 import type { GuestCheckoutFormData } from '@/branches/ecommerce/shared/components/auth/GuestCheckoutForm'
 import { OrderSummary } from '@/branches/ecommerce/shared/components/ui/OrderSummary'
 import { CouponInput } from '@/branches/ecommerce/shared/components/ui/CouponInput'
-import { TrustSignals } from '@/branches/shared/components/ui/TrustSignals'
+import { TrustSignals } from '@/branches/shared/components/ui/marketing/TrustSignals'
 
 interface Address {
   firstName: string

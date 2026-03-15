@@ -7,7 +7,7 @@
 
 import React, { useState } from 'react'
 import { Sparkles, Loader2, FileText, Wand2, Check, X, Eye, Settings2 } from 'lucide-react'
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 import {
   Dialog,
   DialogContent,
@@ -15,16 +15,16 @@ import {
   DialogTitle,
   DialogFooter,
   DialogDescription,
-} from '@/branches/shared/components/ui/dialog'
+} from '@/branches/shared/components/ui/primitives/dialog'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/branches/shared/components/ui/select'
-import { Checkbox } from '@/branches/shared/components/ui/checkbox'
-import { Label } from '@/branches/shared/components/ui/label'
+} from '@/branches/shared/components/ui/primitives/select'
+import { Checkbox } from '@/branches/shared/components/ui/primitives/checkbox'
+import { Label } from '@/branches/shared/components/ui/primitives/label'
 import { cn } from '@/utilities/cn'
 
 interface PageGenerationOptions {

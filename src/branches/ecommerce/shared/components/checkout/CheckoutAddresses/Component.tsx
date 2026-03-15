@@ -2,14 +2,14 @@
 
 import { AddressItem } from '@/branches/ecommerce/shared/components/checkout/AddressItem'
 import { CreateAddressModal } from '@/branches/ecommerce/shared/components/checkout/CreateAddressModal'
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/branches/shared/components/ui/dialog'
+} from '@/branches/shared/components/ui/primitives/dialog'
 import { useAddresses } from '@payloadcms/plugin-ecommerce/client/react'
 import { useState } from 'react'
 import type { CheckoutAddressesProps } from './types'

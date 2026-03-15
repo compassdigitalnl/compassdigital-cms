@@ -39,7 +39,7 @@ const PONumberInput = dynamic(
 import { OrderSummary } from '@/branches/ecommerce/shared/components/ui/OrderSummary'
 import { CouponInput } from '@/branches/ecommerce/shared/components/ui/CouponInput'
 import { CartLineItem } from '@/branches/ecommerce/shared/components/ui/CartLineItem'
-import { TrustSignals } from '@/branches/shared/components/ui/TrustSignals'
+import { TrustSignals } from '@/branches/shared/components/ui/marketing/TrustSignals'
 
 type CheckoutStep = 'contact' | 'shipping' | 'payment' | 'review'
 

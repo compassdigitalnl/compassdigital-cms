@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { getContainerMaxWidth } from '@/branches/shared/components/utilities/containerWidth'
+import { getContainerMaxWidth } from '@/branches/shared/components/providers/containerWidth'
 import { X } from 'lucide-react'
 import { Icon } from '@/branches/shared/components/common/Icon'
 import type { AlertBarProps } from './types'

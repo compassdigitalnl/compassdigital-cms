@@ -1,8 +1,8 @@
 import type { TextField } from '@payloadcms/plugin-form-builder/types'
 import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
 
-import { Input } from '@/branches/shared/components/ui/input'
-import { Label } from '@/branches/shared/components/ui/label'
+import { Input } from '@/branches/shared/components/ui/primitives/input'
+import { Label } from '@/branches/shared/components/ui/primitives/label'
 import React from 'react'
 
 import { Error } from '../Error'

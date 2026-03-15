@@ -16,10 +16,10 @@
  */
 
 import React, { useState } from 'react'
-import { Button } from '@/branches/shared/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/card'
-import { Progress } from '@/branches/shared/components/ui/progress'
-import { Badge } from '@/branches/shared/components/ui/badge'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/primitives/card'
+import { Progress } from '@/branches/shared/components/ui/primitives/progress'
+import { Badge } from '@/branches/shared/components/ui/primitives/badge'
 import { Rocket, Check, X, Loader2, ExternalLink, Globe } from 'lucide-react'
 
 interface ProvisioningButtonProps {

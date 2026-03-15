@@ -2,12 +2,12 @@
 
 import React, { useState } from 'react'
 import { CompanyInfo } from '@/features/platform/lib/siteGenerator/types'
-import { Label } from '@/branches/shared/components/ui/label'
-import { Input } from '@/branches/shared/components/ui/input'
-import { Textarea } from '@/branches/shared/components/ui/textarea'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/branches/shared/components/ui/select'
-import { Button } from '@/branches/shared/components/ui/button'
-import { Badge } from '@/branches/shared/components/ui/badge'
+import { Label } from '@/branches/shared/components/ui/primitives/label'
+import { Input } from '@/branches/shared/components/ui/primitives/input'
+import { Textarea } from '@/branches/shared/components/ui/primitives/textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/branches/shared/components/ui/primitives/select'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
+import { Badge } from '@/branches/shared/components/ui/primitives/badge'
 import { X, Plus } from 'lucide-react'
 
 interface Props {

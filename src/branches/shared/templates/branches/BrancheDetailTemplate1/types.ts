@@ -1,7 +1,7 @@
-import type { BranchStat } from '@/branches/shared/components/branches/BranchHero/types'
-import type { USPCard } from '@/branches/shared/components/branches/BranchUSPCards/types'
-import type { BranchCategory } from '@/branches/shared/components/branches/BranchCategoryGrid/types'
-import type { BranchPackage } from '@/branches/shared/components/branches/BranchPackageGrid/types'
+import type { BranchStat } from '@/branches/shared/components/catalog/branches/BranchHero/types'
+import type { USPCard } from '@/branches/shared/components/catalog/branches/BranchUSPCards/types'
+import type { BranchCategory } from '@/branches/shared/components/catalog/branches/BranchCategoryGrid/types'
+import type { BranchPackage } from '@/branches/shared/components/catalog/branches/BranchPackageGrid/types'
 
 export interface PopularProduct {
   id: string

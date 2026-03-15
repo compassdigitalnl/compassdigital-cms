@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { FeaturedCard } from '@/branches/shared/components/ui/FeaturedCard'
+import { FeaturedCard } from '@/branches/shared/components/ui/marketing/FeaturedCard'
 import { ProjectCard } from '@/branches/construction/components/ProjectCard'
 import type { ProjectsArchiveProps } from './types'
 import type { Media } from '@/payload-types'

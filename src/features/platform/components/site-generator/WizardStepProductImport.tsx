@@ -2,9 +2,9 @@
 
 import React, { useState, useMemo } from 'react'
 import { EcommerceSettings } from '@/features/platform/lib/siteGenerator/types'
-import { Label } from '@/branches/shared/components/ui/label'
-import { Button } from '@/branches/shared/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/card'
+import { Label } from '@/branches/shared/components/ui/primitives/label'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/primitives/card'
 import {
   Package,
   Download,
@@ -15,7 +15,7 @@ import {
   Zap,
   Info,
 } from 'lucide-react'
-import { Badge } from '@/branches/shared/components/ui/badge'
+import { Badge } from '@/branches/shared/components/ui/primitives/badge'
 import { ProductTemplateGenerator } from '@/features/platform/lib/siteGenerator/productTemplateGenerator'
 
 interface Props {

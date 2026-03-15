@@ -7,7 +7,7 @@
 
 import React, { useState } from 'react'
 import { Image as ImageIcon, Loader2, Download, RefreshCw, Sparkles, Copy, Check } from 'lucide-react'
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 import {
   Dialog,
   DialogContent,
@@ -15,14 +15,14 @@ import {
   DialogTitle,
   DialogFooter,
   DialogDescription,
-} from '@/branches/shared/components/ui/dialog'
+} from '@/branches/shared/components/ui/primitives/dialog'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/branches/shared/components/ui/select'
+} from '@/branches/shared/components/ui/primitives/select'
 import { cn } from '@/utilities/cn'
 
 interface AIImageGeneratorProps {

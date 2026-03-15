@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 import type { BookingCalendarProps, DayAvailability } from './types'
 
 export const BookingCalendar: React.FC<BookingCalendarProps> = ({

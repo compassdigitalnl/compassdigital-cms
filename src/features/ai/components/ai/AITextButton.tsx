@@ -8,7 +8,7 @@
 
 import React, { useState } from 'react'
 import { Sparkles, Loader2, X, Check } from 'lucide-react'
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 import { cn } from '@/utilities/cn'
 
 interface AITextButtonProps {

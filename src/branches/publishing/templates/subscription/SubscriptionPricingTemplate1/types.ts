@@ -1,6 +1,6 @@
-import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
-import type { FeatureCategory } from '@/branches/shared/components/ui/pricing/PricingFeatureTable/types'
-import type { FAQItem } from '@/branches/shared/components/ui/pricing/PricingFAQ/types'
+import type { PricingPlan } from '@/branches/shared/components/ui/ecommerce/pricing/PricingPlanCard/types'
+import type { FeatureCategory } from '@/branches/shared/components/ui/ecommerce/pricing/PricingFeatureTable/types'
+import type { FAQItem } from '@/branches/shared/components/ui/ecommerce/pricing/PricingFAQ/types'
 export interface TrustItem {
   icon: string
   text: string

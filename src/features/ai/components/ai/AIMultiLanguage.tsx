@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 import {
   Dialog,
   DialogContent,
@@ -9,9 +9,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/branches/shared/components/ui/dialog'
-import { Badge } from '@/branches/shared/components/ui/badge'
-import { Checkbox } from '@/branches/shared/components/ui/checkbox'
+} from '@/branches/shared/components/ui/primitives/dialog'
+import { Badge } from '@/branches/shared/components/ui/primitives/badge'
+import { Checkbox } from '@/branches/shared/components/ui/primitives/checkbox'
 import type { ContentLanguage, MultiLanguageContent } from '@/features/ai/lib/types'
 
 interface AIMultiLanguageProps {

@@ -2,10 +2,10 @@
 
 import React from 'react'
 import type { ContentSettings, SiteGoal } from '@/features/platform/lib/siteGenerator/types'
-import { Label } from '@/branches/shared/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/branches/shared/components/ui/select'
-import { Checkbox } from '@/branches/shared/components/ui/checkbox'
-import { Badge } from '@/branches/shared/components/ui/badge'
+import { Label } from '@/branches/shared/components/ui/primitives/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/branches/shared/components/ui/primitives/select'
+import { Checkbox } from '@/branches/shared/components/ui/primitives/checkbox'
+import { Badge } from '@/branches/shared/components/ui/primitives/badge'
 
 interface Props {
   data: ContentSettings

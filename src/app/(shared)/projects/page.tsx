@@ -1,7 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import Link from 'next/link'
-import { ProjectCard } from '@/branches/shared/components/ProjectCard'
+import { ProjectCard } from '@/branches/shared/components/ui/data-display/ProjectCard'
 import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'

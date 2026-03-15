@@ -1,8 +1,8 @@
 import type { TextField } from '@payloadcms/plugin-form-builder/types'
 import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
 
-import { Label } from '@/branches/shared/components/ui/label'
-import { Textarea as TextAreaComponent } from '@/branches/shared/components/ui/textarea'
+import { Label } from '@/branches/shared/components/ui/primitives/label'
+import { Textarea as TextAreaComponent } from '@/branches/shared/components/ui/primitives/textarea'
 import React from 'react'
 
 import { Width } from '../Width'

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import React, { useEffect } from 'react'
 
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 
 export default function Error({
   error,

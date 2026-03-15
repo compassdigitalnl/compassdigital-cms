@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/branches/shared/components/ui/dialog'
+} from '@/branches/shared/components/ui/primitives/dialog'
 import type { CreateAddressModalProps } from './types'
 
 export const CreateAddressModal: React.FC<CreateAddressModalProps> = ({

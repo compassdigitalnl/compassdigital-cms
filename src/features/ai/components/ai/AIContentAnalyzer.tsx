@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 import {
   Dialog,
   DialogContent,
@@ -9,9 +9,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/branches/shared/components/ui/dialog'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/branches/shared/components/ui/tabs'
-import { Badge } from '@/branches/shared/components/ui/badge'
+} from '@/branches/shared/components/ui/primitives/dialog'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/branches/shared/components/ui/primitives/tabs'
+import { Badge } from '@/branches/shared/components/ui/primitives/badge'
 import type { ContentAnalysisResult, ImprovementSuggestion } from '@/features/ai/lib/types'
 
 interface AIContentAnalyzerProps {

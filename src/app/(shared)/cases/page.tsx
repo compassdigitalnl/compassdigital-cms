@@ -13,7 +13,7 @@ import type { Metadata } from 'next'
 import { isFeatureEnabled } from '@/lib/tenant/features'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ProjectCard } from '@/branches/shared/components/ProjectCard'
+import { ProjectCard } from '@/branches/shared/components/ui/data-display/ProjectCard'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0

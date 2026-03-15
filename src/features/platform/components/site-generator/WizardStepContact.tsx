@@ -2,12 +2,12 @@
 
 import React from 'react'
 import { ContactInfo } from '@/features/platform/lib/siteGenerator/types'
-import { Label } from '@/branches/shared/components/ui/label'
-import { Input } from '@/branches/shared/components/ui/input'
-import { Textarea } from '@/branches/shared/components/ui/textarea'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/card'
+import { Label } from '@/branches/shared/components/ui/primitives/label'
+import { Input } from '@/branches/shared/components/ui/primitives/input'
+import { Textarea } from '@/branches/shared/components/ui/primitives/textarea'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/primitives/card'
 import { Phone, Mail, MapPin, Clock, Facebook, Twitter, Linkedin, Instagram, Youtube } from 'lucide-react'
-import { Checkbox } from '@/branches/shared/components/ui/checkbox'
+import { Checkbox } from '@/branches/shared/components/ui/primitives/checkbox'
 
 interface Props {
   contactInfo: ContactInfo | undefined

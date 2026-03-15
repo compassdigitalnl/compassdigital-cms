@@ -6,7 +6,7 @@ import BrancheDetailTemplate1 from '@/branches/shared/templates/branches/Branche
 import { RenderBlocks } from '@/branches/shared/blocks/RenderBlocks'
 import { JsonLdSchema } from '@/features/seo/components/JsonLdSchema'
 import { generateMeta } from '@/features/seo/lib/generateMeta'
-import { ProjectCard } from '@/branches/shared/components/ProjectCard'
+import { ProjectCard } from '@/branches/shared/components/ui/data-display/ProjectCard'
 import type { Metadata } from 'next'
 import type { Page } from '@/payload-types'
 import Link from 'next/link'

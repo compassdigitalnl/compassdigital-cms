@@ -24,7 +24,7 @@ import { CartLineItem } from '@/branches/ecommerce/shared/components/ui/CartLine
 import { OrderSummary } from '@/branches/ecommerce/shared/components/ui/OrderSummary'
 import { CouponInput } from '@/branches/ecommerce/shared/components/ui/CouponInput'
 import { FreeShippingProgress } from '@/branches/ecommerce/shared/components/ui/FreeShippingProgress'
-import { TrustSignals } from '@/branches/shared/components/ui/TrustSignals'
+import { TrustSignals } from '@/branches/shared/components/ui/marketing/TrustSignals'
 import { CrossSellSection } from '@/branches/ecommerce/shared/components/cart/CrossSellSection'
 
 interface CartTemplate1Props {

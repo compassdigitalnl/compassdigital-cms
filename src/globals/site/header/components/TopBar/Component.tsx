@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { getContainerMaxWidth } from '@/branches/shared/components/utilities/containerWidth'
+import { getContainerMaxWidth } from '@/branches/shared/components/providers/containerWidth'
 import { Globe } from 'lucide-react'
 import { Icon } from '@/branches/shared/components/common/Icon'
 import type { TopBarProps } from './types'

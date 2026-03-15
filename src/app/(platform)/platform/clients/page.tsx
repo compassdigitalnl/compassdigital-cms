@@ -14,17 +14,17 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/card'
-import { Button } from '@/branches/shared/components/ui/button'
-import { Input } from '@/branches/shared/components/ui/input'
-import { Badge } from '@/branches/shared/components/ui/badge'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/primitives/card'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
+import { Input } from '@/branches/shared/components/ui/primitives/input'
+import { Badge } from '@/branches/shared/components/ui/primitives/badge'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/branches/shared/components/ui/select'
+} from '@/branches/shared/components/ui/primitives/select'
 import {
   Table,
   TableBody,
@@ -32,7 +32,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/branches/shared/components/ui/table'
+} from '@/branches/shared/components/ui/primitives/table'
 import {
   Plus,
   Search,

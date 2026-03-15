@@ -27,7 +27,7 @@ const HelpCTA = dynamic(
   () => import('@/branches/ecommerce/b2b/components/registration').then(m => ({ default: m.HelpCTA })),
   { ssr: false }
 )
-import { resolveIcon } from '@/branches/shared/components/branches/iconMap'
+import { resolveIcon } from '@/branches/shared/components/catalog/branches/iconMap'
 import { useAuth } from '@/providers/Auth'
 import { StepAccountType } from './StepAccountType'
 import { StepCompanyDetails } from './StepCompanyDetails'

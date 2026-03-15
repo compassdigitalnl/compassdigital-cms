@@ -13,18 +13,18 @@
  */
 
 import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/card'
-import { Button } from '@/branches/shared/components/ui/button'
-import { Input } from '@/branches/shared/components/ui/input'
-import { Label } from '@/branches/shared/components/ui/label'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/primitives/card'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
+import { Input } from '@/branches/shared/components/ui/primitives/input'
+import { Label } from '@/branches/shared/components/ui/primitives/label'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/branches/shared/components/ui/select'
-import { Badge } from '@/branches/shared/components/ui/badge'
+} from '@/branches/shared/components/ui/primitives/select'
+import { Badge } from '@/branches/shared/components/ui/primitives/badge'
 import {
   Settings,
   Globe,

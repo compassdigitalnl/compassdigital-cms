@@ -14,12 +14,12 @@ import type { Metadata } from 'next'
 import { isFeatureEnabled } from '@/lib/tenant/features'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ProjectCard } from '@/branches/shared/components/ProjectCard'
-import { DeviceMockup } from '@/branches/shared/components/ui/DeviceMockup'
-import { LiveSiteButton } from '@/branches/shared/components/ui/LiveSiteButton'
-import { TechStack } from '@/branches/shared/components/ui/TechStack'
-import { MetricsGrid } from '@/branches/shared/components/ui/MetricsGrid'
-import { ProjectTimeline } from '@/branches/shared/components/ui/ProjectTimeline'
+import { ProjectCard } from '@/branches/shared/components/ui/data-display/ProjectCard'
+import { DeviceMockup } from '@/branches/shared/components/ui/media/DeviceMockup'
+import { LiveSiteButton } from '@/branches/shared/components/ui/marketing/LiveSiteButton'
+import { TechStack } from '@/branches/shared/components/ui/data-display/TechStack'
+import { MetricsGrid } from '@/branches/shared/components/ui/data-display/MetricsGrid'
+import { ProjectTimeline } from '@/branches/shared/components/ui/layout/ProjectTimeline'
 import {
   buildProfessionalCaseSchema,
   buildLocalBusinessSchema,

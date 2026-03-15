@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation'
 import BlogTemplate1 from '@/branches/shared/templates/blog/BlogTemplate1'
 import BlogTemplate2 from '@/branches/shared/templates/blog/BlogTemplate2'
 import BlogTemplate3 from '@/branches/shared/templates/blog/BlogTemplate3'
-import { ProjectCard } from '@/branches/shared/components/ProjectCard'
+import { ProjectCard } from '@/branches/shared/components/ui/data-display/ProjectCard'
 import type { BlogPost, BlogCategory } from '@/payload-types'
 
 export async function generateMetadata({

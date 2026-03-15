@@ -14,10 +14,10 @@ import { CheckoutAuthPanel } from '@/branches/ecommerce/shared/components/checko
 import { AddressForm } from '@/branches/ecommerce/shared/components/checkout/AddressForm'
 import { PaymentMethodCard } from '@/branches/ecommerce/shared/components/checkout/PaymentMethodCard'
 import { TrustBadges } from '@/branches/ecommerce/shared/components/auth/TrustBadges'
-import { TrustSignals } from '@/branches/shared/components/ui/TrustSignals'
-import { PricingPlanCard } from '@/branches/shared/components/ui/pricing/PricingPlanCard'
+import { TrustSignals } from '@/branches/shared/components/ui/marketing/TrustSignals'
+import { PricingPlanCard } from '@/branches/shared/components/ui/ecommerce/pricing/PricingPlanCard'
 import { LucideIcon } from '@/branches/ecommerce/shared/components/ui/LucideIcon'
-import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
+import type { PricingPlan } from '@/branches/shared/components/ui/ecommerce/pricing/PricingPlanCard/types'
 import type { Address } from '@/branches/ecommerce/shared/components/checkout/AddressForm/types'
 import type { GuestCheckoutFormData } from '@/branches/ecommerce/shared/components/auth/GuestCheckoutForm'
 

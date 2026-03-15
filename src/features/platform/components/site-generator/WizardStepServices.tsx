@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react'
 import { UserService } from '@/features/platform/lib/siteGenerator/types'
-import { Label } from '@/branches/shared/components/ui/label'
-import { Input } from '@/branches/shared/components/ui/input'
-import { Textarea } from '@/branches/shared/components/ui/textarea'
-import { Button } from '@/branches/shared/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/card'
+import { Label } from '@/branches/shared/components/ui/primitives/label'
+import { Input } from '@/branches/shared/components/ui/primitives/input'
+import { Textarea } from '@/branches/shared/components/ui/primitives/textarea'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/primitives/card'
 import { X, Plus, Briefcase } from 'lucide-react'
 
 interface Props {

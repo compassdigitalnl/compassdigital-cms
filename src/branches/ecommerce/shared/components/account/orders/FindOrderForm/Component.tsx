@@ -2,9 +2,9 @@
 
 import { FormError } from '@/branches/shared/components/forms/FormError'
 import { FormItem } from '@/branches/shared/components/forms/FormItem'
-import { Button } from '@/branches/shared/components/ui/button'
-import { Input } from '@/branches/shared/components/ui/input'
-import { Label } from '@/branches/shared/components/ui/label'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
+import { Input } from '@/branches/shared/components/ui/primitives/input'
+import { Label } from '@/branches/shared/components/ui/primitives/label'
 import { useAuth } from '@/providers/Auth'
 import { useRouter } from 'next/navigation'
 import React, { Fragment, useCallback } from 'react'

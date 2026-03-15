@@ -1,5 +1,5 @@
-import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
-import type { BillingOption } from '@/branches/shared/components/ui/checkout/BillingPeriodSelector/types'
+import type { PricingPlan } from '@/branches/shared/components/ui/ecommerce/pricing/PricingPlanCard/types'
+import type { BillingOption } from '@/branches/shared/components/ui/ecommerce/checkout/BillingPeriodSelector/types'
 
 export interface CheckoutStep {
   label: string

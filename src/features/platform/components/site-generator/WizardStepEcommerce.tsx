@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react'
 import { EcommerceSettings, CustomPricingRole } from '@/features/platform/lib/siteGenerator/types'
-import { Label } from '@/branches/shared/components/ui/label'
-import { Input } from '@/branches/shared/components/ui/input'
-import { Textarea } from '@/branches/shared/components/ui/textarea'
-import { Button } from '@/branches/shared/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/card'
+import { Label } from '@/branches/shared/components/ui/primitives/label'
+import { Input } from '@/branches/shared/components/ui/primitives/input'
+import { Textarea } from '@/branches/shared/components/ui/primitives/textarea'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/branches/shared/components/ui/primitives/card'
 import {
   ShoppingCart,
   Store,
@@ -20,15 +20,15 @@ import {
   X,
   AlertCircle,
 } from 'lucide-react'
-import { Badge } from '@/branches/shared/components/ui/badge'
-import { Checkbox } from '@/branches/shared/components/ui/checkbox'
+import { Badge } from '@/branches/shared/components/ui/primitives/badge'
+import { Checkbox } from '@/branches/shared/components/ui/primitives/checkbox'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/branches/shared/components/ui/select'
+} from '@/branches/shared/components/ui/primitives/select'
 
 interface Props {
   ecommerceSettings: EcommerceSettings | undefined

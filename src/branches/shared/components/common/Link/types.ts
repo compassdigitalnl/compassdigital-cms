@@ -1,5 +1,5 @@
 import type { Page, Product } from '@/payload-types'
-import type { ButtonProps } from '@/branches/shared/components/ui/button'
+import type { ButtonProps } from '@/branches/shared/components/ui/primitives/button'
 import type React from 'react'
 
 export type CMSLinkType = {

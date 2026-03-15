@@ -4,7 +4,7 @@ import config from '@payload-config'
 import { notFound } from 'next/navigation'
 import { isFeatureEnabled } from '@/lib/tenant/features'
 import SubscriptionCheckoutTemplate1 from '@/branches/publishing/templates/subscription/SubscriptionCheckoutTemplate1'
-import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
+import type { PricingPlan } from '@/branches/shared/components/ui/ecommerce/pricing/PricingPlanCard/types'
 
 export const dynamic = 'force-dynamic'
 

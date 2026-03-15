@@ -31,7 +31,7 @@ import { CartLineItem } from '@/branches/ecommerce/shared/components/ui/CartLine
 import { OrderSummary } from '@/branches/ecommerce/shared/components/ui/OrderSummary'
 import { CouponInput } from '@/branches/ecommerce/shared/components/ui/CouponInput'
 import { FreeShippingProgress } from '@/branches/ecommerce/shared/components/ui/FreeShippingProgress'
-import { TrustSignals } from '@/branches/shared/components/ui/TrustSignals'
+import { TrustSignals } from '@/branches/shared/components/ui/marketing/TrustSignals'
 import { CheckoutProgressStepper } from '@/branches/ecommerce/shared/components/checkout/CheckoutProgressStepper'
 import { UNIFIED_STEPS } from '@/branches/ecommerce/shared/lib/checkoutFlows'
 import { RecentlyViewed } from '@/branches/ecommerce/shared/components/shop/RecentlyViewed/RecentlyViewed'

@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react'
 import { WizardState, GeneratedSite } from '@/features/platform/lib/siteGenerator/types'
-import { Button } from '@/branches/shared/components/ui/button'
-import { Badge } from '@/branches/shared/components/ui/badge'
-import { Card, CardContent } from '@/branches/shared/components/ui/card'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
+import { Badge } from '@/branches/shared/components/ui/primitives/badge'
+import { Card, CardContent } from '@/branches/shared/components/ui/primitives/card'
 import { Loader2, Check, X, Rocket, ExternalLink, AlertCircle } from 'lucide-react'
 
 interface Props {

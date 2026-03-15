@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react'
 import { CreditCard, Calendar, CheckCircle } from 'lucide-react'
-import { BillingPeriodSelector } from '@/branches/shared/components/ui/checkout/BillingPeriodSelector'
-import { PricingPlanCard } from '@/branches/shared/components/ui/pricing/PricingPlanCard'
-import type { PricingPlan } from '@/branches/shared/components/ui/pricing/PricingPlanCard/types'
+import { BillingPeriodSelector } from '@/branches/shared/components/ui/ecommerce/checkout/BillingPeriodSelector'
+import { PricingPlanCard } from '@/branches/shared/components/ui/ecommerce/pricing/PricingPlanCard'
+import type { PricingPlan } from '@/branches/shared/components/ui/ecommerce/pricing/PricingPlanCard/types'
 import type { SubscriptionCheckoutTemplate1Props } from './types'
 
 export default function SubscriptionCheckoutTemplate1({

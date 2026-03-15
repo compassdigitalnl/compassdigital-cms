@@ -16,7 +16,7 @@ const StepNavigation = dynamic(
   () => import('@/branches/ecommerce/b2b/components/registration').then(m => ({ default: m.StepNavigation })),
   { ssr: false }
 )
-import { resolveIcon } from '@/branches/shared/components/branches/iconMap'
+import { resolveIcon } from '@/branches/shared/components/catalog/branches/iconMap'
 import type { RegistrationData } from './types'
 
 interface StepCompanyDetailsProps {

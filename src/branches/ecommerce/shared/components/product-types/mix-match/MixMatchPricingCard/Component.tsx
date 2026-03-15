@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { ShoppingCart } from 'lucide-react'
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 import { MixMatchSelectionSummary } from '../MixMatchSelectionSummary'
 import { usePriceMode } from '@/branches/ecommerce/shared/hooks/usePriceMode'
 import type { MixMatchPricingCardProps } from './types'

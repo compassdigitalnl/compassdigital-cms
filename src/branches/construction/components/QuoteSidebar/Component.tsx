@@ -1,5 +1,5 @@
 import React from 'react'
-import { PhoneCard } from '@/branches/shared/components/ui/PhoneCard'
+import { PhoneCard } from '@/branches/shared/components/ui/media/PhoneCard'
 import type { QuoteSidebarProps } from './types'
 
 /**

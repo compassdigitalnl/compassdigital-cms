@@ -10,18 +10,18 @@ import { Breadcrumbs } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 import type { BreadcrumbItem } from '@/globals/site/breadcrumbs/components/Breadcrumbs'
 
 // Brand components
-import { BrandHero } from '@/branches/shared/components/brands/BrandHero/Component'
-import { BrandStory } from '@/branches/shared/components/brands/BrandStory/Component'
-import { BrandCategories } from '@/branches/shared/components/brands/BrandCategories/Component'
-import { BrandCertifications } from '@/branches/shared/components/brands/BrandCertifications/Component'
-import { BrandCTA } from '@/branches/shared/components/brands/BrandCTA/Component'
+import { BrandHero } from '@/branches/shared/components/catalog/brands/BrandHero/Component'
+import { BrandStory } from '@/branches/shared/components/catalog/brands/BrandStory/Component'
+import { BrandCategories } from '@/branches/shared/components/catalog/brands/BrandCategories/Component'
+import { BrandCertifications } from '@/branches/shared/components/catalog/brands/BrandCertifications/Component'
+import { BrandCTA } from '@/branches/shared/components/catalog/brands/BrandCTA/Component'
 
 // Product components
 import { ProductCard } from '@/branches/ecommerce/shared/components/products/ProductCard/Component'
 
 // Types
-import type { BrandCategory } from '@/branches/shared/components/brands/BrandCategories/types'
-import type { Certification } from '@/branches/shared/components/brands/BrandCertifications/types'
+import type { BrandCategory } from '@/branches/shared/components/catalog/brands/BrandCategories/types'
+import type { Certification } from '@/branches/shared/components/catalog/brands/BrandCertifications/types'
 
 // ============================================
 // TYPES

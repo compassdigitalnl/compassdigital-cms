@@ -2,9 +2,9 @@
 
 import React from 'react'
 import type { Features, ExtraFeature, SiteGoal } from '@/features/platform/lib/siteGenerator/types'
-import { Label } from '@/branches/shared/components/ui/label'
-import { Checkbox } from '@/branches/shared/components/ui/checkbox'
-import { Badge } from '@/branches/shared/components/ui/badge'
+import { Label } from '@/branches/shared/components/ui/primitives/label'
+import { Checkbox } from '@/branches/shared/components/ui/primitives/checkbox'
+import { Badge } from '@/branches/shared/components/ui/primitives/badge'
 import {
   Mail, Newspaper, Star, HelpCircle, Share2, MapPin, Target,
   Lock, Megaphone, Calendar, Briefcase, BookOpen, MessageSquare,

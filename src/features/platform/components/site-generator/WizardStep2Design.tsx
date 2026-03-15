@@ -2,10 +2,10 @@
 
 import React from 'react'
 import { DesignPreferences } from '@/features/platform/lib/siteGenerator/types'
-import { Label } from '@/branches/shared/components/ui/label'
-import { Input } from '@/branches/shared/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/branches/shared/components/ui/select'
-import { Card } from '@/branches/shared/components/ui/card'
+import { Label } from '@/branches/shared/components/ui/primitives/label'
+import { Input } from '@/branches/shared/components/ui/primitives/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/branches/shared/components/ui/primitives/select'
+import { Card } from '@/branches/shared/components/ui/primitives/card'
 
 interface Props {
   data: DesignPreferences

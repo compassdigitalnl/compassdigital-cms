@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 import {
   Dialog,
   DialogContent,
@@ -9,16 +9,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/branches/shared/components/ui/dialog'
+} from '@/branches/shared/components/ui/primitives/dialog'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/branches/shared/components/ui/select'
-import { Badge } from '@/branches/shared/components/ui/badge'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/branches/shared/components/ui/tabs'
+} from '@/branches/shared/components/ui/primitives/select'
+import { Badge } from '@/branches/shared/components/ui/primitives/badge'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/branches/shared/components/ui/primitives/tabs'
 import type { ContentLanguage, TranslationResult } from '@/features/ai/lib/types'
 
 interface AITranslatorProps {

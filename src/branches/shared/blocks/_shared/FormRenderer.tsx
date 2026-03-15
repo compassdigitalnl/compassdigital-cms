@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { RichText } from '@/branches/shared/components/common/RichText'
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 
 import { buildInitialFormState } from '../Form/buildInitialFormState'
 import { fields } from '../Form/fields'
