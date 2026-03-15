@@ -117,34 +117,44 @@ async function processSyncProduct(job: Job): Promise<void> {
     throw new Error(`Product ${productId} not found on Hub`)
   }
 
-  // Build product data for child (strip Hub-specific fields)
-  const productData: Record<string, any> = {
-    title: product.title,
-    slug: product.slug,
-    sku: (product as any).hubMasterSku || product.sku,
-    ean: product.ean,
-    description: product.description,
-    price: product.price,
-    salePrice: product.salePrice,
-    stock: product.stock,
-    stockStatus: product.stockStatus,
-    status: product.status,
-    productType: product.productType,
-    weight: product.weight,
-    // Child-specific fields
-    hubProductId: product.id,
-    hubMasterSku: (product as any).hubMasterSku || product.sku,
-    syncStatus: 'synced',
-    syncSource: 'hub',
-    lastSyncedAt: new Date().toISOString(),
-  }
-
-  // Apply price override if configured
+  // Find site entry in distributedTo for syncMode and priceOverride
   const distributedTo = (product as any).distributedTo as any[] | undefined
   const siteEntry = distributedTo?.find((e: any) => {
     const sid = typeof e.site === 'object' ? e.site.id : e.site
     return sid === siteId
   })
+
+  const syncMode = siteEntry?.syncMode || 'full'
+
+  // Operational fields — always synced regardless of syncMode
+  const productData: Record<string, any> = {
+    sku: (product as any).hubMasterSku || product.sku,
+    ean: product.ean,
+    price: product.price,
+    salePrice: product.salePrice,
+    stock: product.stock,
+    stockStatus: product.stockStatus,
+    status: product.status,
+    weight: product.weight,
+    // Child-specific metadata
+    hubProductId: product.id,
+    hubMasterSku: (product as any).hubMasterSku || product.sku,
+    syncStatus: 'synced',
+    syncSource: 'hub',
+    syncMode,
+    lastSyncedAt: new Date().toISOString(),
+  }
+
+  // Content fields — only synced in 'full' mode
+  // In 'operational-only' mode, the child controls title, description, slug, SEO, images, categories
+  if (syncMode === 'full') {
+    productData.title = product.title
+    productData.slug = product.slug
+    productData.description = product.description
+    productData.productType = product.productType
+  }
+
+  // Apply price override if configured
   if (siteEntry?.priceOverride) {
     productData.price = siteEntry.priceOverride
   }

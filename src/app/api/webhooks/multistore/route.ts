@@ -178,13 +178,40 @@ async function handleProductSync(payload: any, data: any) {
     overrideAccess: true,
   })
 
-  const productData = {
-    ...product,
-    hubProductId,
-    hubMasterSku: hubMasterSku || product.sku,
-    syncStatus: 'synced',
-    syncSource: 'hub',
-    lastSyncedAt: new Date().toISOString(),
+  const syncMode = product.syncMode || 'full'
+
+  let productData: Record<string, any>
+
+  if (syncMode === 'operational-only' && existing.docs.length > 0) {
+    // Operational-only: only sync price, stock, status — preserve child's content
+    productData = {
+      sku: product.sku,
+      ean: product.ean,
+      price: product.price,
+      salePrice: product.salePrice,
+      stock: product.stock,
+      stockStatus: product.stockStatus,
+      status: product.status,
+      weight: product.weight,
+      hubProductId,
+      hubMasterSku: hubMasterSku || product.sku,
+      syncStatus: 'synced',
+      syncSource: 'hub',
+      syncMode,
+      lastSyncedAt: new Date().toISOString(),
+    }
+    console.log(`[Multistore Webhook] Operational-only sync: preserving child content for product ${hubProductId}`)
+  } else {
+    // Full sync or first-time create: send all fields
+    productData = {
+      ...product,
+      hubProductId,
+      hubMasterSku: hubMasterSku || product.sku,
+      syncStatus: 'synced',
+      syncSource: 'hub',
+      syncMode,
+      lastSyncedAt: new Date().toISOString(),
+    }
   }
 
   // Remove fields that shouldn't be synced
@@ -203,15 +230,33 @@ async function handleProductSync(payload: any, data: any) {
       overrideAccess: true,
       context: { fromMultistoreSync: true },
     })
-    console.log(`[Multistore Webhook] Updated product ${result.id} from Hub product ${hubProductId}`)
+    console.log(`[Multistore Webhook] Updated product ${result.id} from Hub product ${hubProductId} (mode: ${syncMode})`)
   } else {
+    // First create always uses full data so the child has something to start with
+    if (syncMode === 'operational-only') {
+      // Even in operational-only, first create needs all fields as starting point
+      productData = {
+        ...product,
+        hubProductId,
+        hubMasterSku: hubMasterSku || product.sku,
+        syncStatus: 'synced',
+        syncSource: 'hub',
+        syncMode,
+        lastSyncedAt: new Date().toISOString(),
+      }
+      delete productData.id
+      delete productData.createdAt
+      delete productData.updatedAt
+      delete productData.distributedTo
+      delete productData.multistoreSyncEnabled
+    }
     result = await payload.create({
       collection: 'products',
       data: productData,
       overrideAccess: true,
       context: { fromMultistoreSync: true },
     })
-    console.log(`[Multistore Webhook] Created product ${result.id} from Hub product ${hubProductId}`)
+    console.log(`[Multistore Webhook] Created product ${result.id} from Hub product ${hubProductId} (mode: ${syncMode})`)
   }
 
   return NextResponse.json({

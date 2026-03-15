@@ -91,12 +91,27 @@ export interface PayloadAPIErrorResponse {
 // PRODUCT DISTRIBUTION
 // ═══════════════════════════════════════════════════════════
 
+export type ProductSyncMode = 'full' | 'operational-only'
+
+/** Fields that are ALWAYS synced regardless of syncMode */
+export const OPERATIONAL_FIELDS = [
+  'price', 'salePrice', 'stock', 'stockStatus', 'status', 'sku', 'ean', 'weight',
+  'hubProductId', 'hubMasterSku', 'syncStatus', 'syncSource', 'lastSyncedAt',
+] as const
+
+/** Fields that are only synced in 'full' mode (child controls these in 'operational-only') */
+export const CONTENT_FIELDS = [
+  'title', 'slug', 'description', 'productType',
+  // SEO, images, categories are also content but handled by spread — these are the explicit ones
+] as const
+
 export interface ProductDistribution {
   site: number | string
   remoteProductId?: number
   syncStatus: SyncStatus
   lastSyncedAt?: string
   priceOverride?: number
+  syncMode?: ProductSyncMode
 }
 
 // ═══════════════════════════════════════════════════════════

@@ -56,12 +56,16 @@ export const multistoreHubTab: Tab[] = featureTab('multistoreHub', {
           type: 'row',
           fields: [
             {
-              name: 'remoteProductId',
-              type: 'number',
-              label: 'Remote Product ID',
+              name: 'syncMode',
+              type: 'select',
+              label: 'Sync Modus',
+              defaultValue: 'full',
+              options: [
+                { label: 'Volledig (alles overschrijven)', value: 'full' },
+                { label: 'Alleen operationeel (prijs, voorraad, status)', value: 'operational-only' },
+              ],
               admin: {
-                readOnly: true,
-                description: 'Product ID op de webshop',
+                description: 'Operationeel: child beheert zelf titel, beschrijving, SEO, afbeeldingen',
               },
             },
             {
@@ -83,6 +87,15 @@ export const multistoreHubTab: Tab[] = featureTab('multistoreHub', {
           type: 'row',
           fields: [
             {
+              name: 'remoteProductId',
+              type: 'number',
+              label: 'Remote Product ID',
+              admin: {
+                readOnly: true,
+                description: 'Product ID op de webshop',
+              },
+            },
+            {
               name: 'lastSyncedAt',
               type: 'date',
               label: 'Laatste sync',
@@ -91,16 +104,16 @@ export const multistoreHubTab: Tab[] = featureTab('multistoreHub', {
                 date: { pickerAppearance: 'dayAndTime' },
               },
             },
-            {
-              name: 'priceOverride',
-              type: 'number',
-              label: 'Prijsoverschrijving',
-              admin: {
-                step: 0.01,
-                description: 'Laat leeg om de standaard prijs te gebruiken',
-              },
-            },
           ],
+        },
+        {
+          name: 'priceOverride',
+          type: 'number',
+          label: 'Prijsoverschrijving',
+          admin: {
+            step: 0.01,
+            description: 'Laat leeg om de standaard prijs te gebruiken',
+          },
         },
         {
           name: 'syncError',
@@ -175,6 +188,20 @@ export const multistoreChildTab: Tab[] = featureTab('multistoreChild', {
           admin: { readOnly: true },
         },
       ],
+    },
+    {
+      name: 'syncMode',
+      type: 'select',
+      label: 'Sync Modus',
+      defaultValue: 'full',
+      options: [
+        { label: 'Volledig (hub overschrijft alles)', value: 'full' },
+        { label: 'Alleen operationeel (prijs, voorraad, status)', value: 'operational-only' },
+      ],
+      admin: {
+        readOnly: true,
+        description: 'Bepaald door de Hub. Bij "alleen operationeel" kun je titel, beschrijving, SEO en afbeeldingen zelf aanpassen zonder dat de Hub deze overschrijft.',
+      },
     },
     {
       name: 'lastSyncedAt',
