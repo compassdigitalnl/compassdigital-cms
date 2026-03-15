@@ -69,7 +69,7 @@ export const AITextField: React.FC<TextFieldClientProps> = (props) => {
   }, [prompt, label, path, setValue])
 
   return (
-    <div style={{ marginBottom: '1.25rem' }}>
+    <div className="field-type" style={{ width: '100%' }}>
       <div style={{ marginBottom: '0.375rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           {Label ?? (

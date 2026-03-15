@@ -18,6 +18,8 @@ import {
   specificationsTab,
   relatedTab,
 } from './tabs'
+import { featureField } from '@/lib/tenant/featureFields'
+import { productTypeOptions } from './productTypeOptions'
 import { multistoreProductSyncHook } from '@/features/multistore/hooks/multistoreProductSyncHook'
 import { multistoreChildProductHook } from '@/features/multistore/hooks/multistoreChildProductHook'
 import { multistoreStockHook } from '@/features/multistore/hooks/multistoreStockHook'
@@ -106,32 +108,114 @@ export const Products: CollectionConfig = {
     ],
   },
   fields: [
+    // ── Sidebar fields (must be top-level, not inside tabs) ───────
+    {
+      name: 'status',
+      type: 'select',
+      defaultValue: 'draft',
+      required: true,
+      label: 'Status',
+      options: [
+        { label: 'Concept', value: 'draft' },
+        { label: 'Gepubliceerd', value: 'published' },
+        { label: 'Uitverkocht', value: 'sold-out' },
+        { label: 'Gearchiveerd', value: 'archived' },
+      ],
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+      label: 'Featured',
+      admin: {
+        position: 'sidebar',
+        description: 'Toon in featured secties',
+      },
+    },
+    {
+      name: 'productType',
+      type: 'select',
+      label: 'Product Type',
+      defaultValue: 'simple',
+      required: true,
+      options: productTypeOptions,
+      admin: {
+        position: 'sidebar',
+        description: 'Simple = normaal, Grouped = multi-select',
+      },
+    },
+    {
+      name: 'publishAt',
+      type: 'date',
+      label: 'Publiceren op',
+      admin: {
+        position: 'sidebar',
+        date: { pickerAppearance: 'dayAndTime' },
+        description: 'Automatisch publiceren op dit tijdstip.',
+        condition: (data: any) => data?.status === 'draft',
+      },
+    },
+    {
+      name: 'unpublishAt',
+      type: 'date',
+      label: 'Depubliceren op',
+      admin: {
+        position: 'sidebar',
+        date: { pickerAppearance: 'dayAndTime' },
+        description: 'Automatisch depubliceren op dit tijdstip.',
+        condition: (data: any) => data?.status === 'published',
+      },
+    },
+    ...featureField('editionNotifications', {
+      name: 'magazineTitle',
+      type: 'text',
+      label: 'Periodieke Publicatie Naam',
+      admin: {
+        position: 'sidebar',
+        description: 'Bijv. "WINELIFE" — Voor editie-notificaties.',
+      },
+    }),
+    {
+      name: 'categories',
+      type: 'relationship',
+      relationTo: 'product-categories',
+      hasMany: true,
+      label: 'Categorieen',
+      admin: { position: 'sidebar' },
+    },
+    ...featureField('catalogBranches', {
+      name: 'branches',
+      type: 'relationship',
+      relationTo: 'branches',
+      hasMany: true,
+      label: 'Branches',
+      admin: {
+        position: 'sidebar',
+        description: 'Selecteer branches waar dit product bij hoort',
+      },
+    }),
+
+    // ── Tabs ──────────────────────────────────────────────────────
     {
       type: 'tabs',
       tabs: [
-        // Core tabs (always visible)
         basicInfoTab,
         pricesTab,
         stockTab,
         shippingTab,
         mediaTab,
-
-        // Single tab for all product-type-specific config (conditionally shows content)
         typeConfigTab,
-
-        // Feature-gated tabs
         ...b2bTabs,
         ...multistoreHubTab,
         ...multistoreChildTab,
-
-        // Universal tabs
         seoTab,
         specificationsTab,
         relatedTab,
       ],
     },
 
-    // Review aggregates (auto-updated by ProductReviews afterChange hook)
+    // ── Review aggregates (sidebar, low priority = bottom) ───────
     {
       name: 'reviewCount',
       type: 'number',
