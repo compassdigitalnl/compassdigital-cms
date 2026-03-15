@@ -248,6 +248,7 @@ export default buildConfig({
       beforeNavLinks: [
         '@/features/platform/components/ClientSwitcher#ClientSwitcher',
         '@/branches/shared/components/admin/HideCollections#HideCollections',
+        '@/branches/shared/components/admin/NavIcons#NavIcons',
       ],
       afterNavLinks: [
         ...(!features.multistoreHub

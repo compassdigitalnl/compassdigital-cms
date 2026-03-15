@@ -630,7 +630,205 @@
 
 
 /* ═══════════════════════════════════════════════════════════════════
-   18. ANIMATION — Subtle page transitions
+   18. COLLECTION LIST — Table, toolbar, header
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Collection list header — title + create button */
+.collection-list__header {
+  margin-bottom: 0.75rem !important;
+}
+
+.collection-list__header h1 {
+  font-size: 1.5rem !important;
+  font-weight: 800 !important;
+  color: #0f172a !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* Table wrapper — rounded border, white bg */
+.table {
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  background: #fff !important;
+}
+
+/* Table header row */
+.table table thead th,
+table thead th {
+  padding: 0.625rem 0.875rem !important;
+  font-weight: 650 !important;
+  color: #475569 !important;
+  text-align: left !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+  background: #f8fafc !important;
+  font-size: 0.7rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  white-space: nowrap !important;
+}
+
+/* Table cells */
+.table table tbody td,
+table tbody td {
+  padding: 0.625rem 0.875rem !important;
+  color: #334155 !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  vertical-align: middle !important;
+  font-size: 0.8rem !important;
+}
+
+/* Table row hover */
+.table table tbody tr:hover,
+table tbody tr:hover {
+  background: #f8fafc !important;
+}
+
+/* Last row: no border */
+.table table tbody tr:last-child td,
+table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+/* Monospace cells (SKU, codes) */
+.table .mono,
+table .mono {
+  font-family: var(--font-mono) !important;
+  font-size: 0.7rem !important;
+  color: #64748b !important;
+}
+
+/* Right-aligned cells (prices) */
+.table .right,
+table .right {
+  text-align: right !important;
+}
+
+/* Center-aligned cells (stock, count) */
+.table .center,
+table .center {
+  text-align: center !important;
+}
+
+/* List controls / toolbar */
+.list-controls {
+  margin-bottom: 0.75rem !important;
+}
+
+/* Search bar in list */
+.search-filter input {
+  border-radius: 8px !important;
+  border: 1px solid #e2e8f0 !important;
+  padding: 0.4rem 0.75rem 0.4rem 2.25rem !important;
+  font-size: 0.8rem !important;
+  transition: border-color 120ms ease !important;
+
+  &:focus {
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+  }
+}
+
+/* Filter select dropdowns */
+.list-controls .react-select__control {
+  border-radius: 8px !important;
+  border-color: #e2e8f0 !important;
+  font-size: 0.8rem !important;
+  min-height: 34px !important;
+
+  &:hover {
+    border-color: #cbd5e1 !important;
+  }
+}
+
+.list-controls .react-select__control--is-focused {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+}
+
+/* Per-page / count text */
+.collection-list .per-page,
+.list-controls__count {
+  font-size: 0.75rem !important;
+  color: #94a3b8 !important;
+}
+
+/* Sort headers */
+.sort-column {
+  cursor: pointer !important;
+  user-select: none !important;
+
+  &:hover {
+    color: #2563eb !important;
+  }
+}
+
+.sort-column--active {
+  color: #2563eb !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   19. DOCUMENT EDIT — Controls bar, form layout
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Sticky save/publish bar */
+.doc-controls {
+  border-bottom: 1px solid #e2e8f0 !important;
+  background: #fff !important;
+}
+
+/* Document header title */
+.doc-header__title h1 {
+  font-size: 1.5rem !important;
+  font-weight: 800 !important;
+  color: #0f172a !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* Field labels — slightly bolder */
+.field-label {
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  color: #334155 !important;
+}
+
+/* Field descriptions */
+.field-description {
+  font-size: 0.7rem !important;
+  color: #64748b !important;
+}
+
+/* Row fields — consistent gap */
+.field-type.row {
+  gap: 1rem !important;
+}
+
+/* Select fields */
+.react-select__control {
+  border-radius: 8px !important;
+  transition: all 120ms ease !important;
+}
+
+.react-select__menu {
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #e2e8f0 !important;
+  overflow: hidden !important;
+}
+
+.react-select__option--is-focused {
+  background: #eff6ff !important;
+}
+
+.react-select__option--is-selected {
+  background: #2563eb !important;
+  color: #fff !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   20. ANIMATION — Subtle page transitions
    ═══════════════════════════════════════════════════════════════════ */
 
 @keyframes czFadeIn {
@@ -646,7 +844,7 @@
 
 
 /* ═══════════════════════════════════════════════════════════════════
-   19. RESPONSIVE
+   21. RESPONSIVE
    ═══════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
