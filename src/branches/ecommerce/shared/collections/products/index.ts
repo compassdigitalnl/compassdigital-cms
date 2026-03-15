@@ -21,6 +21,7 @@ import {
 import { multistoreProductSyncHook } from '@/features/multistore/hooks/multistoreProductSyncHook'
 import { multistoreChildProductHook } from '@/features/multistore/hooks/multistoreChildProductHook'
 import { multistoreStockHook } from '@/features/multistore/hooks/multistoreStockHook'
+import { multistoreProductDeleteHook } from '@/features/multistore/hooks/multistoreProductDeleteHook'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -101,6 +102,7 @@ export const Products: CollectionConfig = {
           console.error('Failed to delete product from Meilisearch:', err)
         )
       },
+      multistoreProductDeleteHook,
     ],
   },
   fields: [

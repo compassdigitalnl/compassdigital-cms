@@ -462,6 +462,173 @@ async function processSyncFulfillment(job: Job): Promise<void> {
   }
 }
 
+async function processSyncProductDelete(job: Job): Promise<void> {
+  const { productId, siteId, hubProductId } = job.data.data
+  console.log(`[Multistore Worker] sync-product-delete: hubProduct=${hubProductId || productId} site=${siteId}`)
+
+  const start = Date.now()
+  const site = await getSiteConfig(siteId)
+
+  if (site.status !== 'active') {
+    await logSync({
+      site: siteId,
+      direction: 'hub-to-child',
+      entityType: 'product',
+      entityId: String(hubProductId || productId),
+      operation: 'delete',
+      status: 'skipped',
+      duration: Date.now() - start,
+    })
+    return
+  }
+
+  const client = await getClientForSite(site)
+
+  try {
+    // Send delete webhook to child
+    await client.execute(
+      (c) => c.sendWebhook('/api/webhooks/multistore', {
+        event: 'product-delete',
+        hubProductId: hubProductId || productId,
+      }),
+      'delete product on child',
+    )
+
+    await logSync({
+      site: siteId,
+      direction: 'hub-to-child',
+      entityType: 'product',
+      entityId: String(hubProductId || productId),
+      operation: 'delete',
+      status: 'success',
+      duration: Date.now() - start,
+    })
+
+    console.log(`[Multistore Worker] Product ${hubProductId || productId} deleted on ${site.name}`)
+  } catch (error) {
+    await logSync({
+      site: siteId,
+      direction: 'hub-to-child',
+      entityType: 'product',
+      entityId: String(hubProductId || productId),
+      operation: 'delete',
+      status: 'failed',
+      duration: Date.now() - start,
+      error: error instanceof Error ? error.message : String(error),
+    })
+    throw error
+  }
+}
+
+async function processBulkOrderFetch(job: Job): Promise<void> {
+  const { siteId, since } = job.data.data
+  console.log(`[Multistore Worker] bulk-order-fetch: site=${siteId} since=${since || 'all'}`)
+
+  const start = Date.now()
+  const pl = await getPayloadInstance()
+  const site = await getSiteConfig(siteId)
+
+  if (site.status !== 'active') {
+    console.log(`[Multistore Worker] Site ${site.name} is ${site.status}, skipping order fetch`)
+    return
+  }
+
+  const client = await getClientForSite(site)
+  const { mapChildOrderToHub, calculateCommission } = await import('../lib/order-mapper')
+
+  let page = 1
+  let hasNextPage = true
+  let totalFetched = 0
+  let totalCreated = 0
+
+  while (hasNextPage) {
+    // Build query: fetch orders since timestamp, sorted by date
+    const where: Record<string, unknown> = {}
+    if (since) {
+      where.createdAt = { greater_than: since }
+    }
+
+    const ordersResponse = await client.execute<PayloadAPIListResponse>(
+      (c) => c.getOrders({ where, limit: 50, page, sort: '-createdAt' }),
+      `fetch orders page ${page}`,
+    )
+
+    const orders = ordersResponse.docs || []
+    totalFetched += orders.length
+
+    for (const childOrder of orders) {
+      try {
+        // Check if order already exists on Hub (by remoteOrderId + sourceSite)
+        const existing = await pl.find({
+          collection: 'orders',
+          where: {
+            and: [
+              { remoteOrderId: { equals: (childOrder as any).id } },
+              { sourceSite: { equals: siteId } },
+            ],
+          },
+          limit: 1,
+          depth: 0,
+          overrideAccess: true,
+        })
+
+        if (existing.docs.length > 0) {
+          // Already imported, skip
+          continue
+        }
+
+        // Map child order to Hub format
+        const mapped = mapChildOrderToHub(childOrder as Record<string, any>, siteId)
+
+        // Calculate commission
+        const commissionPercentage = (site as any).defaultCommission || 0
+        const commission = calculateCommission(mapped.total, commissionPercentage)
+
+        // Create order on Hub
+        await pl.create({
+          collection: 'orders',
+          data: {
+            ...mapped,
+            sourceSite: siteId,
+            commission,
+            commissionPercentage,
+            fulfillmentStatus: 'new',
+          } as any,
+          overrideAccess: true,
+          context: { fromMultistoreSync: true },
+        })
+
+        totalCreated++
+
+        await logSync({
+          site: siteId,
+          direction: 'child-to-hub',
+          entityType: 'order',
+          entityId: String((childOrder as any).id),
+          operation: 'create',
+          status: 'success',
+        })
+      } catch (error) {
+        console.error(`[Multistore Worker] Failed to import order ${(childOrder as any).id}:`, error)
+        await logSync({
+          site: siteId,
+          direction: 'child-to-hub',
+          entityType: 'order',
+          entityId: String((childOrder as any).id),
+          operation: 'create',
+          status: 'failed',
+          error: error instanceof Error ? error.message : String(error),
+        })
+      }
+    }
+
+    hasNextPage = ordersResponse.hasNextPage
+    page++
+  }
+
+  console.log(`[Multistore Worker] Bulk order fetch from ${site.name}: fetched=${totalFetched}, created=${totalCreated} (${Date.now() - start}ms)`)
+}
+
 async function processReconcile(job: Job): Promise<void> {
   const { siteId, entityType } = job.data.data
   console.log(`[Multistore Worker] reconcile: entity=${entityType} site=${siteId || 'all'}`)
@@ -546,6 +713,12 @@ export const multistoreSyncWorker = new Worker(
           break
         case 'sync-fulfillment':
           await processSyncFulfillment(job)
+          break
+        case 'sync-product-delete':
+          await processSyncProductDelete(job)
+          break
+        case 'bulk-order-fetch':
+          await processBulkOrderFetch(job)
           break
         case 'reconcile':
           await processReconcile(job)

@@ -50,6 +50,7 @@ export interface SyncLogEntry {
 
 export type MultistoreSyncJob =
   | { type: 'sync-product'; data: { productId: number; siteId: number; operation: SyncOperation } }
+  | { type: 'sync-product-delete'; data: { productId: number; siteId: number; hubProductId: number } }
   | { type: 'sync-order'; data: { orderId: number; siteId: number; direction: SyncDirection } }
   | { type: 'sync-inventory'; data: { productId: number; siteIds: number[]; stock: number; stockStatus: string } }
   | { type: 'sync-fulfillment'; data: { orderId: number; siteId: number; fulfillmentStatus: string; trackingCode?: string } }

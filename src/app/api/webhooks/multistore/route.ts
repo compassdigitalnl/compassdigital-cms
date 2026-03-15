@@ -320,28 +320,82 @@ async function handleStockChanged(payload: any, data: any) {
     return NextResponse.json({ error: 'Missing hubProductId' }, { status: 400 })
   }
 
-  console.log(`[Multistore Webhook] Stock update from child: product ${hubProductId}, stock=${stock}`)
+  const { childSiteId } = data
+  console.log(`[Multistore Webhook] Stock update from child ${childSiteId || '?'}: product ${hubProductId}, stock=${stock}`)
 
-  // For now, just log it. Full inventory reconciliation is in Fase 4.
-  // The Hub admin can decide the conflict resolution strategy.
+  const start = Date.now()
+
   try {
+    // Find the Hub product by ID
+    const product = await payload.findByID({
+      collection: 'products',
+      id: hubProductId,
+      depth: 0,
+      overrideAccess: true,
+    })
+
+    if (!product) {
+      return NextResponse.json({ error: `Product ${hubProductId} not found` }, { status: 404 })
+    }
+
+    // Update Hub product stock
+    const updateData: Record<string, any> = {}
+    if (stock !== undefined) updateData.stock = stock
+    if (stockStatus) updateData.stockStatus = stockStatus
+
+    if (Object.keys(updateData).length > 0) {
+      await payload.update({
+        collection: 'products',
+        id: hubProductId,
+        data: updateData,
+        overrideAccess: true,
+        context: { fromMultistoreSync: true },
+      })
+      console.log(`[Multistore Webhook] Updated Hub product ${hubProductId} stock: ${stock}`)
+    }
+
     await payload.create({
       collection: 'multistore-sync-log' as any,
       data: {
+        site: childSiteId || undefined,
         direction: 'child-to-hub',
         entityType: 'inventory',
         entityId: String(hubProductId),
         operation: 'update',
         status: 'success',
+        duration: Date.now() - start,
         requestPayload: { stock, stockStatus },
       },
       overrideAccess: true,
     })
   } catch (err) {
-    // Don't fail the webhook
+    console.error(`[Multistore Webhook] Failed to update Hub product stock:`, err)
+    try {
+      await payload.create({
+        collection: 'multistore-sync-log' as any,
+        data: {
+          site: childSiteId || undefined,
+          direction: 'child-to-hub',
+          entityType: 'inventory',
+          entityId: String(hubProductId),
+          operation: 'update',
+          status: 'failed',
+          duration: Date.now() - start,
+          error: err instanceof Error ? err.message : String(err),
+          requestPayload: { stock, stockStatus },
+        },
+        overrideAccess: true,
+      })
+    } catch {
+      // Don't fail the webhook for logging errors
+    }
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : 'Failed to update stock' },
+      { status: 500 },
+    )
   }
 
-  return NextResponse.json({ success: true, received: true })
+  return NextResponse.json({ success: true, updated: true })
 }
 
 /**
