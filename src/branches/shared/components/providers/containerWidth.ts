@@ -6,7 +6,7 @@
  *
  * Usage:
  * ```tsx
- * import { getContainerMaxWidth } from '@/branches/shared/components/utilities/containerWidth'
+ * import { getContainerMaxWidth } from '@/branches/shared/components/providers/containerWidth'
  *
  * const containerClass = getContainerMaxWidth(theme?.containerWidth)
  * <div className={`${containerClass} mx-auto`}>...</div>

@@ -2,7 +2,7 @@
 
 import { Component, ReactNode } from 'react'
 import { AlertCircle, RefreshCw } from 'lucide-react'
-import { Button } from '@/branches/shared/components/ui/button'
+import { Button } from '@/branches/shared/components/ui/primitives/button'
 
 interface ErrorBoundaryProps {
   children: ReactNode
